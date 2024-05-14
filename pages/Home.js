@@ -16,7 +16,7 @@ function Home({navigation}) {
             />
             <Button 
             title="CreateTeamSpace"
-            onPress={() => navigation.navigate('CreateTeamSp')}
+            onPress={() => navigation.navigate('CreateTeamSpace')}
             />
             <Button 
             title="MyCard"
