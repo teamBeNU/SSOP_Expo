@@ -28,7 +28,7 @@ export default function App() {
         <Stack.Screen name="CheckCard" component={CheckCard} />
         <Stack.Screen name="MyCard" component={MyCard} />
         <Stack.Screen name="Space" component={Space} />
-        <Stack.Screen name="CreateTeamSpace" component={CreateTeamSp} />
+        <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
         <Stack.Screen name="CreateCard" component={CreateCard} />
         <Stack.Screen name="EnterTeamSpace" component={EnterTeamSp} />
       </Stack.Navigator>
