@@ -1,0 +1,17 @@
+export const theme = {
+    green: "#ADFF37",
+    pink: "#FF85CB",
+    blue: "#03D2E2",
+    red: "#CC4646",
+    bg: "#FAFAFA",
+    grey10: "#212121",
+    grey20: "#333333",
+    grey30: "#484848",
+    grey50: "#7B7B7B",
+    grey60: "#949494",
+    grey70: "#B1B1B1",
+    grey80: "#CACACA",
+    grey90: "#E8E8E8",
+    grey95: "#F4F4F4",
+    grey99: "#FDFDFD",
+};
