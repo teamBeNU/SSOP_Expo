@@ -52,6 +52,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     name: {
+        fontFamily: 'pretendard-semibold',
         fontSize: 22,
         fontWeight: "600",
         letterSpacing: -0.44,
@@ -60,16 +61,19 @@ const styles = StyleSheet.create({
     age: {
         gap: 4,
         flexDirection: "row",
+        fontFamily: 'pretendard-regular',
         fontSize: 16,
         fontWeight: "400",
         letterSpacing: -0.32,
     },
     sub: {
+        fontFamily: 'pretendard-semibold',
         fontSize: 16,
         fontWeight: "600",
         letterSpacing: -0.32,
     },
     sub2: {
+        fontFamily: 'pretendard-regular',
         fontSize: 16,
         fontWeight: "400",
         letterSpacing: -0.32,

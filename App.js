@@ -1,9 +1,10 @@
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import "react-native-gesture-handler";
+import * as Font from 'expo-font';
 
 import Home from './pages/Home';
 import Bluetooth from './pages/Bluetooth';
@@ -19,6 +20,16 @@ import EnterTeamSp from './pages/EnterTeamSp';
 const Stack = createStackNavigator();
 
 export default function App() {
+  useEffect(() => {
+    const loadFonts = async () => {
+      await Font.loadAsync({
+        'pretendard-regular': require('./assets/fonts/pretendard-regular.otf'),
+        'pretendard-semibold': require('./assets/fonts/pretendard-semibold.otf'),
+      });
+    };
+    loadFonts();
+  }, []);
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
