@@ -23,14 +23,14 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Bluetooth" component={Bluetooth} />
-        <Stack.Screen name="LinkShare" component={LinkShare} />
-        <Stack.Screen name="CheckCard" component={CheckCard} />
-        <Stack.Screen name="MyCard" component={MyCard} />
+        <Stack.Screen name="내 카드 보내기" component={Bluetooth} />
+        <Stack.Screen name="링크 복사" component={LinkShare} />
+        <Stack.Screen name="카드 조회" component={CheckCard} />
+        <Stack.Screen name="내 카드" component={MyCard} />
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
-        <Stack.Screen name="CreateCard" component={CreateCard} />
-        <Stack.Screen name="EnterTeamSpace" component={EnterTeamSp} />
+        <Stack.Screen name="카드생성" component={CreateCard} />
+        <Stack.Screen name="팀스페이스 입장" component={EnterTeamSp} />
       </Stack.Navigator>
     </NavigationContainer>
   );

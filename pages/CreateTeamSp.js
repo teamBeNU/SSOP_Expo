@@ -51,7 +51,9 @@ function CreateTeamSp({navigation}) {
             <View>
                 <Text> 팀스페이스를 설명하는 문장을 적어주세요 </Text>
                 <Text> 상세 설명 </Text>
-                <TextInput placeholder='상세설명'/>
+                <TextInput placeholder='상세설명'
+                value={teamComment}
+                onChangeText={text => setTeamComment(text)}/>
                 <Text> 0 / 20 </Text>
                 <Button title="다음으로" onPress={handleNext} />
             </View>
