@@ -1,0 +1,72 @@
+import { StyleSheet } from 'react-native';
+import { theme } from "../../theme";
+
+export const styles = StyleSheet.create({
+    mainlayout:{        
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+    },
+	title: {
+        marginTop: 32,
+		fontSize: 20,
+        fontWeight: 'bold',
+        fontFamily: 'Pretendard'
+	},
+    largetitle: {
+        marginTop: 70,
+		fontSize: 24,
+        textAlign: 'center',
+        fontWeight: 'bold',
+        fontFamily: 'Pretendard',
+	},
+    subtitle: {
+        marginTop: 12,
+		fontSize: 14,
+        fontWeight: 'bold',
+        fontFamily: 'Pretendard'
+	},
+    nameContainer: {
+        marginTop: 70,
+        display: 'inline-flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',        
+        gap: 8,
+    },
+    name: {
+        fontSize: 14,
+        fontFamily: 'Pretendard'
+    },
+    nameInput:{
+        width: '100%',
+        height: 48,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        alignItems: 'center',
+        fontSize: 16,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray10,
+        fontFamily: 'Pretendard'
+    },
+    nameLeng:{
+        fontSize: 14,
+        color: theme.gray60,
+        alignSelf: 'flex-end',
+        fontFamily: 'Pretendard'
+    },
+    btnNext: {
+        // 밑에서부터 48px은 버튼
+        position: 'absolute',
+        top: 635,
+        left: 0,
+        width: '100%',
+        height: 48,
+
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        borderRadius: 8,
+        fontFamily: 'Pretendard',
+        backgroundColor: theme.gray10,
+    }
+})
