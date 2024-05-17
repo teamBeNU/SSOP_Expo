@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, TouchableOpacity } from "react-native";
 import { styles } from './CreateTmSpStyle';
+import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
 
 function CreateTeamSp({navigation}) {
     const [step, setStep] = useState(1);
@@ -12,6 +13,9 @@ function CreateTeamSp({navigation}) {
     const [back, setBack] = useState([]);
     const [showTmp, setShowTmp] = useState([]);
     const [inviteCode, setInviteCode] = useState('');
+
+    // step3 - 라디오버튼 선택
+    const [current, setCurrent] = useState('yes');
 
     // const handleNext = () => {
     //     if (step === 1 && teamName) {
@@ -55,7 +59,7 @@ function CreateTeamSp({navigation}) {
 
             {step === 1 && (
             <View>
-                <Text style={styles.title}> 팀스페이스의 이름을 지어주세요. </Text>
+                <Text style={styles.title}> 팀스페이스의 이름을 지어주세요.ㅎ </Text>
 
                 <View style={styles.nameContainer}>
                     <Text style={styles.name}>이름</Text>
@@ -91,7 +95,29 @@ function CreateTeamSp({navigation}) {
             
             {step === 3 && (
             <View>
-                <Text style={styles.title}> 팀스페이스에 제출될 카드 템플릿을 {'\n'} 따로 지정하시겠어요? </Text>
+                <Text style={styles.title}> 팀스페이스에 제출될 카드 템플릿을 {"\n"} 따로 지정하시겠어요? </Text>
+
+                <RadioButtonGroup
+                containerStyle={{ marginTop: 30 }}
+                selected={current}
+                onSelected={(value) => setCurrent(value)}
+                radioBackground="gray"
+                >
+                  <TouchableOpacity onPress={() => setCurrent("yes")} style={styles.RadioBtn}>
+                    <RadioButtonItem value="yes"
+                    label={<Text style={styles.font18}> 템플릿을 지정할래요 {"\n"}
+                           <Text style={styles.name}> 제출 받아야 할 필수정보가 있다면 추천해요.</Text> </Text> 
+                        } />
+                  </TouchableOpacity>
+
+                  <TouchableOpacity onPress={() => setCurrent("no")} style={styles.RadioBtn}>
+                    <RadioButtonItem value="no" 
+                    label={<Text style={styles.font18}>자유롭게 제출하게 할래요 {"\n"}
+                           <Text style={styles.name}>구성원들이 자유롭게 카드를 작성하여 제출해요.</Text> </Text>
+                          } />
+                  </TouchableOpacity>
+
+                </RadioButtonGroup>
                 
                 <View style={styles.btnNext}>
                   <Button title="다음으로" onPress={handleNext} color="white" />

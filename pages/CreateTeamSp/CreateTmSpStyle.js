@@ -9,22 +9,24 @@ export const styles = StyleSheet.create({
 	title: {
         marginTop: 32,
 		fontSize: 20,
-        fontWeight: 'bold',
-        fontFamily: 'Pretendard'
+        fontFamily: 'PretendardBold'
 	},
     largetitle: {
         marginTop: 70,
 		fontSize: 24,
         textAlign: 'center',
-        fontWeight: 'bold',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardBold',
 	},
     subtitle: {
         marginTop: 12,
 		fontSize: 14,
-        fontWeight: 'bold',
-        fontFamily: 'Pretendard'
+        fontFamily: 'PretendardBold'
 	},
+    font18: {
+        fontSize: 18,
+        fontFamily: 'PretendardBold',
+        marginLeft: 8
+    },
     nameContainer: {
         marginTop: 70,
         display: 'inline-flex',
@@ -57,7 +59,8 @@ export const styles = StyleSheet.create({
     btnNext: {
         // 밑에서부터 48px은 버튼
         position: 'absolute',
-        top: 635,
+        // top: 635, // iphone13 기준
+        bottom: '-140%',
         left: 0,
         width: '100%',
         height: 48,
@@ -68,5 +71,14 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         fontFamily: 'Pretendard',
         backgroundColor: theme.gray10,
+    },
+    RadioBtn: {
+        paddingVertical: 20,
+        paddingHorizontal: 12,
+        marginBottom: 8,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray80,
+        
     }
 })
