@@ -59,8 +59,8 @@ export const styles = StyleSheet.create({
     btnNext: {
         // 밑에서부터 48px은 버튼
         position: 'absolute',
-        // top: 635, // iphone13 기준
-        bottom: '-140%',
+        top: 635, // iphone13 기준
+        // bottom: '-140%',
         left: 0,
         width: '100%',
         height: 48,
@@ -78,7 +78,33 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: theme.gray80,
-        
-    }
+        borderColor: theme.gray80,   
+    },
+    container: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 28,
+    },
+    row: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+
+    },
+    item: {
+        width: 158,
+        height: 184,
+        borderRadius: 8,
+        backgroundColor: theme.gray90,
+        margin: 7,
+        display: 'flex',
+        justifyContent:'center',
+        alignItems: 'center',
+    },
+    text: {
+        textAlign: 'center',
+        marginTop: 4
+    },
+    selectedItem: {
+        backgroundColor: '#ccc', // 클릭된 아이템의 배경색 변경
+      },
 })
