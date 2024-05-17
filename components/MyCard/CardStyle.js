@@ -51,4 +51,5 @@ export const styles = StyleSheet.create({
         fontWeight: "400",
         letterSpacing: -0.32,
     },
+    
 });
