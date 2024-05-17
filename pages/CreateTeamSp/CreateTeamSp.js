@@ -1,11 +1,7 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Image, TouchableOpacity } from "react-native";
+import { View, Text, TextInput, Button, Image, TouchableOpacity, ScrollView } from "react-native";
 import { styles } from './CreateTmSpStyle';
 import RadioButtonGroup, { RadioButtonItem } from "expo-radio-button";
-import student from '../../assets/profile/student.png';
-import worker from '../../assets/profile/worker.png';
-import fan from '../../assets/profile/fan.png';
-import free from '../../assets/profile/free.png';
 
 function CreateTeamSp({navigation}) {
     const [step, setStep] = useState(1);
@@ -14,6 +10,7 @@ function CreateTeamSp({navigation}) {
     const [istemplete, setIsTemplete] = useState('yes'); // step3 - 라디오버튼 선택
     const [templete, setTemplete] = useState(null);
     const [front, setFront] = useState([]);
+    const [position, setPosition] = useState([]);
     const [back, setBack] = useState([]);
     const [showTmp, setShowTmp] = useState([]);
     const [inviteCode, setInviteCode] = useState('');
@@ -171,14 +168,54 @@ function CreateTeamSp({navigation}) {
             )}
             
             {step === 5 && (
-            <View>
+            <ScrollView showsVerticalScrollIndicator={false}> 
                 <Text style={styles.title}> 카드 앞면에 보여질 정보를 선택하세요. </Text>
                 <Text style={styles.subtitle}> 팀원들이 입력해줬으면 하는 항목을 선택하세요. </Text>
-                
+
+                  <Text style={[styles.font16, {marginTop: 32}]}>필수정보</Text>  
+                  <View style={styles.elementContainer}>              
+                    <Text style={styles.element}>이름</Text>                  
+                    <Text style={styles.element}>한줄소개</Text>
+                  </View>
+
+                  <Text style={[styles.font16, {marginTop: 28}]}>기본정보</Text>  
+                  <View style={styles.elementContainer}>              
+                    <Text style={styles.element}>나이</Text>
+                  </View>
+
+                  <Text style={[styles.font16, {marginTop: 28}]}>학생정보</Text>  
+                  <View style={styles.elementContainer}>              
+                    <Text style={styles.element}>학교명</Text>        
+                    <Text style={styles.element}>학년</Text>
+                  </View>
+
+                  <Text style={[styles.font16, {marginTop: 28}]}>포지션</Text>  
+                  <Text style={styles.subtitle}> 포지션을 등록하면 태그로 편하게 분류할 수 있어요.</Text>
+                  <View style={styles.elementContainer}>              
+                    <Text style={styles.element}>#회장</Text>
+                    <Text style={styles.element}>#부회장</Text>  
+                    <Text style={styles.element}>#회장</Text>
+                    <Text style={styles.element}>#부회장</Text>
+                  </View>
+                  <TextInput style={[styles.nameInput, {marginTop: 16, marginBottom: 8}]}
+                    placeholder='직접 입력하여 추가' 
+                    value={position}
+                    onChangeText={text => setPosition(text)} />                  
+                  <Text style={styles.nameLeng}> 0 / 10 </Text>
+
+                  <View style={styles.line} />
+                  
+                  <Text style={styles.font16}> 카드 커버 설정 </Text>  
+                  <RadioButtonGroup containerStyle={styles.coverContainer}>
+                    <RadioButtonItem value="free" label= '자유' />
+                    <RadioButtonItem value="avatar" label= '아바타만 허용' />
+                    <RadioButtonItem value="picture" label= '사진만 허용' />
+                  </RadioButtonGroup> 
+
                 <View style={styles.btnNext}>
                   <Button title="다음으로" onPress={handleNext} color="white" />
                 </View>
-            </View>
+            </ScrollView>
             )}
             
             {step === 6 && (

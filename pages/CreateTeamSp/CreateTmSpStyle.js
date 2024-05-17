@@ -20,8 +20,12 @@ export const styles = StyleSheet.create({
     subtitle: {
         marginTop: 12,
 		fontSize: 14,
-        fontFamily: 'PretendardBold'
+        fontFamily: 'Pretendard'
 	},
+    font16: {
+        fontSize: 16,
+        fontFamily: 'PretendardBold',
+    },
     font18: {
         fontSize: 18,
         fontFamily: 'PretendardBold',
@@ -57,12 +61,12 @@ export const styles = StyleSheet.create({
         fontFamily: 'Pretendard'
     },
     btnNext: {
-        // 밑에서부터 48px은 버튼
-        position: 'absolute',
-        top: 635, // iphone13 기준
+        // position: 'absolute',
+        // top: 635, // iphone13 기준
         // bottom: '-140%',
-        left: 0,
-        width: '100%',
+        // left: 0,
+        marginTop: 105,
+        marginBottom: 50,
         height: 48,
 
         paddingVertical: 8,
@@ -80,6 +84,7 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.gray80,   
     },
+    // 템플릿 선택 그리드
     container: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -106,5 +111,40 @@ export const styles = StyleSheet.create({
     },
     selectedItem: {
         backgroundColor: '#ccc', // 클릭된 아이템의 배경색 변경
-      },
+    },
+    //----
+    elementContainer:{
+        display:'flex',        
+        alignItems: 'flex-start', 
+        marginTop: 16,
+        flexDirection: 'row',
+        gap: 8,
+    },
+    element:{    
+        display:'flex',   
+        alignItems: 'flex-start',  
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        fontFamily: 'Pretendard',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray80, 
+        color: theme.gray50,
+        backgroundColor: theme.gray95,
+    },
+    line: {
+        borderBottomWidth:1,
+        borderBottomColor: theme.gray90,
+        marginTop: 28,
+        marginBottom: 28
+    },
+    coverContainer:{
+        display:'flex',        
+        alignItems: 'flex-start', 
+        marginTop: 16,
+        flexDirection: 'row',
+        gap: 16,
+    },
+
+
 })
