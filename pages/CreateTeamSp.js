@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button } from "react-native";
-import styled from '@emotion/styled';
+import { StyleSheet, View, Text, TextInput, Button } from "react-native";
 
 function CreateTeamSp({navigation}) {
     const [step, setStep] = useState(1);
@@ -11,7 +10,7 @@ function CreateTeamSp({navigation}) {
     const [front, setFront] = useState([]);
     const [back, setBack] = useState([]);
     const [showTmp, setShowTmp] = useState([]);
-    const [visitCode, setVisitCode] = useState('');
+    const [inviteCode, setInviteCode] = useState('');
 
     const handleNext = () => {
         if (step === 1 && teamName) {
@@ -28,7 +27,7 @@ function CreateTeamSp({navigation}) {
             setStep(7);
         } else if (step === 7 && showTmp) {
             setStep(8);
-        } else if (step === 8 && visitCode) {
+        } else if (step === 8 && inviteCode) {
         } 
       };
     
