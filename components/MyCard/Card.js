@@ -6,7 +6,7 @@ import { CardFront } from './CardFront';
 import { CardBack } from './CardBack';
 
 
-export const MyCard = () => {
+export const Card = () => {
     return (
         <FlipCard
             friction={6}

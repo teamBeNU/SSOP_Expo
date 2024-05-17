@@ -1,12 +1,12 @@
 import { View, Text } from "react-native";
 import { theme  } from "../theme";
-import { MyCard } from "../components/MyCard/MyCard";
+import { Card } from "../components/MyCard/Card";
 
 function CheckCard() {
     return (
         <View>
             <Text style={{ color: theme.pink }}>CheckCard</Text>
-           <MyCard />
+           <Card />
         </View>
     );
   }
