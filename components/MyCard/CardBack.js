@@ -5,24 +5,50 @@ import { styles } from './CardStyle';
 export const CardBack = () => {
     return (
         <View style={styles.card}>
-            <View style={styles.cardImgArea}>
-
-            </View>
-            <View style={styles.cardTextArea}>
-                <View style={styles.basicInfo}> 
-                    <Text style={styles.name}>김뒷면</Text>
-                    <View style={styles.age}>
-                        <Text style={{color: theme.grey20}}>23세</Text>
-                        <Text style={{color: theme.grey50}}>•</Text>
-                        <Text style={{color: theme.grey20}}>2000.02.02</Text>
-                    </View>
+            <View style={styles.textArea}>
+                <View style={styles.info}>
+                    <Text style={styles.topic}>직무</Text>
+                    <Text style={styles.content}>홍길동 소학회 회장</Text>
                 </View>
-                <Text style={styles.sub}>
-                    서울여자대학교 4학년
-                </Text>
-                <Text style={styles.sub2}>
-                    요즘 캡스톤 수업을 듣고 있어요.
-                </Text>
+
+                <View style={styles.info}>
+                    <Text style={styles.topic}>동아리</Text>
+                    <Text style={styles.content}>홍길동 소학회</Text>
+                </View>
+
+                <View style={styles.info}>
+                    <Text style={styles.topic}>동아리</Text>
+                    <Text style={styles.content}>홍길동 소학회</Text>
+                </View>
+
+                <View style={styles.info}>
+                    <Text style={styles.topic}>동아리</Text>
+                    <Text style={styles.content}>홍길동 소학회</Text>
+                </View>
+
+                <View style={styles.line} />
+
+                <View style={styles.info}>
+                    <Text style={styles.topic}>연락처</Text>
+                    <Text style={styles.content}>01012345678</Text>
+                </View>
+
+                <View style={styles.info}>
+                    <Text style={styles.topic}>SNS</Text>
+                    <Text style={styles.content}>@kimswuni</Text>
+                </View>
+
+                <View style={styles.line} />
+
+                <View style={styles.info}>
+                    <Text style={styles.topic}>MBTI</Text>
+                    <Text style={styles.content}>ENTJ</Text>
+                </View>
+
+                <View style={styles.info}>
+                    <Text style={styles.topic}>인생 음악</Text>
+                    <Text style={styles.content}>Magnetic - ILLIT</Text>
+                </View>
 
             </View>
         </View>

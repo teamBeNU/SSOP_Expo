@@ -2,16 +2,19 @@ import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
+    // CardFront
 	card: {
 		width: 296,
         height: 432,
         borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.grey90,
+        backgroundColor: 'white',
         overflow: 'hidden',
 	},
 	cardImgArea: {
         height: 296,
         backgroundColor: '#FFDAEF',
-
     },
     cardTextArea: {
         height: 136,
@@ -22,34 +25,74 @@ export const styles = StyleSheet.create({
     },
     basicInfo: {
         flexDirection: "row",
-        alignItems: 'center',
+        alignItems: 'flex-end',
     },
     name: {
-        fontFamily: 'pretendard-semibold',
+        fontFamily: 'Pretendard',
         fontSize: 22,
         fontWeight: "600",
         letterSpacing: -0.44,
         marginRight: 8,
+        lineHeight: 26,
     },
     age: {
         gap: 4,
         flexDirection: "row",
-        fontFamily: 'pretendard-regular',
-        fontSize: 16,
+        fontFamily: 'Pretendard',
+        fontSize: 16, 
         fontWeight: "400",
         letterSpacing: -0.32,
+        lineHeight: 19,
     },
     sub: {
-        fontFamily: 'pretendard-semibold',
+        fontFamily: 'Pretendard',
         fontSize: 16,
         fontWeight: "600",
         letterSpacing: -0.32,
+        lineHeight: 19,
     },
     sub2: {
-        fontFamily: 'pretendard-regular',
+        fontFamily: 'Pretendard',
         fontSize: 16,
         fontWeight: "400",
         letterSpacing: -0.32,
+        lineHeight: 19,
     },
+
+    // CardBack
+    textArea: {
+        width: 248,
+        marginVertical: 32,
+        marginHorizontal: 24,
+        alignItems: 'flex-start',
+        gap: 24,
+    },
+    info: {
+        flexDirection: "row",
+        gap: 8,
+    },
+    topic: {
+        width: 52,
+        color: theme.grey20,
+        fontFamily: 'Pretendard',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 19,
+        letterSpacing: -0.14,
+    },
+    content: {
+        color: 'black',
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontWeight: '400',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+    },
+    line: {
+        height: 0,
+        alignSelf: 'stretch',
+        borderTopWidth: 1,
+        borderColor: theme.grey90,
+    }
     
 });

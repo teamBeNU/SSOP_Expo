@@ -8,6 +8,14 @@ import { useFonts } from 'expo-font';
 import PretendardRegular from './assets/fonts/Pretendard-Regular.otf';
 import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
 
+// Text 적용
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
+
+// TextInput 적용
+// TextInput.defaultProps = TextInput.defaultProps || {};
+// TextInput.defaultProps.allowFontScaling = false;
+
 import Home from './pages/Home';
 import Bluetooth from './pages/Bluetooth';
 import LinkShare from './pages/LinkShare';
