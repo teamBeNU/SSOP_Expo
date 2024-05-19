@@ -1,9 +1,9 @@
-import { Dimensions, ScrollView, TouchableOpacity, View, Text, Image } from "react-native";
+import { Dimensions, ScrollView, TouchableOpacity, View, Text, Image,} from "react-native";
 import { styles } from './CheckCardStyle';
 import { Card } from "../../components/MyCard/Card";
 import React, { useState } from 'react';
 
-function CheckCard() {
+function CheckCard({ navigation }) {
     const saveIcon = require('../../assets/icons/ic_contact_small_line.png');
     const memoIcon = require('../../assets/icons/ic_editNote_small_line.png');
 
@@ -22,6 +22,7 @@ function CheckCard() {
         const currentIndex = Math.floor(contentOffset.x / CARD_WIDTH);
         setCardPage(currentIndex + 1);
       };
+
     return (
         <View style={styles.container}> 
         <Text style={styles.cardPage}>{cardPage} / {data.length}</Text>
@@ -51,7 +52,7 @@ function CheckCard() {
                 <Text style={styles.btnText}>연락처 저장</Text>
             </View>
             <View style={styles.btn}>
-                <TouchableOpacity style={styles.whiteBtn}>
+                <TouchableOpacity style={styles.whiteBtn} onPress={() => navigation.navigate('Memo')}>
                     <Image source={memoIcon} style={{width: 24, height: 24}}/>
                 </TouchableOpacity>
                 <Text style={styles.btnText}>메모하기</Text>

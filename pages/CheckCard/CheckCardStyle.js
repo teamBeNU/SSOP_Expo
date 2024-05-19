@@ -65,4 +65,58 @@ export const styles = StyleSheet.create({
         elevation: 4,
         },        
 
+        memoContainer: {
+        paddingTop:32,
+        paddingHorizontal: 16,
+        backgroundColor: 'white',
+        flex: 1,
+        },
+        memoTitle:{
+        fontFamily: 'Pretendard',
+        fontSize: 20,
+        fontWeight: '600',
+        lineHeight: 30,
+        letterSpacing: -0.4,
+        textAlign: 'left',
+        },
+        memoInput: {
+        width: '100%',
+        height: 93, 
+        paddingVertical: 16,
+        paddingHorizontal: 16,
+        marginTop:32,
+        marginBottom: 8, 
+        fontSize: 16,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.grey10,
+        fontFamily: 'Pretendard'
+        },
+        memoLeng: {
+        fontSize: 14,
+        color: theme.grey60,
+        alignSelf: 'flex-end',
+        fontFamily: 'Pretendard'
+        },
+        memoBtn: {
+        width: '100%',
+        height: 48,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.grey10,
+        borderRadius: 8,
+        position: 'absolute',
+        left: 16,
+        bottom: 16,
+        },
+        memoBtnText:{
+        color: 'white',
+        fontFamily: 'Pretendard',
+        fontSize:16,
+        fontWeight: '600',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        }
 });

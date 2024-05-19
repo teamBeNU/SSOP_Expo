@@ -20,6 +20,7 @@ import Home from './pages/Home';
 import Bluetooth from './pages/Bluetooth';
 import LinkShare from './pages/LinkShare';
 import CheckCard from './pages/CheckCard/CheckCard';
+import Memo from './pages/CheckCard/Memo';
 import MyCard from './pages/MyCard/MyCard';
 import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp';
@@ -52,6 +53,7 @@ export default function App() {
         <Stack.Screen name="CreateTeamSpace" component={CreateTeamSp} />
         <Stack.Screen name="CreateCard" component={CreateCard} />
         <Stack.Screen name="EnterTeamSpace" component={EnterTeamSp} />
+        <Stack.Screen name="Memo" component={Memo} />
       </Stack.Navigator>
     </NavigationContainer>
   );
