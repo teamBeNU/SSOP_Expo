@@ -20,7 +20,7 @@ import Home from './pages/Home';
 import Bluetooth from './pages/Bluetooth';
 import LinkShare from './pages/LinkShare';
 import CheckCard from './pages/CheckCard';
-import MyCard from './pages/MyCard';
+import MyCard from './pages/MyCard/MyCard';
 import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp';
 import CreateCard from './pages/CreateCard';

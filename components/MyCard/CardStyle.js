@@ -4,13 +4,17 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-		width: 296,
+		width: 288,
         height: 432,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.grey90,
         backgroundColor: 'white',
         overflow: 'hidden',
+        shadowColor: 'rgba(0, 0, 0, 0.04)',
+        shadowOffset: { width: 2, height: 2 },
+        shadowOpacity: 0.4,
+        shadowRadius: 4,
 	},
 	cardImgArea: {
         height: 296,
@@ -61,7 +65,7 @@ export const styles = StyleSheet.create({
 
     // CardBack
     textArea: {
-        width: 248,
+        height: 368,
         marginVertical: 32,
         marginHorizontal: 24,
         alignItems: 'flex-start',
