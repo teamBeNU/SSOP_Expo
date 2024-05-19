@@ -7,6 +7,10 @@ function Home({navigation}) {
             <Text>Home</Text>
 
             <Button 
+            title="CreateCard"
+            onPress={() => navigation.navigate('CreateCard')}
+            />
+            <Button 
             title="Bluetooth"
             onPress={() => navigation.navigate('Bluetooth')}
             />

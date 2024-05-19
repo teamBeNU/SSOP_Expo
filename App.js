@@ -29,7 +29,7 @@ export default function App() {
         <Stack.Screen name="MyCard" component={MyCard} />
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen name="CreateTeamSpace" component={CreateTeamSp} />
-        <Stack.Screen name="CreateCard" component={CreateCard} />
+        <Stack.Screen name="CreateCard" component={CreateCard} options={{ title: '카드 생성' }} />
         <Stack.Screen name="EnterTeamSpace" component={EnterTeamSp} />
       </Stack.Navigator>
     </NavigationContainer>
