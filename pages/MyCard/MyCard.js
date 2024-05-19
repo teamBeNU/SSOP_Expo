@@ -9,22 +9,28 @@ function MyCard() {
     const addIcon = require('../../assets/icons/ic_add_small_line.png');
 
     const CARD_WIDTH = Dimensions.get('window').width * 0.8;
-    //const SPACING_FOR_CARD_INSET = Dimensions.get('window').width * 0.1 - 10;
-    const SPACING_FOR_CARD_INSET = (Dimensions.get('window').width - CARD_WIDTH) / 2;
-    console.log(CARD_WIDTH);
+    const SPACING_FOR_CARD_INSET = 32;
+    //const SPACING_FOR_CARD_INSET = (Dimensions.get('window').width - CARD_WIDTH) / 2;
 
     const margin = 12;
 
     const data = [
-        { name: 'Card 1' },
-        { name: 'Card 2' },
-        { name: 'Card 3' },
+        { id: '1', name: 'Card 1' },
+        { id: '2', name: 'Card 2' },
+        { id: '3', name: 'Card 3' },
     ]
+    const [cardPage, setCardPage] = useState(1);
+
+    const handleScroll = (event) => {
+        const { contentOffset, layoutMeasurement } = event.nativeEvent;
+        const currentIndex = Math.floor(contentOffset.x / CARD_WIDTH);
+        setCardPage(currentIndex + 1);
+      };
     
 
     return (
         <View style={styles.container}> 
-            <Text style={styles.cardPage}>2 / 5</Text>
+            <Text style={styles.cardPage}>{cardPage} / {data.length}</Text>
             <ScrollView 
                horizontal 
                pagingEnabled
@@ -33,34 +39,33 @@ function MyCard() {
                snapToInterval={CARD_WIDTH + 32}
                snapToAlignment='center'
                contentContainerStyle={{height: 432, paddingHorizontal: SPACING_FOR_CARD_INSET}}
+               onScroll={handleScroll}
+               scrollEventThrottle={16}
             >
-                <View style={styles.cardWrapper}>
-                    <Card />
-                </View>
-                <View style={styles.cardWrapper}>
-                    <Card />
-                </View>
-                <View style={styles.cardWrapper}>
-                    <Card />
-                </View>
+                {data.map((item, index) => (
+          <View key={index} style={styles.cardWrapper}>
+            <Card name={item.name} />
+          </View>
+        ))}
             </ScrollView>
+            
             <View style={styles.btnContainer}>
                 <View style={styles.btn}>
-                    <View style={styles.whiteBtn}>
+                    <TouchableOpacity style={styles.whiteBtn}>
                         <Image source={editIcon} style={{width: 24, height: 24}}/>
-                    </View>
+                    </TouchableOpacity>
                     <Text style={styles.btnText}>수정하기</Text>
                 </View>
                 <View style={styles.btn}>
-                    <View style={styles.whiteBtn}>
+                    <TouchableOpacity style={styles.whiteBtn}>
                         <Image source={shareIcon} style={{width: 24, height: 24}}/>
-                    </View>
+                    </TouchableOpacity>
                     <Text style={styles.btnText}>공유하기</Text>
                 </View>
                 <View style={styles.btn}>
-                    <View style={styles.blackBtn}>
+                    <TouchableOpacity style={styles.blackBtn}>
                         <Image source={addIcon} style={{width: 24, height: 24,tintColor: 'white'}}/>
-                    </View>
+                    </TouchableOpacity>
                     <Text style={styles.btnText}>새 카드 </Text>
                 </View>
             </View>

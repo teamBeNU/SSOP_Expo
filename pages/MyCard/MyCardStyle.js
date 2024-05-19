@@ -1,8 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
-const {width: SCREEN_WIDTH} = Dimensions.get('window');
-
 export const styles = StyleSheet.create({
         container:{
         alignItems: 'center',
@@ -23,12 +21,8 @@ export const styles = StyleSheet.create({
         cardContainer: {
         height: 368,
         flexDirection: 'row',
-        // flexGrow: 1,
-        // justifyContent: 'center',
         },
         cardWrapper: {
-        // width: SCREEN_WIDTH,
-        // alignItems: 'center',
         marginHorizontal: 16,
         },
         btnContainer: {
