@@ -1,7 +1,7 @@
 import { Dimensions, View, Text, ScrollView, FlatList, TouchableOpacity, Image, Platform} from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from './MyCardStyle';
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 function MyCard() {
     const editIcon = require('../../assets/icons/ic_edit_small_line.png');
@@ -10,9 +10,6 @@ function MyCard() {
 
     const CARD_WIDTH = Dimensions.get('window').width * 0.8;
     const SPACING_FOR_CARD_INSET = 32;
-    //const SPACING_FOR_CARD_INSET = (Dimensions.get('window').width - CARD_WIDTH) / 2;
-
-    const margin = 12;
 
     const data = [
         { id: '1', name: 'Card 1' },
