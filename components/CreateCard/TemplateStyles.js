@@ -222,8 +222,16 @@ export const styles = StyleSheet.create({
         zIndex: 100,
         backgroundColor: "pink",
     },
-    btnHome: {
-        marginHorizontal: 16,
+    subTitle: {
+        marginTop: 32,
+        fontSize: 20,
+        // fontFamily: "Pretendard",
+    },
+    btnCheckCard: {
+        position: 'absolute',
+        bottom: 16 + 48 + 8,
+        // marginTop: 180 - 32,
+        width: '100%',
         height: 48,
         justifyContent: "center",
         alignItems: "center",
@@ -234,7 +242,23 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderStyle: "solid",
     },
+    btnHome: {
+        position: 'absolute',
+        bottom: 16,
+        // marginHorizontal: 16,
+        width: '100%',
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.grey80,
+    },
     btnHomeText: {
-        color: "white",
+        color: theme.grey50,
+        // fontFamily: "Pretendard",
     },
 })

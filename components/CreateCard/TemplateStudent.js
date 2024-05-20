@@ -488,17 +488,18 @@ export default function TemplateStudent({navigation}) {
                                 <View><Text>배경</Text></View>
                             )}
                         </View>
+                        <TouchableOpacity onPress={handleNext}>
+                            <Text style={styles.btnNextText}>임시 다음으로 넘어가는 버튼</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             )}  
 
             {step === 8 && (
                 <View style={styles.sub}>
-                    <Text style={styles.title}>너무 멋진 카드가 완성되었어요!</Text>
-                    <Text>바로 확인해 보세요.</Text>
-
+                    <Text style={styles.title}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
                     <TouchableOpacity 
-                            style={styles.btnNext}
+                            style={styles.btnCheckCard}
                             onPress={handleNext}
                         >
                         <Text style={styles.btnNextText}>카드 확인하기</Text>
