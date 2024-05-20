@@ -12,7 +12,7 @@ function Bluetooth() {
 
     return (
       <ScrollView showsVerticalScrollIndicator={false}> 
-        {step === 1 ? (
+        {step === 1 ? (          
           <View style={styles.mainlayout}>
             <Text style={styles.title}>블루투스로 보낼 카드를 선택하세요</Text>
             <Text style={styles.range}>최신순</Text>

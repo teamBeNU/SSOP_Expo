@@ -3,6 +3,7 @@ import { StyleSheet, Text, View, Image } from 'react-native';
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
 import { useFonts } from 'expo-font';
 
@@ -18,6 +19,7 @@ import EnterTeamSp from './pages/EnterTeamSp';
 
 import Pretendard from './assets/fonts/Pretendard-Regular.otf';
 import PretendardBold from './assets/fonts/Pretendard-Bold.otf';
+import { theme } from './theme';
 
 export default function App() {
   // 폰트 로드
@@ -36,7 +38,7 @@ export default function App() {
   return (
     <NavigationContainer>
         <Stack.Navigator>
-          <Stack.Screen name=" " component={Home} />
+          <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
           <Stack.Screen name="카드 만들기" component={CreateCard}/>
           <Stack.Screen name="내 카드 보내기" component={Bluetooth} />
           <Stack.Screen name="링크 복사" component={LinkShare} />
@@ -50,3 +52,51 @@ export default function App() {
     </NavigationContainer>
   );
 };
+
+// 바텀 네비게이션 (MyPage 연결 변경 해야 됨)
+const Tab = createBottomTabNavigator();
+  
+  function MyTabs() {
+    return (
+      <Tab.Navigator
+        screenOptions={({ route }) => ({
+          tabBarIcon: ({ focused, color, size }) => {
+            let iconName;
+            let iconSource;
+            let iconSize = 28;
+  
+            if (route.name === '홈') {
+              iconSource = focused
+                ? require('./assets/Navigation/ic_home_regular_line.png')
+                : require('./assets/Navigation/ic_home_regular.png');
+            } else if (route.name === '스페이스') {
+              iconSource = focused
+                ? require('./assets/Navigation/ic_space_regular_line.png')
+                : require('./assets/Navigation/ic_space_regular.png');
+            } else if (route.name === '내 카드') {
+              iconSource = focused
+                ? require('./assets/Navigation/ic_myCard_regular_line.png')
+                : require('./assets/Navigation/ic_myCard_regular.png');
+            } else if (route.name === 'MY') {
+              iconSource = focused
+                ? require('./assets/Navigation/ic_profile_regular_line.png')
+                : require('./assets/Navigation/ic_profile_regular.png');
+            }
+  
+            return <Image source={iconSource} style={{ width: iconSize, height: iconSize, tintColor: color }} />;
+          },
+          tabBarActiveTintColor: theme.gray10,
+          tabBarInactiveTintColor: theme.gray70,
+          tabBarLabelStyle: {
+            fontSize: 12,
+            fontFamily: 'Pretendard',
+          },
+        })}
+      >
+        <Tab.Screen name="홈" component={Home} options={{ tabBarLabel: '홈', headerTitle: ' ' }} />
+        <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
+        <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: '내 카드' }} />
+        <Tab.Screen name="MY" component={CheckCard} options={{ tabBarLabel: 'MY', headerTitle: 'MY' }} />
+      </Tab.Navigator>
+    );
+  }

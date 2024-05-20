@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
-    title: { // 글씨  
+    title: { // 글씨 
         marginTop: 40,
         marginLeft: 16,
         fontFamily: "PretendardBold",
