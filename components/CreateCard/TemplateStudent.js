@@ -39,7 +39,7 @@ export default function TemplateStudent({navigation}) {
 
     const handleNext = () => {
         if (step === 1) {
-            setStep(7);
+            setStep(2);
         } else if (step === 2 ) {
             setStep(3);
         } else if (step === 3 ) {
@@ -55,6 +55,10 @@ export default function TemplateStudent({navigation}) {
         }
     };
 
+    const handleClick = () => {
+        setBtnActive(!btnActive);
+    }
+
     const handleAvata = (id) => {
         setAvaIndex(id);
     }
@@ -62,11 +66,11 @@ export default function TemplateStudent({navigation}) {
     return (
         <View style={styles.main}>
             {step === 1 && (
-                <View>
+                <View style={styles.sub}>
                     <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
-                    <View style={styles.inputContainer}>
-                        <View>
-                            <Text style={{marginBottom: 8}}>이름*</Text>
+                    <View style={styles.informContainer}>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.inputText}>이름*</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="이름"
@@ -75,8 +79,8 @@ export default function TemplateStudent({navigation}) {
                                 onChangeText={setName}
                             />
                         </View>
-                        <View>
-                            <Text style={{marginBottom: 8}}>생년월일</Text>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.inputText}>생년월일*</Text>
                             <View style={styles.flexDirectionRow}>
                                 <TextInput
                                     style={{...styles.inputBirth, width: 72}}
@@ -108,8 +112,8 @@ export default function TemplateStudent({navigation}) {
                                 <Text>생년월일은 비밀로 할래요</Text>
                             </View>
                         </View>
-                        <View>
-                            <Text style={{marginBottom: 8}}>연락처</Text>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.inputText}>연락처</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="연락처"
@@ -129,37 +133,39 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 2 && (
-                <View style={{backgroundColor: "white"}}>
-                    <Text>학교와 관련된 정보를 알려주세요.</Text>
-                    <View style={styles.inputContainer}>
-                        <Text style={{marginBottom: 8}}>이름</Text>
-                        <TextInput 
-                            style={styles.customInput}
-                            placeholder="학교명"
-                            keyboardType="default"
-                            value={school}
-                            onChangeText={setSchool}
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={{marginBottom: 8}}>학년</Text>
-                        <TextInput 
-                            style={styles.customInput}
-                            placeholder="숫자만 입력하세요."
-                            keyboardType="numeric"
-                            value={grade}
-                            onChangeText={setGrade}
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={{marginBottom: 8}}>한줄소개</Text>
-                        <TextInput 
-                            style={styles.customInput}
-                            placeholder="한줄소개"
-                            keyboardType="default"
-                            value={introduction}
-                            onChangeText={setIntroduction}
-                        />
+                <View style={styles.sub}>
+                    <Text style={styles.title}>학교와 관련된 정보를 알려주세요.</Text>
+                    <View style={styles.informContainer}>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.inputText}>이름</Text>
+                            <TextInput 
+                                style={styles.customInput}
+                                placeholder="학교명"
+                                keyboardType="default"
+                                value={school}
+                                onChangeText={setSchool}
+                            />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.inputText}>학년</Text>
+                            <TextInput 
+                                style={styles.customInput}
+                                placeholder="숫자만 입력하세요."
+                                keyboardType="numeric"
+                                value={grade}
+                                onChangeText={setGrade}
+                            />
+                        </View>
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.inputText}>한줄소개</Text>
+                            <TextInput 
+                                style={styles.customInput}
+                                placeholder="한줄소개"
+                                keyboardType="default"
+                                value={introduction}
+                                onChangeText={setIntroduction}
+                            />
+                        </View>
                     </View>
                     <TouchableOpacity 
                             style={styles.btnNext}
@@ -171,26 +177,35 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 3 && (
-                <View>
-                    <Text>학교와 관련된 정보를 알려주세요.</Text>
-                    <View style={styles.flexDirectionRow}>
-                        <TouchableOpacity style={styles.btnMore} onPress={() => setShowJob(!showJob)}>
-                            <Text>직무</Text>
+                <View style={styles.sub}>
+                    <Text style={styles.title}>학교 속 나에 대해 더 알려주고 싶다면</Text>
+                    <View style={[styles.flexDirectionRow, styles.btnMores]}>
+                        <TouchableOpacity 
+                            style={[styles.btnMore, showJob ? styles.btnOn : styles.btnOff]}  
+                            onPress={() => setShowJob(!showJob)}
+                        >
+                            <Text style={showJob ? styles.btnTextOn : styles.btnTextOff}>직무</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.btnMore} onPress={() => setShowClub(!showClub)}>
-                            <Text>동아리</Text>
+                        <TouchableOpacity 
+                            style={[styles.btnMore, showClub ? styles.btnOn : styles.btnOff]} 
+                            onPress={() => setShowClub(!showClub)}
+                        >
+                            <Text style={showClub ? styles.btnTextOn : styles.btnTextOff}>동아리</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.btnMore} onPress={() => setShowStatus(!showStatus)}>
-                            <Text>재학여부</Text>
+                        <TouchableOpacity 
+                            style={[styles.btnMore, showStatus ? styles.btnOn : styles.btnOff]} 
+                            onPress={() => setShowStatus(!showStatus)}
+                        >
+                            <Text style={showStatus ? styles.btnTextOn : styles.btnTextOff}>재학여부</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.line}></View>
                     {!showJob && !showClub && !showStatus && (
-                        <Text>선택지를 추가하면 여기에 작성란이 생겨요</Text>
+                        <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요</Text>
                     )}
                     {showJob && (
                         <View style={styles.inputContainer}>
-                            <Text style={{marginBottom: 8}}>직무</Text>
+                            <Text style={styles.inputText}>직무</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="직무"
@@ -202,7 +217,7 @@ export default function TemplateStudent({navigation}) {
                     )}
                     {showClub && (
                         <View style={styles.inputContainer}>
-                            <Text style={{marginBottom: 8}}>동아리</Text>
+                            <Text style={styles.inputText}>동아리</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="소속 동아리"
@@ -214,7 +229,7 @@ export default function TemplateStudent({navigation}) {
                     )}
                     {showStatus && (
                         <View style={styles.inputContainer}>
-                            <Text style={{marginBottom: 8}}>재학여부</Text>
+                            <Text style={styles.inputText}>재학여부</Text>
                             
                         </View>
                     )}
@@ -228,25 +243,31 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 4 && (
-                <View>
-                <Text>추가적인 연락 수단을 알려주고 싶다면</Text>
-                <View style={styles.flexDirectionRow}>
-                    <TouchableOpacity style={styles.btnMore} onPress={() => setShowSns(!showSns)}>
-                        <Text>SNS 계정</Text>
+                <View style={styles.sub}>
+                <Text style={styles.title}>추가적인 연락 수단을 알려주고 싶다면</Text>
+                <View style={[styles.flexDirectionRow, styles.btnMores]}>
+                    <TouchableOpacity 
+                        style={[styles.btnMore, showSns ? styles.btnOn : styles.btnOff]}
+                        onPress={() => setShowSns(!showSns)}
+                    >
+                        <Text style={showSns ? styles.btnTextOn : styles.btnTextOff}>SNS 계정</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={styles.btnMore} onPress={() => setShowEmail(!showEmail)}>
-                        <Text>이메일</Text>
+                    <TouchableOpacity 
+                        style={[styles.btnMore, showEmail ? styles.btnOn : styles.btnOff]}
+                        onPress={() => setShowEmail(!showEmail)}
+                    >
+                        <Text style={showEmail ? styles.btnTextOn : styles.btnTextOff}>이메일</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.line}></View>
                 {!showSns && !showEmail && (
-                    <Text>선택지를 추가하면 여기에 작성란이 생겨요</Text>
+                    <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요</Text>
                 )}
                 {showSns && (
-                    <View style={styles.inputContainer}>
-                        <Text>SNS</Text>
-                        <View>
-                            <Text style={{marginBottom: 8}}>Instargram</Text>
+                    <View>
+                        <Text style={styles.snsText}>SNS</Text>
+                        <View style={styles.margintB16}>
+                            <Text style={styles.inputText}>Instargram</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="Instargram"
@@ -255,8 +276,8 @@ export default function TemplateStudent({navigation}) {
                                 onChangeText={text => setSns(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
                             />
                         </View>
-                        <View>
-                            <Text style={{marginBottom: 8}}>X</Text>
+                        <View style={styles.margintB48}>
+                            <Text style={styles.inputText}>X</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="X"
@@ -269,7 +290,7 @@ export default function TemplateStudent({navigation}) {
                 )}
                 {showEmail && (
                     <View style={styles.inputContainer}>
-                        <Text style={{marginBottom: 8}}>이메일</Text>
+                        <Text style={styles.inputText}>이메일</Text>
                         <TextInput 
                             style={styles.customInput}
                             placeholder="이메일 주소"
@@ -289,26 +310,35 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 5 && (
-                <View>
-                    <Text>사소한 것까지 더 알려주고 싶다면</Text>
-                    <View style={styles.flexDirectionRow}>
-                        <TouchableOpacity style={styles.btnMore} onPress={() => setShowMbti(!showMbti)}>
-                            <Text>MBTI</Text>
+                <View style={styles.sub}>
+                    <Text style={styles.title}>사소한 것까지 더 알려주고 싶다면</Text>
+                    <View style={[styles.flexDirectionRow, styles.btnMores]}>
+                        <TouchableOpacity
+                            style={[styles.btnMore, showMbti ? styles.btnOn : styles.btnOff]}
+                            onPress={() => setShowMbti(!showMbti)}
+                        >
+                            <Text style={showMbti ? styles.btnTextOn : styles.btnTextOff}>MBTI</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.btnMore} onPress={() => setShowMusic(!showMusic)}>
-                            <Text>인생 음악</Text>
+                        <TouchableOpacity 
+                            style={[styles.btnMore, showMusic ? styles.btnOn : styles.btnOff]}
+                            onPress={() => setShowMusic(!showMusic)}
+                        >
+                            <Text style={showMusic ? styles.btnTextOn : styles.btnTextOff}>인생 음악</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.btnMore} onPress={() => setShowMovie(!showMovie)}>
-                            <Text>인생 영화</Text>
+                        <TouchableOpacity
+                            style={[styles.btnMore, showMovie ? styles.btnOn : styles.btnOff]}
+                            onPress={() => setShowMovie(!showMovie)}
+                        >
+                            <Text style={showMovie ? styles.btnTextOn : styles.btnTextOff}>인생 영화</Text>
                         </TouchableOpacity>
                     </View>
                     <View style={styles.line}></View>
                     {!showMbti && !showMusic && !showMovie && (
-                        <Text>선택지를 추가하면 여기에 작성란이 생겨요</Text>
+                        <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요</Text>
                     )}
                     {showMbti && (
                         <View style={styles.inputContainer}>
-                            <Text style={{marginBottom: 8}}>MBTI</Text>
+                            <Text style={styles.inputText}>MBTI</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="MBTI"
@@ -320,17 +350,17 @@ export default function TemplateStudent({navigation}) {
                     )}
                     {showMusic && (
                         <View style={styles.inputContainer}>
-                            <Text style={{marginBottom: 8}}>인생 음악</Text>
+                            <Text style={styles.inputText}>인생 음악</Text>
                             <View style={styles.flexDirectionRow}>
                                 <TextInput 
-                                    style={styles.customInput}
+                                    style={[styles.musicInput, styles.marginR6]}
                                     placeholder="제목명"
                                     keyboardType="default"
                                     value={music[0]}
                                     onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
                                 />
                                 <TextInput 
-                                    style={styles.customInput}
+                                    style={styles.musicInput}
                                     placeholder="가수명"
                                     keyboardType="default"
                                     value={music[1]}
@@ -341,7 +371,7 @@ export default function TemplateStudent({navigation}) {
                     )}
                     {showMovie && (
                         <View style={styles.inputContainer}>
-                            <Text style={{marginBottom: 8}}>인생 영화</Text>
+                            <Text style={styles.inputText}>인생 영화</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="영화명"
@@ -361,7 +391,7 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 6 && (
-                <View>
+                <View style={styles.sub}>
                     <Text>카드 커버를 선택하세요.</Text>
                     <Text>카드 앞면에 커버가 보여요.</Text>
 
@@ -396,7 +426,7 @@ export default function TemplateStudent({navigation}) {
                 </View>
             )}
 
-            {step === 8 && (
+            {step === 7 && (
                 <View style={styles.avatarContainer}>
                     <View style={styles.avatarView}>
                         <View style={styles.avatarDo}>
@@ -462,9 +492,9 @@ export default function TemplateStudent({navigation}) {
                 </View>
             )}  
 
-            {step === 7 && (
-                <View>
-                    <Text>너무 멋진 카드가 완성되었어요!</Text>
+            {step === 8 && (
+                <View style={styles.sub}>
+                    <Text style={styles.title}>너무 멋진 카드가 완성되었어요!</Text>
                     <Text>바로 확인해 보세요.</Text>
 
                     <TouchableOpacity 
