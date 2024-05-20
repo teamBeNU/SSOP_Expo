@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import "react-native-gesture-handler";
 
-import { styles } from "./CreateCardStyle";
+import { styles } from "./TemplateStyles";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -60,62 +60,64 @@ export default function TemplateStudent({navigation}) {
     }
 
     return (
-        <View>
+        <View style={styles.main}>
             {step === 1 && (
-                <View style={{backgroundColor: "white"}}>
-                    <Text>나에 대한 기본 정보를 알려주세요.</Text>
+                <View>
+                    <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
                     <View style={styles.inputContainer}>
-                        <Text style={{marginBottom: 8}}>이름</Text>
-                        <TextInput 
-                            style={styles.customInput}
-                            placeholder="이름"
-                            keyboardType="default"
-                            value={name}
-                            onChangeText={setName}
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={{marginBottom: 8}}>생년월일</Text>
-                        <View style={styles.flexDirectionRow}>
-                            <TextInput
-                                style={{...styles.inputBirth, width: 72}}
-                                placeholder="YYYY"
-                                keyboardType="numeric"
-                                value={year}
-                                onChangeText={setYear}
-                                maxLength={4}
-                            />
-                            <TextInput
-                                style={{...styles.inputBirth, width: 60}}
-                                placeholder="MM"
-                                keyboardType="numeric"
-                                value={month}
-                                onChangeText={setMonth}
-                                maxLength={2}
-                            />
-                            <TextInput
-                                style={{...styles.inputBirth, width: 60}}
-                                placeholder="DD"
-                                keyboardType="numeric"
-                                value={day}
-                                onChangeText={setDay}
-                                maxLength={2}
+                        <View>
+                            <Text style={{marginBottom: 8}}>이름*</Text>
+                            <TextInput 
+                                style={styles.customInput}
+                                placeholder="이름"
+                                keyboardType="default"
+                                value={name}
+                                onChangeText={setName}
                             />
                         </View>
-                        <View style={styles.birthSecret}>
-                            {/* svg 들어갈 자리 */}
-                            <Text>생년월일은 비밀로 할래요</Text>
+                        <View>
+                            <Text style={{marginBottom: 8}}>생년월일</Text>
+                            <View style={styles.flexDirectionRow}>
+                                <TextInput
+                                    style={{...styles.inputBirth, width: 72}}
+                                    placeholder="YYYY"
+                                    keyboardType="numeric"
+                                    value={year}
+                                    onChangeText={setYear}
+                                    maxLength={4}
+                                />
+                                <TextInput
+                                    style={{...styles.inputBirth, width: 60}}
+                                    placeholder="MM"
+                                    keyboardType="numeric"
+                                    value={month}
+                                    onChangeText={setMonth}
+                                    maxLength={2}
+                                />
+                                <TextInput
+                                    style={{...styles.inputBirth, width: 60}}
+                                    placeholder="DD"
+                                    keyboardType="numeric"
+                                    value={day}
+                                    onChangeText={setDay}
+                                    maxLength={2}
+                                />
+                            </View>
+                            <View style={styles.birthSecret}>
+                                {/* svg 들어갈 자리 */}
+                                <Text>생년월일은 비밀로 할래요</Text>
+                            </View>
                         </View>
-                    </View>
-                    <View style={styles.inpinputContainerut}>
-                        <Text style={{marginBottom: 8}}>이름</Text>
-                        <TextInput 
-                            style={styles.customInput}
-                            placeholder="연락처"
-                            keyboardType="phone-pad"
-                            value={tel}
-                            onChangeText={setTel}
-                        />
+                        <View>
+                            <Text style={{marginBottom: 8}}>연락처</Text>
+                            <TextInput 
+                                style={styles.customInput}
+                                placeholder="연락처"
+                                keyboardType="phone-pad"
+                                value={tel}
+                                onChangeText={setTel}
+                            />
+                        </View>
                     </View>
                     <TouchableOpacity 
                             style={styles.btnNext}

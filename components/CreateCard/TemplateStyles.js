@@ -1,14 +1,24 @@
 import { StyleSheet, Dimensions } from "react-native"
-import { theme } from "./theme"
+import { theme } from "../../theme"
 
 const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
+    main: {
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT,
+        paddingHorizontal: 16,
+        backgroundColor: "white",
+    },
+    title: {
+        marginTop: 32,
+        fontSize: 20,
+        // fontFamily: "Pretendard",
+    },
     flexDirectionRow: {
         flexDirection: "row",
     },
     inputContainer: {
-        marginHorizontal: 16,
     },
     customInput: {
         /*width: SCREEN_WIDTH - 32,*/

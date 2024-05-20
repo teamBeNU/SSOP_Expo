@@ -12,7 +12,7 @@ import CheckCard from './pages/CheckCard';
 import MyCard from './pages/MyCard';
 import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp';
-import CreateCard from './pages/CreateCard';
+import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
 
 // 스택 네비게이터
