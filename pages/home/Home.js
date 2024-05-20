@@ -2,6 +2,8 @@ import React from "react";
 import { View, Text, ScrollView, Image } from "react-native";
 import { styles } from './HomeStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { createStackNavigator } from '@react-navigation/stack';
+import { NavigationContainer } from '@react-navigation/native';
 
 function Home({navigation}) {
     return (
@@ -33,12 +35,12 @@ function Home({navigation}) {
                 <Text style={styles.title}>교환할 사람이 10명보다 많은가요?</Text>
                 <View style={styles.container}>
                     <View style={styles.row}>
-                        <TouchableOpacity style={styles.btn2} onPress={() => navigation.navigate('내 카드 보내기')}>
+                        <TouchableOpacity style={styles.btn2} onPress={() => navigation.navigate('팀스페이스 입장')}>
                             <Text style={styles.Text18}>팀스페이스 입장</Text>
                             <Text style={styles.Text14}>초대받았다면</Text>
                             <Image source={require('../../assets/HomeIcon/graphic03.png')} style={styles.icon2}/>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.btn2} onPress={() => navigation.navigate('링크 복사')}>
+                        <TouchableOpacity style={styles.btn2} onPress={() => navigation.navigate('팀스페이스 생성')}>
                             <Text style={styles.Text18}>팀스페이스 생성</Text>
                             <Text style={styles.Text14}>초대하고 싶다면</Text>
                             <Image source={require('../../assets/HomeIcon/graphic04.png')} style={styles.icon2}/>
@@ -56,4 +58,31 @@ function Home({navigation}) {
         </ScrollView>
     );
   }
+
+  const Stack = createStackNavigator();
+
+  function HomeStack() {
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+                <Stack.Screen 
+                    name="Home" 
+                    component={HomeScreen} 
+                    options={{
+                        headerLeft: () => (
+                                <Image source={require('../../assets/HomeIcon/graphic04.png')}/>
+                          
+                        ),
+                        headerRight: () => (
+                                <Image source={require('../../assets/HomeIcon/graphic04.png')}/>
+                           
+                        ),
+                    }}
+                />
+            </Stack.Navigator>
+        </NavigationContainer>
+    );
+}
+
   export default Home;
+  

@@ -16,6 +16,8 @@ import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp';
 import CreateCard from './pages/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
+// import HomeStack from './pages/home/Home';
+import Notify from './pages/Notify/Notify';
 
 import Pretendard from './assets/fonts/Pretendard-Regular.otf';
 import PretendardBold from './assets/fonts/Pretendard-Bold.otf';
@@ -48,20 +50,20 @@ export default function App() {
           <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
           <Stack.Screen name="카드생성" component={CreateCard} />
           <Stack.Screen name="팀스페이스 입장" component={EnterTeamSp} />
+          <Stack.Screen name="알림" component={Notify} />
         </Stack.Navigator>
     </NavigationContainer>
   );
 };
 
-// 바텀 네비게이션 (MyPage 연결 변경 해야 됨)
+// 바텀 네비게이션 (MyPage 연결 변경 필요)
 const Tab = createBottomTabNavigator();
   
   function MyTabs() {
     return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color, size }) => {
-            let iconName;
+          tabBarIcon: ({ focused, color}) => {
             let iconSource;
             let iconSize = 28;
   
@@ -96,7 +98,9 @@ const Tab = createBottomTabNavigator();
         <Tab.Screen name="홈" component={Home} options={{ tabBarLabel: '홈', headerTitle: ' ' }} />
         <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
         <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: '내 카드' }} />
-        <Tab.Screen name="MY" component={CheckCard} options={{ tabBarLabel: 'MY', headerTitle: 'MY' }} />
+        <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
       </Tab.Navigator>
     );
   }
+
+  

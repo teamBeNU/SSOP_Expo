@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import { styles } from './BluetoothStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
+import { useNavigation } from '@react-navigation/native'; 
 
 function Bluetooth() {
+
     const [step, setStep] = useState(1);
 
     const handleNext = () => {
@@ -81,4 +83,15 @@ function Bluetooth() {
       </ScrollView>
     );
   }
+
+  Bluetooth.navigationOptions = ({ navigation }) => ({
+    headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+            style={{ backgroundColor: 'black', padding: 10, borderRadius: 5 }}
+            {/* 버튼 내부에 커스텀 아이콘 또는 텍스트 등을 추가할 수 있습니다 */}
+            <Text style={{ color: 'white' }}>Back</Text>
+        </TouchableOpacity>
+    ),
+});
+
   export default Bluetooth;
