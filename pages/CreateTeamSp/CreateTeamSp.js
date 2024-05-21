@@ -19,7 +19,6 @@ function CreateTeamSp({navigation}) {
     //step4 - 템플릿 선택
     const handleTemplClick = (id) => {
       setTemplete(id);
-      // 여기에서 선택된 ID를 사용하여 원하는 작업 수행
       console.log('Selected ID:', id);
     };
 
@@ -174,8 +173,8 @@ function CreateTeamSp({navigation}) {
 
                   <Text style={[styles.font16, {marginTop: 32}]}>필수정보</Text>  
                   <View style={styles.elementContainer}>              
-                    <Text style={styles.element}>이름</Text>                  
-                    <Text style={styles.element}>한줄소개</Text>
+                    <Text style={styles.defaultElement}>이름</Text>                  
+                    <Text style={styles.defaultElement}>한줄소개</Text>
                   </View>
 
                   <Text style={[styles.font16, {marginTop: 28}]}>기본정보</Text>  
@@ -222,6 +221,36 @@ function CreateTeamSp({navigation}) {
             <View>
                 <Text style={styles.title}> 카드 뒷면에 보여질 정보를 선택하세요. </Text>
                 <Text style={styles.subtitle}> 최대 8개까지 정보를 표시할 수 있어요. </Text>
+
+                <Text style={[styles.font16, {marginTop: 28}]}>학생정보</Text>  
+                  <View style={styles.elementContainer}>
+                    <Text style={styles.element}>학생번호</Text>
+                    <Text style={styles.element}>동아리</Text>
+                    <Text style={styles.element}>재학여부</Text>
+                    <Text style={styles.element}>직무</Text>
+                  </View>
+
+                <Text style={[styles.font16, {marginTop: 28}]}>연락수단</Text>  
+                  <View style={styles.elementContainer}>              
+                    <Text style={styles.element}>연락처</Text>        
+                    <Text style={styles.element}>SNS</Text>                    
+                    <Text style={styles.element}>이메일</Text>
+                  </View>  
+
+                  <Text style={[styles.font16, {marginTop: 28}]}>특징</Text>  
+                  <View style={styles.elementContainer}>
+                    <Text style={styles.element}>MBTI</Text>
+                    <Text style={styles.element}>인생 음악</Text>
+                    <Text style={styles.element}>인생 영화</Text>
+                  </View>
+
+                  
+                  <Text style={[styles.font16, {marginTop: 28}]}>자유 선택지</Text> 
+                  <TextInput style={[styles.nameInput, {marginTop: 16, marginBottom: 8}]}
+                    placeholder='직접 입력하여 추가' 
+                    value={position}
+                    onChangeText={text => setPosition(text)} />                  
+                  <Text style={styles.nameLeng}> 0 / 5 </Text>
                 
                 <View style={styles.btnNext}>
                   <Button title="다음으로" onPress={handleNext} color="white" />
@@ -232,10 +261,10 @@ function CreateTeamSp({navigation}) {
             {step === 7 && (
             <View>
                 <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
+                {/* 카드 컴포넌트 by 민경 */}
+                <Text style={[styles.subtitle, {textAlign: 'center'}]}> 탭하여 뒷면을 확인하세요. </Text>
                 
-                <Text style={styles.subtitle}> 탭하여 뒷면을 확인하세요. </Text>
-                
-                <View style={styles.btnNext}>
+                <View style={[styles.btnNext,  {marginTop: 40}]}>
                   <Button title="팀스페이스 생성 완료할래요" onPress={handleNext} color="white" />
                 </View>
             </View>
@@ -246,13 +275,22 @@ function CreateTeamSp({navigation}) {
                     <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
                     {'\n'} 바로 초대해 보세요. </Text>
 
-                    <Text> 초대코드 </Text>
+                    <Text style={[styles.subtitle, {marginTop: 32}]}> 초대코드 </Text>
+                    <View style={styles.inviteCodeContainer}>
+                      <Text style={styles.inviteCode}>232642</Text>
+                      <Text style={styles.copy}>복사</Text>
+                    </View>
 
-                    <Button title="홈화면으로"
-                    onPress={() => navigation.navigate('Home')} />
+                    <View style={styles.btnNext}>
+                      <Button title="홈화면으로" color="white" 
+                      onPress={() => navigation.navigate('Home')} />
+                    </View>
 
-                    <Button title="팀스페이스 확인"
-                    onPress={() => navigation.navigate('CheckCard')} />
+
+                    <View style={styles.btnWhite}>
+                      <Button title="팀스페이스 확인" color="#7B7B7B"
+                      onPress={() => navigation.navigate('CheckCard')} />
+                    </View>
                 </View>
                 )}          
         </View>      

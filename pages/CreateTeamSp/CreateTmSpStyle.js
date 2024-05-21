@@ -66,15 +66,21 @@ export const styles = StyleSheet.create({
         // bottom: '-140%',
         // left: 0,
         marginTop: 105,
-        marginBottom: 50,
+        // marginBottom: 50,
         height: 48,
-
-        paddingVertical: 8,
-        paddingHorizontal: 16,
         justifyContent: 'center',
         borderRadius: 8,
         fontFamily: 'Pretendard',
         backgroundColor: theme.gray10,
+    },
+    btnWhite: {
+        marginTop: 8,
+        height: 48,
+        justifyContent: 'center',
+        borderRadius: 8,
+        fontFamily: 'Pretendard',
+        borderWidth: 1,
+        borderColor: theme.gray80, 
     },
     RadioBtn: {
         paddingVertical: 20,
@@ -110,7 +116,8 @@ export const styles = StyleSheet.create({
         marginTop: 4
     },
     selectedItem: {
-        backgroundColor: '#ccc', // 클릭된 아이템의 배경색 변경
+        backgroundColor: '#ccc',
+        // backgroundColor: '#00C2ED',
     },
     //----
     elementContainer:{
@@ -120,7 +127,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 8,
     },
-    element:{    
+    defaultElement:{    
         display:'flex',   
         alignItems: 'flex-start',  
         paddingVertical: 8,
@@ -131,6 +138,18 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray80, 
         color: theme.gray50,
         backgroundColor: theme.gray95,
+    },
+    element:{    
+        display:'flex',   
+        alignItems: 'flex-start',  
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        fontFamily: 'Pretendard',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray90, 
+        color: theme.gray20,
+        backgroundColor: theme.white,
     },
     line: {
         borderBottomWidth:1,
@@ -145,6 +164,26 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 16,
     },
-
-
+    inviteCodeContainer: {
+        width: '100%',
+        height: 48,
+        marginTop: 8,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    inviteCode: {
+        fontSize: 16,
+        fontFamily: 'Pretendard',
+    },
+    copy:{
+        fontSize: 16,
+        color: theme.skyblue,
+        fontFamily: 'PretendardBold'
+    }
 })
