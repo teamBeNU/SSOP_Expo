@@ -83,12 +83,13 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray80, 
     },
     RadioBtn: {
+        flexDirection: "row",
         paddingVertical: 20,
         paddingHorizontal: 12,
         marginBottom: 8,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: theme.gray80,   
+        borderColor: theme.gray80,
     },
     // 템플릿 선택 그리드
     container: {
@@ -99,7 +100,6 @@ export const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-
     },
     item: {
         width: 158,
@@ -158,11 +158,13 @@ export const styles = StyleSheet.create({
         marginBottom: 28
     },
     coverContainer:{
-        display:'flex',        
-        alignItems: 'flex-start', 
-        marginTop: 16,
         flexDirection: 'row',
-        gap: 16,
+        marginTop: 16,
+    },
+    coverRadioBtn:{        
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginRight: 16  
     },
     inviteCodeContainer: {
         width: '100%',
