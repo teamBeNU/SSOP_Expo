@@ -1,13 +1,13 @@
-import { Dimensions, View, Text, ScrollView, FlatList, TouchableOpacity, Image, Platform} from "react-native";
+import { Dimensions, View, Text, ScrollView, FlatList, TouchableOpacity, Image, Platform, Share} from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from './MyCardStyle';
 import React, { useState } from 'react';
+import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
+import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
+import AddIcon from '../../assets/icons/ic_add_small_line.svg';
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 function MyCard() {
-    const editIcon = require('../../assets/icons/ic_edit_small_line.png');
-    const shareIcon = require('../../assets/icons/ic_share_small_line.png');
-    const addIcon = require('../../assets/icons/ic_add_small_line.png');
-
     const CARD_WIDTH = Dimensions.get('window').width * 0.8;
     const SPACING_FOR_CARD_INSET = 32;
 
@@ -49,19 +49,19 @@ function MyCard() {
             <View style={styles.btnContainer}>
                 <View style={styles.btn}>
                     <TouchableOpacity style={styles.whiteBtn}>
-                        <Image source={editIcon} style={{width: 24, height: 24}}/>
+                        <EditIcon />
                     </TouchableOpacity>
                     <Text style={styles.btnText}>수정하기</Text>
                 </View>
                 <View style={styles.btn}>
                     <TouchableOpacity style={styles.whiteBtn}>
-                        <Image source={shareIcon} style={{width: 24, height: 24}}/>
+                        <ShareIcon />
                     </TouchableOpacity>
                     <Text style={styles.btnText}>공유하기</Text>
                 </View>
                 <View style={styles.btn}>
                     <TouchableOpacity style={styles.blackBtn}>
-                        <Image source={addIcon} style={{width: 24, height: 24,tintColor: 'white'}}/>
+                        <AddIcon style={{color: 'white'}} />
                     </TouchableOpacity>
                     <Text style={styles.btnText}>새 카드 </Text>
                 </View>

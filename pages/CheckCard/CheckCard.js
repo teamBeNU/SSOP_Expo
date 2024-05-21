@@ -2,11 +2,10 @@ import { Dimensions, ScrollView, TouchableOpacity, View, Text, Image,} from "rea
 import { styles } from './CheckCardStyle';
 import { Card } from "../../components/MyCard/Card";
 import React, { useState } from 'react';
+import SaveIcon from '../../assets/icons/ic_contact_small_line.svg';
+import MemoIcon from '../../assets/icons/ic_editNote_small_line.svg';
 
 function CheckCard({ navigation }) {
-    const saveIcon = require('../../assets/icons/ic_contact_small_line.png');
-    const memoIcon = require('../../assets/icons/ic_editNote_small_line.png');
-
     const CARD_WIDTH = Dimensions.get('window').width * 0.8;
     const SPACING_FOR_CARD_INSET = 32;
 
@@ -47,13 +46,13 @@ function CheckCard({ navigation }) {
         <View style={styles.btnContainer}>
             <View style={styles.btn}>
                 <TouchableOpacity style={styles.whiteBtn}>
-                    <Image source={saveIcon} style={{width: 24, height: 24}}/>
+                    <SaveIcon />
                 </TouchableOpacity>
                 <Text style={styles.btnText}>연락처 저장</Text>
             </View>
             <View style={styles.btn}>
                 <TouchableOpacity style={styles.whiteBtn} onPress={() => navigation.navigate('Memo')}>
-                    <Image source={memoIcon} style={{width: 24, height: 24}}/>
+                    <MemoIcon />
                 </TouchableOpacity>
                 <Text style={styles.btnText}>메모하기</Text>
             </View>

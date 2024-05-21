@@ -11,8 +11,8 @@ export const Card = () => {
         <FlipCard
             friction={6}
             perspective={1000}
-            flipHorizontal={false}
-            flipVertical
+            flipHorizontal
+            flipVertical={false}
             flip={false}
             clickable
             onFlipEnd={(isFlipped) => console.log('isFlipped', isFlipped)}
