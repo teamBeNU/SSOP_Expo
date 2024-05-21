@@ -11,14 +11,14 @@ function CreateTeamSp({navigation}) {
     const [istemplete, setIsTemplete] = useState('yes'); // step3 - 라디오버튼 선택
     const [templete, setTemplete] = useState(null);
     const [front, setFront] = useState({
+      // 앞면
       age: "false",
       school: "false",
       grade: "false",
       position: "false",
-      cover: "free"
-    });
-    const [position, setPosition] = useState([])
-    const [back, setBack] = useState({
+      cover: "free",
+
+      //뒷면
       studNum: "false",
       club: "false",
       inSchool: "false",
@@ -30,6 +30,8 @@ function CreateTeamSp({navigation}) {
       music: "false",
       movie: "false"
     });
+    const [position, setPosition] = useState([])
+    // const [back, setBack] = useState([]);
     const [showTmp, setShowTmp] = useState([]);
     const [inviteCode, setInviteCode] = useState('');
 
@@ -43,12 +45,6 @@ function CreateTeamSp({navigation}) {
     //step 5-6 
     const handleSelect = (id) => {
       setFront(prevState => ({
-        ...prevState,
-        [id]: prevState[id] === "true" ? "false" : "true"
-      }));
-      console.log('Selected ID:', id, 'Updated front:', front);
-      
-      setBack(prevState => ({
         ...prevState,
         [id]: prevState[id] === "true" ? "false" : "true"
       }));
@@ -275,24 +271,34 @@ function CreateTeamSp({navigation}) {
 
                 <Text style={[styles.font16, {marginTop: 28}]}>학생정보</Text>  
                   <View style={styles.elementContainer}>
-                    <Text id="studNum" onPress={handleSelect} style={styles.element}>학생번호</Text>
-                    <Text id="club" onPress={handleSelect} style={styles.element}>동아리</Text>
-                    <Text id="inSchool" onPress={handleSelect}style={styles.element}>재학여부</Text>
-                    <Text id="part" onPress={handleSelect} style={styles.element}>직무</Text>
+                    <Text id="studNum" onPress={() => handleSelect('studNum')} 
+                      style={[styles.element, front.studNum === "true" && styles.selectedElement]}> 학생번호</Text>
+                    <Text id="club" onPress={() => handleSelect('club')} 
+                      style={[styles.element, front.club === "true" && styles.selectedElement]}> 동아리</Text>
+                    <Text id="inSchool" onPress={() => handleSelect('inSchool')} 
+                      style={[styles.element, front.inSchool === "true" && styles.selectedElement]}> 재학여부</Text>
+                    <Text id="part" onPress={() => handleSelect('part')} 
+                      style={[styles.element, front.part === "true" && styles.selectedElement]}> 직무</Text>
                   </View>
 
                 <Text style={[styles.font16, {marginTop: 28}]}>연락수단</Text>  
                   <View style={styles.elementContainer}>              
-                    <Text id="number" onPress={handleSelect} style={styles.element}>연락처</Text>        
-                    <Text id="sns" onPress={handleSelect} style={styles.element}>SNS</Text>                    
-                    <Text id="email" onPress={handleSelect} style={styles.element}>이메일</Text>
+                    <Text id="number" onPress={() => handleSelect('number')} 
+                      style={[styles.element, front.number === "true" && styles.selectedElement]}> 연락처</Text>        
+                    <Text id="sns" onPress={() => handleSelect('sns')} 
+                      style={[styles.element, front.sns === "true" && styles.selectedElement]}> SNS</Text>                    
+                    <Text id="email" onPress={() => handleSelect('email')} 
+                      style={[styles.element, front.email === "true" && styles.selectedElement]}> 이메일</Text>
                   </View>  
 
                   <Text style={[styles.font16, {marginTop: 28}]}>특징</Text>  
                   <View style={styles.elementContainer}>
-                    <Text id="mbti" onPress={handleSelect} style={styles.element}>MBTI</Text>
-                    <Text id="music" onPress={handleSelect} style={styles.element}>인생 음악</Text>
-                    <Text id="movie" onPress={handleSelect} style={styles.element}>인생 영화</Text>
+                    <Text id="mbti" onPress={() => handleSelect('mbti')} 
+                      style={[styles.element, front.mbti === "true" && styles.selectedElement]}>MBTI</Text>
+                    <Text id="music" onPress={() => handleSelect('music')} 
+                      style={[styles.element, front.music === "true" && styles.selectedElement]}>인생 음악</Text>
+                    <Text id="movie" onPress={() => handleSelect('movie')} 
+                      style={[styles.element, front.movie === "true" && styles.selectedElement]}>인생 영화</Text>
                   </View>
 
                   
