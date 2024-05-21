@@ -2,7 +2,9 @@ import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
-    mainlayout:{        
+    mainlayout:{
+        backgroundColor: theme.white,
+        height: '100%',
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
@@ -58,29 +60,42 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         color: theme.gray60,
         alignSelf: 'flex-end',
-        fontFamily: 'Pretendard'
+        fontFamily: 'Pretendard',
     },
     btnNext: {
-        // position: 'absolute',
-        // top: 635, // iphone13 기준
-        // bottom: '-140%',
-        // left: 0,
-        marginTop: 105,
-        // marginBottom: 50,
+        marginTop: 40,
+        marginBottom: 40,
+        width: '100%',
         height: 48,
         justifyContent: 'center',
         borderRadius: 8,
         fontFamily: 'Pretendard',
         backgroundColor: theme.gray10,
     },
+    btnText:{
+        textAlign: 'center',
+        color: theme.white,
+        fontSize: 16,
+        fontFamily: 'PretendardBold'
+    },
     btnWhite: {
-        marginTop: 8,
+        marginTop: -32,
         height: 48,
         justifyContent: 'center',
         borderRadius: 8,
         fontFamily: 'Pretendard',
         borderWidth: 1,
         borderColor: theme.gray80, 
+        backgroundColor: theme.white
+    },
+    btnTextBlack:{
+        textAlign: 'center',
+        color: theme.gray50,
+        fontSize: 16,
+        fontFamily: 'PretendardBold'
+    },
+    btnContainer:{    
+        marginTop: 100,
     },
     RadioBtn: {
         flexDirection: "row",
@@ -95,7 +110,6 @@ export const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        
         marginTop: '4%',
     },
     row: {

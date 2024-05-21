@@ -77,7 +77,7 @@ function CreateTeamSp({navigation}) {
 
             {step === 1 && (
             <View>
-                <Text style={styles.title}> 팀스페이스의 이름을 지어주세요.ㅎ </Text>
+                <Text style={styles.title}> 팀스페이스의 이름을 지어주세요. </Text>
 
                 <View style={styles.nameContainer}>
                     <Text style={styles.name}>이름</Text>
@@ -89,7 +89,7 @@ function CreateTeamSp({navigation}) {
                 </View>
 
                 <View style={styles.btnNext}>
-                  <Button title="다음으로" onPress={handleNext} color="white" />
+                  <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
             </View>
             )}
@@ -106,7 +106,7 @@ function CreateTeamSp({navigation}) {
                 </View>
 
                 <View style={styles.btnNext}>
-                  <Button title="다음으로" onPress={handleNext} color="white" />
+                  <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
             </View>
             )}
@@ -135,7 +135,7 @@ function CreateTeamSp({navigation}) {
                 
                 
                 <View style={styles.btnNext}>
-                  <Button title="다음으로" onPress={handleNext} color="white" />
+                  <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
             </View>
             )}
@@ -153,7 +153,7 @@ function CreateTeamSp({navigation}) {
                   style={[styles.item]}
                   onPress={() => handleTemplClick(item.id)}
                   >
-                    <Image source={item.image} />
+                    <Image source={item.image} style={{ width: '50%', height: undefined, aspectRatio: 1 }} />
                     <Text style={[styles.font18, { marginTop: 11 }]}>{item.label}</Text>
                     <Text style={[styles.name, styles.text]}>{item.description}</Text>
                   </TouchableOpacity>
@@ -227,10 +227,8 @@ function CreateTeamSp({navigation}) {
                     </View> 
                   </RadioButton.Group>
 
-            
-
                 <View style={styles.btnNext}>
-                  <Button title="다음으로" onPress={handleNext} color="white" />
+                  <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
             </ScrollView>
             )}
@@ -271,7 +269,7 @@ function CreateTeamSp({navigation}) {
                   <Text style={styles.nameLeng}> 0 / 5 </Text>
                 
                 <View style={styles.btnNext}>
-                  <Button title="다음으로" onPress={handleNext} color="white" />
+                  <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
             </View>
             )}
@@ -282,8 +280,8 @@ function CreateTeamSp({navigation}) {
                 {/* 카드 컴포넌트 by 민경 */}
                 <Text style={[styles.subtitle, {textAlign: 'center'}]}> 탭하여 뒷면을 확인하세요. </Text>
                 
-                <View style={[styles.btnNext,  {marginTop: 40}]}>
-                  <Button title="팀스페이스 생성 완료할래요" onPress={handleNext} color="white" />
+                <View style={[styles.btnNext,  {marginTop: 40}]}>                  
+                  <Text onPress={handleNext} style={styles.btnText}> 팀스페이스 생성 완료할래요 </Text>
                 </View>
             </View>
             )}
@@ -299,16 +297,15 @@ function CreateTeamSp({navigation}) {
                       <Text style={styles.copy}>복사</Text>
                     </View>
 
-                    <View style={styles.btnNext}>
-                      <Button title="홈화면으로" color="white" 
-                      onPress={() => navigation.navigate('Home')} />
+                    <View style={styles.btnContainer}>
+                      <View style={styles.btnNext}>
+                        <Text onPress={() => navigation.navigate('Home')} style={styles.btnText}> 홈화면으로 </Text>
+                      </View>
+                      <View style={styles.btnWhite}>
+                        <Text onPress={() => navigation.navigate('CheckCard')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
+                      </View>
                     </View>
 
-
-                    <View style={styles.btnWhite}>
-                      <Button title="팀스페이스 확인" color="#7B7B7B"
-                      onPress={() => navigation.navigate('CheckCard')} />
-                    </View>
                 </View>
                 )}          
         </View>      
