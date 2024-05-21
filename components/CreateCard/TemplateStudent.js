@@ -2,6 +2,8 @@ import { View, Text, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Dime
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
+import { RadioButton } from 'react-native-paper';
+import { theme } from "../../theme";
 import "react-native-gesture-handler";
 
 import { styles } from "./TemplateStyles";
@@ -20,7 +22,7 @@ export default function TemplateStudent({navigation}) {
     const [introduction, setIntroduction] = useState('');
     const [job, setJob] = useState('');
     const [club, setClub] = useState('');
-    const [status, setStatus] = useState('');
+    const [status, setStatus] = useState('휴학');
     const [sns, setSns] = useState(['', '']);
     const [email, setEmail] = useState('');
     const [mbti, setMbti] = useState('');
@@ -36,6 +38,7 @@ export default function TemplateStudent({navigation}) {
     const [showMovie, setShowMovie] = useState(false);
     const [cover, setCover] = useState(1);
     const [avaIndex, setAvaIndex] = useState(1);
+    const [radioBtn, setRadioBtn] = useState('first');
 
     const handleNext = () => {
         if (step === 1) {
@@ -55,7 +58,7 @@ export default function TemplateStudent({navigation}) {
         }
     };
 
-    const handleClick = () => {
+    const onPressRadioBtn = (radion) => {
         setBtnActive(!btnActive);
     }
 
@@ -230,7 +233,18 @@ export default function TemplateStudent({navigation}) {
                     {showStatus && (
                         <View style={styles.inputContainer}>
                             <Text style={styles.inputText}>재학여부</Text>
-                            
+                                <RadioButton.Group onValueChange={status => setStatus(status)} value={status}>
+                                    <View style={styles.radioBtnGruopContainer}>
+                                        <View style={styles.radioBtnContainer}>
+                                            <RadioButton value="휴학"  uncheckedColor={theme.grey30} color={theme.skyblue} />
+                                            <Text style={styles.font16}>휴학 중</Text>
+                                        </View>
+                                        <View style={styles.radioBtnContainer}>
+                                            <RadioButton value="재학"  uncheckedColor={theme.grey30} color={theme.skyblue} />
+                                            <Text style={styles.font16}>재학 중</Text>
+                                        </View>
+                                    </View>
+                                </RadioButton.Group>
                         </View>
                     )}
                     <TouchableOpacity 

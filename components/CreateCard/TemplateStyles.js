@@ -125,6 +125,14 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         // fontFamily: "Pretendard",
     },
+    radioBtnGruopContainer: {
+        flexDirection: 'row',
+    },
+    radioBtnContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginRight: 16,
+    },
     snsText: {
         fontSize: 16,
         marginBottom: 16,
