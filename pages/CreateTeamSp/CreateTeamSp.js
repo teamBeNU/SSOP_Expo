@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, Button, Image,TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TextInput, Image,TouchableOpacity, ScrollView } from "react-native";
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
@@ -17,8 +17,19 @@ function CreateTeamSp({navigation}) {
       position: "false",
       cover: "free"
     });
-    const [position, setPosition] = useState([]);
-    const [back, setBack] = useState([]);
+    const [position, setPosition] = useState([])
+    const [back, setBack] = useState({
+      studNum: "false",
+      club: "false",
+      inSchool: "false",
+      part: "false",
+      number: "false",
+      sns: "false",
+      email: "false",
+      mbti: "false",
+      music: "false",
+      movie: "false"
+    });
     const [showTmp, setShowTmp] = useState([]);
     const [inviteCode, setInviteCode] = useState('');
 
@@ -26,6 +37,21 @@ function CreateTeamSp({navigation}) {
     const handleTemplClick = (id) => {
       setTemplete(id);
       setStep(5);
+      console.log('Selected ID:', id);
+    };
+
+    //step 5-6 
+    const handleSelect = (id) => {
+      setFront(prevState => ({
+        ...prevState,
+        [id]: prevState[id] === "true" ? "false" : "true"
+      }));
+      console.log('Selected ID:', id, 'Updated front:', front);
+      
+      setBack(prevState => ({
+        ...prevState,
+        [id]: prevState[id] === "true" ? "false" : "true"
+      }));
       console.log('Selected ID:', id);
     };
 
@@ -177,13 +203,22 @@ function CreateTeamSp({navigation}) {
 
                   <Text style={[styles.font16, {marginTop: 28}]}>기본정보</Text>  
                   <View style={styles.elementContainer}>              
-                    <Text style={styles.element}>나이</Text>
+                    <Text id="age" onPress={() => handleSelect('age')} 
+                      style={[styles.element, front.age === "true" && styles.selectedElement]}>
+                      나이
+                    </Text>
                   </View>
 
                   <Text style={[styles.font16, {marginTop: 28}]}>학생정보</Text>  
-                  <View style={styles.elementContainer}>              
-                    <Text style={styles.element}>학교명</Text>        
-                    <Text style={styles.element}>학년</Text>
+                  <View style={styles.elementContainer}> 
+                    <Text id="school" onPress={() => handleSelect('school')} 
+                      style={[styles.element, front.school === "true" && styles.selectedElement]}>
+                      학교명
+                    </Text>        
+                    <Text id="grade" onPress={() => handleSelect('grade')} 
+                      style={[styles.element, front.grade === "true" && styles.selectedElement]}>
+                      학년
+                    </Text>
                   </View>
 
                   <Text style={[styles.font16, {marginTop: 28}]}>포지션</Text>  
@@ -240,24 +275,24 @@ function CreateTeamSp({navigation}) {
 
                 <Text style={[styles.font16, {marginTop: 28}]}>학생정보</Text>  
                   <View style={styles.elementContainer}>
-                    <Text style={styles.element}>학생번호</Text>
-                    <Text style={styles.element}>동아리</Text>
-                    <Text style={styles.element}>재학여부</Text>
-                    <Text style={styles.element}>직무</Text>
+                    <Text id="studNum" onPress={handleSelect} style={styles.element}>학생번호</Text>
+                    <Text id="club" onPress={handleSelect} style={styles.element}>동아리</Text>
+                    <Text id="inSchool" onPress={handleSelect}style={styles.element}>재학여부</Text>
+                    <Text id="part" onPress={handleSelect} style={styles.element}>직무</Text>
                   </View>
 
                 <Text style={[styles.font16, {marginTop: 28}]}>연락수단</Text>  
                   <View style={styles.elementContainer}>              
-                    <Text style={styles.element}>연락처</Text>        
-                    <Text style={styles.element}>SNS</Text>                    
-                    <Text style={styles.element}>이메일</Text>
+                    <Text id="number" onPress={handleSelect} style={styles.element}>연락처</Text>        
+                    <Text id="sns" onPress={handleSelect} style={styles.element}>SNS</Text>                    
+                    <Text id="email" onPress={handleSelect} style={styles.element}>이메일</Text>
                   </View>  
 
                   <Text style={[styles.font16, {marginTop: 28}]}>특징</Text>  
                   <View style={styles.elementContainer}>
-                    <Text style={styles.element}>MBTI</Text>
-                    <Text style={styles.element}>인생 음악</Text>
-                    <Text style={styles.element}>인생 영화</Text>
+                    <Text id="mbti" onPress={handleSelect} style={styles.element}>MBTI</Text>
+                    <Text id="music" onPress={handleSelect} style={styles.element}>인생 음악</Text>
+                    <Text id="movie" onPress={handleSelect} style={styles.element}>인생 영화</Text>
                   </View>
 
                   

@@ -166,6 +166,12 @@ export const styles = StyleSheet.create({
         color: theme.gray20,
         backgroundColor: theme.white,
     },
+    selectedElement:{
+        color: theme.skyblue,
+        borderColor: theme.skyblue,
+        alignItems: 'center',
+        fontFamily: 'PretendardBold'
+    },
     line: {
         borderBottomWidth:1,
         borderBottomColor: theme.gray90,
