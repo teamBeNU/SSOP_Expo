@@ -102,6 +102,8 @@ export const styles = StyleSheet.create({
     },
     icon1: { // 카드 만들기 아이콘
         position: 'absolute',
+        width: 129,
+        height: 72,
         bottom: 0,
         right: 40,
     },
@@ -109,5 +111,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 16,
         right: 16,
+        width: 80,
+        height: 80,
     }
 });

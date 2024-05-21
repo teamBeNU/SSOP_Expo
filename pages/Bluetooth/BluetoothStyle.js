@@ -79,4 +79,9 @@ export const styles = StyleSheet.create({
         marginTop: 8,
         marginBottom: 8,
     },
+    icon2: { // 카드 샘플
+        left: 0,
+        width: 165,
+        height: 201,
+    }
 })

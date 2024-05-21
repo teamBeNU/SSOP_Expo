@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { styles } from './NotifyStyle';
 
-function Notify() {
+function Notify(navigation) {
     return (
         <ScrollView showsVerticalScrollIndicator={false}> 
             <View>
@@ -44,7 +44,7 @@ function Notify() {
             <View>
                 <View style={styles.btn2}>
                 <Text style={styles.title}>홍길동 님의 카드를 받았습니다. </Text>
-                    <TouchableOpacity >
+                    <TouchableOpacity>
                         <Text style={styles.checkCard}>카드 확인하기</Text>
                     </TouchableOpacity>
                 </View>

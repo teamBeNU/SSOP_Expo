@@ -65,7 +65,7 @@ const Tab = createBottomTabNavigator();
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color}) => {
             let iconSource;
-            let iconSize = 28;
+            let iconSize = 42;
   
             if (route.name === '홈') {
               iconSource = focused
