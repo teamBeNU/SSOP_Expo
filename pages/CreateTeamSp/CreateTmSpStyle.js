@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardBold'
 	},
     largetitle: {
-        marginTop: 70,
+        marginTop: '15%',
 		fontSize: 24,
         textAlign: 'center',
         fontFamily: 'PretendardBold',
@@ -95,18 +95,19 @@ export const styles = StyleSheet.create({
     container: {
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 28,
+        
+        marginTop: '4%',
     },
     row: {
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
     item: {
-        width: 158,
-        height: 184,
+        width: '45%',
+        height: '50%',
         borderRadius: 8,
         backgroundColor: theme.gray90,
-        margin: 7,
+        margin: 8,
         display: 'flex',
         justifyContent:'center',
         alignItems: 'center',

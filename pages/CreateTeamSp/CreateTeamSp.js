@@ -22,15 +22,10 @@ function CreateTeamSp({navigation}) {
     const [showTmp, setShowTmp] = useState([]);
     const [inviteCode, setInviteCode] = useState('');
 
-
-    //step3 - 템플릿유무 라디오 버튼
-    const onPressRadioBtn = (radio) => {
-      setBtnActive(!btnActive);
-  }
-
     //step4 - 템플릿 선택
     const handleTemplClick = (id) => {
       setTemplete(id);
+      setStep(5);
       console.log('Selected ID:', id);
     };
 
@@ -48,8 +43,6 @@ function CreateTeamSp({navigation}) {
     //       setStep(3);
     //     } else if (step === 3 && istemplete) {
     //         setStep(4);
-    //     } else if (step === 4 && templete) {
-    //         setStep(5);
     //     } else if (step === 5 && front) {
     //         setStep(6);
     //     } else if (step === 6 && back) {
@@ -67,8 +60,8 @@ function CreateTeamSp({navigation}) {
         setStep(3);
       } else if (step === 3 ) {
           setStep(4);
-      } else if (step === 4 ) {
-          setStep(5);
+      // } else if (step === 4 ) {
+      //     setStep(5);
       } else if (step === 5 ) {
           setStep(6);
       } else if (step === 6) {
@@ -149,7 +142,7 @@ function CreateTeamSp({navigation}) {
             
             {step === 4 && (
             <View>
-                <Text style={styles.largetitle}> 팀스페이스를  성격에 제일 가까운 {'\n'} 템플릿을 선택하세요. </Text>
+                <Text style={styles.largetitle}> 팀스페이스 성격에 제일 가까운 {'\n'} 템플릿을 선택하세요. </Text>
 
                 <View style={styles.container}>
                   <View style={styles.row}>
@@ -157,7 +150,7 @@ function CreateTeamSp({navigation}) {
                   {items.map(item => (                  
                   <TouchableOpacity
                   key={item.id}
-                  style={[styles.item, templete === item.id && styles.selectedItem]}
+                  style={[styles.item]}
                   onPress={() => handleTemplClick(item.id)}
                   >
                     <Image source={item.image} />
@@ -167,10 +160,6 @@ function CreateTeamSp({navigation}) {
                 ))}
 
                   </View>
-                </View>
-
-                <View style={styles.btnNext}>
-                  <Button title="다음으로" onPress={handleNext} color="white" />
                 </View>
             </View>
             )}
