@@ -38,9 +38,6 @@ import CreateCard from './pages/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
 import { styles } from './components/MyCard/CardStyle';
 
-import Pretendard from './assets/fonts/Pretendard-Regular.otf';
-import PretendardBold from './assets/fonts/Pretendard-Bold.otf';
-
 export default function App() {
   // 폰트 로드
   const [fontsLoaded] = useFonts({
