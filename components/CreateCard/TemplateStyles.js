@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
     title: { 
         marginTop: 32,
         fontSize: 20,
-        // fontFamily: "Pretendard",
+        fontFamily: "PretendardSemiBold",
     },
     flexDirectionRow: {
         flexDirection: "row",
@@ -45,11 +45,11 @@ export const styles = StyleSheet.create({
     },
     informText: {
         fontSize: 14,
-        // fontFamily: "Pretendard",
+        fontFamily: "Pretendard",
     },
     birthSecret: {
         fontSize: 14,
-        // fontFamily: "Pretendard",
+        fontFamily: "Pretendard",
         color: theme.grey30,
     },
     btnView: {
