@@ -3,8 +3,7 @@ import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, Clipboard, 
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
-import { Card } from "../../components/MyCard/Card";
-import MyCard from "../MyCard/MyCard";
+import { CardFront } from "../../components/MyCard/CardFront";
 
 function CreateTeamSp({navigation}) {
     const [step, setStep] = useState(1);
@@ -65,11 +64,11 @@ function CreateTeamSp({navigation}) {
 
     //step 5-6 
     const handleSelect = (id) => {
-      setFront(prevState => ({
-        ...prevState,
-        [id]: prevState[id] === true ? false : true
-      }));
-      console.log('Selected ID:', id);
+        setFront(prevState => ({
+          ...prevState,
+          [id]: !prevState[id]
+        }));
+        console.log('Selected ID:', id);
     };
 
     const positionSelected = (index) => {
@@ -260,7 +259,7 @@ function CreateTeamSp({navigation}) {
                   <Text style={[styles.font16, {marginTop: 28}]}>기본정보</Text>  
                   <View style={styles.elementContainer}>              
                     <Text id="age" onPress={() => handleSelect('age')} 
-                      style={[styles.element, front.age === "true" && styles.selectedElement]}>
+                      style={[styles.element, front.age && styles.selectedElement]}>
                       나이
                     </Text>
                   </View>
@@ -268,11 +267,11 @@ function CreateTeamSp({navigation}) {
                   <Text style={[styles.font16, {marginTop: 28}]}>학생정보</Text>  
                   <View style={styles.elementContainer}> 
                     <Text id="school" onPress={() => handleSelect('school')} 
-                      style={[styles.element, front.school === "true" && styles.selectedElement]}>
+                      style={[styles.element, front.school && styles.selectedElement]}>
                       학교명
                     </Text>        
                     <Text id="grade" onPress={() => handleSelect('grade')} 
-                      style={[styles.element, front.grade === "true" && styles.selectedElement]}>
+                      style={[styles.element, front.grade && styles.selectedElement]}>
                       학년
                     </Text>
                   </View>
@@ -342,33 +341,33 @@ function CreateTeamSp({navigation}) {
                 <Text style={[styles.font16, {marginTop: 28}]}>학생정보</Text>  
                   <View style={styles.elementContainer}>
                     <Text id="studNum" onPress={() => handleSelect('studNum')} 
-                      style={[styles.element, front.studNum === "true" && styles.selectedElement]}> 학생번호</Text>
+                      style={[styles.element, front.studNum && styles.selectedElement]}> 학생번호</Text>
                     <Text id="club" onPress={() => handleSelect('club')} 
-                      style={[styles.element, front.club === "true" && styles.selectedElement]}> 동아리</Text>
+                      style={[styles.element, front.club && styles.selectedElement]}> 동아리</Text>
                     <Text id="inSchool" onPress={() => handleSelect('inSchool')} 
-                      style={[styles.element, front.inSchool === "true" && styles.selectedElement]}> 재학여부</Text>
+                      style={[styles.element, front.inSchool && styles.selectedElement]}> 재학여부</Text>
                     <Text id="part" onPress={() => handleSelect('part')} 
-                      style={[styles.element, front.part === "true" && styles.selectedElement]}> 직무</Text>
+                      style={[styles.element, front.part && styles.selectedElement]}> 직무</Text>
                   </View>
 
                 <Text style={[styles.font16, {marginTop: 28}]}>연락수단</Text>  
                   <View style={styles.elementContainer}>              
                     <Text id="number" onPress={() => handleSelect('number')} 
-                      style={[styles.element, front.number === "true" && styles.selectedElement]}> 연락처</Text>        
+                      style={[styles.element, front.number && styles.selectedElement]}> 연락처</Text>        
                     <Text id="sns" onPress={() => handleSelect('sns')} 
-                      style={[styles.element, front.sns === "true" && styles.selectedElement]}> SNS</Text>                    
+                      style={[styles.element, front.sns && styles.selectedElement]}> SNS</Text>                    
                     <Text id="email" onPress={() => handleSelect('email')} 
-                      style={[styles.element, front.email === "true" && styles.selectedElement]}> 이메일</Text>
+                      style={[styles.element, front.email && styles.selectedElement]}> 이메일</Text>
                   </View>  
 
                   <Text style={[styles.font16, {marginTop: 28}]}>특징</Text>  
                   <View style={styles.elementContainer}>
                     <Text id="mbti" onPress={() => handleSelect('mbti')} 
-                      style={[styles.element, front.mbti === "true" && styles.selectedElement]}>MBTI</Text>
+                      style={[styles.element, front.mbti && styles.selectedElement]}>MBTI</Text>
                     <Text id="music" onPress={() => handleSelect('music')} 
-                      style={[styles.element, front.music === "true" && styles.selectedElement]}>인생 음악</Text>
+                      style={[styles.element, front.music && styles.selectedElement]}>인생 음악</Text>
                     <Text id="movie" onPress={() => handleSelect('movie')} 
-                      style={[styles.element, front.movie === "true" && styles.selectedElement]}>인생 영화</Text>
+                      style={[styles.element, front.movie && styles.selectedElement]}>인생 영화</Text>
                   </View>
 
                   
@@ -403,8 +402,9 @@ function CreateTeamSp({navigation}) {
             {step === 7 && (
             <View>
                 <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
-                {/* 카드 컴포넌트 by 민경 */}
-                <MyCard />
+                <View style={[styles.container, { marginTop: 30 }]}>
+                    <CardFront />
+                </View>
                 <Text style={[styles.subtitle, {textAlign: 'center'}]}> 탭하여 뒷면을 확인하세요. </Text>
                 
                 <View style={[styles.btnNext,  {marginTop: 40}]}>                  
