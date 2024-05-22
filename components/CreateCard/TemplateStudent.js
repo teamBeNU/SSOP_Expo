@@ -4,6 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
+// import { DoneSvg } from "../../assets/icons/ic_done_small_line.svg";
 import "react-native-gesture-handler";
 
 import { styles } from "./TemplateStyles";
@@ -111,7 +112,7 @@ export default function TemplateStudent({navigation}) {
                                 />
                             </View>
                             <View style={styles.birthSecret}>
-                                {/* svg 들어갈 자리 */}
+                                {/* <DoneSvg width="16" height="16" /> */}
                                 <Text>생년월일은 비밀로 할래요</Text>
                             </View>
                         </View>

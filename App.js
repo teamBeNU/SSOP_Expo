@@ -5,8 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import "react-native-gesture-handler";
 
+import { useFonts } from 'expo-font';
 import Pretendard from './assets/fonts/Pretendard-Regular.otf';
-import PretendardSemiBold from './assets/fonts/Pretendard-SenmiBold.otf';
+import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
 
 import Home from './pages/Home';
 import Bluetooth from './pages/Bluetooth';

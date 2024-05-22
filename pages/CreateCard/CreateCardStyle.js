@@ -9,14 +9,14 @@ export const styles = StyleSheet.create({
     },  
     title: {
         color: "black",
-        // fontFamily: 'Pretendard-SemiBold',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 24,
         marginTop: 72,
         textAlign: "center",
     },
     subTitle: {
         color: "black",
-        // fontFamily: 'Pretendard-SemiBold',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         marginTop: 12,
         textAlign: "center",
@@ -46,14 +46,14 @@ export const styles = StyleSheet.create({
         elevation: 5
     },
     label: {
-        // fontFamily: "Pretendard",
+        fontFamily: "Pretendard",
         fontSize: 18,
         textAlign: "center",
         marginTop: 11,
         marginBottom: 4,
     },
     describe: {
-        // fontFamily: "Pretendard",
+        fontFamily: "Pretendard",
         fontSize: 12,
         textAlign: "center",
     },
