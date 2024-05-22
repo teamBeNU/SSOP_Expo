@@ -17,6 +17,7 @@ export default function TemplateStudent({navigation}) {
     const [year, setYear] = useState('');
     const [month, setMonth] = useState('');
     const [day, setDay] = useState('');
+    const [bSecret, setBSecret] = useState(false);
     const [tel, setTel] = useState('');
     const [school, setSchool] = useState('');
     const [grade, setGrade] = useState('');
@@ -84,39 +85,41 @@ export default function TemplateStudent({navigation}) {
                         </View>
                         <View style={styles.inputContainer}>
                             <Text style={styles.inputText}>생년월일*</Text>
-                            <View style={styles.flexDirectionRow}>
+                            <View style={styles.inputBirthContainer}>
                                 <TextInput
-                                    style={{...styles.inputBirth, width: 72}}
-                                    placeholder="YYYY"
+                                    style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
+                                    placeholder="년"
                                     keyboardType="numeric"
                                     value={year}
                                     onChangeText={setYear}
                                     maxLength={4}
                                 />
                                 <TextInput
-                                    style={{...styles.inputBirth, width: 60}}
-                                    placeholder="MM"
+                                    style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
+                                    placeholder="월"
                                     keyboardType="numeric"
                                     value={month}
                                     onChangeText={setMonth}
                                     maxLength={2}
                                 />
                                 <TextInput
-                                    style={{...styles.inputBirth, width: 60}}
-                                    placeholder="DD"
+                                    style={[styles.inputBirth, styles.inputBirthText]}
+                                    placeholder="일"
                                     keyboardType="numeric"
                                     value={day}
                                     onChangeText={setDay}
                                     maxLength={2}
                                 />
                             </View>
-                            <View style={styles.birthSecret}>
+                            <TouchableOpacity 
+                                style={styles.birthSecret} 
+                                onPress={() => setBSecret(!bSecret)}>
                                 {/* <DoneSvg width="16" height="16" /> */}
-                                <Text>생년월일은 비밀로 할래요</Text>
-                            </View>
+                                <Text style={bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 비밀로 할래요</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.inputText}>연락처</Text>
+                            <Text style={styles.inputText}>연락처*</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="연락처"
@@ -140,7 +143,7 @@ export default function TemplateStudent({navigation}) {
                     <Text style={styles.title}>학교와 관련된 정보를 알려주세요.</Text>
                     <View style={styles.informContainer}>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.inputText}>이름</Text>
+                            <Text style={styles.inputText}>학교명*</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="학교명"
@@ -150,7 +153,7 @@ export default function TemplateStudent({navigation}) {
                             />
                         </View>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.inputText}>학년</Text>
+                            <Text style={styles.inputText}>학년*</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="숫자만 입력하세요."
@@ -160,7 +163,7 @@ export default function TemplateStudent({navigation}) {
                             />
                         </View>
                         <View style={styles.inputContainer}>
-                            <Text style={styles.inputText}>한줄소개</Text>
+                            <Text style={styles.inputText}>한줄소개*</Text>
                             <TextInput 
                                 style={styles.customInput}
                                 placeholder="한줄소개"
@@ -529,4 +532,3 @@ export default function TemplateStudent({navigation}) {
         </View>
     );
 }
-

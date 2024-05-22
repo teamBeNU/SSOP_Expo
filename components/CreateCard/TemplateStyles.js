@@ -30,6 +30,9 @@ export const styles = StyleSheet.create({
         marginBottom: 32,
     },
     inputText: {
+        fontFamily: "Pretendard",
+        fontSize: 14,
+        color: theme.grey40,
         marginBottom: 8,
     },
     customInput: {
@@ -47,9 +50,36 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: "Pretendard",
     },
+    inputBirthContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    inputBirth: {
+        width: '30%',
+        height: 48,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.grey60,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+    },
+    inputBirthText: {
+        textAlign: "right",
+        fontFamily: "Pretendard",
+        fontSize: 16,
+    },
     birthSecret: {
         fontSize: 14,
         fontFamily: "Pretendard",
+        color: theme.grey30,
+        alignItems: "flex-end",
+        marginTop: 12,
+    },
+    birthSecretOn: {
+        color: "black",
+    },
+    birthSecretOff: {
         color: theme.grey30,
     },
     btnView: {
@@ -73,20 +103,6 @@ export const styles = StyleSheet.create({
     },
     btnNextText: {
         color: "white",
-    },
-    inputBirth: {
-        flexDirection: "row",
-    },
-    inputBirth: {
-        height: 48,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.grey60,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        marginRight: 6,
-        textAlign: "center"
     },
     btnMores: {
         marginVertical: 32,
@@ -144,6 +160,9 @@ export const styles = StyleSheet.create({
         marginBottom: 48,
     },
     marginR6: {
+        marginRight: 6,
+    },
+    marginR8: {
         marginRight: 6,
     },
     musicInput: {
