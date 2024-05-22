@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Image,TouchableOpacity, ScrollView } from "react-native";
+import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, Clipboard, Alert } from "react-native";
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
 
 function CreateTeamSp({navigation}) {
     const [step, setStep] = useState(1);
-    const [teamName, setTeamName] = useState('');
-    const [nameLength, setNameLength] = useState(0);
-    const [teamComment, setTeamComment] = useState('');
+    const [teamName, setTeamName] = useState(''); // step1
+    const [nameLength, setNameLength] = useState(0); 
+    const [teamComment, setTeamComment] = useState(''); // step2
+    const [cmtLength, setCmtLength] = useState(0);
     const [istemplete, setIsTemplete] = useState('yes'); // step3 - 라디오버튼 선택
-    const [templete, setTemplete] = useState(null);
+    const [templete, setTemplete] = useState(null); // step4
     const [front, setFront] = useState({
       // 앞면
       age: "false",
@@ -31,14 +32,28 @@ function CreateTeamSp({navigation}) {
       music: "false",
       movie: "false"
     });
-    const [position, setPosition] = useState([])
-    // const [back, setBack] = useState([]);
-    const [showTmp, setShowTmp] = useState([]);
-    const [inviteCode, setInviteCode] = useState('');
+    const [positionList, setPositionList] = useState([
+      {position: '회장', selected: false},
+      {position: '부회장', selected: false},     
+      {position: '팀장', selected: false},
+      {position: '팀원', selected: false},
+    ]);
+    const [positionPlus, setPositionPlus] = useState("");
+    const [positionLength, setPositionLength] = useState(0);
 
-  //   useEffect(() => {
-  //     setNameLength(teamName.length);
-  // }, [teamName]);
+    const [plus, setPlus] = useState(""); // step6
+    const [plusList, setPlusList] = useState([]); 
+    const [plusLength, setPlusLength] = useState(0);
+
+    const inviteCode = '120432'; // step8
+
+    // 텍스트 길이 검사
+    useEffect(() => {
+      setNameLength(teamName.length);
+      setCmtLength(teamComment.length);
+      setPositionLength(positionPlus.length);
+      setPlusLength(plus.length);
+  }, [teamName, teamComment, positionPlus, plus]);
 
     //step4 - 템플릿 선택
     const handleTemplClick = (id) => {
@@ -110,11 +125,8 @@ function CreateTeamSp({navigation}) {
                     <Text style={styles.name}>이름</Text>
                     <TextInput style={styles.nameInput} placeholder='이름' 
                      value={teamName}
-                     onChangeText={
-                      text => setTeamName(text);
-                      nameLength(text.length);
-                    } />
-                     <Text style={styles.nameLeng}> {nameLeng} / 15 </Text>
+                     onChangeText={text => setTeamName(text)} />
+                     <Text style={styles.nameLeng}> {nameLength} / 15 </Text>
                 </View>
 
                 <View style={styles.btnNext}>
@@ -131,7 +143,7 @@ function CreateTeamSp({navigation}) {
                     <TextInput style={styles.nameInput} placeholder='상세설명'
                     value={teamComment}
                     onChangeText={text => setTeamComment(text)}/>
-                    <Text style={styles.nameLeng}> 0 / 20 </Text>
+                    <Text style={styles.nameLeng}> {cmtLength} / 20 </Text>
                 </View>
 
                 <View style={styles.btnNext}>
