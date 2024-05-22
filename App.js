@@ -5,6 +5,9 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import "react-native-gesture-handler";
 
+import Pretendard from './assets/fonts/Pretendard-Regular.otf';
+import PretendardSemiBold from './assets/fonts/Pretendard-SenmiBold.otf';
+
 import Home from './pages/Home';
 import Bluetooth from './pages/Bluetooth';
 import LinkShare from './pages/LinkShare';
@@ -19,6 +22,17 @@ import EnterTeamSp from './pages/EnterTeamSp';
 const Stack = createStackNavigator();
 
 export default function App() {
+  // 폰트 로드
+  const [fontsLoaded] = useFonts({
+    Pretendard : Pretendard,
+    PretendardSemiBold : PretendardSemiBold
+  });
+
+  if (!fontsLoaded) {
+    return null; // 폰트 로딩이 완료되지 않으면 null을 반환하여 렌더링을 중지
+  }
+
+
   return (
     <NavigationContainer>
       <Stack.Navigator>
