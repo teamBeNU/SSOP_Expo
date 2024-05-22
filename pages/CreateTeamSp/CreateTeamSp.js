@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, Image,TouchableOpacity, ScrollView } from "react-native";
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
@@ -7,6 +7,7 @@ import { theme } from "../../theme";
 function CreateTeamSp({navigation}) {
     const [step, setStep] = useState(1);
     const [teamName, setTeamName] = useState('');
+    const [nameLength, setNameLength] = useState(0);
     const [teamComment, setTeamComment] = useState('');
     const [istemplete, setIsTemplete] = useState('yes'); // step3 - 라디오버튼 선택
     const [templete, setTemplete] = useState(null);
@@ -34,6 +35,10 @@ function CreateTeamSp({navigation}) {
     // const [back, setBack] = useState([]);
     const [showTmp, setShowTmp] = useState([]);
     const [inviteCode, setInviteCode] = useState('');
+
+  //   useEffect(() => {
+  //     setNameLength(teamName.length);
+  // }, [teamName]);
 
     //step4 - 템플릿 선택
     const handleTemplClick = (id) => {
@@ -105,9 +110,11 @@ function CreateTeamSp({navigation}) {
                     <Text style={styles.name}>이름</Text>
                     <TextInput style={styles.nameInput} placeholder='이름' 
                      value={teamName}
-                     onChangeText={text => setTeamName(text)}
-                     />
-                     <Text style={styles.nameLeng}> 0 / 15 </Text>
+                     onChangeText={
+                      text => setTeamName(text);
+                      nameLength(text.length);
+                    } />
+                     <Text style={styles.nameLeng}> {nameLeng} / 15 </Text>
                 </View>
 
                 <View style={styles.btnNext}>
@@ -309,7 +316,7 @@ function CreateTeamSp({navigation}) {
                     onChangeText={text => setPosition(text)} />                  
                   <Text style={styles.nameLeng}> 0 / 5 </Text>
                 
-                <View style={styles.btnNext}>
+                <View style={styles.btnNext}y>
                   <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
             </View>
