@@ -1,12 +1,13 @@
 import { View, Text, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './CardStyle';
+import AvatarSample from '../../assets/AvatarSample.svg'
 
 export const CardFront = () => {
     return (
         <View style={styles.card}>
             <View style={styles.cardImgArea}>
-
+                <AvatarSample style={{marginLeft: -30}} />
             </View>
             <View style={styles.cardTextArea}>
                 <View style={styles.basicInfo}> 

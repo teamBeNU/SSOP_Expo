@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
 	},
 	cardImgArea: {
         height: 296,
-        backgroundColor: theme.grey90,
+        backgroundColor: '#B6E96C',
     },
     cardTextArea: {
         height: 136,
