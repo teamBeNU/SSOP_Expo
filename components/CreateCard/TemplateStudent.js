@@ -207,7 +207,7 @@ export default function TemplateStudent({navigation}) {
                     </View>
                     <View style={styles.line}></View>
                     {!showJob && !showClub && !showStatus && (
-                        <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요</Text>
+                        <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                     )}
                     {showJob && (
                         <View style={styles.inputContainer}>
@@ -278,7 +278,7 @@ export default function TemplateStudent({navigation}) {
                 </View>
                 <View style={styles.line}></View>
                 {!showSns && !showEmail && (
-                    <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요</Text>
+                    <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                 )}
                 {showSns && (
                     <View>
@@ -351,7 +351,7 @@ export default function TemplateStudent({navigation}) {
                     </View>
                     <View style={styles.line}></View>
                     {!showMbti && !showMusic && !showMovie && (
-                        <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요</Text>
+                        <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                     )}
                     {showMbti && (
                         <View style={styles.inputContainer}>
