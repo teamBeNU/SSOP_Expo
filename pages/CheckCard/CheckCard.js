@@ -59,7 +59,7 @@ function CheckCard({ navigation }) {
                 <Text style={styles.btnText}>연락처 저장</Text>
             </View>
             <View>
-                {hasMemo && hasMemo ? 
+                {(hasMemo !== undefined) && hasMemo ? 
                 <View style={styles.btn}>
                 <TouchableOpacity style={styles.whiteBtn} onPress={() => setIsModalVisible(true)}>
                     <MemoViewIcon />
