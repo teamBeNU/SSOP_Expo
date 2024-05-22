@@ -9,6 +9,14 @@ import PretendardRegular from './assets/fonts/Pretendard-Regular.otf';
 import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
 import MoreIcon from './assets/icons/ic_more_small_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+  MenuProvider,
+} from 'react-native-popup-menu';
+
 
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
@@ -45,6 +53,7 @@ export default function App() {
   }
 
   return (
+    <MenuProvider>
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} />
@@ -61,9 +70,15 @@ export default function App() {
               </TouchableOpacity>
             ),
             headerRight: () => 
-              <TouchableOpacity>
-                <MoreIcon style={{ marginRight: 8  }}/>
-            </TouchableOpacity>
+            <Menu>
+              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
+              <MenuOptions customStyles={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+                <MenuOption 
+                  // onSelect={() => alert(`Delete`)} 
+                  text='카드 삭제하기'
+                />
+              </MenuOptions>
+            </Menu>
           }}
           />
         <Stack.Screen 
@@ -77,9 +92,15 @@ export default function App() {
               </TouchableOpacity>
             ),
             headerRight: () => 
-              <TouchableOpacity>
-                <MoreIcon style={{ marginRight: 8  }}/>
-            </TouchableOpacity>
+              <Menu>
+              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
+              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+                <MenuOption 
+                  // onSelect={() => alert(`Delete`)} 
+                  text='카드 삭제하기'
+                />
+              </MenuOptions>
+            </Menu>
           }}
           />
         <Stack.Screen name="Space" component={Space} />
@@ -89,5 +110,6 @@ export default function App() {
         <Stack.Screen name="Memo" component={Memo} />
       </Stack.Navigator>
     </NavigationContainer>
+    </MenuProvider>
   );
 };
