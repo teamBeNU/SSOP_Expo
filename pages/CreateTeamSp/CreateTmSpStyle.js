@@ -11,26 +11,26 @@ export const styles = StyleSheet.create({
 	title: {
         marginTop: 32,
 		fontSize: 20,
-        fontFamily: 'PretendardBold'
+        fontFamily: 'PretendardSemiBold'
 	},
     largetitle: {
         marginTop: '15%',
 		fontSize: 24,
         textAlign: 'center',
-        fontFamily: 'PretendardBold',
+        fontFamily: 'PretendardSemiBold',
 	},
     subtitle: {
         marginTop: 12,
 		fontSize: 14,
-        fontFamily: 'Pretendard'
+        fontFamily: 'PretendardRegular'
 	},
     font16: {
         fontSize: 16,
-        fontFamily: 'PretendardBold',
+        fontFamily: 'PretendardSemiBold',
     },
     font18: {
         fontSize: 18,
-        fontFamily: 'PretendardBold',
+        fontFamily: 'PretendardSemiBold',
         marginLeft: 8
     },
     nameContainer: {
@@ -42,7 +42,7 @@ export const styles = StyleSheet.create({
     },
     name: {
         fontSize: 14,
-        fontFamily: 'Pretendard'
+        fontFamily: 'PretendardRegular'
     },
     nameInput:{
         width: '100%',
@@ -54,13 +54,13 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray10,
-        fontFamily: 'Pretendard'
+        fontFamily: 'PretendardRegular'
     },
     nameLeng:{
         fontSize: 14,
         color: theme.gray60,
         alignSelf: 'flex-end',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
     },
     btnNext: {
         marginTop: 40,
@@ -69,21 +69,21 @@ export const styles = StyleSheet.create({
         height: 48,
         justifyContent: 'center',
         borderRadius: 8,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         backgroundColor: theme.gray10,
     },
     btnText:{
         textAlign: 'center',
         color: theme.white,
         fontSize: 16,
-        fontFamily: 'PretendardBold'
+        fontFamily: 'PretendardSemiBold'
     },
     btnWhite: {
         marginTop: -32,
         height: 48,
         justifyContent: 'center',
         borderRadius: 8,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         borderWidth: 1,
         borderColor: theme.gray80, 
         backgroundColor: theme.white
@@ -92,7 +92,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         color: theme.gray50,
         fontSize: 16,
-        fontFamily: 'PretendardBold'
+        fontFamily: 'PretendardSemiBold'
     },
     btnContainer:{    
         marginTop: 100,
@@ -148,7 +148,7 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-start',  
         paddingVertical: 8,
         paddingHorizontal: 12,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray80, 
@@ -160,7 +160,7 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-start',  
         paddingVertical: 8,
         paddingHorizontal: 12,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray90, 
@@ -171,7 +171,7 @@ export const styles = StyleSheet.create({
         color: theme.skyblue,
         borderColor: theme.skyblue,
         alignItems: 'center',
-        fontFamily: 'PretendardBold'
+        fontFamily: 'PretendardSemiBold'
     },
     plusContainer:{
         flexDirection: 'row', 
@@ -210,11 +210,11 @@ export const styles = StyleSheet.create({
     },
     inviteCode: {
         fontSize: 16,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
     },
     copy:{
         fontSize: 16,
         color: theme.skyblue,
-        fontFamily: 'PretendardBold'
+        fontFamily: 'PretendardSemiBold'
     }   
 })
