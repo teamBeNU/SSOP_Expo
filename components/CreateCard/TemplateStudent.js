@@ -77,7 +77,7 @@ export default function TemplateStudent({navigation}) {
                             <Text style={styles.inputText}>이름*</Text>
                             <TextInput 
                                 style={styles.customInput}
-                                placeholder="이름"
+                                placeholder="이름을 입력하세요."
                                 keyboardType="default"
                                 value={name}
                                 onChangeText={setName}
@@ -122,7 +122,7 @@ export default function TemplateStudent({navigation}) {
                             <Text style={styles.inputText}>연락처*</Text>
                             <TextInput 
                                 style={styles.customInput}
-                                placeholder="연락처"
+                                placeholder="연락처를 입력하세요."
                                 keyboardType="phone-pad"
                                 value={tel}
                                 onChangeText={setTel}
@@ -146,7 +146,7 @@ export default function TemplateStudent({navigation}) {
                             <Text style={styles.inputText}>학교명*</Text>
                             <TextInput 
                                 style={styles.customInput}
-                                placeholder="학교명"
+                                placeholder="학교명을 입력하세요."
                                 keyboardType="default"
                                 value={school}
                                 onChangeText={setSchool}
@@ -156,7 +156,7 @@ export default function TemplateStudent({navigation}) {
                             <Text style={styles.inputText}>학년*</Text>
                             <TextInput 
                                 style={styles.customInput}
-                                placeholder="숫자만 입력하세요."
+                                placeholder="학년을 입력하세요."
                                 keyboardType="numeric"
                                 value={grade}
                                 onChangeText={setGrade}
@@ -166,7 +166,7 @@ export default function TemplateStudent({navigation}) {
                             <Text style={styles.inputText}>한줄소개*</Text>
                             <TextInput 
                                 style={styles.customInput}
-                                placeholder="한줄소개"
+                                placeholder="간단하게 자신을 소개해 보세요."
                                 keyboardType="default"
                                 value={introduction}
                                 onChangeText={setIntroduction}
