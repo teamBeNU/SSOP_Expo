@@ -1,9 +1,10 @@
-import { Dimensions, ScrollView, TouchableOpacity, View, Text, Image,} from "react-native";
+import { Dimensions, ScrollView, TouchableOpacity, View, Text, Image, ActionBar} from "react-native";
 import { styles } from './CheckCardStyle';
 import { Card } from "../../components/MyCard/Card";
 import React, { useState } from 'react';
 import SaveIcon from '../../assets/icons/ic_contact_small_line.svg';
 import MemoIcon from '../../assets/icons/ic_editNote_small_line.svg';
+
 
 function CheckCard({ navigation }) {
     const CARD_WIDTH = Dimensions.get('window').width * 0.8;
@@ -23,7 +24,7 @@ function CheckCard({ navigation }) {
       };
 
     return (
-        <View style={styles.container}> 
+        <View style={styles.container}>
         <Text style={styles.cardPage}>{cardPage} / {data.length}</Text>
         <ScrollView 
            horizontal 

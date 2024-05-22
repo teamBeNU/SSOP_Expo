@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import { Button, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -7,6 +7,8 @@ import "react-native-gesture-handler";
 import { useFonts } from 'expo-font';
 import PretendardRegular from './assets/fonts/Pretendard-Regular.otf';
 import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
+import MoreIcon from './assets/icons/ic_more_small_line.svg';
+import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
@@ -26,6 +28,7 @@ import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp';
 import CreateCard from './pages/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
+import { styles } from './components/MyCard/CardStyle';
 
 // 스택 네비게이터
 const Stack = createStackNavigator();
@@ -47,8 +50,38 @@ export default function App() {
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Bluetooth" component={Bluetooth} />
         <Stack.Screen name="LinkShare" component={LinkShare} />
-        <Stack.Screen name="CheckCard" component={CheckCard} />
-        <Stack.Screen name="MyCard" component={MyCard} />
+        <Stack.Screen 
+          name="CheckCard" 
+          component={CheckCard}
+          options={{
+            headerTitle: "카드 조회",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+            headerRight: () => 
+              <TouchableOpacity>
+                <MoreIcon style={{ marginRight: 8  }}/>
+            </TouchableOpacity>
+          }}
+          />
+        <Stack.Screen 
+          name="MyCard" 
+          component={MyCard}
+          options={{
+            headerTitle: "내 카드",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+            headerRight: () => 
+              <TouchableOpacity>
+                <MoreIcon style={{ marginRight: 8  }}/>
+            </TouchableOpacity>
+          }}
+          />
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen name="CreateTeamSpace" component={CreateTeamSp} />
         <Stack.Screen name="CreateCard" component={CreateCard} />
