@@ -39,7 +39,6 @@ export default function TemplateStudent({navigation}) {
     const [showMovie, setShowMovie] = useState(false);
     const [cover, setCover] = useState(1);
     const [avaIndex, setAvaIndex] = useState(1);
-    const [radioBtn, setRadioBtn] = useState('first');
 
     const handleNext = () => {
         if (step === 1) {
@@ -236,12 +235,12 @@ export default function TemplateStudent({navigation}) {
                             <Text style={styles.inputText}>재학여부</Text>
                                 <RadioButton.Group onValueChange={status => setStatus(status)} value={status}>
                                     <View style={styles.radioBtnGruopContainer}>
-                                        <TouchableOpacity  style={styles.radioBtnContainer} onPress={() => setRadioBtn('휴학')}>
-                                            <RadioButton value="휴학"  uncheckedColor={theme.grey30} color={theme.skyblue} />
+                                        <TouchableOpacity  style={styles.radioBtnContainer} onPress={() => setStatus('휴학')}>
+                                            <RadioButton value="휴학" uncheckedColor={theme.grey30} color={theme.skyblue} />
                                             <Text style={styles.font16}>휴학 중</Text>
                                         </TouchableOpacity >
-                                        <TouchableOpacity style={styles.radioBtnContainer} onPress={() => setRadioBtn('재학')}>
-                                            <RadioButton value="재학"  uncheckedColor={theme.grey30} color={theme.skyblue} />
+                                        <TouchableOpacity style={styles.radioBtnContainer} onPress={() => setStatus('재학')}>
+                                            <RadioButton value="재학" uncheckedColor={theme.grey30} color={theme.skyblue} />
                                             <Text style={styles.font16}>재학 중</Text>
                                         </TouchableOpacity>
                                     </View>
