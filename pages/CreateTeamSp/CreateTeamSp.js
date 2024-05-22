@@ -103,6 +103,13 @@ function CreateTeamSp({navigation}) {
       }
     }; 
 
+    // step8 - 초대 코드 복사
+    const copyInviteCode = () => {
+      const textToCopy = inviteCode;
+      Clipboard.setString(textToCopy);
+      Alert.alert("클립보드에 복사되었습니다.");
+    };
+
     const items = [
       { id: 'student', label: '학생', description: '학교에 다닌다면', image: require('../../assets/profile/student.png') },
       { id: 'worker', label: '직장인', description: '직장에 다닌다면', image: require('../../assets/profile/worker.png')  },
@@ -410,8 +417,10 @@ function CreateTeamSp({navigation}) {
 
                     <Text style={[styles.subtitle, {marginTop: 32}]}> 초대코드 </Text>
                     <View style={styles.inviteCodeContainer}>
-                      <Text style={styles.inviteCode}>232642</Text>
-                      <Text style={styles.copy}>복사</Text>
+                      <Text style={styles.inviteCode}> {inviteCode} </Text>
+                      <TouchableOpacity onPress={copyInviteCode}>
+                        <Text style={styles.copy}>복사</Text>
+                      </TouchableOpacity>
                     </View>
 
                     <View style={styles.btnContainer}>
