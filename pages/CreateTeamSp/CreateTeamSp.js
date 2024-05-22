@@ -3,6 +3,8 @@ import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, Clipboard, 
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
+import { Card } from "../../components/MyCard/Card";
+import MyCard from "../MyCard/MyCard";
 
 function CreateTeamSp({navigation}) {
     const [step, setStep] = useState(1);
@@ -402,6 +404,7 @@ function CreateTeamSp({navigation}) {
             <View>
                 <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
                 {/* 카드 컴포넌트 by 민경 */}
+                <MyCard />
                 <Text style={[styles.subtitle, {textAlign: 'center'}]}> 탭하여 뒷면을 확인하세요. </Text>
                 
                 <View style={[styles.btnNext,  {marginTop: 40}]}>                  

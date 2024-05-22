@@ -38,6 +38,9 @@ import CreateCard from './pages/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
 import { styles } from './components/MyCard/CardStyle';
 
+// 스택 네비게이터
+const Stack = createStackNavigator();
+
 export default function App() {
   // 폰트 로드
   const [fontsLoaded] = useFonts({
@@ -101,9 +104,21 @@ export default function App() {
           }}
           />
         <Stack.Screen name="Space" component={Space} />
-        <Stack.Screen name="CreateTeamSpace" component={CreateTeamSp} />
+        <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
         <Stack.Screen name="CreateCard" component={CreateCard} />
         <Stack.Screen name="EnterTeamSpace" component={EnterTeamSp} />
+        <Stack.Screen 
+          name="Memo" 
+          component={Memo}
+          options={{
+            headerTitle: "메모 작성",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+          />
       </Stack.Navigator>
     </NavigationContainer>
     </MenuProvider>
