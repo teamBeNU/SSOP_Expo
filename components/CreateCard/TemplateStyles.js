@@ -7,19 +7,30 @@ export const styles = StyleSheet.create({
     font16: {
         fontSize: 16,
     },
-    main: {
-        // height: SCREEN_HEIGHT,
+    margintB16: {
+        marginBottom: 16,
+    },
+    margintB48: {
+        marginBottom: 48,
+    },
+    marginR6: {
+        marginRight: 6,
+    },
+    marginR8: {
+        marginRight: 6,
+    },
+
+    container: {
+        height: '100%',
         paddingHorizontal: 16,
         backgroundColor: "white",
-    },
-    sub: {
-        height: '100%',
     },
     title: { 
         marginTop: 32,
         fontSize: 20,
         fontFamily: "PretendardSemiBold",
     },
+
     flexDirectionRow: {
         flexDirection: "row",
     },
@@ -50,6 +61,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: "Pretendard",
     },
+
     inputBirthContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -69,23 +81,22 @@ export const styles = StyleSheet.create({
         fontFamily: "Pretendard",
         fontSize: 16,
     },
+
     birthSecret: {
-        fontSize: 14,
-        fontFamily: "Pretendard",
-        color: theme.grey30,
         alignItems: "flex-end",
         marginTop: 12,
     },
     birthSecretOn: {
+        fontSize: 14,
+        fontFamily: "Pretendard",
         color: "black",
     },
-    birthSecretOff: {
+    birthSecretOff: {        
+        fontSize: 14,
+        fontFamily: "Pretendard",
         color: theme.grey30,
     },
-    btnView: {
-        position: 'absolute',
-        bottom: 16,
-    },
+
     btnNext: {
         position: 'absolute',
         bottom: 16,
@@ -94,6 +105,7 @@ export const styles = StyleSheet.create({
         height: 48,
         justifyContent: "center",
         alignItems: "center",
+        marginHorizontal: 16,
         paddingVertical: 8,
         paddingHorizontal: 16,
         backgroundColor: theme.grey10,
@@ -103,7 +115,11 @@ export const styles = StyleSheet.create({
     },
     btnNextText: {
         color: "white",
+        fontFamily: "Pretendard",
+        fontSize: 16,
+        fontWeight: "600",
     },
+
     btnMores: {
         marginVertical: 32,
     },
@@ -115,6 +131,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 12,
         marginRight: 8,
     },
+
     btnOn: {
         borderColor: theme.skyblue,
     },
@@ -129,11 +146,13 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: theme.grey20,
     },
+
     line: {
         borderBottomColor: theme.grey90,
         borderBottomWidth: 1,
         marginVertical: 10,
     },
+
     addText: {
         color: theme.grey50,
         textAlign: "center",
@@ -149,21 +168,10 @@ export const styles = StyleSheet.create({
         alignItems: "center",
         marginRight: 16,
     },
+
     snsText: {
         fontSize: 16,
         marginBottom: 16,
-    },
-    margintB16: {
-        marginBottom: 16,
-    },
-    margintB48: {
-        marginBottom: 48,
-    },
-    marginR6: {
-        marginRight: 6,
-    },
-    marginR8: {
-        marginRight: 6,
     },
     musicInput: {
         width: '50%',
@@ -176,14 +184,54 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         margin: 0,
     },
-    coverView: {
-       alignItems: "center",
-       paddingHorizontal: 40,
+
+    coverTitle: {
+        fontFamily: "PretendardSemiBold",
+        fontSize: 24,
+        marginTop: 70,
+        textAlign: "center",
+    }, 
+    coverSubTitle: {
+        fontFamily: "PretendardSemiBold",
+        fontSize: 16,
+        marginTop: 12,
+        marginBottom: 32,
+        textAlign: "center",
+    },
+    coverContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    coverScrollView: {
+        justifyContent: 'center',
+        alignItems: 'center',
+
+    //    paddingHorizontal: 40,
+    //    paddingHorizontal: (SCREEN_WIDTH - (SCREEN_WIDTH - 8)) / 2,
+        // paddingHorizontal: (SCREEN_WIDTH -(SCREEN_WIDTH - 8)) / 2,
+    },
+    coverImg: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: "orange"
+    },
+    coverImg1: {
+        marginLeft: 48,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: "orange"
+    },
+    coverImg2: {
+        paddingRight: 48,
+        justifyContent: 'center',
+        alignItems: 'center',
+        // backgroundColor: "orange"
     },
     firstCover: {
-        width: SCREEN_WIDTH - 80,
-        height: 320,
-        marginRight: 10,
+        // width: SCREEN_WIDTH - 80,
+        // height: 320,
+        // marginRight: 10,
+        paddingLeft: 48,
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
@@ -194,6 +242,7 @@ export const styles = StyleSheet.create({
     secondCover: {
         width: SCREEN_WIDTH - 80,
         height: 320,
+        paddingRight: 48,
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
@@ -201,12 +250,15 @@ export const styles = StyleSheet.create({
         elevation: 5,
         backgroundColor:"red",
     },
+    circles: {
+        flexDirection: "row",
+        justifyContent: "center"
+    },
     circle: {
-        width: 20,
-        height: 20,
+        width: 10,
+        height: 10,
         borderRadius: 20,
         marginHorizontal: 5,
-        backgroundColor: "black",
     },
     activeCircle: {
         backgroundColor: theme.skyblue,
@@ -214,6 +266,7 @@ export const styles = StyleSheet.create({
     inactiveCircle: {
         backgroundColor: theme.grey90,
     },
+
     avatarContainer: {
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
@@ -221,39 +274,101 @@ export const styles = StyleSheet.create({
     },
     avatarView: {
         flex: 1,
-        backgroundColor: "blue",
+        backgroundColor: "pink",
+        position: "relative",
+    },
+    avatarDo: {
+        zIndex: 0,
+        width: 40,
+        height: 104,
+        backgroundColor: "rgba(255, 255, 255, 0.80)",
+        borderRadius: 26,
+        elevation: 4,
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingVertical: 20,
+        paddingHorizontal: 8,
+        position: 'absolute',
+        top: '50%',
+        right: 12,
+        transform: [{ translateY: -52 }],  // 요소를 세로 방향으로 부모 요소의 중앙으로 이동. translateY는 y축 방향의 이동(52: avatarDo의 height/2)
+    },
+    avatarAuto: {
+        zIndex: 0,
+        width: 100,
+        height: 36,
+        backgroundColor: theme.grey10,
+        borderRadius: 26,
+        elevation: 4,
+        alignItems: "center",
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        position: 'absolute',
+        left: 16,
+        bottom: 12,
+    },
+    avatarAutoText: {
+        color: "white",
+        fontFamily: "Pretendard",
+        fontSize: 14,
+    },
+    avatarRestart: {
+        zIndex: 0,
+        width: 40,
+        height: 40,
+        backgroundColor: "rgba(255, 255, 255, 0.80)",
+        borderRadius: 26,
+        elevation: 4,
+        // shadowColor: "#000",
+        // shadowOffset: {
+        //     width: 10,
+        //     height: 40,
+        // },
+        // shadowOpacity: 0.5,
+        // shadowRadius: 12,
+        alignItems: "center",
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        position: 'absolute',
+        right: 12,
+        bottom: 12,
+    },
+    avatarRestartText: {
+        
+    },
+    avatarBg: {
+        width: SCREEN_WIDTH,
+        height: SCREEN_HEIGHT,
+        zIndex: -100,
+        backgroundColor: "#B6E96C",
     },
     avatarItemContainer: {
-        flex: 1.5,
-        backgroundColor: "red",
+        flex: 1.3,
+        backgroundColor: "white",
     },
     avatarItemList: {
         flexDirection: "row",
         justifyContent: "space-around",
         paddingVertical: 12,
-        marginHorizontal: 20,
+        paddingHorizontal: 20,
+        borderBottomWidth: 1,
         borderBottomColor: theme.grey90,
     },
-    avatarDo: {
-        zIndex: 0,
+    avatarItemListTextOn: {
+        color: "black",
+        textAlign: "center",
+        fontFamily: "Pretendard",
+        fontSize: 14,
+        fontWeight: "600",
     },
-    avatarAuto: {
-        zIndex: 0,
+    avatarItemListTextOff: {
+        color: theme.grey50,
+        textAlign: "center",
+        fontFamily: "Pretendard",
+        fontSize: 14,
+        fontWeight: "400",
     },
-    avatarRestart: {
-        zIndex: 0,
-    },
-    avatarBg: {
-        width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT,
-        zIndex: 100,
-        backgroundColor: "pink",
-    },
-    subTitle: {
-        marginTop: 32,
-        fontSize: 20,
-        // fontFamily: "Pretendard",
-    },
+
     btnCheckCard: {
         position: 'absolute',
         bottom: 16 + 48 + 8,
@@ -262,6 +377,7 @@ export const styles = StyleSheet.create({
         height: 48,
         justifyContent: "center",
         alignItems: "center",
+        marginHorizontal: 16,
         paddingVertical: 8,
         paddingHorizontal: 16,
         backgroundColor: theme.grey10,
@@ -277,6 +393,7 @@ export const styles = StyleSheet.create({
         height: 48,
         justifyContent: "center",
         alignItems: "center",
+        marginHorizontal: 16,
         paddingVertical: 8,
         paddingHorizontal: 16,
         borderRadius: 8,
@@ -286,6 +403,8 @@ export const styles = StyleSheet.create({
     },
     btnHomeText: {
         color: theme.grey50,
-        // fontFamily: "Pretendard",
+        fontFamily: "Pretendard",
+        fontSize: 16,
+        fontWeight: "600",
     },
 })

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, StyleSheet, Dimensions, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Image } from "react-native";
 import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -59,8 +59,10 @@ export default function TemplateStudent({navigation}) {
         }
     };
 
-    const onPressRadioBtn = (radion) => {
-        setBtnActive(!btnActive);
+    const handleScroll = (event) => {
+        const contentOffsetX = event.nativeEvent.contentOffset.x;
+        const currentIndex = Math.round(contentOffsetX / (SCREEN_WIDTH));
+        setCover(currentIndex);
     }
 
     const handleAvata = (id) => {
@@ -70,7 +72,7 @@ export default function TemplateStudent({navigation}) {
     return (
         <View style={styles.main}>
             {step === 1 && (
-                <View style={styles.sub}>
+                <View style={styles.container}>
                     <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
                     <View style={styles.informContainer}>
                         <View style={styles.inputContainer}>
@@ -139,7 +141,7 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 2 && (
-                <View style={styles.sub}>
+                <View style={styles.container}>
                     <Text style={styles.title}>학교와 관련된 정보를 알려주세요.</Text>
                     <View style={styles.informContainer}>
                         <View style={styles.inputContainer}>
@@ -183,7 +185,7 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 3 && (
-                <View style={styles.sub}>
+                <View style={styles.container}>
                     <Text style={styles.title}>학교 속 나에 대해 더 알려주고 싶다면</Text>
                     <View style={[styles.flexDirectionRow, styles.btnMores]}>
                         <TouchableOpacity 
@@ -260,74 +262,74 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 4 && (
-                <View style={styles.sub}>
-                <Text style={styles.title}>추가적인 연락 수단을 알려주고 싶다면</Text>
-                <View style={[styles.flexDirectionRow, styles.btnMores]}>
+                <View style={styles.container}>
+                    <Text style={styles.title}>추가적인 연락 수단을 알려주고 싶다면</Text>
+                    <View style={[styles.flexDirectionRow, styles.btnMores]}>
+                        <TouchableOpacity 
+                            style={[styles.btnMore, showSns ? styles.btnOn : styles.btnOff]}
+                            onPress={() => setShowSns(!showSns)}
+                        >
+                            <Text style={showSns ? styles.btnTextOn : styles.btnTextOff}>SNS 계정</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                            style={[styles.btnMore, showEmail ? styles.btnOn : styles.btnOff]}
+                            onPress={() => setShowEmail(!showEmail)}
+                        >
+                            <Text style={showEmail ? styles.btnTextOn : styles.btnTextOff}>이메일</Text>
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.line}></View>
+                    {!showSns && !showEmail && (
+                        <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
+                    )}
+                    {showSns && (
+                        <View>
+                            <Text style={styles.snsText}>SNS</Text>
+                            <View style={styles.margintB16}>
+                                <Text style={styles.inputText}>Instargram</Text>
+                                <TextInput 
+                                    style={styles.customInput}
+                                    placeholder="Instargram"
+                                    keyboardType="default"
+                                    value={sns[0]}
+                                    onChangeText={text => setSns(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
+                                />
+                            </View>
+                            <View style={styles.margintB48}>
+                                <Text style={styles.inputText}>X</Text>
+                                <TextInput 
+                                    style={styles.customInput}
+                                    placeholder="X"
+                                    keyboardType="default"
+                                    value={sns[1]}
+                                    onChangeText={text => setSns(prevState => [...prevState.slice(0, 2), text])}
+                                />
+                            </View>
+                        </View>
+                    )}
+                    {showEmail && (
+                        <View style={styles.inputContainer}>
+                            <Text style={styles.inputText}>이메일</Text>
+                            <TextInput 
+                                style={styles.customInput}
+                                placeholder="이메일 주소"
+                                keyboardType="email"
+                                value={email}
+                                onChangeText={setEmail}
+                            />
+                        </View>
+                    )}
                     <TouchableOpacity 
-                        style={[styles.btnMore, showSns ? styles.btnOn : styles.btnOff]}
-                        onPress={() => setShowSns(!showSns)}
-                    >
-                        <Text style={showSns ? styles.btnTextOn : styles.btnTextOff}>SNS 계정</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                        style={[styles.btnMore, showEmail ? styles.btnOn : styles.btnOff]}
-                        onPress={() => setShowEmail(!showEmail)}
-                    >
-                        <Text style={showEmail ? styles.btnTextOn : styles.btnTextOff}>이메일</Text>
+                            style={styles.btnNext}
+                            onPress={handleNext}
+                        >
+                        <Text style={styles.btnNextText}>다음으로</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={styles.line}></View>
-                {!showSns && !showEmail && (
-                    <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
-                )}
-                {showSns && (
-                    <View>
-                        <Text style={styles.snsText}>SNS</Text>
-                        <View style={styles.margintB16}>
-                            <Text style={styles.inputText}>Instargram</Text>
-                            <TextInput 
-                                style={styles.customInput}
-                                placeholder="Instargram"
-                                keyboardType="default"
-                                value={sns[0]}
-                                onChangeText={text => setSns(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
-                            />
-                        </View>
-                        <View style={styles.margintB48}>
-                            <Text style={styles.inputText}>X</Text>
-                            <TextInput 
-                                style={styles.customInput}
-                                placeholder="X"
-                                keyboardType="default"
-                                value={sns[1]}
-                                onChangeText={text => setSns(prevState => [...prevState.slice(0, 2), text])}
-                            />
-                        </View>
-                    </View>
-                )}
-                {showEmail && (
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.inputText}>이메일</Text>
-                        <TextInput 
-                            style={styles.customInput}
-                            placeholder="이메일 주소"
-                            keyboardType="email"
-                            value={email}
-                            onChangeText={setEmail}
-                        />
-                    </View>
-                )}
-                <TouchableOpacity 
-                        style={styles.btnNext}
-                        onPress={handleNext}
-                    >
-                    <Text style={styles.btnNextText}>다음으로</Text>
-                </TouchableOpacity>
-            </View>
             )}
 
             {step === 5 && (
-                <View style={styles.sub}>
+                <View style={styles.container}>
                     <Text style={styles.title}>사소한 것까지 더 알려주고 싶다면</Text>
                     <View style={[styles.flexDirectionRow, styles.btnMores]}>
                         <TouchableOpacity
@@ -408,30 +410,44 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 6 && (
-                <View style={styles.sub}>
-                    <Text>카드 커버를 선택하세요.</Text>
-                    <Text>카드 앞면에 커버가 보여요.</Text>
-
-                    <ScrollView
-                        pagingEnabled
-                        horizontal
-                        showsHorizontalScrollIndicator={false}
-                        contentContainerStyle={styles.coverView}
-                    >
-                        <TouchableOpacity 
-                            style={styles.firstCover}
-                            onPress={handleNext}    
+                <View>
+                    <Text style={styles.coverTitle}>카드 커버를 선택하세요.</Text>
+                    <Text style={styles.coverSubTitle}>카드 앞면에 커버가 보여요.</Text>
+                    <View style={styles.coverContainer}>
+                        <ScrollView
+                            pagingEnabled
+                            horizontal
+                            decelerationRate={0}
+                            snapToInterval={SCREEN_WIDTH}
+                            snapToAlignment={"center"}
+                            showsHorizontalScrollIndicator={false}
+                            contentContainerStyle={styles.coverScrollView}
+                            onScroll={handleScroll}
                         >
-                            <Text>세상에 하나뿐!{'\n'}내 아바타로 커버 만들기</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.secondCover}>
-                            <Text>내 모습을 알려줄게!{'\n'}실물 사진 넣기</Text>
-                        </TouchableOpacity>
-                    </ScrollView>
-                    <View>
-                        <Text>ddd</Text>
+                            <TouchableOpacity  
+                                onPress={handleNext}    
+                            >
+                                <Image 
+                                    source={require("../../assets/images/cardCover-1.png")}
+                                    style={styles.coverImg1}
+                                    resizeMode="contain"
+                                />
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Image 
+                                    source={require("../../assets/images/cardCover-2.png")}
+                                    style={styles.coverImg2}
+                                    resizeMode="contain"
+                                />
+                            </TouchableOpacity>
+                        </ScrollView>
+                    </View>
+                    <View style={styles.circles}>
                         <View 
-                            style={styles.circle}
+                            style={[
+                                styles.circle,
+                                cover === 0 ? styles.activeCircle : styles.inactiveCircle,
+                            ]}
                         ></View>
                         <View
                             style={[
@@ -440,23 +456,31 @@ export default function TemplateStudent({navigation}) {
                             ]}
                         ></View>
                     </View>
-                </View>
+                </View> 
+
             )}
 
             {step === 7 && (
                 <View style={styles.avatarContainer}>
                     <View style={styles.avatarView}>
                         <View style={styles.avatarDo}>
-                            <TouchableOpacity></TouchableOpacity>
-                            <TouchableOpacity></TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text>전</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text>후</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.avatarAuto}>
-                            <TouchableOpacity>
-                                <Text>자동생성</Text>
+                            <TouchableOpacity style={styles.flexDirectionRow}>
+                                <Text style={styles.avatarAutoText}>ㅁ</Text>
+                                <Text style={styles.avatarAutoText}>자동생성</Text>
                             </TouchableOpacity>
                         </View>
                         <View style={styles.avatarRestart}>
-                            <TouchableOpacity></TouchableOpacity>
+                            <TouchableOpacity>
+                                <Text style={styles.avatarRestartText}>ㅁ</Text>
+                            </TouchableOpacity>
                         </View>
                         <View style={styles.avatarBg}></View>
                     </View>
@@ -465,27 +489,27 @@ export default function TemplateStudent({navigation}) {
                             <TouchableOpacity
                                 onPress={() => handleAvata(1)}
                             >
-                                <Text>이목구비</Text>
+                                <Text style={avaIndex === 1 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>이목구비</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => handleAvata(2)}
                             >
-                                <Text>헤어</Text>
+                                <Text style={avaIndex === 2 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>헤어</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => handleAvata(3)}
                             >
-                                <Text>옷</Text>
+                                <Text style={avaIndex === 3 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>옷</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => handleAvata(4)}
                             >
-                                <Text>악세사리</Text>
+                                <Text style={avaIndex === 4 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>악세사리</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => handleAvata(5)}
                             >
-                                <Text>배경</Text>
+                                <Text style={avaIndex === 5 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>배경</Text>
                             </TouchableOpacity>
                         </View>
                         <View>
@@ -506,14 +530,16 @@ export default function TemplateStudent({navigation}) {
                             )}
                         </View>
                         <TouchableOpacity onPress={handleNext}>
-                            <Text style={styles.btnNextText}>임시 다음으로 넘어가는 버튼</Text>
+                            <Text 
+                                style={[styles.btnNextText, {backgroundColor: "black"}, {padding: 10}, {width: 200}]}>임시 버튼: 다음으로 넘어가기
+                            </Text>
                         </TouchableOpacity>
                     </View>
                 </View>
             )}  
 
             {step === 8 && (
-                <View style={styles.sub}>
+                <View style={styles.container}>
                     <Text style={styles.title}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
                     <TouchableOpacity 
                             style={styles.btnCheckCard}
