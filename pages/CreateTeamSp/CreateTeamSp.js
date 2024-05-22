@@ -13,24 +13,23 @@ function CreateTeamSp({navigation}) {
     const [istemplete, setIsTemplete] = useState('yes'); // step3 - 라디오버튼 선택
     const [templete, setTemplete] = useState(null); // step4
     const [front, setFront] = useState({
-      // 앞면
-      age: "false",
-      school: "false",
-      grade: "false",
-      position: "false",
+      // 앞면 - step5
+      age: false,
+      school: false,
+      grade: false,
       cover: "free",
 
-      //뒷면
-      studNum: "false",
-      club: "false",
-      inSchool: "false",
-      part: "false",
-      number: "false",
-      sns: "false",
-      email: "false",
-      mbti: "false",
-      music: "false",
-      movie: "false"
+      //뒷면 - step6
+      studNum: false,
+      club: false,
+      inSchool: false,
+      part: false,
+      number: false,
+      sns: false,
+      email: false,
+      mbti: false,
+      music: false,
+      movie: false,
     });
     const [positionList, setPositionList] = useState([
       {position: '회장', selected: false},
@@ -66,10 +65,43 @@ function CreateTeamSp({navigation}) {
     const handleSelect = (id) => {
       setFront(prevState => ({
         ...prevState,
-        [id]: prevState[id] === "true" ? "false" : "true"
+        [id]: prevState[id] === true ? false : true
       }));
       console.log('Selected ID:', id);
     };
+
+    const positionSelected = (index) => {
+      setPositionList(prevList => {
+          const updatedList = [...prevList];
+          updatedList[index].selected = !updatedList[index].selected;
+          return updatedList;
+      });
+  };
+  
+
+    const plusSelected = (index) => {
+      setPlusList(prevList => {
+          const updatedList = [...prevList];
+          updatedList[index].selected = !updatedList[index].selected;
+          return updatedList;
+      });
+    };
+  
+
+    // 태그 추가
+    const addPosition = () => {
+      if (positionPlus.trim() !== '') { 
+          setPositionList(prevList => [...prevList, { position: positionPlus, selected: false }]); // 새로운 포지션 추가
+          setPositionPlus(''); // 입력 필드 비우기
+      }
+    };
+
+    const addPlus = () => {
+      if (plus.trim() !== '') { 
+          setPlusList(prevList => [...prevList, { free: plus, selected: false }]); // 새로운 포지션 추가
+          setPlus(''); // 입력 필드 비우기
+      }
+    }; 
 
     const items = [
       { id: 'student', label: '학생', description: '학교에 다닌다면', image: require('../../assets/profile/student.png') },
@@ -238,17 +270,27 @@ function CreateTeamSp({navigation}) {
 
                   <Text style={[styles.font16, {marginTop: 28}]}>포지션</Text>  
                   <Text style={styles.subtitle}> 포지션을 등록하면 태그로 편하게 분류할 수 있어요.</Text>
-                  <View style={styles.elementContainer}>              
-                    <Text style={styles.element}>#회장</Text>
-                    <Text style={styles.element}>#부회장</Text>  
-                    <Text style={styles.element}>#회장</Text>
-                    <Text style={styles.element}>#부회장</Text>
+                  <View style={styles.elementContainer}>           
+                    {positionList.map((item, index) => (
+                      <Text key={index} onPress={() => positionSelected(index)} 
+                        style={[styles.element, item.selected && styles.selectedElement]}>
+                        #{item.position}</Text>
+                    ))}
                   </View>
-                  <TextInput style={[styles.nameInput, {marginTop: 16, marginBottom: 8}]}
-                    placeholder='직접 입력하여 추가' 
-                    value={position}
-                    onChangeText={text => setPosition(text)} />                  
-                  <Text style={styles.nameLeng}> 0 / 10 </Text>
+                    <View style={styles.plusContainer}>
+                      <TextInput
+                      style={[styles.nameInput, { flex: 1 }]}
+                      placeholder='직접 입력하여 추가'
+                      value={positionPlus}
+                      onChangeText={text => setPositionPlus(text)}
+                      />
+                      <TouchableOpacity onPress={addPosition}>
+                        <Text style={[styles.copy, {marginLeft: -45}]}>추가</Text>
+                      </TouchableOpacity>
+                    </View>
+
+ 
+                  <Text style={styles.nameLeng}> {positionLength} / 10 </Text>
 
                   <View style={styles.line} />
                   
@@ -277,14 +319,14 @@ function CreateTeamSp({navigation}) {
                     </View> 
                   </RadioButton.Group>
 
-                <View style={styles.btnNext}>
+                <View style={[styles.btnNext, {marginBottom: 80}]}>
                   <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
             </ScrollView>
             )}
             
             {step === 6 && (
-            <View>
+            <ScrollView showsVerticalScrollIndicator={false}>
                 <Text style={styles.title}> 카드 뒷면에 보여질 정보를 선택하세요. </Text>
                 <Text style={styles.subtitle}> 최대 8개까지 정보를 표시할 수 있어요. </Text>
 
@@ -322,16 +364,31 @@ function CreateTeamSp({navigation}) {
 
                   
                   <Text style={[styles.font16, {marginTop: 28}]}>자유 선택지</Text> 
-                  <TextInput style={[styles.nameInput, {marginTop: 16, marginBottom: 8}]}
-                    placeholder='직접 입력하여 추가' 
-                    value={position}
-                    onChangeText={text => setPosition(text)} />                  
-                  <Text style={styles.nameLeng}> 0 / 5 </Text>
+
+                  <View style={styles.elementContainer}>           
+                    {plusList.map((item, index) => (
+                      <Text key={index} onPress={() => plusSelected(index)} 
+                        style={[styles.element, item.selected && styles.selectedElement]}>
+                        {item.free}</Text>
+                    ))}
+                  </View>
+                    <View style={styles.plusContainer}>
+                      <TextInput
+                      style={[styles.nameInput, { flex: 1 }]}
+                      placeholder='직접 입력하여 추가'
+                      value={plus}
+                      onChangeText={text => setPlus(text)}
+                      />
+                      <TouchableOpacity onPress={addPlus}>
+                        <Text style={[styles.copy, {marginLeft: -45}]}> 추가</Text>
+                      </TouchableOpacity>
+                    </View>   
+                    <Text style={styles.nameLeng}> {plusLength} / 5 </Text>
                 
-                <View style={styles.btnNext}y>
+                <View style={[styles.btnNext, {marginBottom: 200}]}>
                   <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
-            </View>
+            </ScrollView>
             )}
             
             {step === 7 && (

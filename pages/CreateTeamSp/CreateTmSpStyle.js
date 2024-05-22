@@ -140,6 +140,7 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-start', 
         marginTop: 16,
         flexDirection: 'row',
+        flexWrap: 'wrap', // 줄바꿈
         gap: 8,
     },
     defaultElement:{    
@@ -171,6 +172,13 @@ export const styles = StyleSheet.create({
         borderColor: theme.skyblue,
         alignItems: 'center',
         fontFamily: 'PretendardBold'
+    },
+    plusContainer:{
+        flexDirection: 'row', 
+        alignItems: 'center', 
+        justifyContent: 'space-between', 
+        marginTop: 16, 
+        marginBottom: 8
     },
     line: {
         borderBottomWidth:1,
@@ -208,5 +216,5 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: theme.skyblue,
         fontFamily: 'PretendardBold'
-    }
+    }   
 })
