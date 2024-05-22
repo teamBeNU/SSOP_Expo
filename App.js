@@ -9,6 +9,7 @@ import PretendardRegular from './assets/fonts/Pretendard-Regular.otf';
 import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
 import MoreIcon from './assets/icons/ic_more_small_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
+import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import {
   Menu,
   MenuOptions,
@@ -16,7 +17,6 @@ import {
   MenuTrigger,
   MenuProvider,
 } from 'react-native-popup-menu';
-
 
 // Text 적용
 Text.defaultProps = Text.defaultProps || {};
@@ -107,7 +107,18 @@ export default function App() {
         <Stack.Screen name="CreateTeamSpace" component={CreateTeamSp} />
         <Stack.Screen name="CreateCard" component={CreateCard} />
         <Stack.Screen name="EnterTeamSpace" component={EnterTeamSp} />
-        <Stack.Screen name="Memo" component={Memo} />
+        <Stack.Screen 
+          name="Memo" 
+          component={Memo}
+          options={{
+            headerTitle: "메모 작성",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+          />
       </Stack.Navigator>
     </NavigationContainer>
     </MenuProvider>

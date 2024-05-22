@@ -118,5 +118,56 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         lineHeight: 19,
         letterSpacing: -0.32,
-        }
+        },
+
+        //modal style
+        modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        width: '100%',
+        justifyContent: 'flex-end',
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        letterSpacing: -0.32,
+        fontWeight: 400,
+        lineHeight: 19,
+        },
+        modalView: {
+        height: 268,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        alignItems: 'center',
+        },
+        modalTitle: {
+        width: '100%',
+        height: 48,
+        //paddingRight: 24,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+        },
+        modalContent: {
+        padding: 16,
+        width: '100%',
+        height: 220,
+        justifyContent: 'space-between',
+        },
+        button: {
+        height: 48,
+        borderRadius: 8,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.grey10,
+        },
+        modalFont: {
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontWeight: 400,
+        letterSpacing: -0.32,
+        },
 });
