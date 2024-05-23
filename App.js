@@ -33,7 +33,7 @@ import CheckCard from './pages/CheckCard/CheckCard';
 import Memo from './pages/CheckCard/Memo';
 import MyCard from './pages/MyCard/MyCard';
 import Space from './pages/Space';
-import CreateTeamSp from './pages/CreateTeamSp';
+import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
 import { styles } from './components/MyCard/CardStyle';
@@ -104,7 +104,7 @@ export default function App() {
           }}
           />
         <Stack.Screen name="Space" component={Space} />
-        <Stack.Screen name="CreateTeamSpace" component={CreateTeamSp} />
+        <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
         <Stack.Screen name="CreateCard" component={CreateCard} />
         <Stack.Screen name="EnterTeamSpace" component={EnterTeamSp} />
         <Stack.Screen 

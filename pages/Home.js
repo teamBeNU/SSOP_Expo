@@ -8,19 +8,19 @@ function Home({navigation}) {
 
             <Button 
             title="Bluetooth"
-            onPress={() => navigation.navigate('Bluetooth')}
+            onPress={() => navigation.navigate('내 카드 보내기')}
             />
             <Button 
             title="CheckCard"
-            onPress={() => navigation.navigate('CheckCard')}
+            onPress={() => navigation.navigate('카드 조회')}
             />
             <Button 
             title="CreateTeamSpace"
-            onPress={() => navigation.navigate('CreateTeamSpace')}
+            onPress={() => navigation.navigate('팀스페이스 생성')}
             />
             <Button 
             title="MyCard"
-            onPress={() => navigation.navigate('MyCard')}
+            onPress={() => navigation.navigate('내 카드')}
             />
         </View>
       
