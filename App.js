@@ -1,23 +1,43 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Image } from 'react-native';
-import React from 'react';
+import { Button, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
 import { useFonts } from 'expo-font';
+import MoreIcon from './assets/icons/ic_more_small_line.svg';
+import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
+import CloseIcon from './assets/icons/ic_close_regular_line.svg';
+import {
+  Menu,
+  MenuOptions,
+  MenuOption,
+  MenuTrigger,
+  MenuProvider,
+} from 'react-native-popup-menu';
+
+// Text 적용
+Text.defaultProps = Text.defaultProps || {};
+Text.defaultProps.allowFontScaling = false;
+
+// TextInput 적용
+// TextInput.defaultProps = TextInput.defaultProps || {};
+// TextInput.defaultProps.allowFontScaling = false;
 
 import Home from './pages/home/Home';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
 import LinkShare from './pages/LinkShare';
-import CheckCard from './pages/CheckCard';
-import MyCard from './pages/MyCard';
+import CheckCard from './pages/CheckCard/CheckCard';
+import Memo from './pages/CheckCard/Memo';
+import MyCard from './pages/MyCard/MyCard';
 import Space from './pages/Space';
-import CreateTeamSp from './pages/CreateTeamSp';
+import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
+import { styles } from './components/MyCard/CardStyle';
 
 import PretendardRegular from './assets/fonts/Pretendard-Regular.otf';
 import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
@@ -38,21 +58,76 @@ export default function App() {
   const Stack = createStackNavigator();
 
   return (
+    <MenuProvider>
     <NavigationContainer>
-        <Stack.Navigator>
-          <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
-          <Stack.Screen name="카드 만들기" component={CreateCard}/>
-          <Stack.Screen name="내 카드 보내기" component={Bluetooth} />
-          <Stack.Screen name="링크 복사" component={LinkShare} />
-          <Stack.Screen name="카드 조회" component={CheckCard} />
-          <Stack.Screen name="내 카드" component={MyCard} />
-          <Stack.Screen name="Space" component={Space} />
-          <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
-          <Stack.Screen name="카드생성" component={CreateCard} />
-          <Stack.Screen name="팀스페이스 입장" component={EnterTeamSp} />
+      <Stack.Navigator>
+        <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="내 카드 보내기" component={Bluetooth} />
+        <Stack.Screen name="링크 복사" component={LinkShare} />
+        <Stack.Screen 
+          name="카드 조회" 
+          component={CheckCard}
+          options={{
+            headerTitle: "카드 조회",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+            headerRight: () => 
+            <Menu>
+              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
+              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+                <MenuOption 
+                  // onSelect={() => alert(`Delete`)} 
+                  text='카드 삭제하기'
+                />
+              </MenuOptions>
+            </Menu>
+          }}
+          />
+        <Stack.Screen 
+          name="MyCard" 
+          component={MyCard}
+          options={{
+            headerTitle: "내 카드",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+            headerRight: () => 
+              <Menu>
+              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
+              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+                <MenuOption 
+                  // onSelect={() => alert(`Delete`)} 
+                  text='카드 삭제하기'
+                />
+              </MenuOptions>
+            </Menu>
+          }}
+          />
+        <Stack.Screen name="Space" component={Space} />
+        <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
+        <Stack.Screen name="카드 만들기" component={CreateCard} />
+        <Stack.Screen name="팀스페이스 입장" component={EnterTeamSp} />
+        <Stack.Screen 
+          name="Memo" 
+          component={Memo}
+          options={{
+            headerTitle: "메모 작성",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+          />
           <Stack.Screen name="알림" component={Notify} />
-        </Stack.Navigator>
+      </Stack.Navigator>
     </NavigationContainer>
+    </MenuProvider>
   );
 };
 
@@ -102,5 +177,3 @@ const Tab = createBottomTabNavigator();
       </Tab.Navigator>
     );
   }
-
-  
