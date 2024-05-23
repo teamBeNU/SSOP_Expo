@@ -19,15 +19,15 @@ import EnterTeamSp from './pages/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
 
-import Pretendard from './assets/fonts/Pretendard-Regular.otf';
-import PretendardBold from './assets/fonts/Pretendard-Bold.otf';
+import PretendardRegular from './assets/fonts/Pretendard-Regular.otf';
+import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
 import { theme } from './theme';
 
 export default function App() {
   // 폰트 로드
   const [fontsLoaded] = useFonts({
-    Pretendard : Pretendard,
-    PretendardBold : PretendardBold
+    PretendardRegular : PretendardRegular,
+    PretendardSemiBold : PretendardSemiBold
   });
 
   if (!fontsLoaded) {
