@@ -42,7 +42,8 @@ export const styles = StyleSheet.create({
     },
     name: {
         fontSize: 14,
-        fontFamily: 'PretendardRegular'
+        fontFamily: 'PretendardRegular',
+        marginLeft: 8
     },
     nameInput:{
         width: '100%',

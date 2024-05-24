@@ -163,7 +163,8 @@ function CreateTeamSp({navigation}) {
 
                 <View style={styles.nameContainer}>
                     <Text style={styles.name}>이름</Text>
-                    <TextInput style={styles.nameInput} placeholder='이름' 
+                    <TextInput style={styles.nameInput} placeholder='팀스페이스의 이름을 지어주세요.' 
+                     maxLength={15}
                      value={teamName}
                      onChangeText={text => setTeamName(text)} />
                      <Text style={styles.nameLeng}> {nameLength} / 15 </Text>
@@ -180,7 +181,8 @@ function CreateTeamSp({navigation}) {
                 <Text style={styles.title}> 팀스페이스를 설명하는 문장을 적어주세요 </Text>
                 <View style={styles.nameContainer}>
                     <Text style={styles.name}> 상세 설명 </Text>
-                    <TextInput style={styles.nameInput} placeholder='상세설명'
+                    <TextInput style={styles.nameInput} placeholder='팀스페이스의 특징이나 설명을 적어보세요.'
+                    maxLength={20}
                     value={teamComment}
                     onChangeText={text => setTeamComment(text)}/>
                     <Text style={styles.nameLeng}> {cmtLength} / 20 </Text>
@@ -289,6 +291,7 @@ function CreateTeamSp({navigation}) {
                       <TextInput
                       style={[styles.nameInput, { flex: 1 }]}
                       placeholder='직접 입력하여 추가'
+                      maxLength={10}
                       value={positionPlus}
                       onChangeText={text => setPositionPlus(text)}
                       />
@@ -327,7 +330,7 @@ function CreateTeamSp({navigation}) {
                     </View> 
                   </RadioButton.Group>
 
-                <View style={[styles.btnNext, {marginBottom: 80}]}>
+                <View style={[styles.btnNext, {marginBottom: 200}]}>
                   <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
             </ScrollView>
@@ -384,6 +387,7 @@ function CreateTeamSp({navigation}) {
                       <TextInput
                       style={[styles.nameInput, { flex: 1 }]}
                       placeholder='직접 입력하여 추가'
+                      maxLength={5}
                       value={plus}
                       onChangeText={text => setPlus(text)}
                       />
