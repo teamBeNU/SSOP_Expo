@@ -1,6 +1,6 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -54,6 +54,15 @@ export default function App() {
   if (!fontsLoaded) {
     return null; // 폰트 로딩이 완료되지 않으면 null을 반환하여 렌더링을 중지
   }
+
+  // step 단위 뒤로 가기
+  const [step, setStep] = useState(1);
+  const handleBack = () => {
+    if (step > 1) {
+        setStep(step - 1);
+    } else {
+    }
+  };
 
   // 스택 네비게이터
   const Stack = createStackNavigator();
@@ -110,7 +119,18 @@ export default function App() {
           }}
           />
         <Stack.Screen name="Space" component={Space} />
-        <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
+        <Stack.Screen 
+          name="팀스페이스 생성" 
+          component={(props) => <CreateTeamSp {...props} step={step} setStep={setStep} handleBack={handleBack} />}
+          options={{
+            headerTitle: "팀스페이스 생성",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={handleBack}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            )
+          }}
+        />
         <Stack.Screen name="카드 만들기" component={CreateCard} options={{ title: '카드 생성' }} />
         <Stack.Screen name="팀스페이스 입장" component={EnterTeamSp} />
         <Stack.Screen 

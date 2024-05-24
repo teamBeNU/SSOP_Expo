@@ -5,8 +5,7 @@ import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
 import { CardFront } from "../../components/MyCard/CardFront";
 
-function CreateTeamSp({navigation}) {
-    const [step, setStep] = useState(1);
+function CreateTeamSp({ navigation, step, setStep }) {
     const [teamName, setTeamName] = useState(''); // step1
     const [nameLength, setNameLength] = useState(0); 
     const [teamComment, setTeamComment] = useState(''); // step2
@@ -432,7 +431,7 @@ function CreateTeamSp({navigation}) {
 
                     <View style={styles.btnContainer}>
                       <View style={styles.btnNext}>
-                        <Text onPress={() => navigation.navigate('Home')} style={styles.btnText}> 홈화면으로 </Text>
+                        <Text onPress={() => navigation.navigate(' ')} style={styles.btnText}> 홈화면으로 </Text>
                       </View>
                       <View style={styles.btnWhite}>
                         <Text onPress={() => navigation.navigate('CheckCard')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
