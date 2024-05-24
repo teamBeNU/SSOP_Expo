@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import AddIcon from '../../assets/icons/ic_add_small_line.svg';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg'
 import { Colors } from "react-native/Libraries/NewAppScreen";
 
 function MyCard() {
@@ -17,6 +18,7 @@ function MyCard() {
         { id: '3', name: 'Card 3' },
     ]
     const [cardPage, setCardPage] = useState(1);
+    const [hasCard, setHasCard] = useState(true);
 
     const handleScroll = (event) => {
         const { contentOffset, layoutMeasurement } = event.nativeEvent;
@@ -27,6 +29,8 @@ function MyCard() {
 
     return (
         <View style={styles.container}> 
+            {hasCard ?
+            <View style={styles.container}>
             <Text style={styles.cardPage}>{cardPage} / {data.length}</Text>
             <ScrollView 
                horizontal 
@@ -66,6 +70,16 @@ function MyCard() {
                     <Text style={styles.btnText}>새 카드 </Text>
                 </View>
             </View>
+        </View> 
+        : 
+        <View style={styles.emptyContainer}>
+            <Text style={styles.noCard}>만든 카드가 없어요.</Text>
+            <View style={styles.newContainer}>
+                <Text style={styles.newCard}>새 카드 만들기</Text>
+                <RightIcon />
+            </View>
+        </View>
+        }
         </View>
     );
   }

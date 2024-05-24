@@ -72,6 +72,31 @@ export const styles = StyleSheet.create({
         backgroundColor: 'black',
         borderRadius: 39,
         },
-        
-
+        emptyContainer: {
+        alignItems: 'center',
+        gap: 16,
+        },
+        noCard: {
+        color: theme.gray60,
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontWeight: '600',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        },
+        newContainer: {
+        flexDirection: 'row',
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 4,
+        },
+        newCard: {
+        color:theme.skyblue,
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontWeight: '600',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        },
 });

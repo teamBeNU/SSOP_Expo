@@ -85,28 +85,7 @@ export default function App() {
             </Menu>
           }}
           />
-        <Stack.Screen 
-          name="MyCard" 
-          component={MyCard}
-          options={{
-            headerTitle: "내 카드",
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <LeftArrowIcon style={{ marginLeft: 8  }}/>
-              </TouchableOpacity>
-            ),
-            headerRight: () => 
-              <Menu>
-              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                <MenuOption 
-                  // onSelect={() => alert(`Delete`)} 
-                  text='카드 삭제하기'
-                />
-              </MenuOptions>
-            </Menu>
-          }}
-          />
+        <Stack.Screen name="MyCard" component={MyCard}/>
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
         <Stack.Screen name="카드 만들기" component={CreateCard} options={{ title: '카드 생성' }} />
@@ -170,7 +149,24 @@ const Tab = createBottomTabNavigator();
       >
         <Tab.Screen name="홈" component={Home} options={{ tabBarLabel: '홈', headerTitle: ' ' }} />
         <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
-        <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: '내 카드' }} />
+        <Tab.Screen name="내 카드" component={MyCard} 
+          options={{ tabBarLabel: '내 카드', 
+          headerTitle: "내 카드",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <LeftArrowIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),
+          headerRight: () => 
+            <Menu>
+            <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
+            <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+              <MenuOption 
+                // onSelect={() => alert(`Delete`)} 
+                text='카드 삭제하기'
+              />
+            </MenuOptions>
+          </Menu> }} />
         <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
       </Tab.Navigator>
     );

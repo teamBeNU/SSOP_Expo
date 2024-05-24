@@ -15,7 +15,6 @@ function Memo() {
     const route = useRoute();
 
     useEffect(() => {
-        console.log(route.params.isEdit);
         navigation.setOptions({
           headerTitle: route.params.isEdit ? '메모 수정' : '메모 작성' ,
         });
