@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
         height: 432,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: theme.grey90,
+        borderColor: theme.gray90,
         backgroundColor: 'white',
         overflow: 'hidden',
         shadowColor: 'rgba(0, 0, 0, 0.04)',
@@ -77,7 +77,7 @@ export const styles = StyleSheet.create({
     },
     topic: {
         width: 52,
-        color: theme.grey20,
+        color: theme.gray20,
         fontFamily: 'Pretendard',
         fontSize: 14,
         fontWeight: '400',
@@ -96,7 +96,7 @@ export const styles = StyleSheet.create({
         height: 0,
         alignSelf: 'stretch',
         borderTopWidth: 1,
-        borderColor: theme.grey90,
+        borderColor: theme.gray90,
     }
     
 });

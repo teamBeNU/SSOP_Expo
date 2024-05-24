@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         },
 	cardPage: {
-        color: theme.grey50,
+        color: theme.gray50,
         fontFamily: 'Pretendard',
         fontSize: 14, 
         fontWeight: '400',

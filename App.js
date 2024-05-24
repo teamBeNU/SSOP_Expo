@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -17,13 +17,11 @@ import {
   MenuProvider,
 } from 'react-native-popup-menu';
 
-// Text 적용
+// Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
-
-// TextInput 적용
-// TextInput.defaultProps = TextInput.defaultProps || {};
-// TextInput.defaultProps.allowFontScaling = false;
+TextInput.defaultProps = TextInput.defaultProps || {};
+TextInput.defaultProps.allowFontScaling = false;
 
 import Home from './pages/home/Home';
 import Bluetooth from './pages/Bluetooth/Bluetooth';

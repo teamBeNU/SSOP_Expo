@@ -59,15 +59,15 @@ function CheckCard({ navigation }) {
                 <Text style={styles.btnText}>연락처 저장</Text>
             </View>
             <View>
-                {(hasMemo !== undefined) && hasMemo ? 
+                {hasMemo && hasMemo ? 
                 <View style={styles.btn}>
                 <TouchableOpacity style={styles.whiteBtn} onPress={() => setIsModalVisible(true)}>
                     <MemoViewIcon />
                 </TouchableOpacity>
                 <Text style={styles.btnText}>메모 보기</Text>
                 <Modal
-                animationType="slide"
-                transparent={false}
+                animationType="fade"
+                transparent={true}
                 visible={isModalVisible}
                 onRequestClose={() => {
                   Alert.alert('Modal has been closed.');
