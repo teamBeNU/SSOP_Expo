@@ -115,7 +115,6 @@ export default function App() {
           name="Memo" 
           component={Memo}
           options={{
-            headerTitle: "메모 작성",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>

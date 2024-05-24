@@ -19,6 +19,19 @@ function CheckCard({ navigation }) {
     ]
     const [hasMemo, setHasMemo] = useState(false);
     const [cardPage, setCardPage] = useState(1);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isEdit, setIsEdit] = useState(false);
+
+    const handleNewMemo = () => {
+        setIsEdit(false);
+        navigation.navigate('Memo', { isEdit: false });
+      };
+
+    const handleEditMemo = () => {
+        setIsModalVisible(false);
+        setIsEdit(true);
+        navigation.navigate('Memo', { isEdit: true });
+      };
 
     const handleScroll = (event) => {
         const { contentOffset, layoutMeasurement } = event.nativeEvent;
@@ -26,9 +39,6 @@ function CheckCard({ navigation }) {
         setCardPage(currentIndex + 1);
         setHasMemo(data[currentIndex].hasMemo);
       };
-
-    const [isModalVisible, setIsModalVisible] = useState(false);
-
 
     return (
         <View style={styles.container}>
@@ -77,7 +87,7 @@ function CheckCard({ navigation }) {
                   <View style={styles.modalView}>
                     <View style={styles.modalTitle}>
                         <Text style={styles.modalFont}>메모 보기</Text>
-                        <TouchableOpacity style={{ position: 'absolute', right: 24 }} onPress={() => {setIsModalVisible(false), navigation.navigate('Memo')} }><Text style={{...styles.modalFont, color:'#00C2ED', fontWeight:'600',}}>수정</Text></TouchableOpacity>
+                        <TouchableOpacity style={{ position: 'absolute', right: 24 }} onPress={ handleEditMemo }><Text style={{...styles.modalFont, color:'#00C2ED', fontWeight:'600',}}>수정</Text></TouchableOpacity>
                     </View>
                     <View style={styles.modalContent}>
                         <Text style={{...styles.modalFont, lineHeight: 24}}>이 친구는 개발이랑 디자인 모두 관심이 있다고 한다.{'\n'}한번 말을 해보면 나랑 잘 통하지 않을까</Text>
@@ -94,7 +104,7 @@ function CheckCard({ navigation }) {
                 </View>
                 :
                 <View style={styles.btn}>
-                <TouchableOpacity style={styles.whiteBtn} onPress={() => navigation.navigate('Memo')}>
+                <TouchableOpacity style={styles.whiteBtn} onPress={handleNewMemo}>
                     <MemoWriteIcon />
                 </TouchableOpacity>
                 <Text style={styles.btnText}>메모하기</Text>
