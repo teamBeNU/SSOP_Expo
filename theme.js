@@ -9,6 +9,7 @@ export const theme = {
     gray10: "#212121",
     gray20: "#333333",
     gray30: "#484848",
+    gray40: "#616161",
     gray50: "#7B7B7B",
     gray60: "#949494",
     gray70: "#B1B1B1",

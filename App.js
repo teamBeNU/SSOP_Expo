@@ -33,7 +33,7 @@ import Memo from './pages/CheckCard/Memo';
 import MyCard from './pages/MyCard/MyCard';
 import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
-import CreateCard from './pages/CreateCard';
+import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
@@ -46,6 +46,7 @@ import { theme } from './theme';
 export default function App() {
   // 폰트 로드
   const [fontsLoaded] = useFonts({
+    Pretendard : PretendardRegular,
     PretendardRegular : PretendardRegular,
     PretendardSemiBold : PretendardSemiBold
   });
@@ -110,7 +111,7 @@ export default function App() {
           />
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
-        <Stack.Screen name="카드 만들기" component={CreateCard} />
+        <Stack.Screen name="카드 만들기" component={CreateCard} options={{ title: '카드 생성' }} />
         <Stack.Screen name="팀스페이스 입장" component={EnterTeamSp} />
         <Stack.Screen 
           name="Memo" 
