@@ -41,9 +41,9 @@ export const styles = StyleSheet.create({
         marginBottom: 32,
     },
     inputText: {
-        fontFamily: "Pretendard",
+        fontFamily: "PretendardRegular",
         fontSize: 14,
-        color: theme.grey40,
+        color: theme.gray40,
         marginBottom: 8,
     },
     customInput: {
@@ -52,14 +52,14 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: theme.grey60,
+        borderColor: theme.gray60,
         paddingVertical: 8,
         paddingHorizontal: 16,
         margin: 0,
     },
     informText: {
         fontSize: 14,
-        fontFamily: "Pretendard",
+        fontFamily: "PretendardRegular",
     },
 
     inputBirthContainer: {
@@ -72,13 +72,13 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: theme.grey60,
+        borderColor: theme.gray60,
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
     inputBirthText: {
         textAlign: "right",
-        fontFamily: "Pretendard",
+        fontFamily: "PretendardRegular",
         fontSize: 16,
     },
 
@@ -88,13 +88,13 @@ export const styles = StyleSheet.create({
     },
     birthSecretOn: {
         fontSize: 14,
-        fontFamily: "Pretendard",
+        fontFamily: "PretendardRegular",
         color: "black",
     },
     birthSecretOff: {        
         fontSize: 14,
-        fontFamily: "Pretendard",
-        color: theme.grey30,
+        fontFamily: "PretendardRegular",
+        color: theme.gray30,
     },
 
     btnNext: {
@@ -108,14 +108,14 @@ export const styles = StyleSheet.create({
         marginHorizontal: 16,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        backgroundColor: theme.grey10,
+        backgroundColor: theme.gray10,
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
     },
     btnNextText: {
         color: "white",
-        fontFamily: "Pretendard",
+        fontFamily: "PretendardRegular",
         fontSize: 16,
         fontWeight: "600",
     },
@@ -136,7 +136,7 @@ export const styles = StyleSheet.create({
         borderColor: theme.skyblue,
     },
     btnOff: {
-        borderColor: theme.grey90,
+        borderColor: theme.gray90,
     },
     btnTextOn: {
         fontSize: 16,
@@ -144,21 +144,21 @@ export const styles = StyleSheet.create({
     },
     btnTextOff: {
         fontSize: 16,
-        color: theme.grey20,
+        color: theme.gray20,
     },
 
     line: {
-        borderBottomColor: theme.grey90,
+        borderBottomColor: theme.gray90,
         borderBottomWidth: 1,
         marginVertical: 10,
     },
 
     addText: {
-        color: theme.grey50,
+        color: theme.gray50,
         textAlign: "center",
         marginTop: 80,
         fontSize: 16,
-        // fontFamily: "Pretendard",
+        // fontFamily: "PretendardRegular",
     },
     radioBtnGruopContainer: {
         flexDirection: 'row',
@@ -179,7 +179,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: theme.grey60,
+        borderColor: theme.gray60,
         paddingVertical: 8,
         paddingHorizontal: 16,
         margin: 0,
@@ -235,7 +235,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: theme.grey90,
+        borderColor: theme.gray90,
         elevation: 5,
         backgroundColor:"red",
     },
@@ -246,7 +246,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: theme.grey90,
+        borderColor: theme.gray90,
         elevation: 5,
         backgroundColor:"red",
     },
@@ -264,7 +264,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.skyblue,
     }, 
     inactiveCircle: {
-        backgroundColor: theme.grey90,
+        backgroundColor: theme.gray90,
     },
 
     btnCheckCard: {
@@ -278,7 +278,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: 16,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        backgroundColor: theme.grey10,
+        backgroundColor: theme.gray10,
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
@@ -297,11 +297,11 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: theme.grey80,
+        borderColor: theme.gray80,
     },
     btnHomeText: {
-        color: theme.grey50,
-        fontFamily: "Pretendard",
+        color: theme.gray50,
+        fontFamily: "PretendardRegular",
         fontSize: 16,
         fontWeight: "600",
     },

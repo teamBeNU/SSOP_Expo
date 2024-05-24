@@ -41,19 +41,19 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
-        borderColor: theme.grey95,
+        borderColor: theme.gray95,
         backgroundColor: "white",
         elevation: 5
     },
     label: {
-        fontFamily: "Pretendard",
+        fontFamily: "PretendardRegular",
         fontSize: 18,
         textAlign: "center",
         marginTop: 11,
         marginBottom: 4,
     },
     describe: {
-        fontFamily: "Pretendard",
+        fontFamily: "PretendardRegular",
         fontSize: 12,
         textAlign: "center",
     },
