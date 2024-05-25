@@ -428,10 +428,10 @@ function CreateTeamSp({navigation}) {
 
                     <View style={styles.btnContainer}>
                       <View style={styles.btnNext}>
-                        <Text onPress={() => navigation.navigate('Home')} style={styles.btnText}> 홈화면으로 </Text>
+                        <Text onPress={() => navigation.navigate(' ')} style={styles.btnText}> 홈화면으로 </Text>
                       </View>
                       <View style={styles.btnWhite}>
-                        <Text onPress={() => navigation.navigate('CheckCard')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
+                        <Text onPress={() => navigation.navigate('카드 조회')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
                       </View>
                     </View>
 
