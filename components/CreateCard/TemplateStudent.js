@@ -39,7 +39,7 @@ export default function TemplateStudent({navigation}) {
     const [showMbti, setShowMbti] = useState(false);
     const [showMusic, setShowMusic] = useState(false);
     const [showMovie, setShowMovie] = useState(false);
-    const [cover, setCover] = useState(1);
+    const [cover, setCover] = useState('');
 
     const handleNext = () => {
         if (step === 1) {
@@ -53,16 +53,24 @@ export default function TemplateStudent({navigation}) {
         } else if (step === 5 ) {
             setStep(6);
         } else if (step === 6 ) {
+            
             setStep(7);
         } else if (step === 7 ) {
             setStep(8);
         }
     };
 
+    const handleCover = (newValue) => {
+        setCover(newValue);
+    }
+
     const handleScroll = (event) => {
         const contentOffsetX = event.nativeEvent.contentOffset.x;
         const currentIndex = Math.round(contentOffsetX / (SCREEN_WIDTH));
-        setCover(currentIndex);
+        if (currentIndex == 0) {setCover('avatar');}
+        else if (currentIndex == 1) {setCover('picture');}
+        
+        // setCover(currentIndex);
     }
 
     return (
@@ -429,7 +437,7 @@ export default function TemplateStudent({navigation}) {
                             onScroll={handleScroll}
                         >
                             <TouchableOpacity  
-                                onPress={handleNext}    
+                                onPress={() => {handleNext(); handleCover("avatar");}}    
                             >
                                 <Image 
                                     source={require("../../assets/images/cardCover-1.png")}
@@ -437,7 +445,9 @@ export default function TemplateStudent({navigation}) {
                                     resizeMode="contain"
                                 />
                             </TouchableOpacity>
-                            <TouchableOpacity>
+                            <TouchableOpacity
+                                onPress={() => {handleNext(); handleCover("picture");}}  
+                            >
                                 <Image 
                                     source={require("../../assets/images/cardCover-2.png")}
                                     style={styles.coverImg2}
@@ -450,13 +460,13 @@ export default function TemplateStudent({navigation}) {
                         <View 
                             style={[
                                 styles.circle,
-                                cover === 0 ? styles.activeCircle : styles.inactiveCircle,
+                                cover === "avatar" ? styles.activeCircle : styles.inactiveCircle,
                             ]}
                         ></View>
                         <View
                             style={[
                                 styles.circle,
-                                cover === 1 ? styles.activeCircle : styles.inactiveCircle,
+                                cover === "picture" ? styles.activeCircle : styles.inactiveCircle,
                             ]}
                         ></View>
                     </View>
@@ -466,7 +476,13 @@ export default function TemplateStudent({navigation}) {
 
             {step === 7 && (
                 <View>
-                    <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} />
+                    {cover === "avatar" && (
+                        <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} />
+                    )}
+                    {cover === "picture" && (
+                        <></>
+                        // <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} />
+                    )}
                 </View>
             )}  
 
