@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, Clipboard, Alert } from "react-native";
+import { View, Text, TextInput, Image, TouchableOpacity, Clipboard, Alert } from "react-native";
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
@@ -63,14 +63,7 @@ function CreateTeamSp({ navigation }) {
       setNameLength(teamName.length);
       setCmtLength(teamComment.length);
     }, [teamName, teamComment]);
-
-    const items = [
-      { id: 'student', label: '학생', description: '학교에 다닌다면', image: require('../../assets/profile/student.png') },
-      { id: 'worker', label: '직장인', description: '직장에 다닌다면', image: require('../../assets/profile/worker.png')  },
-      { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', image: require('../../assets/profile/fan.png')  },
-      { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', image: require('../../assets/profile/free.png')  },
-  ]
-
+    
     //step4 - 템플릿 선택
     const handleTempClick = (id) => {
       setTemplate(id);
@@ -89,7 +82,7 @@ function CreateTeamSp({ navigation }) {
         <View style={styles.mainlayout}>
 
             {step === 1 && (
-            <View>
+            <View style={styles.stepContainer}>
                 <Text style={styles.title}> 팀스페이스의 이름을 지어주세요. </Text>
 
                 <View style={styles.nameContainer}>
@@ -101,16 +94,18 @@ function CreateTeamSp({ navigation }) {
                      onSubmitEditing={handleNext} />
                      <Text style={styles.nameLeng}> {nameLength} / 15 </Text>
                 </View>
+                
+                <View style={styles.flexSpacer} />
 
                 <View style={styles.btnNext}>
                   <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
                 </View>
-            </View>
+             </View>
             )}
 
             {step === 2 && (
-            <View>
-                <Text style={styles.title}> 팀스페이스를 설명하는 문장을 적어주세요 </Text>
+            <View style={styles.stepContainer}>
+                <Text style={styles.title}> 팀스페이스를 설명하는 {"\n"} 문장을 적어주세요 </Text>
                 <View style={styles.nameContainer}>
                     <Text style={styles.name}> 상세 설명 </Text>
                     <TextInput style={styles.nameInput} placeholder='팀스페이스의 특징이나 설명을 적어보세요.'
@@ -120,6 +115,8 @@ function CreateTeamSp({ navigation }) {
                     onSubmitEditing={handleNext}/>
                     <Text style={styles.nameLeng}> {cmtLength} / 20 </Text>
                 </View>
+                
+                <View style={styles.flexSpacer} />
 
                 <View style={styles.btnNext}>
                   <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
@@ -128,7 +125,8 @@ function CreateTeamSp({ navigation }) {
             )}
             
             {step === 3 && (
-            <View>
+            <View style={styles.stepContainer}>
+              <View>
                 <Text style={[styles.title, {marginBottom: 32}]}> 팀스페이스에 제출될 카드 템플릿을 {"\n"} 따로 지정하시겠어요? </Text>
                 
                 <RadioButton.Group onValueChange={status => setIsTemplate(status)} value={istemplate}>
@@ -148,11 +146,11 @@ function CreateTeamSp({ navigation }) {
                     </View>
                   </TouchableOpacity>
                 </RadioButton.Group>
+              </View>
                 
-                
-                <View style={styles.btnNext}>
-                  <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-                </View>
+              <View style={styles.btnNext}>
+                <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+              </View>
             </View>
             )}
             
@@ -189,7 +187,7 @@ function CreateTeamSp({ navigation }) {
             )}
 
             {step === 6 && (
-              <View>
+              <View style={styles.stepContainer}>
                 <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
                 {'\n'} 바로 초대해 보세요. </Text>
                 

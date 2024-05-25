@@ -4,10 +4,17 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     mainlayout:{
         backgroundColor: theme.white,
-        height: '100%',
+        flex: 1, // 디바이스 세로 100%
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
+    stepContainer: {
+        flex: 1,
+        justifyContent: 'space-between',
+    },
+    flexSpacer: {
+        flex: 1,
+      },
 	title: {
         marginTop: 30,
 		fontSize: 20,
@@ -35,7 +42,7 @@ export const styles = StyleSheet.create({
         marginLeft: 8
     },
     nameContainer: {
-        marginTop: 70,
+        marginTop: 65,
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'flex-start',        
@@ -98,8 +105,15 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'PretendardSemiBold'
     },
-    btnContainer:{    
-        marginTop: 100,
+    btnContainer:{
+        position:'absolute',
+        flex: 1,
+        justifyContent: 'flex-end',
+        width: '100%',
+        bottom: 0,    
+        paddingTop: 32,
+        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+        overflow: 'hidden'
     },
     RadioBtn: {
         flexDirection: "row",
@@ -222,6 +236,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginRight: 16  
     },
+    // 템플릿 예시 확인
     cardShadow:{        
         justifyContent: 'center',
         alignItems: 'center',
