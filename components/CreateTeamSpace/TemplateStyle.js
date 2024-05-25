@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
 	title: {
-        marginTop: 32,
+        marginTop: 30,
 		fontSize: 20,
         fontFamily: 'PretendardSemiBold'
 	},
@@ -27,6 +27,7 @@ export const styles = StyleSheet.create({
     font16: {
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
+        marginLeft: 4
     },
     font18: {
         fontSize: 18,
@@ -53,8 +54,9 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         fontSize: 16,
         borderRadius: 8,
-        borderWidth: 1,
-        borderColor: theme.gray10,
+        borderWidth: 0,
+        color: theme.gray10,
+        backgroundColor: theme.gray95,
         fontFamily: 'PretendardRegular'
     },
     nameLeng:{
@@ -146,7 +148,6 @@ export const styles = StyleSheet.create({
     },
     defaultElement:{    
         display:'flex',   
-        alignItems: 'flex-start',  
         paddingVertical: 8,
         paddingHorizontal: 12,
         fontFamily: 'PretendardRegular',
@@ -158,7 +159,6 @@ export const styles = StyleSheet.create({
     },
     element:{    
         display:'flex',   
-        alignItems: 'flex-start',  
         paddingVertical: 8,
         paddingHorizontal: 12,
         fontFamily: 'PretendardRegular',
@@ -168,10 +168,17 @@ export const styles = StyleSheet.create({
         color: theme.gray20,
         backgroundColor: theme.white,
     },
-    selectedElement:{
-        color: theme.skyblue,
+    selectedElement:{ 
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        borderWidth: 1,
         borderColor: theme.skyblue,
-        alignItems: 'center',
+        color: theme.skyblue,
+        fontFamily: 'PretendardSemiBold'
+    },
+    selectedText:{
+        color: theme.skyblue,
         fontFamily: 'PretendardSemiBold'
     },
     plusContainer:{
