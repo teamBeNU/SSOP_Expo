@@ -29,7 +29,11 @@ export default function TemplateStudent({navigation}) {
     const [sns, setSns] = useState(['', '']);
     const [email, setEmail] = useState('');
     const [mbti, setMbti] = useState('');
-    const [music, setMusic] = useState('');
+    // const [music, setMusic] = useState('');
+    const [music, setMusic] = useState({
+        title: '',
+        musician: '',
+    });
     const [movie, setMovie] = useState('');
     const [showJob, setShowJob] = useState(false);
     const [showClub, setShowClub] = useState(false);
@@ -39,7 +43,7 @@ export default function TemplateStudent({navigation}) {
     const [showMbti, setShowMbti] = useState(false);
     const [showMusic, setShowMusic] = useState(false);
     const [showMovie, setShowMovie] = useState(false);
-    const [cover, setCover] = useState('');
+    const [cover, setCover] = useState('avatar');
 
     const handleNext = () => {
         if (step === 1) {
@@ -60,17 +64,11 @@ export default function TemplateStudent({navigation}) {
         }
     };
 
-    const handleCover = (newValue) => {
-        setCover(newValue);
-    }
-
     const handleScroll = (event) => {
         const contentOffsetX = event.nativeEvent.contentOffset.x;
         const currentIndex = Math.round(contentOffsetX / (SCREEN_WIDTH));
         if (currentIndex == 0) {setCover('avatar');}
         else if (currentIndex == 1) {setCover('picture');}
-        
-        // setCover(currentIndex);
     }
 
     return (
@@ -387,15 +385,17 @@ export default function TemplateStudent({navigation}) {
                                     style={[styles.musicInput, styles.marginR6]}
                                     placeholder="제목명"
                                     keyboardType="default"
-                                    value={music[0]}
-                                    onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
+                                    value={music.title}
+                                    // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
+                                    onChangeText={(newTitle) => {setMusic((prevMusic => ({...prevMusic, title: newTitle})));}}
                                 />
                                 <TextInput 
                                     style={styles.musicInput}
                                     placeholder="가수명"
                                     keyboardType="default"
-                                    value={music[1]}
-                                    onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
+                                    value={music.musician}
+                                    // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
+                                    onChangeText={(newMusician) => {setMusic((prevMusic => ({...prevMusic, musician: newMusician})));}}
                                 />
                             </View>
                         </View>
@@ -437,7 +437,7 @@ export default function TemplateStudent({navigation}) {
                             onScroll={handleScroll}
                         >
                             <TouchableOpacity  
-                                onPress={() => {handleNext(); handleCover("avatar");}}    
+                                onPress={() => {handleNext(); setCover("avatar");}}    
                             >
                                 <Image 
                                     source={require("../../assets/images/cardCover-1.png")}
@@ -446,7 +446,7 @@ export default function TemplateStudent({navigation}) {
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity
-                                onPress={() => {handleNext(); handleCover("picture");}}  
+                                onPress={() => {handleNext(); setCover("picture");}}  
                             >
                                 <Image 
                                     source={require("../../assets/images/cardCover-2.png")}

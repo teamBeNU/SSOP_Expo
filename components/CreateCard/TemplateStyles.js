@@ -19,6 +19,9 @@ export const styles = StyleSheet.create({
     marginR8: {
         marginRight: 6,
     },
+    flexDirectionRow: {
+        flexDirection: "row",
+    },
 
     container: {
         height: '100%',
@@ -31,9 +34,6 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardSemiBold",
     },
 
-    flexDirectionRow: {
-        flexDirection: "row",
-    },
     informContainer: {
         marginTop: 68,
     },
@@ -180,7 +180,7 @@ export const styles = StyleSheet.create({
         marginBottom: 16,
     },
     musicInput: {
-        width: '50%',
+        flex: 1,
         height: 48,
         borderRadius: 8,
         borderWidth: 1,
@@ -188,7 +188,6 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray60,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        margin: 0,
     },
 
     coverTitle: {
