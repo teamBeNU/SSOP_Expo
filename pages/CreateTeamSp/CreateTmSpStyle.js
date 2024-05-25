@@ -65,6 +65,7 @@ export const styles = StyleSheet.create({
         alignSelf: 'flex-end',
         fontFamily: 'PretendardRegular',
     },
+    // 버튼들
     btnNext: {
         marginTop: 40,
         marginBottom: 40,
@@ -155,7 +156,7 @@ export const styles = StyleSheet.create({
         backgroundColor: '#ccc',
         // backgroundColor: '#00C2ED',
     },
-    //----
+    // 카드 정보 선택
     elementContainer:{
         display:'flex',        
         alignItems: 'flex-start', 
@@ -221,6 +222,22 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginRight: 16  
     },
+    cardShadow:{        
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 30,
+         // Android - Shadow
+        elevation: 5,
+         // IOS - Shadow
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
+    },
+    // 초대코드
     inviteCodeContainer: {
         width: '100%',
         height: 48,

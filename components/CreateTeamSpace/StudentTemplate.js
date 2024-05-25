@@ -4,7 +4,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView, Clipboard, Alert }
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
-import { CardFront } from "../MyCard/CardFront";
+import { Card } from "../MyCard/Card";
 import "react-native-gesture-handler";
 import Select from "../../assets/select.svg";
 
@@ -381,13 +381,14 @@ export default function StudentTemplate({ navigation }) {
         </ScrollView>
       )}
 
+      {/* 템플릿 예시 */}
       {step === 3 && (
         <View>
           <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
-          <View style={[styles.container, { marginTop: 30 }]}>
-            <CardFront />
+          <View style={styles.cardShadow}>
+            <Card />
           </View>
-          <Text style={[styles.subtitle, { textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
+          <Text style={[styles.subtitle, { marginTop: 450 ,textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 
           <View style={[styles.btnNext, { marginTop: 40 }]}>
             <Text onPress={handleNext} style={styles.btnText}> 팀스페이스 생성 완료할래요 </Text>
@@ -395,6 +396,7 @@ export default function StudentTemplate({ navigation }) {
         </View>
       )}
 
+      {/* 초대 코드 */}
       {step === 4 && (
         <View>
           <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
