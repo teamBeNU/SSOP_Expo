@@ -123,8 +123,9 @@ export default function App() {
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen 
           name="팀스페이스 생성" 
-          component={(props) => <CreateTeamSp {...props} step={step} setStep={setStep} handleBack={handleBack} />}
-          options={{
+          component={CreateTeamSp}
+          // component={(props) => <CreateTeamSp {...props} step={step} setStep={setStep} handleBack={handleBack} />}
+          options={{ 
             headerTitle: "팀스페이스 생성",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={handleBack}>
