@@ -1,7 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import { Button, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
@@ -9,6 +9,8 @@ import { useFonts } from 'expo-font';
 import MoreIcon from './assets/icons/ic_more_small_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
+import NotiIcon from './assets/AppBar/ic_noti_regular_line.svg';
+import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
 import {
   Menu,
   MenuOptions,
@@ -35,7 +37,7 @@ import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
-// import HomeStack from './pages/home/Home';
+import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
 import { styles } from './components/MyCard/CardStyle';
 
@@ -62,7 +64,7 @@ export default function App() {
     <MenuProvider>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
+        <Stack.Screen name=" "  component={MyTabs} options={{headerShown: false}}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} 
           options={{
             headerLeft: ({onPress}) => (
@@ -178,10 +180,30 @@ const Tab = createBottomTabNavigator();
           },
         })}
       >
-        <Tab.Screen name="홈" component={Home} options={{ tabBarLabel: '홈', headerTitle: ' ' }} />
+        <Tab.Screen name="홈" component={Home} options={{
+          tabBarLabel: '홈',
+          headerTitle: ' ',
+          headerLeft: () => (
+            <HeaderLeftButton />
+          ),
+          headerRight: () => (
+            <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
+              <SearchIcon style={{ marginLeft: 8 }} />
+            </TouchableOpacity>
+          ),
+        }}  />
         <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
         <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: '내 카드' }} />
         <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
       </Tab.Navigator>
+    );
+  }
+
+  function HeaderLeftButton() {
+    const navigation = useNavigation();
+    return (
+      <TouchableOpacity onPress={() => navigation.navigate('알림')}>
+        <NotiIcon style={{ marginLeft: 8 }} />
+      </TouchableOpacity>
     );
   }

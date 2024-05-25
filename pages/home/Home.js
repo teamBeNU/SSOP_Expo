@@ -63,7 +63,7 @@ function Home({navigation}) {
 
 //   const Stack = createStackNavigator();
 
-//   function Home() {
+//   function HomeStack() {
 //     return (
 //         <NavigationContainer>
 //             <Stack.Navigator>
@@ -78,7 +78,7 @@ function Home({navigation}) {
 //                         ),
 //                         headerRight: () => (
 //                             <TouchableOpacity onPress={() => {/* 오른쪽 아이콘에 대한 액션 */}}>
-//                                 <Image source={require('../../assets/AppBar/ic_search_regular_line.png)}/>
+//                                 <Image source={require('../../assets/AppBar/ic_search_regular_line.png')}/>
 //                             </TouchableOpacity>
 //                         ),
 //                     }}

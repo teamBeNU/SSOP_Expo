@@ -2,11 +2,18 @@ import React, { useState } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import { styles } from './BluetoothStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from 'react-native-popup-menu';
-import { useNavigation } from '@react-navigation/native'; 
+import { useNavigation } from '@react-navigation/native';
+
+import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
+import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
+import cardTmb1 from '../../assets/images/cardTmb1.svg';
+import cardTmb2 from '../../assets/images/cardTmb2.svg';
+import cardTmb3 from '../../assets/images/cardTmb3.svg';
 
 function Bluetooth() {
+
+    const navigation = useNavigation(); 
 
     const [step, setStep] = useState(1);
 
@@ -35,34 +42,19 @@ function Bluetooth() {
                 </Menu>
               </View>
             </View>
-            
-            
             <View style={styles.container}>
               <View style={styles.row}>
-                <TouchableOpacity style={styles.btn2} onPress={handleNext}>
+                <TouchableOpacity style={styles.btn1} onPress={() => navigation.navigate('카드 만들기')}>
+                        <PlusCardIcon/>
+                        <Text style={styles.Text14}>새 카드 만들기</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn2} onPress={handleNext}>
+                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
                 </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.container}>
-              <View style={styles.row}>
-                <TouchableOpacity style={styles.btn2} onPress={handleNext}>
-                  <Image source={require('../../assets/CardSample.png')} style={styles.icon2}/>
+                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btn2} onPress={handleNext}>
-                  <Image source={require('../../assets/CardSample.png')} style={styles.icon2}/>
+                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
                 </TouchableOpacity>
-              </View>
-            </View>
-            <View style={styles.container}>
-              <View style={styles.row}>
-                <TouchableOpacity style={styles.btn2} onPress={handleNext}>
-                  <Image source={require('../../assets/CardSample.png')} style={styles.icon2}/>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn2} onPress={handleNext}>
-                  <Image source={require('../../assets/CardSample.png')} style={styles.icon2}/>
-                </TouchableOpacity>
+                
               </View>
             </View>
           </View>
