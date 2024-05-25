@@ -10,7 +10,8 @@ import WorkerTemplate from "../../components/CreateTeamSpace/WorkerTemplate";
 import FanTemplate from "../../components/CreateTeamSpace/FanTemplate";
 import FreeTemplate from "../../components/CreateTeamSpace/FreeTemplate";
 
-function CreateTeamSp({ navigation, step, setStep }) {
+function CreateTeamSp({ navigation }) {
+    const [step, setStep] = useState(1);
     const [teamName, setTeamName] = useState(''); // step1
     const [nameLength, setNameLength] = useState(0); 
     const [teamComment, setTeamComment] = useState(''); // step2
@@ -25,14 +26,6 @@ function CreateTeamSp({ navigation, step, setStep }) {
       setNameLength(teamName.length);
       setCmtLength(teamComment.length);
   }, [teamName, teamComment]);
-
-  
-    // const items = [
-    //   { id: 'student', label: '학생', description: '학교에 다닌다면', image: require('../../assets/profile/student.png') },
-    //   { id: 'worker', label: '직장인', description: '직장에 다닌다면', image: require('../../assets/profile/worker.png')  },
-    //   { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', image: require('../../assets/profile/fan.png')  },
-    //   { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', image: require('../../assets/profile/free.png')  },
-    // ];
     
     const items = [
       { id: 'student', label: '학생', description: '학교에 다닌다면', image: require('../../assets/profile/student.png') },
@@ -83,7 +76,7 @@ function CreateTeamSp({ navigation, step, setStep }) {
         } else if (istemplate === "no") {
           setStep(6);
         }
-      } else if (step === 6 ) {
+      // } else if (step === 6 ) {
       } 
     };
 
@@ -211,7 +204,7 @@ function CreateTeamSp({ navigation, step, setStep }) {
                 </View>
 
             </View>
-          )}          
+            )}          
         </View>      
     );
   }

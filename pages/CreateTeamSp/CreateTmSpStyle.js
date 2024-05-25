@@ -121,11 +121,17 @@ export const styles = StyleSheet.create({
         width: '45%',
         height: '50%',
         borderRadius: 8,
-        backgroundColor: theme.gray90,
+        borderColor: theme.gray95,
+        backgroundColor: theme.white,
         margin: 8,
         display: 'flex',
         justifyContent:'center',
         alignItems: 'center',
+        // ios shadow 적용
+        shadowColor: '#000',
+        shadowOffset: { width: 4, height: 4 },
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
     },
     text: {
         textAlign: 'center',
