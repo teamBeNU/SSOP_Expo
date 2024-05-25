@@ -54,11 +54,21 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         letterSpacing: -1,
     },
+    DownArrowIcon: { 
+        marginTop: 24,
+        marginBottom: 12,
+    },
 	Text20: {
         marginTop: 16,
         marginLeft: 16,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
+        letterSpacing: -1,
+    },
+    Text16: {
+        marginBottom: 21,
+        fontFamily: "PretendardRegular",
+        fontSize: 16,
         letterSpacing: -1,
     },
     container: {
@@ -69,6 +79,13 @@ export const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    container2: {
+        flex: 1,
+    },
+    row2: {
+        flexDirection: 'row',
         alignItems: 'center',
     },
     line: {

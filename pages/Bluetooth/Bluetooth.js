@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { View, Text, Image, ScrollView } from "react-native";
 import { styles } from './BluetoothStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
+import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
+import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from 'react-native-popup-menu';
 import { useNavigation } from '@react-navigation/native'; 
 
 function Bluetooth() {
@@ -12,12 +14,29 @@ function Bluetooth() {
         setStep(2);
     };
 
+    const [selectedOption, setSelectedOption] = useState('최신순');
+
     return (
       <ScrollView showsVerticalScrollIndicator={false}> 
         {step === 1 ? (          
           <View style={styles.mainlayout}>
             <Text style={styles.title}>블루투스로 보낼 카드를 선택하세요</Text>
-            <Text style={styles.range}>최신순</Text>
+            <View style={styles.container2}>
+              <View style={styles.row2}>
+                <Text style={styles.range}>{selectedOption}</Text>
+                <Menu style={styles.DownArrowIcon}>
+                  <MenuTrigger><DownArrowIcon/></MenuTrigger>
+                  <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+                    <MenuOption style={{ marginBottom: 10.5}}
+                     onSelect={() => setSelectedOption('최신순')} text='최신순'/>
+                    <MenuOption 
+                     onSelect={() => setSelectedOption('오래된 순')} text='오래된 순'/>
+                  </MenuOptions>
+                </Menu>
+              </View>
+            </View>
+            
+            
             <View style={styles.container}>
               <View style={styles.row}>
                 <TouchableOpacity style={styles.btn2} onPress={handleNext}>

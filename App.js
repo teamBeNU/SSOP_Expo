@@ -63,7 +63,14 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
-        <Stack.Screen name="내 카드 보내기" component={Bluetooth} />
+        <Stack.Screen name="내 카드 보내기" component={Bluetooth} 
+          options={{
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
         <Stack.Screen name="링크 복사" component={LinkShare} />
         <Stack.Screen 
           name="카드 조회" 
