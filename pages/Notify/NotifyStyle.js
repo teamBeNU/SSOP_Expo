@@ -8,13 +8,15 @@ export const styles = StyleSheet.create({
     },
     btn1: { // 보낸 카드
         height: 81,
-        backgroundColor: "#8CFF791A",
         position: 'relative',
     },
     btn2: { // 받은 카드
         height: 81,
         position: 'relative',
     },
+    background: {
+        backgroundColor: '#8CFF791A',
+      },
     title: { // 글씨 
         marginTop: 31,
         marginLeft: 16,

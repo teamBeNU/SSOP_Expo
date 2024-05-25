@@ -40,10 +40,8 @@ function Bluetooth() {
             <View style={styles.container}>
               <View style={styles.row}>
                 <TouchableOpacity style={styles.btn2} onPress={handleNext}>
-                  <Image source={require('../../assets/CardSample.png')} style={styles.icon2}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn2} onPress={handleNext}>
-                  <Image source={require('../../assets/CardSample.png')} style={styles.icon2}/>
                 </TouchableOpacity>
               </View>
             </View>

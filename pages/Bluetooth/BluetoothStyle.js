@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     title: { // 글씨 
-        marginTop: 40,
+        marginTop: 30,
         marginLeft: 16,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
@@ -32,7 +32,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 14.5,
         right: 8, 
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
         color: theme.blue,
         letterSpacing: -1,
