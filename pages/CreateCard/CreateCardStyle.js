@@ -22,28 +22,50 @@ export const styles = StyleSheet.create({
         textAlign: "center",
     },
     templates: {
-        marginTop: 40,
-        marginVertical: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '4%',
+        // marginTop: 40,
+        // marginVertical: 16,
         paddingHorizontal: 16,
     },
-    container: {
-        flex: 0,
-    },
     row: {
-        flexDirection: "row",
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        // flexDirection: "row",
+        // justifyContent: "center",
     },
     cell: {
-        flex: 1,
-        justifyContent: "center", // 수직으로 가운데 정렬
-        alignItems: "center", // 수평으로 가운데 정렬
-        paddingTop: 20,
-        paddingBottom: 39,
+        width: '45%',
+        height: '50%',
         borderRadius: 8,
+        backgroundColor: theme.white,
         borderWidth: 1,
-        borderStyle: "solid",
         borderColor: theme.gray95,
-        backgroundColor: "white",
-        elevation: 5
+        margin: 8,
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        // flex: 1,
+        // justifyContent: "center", // 수직으로 가운데 정렬
+        // alignItems: "center", // 수평으로 가운데 정렬
+        // paddingTop: 20,
+        // paddingBottom: 39,
+        // borderRadius: 8,
+        // borderWidth: 1,
+        // borderStyle: "solid",
+        // borderColor: theme.gray95,
+        // backgroundColor: "white",
+        // Android - Shadow
+        elevation: 5,
+        // IOS - Shadow
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
     },
     label: {
         fontFamily: "PretendardRegular",
