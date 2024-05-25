@@ -110,115 +110,119 @@ export default function StudentTemplate({ navigation }) {
   };
 
   return (
-    <View style={styles.mainlayout}>
+    <View>
       {/* 카드 앞면 */}
       {step === 1 && (
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Text style={styles.title}> 카드 앞면에 보여질 정보를 선택하세요. </Text>
-          <Text style={styles.subtitle}> 팀원들이 입력해줬으면 하는 항목을 선택하세요. </Text>
+        <>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Text style={styles.title}> 카드 앞면에 보여질 정보를 선택하세요. </Text>
+            <Text style={styles.subtitle}> 팀원들이 입력해줬으면 하는 항목을 선택하세요. </Text>
 
-          <Text style={[styles.font16, { marginTop: 32 }]}>필수정보</Text>
-          <View style={styles.elementContainer}>
-            <Text style={styles.defaultElement}>이름</Text>
-            <Text style={styles.defaultElement}>한줄소개</Text>
-          </View>
-
-          <Text style={[styles.font16, { marginTop: 28 }]}>기본정보</Text>
-          <View style={styles.elementContainer}>
-            <TouchableOpacity onPress={() => handleSelect('showAge')}
-              style={front.showAge ? styles.selectedElement : styles.element}>
-              {front.showAge && (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Select />
-                  <Text style={styles.selectedText}> 나이 </Text>
-                </View>
-              )}
-              {!front.showAge && <Text> 나이 </Text>}
-            </TouchableOpacity>
-
-          </View>
-
-          <Text style={[styles.font16, { marginTop: 28 }]}>학생정보</Text>
-          <View style={styles.elementContainer}>
-            <TouchableOpacity onPress={() => handleSelect('showSchool')}
-              style={front.showSchool ? styles.selectedElement : styles.element}>
-              {front.showSchool && (
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  <Select />
-                  <Text style={styles.selectedText}> 학교명 </Text>
-                </View>
-              )}
-              {!front.showSchool && <Text> 학교명 </Text>}
-            </TouchableOpacity>
-
-            <TouchableOpacity onPress={() => handleSelect('showGrade')}
-               style={front.showGrade ? styles.selectedElement : styles.element}>
-               {front.showGrade && (
-                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                   <Select />
-                   <Text style={styles.selectedText}> 학년 </Text>
-                 </View>
-               )}
-               {!front.showGrade && <Text> 학년 </Text>}
-            </TouchableOpacity>
-          </View>
-
-          <Text style={[styles.font16, { marginTop: 28 }]}>포지션</Text>
-          <Text style={styles.subtitle}> 포지션을 등록하면 태그로 편하게 분류할 수 있어요.</Text>
-          <View style={styles.elementContainer}>
-            {positionList.map((item, index) => (
-              <Text key={index} onPress={() => positionSelected(index)}
-                style={[styles.element, item.selected && styles.selectedElement]}>
-                #{item.position}</Text>
-            ))}
-          </View>
-          <View style={styles.plusContainer}>
-            <TextInput
-              style={[styles.nameInput, { flex: 1 }]}
-              placeholder='직접 입력하여 추가'
-              maxLength={10}
-              value={positionPlus}
-              onChangeText={text => setPositionPlus(text)}
-              onSubmitEditing={addPosition}
-            />
-          </View>
-
-          <Text style={styles.nameLeng}> {positionLength} / 10 </Text>
-
-          <View style={styles.line} />
-
-          <Text style={styles.font16}> 카드 커버 설정 </Text>
-          <RadioButton.Group
-            onValueChange={(value) => setFront({ ...front, cover: value })}
-            value={front.cover}>
-            <View style={styles.coverContainer}>
-
-              <View style={styles.coverRadioBtn}>
-                <RadioButton value="free" color={theme.skyblue} />
-                <Text>자유</Text>
-              </View>
-
-              <View style={styles.coverRadioBtn}>
-                <RadioButton value="avatar" color={theme.skyblue} />
-                <Text>아바타만 허용</Text>
-              </View>
-
-              <View style={styles.coverRadioBtn}>
-                <RadioButton value="picture" color={theme.skyblue} />
-                <Text>사진만 허용</Text>
-              </View>
-
+            <Text style={[styles.font16, { marginTop: 32 }]}>필수정보</Text>
+            <View style={styles.elementContainer}>
+              <Text style={styles.defaultElement}>이름</Text>
+              <Text style={styles.defaultElement}>한줄소개</Text>
             </View>
-          </RadioButton.Group>
 
-          <View style={[styles.btnNext, { marginBottom: 200 }]}>
-            <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+            <Text style={[styles.font16, { marginTop: 28 }]}>기본정보</Text>
+            <View style={styles.elementContainer}>
+              <TouchableOpacity onPress={() => handleSelect('showAge')}
+                style={front.showAge ? styles.selectedElement : styles.element}>
+                {front.showAge && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Select />
+                    <Text style={styles.selectedText}> 나이 </Text>
+                  </View>
+                )}
+                {!front.showAge && <Text> 나이 </Text>}
+              </TouchableOpacity>
+            </View>
+
+            <Text style={[styles.font16, { marginTop: 28 }]}>학생정보</Text>
+            <View style={styles.elementContainer}>
+              <TouchableOpacity onPress={() => handleSelect('showSchool')}
+                style={front.showSchool ? styles.selectedElement : styles.element}>
+                {front.showSchool && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Select />
+                    <Text style={styles.selectedText}> 학교명 </Text>
+                  </View>
+                )}
+                {!front.showSchool && <Text> 학교명 </Text>}
+              </TouchableOpacity>
+
+              <TouchableOpacity onPress={() => handleSelect('showGrade')}
+                 style={front.showGrade ? styles.selectedElement : styles.element}>
+                 {front.showGrade && (
+                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                     <Select />
+                     <Text style={styles.selectedText}> 학년 </Text>
+                   </View>
+               )}
+                 {!front.showGrade && <Text> 학년 </Text>}
+              </TouchableOpacity>
+            </View>
+
+            <Text style={[styles.font16, { marginTop: 28 }]}>포지션</Text>
+            <Text style={styles.subtitle}> 포지션을 등록하면 태그로 편하게 분류할 수 있어요.</Text>
+            <View style={styles.elementContainer}>
+              {positionList.map((item, index) => (
+                <Text key={index} onPress={() => positionSelected(index)}
+                  style={[styles.element, item.selected && styles.selectedElement]}>
+                  #{item.position}</Text>
+              ))}
+            </View>
+            <View style={styles.plusContainer}>
+              <TextInput
+                style={[styles.nameInput, { flex: 1 }]}
+                placeholder='직접 입력하여 추가'
+                maxLength={10}
+                value={positionPlus}
+                onChangeText={text => setPositionPlus(text)}
+                onSubmitEditing={addPosition}
+              />
+            </View>
+
+            <Text style={styles.nameLeng}> {positionLength} / 10 </Text>
+
+            <View style={styles.line} />
+
+            <Text style={styles.font16}> 카드 커버 설정 </Text>
+            <RadioButton.Group
+              onValueChange={(value) => setFront({ ...front, cover: value })}
+              value={front.cover}>
+              <View style={styles.coverContainer}>
+
+                <View style={styles.coverRadioBtn}>
+                  <RadioButton value="free" color={theme.skyblue} />
+                  <Text>자유</Text>
+                </View>
+
+                <View style={styles.coverRadioBtn}>
+                  <RadioButton value="avatar" color={theme.skyblue} />
+                  <Text>아바타만 허용</Text>
+                </View>
+
+                <View style={styles.coverRadioBtn}>
+                  <RadioButton value="picture" color={theme.skyblue} />
+                  <Text>사진만 허용</Text>
+                </View>
+                
+              </View>
+            </RadioButton.Group>
+          </ScrollView>
+
+          <View style={styles.btnContainer}>
+            <View style={styles.btnNext}>
+              <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+            </View>
           </View>
-        </ScrollView>
+        </>
       )}
 
       {/* 카드 뒷면 */}
       {step === 2 && (
+        <>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}> 카드 뒷면에 보여질 정보를 선택하세요. </Text>
           <Text style={styles.subtitle}> 최대 8개까지 정보를 표시할 수 있어요. </Text>
@@ -374,11 +378,14 @@ export default function StudentTemplate({ navigation }) {
             />
           </View>
           <Text style={styles.nameLeng}> {plusLength} / 5 </Text>
-
-          <View style={[styles.btnNext, { marginBottom: 200 }]}>
-            <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-          </View>
         </ScrollView>
+        
+          <View style={[styles.btnContainer, {marginBottom: -148}]}>
+            <View style={styles.btnNext}>
+              <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+            </View>
+          </View>
+        </>
       )}
 
       {/* 템플릿 예시 */}
@@ -388,10 +395,15 @@ export default function StudentTemplate({ navigation }) {
           <View style={styles.cardShadow}>
             <Card />
           </View>
-          <Text style={[styles.subtitle, { marginTop: 450 ,textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
+          <Text style={[styles.subtitle, { marginTop: 450, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 
-          <View style={[styles.btnNext, { marginTop: 40 }]}>
+          {/* <View style={[styles.btnNext, { marginTop: 40 }]}>
             <Text onPress={handleNext} style={styles.btnText}> 팀스페이스 생성 완료할래요 </Text>
+          </View> */}
+          <View style={[styles.btnContainer, {marginBottom: -125}]}>
+            <View style={styles.btnNext}>
+              <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+            </View>
           </View>
         </View>
       )}
@@ -410,7 +422,7 @@ export default function StudentTemplate({ navigation }) {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.btnContainer}>
+          <View style={[styles.btnContainer, {marginBottom: -500}]}>
             <View style={styles.btnNext}>
               <Text onPress={() => navigation.navigate(" ")} style={styles.btnText}> 홈화면으로 </Text>
             </View>
@@ -421,6 +433,7 @@ export default function StudentTemplate({ navigation }) {
 
         </View>
       )}
+
 
     </View>
   )

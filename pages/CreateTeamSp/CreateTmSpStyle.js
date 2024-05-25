@@ -112,7 +112,7 @@ export const styles = StyleSheet.create({
         width: '100%',
         bottom: 0,    
         paddingTop: 32,
-        backgroundColor: 'rgba(255, 0, 0, 0.3)',
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         overflow: 'hidden'
     },
     RadioBtn: {
@@ -230,6 +230,7 @@ export const styles = StyleSheet.create({
     coverContainer:{
         flexDirection: 'row',
         marginTop: 16,
+        marginBottom: 200
     },
     coverRadioBtn:{        
         flexDirection: 'row',
