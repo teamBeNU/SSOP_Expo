@@ -179,10 +179,8 @@ export default function StudentTemplate({ navigation }) {
               maxLength={10}
               value={positionPlus}
               onChangeText={text => setPositionPlus(text)}
+              onSubmitEditing={addPosition}
             />
-            <TouchableOpacity onPress={addPosition}>
-              <Text style={[styles.copy, { marginLeft: -45 }]}>추가</Text>
-            </TouchableOpacity>
           </View>
 
           <Text style={styles.nameLeng}> {positionLength} / 10 </Text>
@@ -372,10 +370,8 @@ export default function StudentTemplate({ navigation }) {
               maxLength={5}
               value={plus}
               onChangeText={text => setPlus(text)}
+              onSubmitEditing={addPlus}
             />
-            <TouchableOpacity onPress={addPlus}>
-              <Text style={[styles.copy, { marginLeft: -45 }]}> 추가</Text>
-            </TouchableOpacity>
           </View>
           <Text style={styles.nameLeng}> {plusLength} / 5 </Text>
 

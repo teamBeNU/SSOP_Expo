@@ -92,7 +92,8 @@ function CreateTeamSp({ navigation }) {
                     <TextInput style={styles.nameInput} placeholder='팀스페이스의 이름을 지어주세요.' 
                      maxLength={15}
                      value={teamName}
-                     onChangeText={text => setTeamName(text)} />
+                     onChangeText={text => setTeamName(text)}
+                     onSubmitEditing={handleNext} />
                      <Text style={styles.nameLeng}> {nameLength} / 15 </Text>
                 </View>
 
@@ -110,7 +111,8 @@ function CreateTeamSp({ navigation }) {
                     <TextInput style={styles.nameInput} placeholder='팀스페이스의 특징이나 설명을 적어보세요.'
                     maxLength={20}
                     value={teamComment}
-                    onChangeText={text => setTeamComment(text)}/>
+                    onChangeText={text => setTeamComment(text)}
+                    onSubmitEditing={handleNext}/>
                     <Text style={styles.nameLeng}> {cmtLength} / 20 </Text>
                 </View>
 
