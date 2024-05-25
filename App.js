@@ -111,7 +111,21 @@ export default function App() {
           />
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen name="팀스페이스 생성" component={CreateTeamSp} />
-        <Stack.Screen name="카드 만들기" component={CreateCard} options={{ title: '카드 생성' }} />
+        <Stack.Screen 
+          name="카드 만들기" 
+          component={CreateCard} 
+          options={{ 
+            headerTitle: "카드 생성",
+            headerTitleStyle: {
+              
+            },
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            )
+           }} 
+          />
         <Stack.Screen name="팀스페이스 입장" component={EnterTeamSp} />
         <Stack.Screen 
           name="Memo" 

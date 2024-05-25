@@ -272,6 +272,14 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray90,
     },
 
+    avatarNext: {
+        color: "black",
+        fontFamily: "PretendardSemiBold",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "600",
+    },
+
     btnCheckCard: {
         position: 'absolute',
         bottom: 16 + 48 + 8,

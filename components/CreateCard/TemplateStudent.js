@@ -1,5 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Image } from "react-native";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RadioButton } from 'react-native-paper';
@@ -70,6 +70,31 @@ export default function TemplateStudent({navigation}) {
         if (currentIndex == 0) {setCover('avatar');}
         else if (currentIndex == 1) {setCover('picture');}
     }
+
+    useEffect(() => {   // 상단바 타이틀 변경
+        if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
+            navigation.setOptions({headerTitle: '카드 정보 작성'});
+        } else if (step === 6) {
+            navigation.setOptions({headerTitle: '카드 생성'});
+        } else if (step === 7) {
+            navigation.setOptions({
+                headerTitle: '아바타 커스터마이징',
+                headerRight: () => (
+                    <TouchableOpacity
+                        style={{marginRight: 20}}
+                        onPress={handleNext}
+                    >
+                        <Text style={styles.avatarNext}>다음</Text>
+                    </TouchableOpacity>
+                ),
+            });
+        } else if (step === 8) {
+            navigation.setOptions({
+                headerTitle: '카드 생성 완료',
+                headerRight: null,
+            });
+        }
+    }, [step]);
 
     return (
         <View style={styles.main}>
@@ -491,13 +516,13 @@ export default function TemplateStudent({navigation}) {
                     <Text style={styles.title}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
                     <TouchableOpacity 
                             style={styles.btnCheckCard}
-                            onPress={handleNext}
+                            onPress={() => navigation.navigate('MyCard')}
                         >
                         <Text style={styles.btnNextText}>카드 확인하기</Text>
                     </TouchableOpacity>
                     <TouchableOpacity 
                             style={styles.btnHome}
-                            onPress={() => navigation.navigate('Home')}
+                            onPress={() => navigation.navigate('홈')}
                         >
                         <Text style={styles.btnHomeText}>홈 화면으로</Text>
                     </TouchableOpacity>
