@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
         borderStyle: "solid",
     },
     btnNextText: {
-        color: "white",
+        color: theme.white,
         fontFamily: "PretendardRegular",
         fontSize: 16,
         fontWeight: "600",
@@ -64,17 +64,23 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray10,
         borderRadius: 26,
         elevation: 4,
+        justifyContent: "center",
         alignItems: "center",
-        paddingVertical: 8,
+        paddingVertical: 6,
         paddingHorizontal: 12,
         position: 'absolute',
         left: 16,
         bottom: 12,
     },
+    autoAvatarIcon: {
+        color: theme.white,
+        marginRight: 6,
+    },
     avatarAutoText: {
-        color: "white",
+        color: theme.white,
         fontFamily: "PretendardRegular",
         fontSize: 14,
+        fontWeight: "600",
     },
     avatarRestart: {
         zIndex: 0,
@@ -90,15 +96,13 @@ export const styles = StyleSheet.create({
         // },
         // shadowOpacity: 0.5,
         // shadowRadius: 12,
+        justifyContent: "center",
         alignItems: "center",
         paddingVertical: 8,
         paddingHorizontal: 12,
         position: 'absolute',
         right: 12,
         bottom: 12,
-    },
-    avatarRestartText: {
-        
     },
     avatarBg: {
         width: SCREEN_WIDTH,
@@ -108,7 +112,7 @@ export const styles = StyleSheet.create({
     },
     avatarItemContainer: {
         flex: 1.3,
-        backgroundColor: "white",
+        backgroundColor: theme.white,
     },
     avatarItemList: {
         flexDirection: "row",

@@ -3,6 +3,10 @@ import React, { useState } from 'react';
 import "react-native-gesture-handler";
 
 import { styles } from "./AvatarCustomStyles";
+import AutoAvatarIcon from "../../assets/icons/ic_autoAvatar_small_line.svg";
+import UndoIcon from "../../assets/icons/ic_undo_small_line.svg";
+import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
+import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -25,21 +29,21 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
             <View style={styles.avatarView}>
                 <View style={styles.avatarDo}>
                     <TouchableOpacity>
-                        <Text>전</Text>
+                        <UndoIcon />
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <Text>후</Text>
+                        <RedoIcon />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarAuto}>
                     <TouchableOpacity style={styles.flexDirectionRow}>
-                        <Text style={styles.avatarAutoText}>ㅁ</Text>
+                        <AutoAvatarIcon style={styles.autoAvatarIcon} />
                         <Text style={styles.avatarAutoText}>자동생성</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarRestart}>
                     <TouchableOpacity>
-                        <Text style={styles.avatarRestartText}>ㅁ</Text>
+                        <RestartIcon />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarBg}></View>
@@ -74,19 +78,19 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                 </View>
                 <View>
                     {avaIndex === 1 && (
-                        <View><Text>이목구비</Text></View>
+                        <Text>이목구비</Text>
                     )}
                     {avaIndex === 2 && (
-                        <View><Text>헤어</Text></View>
+                        <Text>헤어</Text>
                     )}
                     {avaIndex === 3 && (
-                        <View><Text>옷</Text></View>
+                        <Text>옷</Text>
                     )}
                     {avaIndex === 4 && (
-                        <View><Text>악세사리</Text></View>
+                        <Text>악세사리</Text>
                     )}
                     {avaIndex === 5 && (
-                        <View><Text>배경</Text></View>
+                        <Text>배경</Text>
                     )}
                 </View>
                 <TouchableOpacity onPress={handleNext}>

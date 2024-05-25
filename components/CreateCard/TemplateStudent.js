@@ -3,12 +3,12 @@ import React, { useState } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RadioButton } from 'react-native-paper';
-import { theme } from "../../theme";
-// import { DoneSvg } from "../../assets/icons/ic_done_small_line.svg";
 import "react-native-gesture-handler";
 
 import { styles } from "./TemplateStyles";
+import { theme } from "../../theme";
 import AvatarCustom from "./AvatarCustom";
+import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -112,7 +112,7 @@ export default function TemplateStudent({navigation}) {
                             <TouchableOpacity 
                                 style={styles.birthSecret} 
                                 onPress={() => setBSecret(!bSecret)}>
-                                {/* <DoneSvg width="16" height="16" /> */}
+                                <DoneIcon style={[styles.doneIcon, {color: bSecret ? theme.skyblue : theme.gray60}]} />
                                 <Text style={bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 비밀로 할래요</Text>
                             </TouchableOpacity>
                         </View>
@@ -185,21 +185,24 @@ export default function TemplateStudent({navigation}) {
                     <Text style={styles.title}>학교 속 나에 대해 더 알려주고 싶다면</Text>
                     <View style={[styles.flexDirectionRow, styles.btnMores]}>
                         <TouchableOpacity 
-                            style={[styles.btnMore, showJob ? styles.btnOn : styles.btnOff]}  
+                            style={[styles.flexDirectionRow, styles.btnMore, showJob ? styles.btnOn : styles.btnOff]}  
                             onPress={() => setShowJob(!showJob)}
                         >
+                            <DoneIcon style={[styles.doneIcon, {color: showJob ? theme.skyblue : theme.gray60}]} />
                             <Text style={showJob ? styles.btnTextOn : styles.btnTextOff}>직무</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={[styles.btnMore, showClub ? styles.btnOn : styles.btnOff]} 
+                            style={[styles.flexDirectionRow, styles.btnMore, showClub ? styles.btnOn : styles.btnOff]} 
                             onPress={() => setShowClub(!showClub)}
                         >
+                            <DoneIcon style={[styles.doneIcon, {color: showClub ? theme.skyblue : theme.gray60}]} />
                             <Text style={showClub ? styles.btnTextOn : styles.btnTextOff}>동아리</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={[styles.btnMore, showStatus ? styles.btnOn : styles.btnOff]} 
+                            style={[styles.flexDirectionRow, styles.btnMore, showStatus ? styles.btnOn : styles.btnOff]} 
                             onPress={() => setShowStatus(!showStatus)}
                         >
+                            <DoneIcon style={[styles.doneIcon, {color: showStatus ? theme.skyblue : theme.gray60}]} />
                             <Text style={showStatus ? styles.btnTextOn : styles.btnTextOff}>재학여부</Text>
                         </TouchableOpacity>
                     </View>
@@ -262,15 +265,17 @@ export default function TemplateStudent({navigation}) {
                     <Text style={styles.title}>추가적인 연락 수단을 알려주고 싶다면</Text>
                     <View style={[styles.flexDirectionRow, styles.btnMores]}>
                         <TouchableOpacity 
-                            style={[styles.btnMore, showSns ? styles.btnOn : styles.btnOff]}
+                            style={[styles.flexDirectionRow, styles.btnMore, showSns ? styles.btnOn : styles.btnOff]}
                             onPress={() => setShowSns(!showSns)}
                         >
+                            <DoneIcon style={[styles.doneIcon, {color: showSns ? theme.skyblue : theme.gray60}]} />
                             <Text style={showSns ? styles.btnTextOn : styles.btnTextOff}>SNS 계정</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={[styles.btnMore, showEmail ? styles.btnOn : styles.btnOff]}
+                            style={[styles.flexDirectionRow, styles.btnMore, showEmail ? styles.btnOn : styles.btnOff]}
                             onPress={() => setShowEmail(!showEmail)}
                         >
+                            <DoneIcon style={[styles.doneIcon, {color: showEmail ? theme.skyblue : theme.gray60}]} />
                             <Text style={showEmail ? styles.btnTextOn : styles.btnTextOff}>이메일</Text>
                         </TouchableOpacity>
                     </View>
@@ -329,21 +334,24 @@ export default function TemplateStudent({navigation}) {
                     <Text style={styles.title}>사소한 것까지 더 알려주고 싶다면</Text>
                     <View style={[styles.flexDirectionRow, styles.btnMores]}>
                         <TouchableOpacity
-                            style={[styles.btnMore, showMbti ? styles.btnOn : styles.btnOff]}
+                            style={[styles.flexDirectionRow, styles.btnMore, showMbti ? styles.btnOn : styles.btnOff]}
                             onPress={() => setShowMbti(!showMbti)}
                         >
+                            <DoneIcon style={[styles.doneIcon, {color: showMbti ? theme.skyblue : theme.gray60}]} />
                             <Text style={showMbti ? styles.btnTextOn : styles.btnTextOff}>MBTI</Text>
                         </TouchableOpacity>
                         <TouchableOpacity 
-                            style={[styles.btnMore, showMusic ? styles.btnOn : styles.btnOff]}
+                            style={[styles.flexDirectionRow, styles.btnMore, showMusic ? styles.btnOn : styles.btnOff]}
                             onPress={() => setShowMusic(!showMusic)}
                         >
+                            <DoneIcon style={[styles.doneIcon, {color: showMusic ? theme.skyblue : theme.gray60}]} />
                             <Text style={showMusic ? styles.btnTextOn : styles.btnTextOff}>인생 음악</Text>
                         </TouchableOpacity>
                         <TouchableOpacity
-                            style={[styles.btnMore, showMovie ? styles.btnOn : styles.btnOff]}
+                            style={[styles.flexDirectionRow, styles.btnMore, showMovie ? styles.btnOn : styles.btnOff]}
                             onPress={() => setShowMovie(!showMovie)}
                         >
+                            <DoneIcon style={[styles.doneIcon, {color: showMovie ? theme.skyblue : theme.gray60}]} />
                             <Text style={showMovie ? styles.btnTextOn : styles.btnTextOff}>인생 영화</Text>
                         </TouchableOpacity>
                     </View>

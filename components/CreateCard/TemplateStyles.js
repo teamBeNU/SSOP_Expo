@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
     container: {
         height: '100%',
         paddingHorizontal: 16,
-        backgroundColor: "white",
+        backgroundColor: theme.white,
     },
     title: { 
         marginTop: 32,
@@ -81,9 +81,14 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardRegular",
         fontSize: 16,
     },
-
+    
+    doneIcon: {
+        marginRight: 4,
+    },
     birthSecret: {
-        alignItems: "flex-end",
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "center",
         marginTop: 12,
     },
     birthSecretOn: {
@@ -114,7 +119,7 @@ export const styles = StyleSheet.create({
         borderStyle: "solid",
     },
     btnNextText: {
-        color: "white",
+        color: theme.white,
         fontFamily: "PretendardRegular",
         fontSize: 16,
         fontWeight: "600",
@@ -124,6 +129,7 @@ export const styles = StyleSheet.create({
         marginVertical: 32,
     },
     btnMore: {
+        alignItems: "center",
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
