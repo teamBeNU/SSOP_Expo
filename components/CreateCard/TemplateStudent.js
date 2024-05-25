@@ -15,9 +15,14 @@ const { width:SCREEN_WIDTH } = Dimensions.get('window');
 export default function TemplateStudent({navigation}) {
     const [step, setStep] = useState(1);
     const [name, setName] = useState('');
-    const [year, setYear] = useState('');
-    const [month, setMonth] = useState('');
-    const [day, setDay] = useState('');
+    const [birth, setBrith] = useState({
+        year: '',
+        month: '',
+        day: '',
+    });
+    // const [year, setYear] = useState('');
+    // const [month, setMonth] = useState('');
+    // const [day, setDay] = useState('');
     const [bSecret, setBSecret] = useState(false);
     const [tel, setTel] = useState('');
     const [school, setSchool] = useState('');
@@ -119,24 +124,27 @@ export default function TemplateStudent({navigation}) {
                                     style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
                                     placeholder="년"
                                     keyboardType="numeric"
-                                    value={year}
-                                    onChangeText={setYear}
+                                    value={birth.year}
+                                    onChangeText={(newYear) => {setBrith((prevBirth => ({...prevBirth, year: newYear})));}}
+                                    // onChangeText={setYear}
                                     maxLength={4}
                                 />
                                 <TextInput
                                     style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
                                     placeholder="월"
                                     keyboardType="numeric"
-                                    value={month}
-                                    onChangeText={setMonth}
+                                    value={birth.month}
+                                    onChangeText={(newMonth) => {setBrith((prevBirth => ({...prevBirth, month: newMonth})));}}
+                                    // onChangeText={setMonth}
                                     maxLength={2}
                                 />
                                 <TextInput
                                     style={[styles.inputBirth, styles.inputBirthText]}
                                     placeholder="일"
                                     keyboardType="numeric"
-                                    value={day}
-                                    onChangeText={setDay}
+                                    value={birth.day}
+                                    onChangeText={(newDay) => {setBrith((prevBirth => ({...prevBirth, day: newDay})));}}
+                                    // onChangeText={setDay}
                                     maxLength={2}
                                 />
                             </View>
