@@ -11,12 +11,11 @@ import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
 
 function Bluetooth() {
 
-  // 카드 여러장
-  //   const data = [
-  //     { id: '1', name: 'Card 1' },
-  //     { id: '2', name: 'Card 2' },
-  //     { id: '3', name: 'Card 3' },
-  // ]
+  const cardData = [
+    { id: '1', Component: ShareCard },
+    { id: '2', Component: ShareCard2 },
+    { id: '3', Component: ShareCard3 },
+  ];
 
     const navigation = useNavigation(); 
 
@@ -53,20 +52,11 @@ function Bluetooth() {
                         <PlusCardIcon/>
                         <Text style={styles.Text14}>새 카드 만들기</Text>
                 </TouchableOpacity>
-                {/* {data.map((item) => (
-                    <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
-                        <ShareCard />
-                    </TouchableOpacity>
-                ))} */}
-                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                  <ShareCard/>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                  <ShareCard2/>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                  <ShareCard3/>
-                </TouchableOpacity>
+                {cardData.map((item) => (
+                  <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
+                    <item.Component />
+                  </TouchableOpacity>
+                ))}
               </View>
             </View>
           </View>

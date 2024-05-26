@@ -10,12 +10,13 @@ import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 
 function LinkShare() {
 
-      // 카드 여러장
-    //   const data = [
-    //     { id: '1', name: 'Card 1' },
-    //     { id: '2', name: 'Card 2' },
-    //     { id: '3', name: 'Card 3' },
-    // ]
+  const cardData = [
+    { id: '1', Component: ShareCard },
+    { id: '2', Component: ShareCard2 },
+    { id: '3', Component: ShareCard3 },
+    { id: '4', Component: ShareCard4 },
+    { id: '5', Component: ShareCard }
+  ];
 
     const navigation = useNavigation(); 
 
@@ -58,26 +59,11 @@ function LinkShare() {
             </View>
             <View style={styles.container}>
               <View style={styles.row}>
-                {/* {data.map((item) => (
-                    <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
-                        <ShareCard />
-                    </TouchableOpacity>
-                ))} */}
-                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                  <ShareCard/>
-                </TouchableOpacity>    
-                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                  <ShareCard2/>
-                </TouchableOpacity>     
-                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                  <ShareCard3/>
-                </TouchableOpacity>     
-                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                  <ShareCard4/>
-                </TouchableOpacity>  
-                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                  <ShareCard/>
-                </TouchableOpacity>  
+                {cardData.map((item) => (
+                  <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
+                    <item.Component />
+                  </TouchableOpacity>
+                ))}
               </View>
             </View>
             <View style={styles.innerView}></View>
