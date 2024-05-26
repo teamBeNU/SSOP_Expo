@@ -49,7 +49,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     container2: {
-        flex: 1,
     },
     row2: {
         flexDirection: 'row',
@@ -78,8 +77,8 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray90,
     },
     card: {
-        width: '100%', // 부모의 크기에 맞춤
-        height: '100%', // 부모의 크기에 맞춤
+        width: '100%', 
+        height: '100%', 
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -89,11 +88,10 @@ export const styles = StyleSheet.create({
 
     btnContainer: {
         position: 'absolute',
-        bottom: 0,
+        bottom: 16,
         width: '100%',
-        paddingBottom: 40, // 하단 여백
+        paddingBottom: 16, // 하단 여백
         paddingHorizontal: 16, // 좌우 여백
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
     },
     container3: {
         flex: 1,
@@ -137,5 +135,32 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         color: theme.skyblue,
         fontFamily: 'PretendardSemiBold'
-    }   
+    },
+    
+    // 카드가 없을 때
+    emptyContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16,
+     },
+    noCard: {
+        marginTop: 250,
+        color: theme.gray60,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
+    },
+    newContainer: {
+        flexDirection: 'row',
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 4,
+    },
+    newCard: {
+        color:theme.skyblue,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
+    },
 })

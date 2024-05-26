@@ -2,7 +2,8 @@ import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
-    mainlayout:{        
+    mainlayout:{      
+        flex: 1,  
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
@@ -73,7 +74,6 @@ export const styles = StyleSheet.create({
         letterSpacing: -1,
     },
     container: {
-        flex: 1,
         paddingHorizontal: 16,
     },
     row: {
@@ -82,7 +82,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
     },
     container2: {
-        flex: 1,
     },
     row2: {
         flexDirection: 'row',
@@ -116,10 +115,31 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.gray90,
     },
-    card: {
-        width: '100%', // 부모의 크기에 맞춤
-        height: '100%', // 부모의 크기에 맞춤
-        alignItems: 'center',
+
+    // 카드가 없을 때
+    emptyContainer: {
         justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16,
+     },
+    noCard: {
+        marginTop: 250,
+        color: theme.gray60,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
     },
+    newContainer: {
+        flexDirection: 'row',
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 4,
+    },
+        newCard: {
+        color:theme.skyblue,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
+        },
 })

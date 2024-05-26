@@ -55,4 +55,30 @@ export const styles = StyleSheet.create({
         color: theme.gray10,
         letterSpacing: -1,
     },  
+    // 알림이 없을 때
+    emptyContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16,
+     },
+    noCard: {
+        marginTop: 250,
+        color: theme.gray60,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
+    },
+    newContainer: {
+        flexDirection: 'row',
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 4,
+    },
+    newCard: {
+        color:theme.skyblue,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
+    },
 })

@@ -37,7 +37,6 @@ import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
-import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
 import { styles } from './components/MyCard/CardStyle';
 
@@ -65,15 +64,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name=" "  component={MyTabs} options={{headerShown: false}}/>
-        <Stack.Screen name="내 카드 보내기" component={Bluetooth} 
-          options={{
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <LeftArrowIcon style={{ marginLeft: 8  }}/>
-              </TouchableOpacity>
-            ),
-          }}/>
-        <Stack.Screen name="링크 복사" component={LinkShare} />
+        <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
+        <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
         <Stack.Screen 
           name="카드 조회" 
           component={CheckCard}
@@ -134,7 +126,14 @@ export default function App() {
             ),
           }}
           />
-          <Stack.Screen name="알림" component={Notify} />
+          <Stack.Screen name="알림" component={Notify} 
+          options={{
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
     </MenuProvider>
@@ -188,7 +187,7 @@ const Tab = createBottomTabNavigator();
           ),
           headerRight: () => (
             <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
-              <SearchIcon style={{ marginLeft: 8 }} />
+              <SearchIcon style={{ marginRight: 8 }} />
             </TouchableOpacity>
           ),
         }}  />
