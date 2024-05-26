@@ -5,10 +5,19 @@ import React, { useState } from 'react';
 import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import AddIcon from '../../assets/icons/ic_add_small_line.svg';
-import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg'
+import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_small_line.svg';
 import { Colors } from "react-native/Libraries/NewAppScreen";
+import { useFocusEffect } from '@react-navigation/native';
+import {
+    Menu,
+    MenuOptions,
+    MenuOption,
+    MenuTrigger,
+    MenuProvider,
+  } from 'react-native-popup-menu';
 
-function MyCard() {
+function MyCard({ route, navigation }) {
     const CARD_WIDTH = Dimensions.get('window').width * 0.8;
     const SPACING_FOR_CARD_INSET = 32;
 
@@ -19,6 +28,25 @@ function MyCard() {
     ]
     const [cardPage, setCardPage] = useState(1);
     const [hasCard, setHasCard] = useState(true);
+
+    useFocusEffect(
+        React.useCallback(() => {
+          navigation.setOptions({
+            headerRight: () => hasCard ? 
+            <Menu>
+            <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
+            <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+              <MenuOption 
+                // onSelect={() => alert(`Delete`)} 
+                text='카드 삭제하기'
+              />
+            </MenuOptions>
+          </Menu>
+            : null,
+          });
+        }, [navigation, hasCard])
+      );
+    
 
     const handleScroll = (event) => {
         const { contentOffset, layoutMeasurement } = event.nativeEvent;

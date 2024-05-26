@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
         marginBottom: 16,       
 	},
         cardContainer: {
-        height: 368,
+        height: 432,
         flexDirection: 'row',
         },
         cardWrapper: {
