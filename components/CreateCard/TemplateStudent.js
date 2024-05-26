@@ -15,7 +15,7 @@ const { width:SCREEN_WIDTH } = Dimensions.get('window');
 export default function TemplateStudent({navigation}) {
     const [step, setStep] = useState(1);
     const [name, setName] = useState('');
-    const [birth, setBrith] = useState({
+    const [birth, setBirth] = useState({
         year: '',
         month: '',
         day: '',
@@ -49,12 +49,34 @@ export default function TemplateStudent({navigation}) {
     const [showMusic, setShowMusic] = useState(false);
     const [showMovie, setShowMovie] = useState(false);
     const [cover, setCover] = useState('avatar');
+    const [isFull, setIsFull] = useState({
+        name: true,
+        birth: true,
+        tel: true,
+        school: true,
+        grade: true,
+        introduction: true,
+    })
 
     const handleNext = () => {
         if (step === 1) {
-            setStep(2);
+            const isNameFull = name !== '';
+            const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
+            const isTelFull = tel !== '';
+            setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull, tel: isTelFull})));
+            
+            if (isNameFull && isBirthFull && isTelFull) {
+                setStep(2);
+            }
         } else if (step === 2 ) {
-            setStep(3);
+            const isSchoolFull = school !== '';
+            const isGradeFull = grade !== '';
+            const isIntroductionFull = introduction !== '';
+            setIsFull((prev => ({...prev, school: isSchoolFull, grade: isGradeFull, introduction: isIntroductionFull})));
+            
+            if (isSchoolFull && isGradeFull && isIntroductionFull) {
+                setStep(3);
+            }
         } else if (step === 3 ) {
             setStep(4);
         } else if (step === 4 ) {
@@ -62,7 +84,6 @@ export default function TemplateStudent({navigation}) {
         } else if (step === 5 ) {
             setStep(6);
         } else if (step === 6 ) {
-            
             setStep(7);
         } else if (step === 7 ) {
             setStep(8);
@@ -79,8 +100,11 @@ export default function TemplateStudent({navigation}) {
     useEffect(() => {   // 상단바 타이틀 변경
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({headerTitle: '카드 정보 작성'});
-        } else if (step === 6) {
-            navigation.setOptions({headerTitle: '카드 생성'});
+        } else if (step === 6 || step === 8) {
+            navigation.setOptions({
+                headerTitle: '카드 생성',
+                headerRight: null,
+            });
         } else if (step === 7) {
             navigation.setOptions({
                 headerTitle: '아바타 커스터마이징',
@@ -93,11 +117,6 @@ export default function TemplateStudent({navigation}) {
                     </TouchableOpacity>
                 ),
             });
-        } else if (step === 8) {
-            navigation.setOptions({
-                headerTitle: '카드 생성 완료',
-                headerRight: null,
-            });
         }
     }, [step]);
 
@@ -107,15 +126,18 @@ export default function TemplateStudent({navigation}) {
                 <View style={styles.container}>
                     <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
                     <View style={styles.informContainer}>
-                        <View style={styles.inputContainer}>
+                        <View style={[styles.inputContainer, !isFull.name && {marginBottom: 15}]}>
                             <Text style={styles.inputText}>이름*</Text>
                             <TextInput 
-                                style={styles.customInput}
+                                style={[styles.customInput, !isFull.name && styles.inputError]}
                                 placeholder="이름을 입력하세요."
                                 keyboardType="default"
                                 value={name}
                                 onChangeText={setName}
                             />
+                            {!isFull.name && (
+                                <Text style={styles.inputErrorText}>이름을 입력해 주세요.</Text>
+                            )}
                         </View>
                         <View style={styles.inputContainer}>
                             <Text style={styles.inputText}>생년월일*</Text>
@@ -125,7 +147,7 @@ export default function TemplateStudent({navigation}) {
                                     placeholder="년"
                                     keyboardType="numeric"
                                     value={birth.year}
-                                    onChangeText={(newYear) => {setBrith((prevBirth => ({...prevBirth, year: newYear})));}}
+                                    onChangeText={(newYear) => {setBirth((prevBirth => ({...prevBirth, year: newYear})));}}
                                     // onChangeText={setYear}
                                     maxLength={4}
                                 />
@@ -134,7 +156,7 @@ export default function TemplateStudent({navigation}) {
                                     placeholder="월"
                                     keyboardType="numeric"
                                     value={birth.month}
-                                    onChangeText={(newMonth) => {setBrith((prevBirth => ({...prevBirth, month: newMonth})));}}
+                                    onChangeText={(newMonth) => {setBirth((prevBirth => ({...prevBirth, month: newMonth})));}}
                                     // onChangeText={setMonth}
                                     maxLength={2}
                                 />
@@ -143,27 +165,37 @@ export default function TemplateStudent({navigation}) {
                                     placeholder="일"
                                     keyboardType="numeric"
                                     value={birth.day}
-                                    onChangeText={(newDay) => {setBrith((prevBirth => ({...prevBirth, day: newDay})));}}
+                                    onChangeText={(newDay) => {setBirth((prevBirth => ({...prevBirth, day: newDay})));}}
                                     // onChangeText={setDay}
                                     maxLength={2}
                                 />
                             </View>
-                            <TouchableOpacity 
-                                style={styles.birthSecret} 
-                                onPress={() => setBSecret(!bSecret)}>
-                                <DoneIcon style={[styles.doneIcon, {color: bSecret ? theme.skyblue : theme.gray60}]} />
-                                <Text style={bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 비밀로 할래요</Text>
-                            </TouchableOpacity>
+                            <View style={[styles.flexDirectionRow, {justifyContent: "space-between", alignItems: 'center' }]}>
+                                {!isFull.birth ? (
+                                    <Text style={[styles.inputErrorText, {marginTop: 12}]}>생년월일을 입력해 주세요.</Text>
+                                ) : (
+                                    <View></View>
+                                )}
+                                <TouchableOpacity 
+                                    style={styles.birthSecret} 
+                                    onPress={() => setBSecret(!bSecret)}>
+                                    <DoneIcon style={[styles.doneIcon, {color: bSecret ? theme.skyblue : theme.gray60}]} />
+                                    <Text style={bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 비밀로 할래요</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
-                        <View style={styles.inputContainer}>
+                        <View style={[styles.inputContainer, !isFull.tel && {marginBottom: 15}]}>
                             <Text style={styles.inputText}>연락처*</Text>
                             <TextInput 
-                                style={styles.customInput}
+                                style={[styles.customInput, !isFull.tel && styles.inputError]}
                                 placeholder="연락처를 입력하세요."
                                 keyboardType="phone-pad"
                                 value={tel}
                                 onChangeText={setTel}
                             />
+                            {!isFull.tel && (
+                                <Text style={styles.inputErrorText}>연락처를 입력해 주세요.</Text>
+                            )}
                         </View>
                     </View>
                     <TouchableOpacity 
@@ -179,35 +211,44 @@ export default function TemplateStudent({navigation}) {
                 <View style={styles.container}>
                     <Text style={styles.title}>학교와 관련된 정보를 알려주세요.</Text>
                     <View style={styles.informContainer}>
-                        <View style={styles.inputContainer}>
+                        <View style={[styles.inputContainer, !isFull.school && {marginBottom: 15}]}>
                             <Text style={styles.inputText}>학교명*</Text>
                             <TextInput 
-                                style={styles.customInput}
+                                style={[styles.customInput, !isFull.school && styles.inputError]}
                                 placeholder="학교명을 입력하세요."
                                 keyboardType="default"
                                 value={school}
                                 onChangeText={setSchool}
                             />
+                            {!isFull.school && (
+                                <Text style={styles.inputErrorText}>학교명을 입력해 주세요.</Text>
+                            )}
                         </View>
-                        <View style={styles.inputContainer}>
+                        <View style={[styles.inputContainer, !isFull.grade && {marginBottom: 15}]}>
                             <Text style={styles.inputText}>학년*</Text>
                             <TextInput 
-                                style={styles.customInput}
+                                style={[styles.customInput, !isFull.grade && styles.inputError]}
                                 placeholder="학년을 입력하세요."
                                 keyboardType="numeric"
                                 value={grade}
                                 onChangeText={setGrade}
                             />
+                            {!isFull.grade && (
+                                <Text style={styles.inputErrorText}>학년을 입력해 주세요.</Text>
+                            )}
                         </View>
-                        <View style={styles.inputContainer}>
+                        <View style={[styles.inputContainer, !isFull.introduction && {marginBottom: 15}]}>
                             <Text style={styles.inputText}>한줄소개*</Text>
                             <TextInput 
-                                style={styles.customInput}
+                                style={[styles.customInput, !isFull.introduction && styles.inputError]}
                                 placeholder="간단하게 자신을 소개해 보세요."
                                 keyboardType="default"
                                 value={introduction}
                                 onChangeText={setIntroduction}
                             />
+                            {!isFull.introduction && (
+                                <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
+                            )}
                         </View>
                     </View>
                     <TouchableOpacity 

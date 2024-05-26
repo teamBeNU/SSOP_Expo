@@ -25,8 +25,8 @@ function CreateCard({navigation}) {
 
     // 템플릿 2*2 배치
     const rows = [];
-    for (let i = 0; i < templates.length; i += 2) {
-        rows.push(templates.slice(i, i+2))
+    for (let i = 0; i < items.length; i += 2) {
+        rows.push(items.slice(i, i+2))
     }
 
     return (
@@ -47,7 +47,7 @@ function CreateCard({navigation}) {
                                         styles.cell,
                                         
                                     ]}
-                                    onPress={() => handleSelectTemp(temp.id)}
+                                    onPress={() => handleSelectTemp(item.id)}
                                 >
                                     <Image source={item.image} style={{ width: '50%', height: undefined, aspectRatio: 1 }} />
                                     <Text style={styles.label}>{item.label}</Text>

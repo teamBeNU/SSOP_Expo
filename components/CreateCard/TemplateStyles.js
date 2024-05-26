@@ -57,9 +57,16 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         margin: 0,
     },
-    informText: {
-        fontSize: 14,
+    inputError: {
+        borderColor: theme.red,
+    },
+    inputErrorText: {
+        color: theme.red,
         fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontWeight: "400",
+        marginHorizontal: 8,
+        marginTop: 8,
     },
 
     inputBirthContainer: {
