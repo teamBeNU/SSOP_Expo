@@ -17,12 +17,38 @@ function Bluetooth() {
     { id: '3', Component: ShareCard3 },
   ];
 
+  const recipients = [
+    { id: '1', name: '홍길동', status: '' },
+    { id: '2', name: '홍길동', status: '' },
+    { id: '3', name: '홍길동', status: '' },
+    { id: '4', name: '홍길동', status: '공유 완료됨' }
+  ];
+
     const navigation = useNavigation(); 
 
     const [step, setStep] = useState(1);
 
     const handleNext = () => {
         setStep(2);
+    };
+
+    const [recipientStatuses, setRecipientStatuses] = useState(
+      recipients.reduce((acc, recipient) => {
+        acc[recipient.id] = recipient.status;
+        return acc;
+      }, {})
+    );
+
+    const handlePressRecipient = (id) => {
+      setRecipientStatuses((prevStatuses) => {
+        if (prevStatuses[id] === '공유 완료됨') {
+          return prevStatuses; // "공유 완료됨" 상태인 경우 안 변함
+        }
+        return {
+          ...prevStatuses,
+          [id]: '요청 중...'
+        };
+      });
     };
 
     const [selectedOption, setSelectedOption] = useState('최신순');
@@ -63,32 +89,21 @@ function Bluetooth() {
         ) : (
           <View style={styles.mainlayout}>
             <Text style={[styles.title, {marginBottom: 46}]}>보낼 사람을 선택하여 카드를 공유하세요.</Text>
-            <View>
-                <TouchableOpacity style={styles.namebox}>
-                    <Text style={styles.name}>홍길동</Text>
+            {recipients.map((recipient) => (
+            <React.Fragment key={recipient.id}>
+              <View>
+                <TouchableOpacity style={styles.namebox} onPress={() => handlePressRecipient(recipient.id)}>
+                  <Text style={styles.name}>{recipient.name}</Text>
+                  {recipientStatuses[recipient.id] && (
+                    <Text style={recipientStatuses[recipient.id] === '요청 중...' ? styles.stateCall : styles.stateFinish}>
+                      {recipientStatuses[recipient.id]}
+                    </Text>
+                  )}
                 </TouchableOpacity>
-            </View>
-            <View style={styles.line} />
-            <View>
-                <TouchableOpacity style={styles.namebox}>
-                    <Text style={styles.name}>홍길동</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.line} />
-            <View>
-                <TouchableOpacity style={styles.namebox}>
-                    <Text style={styles.name}>홍길동</Text>
-                    <Text style={styles.stateCall}>요청 중...</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.line} />
-            <View>
-                <TouchableOpacity style={styles.namebox}>
-                    <Text style={styles.name}>홍길동</Text>
-                    <Text style={styles.stateFinish}>공유 완료됨</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.line} />
+              </View>
+              <View style={styles.line} />
+            </React.Fragment>
+          ))}
           </View>
         )}
       </ScrollView>
