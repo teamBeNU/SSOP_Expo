@@ -1,17 +1,22 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Image, ScrollView, Clipboard, Alert } from "react-native";
 import { styles } from './LinkShareStyle';
+import { ShareCard, ShareCard2, ShareCard3, ShareCard4 } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from 'react-native-popup-menu';
 import { useNavigation } from '@react-navigation/native';
 
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
-import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
-import CardTmb1 from '../../assets/images/cardTmb1.svg';
-import CardTmb2 from '../../assets/images/cardTmb2.svg';
-import CardTmb3 from '../../assets/images/cardTmb3.svg';
 
 function LinkShare() {
+
+      // 카드 여러장
+    //   const data = [
+    //     { id: '1', name: 'Card 1' },
+    //     { id: '2', name: 'Card 2' },
+    //     { id: '3', name: 'Card 3' },
+    // ]
+
     const navigation = useNavigation(); 
 
     const [step, setStep] = useState(1);
@@ -53,16 +58,26 @@ function LinkShare() {
             </View>
             <View style={styles.container}>
               <View style={styles.row}>
+                {/* {data.map((item) => (
+                    <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
+                        <ShareCard />
+                    </TouchableOpacity>
+                ))} */}
                 <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                </TouchableOpacity>
+                  <ShareCard/>
+                </TouchableOpacity>    
                 <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                </TouchableOpacity>
+                  <ShareCard2/>
+                </TouchableOpacity>     
                 <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                </TouchableOpacity>
+                  <ShareCard3/>
+                </TouchableOpacity>     
                 <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                </TouchableOpacity>
+                  <ShareCard4/>
+                </TouchableOpacity>  
                 <TouchableOpacity style={styles.btn1} onPress={handleNext}>
-                </TouchableOpacity>                
+                  <ShareCard/>
+                </TouchableOpacity>  
               </View>
             </View>
             <View style={styles.innerView}></View>
