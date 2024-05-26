@@ -24,6 +24,7 @@ TextInput.defaultProps = TextInput.defaultProps || {};
 TextInput.defaultProps.allowFontScaling = false;
 
 import Home from './pages/home/Home';
+import Login from './pages/Login/Login';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
 import LinkShare from './pages/LinkShare';
 import CheckCard from './pages/CheckCard/CheckCard';
@@ -35,6 +36,7 @@ import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
+
 import { styles } from './components/MyCard/CardStyle';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
@@ -61,6 +63,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="로그인" component={Login} />
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} />
         <Stack.Screen name="링크 복사" component={LinkShare} />
         <Stack.Screen 
