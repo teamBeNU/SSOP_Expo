@@ -25,6 +25,7 @@ TextInput.defaultProps.allowFontScaling = false;
 
 import Home from './pages/home/Home';
 import Login from './pages/Login/Login';
+import EmailLogin from './pages/Login/EmailLogin';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
 import LinkShare from './pages/LinkShare';
 import CheckCard from './pages/CheckCard/CheckCard';
@@ -64,6 +65,18 @@ export default function App() {
       <Stack.Navigator>
         <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
         <Stack.Screen name="로그인" component={Login} />
+        <Stack.Screen 
+        name="이메일로그인" 
+        component={EmailLogin}
+        options={{
+          headerTitle: "로그인",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <CloseIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),
+        }}
+         />
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} />
         <Stack.Screen name="링크 복사" component={LinkShare} />
         <Stack.Screen 

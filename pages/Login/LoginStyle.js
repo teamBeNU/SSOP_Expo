@@ -67,5 +67,62 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 19,
     letterSpacing: -0.32,
+    },
+
+    //Email Login
+    emailLoginContainer:{
+    backgroundColor: 'white',
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingTop: 24,
+    },
+    inputContainer: {
+    gap: 8,
+    marginTop: 40,
+    },
+    inputTitle: {
+    paddingHorizontal: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontFamily: 'Pretendard',
+    color: theme.gray40,
+    fontSize: 14,
+    fontWeight: '400',
+    lineHeight: 17,
+    letterSpacing: -0.14,
+    },
+    input: {
+    width: '100%',
+    height: 48,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    alignItems: 'center',
+    backgroundColor: theme.gray95,
+    borderRadius: 8,
+    placeholderTextColo: theme.gray60,
+    },
+    textContainer: {
+    marginTop: 56,
+    height: 40,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 24,
+    },
+    pwChange: {
+    fontFamily: 'Pretendard',
+    color: theme.gray60,
+    fontSize: 14,
+    fontWeight: '600',
+    lineHeight: 17,
+    letterSpacing: -0.14,
+    },
+    join:{
+        fontFamily: 'Pretendard',
+        color: theme.gray40,
+        fontSize: 14,
+        fontWeight: '600',
+        lineHeight: 17,
+        letterSpacing: -0.14,
     }
 });
