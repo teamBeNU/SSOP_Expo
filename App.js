@@ -25,7 +25,7 @@ TextInput.defaultProps.allowFontScaling = false;
 
 import Home from './pages/home/Home';
 import Login from './pages/Login/Login';
-import EmailLogin from './pages/Login/EmailLogin';
+import SignIn from './pages/Login/SignIn';
 import ChangePw from './pages/Login/ChangePw';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
 import LinkShare from './pages/LinkShare';
@@ -68,7 +68,7 @@ export default function App() {
         <Stack.Screen name="로그인" component={Login} />
         <Stack.Screen 
         name="이메일로그인" 
-        component={EmailLogin}
+        component={SignIn}
         options={{
           headerTitle: "로그인",
           headerLeft: ({onPress}) => (
