@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
-import { styles } from './BluetoothStyle';
+import React, { useState, useEffect } from "react";
+import { View, Text, Image, ScrollView, Clipboard, Alert } from "react-native";
+import { styles } from './LinkShareStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from 'react-native-popup-menu';
 import { useNavigation } from '@react-navigation/native';
@@ -11,8 +11,7 @@ import CardTmb1 from '../../assets/images/cardTmb1.svg';
 import CardTmb2 from '../../assets/images/cardTmb2.svg';
 import CardTmb3 from '../../assets/images/cardTmb3.svg';
 
-function Bluetooth() {
-
+function LinkShare() {
     const navigation = useNavigation(); 
 
     const [step, setStep] = useState(1);
@@ -23,11 +22,21 @@ function Bluetooth() {
 
     const [selectedOption, setSelectedOption] = useState('최신순');
 
+    const LinkShare = 'digitalmedia.com'; // 링크 
+
+    // 링크 복사
+    const copyLinkShare = () => {
+        const textToCopy = LinkShare;
+        Clipboard.setString(textToCopy);
+        Alert.alert("클립보드에 복사되었습니다.");
+      };    
+
     return (
-      <ScrollView showsVerticalScrollIndicator={false}> 
-        {step === 1 ? (          
-          <View style={styles.mainlayout}>
-            <Text style={styles.title}>블루투스로 보낼 카드를 선택하세요</Text>
+      <View style={styles.mainlayout}>
+        {step === 1 ? (     
+        <ScrollView showsVerticalScrollIndicator={false}>     
+          <View >
+            <Text style={styles.title}>공유할 카드를 선택하세요</Text>
             <View style={styles.container2}>
               <View style={styles.row2}>
                 <Text style={styles.range}>{selectedOption}</Text>
@@ -44,53 +53,41 @@ function Bluetooth() {
             </View>
             <View style={styles.container}>
               <View style={styles.row}>
-                <TouchableOpacity style={styles.btn1} onPress={() => navigation.navigate('카드 만들기')}>
-                        <PlusCardIcon/>
-                        <Text style={styles.Text14}>새 카드 만들기</Text>
-                </TouchableOpacity>
                 <TouchableOpacity style={styles.btn1} onPress={handleNext}>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn1} onPress={handleNext}>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.btn1} onPress={handleNext}>
                 </TouchableOpacity>
-                
+                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btn1} onPress={handleNext}>
+                </TouchableOpacity>                
               </View>
             </View>
+            <View style={styles.innerView}></View>
           </View>
+        </ScrollView>
         ) : (
-          <View style={styles.mainlayout}>
-            <Text style={[styles.title, {marginBottom: 46}]}>보낼 사람을 선택하여 카드를 공유하세요.</Text>
-            <View>
-                <TouchableOpacity style={styles.namebox}>
-                    <Text style={styles.name}>홍길동</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.line} />
-            <View>
-                <TouchableOpacity style={styles.namebox}>
-                    <Text style={styles.name}>홍길동</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.line} />
-            <View>
-                <TouchableOpacity style={styles.namebox}>
-                    <Text style={styles.name}>홍길동</Text>
-                    <Text style={styles.stateCall}>요청 중...</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.line} />
-            <View>
-                <TouchableOpacity style={styles.namebox}>
-                    <Text style={styles.name}>홍길동</Text>
-                    <Text style={styles.stateFinish}>공유 완료됨</Text>
-                </TouchableOpacity>
-            </View>
-            <View style={styles.line} />
+          <View>
+            <Text style={styles.title}>보낼 사람을 선택하여 카드를 공유하세요.</Text>
+            <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
+            <Text style={[styles.Text14, {marginBottom: 8}]}> 링크 </Text>
+                <View style={styles.linkShareContainer}>
+                  <Text style={styles.linkShare}> {LinkShare} </Text>
+                  <TouchableOpacity onPress={copyLinkShare}>
+                    <Text style={styles.copy}>복사</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View>
+                  <View style={styles.btnNext}>
+                    <Text onPress={() => navigation.navigate(' ')} style={styles.btnText}> 홈 화면으로 </Text>
+                  </View>
+                </View>
           </View>
         )}
-      </ScrollView>
+    </View>
     );
-  }
-
-  export default Bluetooth;
+}
+  export default LinkShare;

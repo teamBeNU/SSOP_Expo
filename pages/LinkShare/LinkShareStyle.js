@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
-    mainlayout:{        
+    mainlayout:{    
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
@@ -12,34 +12,20 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         letterSpacing: -1,
     },  
-    name: { // 보낼 사람 선택 이름 
-        marginTop: 13.5,
-        marginBottom: 13.5,
-        fontFamily: "PretendardSemiBold",
-        fontSize: 18,
-        letterSpacing: -1,
-        position: 'relative',
-    },      
-    namebox: { 
-    },
-    stateCall: { // 요청중
-        position: 'absolute',
-        bottom: 14.5,
-        right: 0, 
-        fontFamily: "PretendardSemiBold",
-        fontSize: 16,
-        color: theme.blue,
-        letterSpacing: -1,
-    },  
-    stateFinish: { // 공유 완료
-        position: 'absolute',
-        bottom: 14.5,
-        right: 0,
+    Text16: { 
+        marginTop: 16,
         fontFamily: "PretendardRegular",
         fontSize: 16,
-        color: theme.gray50,
         letterSpacing: -1,
     },  
+    Text14: { 
+        marginLeft: 8,
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        letterSpacing: -1,
+        color: theme.gray40,
+    },        
+
     range: { //최신순 정렬
         marginTop: 24,
         marginLeft: 8,
@@ -52,26 +38,7 @@ export const styles = StyleSheet.create({
         marginTop: 24,
         marginBottom: 12,
     },
-	Text20: {
-        marginTop: 16,
-        marginLeft: 16,
-        fontFamily: "PretendardSemiBold",
-        fontSize: 20,
-        letterSpacing: -1,
-    },
-    Text14: {
-        marginBottom: 21,
-        fontFamily: "PretendardSemiBold",
-        color: theme.gray50,
-        fontSize: 14,
-        letterSpacing: -1,
-    },
-    Text16: {
-        marginBottom: 21,
-        fontFamily: "PretendardRegular",
-        fontSize: 16,
-        letterSpacing: -1,
-    },
+
     container: {
         flex: 1,
         paddingHorizontal: 16,
@@ -87,12 +54,6 @@ export const styles = StyleSheet.create({
     row2: {
         flexDirection: 'row',
         alignItems: 'center',
-    },
-    line: {
-        borderBottomWidth:1,
-        borderBottomColor: theme.gray90,
-        marginTop: 8,
-        marginBottom: 8,
     },
 
     btn1: { // 새 카드 만들기
@@ -122,4 +83,59 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    innerView: {
+        marginTop: 120,
+    },
+
+    btnContainer: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        paddingBottom: 40, // 하단 여백
+        paddingHorizontal: 16, // 좌우 여백
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
+    },
+    container3: {
+        flex: 1,
+        position: 'relative',
+    },
+    btnNext: {
+        marginTop: 50,
+        marginBottom: 16,
+        width: '100%',
+        height: 48,
+        justifyContent: 'center',
+        borderRadius: 8,
+        fontFamily: 'PretendardRegular',
+        backgroundColor: theme.gray10,
+    },
+    btnText:{
+        textAlign: 'center',
+        color: theme.white,
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold'
+    },
+    // 초대코드
+    linkShareContainer: {
+        width: '100%',
+        height: 48,
+        marginTop: 8,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+    },
+    linkShare: {
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold',
+    },
+    copy:{
+        fontSize: 16,
+        color: theme.skyblue,
+        fontFamily: 'PretendardSemiBold'
+    }   
 })

@@ -29,7 +29,7 @@ Text.defaultProps.allowFontScaling = false;
 
 import Home from './pages/home/Home';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
-import LinkShare from './pages/LinkShare';
+import LinkShare from './pages/LinkShare/LinkShare';
 import CheckCard from './pages/CheckCard/CheckCard';
 import Memo from './pages/CheckCard/Memo';
 import MyCard from './pages/MyCard/MyCard';
