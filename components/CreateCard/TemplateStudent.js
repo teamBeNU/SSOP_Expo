@@ -3,6 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { RadioButton } from 'react-native-paper';
+import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 
 import { styles } from "./TemplateStyles";
@@ -122,6 +123,16 @@ export default function TemplateStudent({navigation}) {
 
     return (
         <View style={styles.main}>
+            {step !== 7 && (        // 프로그레스 바
+                <Progress.Bar
+                    progress={step / 8}
+                    width={null}
+                    height={2}
+                    color={theme.green}
+                    borderWidth={0}
+                />
+            )}
+
             {step === 1 && (
                 <View style={styles.container}>
                     <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
