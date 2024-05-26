@@ -14,7 +14,7 @@ function Login() {
     const navigation = useNavigation();
 
     return(
-        <View style={styles.container}>
+        <View style={{...styles.container, alignItems: 'center', justifyContent: 'center',}}>
             <View>
                 <Text style={styles.title}> <Text style={styles.ssop}>쏩 카드</Text>로{`\n`}서로에게 스며들다
                 </Text>

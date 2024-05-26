@@ -3,8 +3,6 @@ import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
     container:{
-    alignItems: 'center',
-    justifyContent: 'center',
     backgroundColor: 'white',
     flex: 1,
     paddingHorizontal: 16,
@@ -70,12 +68,6 @@ export const styles = StyleSheet.create({
     },
 
     //Email Login
-    emailLoginContainer:{
-    backgroundColor: 'white',
-    flex: 1,
-    paddingHorizontal: 16,
-    paddingTop: 24,
-    },
     inputContainer: {
     gap: 8,
     marginTop: 40,

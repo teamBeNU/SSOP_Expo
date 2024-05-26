@@ -26,6 +26,7 @@ TextInput.defaultProps.allowFontScaling = false;
 import Home from './pages/home/Home';
 import Login from './pages/Login/Login';
 import EmailLogin from './pages/Login/EmailLogin';
+import ChangePw from './pages/Login/ChangePw';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
 import LinkShare from './pages/LinkShare';
 import CheckCard from './pages/CheckCard/CheckCard';
@@ -70,6 +71,18 @@ export default function App() {
         component={EmailLogin}
         options={{
           headerTitle: "로그인",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <CloseIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),
+        }}
+         />
+        <Stack.Screen 
+        name="비밀번호 변경" 
+        component={ChangePw}
+        options={{
+          headerTitle: "비밀번호 변경",
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <CloseIcon style={{ marginLeft: 8  }}/>
