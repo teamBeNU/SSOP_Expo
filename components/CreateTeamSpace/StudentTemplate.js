@@ -8,7 +8,7 @@ import { Card } from "../MyCard/Card";
 import "react-native-gesture-handler";
 import Select from "../../assets/select.svg";
 
-export default function StudentTemplate({ navigation }) {
+export default function StudentTemplate({ navigation, teamName, teamComment, istemplate, template }) {
   const [step, setStep] = useState(1);
 
   const [front, setFront] = useState({
@@ -108,6 +108,23 @@ export default function StudentTemplate({ navigation }) {
     Clipboard.setString(textToCopy);
     Alert.alert("클립보드에 복사되었습니다.");
   };
+
+  // 입력/선택한 값 출력
+  useEffect (() => {
+    if (step === 3) {
+    Alert.alert(
+        "Variable Values",
+        `teamName: ${teamName}
+        teamComment: ${teamComment}
+        istemplate: ${istemplate}
+        template: ${template}
+        front: ${JSON.stringify(front)}
+        position: ${JSON.stringify(positionList)}
+        plus: ${JSON.stringify(plusList)}
+        `
+      );
+    };
+  },[step]);
 
   return (
     <View>

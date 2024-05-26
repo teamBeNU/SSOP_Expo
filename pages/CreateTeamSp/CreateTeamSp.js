@@ -21,6 +21,8 @@ function CreateTeamSp({ navigation }) {
 
     const inviteCode = '120432'; // step6
 
+    const [studentTemplateState, setStudentTemplateState] = useState({});
+
     // step 단위 뒤로 가기
     const handleBack = () => {
       // 현재 단계(step)에 따라 이전 단계로 이동
@@ -83,7 +85,22 @@ function CreateTeamSp({ navigation }) {
       const textToCopy = inviteCode;
       Clipboard.setString(textToCopy);
       Alert.alert("클립보드에 복사되었습니다.");
-    };    
+    };   
+    
+    
+  // 입력/선택한 값 출력
+  useEffect (() => {
+    if (step === 6) {
+    Alert.alert(
+        "Variable Values",
+        `teamName: ${teamName}
+         teamComment: ${teamComment}
+         istemplate: ${istemplate}
+         template: ${template}
+        `
+      );
+    };
+  },[step]);
 
     return (
         <View style={styles.mainlayout}>
@@ -186,7 +203,14 @@ function CreateTeamSp({ navigation }) {
             
             {step === 5 && (
             <View>
-              {template === "student" && <StudentTemplate navigation={navigation} /> }
+              {template === "student" && 
+                <StudentTemplate navigation={navigation} 
+                teamName={teamName}
+                nameLength={nameLength}
+                teamComment={teamComment}
+                istemplate={istemplate}
+                template={template}
+                /> }
               {template === "worker" && <WorkerTemplate navigation={navigation} /> }
               {template === "fan" && <FanTemplate navigation={navigation} /> }
               {template === "free" && <FreeTemplate navigation={navigation} /> }
@@ -195,15 +219,17 @@ function CreateTeamSp({ navigation }) {
 
             {step === 6 && (
               <View style={styles.stepContainer}>
-                <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
-                {'\n'} 바로 초대해 보세요. </Text>
+                <View>
+                  <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
+                  {'\n'} 바로 초대해 보세요. </Text>
                 
-                <Text style={[styles.subtitle, {marginTop: 32}]}> 초대코드 </Text>
-                <View style={styles.inviteCodeContainer}>
-                  <Text style={styles.inviteCode}> {inviteCode} </Text>
-                  <TouchableOpacity onPress={copyInviteCode}>
-                    <Text style={styles.copy}>복사</Text>
-                  </TouchableOpacity>
+                  <Text style={[styles.subtitle, {marginTop: 32}]}> 초대코드 </Text>
+                  <View style={styles.inviteCodeContainer}>
+                    <Text style={styles.inviteCode}> {inviteCode} </Text>
+                    <TouchableOpacity onPress={copyInviteCode}>
+                      <Text style={styles.copy}>복사</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
 
                 <View style={styles.btnContainer}>
