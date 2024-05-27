@@ -32,7 +32,10 @@ export default function TemplateStudent({navigation}) {
     const [job, setJob] = useState('');
     const [club, setClub] = useState('');
     const [status, setStatus] = useState('휴학');
-    const [sns, setSns] = useState(['', '']);
+    const [sns, setSns] = useState({
+        instargram: '',
+        x: '',
+    });
     const [email, setEmail] = useState('');
     const [mbti, setMbti] = useState('');
     // const [music, setMusic] = useState('');
@@ -400,8 +403,8 @@ export default function TemplateStudent({navigation}) {
                                             style={styles.customInput}
                                             placeholder="Instargram"
                                             keyboardType="default"
-                                            value={sns[0]}
-                                            onChangeText={text => setSns(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
+                                            value={sns.instargram}
+                                            onChangeText={(newInstargram) => {setSns((prevSns => ({...prevSns, instargram: newInstargram})));}}
                                         />
                                     </View>
                                     <View style={styles.margintB48}>
@@ -410,8 +413,8 @@ export default function TemplateStudent({navigation}) {
                                             style={styles.customInput}
                                             placeholder="X"
                                             keyboardType="default"
-                                            value={sns[1]}
-                                            onChangeText={text => setSns(prevState => [...prevState.slice(0, 2), text])}
+                                            value={sns.x}
+                                            onChangeText={(newX) => {setSns((prevSns => ({...prevSns, x: newX})));}}
                                         />
                                     </View>
                                 </View>
