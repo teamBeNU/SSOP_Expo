@@ -58,6 +58,7 @@ export default function TemplateStudent({navigation}) {
         grade: true,
         introduction: true,
     })
+    const [imageWidth, setImageWidth] = useState(0);
 
     const handleNext = () => {
         if (step === 1) {
@@ -92,6 +93,8 @@ export default function TemplateStudent({navigation}) {
     };
 
     const handleScroll = (event) => {
+        // const contentOffsetX = event.nativeEvent.contentOffset.x;
+        // const currentIndex = Math.floor(contentOffsetX / (SCREEN_WIDTH));
         const contentOffsetX = event.nativeEvent.contentOffset.x;
         const currentIndex = Math.round(contentOffsetX / (SCREEN_WIDTH));
         if (currentIndex == 0) {setCover('avatar');}
@@ -526,8 +529,12 @@ export default function TemplateStudent({navigation}) {
                             >
                                 <Image 
                                     source={require("../../assets/images/cardCover-1.png")}
-                                    style={styles.coverImg1}
+                                    style={[styles.coverImg, {marginLeft: (SCREEN_WIDTH - imageWidth)/2}]}
                                     resizeMode="contain"
+                                    onLayout={(event) => {
+                                        const { width } = event.nativeEvent.layout;
+                                        setImageWidth(width);
+                                    }}
                                 />
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -535,7 +542,7 @@ export default function TemplateStudent({navigation}) {
                             >
                                 <Image 
                                     source={require("../../assets/images/cardCover-2.png")}
-                                    style={styles.coverImg2}
+                                    style={[styles.coverImg, {marginRight: (SCREEN_WIDTH - imageWidth)/2}]}
                                     resizeMode="contain"
                                 />
                             </TouchableOpacity>

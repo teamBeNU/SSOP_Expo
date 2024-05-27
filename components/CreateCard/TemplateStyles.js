@@ -228,13 +228,13 @@ export const styles = StyleSheet.create({
         // backgroundColor: "orange"
     },
     coverImg1: {
-        marginLeft: 48,
+        // marginLeft: 48,
         justifyContent: 'center',
         alignItems: 'center',
         // backgroundColor: "orange"
     },
     coverImg2: {
-        paddingRight: 48,
+        // marginRight: 48,
         justifyContent: 'center',
         alignItems: 'center',
         // backgroundColor: "orange"
