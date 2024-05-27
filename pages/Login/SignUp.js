@@ -17,6 +17,15 @@ function SignUp() {
     const [codeIsCorrect, setCodeIsCorrect] = useState(true);
     const [isResend, setIsResend] = useState(false);
     const [showPw, setShowPw] = useState(false);
+    const [hasEnglish, setHasEnglish] = useState(false);
+    const [hasNum, setHasNum] = useState(false);
+    const [hasLeng, setHasLeng] = useState(false);
+
+    const passwordCheck = (password) => {
+        setHasEnglish(/[a-zA-Z]/.test(password));
+        setHasNum(/[0-9]/.test(password));
+        setHasLeng(/^.{6,20}$/.test(password));
+    };
       
     const togglePwVisibility = () => {
       setShowPw(!showPw);
