@@ -18,11 +18,13 @@ export const styles = StyleSheet.create({
 	title: {
         marginTop: 30,
 		fontSize: 20,
+        lineHeight: 33,
         fontFamily: 'PretendardSemiBold'
 	},
     largetitle: {
         marginTop: '15%',
 		fontSize: 24,
+        lineHeight: 33,
         textAlign: 'center',
         fontFamily: 'PretendardSemiBold',
 	},
@@ -39,10 +41,11 @@ export const styles = StyleSheet.create({
     font18: {
         fontSize: 18,
         fontFamily: 'PretendardSemiBold',
+        lineHeight: 24,
         marginLeft: 8
     },
     nameContainer: {
-        marginTop: 65,
+        marginTop: 32,
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'flex-start',        
@@ -117,6 +120,7 @@ export const styles = StyleSheet.create({
     },
     RadioBtn: {
         flexDirection: "row",
+        alignItems: 'center',
         paddingVertical: 20,
         paddingHorizontal: 12,
         marginBottom: 8,

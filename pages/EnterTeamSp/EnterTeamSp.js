@@ -6,7 +6,7 @@ import { theme } from '../../theme'
 
 function EnterTeamSp({ navigation }) {
     const [step, setStep] = useState(1);
-    const [hostTemplate, setHostTemplate] = useState(1); // 호스트 지정 템플릿 있음
+    const [hostTemplate, setHostTemplate] = useState(0); // 호스트 지정 템플릿 있음
     // const [inviteCode, setInviteCode] = useState(null);
     const inviteCode = '123456';
     const [inputcode, setInputCode] = useState("");
@@ -111,7 +111,7 @@ function EnterTeamSp({ navigation }) {
           {/* 제출할 카드 선택 */}
           {step === 4 && (
             <View style={styles.stepContainer}>
-                <Text style={styles.title}> 팀스페이스에 보여질 카드를 선택하세요 </Text>
+                <Text style={styles.title}> 팀스페이스에 보여질 카드를 선택하세요. </Text>
 
                 <ScrollView>
                     

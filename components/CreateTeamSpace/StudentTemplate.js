@@ -189,7 +189,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                 {item.selected && (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Select />
-                  <Text style={styles.selectedText}> {item.position} </Text>
+                  <Text style={styles.selectedText}> #{item.position} </Text>
                 </View>
               )}
               {!item.selected && <Text> #{item.position} </Text>}
@@ -358,7 +358,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
               {front.showMusic && (
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                   <Select />
-                  <Text style={styles.selectedText}> 인생음악 </Text>
+                  <Text style={styles.selectedText}> 인생 음악 </Text>
                 </View>
               )}
               {!front.showMusic && <Text> 인생 음악 </Text>}
@@ -423,13 +423,8 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
           </View>
           <Text style={[styles.subtitle, { marginTop: 450, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 
-          {/* <View style={[styles.btnNext, { marginTop: 40 }]}>
-            <Text onPress={handleNext} style={styles.btnText}> 팀스페이스 생성 완료할래요 </Text>
-          </View> */}
-          <View style={[styles.btnContainer, {marginBottom: -125}]}>
-            <View style={styles.btnNext}>
-              <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-            </View>
+          <View style={styles.btnNext}>
+            <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
           </View>
         </View>
       )}

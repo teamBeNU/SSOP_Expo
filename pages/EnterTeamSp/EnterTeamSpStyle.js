@@ -33,7 +33,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold'
 	},
     nameContainer: {
-        marginTop: 65,
+        marginTop: 32,
         display: 'inline-flex',
         flexDirection: 'column',
         alignItems: 'flex-start',        

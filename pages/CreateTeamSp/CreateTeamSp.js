@@ -109,7 +109,7 @@ function CreateTeamSp({ navigation }) {
             <View style={styles.stepContainer}>
                 <Text style={styles.title}> 팀스페이스의 이름을 지어주세요. </Text>
 
-                <View style={styles.nameContainer}>
+                <View style={[styles.nameContainer, {marginTop: 68}]}>
                     <Text style={styles.name}>이름</Text>
                     <TextInput style={styles.nameInput} placeholder='팀스페이스의 이름을 지어주세요.' 
                      maxLength={15}
@@ -129,7 +129,7 @@ function CreateTeamSp({ navigation }) {
 
             {step === 2 && (
             <View style={styles.stepContainer}>
-                <Text style={styles.title}> 팀스페이스를 설명하는 {"\n"} 문장을 적어주세요 </Text>
+                <Text style={styles.title}> 팀스페이스를 설명하는 {"\n"} 문장을 적어주세요. </Text>
                 <View style={styles.nameContainer}>
                     <Text style={styles.name}> 상세 설명 </Text>
                     <TextInput style={styles.nameInput} placeholder='팀스페이스의 특징이나 설명을 적어보세요.'
