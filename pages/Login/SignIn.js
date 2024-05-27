@@ -10,7 +10,7 @@ import VerticalLine from "../../assets/Login/ic_vertical_line.svg";
 import GoogleIcon from "../../assets/Login/ic_google.png";
 import KakaoIcon from "../../assets/Login/ic_kakao.png";
 
-function EmailLogin() {
+function SignIn() {
     const navigation = useNavigation();
 
     return(
@@ -38,7 +38,7 @@ function EmailLogin() {
             </TouchableOpacity>
             <VerticalLine />
             <TouchableOpacity>
-                <Text style={styles.join}>회원가입</Text>
+                <Text style={styles.join} onPress={() => navigation.navigate('회원가입')}>회원가입</Text>
             </TouchableOpacity>
             </View>
 
@@ -60,4 +60,4 @@ function EmailLogin() {
     )
  }
 
-export default EmailLogin;
+export default SignIn;

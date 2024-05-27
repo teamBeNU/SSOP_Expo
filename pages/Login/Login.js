@@ -23,10 +23,9 @@ function Login() {
             <CardsIcon style={{marginTop: 48}} />
             
             <View style={styles.socialContainer}>
-                {/* <GoogleIcon />
-                <KakaoIcon /> */}
                 <TouchableOpacity>
                 <Image source={GoogleIcon} />
+                {/* <GoogleIcon /> */}
                 </TouchableOpacity>
                 <TouchableOpacity>
                 <Image source={KakaoIcon} />
@@ -37,7 +36,7 @@ function Login() {
             </View>
 
             <View style={styles.emailContainer}>
-                <TouchableOpacity style={styles.email}>
+                <TouchableOpacity style={styles.email} onPress={() => navigation.navigate('회원가입')}>
                     <Text style={styles.emailText}>이메일로 회원가입하기</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.login} onPress={() => navigation.navigate('이메일로그인')}>

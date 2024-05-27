@@ -26,6 +26,7 @@ TextInput.defaultProps.allowFontScaling = false;
 import Home from './pages/home/Home';
 import Login from './pages/Login/Login';
 import SignIn from './pages/Login/SignIn';
+import SignUp from './pages/Login/SignUp';
 import ChangePw from './pages/Login/ChangePw';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
 import LinkShare from './pages/LinkShare';
@@ -90,6 +91,7 @@ export default function App() {
           ),
         }}
          />
+        <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} />
         <Stack.Screen name="링크 복사" component={LinkShare} />
         <Stack.Screen 
