@@ -111,12 +111,10 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: '4%',
-        backgroundColor: "red"
     },
     row: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        backgroundColor: "orange"
     },
     item: {
         width: '45%',
@@ -127,7 +125,6 @@ export const styles = StyleSheet.create({
         display: 'flex',
         justifyContent:'center',
         alignItems: 'center',
-        backgroundColor: "yellow"
     },
     text: {
         textAlign: 'center',
