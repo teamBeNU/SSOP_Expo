@@ -93,11 +93,11 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                         <Text>배경</Text>
                     )}
                 </View>
-                <TouchableOpacity onPress={handleNext}>
+                {/* <TouchableOpacity onPress={handleNext}>
                     <Text 
                         style={[styles.btnNextText, {backgroundColor: "black"}, {padding: 10}, {width: 200}]}>임시 버튼: 다음으로 넘어가기
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     );
