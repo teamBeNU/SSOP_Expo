@@ -31,7 +31,7 @@ export const styles = StyleSheet.create({
     font16: {
         fontSize: 16,
         fontFamily: 'Pretendard',
-        marginTop: 12
+        marginTop: 8
     },
     font18: {
         fontSize: 18,
