@@ -180,7 +180,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'Pretendard',
     },
     modalView: {
-        height: 343,
+        height: 340,
         paddingHorizontal: 16,
         backgroundColor: 'white',
         borderTopLeftRadius: 8,

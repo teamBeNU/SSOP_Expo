@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { styles } from './EnterTeamSpStyle';
 import { theme } from '../../theme'
-import { View, Text, TextInput, ScrollView, Image, Modal, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput, ScrollView, Modal, TouchableOpacity, Alert } from "react-native";
 import { RadioButton } from 'react-native-paper';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import People from '../../assets/icons/ic_people_small_fill.svg';
@@ -14,12 +14,13 @@ function EnterTeamSp({ navigation }) {
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
   
-  const [hostTemplate, setHostTemplate] = useState(1); // 호스트 지정 템플릿 있음
+  const [hostTemplate, setHostTemplate] = useState(0); // 호스트 지정 템플릿 있음
   const [newCard, setNewCard] = useState("no");
 
   const handleNext = () => {
     if (step === 1) {
       if (inputcode === inviteCode) {
+        setIsModalVisible(true);
         if (hostTemplate) {
           setStep(2);
         } else {
