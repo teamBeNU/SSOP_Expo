@@ -34,7 +34,8 @@ import MyCard from './pages/MyCard/MyCard';
 import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard/CreateCard';
-import EnterTeamSp from './pages/EnterTeamSp';
+import HostTemplate from './pages/HostTemplate/HostTemplate';
+import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
 import { styles } from './components/MyCard/CardStyle';
@@ -123,7 +124,19 @@ export default function App() {
           }}
         />
         <Stack.Screen name="카드 만들기" component={CreateCard} options={{ title: '카드 생성' }} />
-        <Stack.Screen name="팀스페이스 입장" component={EnterTeamSp} />
+        <Stack.Screen name="호스트 지정 템플릿" component={HostTemplate} options={{ title: '카드 생성' }} />
+        
+        <Stack.Screen 
+          name="팀스페이스 입장" 
+          component={EnterTeamSp} 
+          options={{ 
+            headerTitle: "팀스페이스 생성",
+            headerLeft: ({navigation}) => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            )
+          }} />
         <Stack.Screen 
           name="Memo" 
           component={Memo}
