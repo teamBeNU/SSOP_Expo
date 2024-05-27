@@ -18,29 +18,20 @@ export const styles = StyleSheet.create({
 	title: {
         marginTop: 30,
 		fontSize: 20,
+        lineHeight: 33,
         fontFamily: 'PretendardSemiBold'
 	},
-    largetitle: {
-        marginTop: '15%',
-		fontSize: 24,
-        textAlign: 'center',
-        fontFamily: 'PretendardSemiBold',
-	},
-    subtitle: {
-        marginTop: 12,
-		fontSize: 14,
-        fontFamily: 'PretendardRegular'
-	},
-    font16: {
-        fontSize: 16,
-        fontFamily: 'PretendardSemiBold',
-        marginLeft: 4
-    },
     font18: {
         fontSize: 18,
         fontFamily: 'PretendardSemiBold',
         marginLeft: 8
     },
+    font22: {
+        marginTop: 30,
+		fontSize: 22,
+        lineHeight: 33,
+        fontFamily: 'PretendardSemiBold'
+	},
     nameContainer: {
         marginTop: 65,
         display: 'inline-flex',
@@ -117,6 +108,7 @@ export const styles = StyleSheet.create({
     },
     RadioBtn: {
         flexDirection: "row",
+        alignItems: 'center',
         paddingVertical: 20,
         paddingHorizontal: 12,
         marginBottom: 8,
@@ -166,114 +158,4 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 4
     },
-    selectedItem: {
-        backgroundColor: '#ccc',
-        // backgroundColor: '#00C2ED',
-    },
-    // 카드 정보 선택
-    elementContainer:{
-        display:'flex',        
-        alignItems: 'flex-start', 
-        marginTop: 16,
-        flexDirection: 'row',
-        flexWrap: 'wrap', // 줄바꿈
-        gap: 8,
-    },
-    defaultElement:{    
-        display:'flex',   
-        paddingVertical: 8,
-        paddingHorizontal: 12,
-        fontFamily: 'PretendardRegular',
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: theme.gray80, 
-        color: theme.gray50,
-        backgroundColor: theme.gray95,
-    },
-    element:{    
-        display:'flex',   
-        paddingVertical: 8,
-        paddingHorizontal: 12,
-        fontFamily: 'PretendardRegular',
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: theme.gray90, 
-        color: theme.gray20,
-        backgroundColor: theme.white,
-    },
-    selectedElement:{ 
-        paddingVertical: 8,
-        paddingHorizontal: 12,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: theme.skyblue,
-        color: theme.skyblue,
-        fontFamily: 'PretendardSemiBold'
-    },
-    selectedText:{
-        color: theme.skyblue,
-        fontFamily: 'PretendardSemiBold'
-    },
-    plusContainer:{
-        flexDirection: 'row', 
-        alignItems: 'center', 
-        justifyContent: 'space-between', 
-        marginTop: 16, 
-        marginBottom: 8
-    },
-    line: {
-        borderBottomWidth:1,
-        borderBottomColor: theme.gray90,
-        marginTop: 28,
-        marginBottom: 28
-    },
-    coverContainer:{
-        flexDirection: 'row',
-        marginTop: 16,
-        marginBottom: 200
-    },
-    coverRadioBtn:{        
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginRight: 16  
-    },
-    // 템플릿 예시 확인
-    cardShadow:{        
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 30,
-         // Android - Shadow
-        elevation: 5,
-         // IOS - Shadow
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 4,
-            height: 4,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 12,
-    },
-    // 초대코드
-    inviteCodeContainer: {
-        width: '100%',
-        height: 48,
-        marginTop: 8,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: theme.gray10,
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-    },
-    inviteCode: {
-        fontSize: 16,
-        fontFamily: 'PretendardRegular',
-    },
-    copy:{
-        fontSize: 16,
-        color: theme.skyblue,
-        fontFamily: 'PretendardSemiBold'
-    }   
 })

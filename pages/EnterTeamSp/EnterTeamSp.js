@@ -1,6 +1,8 @@
 import { useState } from "react";
-import { View, Text, TextInput, ScrollView, Alert } from "react-native";
+import { View, Text, TextInput, ScrollView, Image, TouchableOpacity, Alert } from "react-native";
+import { RadioButton } from 'react-native-paper';
 import { styles } from './EnterTeamSpStyle';
+import { theme } from '../../theme'
 
 function EnterTeamSp({ navigation }) {
     const [step, setStep] = useState(1);
@@ -60,10 +62,10 @@ function EnterTeamSp({ navigation }) {
           {/* 호스트가 템플릿 지정 */}
           {step === 2 && (
             <View style={styles.stepContainer}>
-                <Text style={styles.title}> 
+                <Text style={styles.font22}> 
                   호스트가 템플릿을 지정했어요. 
-                  {"\n"} 팀스페이스에 보여질
-                  {"\n"} 카드를 새로 만들어 봐요!
+                  {"\n"}팀스페이스에 보여질
+                  {"\n"}카드를 새로 만들어 봐요!
                 </Text>
                 
                 <View style={styles.flexSpacer} />
@@ -126,7 +128,7 @@ function EnterTeamSp({ navigation }) {
           {/* 팀스페이스 입장 완료 */}
           {step === 5 && (
             <View style={styles.stepContainer}>
-                <Text style={styles.title}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
+                <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
 
                 <View style={styles.flexSpacer} />
 
