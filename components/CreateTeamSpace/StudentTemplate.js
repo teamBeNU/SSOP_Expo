@@ -184,11 +184,20 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
             <Text style={styles.subtitle}> 포지션을 등록하면 태그로 편하게 분류할 수 있어요.</Text>
             <View style={styles.elementContainer}>
               {positionList.map((item, index) => (
-                <Text key={index} onPress={() => positionSelected(index)}
-                  style={[styles.element, item.selected && styles.selectedElement]}>
-                  #{item.position}</Text>
+                <TouchableOpacity key={index} onPress={() => positionSelected(index)}
+                style={item.selected ? styles.selectedElement : styles.element}>
+                {item.selected && (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Select />
+                  <Text style={styles.selectedText}> {item.position} </Text>
+                </View>
+              )}
+              {!item.selected && <Text> #{item.position} </Text>}
+              </TouchableOpacity>
               ))}
             </View>
+
+            
             <View style={styles.plusContainer}>
               <TextInput
                 style={[styles.nameInput, { flex: 1 }]}
