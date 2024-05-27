@@ -21,6 +21,18 @@ export const styles = StyleSheet.create({
         lineHeight: 33,
         fontFamily: 'PretendardSemiBold'
 	},
+    font14: {
+        marginBottom: 21,
+        fontFamily: "PretendardSemiBold",
+        color: theme.gray50,
+        fontSize: 14,
+        letterSpacing: -1,
+    },    
+    font16: {
+        fontSize: 16,
+        fontFamily: 'Pretendard',
+        marginTop: 12
+    },
     font18: {
         fontSize: 18,
         fontFamily: 'PretendardSemiBold',
@@ -152,10 +164,63 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.05,
         shadowRadius: 12,
     },
+    
     text: {
         fontSize: 12,
         fontFamily: 'Pretendard',
         textAlign: 'center',
         marginTop: 4
     },
+    //modal style
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        width: '100%',
+        justifyContent: 'flex-end',
+        fontFamily: 'Pretendard',
+    },
+    modalView: {
+        height: 343,
+        paddingHorizontal: 16,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+    },
+    closeIcon: {
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end'
+    },
+    modalContent: {
+        borderRadius: 8,
+        backgroundColor: theme.white,
+        borderWidth: 1,
+        borderColor: theme.gray90,
+        marginTop: 24,
+        padding: 16,
+        width: '100%',
+        // display: 'flex',
+        // justifyContent:'center',
+        // alignItems: 'center',
+
+        // Android - Shadow
+        elevation: 5,
+        // IOS - Shadow
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
+    },
+    people: {
+        marginTop: 12,
+        fontSize: 12,
+        fontFamily: 'Pretendard',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+    
 })
