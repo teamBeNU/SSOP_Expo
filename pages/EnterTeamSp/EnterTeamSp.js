@@ -1,21 +1,28 @@
 import { useState } from "react";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, TextInput, ScrollView, Alert } from "react-native";
+import { styles } from './EnterTeamSpStyle';
 
 function EnterTeamSp({ navigation }) {
     const [step, setStep] = useState(1);
     const [hostTemplate, setHostTemplate] = useState(1); // 호스트 지정 템플릿 있음
-    const [inviteCode, setInviteCode] = useState(null);
+    // const [inviteCode, setInviteCode] = useState(null);
+    const inviteCode = '123456';
+    const [inputcode, setInputCode] = useState("");
     const [newCard, setNewCard] = useState("no");
 
     const handleNext = () => {
         if (step === 1) {
-          if (hostTemplate) {
-            setStep(2);
+          if (inputcode === inviteCode) {
+            if (hostTemplate) {
+              setStep(2);
+            } else {
+              setStep(3);
+            }
           } else {
-            setStep(3);
-          }
+          Alert.alert("존재하지 않는 초대코드입니다.");
+        }
         } else if (step === 3) {
-            setStep(4)
+          setStep(4)
         } else if (step === 4) {
           setStep(5)
         }
@@ -33,11 +40,11 @@ function EnterTeamSp({ navigation }) {
                 <View style={styles.nameContainer}>
                     <Text style={styles.name}>초대코드 입력</Text>
                     <TextInput style={styles.nameInput} placeholder='초대코드를 입력하세요.' 
-                     maxLength={15}
-                     value={teamName}
-                     onChangeText={text => setTeamName(text)}
+                     maxLength={6}
+                     value={inputcode}
+                    //  keyboardType='numeric'
+                     onChangeText={setInputCode}
                      onSubmitEditing={handleNext} />
-                     <Text style={styles.nameLeng}> {nameLength} / 15 </Text>
                 </View>
                 
                 <View style={styles.flexSpacer} />
@@ -75,14 +82,14 @@ function EnterTeamSp({ navigation }) {
                 
                   <RadioButton.Group onValueChange={status => setNewCard(status)} value={newCard}>
                     <TouchableOpacity onPress={() => setNewCard("no")}>
-                      <View style={[styles.RadioBtn, istemplate !== "no" && styles.nonSelect]} >
+                      <View style={[styles.RadioBtn, newCard !== "no" && styles.nonSelect]} >
                         <RadioButton value="no"  color={theme.skyblue} />
                           <Text style={styles.font18}> 기존 카드 중에서 선택할래요 </Text> 
                       </View>
                     </TouchableOpacity>
         
                     <TouchableOpacity onPress={() => setNewCard("yes")}>
-                      <View style={[styles.RadioBtn, istemplate !== "yes" && styles.nonSelect]}>
+                      <View style={[styles.RadioBtn, newCard !== "yes" && styles.nonSelect]}>
                         <RadioButton value="yes" color={theme.skyblue}/>
                           <Text style={styles.font18}> 카드를 새로 만들래요 </Text>
                       </View>
