@@ -157,7 +157,7 @@ export default function TemplateStudent({navigation}) {
                             <Text style={styles.inputText}>생년월일*</Text>
                             <View style={styles.inputBirthContainer}>
                                 <TextInput
-                                    style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
+                                    style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
                                     placeholder="년"
                                     keyboardType="numeric"
                                     value={birth.year}
@@ -166,7 +166,7 @@ export default function TemplateStudent({navigation}) {
                                     maxLength={4}
                                 />
                                 <TextInput
-                                    style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
+                                    style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
                                     placeholder="월"
                                     keyboardType="numeric"
                                     value={birth.month}
@@ -175,7 +175,7 @@ export default function TemplateStudent({navigation}) {
                                     maxLength={2}
                                 />
                                 <TextInput
-                                    style={[styles.inputBirth, styles.inputBirthText]}
+                                    style={[styles.inputBirth, styles.inputBirthText, !isFull.birth && styles.inputError]}
                                     placeholder="일"
                                     keyboardType="numeric"
                                     value={birth.day}
