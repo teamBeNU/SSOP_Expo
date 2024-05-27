@@ -62,7 +62,7 @@ export const styles = StyleSheet.create({
         gap: 16,
      },
     noCard: {
-        marginTop: 250,
+        marginTop: 310,
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,

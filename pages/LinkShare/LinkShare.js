@@ -4,7 +4,6 @@ import { styles } from './LinkShareStyle';
 import { ShareCard, ShareCard2, ShareCard3, ShareCard4 } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Menu, MenuOptions, MenuOption, MenuTrigger, MenuProvider } from 'react-native-popup-menu';
-import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
