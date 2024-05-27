@@ -44,7 +44,8 @@ function EnterTeamSp({ navigation }) {
                     <TextInput style={styles.nameInput} placeholder='초대코드를 입력하세요.' 
                      maxLength={6}
                      value={inputcode}
-                    //  keyboardType='numeric'
+                     keyboardType='numeric'
+                     returnKeyType='done'
                      onChangeText={setInputCode}
                      onSubmitEditing={handleNext} />
                 </View>
