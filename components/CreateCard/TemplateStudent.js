@@ -153,6 +153,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="default"
                                         value={name}
                                         onChangeText={setName}
+                                        returnKeyType="next"
                                     />
                                     {!isFull.name && (
                                         <Text style={styles.inputErrorText}>이름을 입력해 주세요.</Text>
@@ -169,6 +170,7 @@ export default function TemplateStudent({navigation}) {
                                             onChangeText={(newYear) => {setBirth((prevBirth => ({...prevBirth, year: newYear})));}}
                                             // onChangeText={setYear}
                                             maxLength={4}
+                                            returnKeyType="next"
                                         />
                                         <TextInput
                                             style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
@@ -178,6 +180,7 @@ export default function TemplateStudent({navigation}) {
                                             onChangeText={(newMonth) => {setBirth((prevBirth => ({...prevBirth, month: newMonth})));}}
                                             // onChangeText={setMonth}
                                             maxLength={2}
+                                            returnKeyType="next"
                                         />
                                         <TextInput
                                             style={[styles.inputBirth, styles.inputBirthText, !isFull.birth && styles.inputError]}
@@ -187,6 +190,7 @@ export default function TemplateStudent({navigation}) {
                                             onChangeText={(newDay) => {setBirth((prevBirth => ({...prevBirth, day: newDay})));}}
                                             // onChangeText={setDay}
                                             maxLength={2}
+                                            returnKeyType="next"
                                         />
                                     </View>
                                     <View style={[styles.flexDirectionRow, {justifyContent: "space-between", alignItems: 'center' }]}>
@@ -211,6 +215,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="phone-pad"
                                         value={tel}
                                         onChangeText={setTel}
+                                        returnKeyType="next"
                                     />
                                     {!isFull.tel && (
                                         <Text style={styles.inputErrorText}>연락처를 입력해 주세요.</Text>
@@ -242,6 +247,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="default"
                                         value={school}
                                         onChangeText={setSchool}
+                                        returnKeyType="next"
                                     />
                                     {!isFull.school && (
                                         <Text style={styles.inputErrorText}>학교명을 입력해 주세요.</Text>
@@ -255,6 +261,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="numeric"
                                         value={grade}
                                         onChangeText={setGrade}
+                                        returnKeyType="next"
                                     />
                                     {!isFull.grade && (
                                         <Text style={styles.inputErrorText}>학년을 입력해 주세요.</Text>
@@ -268,6 +275,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="default"
                                         value={introduction}
                                         onChangeText={setIntroduction}
+                                        returnKeyType="next"
                                     />
                                     {!isFull.introduction && (
                                         <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
@@ -326,6 +334,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="default"
                                         value={job}
                                         onChangeText={setJob}
+                                        returnKeyType="next"
                                     />
                                 </View>
                             )}
@@ -338,6 +347,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="default"
                                         value={club}
                                         onChangeText={setClub}
+                                        returnKeyType="next"
                                     />
                                 </View>
                             )}
@@ -405,6 +415,7 @@ export default function TemplateStudent({navigation}) {
                                             keyboardType="default"
                                             value={sns.instargram}
                                             onChangeText={(newInstargram) => {setSns((prevSns => ({...prevSns, instargram: newInstargram})));}}
+                                            returnKeyType="next"
                                         />
                                     </View>
                                     <View style={styles.margintB48}>
@@ -415,6 +426,7 @@ export default function TemplateStudent({navigation}) {
                                             keyboardType="default"
                                             value={sns.x}
                                             onChangeText={(newX) => {setSns((prevSns => ({...prevSns, x: newX})));}}
+                                            returnKeyType="next"
                                         />
                                     </View>
                                 </View>
@@ -428,6 +440,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="email"
                                         value={email}
                                         onChangeText={setEmail}
+                                        returnKeyType="next"
                                     />
                                 </View>
                             )}
@@ -483,6 +496,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="default"
                                         value={mbti}
                                         onChangeText={setMbti}
+                                        returnKeyType="next"
                                     />
                                 </View>
                             )}
@@ -497,6 +511,7 @@ export default function TemplateStudent({navigation}) {
                                             value={music.title}
                                             // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
                                             onChangeText={(newTitle) => {setMusic((prevMusic => ({...prevMusic, title: newTitle})));}}
+                                            returnKeyType="next"
                                         />
                                         <TextInput 
                                             style={styles.musicInput}
@@ -505,6 +520,7 @@ export default function TemplateStudent({navigation}) {
                                             value={music.musician}
                                             // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
                                             onChangeText={(newMusician) => {setMusic((prevMusic => ({...prevMusic, musician: newMusician})));}}
+                                            returnKeyType="next"
                                         />
                                     </View>
                                 </View>
@@ -518,6 +534,7 @@ export default function TemplateStudent({navigation}) {
                                         keyboardType="default"
                                         value={movie}
                                         onChangeText={setMovie}
+                                        returnKeyType="next"
                                     />
                                 </View>
                             )}
