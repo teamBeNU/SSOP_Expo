@@ -363,7 +363,7 @@ export default function TemplateStudent({navigation}) {
                                     <Text style={styles.inputText}>직무</Text>
                                     <TextInput 
                                         style={styles.customInput}
-                                        placeholder="직무"
+                                        placeholder="직무를 입력하세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={job}
@@ -379,7 +379,7 @@ export default function TemplateStudent({navigation}) {
                                     <Text style={styles.inputText}>동아리</Text>
                                     <TextInput 
                                         style={styles.customInput}
-                                        placeholder="소속 동아리"
+                                        placeholder="소속 동아리명을 입력하세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={club}
@@ -450,7 +450,7 @@ export default function TemplateStudent({navigation}) {
                                         <Text style={styles.inputText}>Instargram</Text>
                                         <TextInput 
                                             style={styles.customInput}
-                                            placeholder="Instargram"
+                                            placeholder="인스타그램 계정을 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={sns.instargram}
@@ -464,7 +464,7 @@ export default function TemplateStudent({navigation}) {
                                         <Text style={styles.inputText}>X</Text>
                                         <TextInput 
                                             style={styles.customInput}
-                                            placeholder="X"
+                                            placeholder="X 계정을 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={sns.x}
@@ -482,7 +482,7 @@ export default function TemplateStudent({navigation}) {
                                     <Text style={styles.inputText}>이메일</Text>
                                     <TextInput 
                                         style={styles.customInput}
-                                        placeholder="이메일 주소"
+                                        placeholder="이메일 주소를 입력하세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="email"
                                         value={email}
@@ -541,7 +541,7 @@ export default function TemplateStudent({navigation}) {
                                     <Text style={styles.inputText}>MBTI</Text>
                                     <TextInput 
                                         style={styles.customInput}
-                                        placeholder="MBTI"
+                                        placeholder="MBTI를 입력하세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={mbti}
@@ -590,7 +590,7 @@ export default function TemplateStudent({navigation}) {
                                     <Text style={styles.inputText}>인생 영화</Text>
                                     <TextInput 
                                         style={styles.customInput}
-                                        placeholder="영화명"
+                                        placeholder="영화 제목을 입력하세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={movie}
@@ -635,8 +635,8 @@ export default function TemplateStudent({navigation}) {
                                     style={[styles.coverImg, {marginLeft: (SCREEN_WIDTH - imageWidth)/2, marginRight:16}]}
                                     resizeMode="contain"
                                     onLayout={(event) => {
-                                        const { width, height } = event.nativeEvent.layout;
-                                        setCoverDemensions(width, height);
+                                        const { width } = event.nativeEvent.layout;
+                                        setImageWidth(width);
                                     }}
                                 />
                             </TouchableOpacity>
@@ -647,10 +647,6 @@ export default function TemplateStudent({navigation}) {
                                     source={require("../../assets/images/cardCover-2.png")}
                                     style={[styles.coverImg, {marginRight: (SCREEN_WIDTH - imageWidth)/2}]}
                                     resizeMode="contain"
-                                    onLayout={(event) => {
-                                        const { width } = event.nativeEvent.layout;
-                                        setImageWidth(width);
-                                    }}
                                 />
                             </TouchableOpacity>
                         </ScrollView>

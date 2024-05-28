@@ -136,8 +136,9 @@ export const styles = StyleSheet.create({
     avatarItemCategoryTextOn: {
         color: "black",
         textAlign: "center",
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 14,
+        fontStyle: "normal",
         fontWeight: "600",
     },
     avatarItemCategoryTextOff: {
@@ -145,6 +146,7 @@ export const styles = StyleSheet.create({
         textAlign: "center",
         fontFamily: "PretendardRegular",
         fontSize: 14,
+        fontStyle: "normal",
         fontWeight: "400",
     },
 
