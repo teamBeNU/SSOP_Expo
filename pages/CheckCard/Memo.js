@@ -6,9 +6,12 @@ import { useNavigation, useRoute } from '@react-navigation/native';
 
 function Memo() {
     const [textLeng, setTextLeng] = useState(0);
+    const [memo, setMemo] = useState('');
+    const [testMemo, setTestMemo] = useState("이 친구는 개발이랑 디자인 모두 관심이 있다고 한다.\n한번 말을 해보면 나랑 잘 통하지 않을까");
 
-    const handleTextChange = (text) => {
+    const handleTextChange = (text, e) => {
         setTextLeng(text.length);
+        setTestMemo(text);
     };
 
     const navigation = useNavigation();
@@ -18,6 +21,7 @@ function Memo() {
         navigation.setOptions({
           headerTitle: route.params.isEdit ? '메모 수정' : '메모 작성' ,
         });
+        if(route.params.isEdit) setTextLeng(testMemo.length)
       }, [navigation, route.params.isEdit]);
 
     return (
@@ -30,7 +34,8 @@ function Memo() {
              style={styles.memoInput}
              multiline
              onChangeText={handleTextChange}
-             value={route.params.isEdit ? "이 친구는 개발이랑 디자인 모두 관심이 있다고 한다.\n한번 말을 해보면 나랑 잘 통하지 않을까" : null}
+             maxLength={500}
+             value={route.params.isEdit ? testMemo : memo}
              placeholder="잊으면 안 되거나 특별했던 부분, 첫인상 등"/>
              <Text style={styles.memoLeng}> {textLeng} / 500 </Text>
 
