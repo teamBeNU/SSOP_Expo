@@ -126,8 +126,6 @@ export default function App() {
           }}
         />
         <Stack.Screen name="카드 만들기" component={CreateCard} options={{ title: '카드 생성' }} />
-        <Stack.Screen name="호스트 지정 템플릿" component={HostTemplate} options={{ title: '카드 생성' }} />
-        
         <Stack.Screen 
           name="팀스페이스 입장" 
           component={EnterTeamSp} 

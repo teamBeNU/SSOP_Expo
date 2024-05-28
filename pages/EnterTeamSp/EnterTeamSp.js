@@ -4,22 +4,23 @@ import { theme } from '../../theme'
 import { View, Text, TextInput, ScrollView, Modal, TouchableOpacity, Alert } from "react-native";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import People from '../../assets/icons/ic_people_small_fill.svg';
+
 import AvatarSample1 from '../../assets/icons/AbatarSample1';
 import AvatarSample2 from '../../assets/icons/AbatarSample2';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard";
-
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
+import HostTemplate from "../../components/EnterTeamSp/HostTemplate.js";
 
 function EnterTeamSp({ navigation }) {
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
   
   // const [inviteCode, setInviteCode] = useState(null);
   const inviteCode = '123456';
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
   
-  const [hostTemplate, setHostTemplate] = useState(0); // 호스트 지정 템플릿 있음
+  const [hostTemplate, setHostTemplate] = useState(1); // 호스트 지정 템플릿 있음
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
@@ -31,13 +32,17 @@ function EnterTeamSp({ navigation }) {
         if (hostTemplate) {
           setStep(2);
         } else {
-          setStep(3);
+          setStep(4);
         }
       } else {
         Alert.alert("존재하지 않는 초대코드입니다.");
       }
+    } else if (step === 2) {
+      setStep(3)
     } else if (step === 3) {
       setStep(4)
+    } else if (step === 4) {
+      setStep(5)
     }
   }
 
@@ -116,13 +121,20 @@ function EnterTeamSp({ navigation }) {
           <View style={styles.flexSpacer} />
 
           <View style={styles.btnNext}>
-            <Text onPress={() => navigation.navigate("호스트 지정 템플릿")} style={styles.btnText}> 카드 만들기 </Text>
+            <Text onPress={handleNext} style={styles.btnText}> 카드 만들기 </Text>
           </View>
         </View>
       )}
 
-      {/* 제출할 카드 선택 */}
+      {/* 호스트 지정 템플릿으로 이동 */}
       {step === 3 && (
+        <View style={styles.stepContainer}>
+          <HostTemplate navigation={navigation} />
+        </View>
+      )}
+
+      {/* 제출할 카드 선택 */}
+      {step === 4 && (
         <View style={styles.stepContainer}>
           { hasCards ? (
           <CardsView
@@ -140,13 +152,12 @@ function EnterTeamSp({ navigation }) {
               />
           )
         }
-
         </View>
 
       )}
 
       {/* 팀스페이스 입장 완료 */}
-      {step === 4 && (
+      {step === 5 && (
         <View style={styles.stepContainer}>
           <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
 
