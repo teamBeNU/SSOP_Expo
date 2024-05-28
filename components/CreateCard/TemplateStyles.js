@@ -216,7 +216,7 @@ export const styles = StyleSheet.create({
         textAlign: "center",
     }, 
     coverSubTitle: {
-        fontFamily: "PretendardSemiBold",
+        fontFamily: "Pretendard",
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
