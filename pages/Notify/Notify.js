@@ -52,7 +52,9 @@ if (!hasNotify) {
 
   const handleAccept = (id) => {
     setNotiData(notiData.map(card => 
-      card.id === id ? { ...card, accepted: true } : card
+      card.id === id 
+        ? { ...card, accepted: true, title: card.title.replace('님이 카드를 보냈습니다', '님의 카드를 받았습니다') } 
+        : card
     ));
   };
 
@@ -85,3 +87,4 @@ if (!hasNotify) {
 }
 
 export default Notify;
+

@@ -1,6 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './ShareCardStyle';
+import { useNavigation } from '@react-navigation/native';
 import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
 
 export const ShareCard = ({ backgroundColor, avatar }) => {
@@ -23,7 +24,8 @@ export const ShareCard = ({ backgroundColor, avatar }) => {
     )
 }
 
-export const PlusCardButton = ({ navigation }) => {
+export const PlusCardButton = () => {
+    const navigation = useNavigation();
     return (
       <TouchableOpacity style={styles.btn1} onPress={() => navigation.navigate('카드 만들기')}>
         <PlusCardIcon/>

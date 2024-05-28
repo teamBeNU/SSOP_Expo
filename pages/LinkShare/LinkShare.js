@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, Clipboard, Alert } from "react-native";
 import { styles } from './LinkShareStyle';
-import { ShareCard } from "../../components/Bluetooth/ShareCard.js";
+import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { createStackNavigator } from '@react-navigation/stack';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
@@ -22,6 +22,7 @@ function Step1Screen({ navigation }) {
 
   // 카드 데이터
   const cardData = [
+    { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
     { id: '1', Component: ShareCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
     { id: '2', Component: ShareCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
     { id: '3', Component: ShareCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
