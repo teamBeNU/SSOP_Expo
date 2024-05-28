@@ -13,12 +13,15 @@ function SignUp() {
     const navigation = useNavigation();
     const route = useRoute();
 
+    const [code, setCode] = useState('');
+    const [testCode, setTestCode] = useState('12345');
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [birth, setBirth] = useState([]);
     const [year, setYear] = useState('');
     const [month, setMonth] = useState('');
     const [day, setDay] = useState('');
+
     const [codeIsCorrect, setCodeIsCorrect] = useState(true);
     const [isResend, setIsResend] = useState(false);
     const [showPw, setShowPw] = useState(false);
@@ -42,7 +45,20 @@ function SignUp() {
         }
         console.log(hasName);
       };
-        
+
+    const handleCodeChange = (text) => {
+      setCode(text);
+      if(code === testCode) setCodeIsCorrect(true);
+    };
+    
+    const handleCode = () => {
+      if(code !== testCode) setCodeIsCorrect(false);
+      else if((code === testCode)) setCodeIsCorrect(false);
+    };
+
+    const handleRequest = () => {
+      setIsResend(true);
+    };
 
     const handleBirth = (birth) => {
     if (typeof year === 'string' && year.trim() !== '') {
@@ -119,16 +135,17 @@ function SignUp() {
                     <TextInput
                     style={styles.input} 
                     placeholder="이메일 주소를 확인하세요."
-                    keyboardType= "numberpad"
+                    keyboardType= "number-pad"
+                    onChangeText={handleCodeChange}             
                     />
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={handleRequest}>
                         <Text style={styles.request}>인증메일 재요청</Text>
                     </TouchableOpacity>
 
                     {!codeIsCorrect  && <Text style={styles.uncorrect}>인증번호가 일치하지 않습니다.</Text>}
                     {isResend && <Text style={styles.resend}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>}
                 </View>
-                <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
+                <TouchableOpacity style={styles.nextBtn} onPress={(code === testCode) ? handleNext : handleCode}>
                     <Text style={styles.nextText}>다음으로</Text>
                 </TouchableOpacity>
             </View>
