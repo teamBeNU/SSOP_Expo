@@ -56,6 +56,8 @@ export const styles = StyleSheet.create({
         margin: 0,
     },
     inputError: {
+        borderWidth:1,
+        borderStyle: "solid",
         borderColor: theme.red,
     },
     inputErrorText: {
