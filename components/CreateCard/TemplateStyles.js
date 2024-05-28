@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
     },
 
     container: {
+        // width: SCREEN_WIDTH,
         height: '100%',
         paddingHorizontal: 16,
         backgroundColor: theme.white,
@@ -224,61 +225,32 @@ export const styles = StyleSheet.create({
         marginBottom: 32,
         textAlign: "center",
     },
-    coverContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
     coverScrollView: {
-        justifyContent: 'center',
-        alignItems: 'center',
-
-    //    paddingHorizontal: 40,
-    //    paddingHorizontal: (SCREEN_WIDTH - (SCREEN_WIDTH - 8)) / 2,
-        // paddingHorizontal: (SCREEN_WIDTH -(SCREEN_WIDTH - 8)) / 2,
+        // justifyContent: 'center',
+        // alignItems: 'center',
     },
     coverImg: {
+        width: SCREEN_WIDTH*0.8,
+        height: SCREEN_WIDTH*0.8*1.2,
         justifyContent: 'center',
         alignItems: 'center',
-        // backgroundColor: "orange"
-    },
-    coverImg1: {
-        // marginLeft: 48,
-        justifyContent: 'center',
-        alignItems: 'center',
-        // backgroundColor: "orange"
-    },
-    coverImg2: {
-        // marginRight: 48,
-        justifyContent: 'center',
-        alignItems: 'center',
-        // backgroundColor: "orange"
-    },
-    firstCover: {
-        // width: SCREEN_WIDTH - 80,
-        // height: 320,
-        // marginRight: 10,
-        paddingLeft: 48,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.gray90,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
         elevation: 5,
-        backgroundColor:"red",
-    },
-    secondCover: {
-        width: SCREEN_WIDTH - 80,
-        height: 320,
-        paddingRight: 48,
-        borderRadius: 8,
+
+        // 그림자가 안보여서 임시 border
         borderWidth: 1,
-        borderStyle: "solid",
         borderColor: theme.gray90,
-        elevation: 5,
-        backgroundColor:"red",
+        borderRadius: 10
     },
     circles: {
         flexDirection: "row",
-        justifyContent: "center"
+        justifyContent: "center",
+        marginTop: 24,
     },
     circle: {
         width: 10,

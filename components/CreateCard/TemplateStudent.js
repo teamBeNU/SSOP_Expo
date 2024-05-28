@@ -14,7 +14,7 @@ import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function TemplateStudent({navigation}) {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(6);
     const [name, setName] = useState('');
     const [birth, setBirth] = useState({
         year: '',
@@ -62,12 +62,16 @@ export default function TemplateStudent({navigation}) {
         introduction: true,
     })
     const [imageWidth, setImageWidth] = useState(0);
+    const [coverDemensions, setCoverDemensions] = useState({
+        width: 0,
+        height: 0,
+    });
+    const [coverSize, setCoverSize] = useState({ width: 0, height: 0 });
 
     const ref_input2 = useRef();
     const ref_input3 = useRef();
     const ref_input4 = useRef();
     const ref_input5 = useRef();
-    const ref_input6 = useRef();
 
     const handleNext = () => {
         if (step === 1) {
@@ -134,7 +138,7 @@ export default function TemplateStudent({navigation}) {
     }, [step]);
 
     return (
-        <View style={styles.main}>
+        <View>
             {step !== 7 && (        // 프로그레스 바
                 <Progress.Bar
                     progress={step / 8}
@@ -597,10 +601,10 @@ export default function TemplateStudent({navigation}) {
             )}
 
             {step === 6 && (
-                <View>
+                <View style={{height: '100%', backgroundColor: theme.white}}>
                     <Text style={styles.coverTitle}>카드 커버를 선택하세요.</Text>
-                    <Text style={styles.coverSubTitle}>카드 앞면에 커버가 보여요.</Text>
-                    <View style={styles.coverContainer}>
+                    <Text style={styles.coverSubTitle}>카드 앞면에 커버가 보여요.</Text>   
+                    <View>
                         <ScrollView
                             pagingEnabled
                             horizontal
@@ -616,11 +620,11 @@ export default function TemplateStudent({navigation}) {
                             >
                                 <Image 
                                     source={require("../../assets/images/cardCover-1.png")}
-                                    style={[styles.coverImg, {marginLeft: (SCREEN_WIDTH - imageWidth)/2}]}
+                                    style={[styles.coverImg, {marginLeft: (SCREEN_WIDTH - imageWidth)/2, marginRight:16}]}
                                     resizeMode="contain"
                                     onLayout={(event) => {
-                                        const { width } = event.nativeEvent.layout;
-                                        setImageWidth(width);
+                                        const { width, height } = event.nativeEvent.layout;
+                                        setCoverDemensions(width, height);
                                     }}
                                 />
                             </TouchableOpacity>
@@ -631,6 +635,10 @@ export default function TemplateStudent({navigation}) {
                                     source={require("../../assets/images/cardCover-2.png")}
                                     style={[styles.coverImg, {marginRight: (SCREEN_WIDTH - imageWidth)/2}]}
                                     resizeMode="contain"
+                                    onLayout={(event) => {
+                                        const { width } = event.nativeEvent.layout;
+                                        setImageWidth(width);
+                                    }}
                                 />
                             </TouchableOpacity>
                         </ScrollView>
