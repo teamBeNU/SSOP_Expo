@@ -14,6 +14,27 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.4,
         shadowRadius: 4,
 	},
+    btn1: { // 새 카드 만들기
+        width: 158,
+        height: 201,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.gray95,
+        shadowColor: "rgba(0, 0, 0, 0.03)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 1,
+        shadowRadius: 2,
+        elevation: 5,
+        position: 'relative',
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: theme.gray90,
+    },
+    
     avatar: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -45,5 +66,11 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         letterSpacing: -0.32,
     },
-    
+    Text14: {
+        marginBottom: 21,
+        fontFamily: "PretendardSemiBold",
+        color: theme.gray50,
+        fontSize: 14,
+        letterSpacing: -1,
+    },
 });
