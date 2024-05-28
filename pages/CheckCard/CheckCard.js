@@ -46,7 +46,7 @@ function CheckCard({ navigation }) {
         <ScrollView 
            horizontal 
            pagingEnabled
-           showsHorizontalScrollIndicator='false'
+           showsHorizontalScrollIndicator={false}
            decelerationRate={0} 
            snapToInterval={CARD_WIDTH + 32}
            snapToAlignment='center'

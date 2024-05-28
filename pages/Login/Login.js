@@ -3,12 +3,9 @@ import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, Clipboard, 
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './LoginStyle.js';
 import CardsIcon from "../../assets/Login/ic_cards.svg";
-// import GoogleIcon from "../../assets/Login/ic_google.svg";
-// import KakaoIcon from "../../assets/Login/ic_kakao.svg";
+import GoogleIcon from "../../assets/Login/ic_google.svg";
+import KakaoIcon from "../../assets/Login/ic_kakao.svg";
 import NaverIcon from "../../assets/Login/ic_naver.svg";
-
-import GoogleIcon from "../../assets/Login/ic_google.png";
-import KakaoIcon from "../../assets/Login/ic_kakao.png";
 
 function Login() {
     const navigation = useNavigation();
@@ -24,11 +21,10 @@ function Login() {
             
             <View style={styles.socialContainer}>
                 <TouchableOpacity>
-                <Image source={GoogleIcon} />
-                {/* <GoogleIcon /> */}
+                <GoogleIcon />
                 </TouchableOpacity>
                 <TouchableOpacity>
-                <Image source={KakaoIcon} />
+                <KakaoIcon />
                 </TouchableOpacity>
                 <TouchableOpacity>
                 <NaverIcon />
