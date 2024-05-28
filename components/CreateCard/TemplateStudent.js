@@ -14,7 +14,7 @@ import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function TemplateStudent({navigation}) {
-    const [step, setStep] = useState(6);
+    const [step, setStep] = useState(1);
     const [name, setName] = useState('');
     const [birth, setBirth] = useState({
         year: '',
@@ -62,11 +62,6 @@ export default function TemplateStudent({navigation}) {
         introduction: true,
     })
     const [imageWidth, setImageWidth] = useState(0);
-    const [coverDemensions, setCoverDemensions] = useState({
-        width: 0,
-        height: 0,
-    });
-    const [coverSize, setCoverSize] = useState({ width: 0, height: 0 });
 
     const ref_input2 = useRef();
     const ref_input3 = useRef();
@@ -160,6 +155,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={[styles.customInput, !isFull.name && styles.inputError]}
                                         placeholder="이름을 입력하세요."
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={name}
                                         onChangeText={setName}
@@ -177,6 +173,7 @@ export default function TemplateStudent({navigation}) {
                                         <TextInput
                                             style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
                                             placeholder="년"
+                                            placeholderTextColor={theme.gray60}
                                             keyboardType="numeric"
                                             value={birth.year}
                                             onChangeText={(newYear) => {setBirth((prevBirth => ({...prevBirth, year: newYear})));}}
@@ -190,6 +187,7 @@ export default function TemplateStudent({navigation}) {
                                         <TextInput
                                             style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
                                             placeholder="월"
+                                            placeholderTextColor={theme.gray60}
                                             keyboardType="numeric"
                                             value={birth.month}
                                             onChangeText={(newMonth) => {setBirth((prevBirth => ({...prevBirth, month: newMonth})));}}
@@ -203,6 +201,7 @@ export default function TemplateStudent({navigation}) {
                                         <TextInput
                                             style={[styles.inputBirth, styles.inputBirthText, !isFull.birth && styles.inputError]}
                                             placeholder="일"
+                                            placeholderTextColor={theme.gray60}
                                             keyboardType="numeric"
                                             value={birth.day}
                                             onChangeText={(newDay) => {setBirth((prevBirth => ({...prevBirth, day: newDay})));}}
@@ -233,6 +232,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={[styles.customInput, !isFull.tel && styles.inputError]}
                                         placeholder="연락처를 입력하세요."
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="phone-pad"
                                         value={tel}
                                         onChangeText={setTel}
@@ -267,6 +267,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={[styles.customInput, !isFull.school && styles.inputError]}
                                         placeholder="학교명을 입력하세요."
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={school}
                                         onChangeText={setSchool}
@@ -283,6 +284,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={[styles.customInput, !isFull.grade && styles.inputError]}
                                         placeholder="학년을 입력하세요."
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="numeric"
                                         value={grade}
                                         onChangeText={setGrade}
@@ -300,6 +302,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={[styles.customInput, !isFull.introduction && styles.inputError]}
                                         placeholder="간단하게 자신을 소개해 보세요."
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={introduction}
                                         onChangeText={setIntroduction}
@@ -361,6 +364,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={styles.customInput}
                                         placeholder="직무"
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={job}
                                         onChangeText={setJob}
@@ -376,6 +380,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={styles.customInput}
                                         placeholder="소속 동아리"
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={club}
                                         onChangeText={setClub}
@@ -446,6 +451,7 @@ export default function TemplateStudent({navigation}) {
                                         <TextInput 
                                             style={styles.customInput}
                                             placeholder="Instargram"
+                                            placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={sns.instargram}
                                             onChangeText={(newInstargram) => {setSns((prevSns => ({...prevSns, instargram: newInstargram})));}}
@@ -459,6 +465,7 @@ export default function TemplateStudent({navigation}) {
                                         <TextInput 
                                             style={styles.customInput}
                                             placeholder="X"
+                                            placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={sns.x}
                                             onChangeText={(newX) => {setSns((prevSns => ({...prevSns, x: newX})));}}
@@ -476,6 +483,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={styles.customInput}
                                         placeholder="이메일 주소"
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="email"
                                         value={email}
                                         onChangeText={setEmail}
@@ -534,6 +542,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={styles.customInput}
                                         placeholder="MBTI"
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={mbti}
                                         onChangeText={setMbti}
@@ -550,6 +559,7 @@ export default function TemplateStudent({navigation}) {
                                         <TextInput 
                                             style={[styles.musicInput, styles.marginR6]}
                                             placeholder="제목명"
+                                            placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={music.title}
                                             // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
@@ -562,6 +572,7 @@ export default function TemplateStudent({navigation}) {
                                         <TextInput 
                                             style={styles.musicInput}
                                             placeholder="가수명"
+                                            placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={music.musician}
                                             // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
@@ -580,6 +591,7 @@ export default function TemplateStudent({navigation}) {
                                     <TextInput 
                                         style={styles.customInput}
                                         placeholder="영화명"
+                                        placeholderTextColor={theme.gray60}
                                         keyboardType="default"
                                         value={movie}
                                         onChangeText={setMovie}

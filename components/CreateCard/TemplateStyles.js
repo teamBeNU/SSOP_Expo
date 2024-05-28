@@ -48,12 +48,9 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
     },
     customInput: {
-        /*width: SCREEN_WIDTH - 32,*/
         height: 48,
         borderRadius: 8,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.gray60,
+        backgroundColor: theme.gray95,
         paddingVertical: 8,
         paddingHorizontal: 16,
         margin: 0,
@@ -75,12 +72,10 @@ export const styles = StyleSheet.create({
         justifyContent: "space-between",
     },
     inputBirth: {
-        width: '30%',
+        flex: 1,
         height: 48,
         borderRadius: 8,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.gray60,
+        backgroundColor: theme.gray95,
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
