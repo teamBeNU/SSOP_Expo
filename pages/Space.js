@@ -7,9 +7,6 @@ function Space() {
     return (
         <View style={{alignItems: 'center', justifyContent: 'center', flex:1, gap: 30}}>
             <Text>Space</Text>
-            <TouchableOpacity onPress={() => navigation.navigate('로그인')}>
-                <Text>로그인 테스트</Text>
-             </TouchableOpacity>
         </View>
       
     );
