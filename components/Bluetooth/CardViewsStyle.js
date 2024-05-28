@@ -70,12 +70,13 @@ export const styles = StyleSheet.create({
 
     btn1: { // 새 카드 만들기
         marginTop: 12,
-        width: 158,
+        // width: 158,
         height: 201,
+        width: '44%',
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.gray95,
+        backgroundColor: theme.white,
         shadowColor: "rgba(0, 0, 0, 0.03)",
         shadowOffset: {
             width: 0,

@@ -141,36 +141,6 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
     },
-    item: {
-        width: '45%',
-        height: '50%',
-        borderRadius: 8,
-        backgroundColor: theme.white,
-        borderWidth: 1,
-        borderColor: theme.gray95,
-        margin: 8,
-        display: 'flex',
-        justifyContent:'center',
-        alignItems: 'center',
-
-        // Android - Shadow
-        elevation: 5,
-        // IOS - Shadow
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 4,
-            height: 4,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 12,
-    },
-    
-    text: {
-        fontSize: 12,
-        fontFamily: 'Pretendard',
-        textAlign: 'center',
-        marginTop: 4
-    },
     //modal style
     modalContainer: {
         flex: 1,

@@ -2,12 +2,17 @@ import { useState } from "react";
 import { styles } from './EnterTeamSpStyle';
 import { theme } from '../../theme'
 import { View, Text, TextInput, ScrollView, Modal, TouchableOpacity, Alert } from "react-native";
-import { RadioButton } from 'react-native-paper';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import People from '../../assets/icons/ic_people_small_fill.svg';
+import AvatarSample1 from '../../assets/icons/AbatarSample1';
+import AvatarSample2 from '../../assets/icons/AbatarSample2';
+import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard";
+
+import CardsView from '../../components/Bluetooth/CardsView.js';
+import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 
 function EnterTeamSp({ navigation }) {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
   
   // const [inviteCode, setInviteCode] = useState(null);
   const inviteCode = '123456';
@@ -15,6 +20,9 @@ function EnterTeamSp({ navigation }) {
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
   
   const [hostTemplate, setHostTemplate] = useState(0); // 호스트 지정 템플릿 있음
+
+  const [selectedOption, setSelectedOption] = useState('최신순');
+  const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
 
   const handleNext = () => {
     if (step === 1) {
@@ -33,6 +41,13 @@ function EnterTeamSp({ navigation }) {
     }
   }
 
+  const cardData = [
+    { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
+    { id: '1', Component: ShareCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
+    { id: '2', Component: ShareCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
+    { id: '3', Component: ShareCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
+  ];
+  
   return (
     <View style={styles.mainlayout}>
 
@@ -109,17 +124,23 @@ function EnterTeamSp({ navigation }) {
       {/* 제출할 카드 선택 */}
       {step === 3 && (
         <View style={styles.stepContainer}>
-          <Text style={styles.title}> 팀스페이스에 보여질 카드를 선택하세요. </Text>
+          { hasCards ? (
+          <CardsView
+            navigation={navigation}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+            handleNext={handleNext}
+            cardData={cardData}
+            title={"팀스페이스에 보여질 카드를 선택하세요."}
+            />
+          ) : (
+            <NoCardsView
+              navigation={navigation}
+              sub={"공유할 수 있는 카드가 없어요."}
+              />
+          )
+        }
 
-          <ScrollView showsVerticalScrollIndicator={false}>
-           
-          </ScrollView>
-
-          <View style={styles.flexSpacer} />
-
-          <View style={styles.btnNext}>
-            <Text onPress={handleNext} style={styles.btnText}> 입장하기 </Text>
-          </View>
         </View>
 
       )}

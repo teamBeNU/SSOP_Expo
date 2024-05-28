@@ -14,9 +14,9 @@ export const ShareCard = ({ backgroundColor, avatar }) => {
                 <View style={styles.Info}> 
                     <Text style={styles.name}>홍길동</Text>
                     <View style={styles.age}>
-                        <Text style={{color: theme.grey20}}>23세</Text>
-                        <Text style={{color: theme.grey50}}>•</Text>
-                        <Text style={{color: theme.grey20}}>학생</Text>
+                        <Text style={{color: theme.gray20}}>23세</Text>
+                        <Text style={{color: theme.gray50}}>•</Text>
+                        <Text style={{color: theme.gray20}}>학생</Text>
                     </View>
                 </View>
             </View>
