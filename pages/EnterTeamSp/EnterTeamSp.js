@@ -15,7 +15,6 @@ function EnterTeamSp({ navigation }) {
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
   
   const [hostTemplate, setHostTemplate] = useState(0); // 호스트 지정 템플릿 있음
-  const [newCard, setNewCard] = useState("no");
 
   const handleNext = () => {
     if (step === 1) {
@@ -31,8 +30,6 @@ function EnterTeamSp({ navigation }) {
       }
     } else if (step === 3) {
       setStep(4)
-    } else if (step === 4) {
-      setStep(5)
     }
   }
 
@@ -80,7 +77,7 @@ function EnterTeamSp({ navigation }) {
                   <View style={styles.modalContent}>
                     <Text style={[styles.font18, {marginLeft: 0}]}> 홍길동의 팀스페이스 </Text>
                     <Text style={styles.font16}> 부가설명 </Text>
-                    <Text style={styles.people}> <People/>  8 / 45 </Text>
+                    <Text style={styles.people}> <People/>  8 / 150명 </Text>
                   </View>
 
                   <View style={styles.btnNext}>
@@ -109,39 +106,8 @@ function EnterTeamSp({ navigation }) {
         </View>
       )}
 
-      {/* 기존카드 / 새로만들기 선택 */}
-      {step === 3 && (
-        <View style={styles.stepContainer}>
-          <View>
-            <Text style={[styles.title, { marginBottom: 32 }]}> 팀스페이스에 어떤 카드를 {"\n"} 제출하시겠어요? </Text>
-
-            <RadioButton.Group onValueChange={status => setNewCard(status)} value={newCard}>
-              <TouchableOpacity onPress={() => setNewCard("no")}>
-                <View style={[styles.RadioBtn, newCard !== "no" && styles.nonSelect]} >
-                  <RadioButton value="no" color={theme.skyblue} />
-                  <Text style={styles.font18}> 기존 카드 중에서 선택할래요 </Text>
-                </View>
-              </TouchableOpacity>
-
-              <TouchableOpacity onPress={() => setNewCard("yes")}>
-                <View style={[styles.RadioBtn, newCard !== "yes" && styles.nonSelect]}>
-                  <RadioButton value="yes" color={theme.skyblue} />
-                  <Text style={styles.font18}> 카드를 새로 만들래요 </Text>
-                </View>
-              </TouchableOpacity>
-            </RadioButton.Group>
-          </View>
-
-          <View style={styles.flexSpacer} />
-
-          <View style={styles.btnNext}>
-            <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-          </View>
-        </View>
-      )}
-
       {/* 제출할 카드 선택 */}
-      {step === 4 && (
+      {step === 3 && (
         <View style={styles.stepContainer}>
           <Text style={styles.title}> 팀스페이스에 보여질 카드를 선택하세요. </Text>
 
@@ -159,7 +125,7 @@ function EnterTeamSp({ navigation }) {
       )}
 
       {/* 팀스페이스 입장 완료 */}
-      {step === 5 && (
+      {step === 4 && (
         <View style={styles.stepContainer}>
           <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
 
