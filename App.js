@@ -130,7 +130,7 @@ export default function App() {
           name="팀스페이스 입장" 
           component={EnterTeamSp} 
           options={{ 
-            headerTitle: "팀스페이스 생성",
+            headerTitle: "팀스페이스 입장",
             headerLeft: ({navigation}) => (
               <TouchableOpacity onPress={() => navigation.goBack()}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
