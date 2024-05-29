@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -142,6 +142,16 @@ export default function TemplateStudent({navigation}) {
                     color={theme.green}
                     borderWidth={0}
                 />
+            )}
+
+            {step === 0 && (
+                <View style={styles.container}>
+                    <Text> dddd</Text>
+                    <Text> dddd</Text>
+                    <Text> dddd</Text>
+                    <Text> dddd</Text>
+                    <Text> dddd</Text>
+                </View>
             )}
 
             {step === 1 && (
