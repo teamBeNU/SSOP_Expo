@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { styles } from './EnterTeamSpStyle';
 import { theme } from '../../theme'
-import { View, Text, TextInput, ScrollView, Modal, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput,Image, ScrollView, Modal, TouchableOpacity, Alert } from "react-native";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import People from '../../assets/icons/ic_people_small_fill.svg';
 
@@ -112,14 +112,15 @@ function EnterTeamSp({ navigation }) {
 
       {/* 호스트가 템플릿 지정 */}
       {step === 2 && (
-        <View style={[styles.stepContainer, {marginBottom: 50}]}>
+        <View style={styles.stepContainer}>
           <Text style={styles.font22}>
             호스트가 템플릿을 지정했어요.
             {"\n"}팀스페이스에 보여질
             {"\n"}카드를 새로 만들어 봐요!
           </Text>
-
-          <cardSample />          
+          <View style={styles.container}> 
+          <Image source={require('../../assets/teamSp/bg_gradation.png')} style={{width: '100%', height: undefined, aspectRatio: 1}} />   
+          </View>       
 
           <View style={styles.flexSpacer} />
 

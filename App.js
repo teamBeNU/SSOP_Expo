@@ -36,7 +36,6 @@ import MyCard from './pages/MyCard/MyCard';
 import Space from './pages/Space';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard/CreateCard';
-import HostTemplate from './pages/HostTemplate/HostTemplate';
 import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
