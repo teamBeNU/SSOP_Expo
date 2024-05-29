@@ -10,6 +10,7 @@ import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard"
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
+import CardSample from '../../assets/teamSp/bg_gradation';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation }) {
@@ -118,7 +119,8 @@ function EnterTeamSp({ navigation }) {
             {"\n"}카드를 새로 만들어 봐요!
           </Text>
           <View style={styles.container}> 
-          <Image source={require('../../assets/teamSp/bg_gradation.png')} style={{width: '100%', height: undefined, aspectRatio: 1}} />   
+          {/* <Image source={require('../../assets/teamSp/bg_gradation.png')} style={{width: '100%', height: undefined, aspectRatio: 1}} />    */}
+          <CardSample />
           </View>       
 
           <View style={styles.flexSpacer} />
@@ -170,7 +172,7 @@ function EnterTeamSp({ navigation }) {
 
           <View style={styles.flexSpacer} />
 
-          <View style={styles.btnContainer}>
+          <View style={[styles.btnContainer, {marginBottom: 20}]}>
             <View style={styles.btnNext}>
               <Text onPress={() => navigation.navigate("카드 조회")} style={styles.btnText}> 팀스페이스 확인 </Text>
             </View>
