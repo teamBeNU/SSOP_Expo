@@ -33,7 +33,7 @@ import LinkShare from './pages/LinkShare/LinkShare';
 import CheckCard from './pages/CheckCard/CheckCard';
 import Memo from './pages/CheckCard/Memo';
 import MyCard from './pages/MyCard/MyCard';
-import Space from './pages/Space';
+import Space from './pages/Space/Space';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp';
@@ -144,6 +144,9 @@ export default function App() {
 const Tab = createBottomTabNavigator();
   
   function MyTabs() {
+
+    const navigation = useNavigation();
+    
     return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -183,7 +186,9 @@ const Tab = createBottomTabNavigator();
           tabBarLabel: '홈',
           headerTitle: ' ',
           headerLeft: () => (
-            <HeaderLeftButton />
+            <TouchableOpacity onPress={() => navigation.navigate('알림')}>
+              <NotiIcon style={{ marginLeft: 8 }} />
+            </TouchableOpacity>
           ),
           headerRight: () => (
             <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
@@ -191,7 +196,7 @@ const Tab = createBottomTabNavigator();
             </TouchableOpacity>
           ),
         }}  />
-        <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
+        <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: ' ' }} />
         <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: '내 카드' }} />
         <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
       </Tab.Navigator>
