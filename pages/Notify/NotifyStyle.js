@@ -8,13 +8,15 @@ export const styles = StyleSheet.create({
     },
     btn1: { // 보낸 카드
         height: 81,
-        backgroundColor: "#8CFF791A",
         position: 'relative',
     },
     btn2: { // 받은 카드
         height: 81,
         position: 'relative',
     },
+    background: {
+        backgroundColor: '#8CFF791A',
+      },
     title: { // 글씨 
         marginTop: 31,
         marginLeft: 16,
@@ -53,4 +55,30 @@ export const styles = StyleSheet.create({
         color: theme.gray10,
         letterSpacing: -1,
     },  
+    // 알림이 없을 때
+    emptyContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16,
+     },
+    noCard: {
+        marginTop: 310,
+        color: theme.gray60,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
+    },
+    newContainer: {
+        flexDirection: 'row',
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 4,
+    },
+    newCard: {
+        color:theme.skyblue,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
+    },
 })

@@ -12,35 +12,21 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
         letterSpacing: -1,
-    },  
-    name: { // 보낼 사람 선택 이름 
-        marginTop: 13.5,
-        marginBottom: 13.5,
-        fontFamily: "PretendardSemiBold",
-        fontSize: 18,
-        letterSpacing: -1,
-        position: 'relative',
-    },      
+    },    
     namebox: { 
     },
-    stateCall: { // 요청중
-        position: 'absolute',
-        bottom: 14.5,
-        right: 0, 
-        fontFamily: "PretendardSemiBold",
-        fontSize: 16,
-        color: theme.blue,
-        letterSpacing: -1,
-    },  
-    stateFinish: { // 공유 완료
-        position: 'absolute',
-        bottom: 14.5,
-        right: 0,
+    range: { //최신순 정렬
+        marginTop: 24,
+        marginLeft: 8,
+        marginBottom: 12,
         fontFamily: "PretendardRegular",
-        fontSize: 16,
-        color: theme.gray50,
+        fontSize: 14,
         letterSpacing: -1,
-    },  
+    },
+    DownArrowIcon: { 
+        marginTop: 24,
+        marginBottom: 12,
+    },
 	Text20: {
         marginTop: 16,
         marginLeft: 16,
@@ -84,12 +70,13 @@ export const styles = StyleSheet.create({
 
     btn1: { // 새 카드 만들기
         marginTop: 12,
-        width: 158,
+        // width: 158,
         height: 201,
+        width: '44%',
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.gray95,
+        backgroundColor: theme.white,
         shadowColor: "rgba(0, 0, 0, 0.03)",
         shadowOffset: {
             width: 0,
