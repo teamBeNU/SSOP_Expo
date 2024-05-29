@@ -7,11 +7,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 
-import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
-import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-import HomeIcon from '../../assets/icons/ic_home_regular_line.svg';
 import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 
@@ -72,7 +69,7 @@ function Step2Screen({ navigation }) {
   return (
     <View style={styles.container3}>
         <View style={styles.mainlayout}>
-          <Text style={styles.title}>보낼 사람을 선택하여 카드를 공유하세요.</Text>
+          <Text style={styles.title}>링크를 복사하여 전달해 주세요.</Text>
           <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
           <Text style={[styles.Text14, {marginBottom: 8}]}> 링크 </Text>
           <View style={styles.linkShareContainer}>
@@ -111,11 +108,6 @@ function LinkShare({ navigation }) {
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <LeftArrowIcon style={{ marginLeft: 8  }}/>
-          </TouchableOpacity>
-        ),
-        headerRight: () => (
-          <TouchableOpacity onPress={() => navigation.navigate(' ')}>
-            <HomeIcon style={{ marginRight: 8 }} />
           </TouchableOpacity>
         ),
       }}/>
