@@ -223,7 +223,7 @@ export const styles = StyleSheet.create({
         marginRight: 16,
     },
     musicInput: {
-        width: '50%',
+        width: '49%',
         height: 48,
         borderRadius: 8,
         borderWidth: 1,

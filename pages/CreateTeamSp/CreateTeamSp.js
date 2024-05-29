@@ -21,8 +21,6 @@ function CreateTeamSp({ navigation }) {
 
     const inviteCode = '120432'; // step6
 
-    const [studentTemplateState, setStudentTemplateState] = useState({});
-
     // step 단위 뒤로 가기
     const handleBack = () => {
       // 현재 단계(step)에 따라 이전 단계로 이동

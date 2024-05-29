@@ -2,19 +2,20 @@ import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
+import { RadioButton } from 'react-native-paper';
 import "react-native-gesture-handler";
 
 export default function HostTemplate({ navigation }) {
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
-  const [comment, setComment] = useState('');
+  const [introduction, setIntroduction] = useState(''); 
   const [year, setYear] = useState('');
   const [month, setMonth] = useState('');
   const [day, setDay] = useState('');
   const [tel, setTel] = useState('');
   const [school, setSchool] = useState('');
-  const [grade, setGrade] = useState('');
-  const [introduction, setIntroduction] = useState('');
+  const [grade, setGrade] = useState(''); 
+  const [studNum, setStudNum] = useState('');
   const [job, setJob] = useState('');
   const [club, setClub] = useState('');
   const [status, setStatus] = useState('휴학');
@@ -24,19 +25,20 @@ export default function HostTemplate({ navigation }) {
   const [music, setMusic] = useState('');
   const [movie, setMovie] = useState('');
 
-  const [showAge, setShowAge] = useState(true);
-  const [showSchool, setShowSchool] = useState(true);
-  const [showGrade, setShowGrade] = useState(true);
-  const [showStudNum, setStudNum] = useState(false);
-  const [showJob, setShowJob] = useState(false);
-  const [showClub, setShowClub] = useState(false);
-  const [showStatus, setShowStatus] = useState(false);
-  const [showSns, setShowSns] = useState(false);
-  const [showEmail, setShowEmail] = useState(false);
-  const [showMbti, setShowMbti] = useState(false);
-  const [showMusic, setShowMusic] = useState(false);
-  const [showMovie, setShowMovie] = useState(false);
-  const [cover, setCover] = useState(1);
+  const [showAge, setShowAge] = useState(1);
+  const [showSchool, setShowSchool] = useState(1);
+  const [showGrade, setShowGrade] = useState(1);
+  const [showStudNum, setShowStudNum] = useState(1);
+  const [showJob, setShowJob] = useState(1);
+  const [showClub, setShowClub] = useState(1);
+  const [showStatus, setShowStatus] = useState(1);
+  const [showTel, setShowTel] = useState(1);
+  const [showSns, setShowSns] = useState(1);
+  const [showEmail, setShowEmail] = useState(1);
+  const [showMbti, setShowMbti] = useState(1);
+  const [showMusic, setShowMusic] = useState(1);
+  const [showMovie, setShowMovie] = useState(1);
+  // const [cover, setCover] = useState(1);
 
 
   const handleNext = () => {
@@ -55,7 +57,7 @@ export default function HostTemplate({ navigation }) {
     <View>
       {/* 카드 앞면 - 기본 정보 */}
       {step === 1 && (
-        <View>
+        <View style={{height:'100%'}}>
           <ScrollView showsVerticalScrollIndicator={false}>
 
             <Text style={styles.title}> 나에 대한 기본 정보를 알려주세요 </Text>
@@ -74,34 +76,38 @@ export default function HostTemplate({ navigation }) {
 
             {/* 생년월일 */}
             {showAge && (
-              <View style={styles.inputBirthContainer}>
-                <TextInput
-                  style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
-                  placeholder="년"
-                  keyboardType="numeric"
-                  value={year}
-                  onChangeText={setYear}
-                  maxLength={4}
-                />
-                <TextInput
-                  style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
-                  placeholder="월"
-                  keyboardType="numeric"
-                  value={month}
-                  onChangeText={setMonth}
-                  maxLength={2}
-                />
-                <TextInput
-                  style={[styles.inputBirth, styles.inputBirthText]}
-                  placeholder="일"
-                  keyboardType="numeric"
-                  value={day}
-                  onChangeText={setDay}
-                  maxLength={2}
-                />
+              <View style={styles.nameContainer}>
+
+                <Text style={styles.name}>생년월일</Text>
+
+                <View style={styles.inputBirthContainer}>
+                  <TextInput
+                    style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
+                    placeholder="년"
+                    keyboardType="numeric"
+                    value={year}
+                    onChangeText={setYear}
+                    maxLength={4}
+                  />
+                  <TextInput
+                    style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
+                    placeholder="월"
+                    keyboardType="numeric"
+                    value={month}
+                    onChangeText={setMonth}
+                    maxLength={2}
+                  />
+                  <TextInput
+                    style={[styles.inputBirth, styles.inputBirthText]}
+                    placeholder="일"
+                    keyboardType="numeric"
+                    value={day}
+                    onChangeText={setDay}
+                    maxLength={2}
+                  />
+                </View>
               </View>
-            )
-            }
+            )}
 
             {/* 학교 */}
             {showSchool && (
@@ -115,8 +121,7 @@ export default function HostTemplate({ navigation }) {
                   onChangeText={setSchool}
                 />
               </View>
-            )
-            }
+            )}
 
             {/* 학년 */}
             {showGrade && (
@@ -130,18 +135,17 @@ export default function HostTemplate({ navigation }) {
                   onChangeText={setGrade}
                 />
               </View>
-            )
-            }
+            )}
 
             {/* 한줄소개 */}
             <View style={styles.nameContainer}>
-              <Text style={styles.name}>이름*</Text>
+              <Text style={styles.name}>한줄소개</Text>
               <TextInput
                 style={styles.nameInput}
                 placeholder="한줄소개를 입력하세요."
                 keyboardType="default"
-                value={comment}
-                onChangeText={setComment}
+                value={introduction}
+                onChangeText={setIntroduction}
               />
             </View>
 
@@ -157,7 +161,7 @@ export default function HostTemplate({ navigation }) {
 
       {/* 카드 뒷면 - 학번/직무/동아리/재학여부*/}
       {step === 2 && (
-        <View>
+        <View style={{height:'100%'}}>
           <ScrollView showsVerticalScrollIndicator={false}>
 
             <Text style={styles.title}> 나에 대해 더 알려주세요. </Text>
@@ -171,7 +175,7 @@ export default function HostTemplate({ navigation }) {
                   placeholder="학생번호를 입력하세요"
                   keyboardType="numeric"
                   value={studNum}
-                  onChangeText={setShowNum}
+                  onChangeText={setStudNum}
                 />
               </View>
             )}
@@ -182,7 +186,7 @@ export default function HostTemplate({ navigation }) {
                 <Text style={styles.name}>직무</Text>
                 <TextInput
                   style={styles.nameInput}
-                  placeholder="직무"
+                  placeholder="직무를 입력하세요."
                   keyboardType="default"
                   value={job}
                   onChangeText={setJob}
@@ -196,7 +200,7 @@ export default function HostTemplate({ navigation }) {
                 <Text style={styles.name}>동아리</Text>
                 <TextInput
                   style={styles.nameInput}
-                  placeholder="소속 동아리"
+                  placeholder="소속 동아리를 입력하세요."
                   keyboardType="default"
                   value={club}
                   onChangeText={setClub}
@@ -223,7 +227,6 @@ export default function HostTemplate({ navigation }) {
               </View>
             )}
 
-
           </ScrollView>
 
           <View style={styles.btnContainer}>
@@ -236,16 +239,33 @@ export default function HostTemplate({ navigation }) {
 
       {/* 카드 뒷면 - sns/이메일 */}
       {step === 3 && (
-        <View>
+        <View style={{height: '100%'}}>
           <ScrollView showsVerticalScrollIndicator={false}>
 
             <Text style={styles.title}> 추가적인 연락수단을 알려주세요. </Text>
+            
+            {/* 연락처 */}
+            {showTel && (
+              <View style={styles.nameContainer}>
+                <Text style={styles.name}>연락처</Text>
+                <TextInput
+                  style={styles.nameInput}
+                  placeholder="연락처를 입력하세요"
+                  keyboardType="numeric"
+                  value={tel}
+                  onChangeText={setTel}
+                />
+              </View>
+            )}
 
             {/* sns */}
             {showSns && (
-              <View>
-                <Text style={styles.font16}>SNS</Text>
-                <View style={{ marginBottom: 16 }}>
+              <View style={{marginTop: 32}}>
+                
+                <Text style={[styles.font16, {fontFamily:'PretendardSemiBold'}]}>SNS</Text>
+
+                {/* 인스타 */}
+                <View style={[styles.nameContainer, {marginTop: 16}]}>
                   <Text style={styles.name}>Instargram</Text>
                   <TextInput
                     style={styles.nameInput}
@@ -255,10 +275,12 @@ export default function HostTemplate({ navigation }) {
                     onChangeText={text => setSns(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
                   />
                 </View>
-                <View style={{ marginBottom: 48 }}>
-                  <Text style={styles.inputText}>X(트위터)</Text>
+
+                {/* 트위터 */}
+                <View style={[styles.nameContainer, {marginTop: 16}]}>
+                  <Text style={styles.name}>X(트위터)</Text>
                   <TextInput
-                    style={styles.customInput}
+                    style={styles.nameInput}
                     placeholder="X"
                     keyboardType="default"
                     value={sns[1]}
@@ -294,18 +316,18 @@ export default function HostTemplate({ navigation }) {
 
       {/* 카드 뒷면 - MBTI/인생음악/인생영화 */}
       {step === 4 && (
-        <View>
+        <View style={{height: '100%'}}>
           <ScrollView showsVerticalScrollIndicator={false}>
 
             <Text style={styles.title}> 사소한 것까지 더 알려주세요. </Text>
-            
+
             {/* MBTI */}
             {showMbti && (
               <View style={styles.nameContainer}>
                 <Text style={styles.name}>MBTI</Text>
                 <TextInput
                   style={styles.nameInput}
-                  placeholder="MBTI"
+                  placeholder="MBTI를 입력하세요."
                   keyboardType="default"
                   value={mbti}
                   onChangeText={setMbti}
@@ -317,9 +339,9 @@ export default function HostTemplate({ navigation }) {
             {showMusic && (
               <View style={styles.nameContainer}>
                 <Text style={styles.name}>인생 음악</Text>
-                <View style={styles.flexDirectionRow}>
+                <View style={{flexDirection: "row"}}>
                   <TextInput
-                    style={[styles.musicInput,{marginRight: 6}]}
+                    style={[styles.musicInput, { marginRight: 6 }]}
                     placeholder="제목명"
                     keyboardType="default"
                     value={music[0]}
@@ -342,7 +364,7 @@ export default function HostTemplate({ navigation }) {
                 <Text style={styles.name}>인생 영화</Text>
                 <TextInput
                   style={styles.nameInput}
-                  placeholder="영화명"
+                  placeholder="영화명을 입력하세요."
                   keyboardType="default"
                   value={movie}
                   onChangeText={setMovie}
@@ -353,7 +375,7 @@ export default function HostTemplate({ navigation }) {
 
           <View style={styles.btnContainer}>
             <View style={styles.btnNext}>
-              <Text onPress={handleNext} style={styles.btnText}> 카드 생성 완료할래요. </Text>
+              <Text onPress={handleNext} style={styles.btnText}> 카드 생성 완료할래요 </Text>
             </View>
           </View>
         </View>

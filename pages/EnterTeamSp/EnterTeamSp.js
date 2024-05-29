@@ -11,7 +11,6 @@ import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard"
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import HostTemplate from "../../components/EnterTeamSp/HostTemplate.js";
-import cardSample from '../../assets/teamSp/bg_gradation.png'
 
 function EnterTeamSp({ navigation }) {
   const [step, setStep] = useState(1);
