@@ -248,7 +248,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
       {/* 카드 뒷면 */}
       {step === 2 && (
-        <>
+        <View style={{height: '100%'}}>
         <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={styles.title}> 카드 뒷면에 보여질 정보를 선택하세요. </Text>
           <Text style={styles.subtitle}> 최대 8개까지 정보를 표시할 수 있어요. </Text>
@@ -406,17 +406,17 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
           <Text style={styles.nameLeng}> {plusLength} / 5 </Text>
         </ScrollView>
         
-          <View style={[styles.btnContainer, {marginBottom: -148}]}>
+          <View style={styles.btnContainer}>
             <View style={styles.btnNext}>
               <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
             </View>
           </View>
-        </>
+        </View>
       )}
 
       {/* 템플릿 예시 */}
       {step === 3 && (
-        <View>
+        <View style={{height: '100%'}} >
           <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
           <View style={styles.cardShadow}>
             <Card />
@@ -431,7 +431,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
       {/* 초대 코드 */}
       {step === 4 && (
-        <View>
+        <View style={{height: '100%'}}>
           <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
             {'\n'} 바로 초대해 보세요. </Text>
 
@@ -443,7 +443,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
             </TouchableOpacity>
           </View>
 
-          <View style={[styles.btnContainer, {marginBottom: -500}]}>
+          <View style={[styles.btnContainer, {marginBottom: 20}]}>
             <View style={styles.btnNext}>
               <Text onPress={() => navigation.navigate(" ")} style={styles.btnText}> 홈화면으로 </Text>
             </View>

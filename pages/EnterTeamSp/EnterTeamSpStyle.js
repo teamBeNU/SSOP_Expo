@@ -113,8 +113,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'flex-end',
         width: '100%',
-        bottom: 0,    
-        paddingTop: 32,
+        bottom: 0,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         overflow: 'hidden'
     },
@@ -213,7 +212,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
     },
     marginR8: {
-        marginRight: 8,
+        marginRight: '4%',
     },
     radioBtnGruopContainer: {
         flexDirection: 'row',
