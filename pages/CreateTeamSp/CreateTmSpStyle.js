@@ -114,7 +114,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         width: '100%',
         bottom: 0,    
-        paddingTop: 32,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         overflow: 'hidden'
     },
