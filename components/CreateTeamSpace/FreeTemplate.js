@@ -1,11 +1,10 @@
 import { View, Text } from "react-native";
 
-function EnterTeamSp() {
+export default function FreeTemplate({ navigation }) {
     return (
         <View>
-            <Text>EnterTeamSpace</Text>
+            <Text>FreeTemplate</Text>
         </View>
       
     );
   }
-  export default EnterTeamSp;

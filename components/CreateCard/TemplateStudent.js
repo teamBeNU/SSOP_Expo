@@ -701,18 +701,20 @@ export default function TemplateStudent({navigation}) {
                             resizeMode="contain"
                         /> 
                     </View>
-                    <TouchableOpacity 
-                            style={styles.btnCheckCard}
-                            onPress={() => navigation.navigate('MyCard')}
-                        >
-                        <Text style={styles.btnNextText}>카드 확인하기</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity 
-                            style={styles.btnHome}
-                            onPress={() => navigation.navigate('홈')}
-                        >
-                        <Text style={styles.btnHomeText}>홈 화면으로</Text>
-                    </TouchableOpacity>
+                    <View style={styles.btnDone}>
+                        <TouchableOpacity 
+                                style={styles.btnCheckCard}
+                                onPress={() => navigation.navigate('MyCard')}
+                            >
+                            <Text style={styles.btnNextText}>카드 확인하기</Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity 
+                                style={styles.btnHome}
+                                onPress={() => navigation.navigate('홈')}
+                            >
+                            <Text style={styles.btnHomeText}>홈 화면으로</Text>
+                        </TouchableOpacity>
+                    </View>
                 </View>
             )}      
         </View>
