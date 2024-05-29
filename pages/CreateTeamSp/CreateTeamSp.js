@@ -230,7 +230,7 @@ function CreateTeamSp({ navigation }) {
                   </View>
                 </View>
 
-                <View style={styles.btnContainer}>
+                <View style={[styles.btnContainer, {marginBottom: 20}]}>
                   <View style={styles.btnNext}>
                     <Text onPress={() => navigation.navigate(' ')} style={styles.btnText}> 홈화면으로 </Text>
                   </View>

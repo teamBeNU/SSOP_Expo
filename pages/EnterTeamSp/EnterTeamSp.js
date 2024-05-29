@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { styles } from './EnterTeamSpStyle';
-import { theme } from '../../theme'
-import { View, Text, TextInput,Image, ScrollView, Modal, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput,Image, Modal, TouchableOpacity, Alert } from "react-native";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import People from '../../assets/icons/ic_people_small_fill.svg';
 
@@ -10,7 +9,8 @@ import AvatarSample2 from '../../assets/icons/AbatarSample2';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard";
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
-import HostTemplate from "../../components/EnterTeamSp/HostTemplate.js";
+import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
+import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation }) {
   const [step, setStep] = useState(1);
@@ -20,7 +20,7 @@ function EnterTeamSp({ navigation }) {
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
   
-  const [hostTemplate, setHostTemplate] = useState(1); // 호스트 지정 템플릿 있음
+  const [hostTemplate, setHostTemplate] = useState(1); // 호스트 지정 템플릿 없음
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
@@ -163,6 +163,10 @@ function EnterTeamSp({ navigation }) {
       {step === 5 && (
         <View style={styles.stepContainer}>
           <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
+
+          <View style={{alignItems: 'center', marginTop: 135}}>
+            <EnterEndCard/>
+          </View>
 
           <View style={styles.flexSpacer} />
 

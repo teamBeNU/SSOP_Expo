@@ -272,7 +272,7 @@ export const styles = StyleSheet.create({
     },
     inviteCode: {
         fontSize: 16,
-        fontFamily: 'PretendardRegular',
+        fontFamily: 'PretendardSemiBold',
     },
     copy:{
         fontSize: 16,

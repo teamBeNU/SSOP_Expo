@@ -5,6 +5,8 @@ import { theme } from "../../theme";
 import { RadioButton } from 'react-native-paper';
 import "react-native-gesture-handler";
 
+import EnterEndCard from '../../assets/teamSp/EnterEndCard';
+
 export default function HostTemplate({ navigation }) {
   const [step, setStep] = useState(1);
   const [name, setName] = useState('');
@@ -237,7 +239,7 @@ export default function HostTemplate({ navigation }) {
         </View>
       )}
 
-      {/* 카드 뒷면 - sns/이메일 */}
+      {/* 카드 뒷면 - 연락처/sns/이메일 */}
       {step === 3 && (
         <View style={{height: '100%'}}>
           <ScrollView showsVerticalScrollIndicator={false}>
@@ -383,12 +385,14 @@ export default function HostTemplate({ navigation }) {
 
       {/* 팀스페이스 입장 완료 */}
       {step === 5 && (
-        <View style={{ height: 720 }}>
+        <View style={{ height: '100%' }}>
           <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
 
-          <View style={styles.flexSpacer} />
+          <View style={{alignItems: 'center', marginTop: 135}}>
+            <EnterEndCard/>
+          </View>
 
-          <View style={styles.btnContainer}>
+          <View style={[styles.btnContainer, {marginBottom: 20}]}>
             <View style={styles.btnNext}>
               <Text onPress={() => navigation.navigate("카드 조회")} style={styles.btnText}> 팀스페이스 확인 </Text>
             </View>
