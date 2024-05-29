@@ -6,7 +6,7 @@ import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
 import { Card } from "../MyCard/Card";
 import "react-native-gesture-handler";
-import Select from "../../assets/select.svg";
+import Select from "../../assets/teamSp/select.svg";
 
 export default function StudentTemplate({ navigation, teamName, teamComment, istemplate, template }) {
   const [step, setStep] = useState(1);

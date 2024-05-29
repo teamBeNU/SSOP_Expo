@@ -11,6 +11,7 @@ import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard"
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import HostTemplate from "../../components/EnterTeamSp/HostTemplate.js";
+import cardSample from '../../assets/teamSp/bg_gradation.png'
 
 function EnterTeamSp({ navigation }) {
   const [step, setStep] = useState(1);
@@ -111,12 +112,14 @@ function EnterTeamSp({ navigation }) {
 
       {/* 호스트가 템플릿 지정 */}
       {step === 2 && (
-        <View style={styles.stepContainer}>
+        <View style={[styles.stepContainer, {marginBottom: 50}]}>
           <Text style={styles.font22}>
             호스트가 템플릿을 지정했어요.
             {"\n"}팀스페이스에 보여질
             {"\n"}카드를 새로 만들어 봐요!
           </Text>
+
+          <cardSample />          
 
           <View style={styles.flexSpacer} />
 

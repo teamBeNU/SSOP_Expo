@@ -191,6 +191,49 @@ export const styles = StyleSheet.create({
         fontFamily: 'Pretendard',
         alignItems: 'center',
         justifyContent: 'center',
-    }
+    },
+    // 호스트 지정 템플릿
+    inputBirthContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+    },
+    inputBirth: {
+        width: '30%',
+        height: 48,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.gray60,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+    },
+    inputBirthText: {
+        textAlign: "right",
+        fontFamily: "PretendardRegular",
+        fontSize: 16,
+    },
+    marginR8: {
+        marginRight: 8,
+    },
+    radioBtnGruopContainer: {
+        flexDirection: 'row',
+    },
+    radioBtnContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginRight: 16,
+    },
+    musicInput: {
+        width: '50%',
+        height: 48,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.gray60,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        margin: 0,
+    },
+
     
 })
