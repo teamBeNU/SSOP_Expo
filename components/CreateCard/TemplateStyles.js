@@ -272,6 +272,14 @@ export const styles = StyleSheet.create({
         fontWeight: "600",
     },
 
+    cardDone: {
+        width: SCREEN_WIDTH - 32,
+        height: SCREEN_WIDTH - 32,
+        justifyContent: "center",
+        alignItems: "center",
+        // marginTop: 48,
+        marginTop: "20%",
+    },
     btnCheckCard: {
         position: 'absolute',
         bottom: 16 + 48 + 8,

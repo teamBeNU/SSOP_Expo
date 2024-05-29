@@ -684,6 +684,13 @@ export default function TemplateStudent({navigation}) {
             {step === 8 && (
                 <View style={styles.container}>
                     <Text style={styles.title}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
+                    <View style={styles.cardDone} >
+                        <Image
+                            source={require('../../assets/images/cardDone.png')}
+                            style={{widht: '100%', height: '100%', backgroundColor: "white"}} 
+                            resizeMode="contain"
+                        /> 
+                    </View>
                     <TouchableOpacity 
                             style={styles.btnCheckCard}
                             onPress={() => navigation.navigate('MyCard')}
