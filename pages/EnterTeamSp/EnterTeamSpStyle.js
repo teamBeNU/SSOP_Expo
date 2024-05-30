@@ -77,8 +77,8 @@ export const styles = StyleSheet.create({
     },
     // 버튼들
     btnNext: {
-        marginTop: 40,
-        marginBottom: 40,
+        marginTop: 16,
+        marginBottom: 16,
         width: '100%',
         height: 48,
         justifyContent: 'center',
@@ -149,7 +149,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'Pretendard',
     },
     modalView: {
-        height: 340,
+        height: 320,
         paddingHorizontal: 16,
         backgroundColor: 'white',
         borderTopLeftRadius: 8,
