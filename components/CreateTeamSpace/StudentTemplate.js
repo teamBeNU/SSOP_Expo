@@ -12,20 +12,20 @@ import Select from "../../assets/teamSp/select.svg";
 export default function StudentTemplate({ navigation, teamName, teamComment, istemplate, template }) {
   const [step, setStep] = useState(1);
   // 앞면 - step1
-  const [showAge, setShowAge] = useState(1);
-  const [showSchool, setShowSchool] = useState(1);
-  const [showGrade, setShowGrade] = useState(1);
-  //뒷면 - step2
-  const [showStudNum, setShowStudNum] = useState(1);
-  const [showJob, setShowJob] = useState(1);
-  const [showClub, setShowClub] = useState(1);
-  const [showStatus, setShowStatus] = useState(1);
-  const [showTel, setShowTel] = useState(1);
-  const [showSns, setShowSns] = useState(1);
-  const [showEmail, setShowEmail] = useState(1);
-  const [showMbti, setShowMbti] = useState(1);
-  const [showMusic, setShowMusic] = useState(1);
-  const [showMovie, setShowMovie] = useState(1);
+  const [showAge, setShowAge] = useState(false);
+  const [showSchool, setShowSchool] = useState(false);
+  const [showGrade, setShowGrade] = useState(false);
+  // 뒷면 - step2
+  const [showStudNum, setShowStudNum] = useState(false);
+  const [showJob, setShowJob] = useState(false);
+  const [showClub, setShowClub] = useState(false);
+  const [showStatus, setShowStatus] = useState(false);
+  const [showTel, setShowTel] = useState(false);
+  const [showSns, setShowSns] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
+  const [showMbti, setShowMbti] = useState(false);
+  const [showMusic, setShowMusic] = useState(false);
+  const [showMovie, setShowMovie] = useState(false);
   const [cover, setCover] = useState("free");
 
   const [positionList, setPositionList] = useState([
@@ -65,12 +65,52 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
   //step 5-6 
   const handleSelect = (id) => {
-    setFront(prevState => ({
-      ...prevState,
-      [id]: !prevState[id],
-    }));
+    switch (id) {
+      case 'showAge':
+        setShowAge((prevState) => !prevState);
+        break;
+      case 'showSchool':
+        setShowSchool((prevState) => !prevState);
+        break;
+      case 'showGrade':
+        setShowGrade((prevState) => !prevState);
+        break;
+      case 'showStudNum':
+        setShowStudNum((prevState) => !prevState);
+        break;
+      case 'showJob':
+        setShowJob((prevState) => !prevState);
+        break;
+      case 'showClub':
+        setShowClub((prevState) => !prevState);
+        break;
+      case 'showStatus':
+        setShowStatus((prevState) => !prevState);
+        break;
+      case 'showTel':
+        setShowTel((prevState) => !prevState);
+        break;
+      case 'showSns':
+        setShowSns((prevState) => !prevState);
+        break;
+      case 'showEmail':
+        setShowEmail((prevState) => !prevState);
+        break;
+      case 'showMbti':
+        setShowMbti((prevState) => !prevState);
+        break;
+      case 'showMusic':
+        setShowMusic((prevState) => !prevState);
+        break;
+      case 'showMovie':
+        setShowMovie((prevState) => !prevState);
+        break;
+      default:
+        break;
+    }
     console.log(id);
   };
+  
 
   const positionSelected = (index) => {
     setPositionList(prevList => {
@@ -119,7 +159,6 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
         teamComment: ${teamComment}
         istemplate: ${istemplate}
         template: ${template}
-        front: ${JSON.stringify(front)}
         position: ${JSON.stringify(positionList)}
         plus: ${JSON.stringify(plusList)}
         `
@@ -156,39 +195,39 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
               <Text style={[styles.font16, { marginTop: 28 }]}>기본정보</Text>
               <View style={styles.elementContainer}>
                 <TouchableOpacity onPress={() => handleSelect('showAge')}
-                  style={front.showAge ? styles.selectedElement : styles.element}>
-                  {front.showAge && (
+                  style={ showAge ? styles.selectedElement : styles.element}>
+                  { showAge && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 나이 </Text>
                     </View>
                   )}
-                  {!front.showAge && <Text> 나이 </Text>}
+                  {! showAge && <Text> 나이 </Text>}
                 </TouchableOpacity>
               </View>
 
               <Text style={[styles.font16, { marginTop: 28 }]}>학생정보</Text>
               <View style={styles.elementContainer}>
                 <TouchableOpacity onPress={() => handleSelect('showSchool')}
-                  style={front.showSchool ? styles.selectedElement : styles.element}>
-                  {front.showSchool && (
+                  style={ showSchool ? styles.selectedElement : styles.element}>
+                  { showSchool && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 학교명 </Text>
                     </View>
                   )}
-                  {!front.showSchool && <Text> 학교명 </Text>}
+                  {! showSchool && <Text> 학교명 </Text>}
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleSelect('showGrade')}
-                  style={front.showGrade ? styles.selectedElement : styles.element}>
-                  {front.showGrade && (
+                  style={ showGrade ? styles.selectedElement : styles.element}>
+                  { showGrade && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 학년 </Text>
                     </View>
                   )}
-                  {!front.showGrade && <Text> 학년 </Text>}
+                  {! showGrade && <Text> 학년 </Text>}
                 </TouchableOpacity>
               </View>
 
@@ -227,8 +266,8 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
               <Text style={styles.font16}> 카드 커버 설정 </Text>
               <RadioButton.Group
-                onValueChange={(value) => setFront({ ...front, cover: value })}
-                value={front.cover}>
+                onValueChange={(value) => setCover(value)}
+                value={cover}>
                 <View style={styles.coverContainer}>
 
                   <View style={styles.coverRadioBtn}>
@@ -268,47 +307,47 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
               <Text style={[styles.font16, { marginTop: 28 }]}>학생정보</Text>
               <View style={styles.elementContainer}>
                 <TouchableOpacity onPress={() => handleSelect('showStudNum')}
-                  style={front.showStudNum ? styles.selectedElement : styles.element}>
-                  {front.showStudNum && (
+                  style={ showStudNum ? styles.selectedElement : styles.element}>
+                  { showStudNum && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 학생번호 </Text>
                     </View>
                   )}
-                  {!front.showStudNum && <Text> 학생번호 </Text>}
+                  {! showStudNum && <Text> 학생번호 </Text>}
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleSelect('showClub')}
-                  style={front.showClub ? styles.selectedElement : styles.element}>
-                  {front.showClub && (
+                  style={ showClub ? styles.selectedElement : styles.element}>
+                  { showClub && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 동아리 </Text>
                     </View>
                   )}
-                  {!front.showClub && <Text> 동아리 </Text>}
+                  {! showClub && <Text> 동아리 </Text>}
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleSelect('showStatue')}
-                  style={front.showStatue ? styles.selectedElement : styles.element}>
-                  {front.showStatue && (
+                <TouchableOpacity onPress={() => handleSelect('showStatus')}
+                  style={ showStatus ? styles.selectedElement : styles.element}>
+                  { showStatus && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 재학여부 </Text>
                     </View>
                   )}
-                  {!front.showStatue && <Text> 재학여부 </Text>}
+                  {! showStatus && <Text> 재학여부 </Text>}
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleSelect('showJob')}
-                  style={front.showJob ? styles.selectedElement : styles.element}>
-                  {front.showJob && (
+                  style={ showJob ? styles.selectedElement : styles.element}>
+                  { showJob && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 직무 </Text>
                     </View>
                   )}
-                  {!front.showJob && <Text> 직무 </Text>}
+                  {! showJob && <Text> 직무 </Text>}
                 </TouchableOpacity>
 
               </View>
@@ -317,36 +356,36 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
               <View style={styles.elementContainer}>
 
                 <TouchableOpacity onPress={() => handleSelect('showTel')}
-                  style={front.showTel ? styles.selectedElement : styles.element}>
-                  {front.showTel && (
+                  style={ showTel ? styles.selectedElement : styles.element}>
+                  { showTel && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 연락처 </Text>
                     </View>
                   )}
-                  {!front.showTel && <Text> 연락처 </Text>}
+                  {! showTel && <Text> 연락처 </Text>}
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleSelect('showSns')}
-                  style={front.showSns ? styles.selectedElement : styles.element}>
-                  {front.showSns && (
+                  style={ showSns ? styles.selectedElement : styles.element}>
+                  { showSns && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> SNS </Text>
                     </View>
                   )}
-                  {!front.showSns && <Text> SNS </Text>}
+                  {! showSns && <Text> SNS </Text>}
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleSelect('showEmail')}
-                  style={front.showEmail ? styles.selectedElement : styles.element}>
-                  {front.showEmail && (
+                  style={ showEmail ? styles.selectedElement : styles.element}>
+                  { showEmail && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 이메일 </Text>
                     </View>
                   )}
-                  {!front.showEmail && <Text> 이메일 </Text>}
+                  {! showEmail && <Text> 이메일 </Text>}
                 </TouchableOpacity>
 
               </View>
@@ -355,36 +394,36 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
               <View style={styles.elementContainer}>
 
                 <TouchableOpacity onPress={() => handleSelect('showMbti')}
-                  style={front.showMbti ? styles.selectedElement : styles.element}>
-                  {front.showMbti && (
+                  style={ showMbti ? styles.selectedElement : styles.element}>
+                  { showMbti && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> MBTI </Text>
                     </View>
                   )}
-                  {!front.showMbti && <Text> MBTI </Text>}
+                  {! showMbti && <Text> MBTI </Text>}
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleSelect('showMusic')}
-                  style={front.showMusic ? styles.selectedElement : styles.element}>
-                  {front.showMusic && (
+                  style={ showMusic ? styles.selectedElement : styles.element}>
+                  { showMusic && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 인생 음악 </Text>
                     </View>
                   )}
-                  {!front.showMusic && <Text> 인생 음악 </Text>}
+                  {! showMusic && <Text> 인생 음악 </Text>}
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleSelect('showMovie')}
-                  style={front.showMovie ? styles.selectedElement : styles.element}>
-                  {front.showMovie && (
+                  style={ showMovie ? styles.selectedElement : styles.element}>
+                  { showMovie && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> 인생 영화 </Text>
                     </View>
                   )}
-                  {!front.showMovie && <Text> 인생 영화 </Text>}
+                  {! showMovie && <Text> 인생 영화 </Text>}
                 </TouchableOpacity>
 
               </View>
