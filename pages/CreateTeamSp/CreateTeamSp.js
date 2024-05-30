@@ -5,6 +5,11 @@ import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
 import "react-native-gesture-handler";
 
+import Student from '../../assets/profile/student.svg';
+import Worker from '../../assets/profile/worker.svg';
+import Fan from '../../assets/profile/fan.svg';
+import Free from '../../assets/profile/free.svg';
+
 import StudentTemplate from "../../components/CreateTeamSpace/StudentTemplate";
 import WorkerTemplate from "../../components/CreateTeamSpace/WorkerTemplate";
 import FanTemplate from "../../components/CreateTeamSpace/FanTemplate";
@@ -65,12 +70,11 @@ function CreateTeamSp({ navigation }) {
     }, [teamName, teamComment]);
 
     const items = [
-      { id: 'student', label: '학생', description: '학교에 다닌다면', image: require('../../assets/profile/student.png') },
-      { id: 'worker', label: '직장인', description: '직장에 다닌다면', image: require('../../assets/profile/worker.png')  },
-      { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', image: require('../../assets/profile/fan.png')  },
-      { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', image: require('../../assets/profile/free.png')  },
+      { id: 'student', label: '학생', description: '학교에 다닌다면', icon: <Student/> },
+      { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker/> },
+      { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', icon: <Fan/> },
+      { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', icon: <Free/> },
   ]
-
     //step4 - 템플릿 선택
     const handleTempClick = (id) => {
       setTemplate(id);
@@ -188,7 +192,7 @@ function CreateTeamSp({ navigation }) {
                     style={[styles.item]}
                     onPress={() => handleTempClick(item.id)}
                     >
-                      <Image source={item.image} style={{ width: '50%', height: undefined, aspectRatio: 1 }} />
+                      {item.icon}
                       <Text style={[styles.font18, { marginTop: 11 }]}>{item.label}</Text>
                       <Text style={styles.text}>{item.description}</Text>
                     </TouchableOpacity>
