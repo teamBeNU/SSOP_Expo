@@ -41,8 +41,8 @@ import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
 import Notify from './pages/Notify/Notify';
 import { styles } from './components/MyCard/CardStyle';
 
-import PretendardRegular from './assets/fonts/Pretendard-Regular.otf';
-import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
+import PretendardRegular from './assets/fonts/pretendard-regular.otf';
+import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
 
 export default function App() {
