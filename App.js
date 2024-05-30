@@ -117,8 +117,8 @@ export default function App() {
           component={CreateTeamSp}
           options={{ 
             headerTitle: "팀스페이스 생성",
-            headerLeft: ({navigation}) => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
@@ -144,8 +144,8 @@ export default function App() {
           component={EnterTeamSp} 
           options={{ 
             headerTitle: "팀스페이스 입장",
-            headerLeft: ({navigation}) => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
