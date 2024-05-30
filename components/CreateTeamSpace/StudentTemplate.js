@@ -6,6 +6,7 @@ import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
 import { Card } from "../MyCard/Card";
 import "react-native-gesture-handler";
+import * as Progress from 'react-native-progress';
 import Select from "../../assets/teamSp/select.svg";
 
 export default function StudentTemplate({ navigation, teamName, teamComment, istemplate, template }) {
@@ -45,6 +46,10 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
   const [plusLength, setPlusLength] = useState(0);
 
   const inviteCode = '120432'; // step4
+
+  // progressBar
+  const maxSteps = 8;
+  const initialProgress = 0.625;
 
   const handleNext = () => {
     if (step === 1) {
@@ -128,6 +133,16 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
   return (
     <View>
+      <Progress.Bar
+          progress={initialProgress + (step - 1) / maxSteps}
+          width={null}
+          height={2}
+          color={theme.green}
+          borderWidth={0}
+          marginTop={-16}
+        />
+        <View style={{ paddingVertical: 8, paddingHorizontal: 16 }}>
+
       {/* 카드 앞면 */}
       {step === 1 && (
         <>
@@ -238,7 +253,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
             </RadioButton.Group>
           </ScrollView>
 
-          <View style={styles.btnContainer}>
+          <View style={[styles.btnContainer, {marginLeft: 16, marginBottom: -20}]}>
             <View style={styles.btnNext}>
               <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
             </View>
@@ -406,7 +421,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
           <Text style={styles.nameLeng}> {plusLength} / 5 </Text>
         </ScrollView>
         
-          <View style={styles.btnContainer}>
+          <View style={[styles.btnContainer, {marginBottom: -28}]}>
             <View style={styles.btnNext}>
               <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
             </View>
@@ -423,9 +438,11 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
           </View>
           <Text style={[styles.subtitle, { marginTop: 450, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 
-          <View style={styles.btnNext}>
-            <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-          </View>
+          <View style={[styles.btnContainer, {marginBottom: -28}]}>
+            <View style={styles.btnNext}>
+              <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+            </View>
+            </View>
         </View>
       )}
 
@@ -443,7 +460,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
             </TouchableOpacity>
           </View>
 
-          <View style={[styles.btnContainer, {marginBottom: 20}]}>
+          <View style={styles.btnContainer}>
             <View style={styles.btnNext}>
               <Text onPress={() => navigation.navigate(" ")} style={styles.btnText}> 홈화면으로 </Text>
             </View>
@@ -454,8 +471,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
         </View>
       )}
-
-
+      </View>
     </View>
   )
 }
