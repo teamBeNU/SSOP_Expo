@@ -42,18 +42,26 @@ export default function HostTemplate({ navigation }) {
   const [showMovie, setShowMovie] = useState(1);
   // const [cover, setCover] = useState(1);
 
-
   const handleNext = () => {
-    if (step === 1) {
-      setStep(2);
-    } else if (step === 2) {
-      setStep(3);
-    } else if (step === 3) {
-      setStep(4);
-    } else if (step === 4) {
-      setStep(5);
-    }
+    setStep(prevStep => prevStep + 1);
   };
+
+  useEffect(() => {
+    const checkAndSkipStep = () => {
+      if (step === 1 && !showAge && !showSchool && !showGrade) {
+        handleNext();
+      } else if (step === 2 && !showStudNum && !showJob && !showClub && !showStatus) {
+        handleNext();
+      } else if (step === 3 && !showTel && !showSns && !showEmail) {
+        handleNext();
+      } else if (step === 4 && !showMbti && !showMusic && !showMovie) {
+        handleNext();
+      }
+    };
+
+    checkAndSkipStep();
+  }, [step, showAge, showSchool, showGrade, showStudNum, showJob, showClub, showStatus, showTel, showSns, showEmail, showMbti, showMusic, showMovie]);
+
 
   return (
     <View>
@@ -238,6 +246,7 @@ export default function HostTemplate({ navigation }) {
           </View>
         </View>
       )}
+
 
       {/* 카드 뒷면 - 연락처/sns/이메일 */}
       {step === 3 && (
