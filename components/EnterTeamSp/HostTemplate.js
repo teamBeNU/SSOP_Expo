@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
@@ -63,6 +63,28 @@ export default function HostTemplate({ navigation }) {
   }, [step, showAge, showSchool, showGrade, showStudNum, showJob, showClub, showStatus, showTel, showSns, showEmail, showMbti, showMusic, showMovie]);
 
 
+  const nameRef = useRef(null);
+  const yearRef = useRef(null);
+  const monthRef = useRef(null);
+  const dayRef = useRef(null);
+  const schoolRef = useRef(null);
+  const gradeRef = useRef(null);
+  const introductionRef = useRef(null);
+
+  const studNumRef = useRef(null);
+  const jobRef = useRef(null);
+  const clubRef = useRef(null);
+
+  const telRef = useRef(null);
+  const instaRef = useRef(null);
+  const xRef = useRef(null);
+  const emailRef = useRef(null);
+
+  const mbtiRef = useRef(null);
+  const singerRef = useRef(null);
+  const songRef = useRef(null);
+  const movieRef = useRef(null);
+
   return (
     <View>
       {/* 카드 앞면 - 기본 정보 */}
@@ -79,8 +101,11 @@ export default function HostTemplate({ navigation }) {
                 style={styles.nameInput}
                 placeholder="이름을 입력하세요."
                 keyboardType="default"
+                returnKeyType='next'
                 value={name}
                 onChangeText={setName}
+                ref={nameRef}
+                onSubmitEditing={() => yearRef.current.focus()}
               />
             </View>
 
@@ -95,9 +120,12 @@ export default function HostTemplate({ navigation }) {
                     style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
                     placeholder="년"
                     keyboardType="numeric"
+                    returnKeyType='done'
                     value={year}
                     onChangeText={setYear}
                     maxLength={4}
+                    ref={yearRef}
+                    onSubmitEditing={() => monthRef.current.focus()}
                   />
                   <TextInput
                     style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
@@ -106,6 +134,9 @@ export default function HostTemplate({ navigation }) {
                     value={month}
                     onChangeText={setMonth}
                     maxLength={2}
+                    ref={monthRef}
+                    returnKeyType='done'
+                    onSubmitEditing={() => dayRef.current.focus()}
                   />
                   <TextInput
                     style={[styles.inputBirth, styles.inputBirthText]}
@@ -114,6 +145,9 @@ export default function HostTemplate({ navigation }) {
                     value={day}
                     onChangeText={setDay}
                     maxLength={2}
+                    ref={dayRef}
+                    returnKeyType='done'
+                    onSubmitEditing={() => schoolRef.current.focus()}
                   />
                 </View>
               </View>
@@ -127,8 +161,11 @@ export default function HostTemplate({ navigation }) {
                   style={styles.nameInput}
                   placeholder="학교명을 입력하세요."
                   keyboardType="default"
+                  returnKeyType='next'
                   value={school}
                   onChangeText={setSchool}
+                  ref={schoolRef}
+                  onSubmitEditing={() => gradeRef.current.focus()}
                 />
               </View>
             )}
@@ -141,8 +178,11 @@ export default function HostTemplate({ navigation }) {
                   style={styles.nameInput}
                   placeholder="학년을 입력하세요."
                   keyboardType="numeric"
+                  returnKeyType='done'
                   value={grade}
                   onChangeText={setGrade}
+                  ref={gradeRef}
+                  onSubmitEditing={() => introductionRef.current.focus()}
                 />
               </View>
             )}
@@ -156,6 +196,7 @@ export default function HostTemplate({ navigation }) {
                 keyboardType="default"
                 value={introduction}
                 onChangeText={setIntroduction}
+                ref={introductionRef}
               />
             </View>
 
@@ -184,8 +225,11 @@ export default function HostTemplate({ navigation }) {
                   style={styles.nameInput}
                   placeholder="학생번호를 입력하세요"
                   keyboardType="numeric"
+                  returnKeyType='done'
                   value={studNum}
                   onChangeText={setStudNum}
+                  Ref={studNumRef}
+                  onSubmitEditing={() => jobRef.current.focus()}
                 />
               </View>
             )}
@@ -200,6 +244,8 @@ export default function HostTemplate({ navigation }) {
                   keyboardType="default"
                   value={job}
                   onChangeText={setJob}
+                  ref={jobRef}
+                  onSubmitEditing={() => clubRef.current.focus()}
                 />
               </View>
             )}
@@ -214,6 +260,7 @@ export default function HostTemplate({ navigation }) {
                   keyboardType="default"
                   value={club}
                   onChangeText={setClub}
+                  ref={clubRef}
                 />
               </View>
             )}
@@ -263,8 +310,11 @@ export default function HostTemplate({ navigation }) {
                   style={styles.nameInput}
                   placeholder="연락처를 입력하세요"
                   keyboardType="numeric"
+                  returnKeyType='done'
                   value={tel}
                   onChangeText={setTel}
+                  ref={telRef}
+                  onSubmitEditing={() => instaRef.current.focus()}
                 />
               </View>
             )}
@@ -284,6 +334,8 @@ export default function HostTemplate({ navigation }) {
                     keyboardType="default"
                     value={sns[0]}
                     onChangeText={text => setSns(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
+                    ref={instaRef}
+                    onSubmitEditing={() => xRef.current.focus()}
                   />
                 </View>
 
@@ -296,6 +348,8 @@ export default function HostTemplate({ navigation }) {
                     keyboardType="default"
                     value={sns[1]}
                     onChangeText={text => setSns(prevState => [...prevState.slice(0, 2), text])}
+                    ref={xRef}
+                    onSubmitEditing={() => emailRef.current.focus()}
                   />
                 </View>
               </View>
@@ -311,6 +365,7 @@ export default function HostTemplate({ navigation }) {
                   keyboardType="email"
                   value={email}
                   onChangeText={setEmail}
+                  ref={emailRef}
                 />
               </View>
             )}
@@ -342,6 +397,8 @@ export default function HostTemplate({ navigation }) {
                   keyboardType="default"
                   value={mbti}
                   onChangeText={setMbti}
+                  ref={mbtiRef}
+                  onSubmitEditing={() => singerRef.current.focus()}
                 />
               </View>
             )}
@@ -357,6 +414,8 @@ export default function HostTemplate({ navigation }) {
                     keyboardType="default"
                     value={music[0]}
                     onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
+                    ref={singerRef}
+                    onSubmitEditing={() => songRef.current.focus()}
                   />
                   <TextInput
                     style={styles.musicInput}
@@ -364,6 +423,8 @@ export default function HostTemplate({ navigation }) {
                     keyboardType="default"
                     value={music[1]}
                     onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
+                    ref={songRef}
+                    onSubmitEditing={() => movieRef.current.focus()}
                   />
                 </View>
               </View>
@@ -379,6 +440,7 @@ export default function HostTemplate({ navigation }) {
                   keyboardType="default"
                   value={movie}
                   onChangeText={setMovie}
+                  ref={movieRef}
                 />
               </View>
             )}
