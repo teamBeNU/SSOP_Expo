@@ -59,34 +59,5 @@ function Home({navigation}) {
     );
   }
 
-  // AppBar
-
-//   const Stack = createStackNavigator();
-
-//   function HomeStack() {
-//     return (
-//         <NavigationContainer>
-//             <Stack.Navigator>
-//                 <Stack.Screen 
-//                     name="Home" 
-//                     component={HomeScreen} 
-//                     options={{
-//                         headerLeft: () => (
-//                             <TouchableOpacity onPress={() => {/* 왼쪽 아이콘에 대한 액션 */}}>
-//                                 <Image source={require('../../assets/AppBar/ic_noti_regular_line.png')}/>
-//                             </TouchableOpacity>
-//                         ),
-//                         headerRight: () => (
-//                             <TouchableOpacity onPress={() => {/* 오른쪽 아이콘에 대한 액션 */}}>
-//                                 <Image source={require('../../assets/AppBar/ic_search_regular_line.png')}/>
-//                             </TouchableOpacity>
-//                         ),
-//                     }}
-//                 />
-//             </Stack.Navigator>
-//         </NavigationContainer>
-//     );
-// }
-
   export default Home;
   

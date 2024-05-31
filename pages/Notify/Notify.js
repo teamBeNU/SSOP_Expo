@@ -26,7 +26,7 @@ const initialNotiData = [
   }
 ];
 
-function Notify({}) {
+function Notify() {
 
 // 알림 데이터 유무를 상태로 설정
 const [hasNotify, setHasNotify] = useState(true);

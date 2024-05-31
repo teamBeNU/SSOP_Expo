@@ -61,6 +61,22 @@ export const styles = StyleSheet.create({
     },
 
     // 팀스페이스 카드
+    host: {
+        width: 43,
+        height: 22,
+        borderRadius: 8,
+        marginRight: 8,
+        fontFamily: 'PretendardRegular',
+        backgroundColor: "#00C2ED66",
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    hostText: {
+        color: theme.gray10,
+        fontSize: 12,
+        fontFamily: 'PretendardSemiBold',
+        textAlign: 'center',
+    },
     font16: {
         fontSize: 16,
         fontFamily: 'Pretendard',
@@ -69,12 +85,11 @@ export const styles = StyleSheet.create({
     font18: {
         fontSize: 18,
         fontFamily: 'PretendardSemiBold',
-        marginLeft: 8
     },
     people: {
         marginTop: 12,
         fontSize: 12,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         alignItems: 'center',
         justifyContent: 'center',
     },
@@ -85,10 +100,6 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray90,
         padding: 16,
         width: '100%',
-        // display: 'flex',
-        // justifyContent:'center',
-        // alignItems: 'center',
-
         // Android - Shadow
         elevation: 5,
         // IOS - Shadow
@@ -108,9 +119,10 @@ export const styles = StyleSheet.create({
         bottom: 16,
         right: 16,
         backgroundColor: theme.gray10,
+        width: 100,
+        height: 36,
         borderRadius: 25,
-        paddingVertical: 10,
-        paddingHorizontal: 16,
+        borderRadius: 25,
 
         shadowColor: "rgba(0, 0, 0, 0.03)",
         shadowOffset: {
@@ -118,8 +130,10 @@ export const styles = StyleSheet.create({
             height: 2
         },
         shadowRadius: 2,
-        shadowOpacity: 1
+        shadowOpacity: 1,
         
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     floatingButtonText: {
         color: theme.white,

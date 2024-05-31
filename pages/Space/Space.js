@@ -7,7 +7,6 @@ import { styles } from './SpaceStyle';
 import { SpaceCard } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 
 import NotiIcon from '../../assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
@@ -91,15 +90,22 @@ function MySpaceScreen() {
       </View>
     </View>
   );
-  }
+}
 
 function TeamSpaceScreen({ navigation, handleNext }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasTeamSP, setHasTeamSP] = useState(true);
 
-  const TeamSPContent = ({ name, description, members }) => (
+  const TeamSPContent = ({ name, description, members, isHost }) => (
     <TouchableOpacity style={styles.TeamSPContent}>
-      <Text style={[styles.font18, { marginLeft: 0 }]}>{name}의 팀스페이스</Text>
+      <View style={[{ flexDirection: 'row', alignItems: 'center' }]}>
+        {isHost && (
+          <View style={styles.host}>
+            <Text style={styles.hostText}>호스트</Text>
+          </View>
+        )}
+        <Text style={styles.font18}>{name}의 팀스페이스</Text>
+      </View>
       <Text style={styles.font16}>{description}</Text>
       <Text style={styles.people}>
         <People /> {members} / 150명
@@ -108,11 +114,11 @@ function TeamSpaceScreen({ navigation, handleNext }) {
   );
 
   const teamData = [
-    { id: 1, name: '홍길동', description: '부가설명', members: 8 },
-    { id: 2, name: '홍길동', description: '부가설명', members: 8 },
-    { id: 3, name: '홍길동', description: '부가설명', members: 8 },
-    { id: 4, name: '홍길동', description: '부가설명', members: 8 },
-    { id: 5, name: '홍길동', description: '부가설명', members: 8 },
+    { id: 1, name: '홍길동', description: '부가설명', members: 8, isHost: true },
+    { id: 2, name: '홍길동', description: '부가설명', members: 8, isHost: false },
+    { id: 3, name: '홍길동', description: '부가설명', members: 8, isHost: false },
+    { id: 4, name: '홍길동', description: '부가설명', members: 8, isHost: false },
+    { id: 5, name: '홍길동', description: '부가설명', members: 8, isHost: false },
   ];
 
   // 데이터 배열 매핑
@@ -122,6 +128,7 @@ function TeamSpaceScreen({ navigation, handleNext }) {
       name={team.name}
       description={team.description}
       members={team.members}
+      isHost={team.isHost}
     />
   ));
   
