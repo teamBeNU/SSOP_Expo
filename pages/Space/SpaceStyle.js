@@ -1,11 +1,15 @@
 import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
+import { Title } from 'react-native-paper';
 
 export const styles = StyleSheet.create({
     mainlayout:{      
         flex: 1,  
         paddingVertical: 8,
         paddingHorizontal: 16,
+        backgroundColor: theme.white
+    },
+    backgroundColor:{
         backgroundColor: theme.white
     },
 
@@ -76,15 +80,18 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         fontFamily: 'PretendardSemiBold',
         textAlign: 'center',
+        letterSpacing: -1,
     },
     font16: {
         fontSize: 16,
         fontFamily: 'Pretendard',
-        marginTop: 8
+        marginTop: 8,
+        letterSpacing: -1,
     },
     font18: {
         fontSize: 18,
         fontFamily: 'PretendardSemiBold',
+        letterSpacing: -1,
     },
     people: {
         marginTop: 12,
@@ -92,6 +99,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         alignItems: 'center',
         justifyContent: 'center',
+        letterSpacing: -1,
     },
     TeamSPContent: {
         borderRadius: 8,
@@ -131,7 +139,7 @@ export const styles = StyleSheet.create({
         },
         shadowRadius: 2,
         shadowOpacity: 1,
-        
+
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -153,6 +161,7 @@ export const styles = StyleSheet.create({
     tabLabel: {
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
+        letterSpacing: -1,
     },
     tabBar: {
         backgroundColor: theme.white,
@@ -178,6 +187,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: 5,
         marginVertical: 5,
     },
+    
 
     // 카드가 없을 때
     emptyContainer: {
@@ -205,4 +215,108 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         letterSpacing: -0.2,
     },
+
+    // 상세 팀스페이스
+    title: {
+        marginTop: 32,
+        letterSpacing: -1,
+        textAlign: 'center',
+        fontSize: 22,
+        fontFamily: 'PretendardSemiBold',
+    },
+    sub: {
+        marginTop: 32,
+        marginBottom: 32,
+        letterSpacing: -1,
+        textAlign: 'center',
+        fontSize: 16,
+        fontFamily: 'PretendardRegular',
+    },
+    btnContainer: {
+        flexDirection: 'row',
+        gap: 28,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    btnText: {
+        textAlign: 'center',
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        letterSpacing: -1
+    },
+    btn: {
+        gap: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    whiteBtn: {
+        width: 40,
+        height: 40,
+        padding: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'white',
+        borderRadius: 39,
+        //ios shadow
+        shadowColor: 'rgba(0, 0, 0, 0.08)',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 4,
+        //android shadow
+        elevation: 4,
+    },
+    line: {
+        marginTop: 32,
+        borderBottomWidth:1,
+        borderBottomColor: theme.gray90,
+    },
+
+    personText: {
+        marginLeft: 20,
+        marginTop: 20,
+        textAlign: 'center',
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -1
+    },
+    personContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+    personRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between', // 좌우 여백을 최대화하여 요소를 양쪽으로 펼칩니다
+        flex: 1, // 부모 컨테이너에 맞춰 전체 너비를 차지합니다
+    },
+    positionFilter: {
+        marginTop: 24,
+        marginLeft: 'auto',
+        width: 88,
+        height: 33,
+        borderRadius: 36,
+        backgroundColor: theme.gray95,
+        marginRight: 16,
+        fontFamily: 'PretendardRegular',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    positionFilterText: {
+        color: theme.gray10,
+        fontSize: 14,
+        fontFamily: 'PretendardSemiBold',
+        textAlign: 'center',
+        letterSpacing: -1,
+    },
+    people: {
+        marginLeft: 8,
+        marginTop: 24,
+        fontSize: 12,
+        fontFamily: 'PretendardRegular',
+        alignItems: 'center',
+        justifyContent: 'center',
+        letterSpacing: -1,
+    },
+    
+
 })

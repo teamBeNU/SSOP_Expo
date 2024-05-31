@@ -5,6 +5,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
+
 import { useFonts } from 'expo-font';
 import MoreIcon from './assets/icons/ic_more_small_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
@@ -146,7 +147,7 @@ const Tab = createBottomTabNavigator();
   function MyTabs() {
 
     const navigation = useNavigation();
-    
+
     return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -196,18 +197,9 @@ const Tab = createBottomTabNavigator();
             </TouchableOpacity>
           ),
         }}  />
-        <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: ' ' }} />
+        <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: ' ', headerShown: false }} />
         <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: '내 카드' }} />
         <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
       </Tab.Navigator>
-    );
-  }
-
-  function HeaderLeftButton() {
-    const navigation = useNavigation();
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate('알림')}>
-        <NotiIcon style={{ marginLeft: 8 }} />
-      </TouchableOpacity>
     );
   }
