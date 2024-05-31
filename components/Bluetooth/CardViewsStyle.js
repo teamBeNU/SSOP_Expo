@@ -95,12 +95,12 @@ export const styles = StyleSheet.create({
 
     // 카드가 없을 때
     emptyContainer: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 16,
      },
     noCard: {
-        marginTop: 250,
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
@@ -113,10 +113,10 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 4,
     },
-        newCard: {
+    newCard: {
         color:theme.skyblue,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         letterSpacing: -0.2,
-        },
+    },
 })

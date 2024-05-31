@@ -6,8 +6,8 @@ export const styles = StyleSheet.create({
         flex: 1,  
         paddingVertical: 8,
         paddingHorizontal: 16,
+        backgroundColor: theme.white
     },
-
 
     // 정렬
     container2: {
@@ -40,6 +40,24 @@ export const styles = StyleSheet.create({
     },
     innerView: {
         marginTop: 120,
+    },
+    card: { // 마이스페이스 카드
+        marginBottom: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+        justifyContent: 'center',
+        shadowColor: "rgba(0, 0, 0, 0.03)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 2,
+        shadowOpacity: 1,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        elevation: 5,
+        position: 'relative',
+        borderColor: theme.gray90,
     },
 
     // 팀스페이스 카드
@@ -81,6 +99,7 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 0.05,
         shadowRadius: 12,
+        marginBottom: 12,
     },
 
     // 플로팅 버튼
@@ -101,19 +120,19 @@ export const styles = StyleSheet.create({
         shadowRadius: 2,
         shadowOpacity: 1
         
-      },
-      floatingButtonText: {
+    },
+    floatingButtonText: {
         color: theme.white,
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
-      },
-      floatingButtonContent: {
+    },
+    floatingButtonContent: {
         flexDirection: 'row',
         alignItems: 'center',
-      },
-      floatingButtonIcon: {
+    },
+    floatingButtonIcon: {
         marginRight: 4.5,
-      },
+    },
     
 
     // 상단 탭
@@ -144,5 +163,32 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         marginHorizontal: 5,
         marginVertical: 5,
+    },
+
+    // 카드가 없을 때
+    emptyContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16,
+     },
+    noCard: {
+        color: theme.gray60,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
+    },
+    newContainer: {
+        flexDirection: 'row',
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 4,
+    },
+    newCard: {
+        color:theme.skyblue,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
     },
 })

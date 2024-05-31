@@ -16,9 +16,10 @@ import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 import People from '../../assets/icons/ic_person_small_fill.svg';
 import Swap from '../../assets/icons/ic_swap_regular_line.svg';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 
 function MySpaceScreen() {
-  const navigation = useNavigation(); 
+  const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(true);
 
@@ -56,7 +57,7 @@ function MySpaceScreen() {
           <View style={styles.container}>
             <View style={styles.row}>
                 {cardData.map((item) => (
-                    <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
+                    <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigation.navigate('카드 조회')}>
                     <item.Component 
                         backgroundColor={item.backgroundColor} 
                         avatar={item.avatar} 
@@ -70,7 +71,7 @@ function MySpaceScreen() {
           </View>
           <View style={styles.innerView}></View>
         </ScrollView>
-        <TouchableOpacity style={styles.floatingButton}>
+        <TouchableOpacity style={styles.floatingButton} onPress={() => console.log('Button Pressed')}>
           <View style={styles.floatingButtonContent}>
             <Swap style={styles.floatingButtonIcon} />
             <Text style={styles.floatingButtonText}>교환하기</Text>
@@ -78,17 +79,53 @@ function MySpaceScreen() {
         </TouchableOpacity>
       </View>
   ) : (
-    <NoCardsView 
-      navigation={navigation}
-      sub={sub}
-       />
+    <View style={styles.mainlayout}>
+      <View style={styles.emptyContainer}>
+        <Text style={styles.noCard}>공유받은 카드가 없어요.</Text>
+        <TouchableOpacity onPress={() => navigation.navigate('카드 만들기')}>
+          <View style={styles.newContainer}>
+            <Text style={styles.newCard}>카드 교환하기</Text>
+            <RightIcon />
+          </View>
+        </TouchableOpacity>
+      </View>
+    </View>
   );
   }
 
 function TeamSpaceScreen({ navigation, handleNext }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
+  const [hasTeamSP, setHasTeamSP] = useState(true);
 
-  return (
+  const TeamSPContent = ({ name, description, members }) => (
+    <TouchableOpacity style={styles.TeamSPContent}>
+      <Text style={[styles.font18, { marginLeft: 0 }]}>{name}의 팀스페이스</Text>
+      <Text style={styles.font16}>{description}</Text>
+      <Text style={styles.people}>
+        <People /> {members} / 150명
+      </Text>
+    </TouchableOpacity>
+  );
+
+  const teamData = [
+    { id: 1, name: '홍길동', description: '부가설명', members: 8 },
+    { id: 2, name: '홍길동', description: '부가설명', members: 8 },
+    { id: 3, name: '홍길동', description: '부가설명', members: 8 },
+    { id: 4, name: '홍길동', description: '부가설명', members: 8 },
+    { id: 5, name: '홍길동', description: '부가설명', members: 8 },
+  ];
+
+  // 데이터 배열 매핑
+  const TeamSPContents = teamData.map((team) => (
+    <TeamSPContent
+      key={team.id}
+      name={team.name}
+      description={team.description}
+      members={team.members}
+    />
+  ));
+  
+  return hasTeamSP ? (
     <View style={styles.mainlayout}>
         <View style={styles.container2}>
           <View style={styles.row2}>
@@ -103,21 +140,29 @@ function TeamSpaceScreen({ navigation, handleNext }) {
           </View>
         </View>
         <ScrollView showsVerticalScrollIndicator={false}>
-          <TouchableOpacity style={styles.TeamSPContent}>
-              <Text style={[styles.font18, { marginLeft: 0 }]}> 홍길동의 팀스페이스 </Text>
-              <Text style={styles.font16}> 부가설명 </Text>
-              <Text style={styles.people}> <People />  8 / 150명 </Text>
-          </TouchableOpacity>
+          {TeamSPContents}
           <View style={styles.innerView}></View>
         </ScrollView>
-        <TouchableOpacity style={styles.floatingButton}>
+        <TouchableOpacity style={styles.floatingButton} onPress={() => console.log('Button Pressed')}>
           <View style={styles.floatingButtonContent}>
             <Swap style={styles.floatingButtonIcon} />
             <Text style={styles.floatingButtonText}>교환하기</Text>
           </View>
         </TouchableOpacity>
       </View>
-  );
+    ) : (
+      <View style={styles.mainlayout}>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.noCard}>입장한 팀스페이스가 없어요.</Text>
+          <TouchableOpacity onPress={() => navigation.navigate('팀스페이스 입장')}>
+            <View style={styles.newContainer}>
+              <Text style={styles.newCard}>팀스페이스 입장하기</Text>
+              <RightIcon />
+            </View>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
 }
 
 function Space() {
