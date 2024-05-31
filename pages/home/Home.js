@@ -32,7 +32,7 @@ function Home({navigation}) {
                     </View>
                 </View>
 
-                <Text style={styles.title}>교환할 사람이 10명보다 많은가요?</Text>
+                <Text style={styles.title}>교환할 사람이 다수인가요?</Text>
                 <View style={styles.container}>
                     <View style={styles.row}>
                         <TouchableOpacity style={styles.btn2} onPress={() => navigation.navigate('팀스페이스 입장')}>
@@ -76,7 +76,7 @@ function Home({navigation}) {
 
 //   const Stack = createStackNavigator();
 
-//   function Home() {
+//   function HomeStack() {
 //     return (
 //         <NavigationContainer>
 //             <Stack.Navigator>
@@ -91,7 +91,7 @@ function Home({navigation}) {
 //                         ),
 //                         headerRight: () => (
 //                             <TouchableOpacity onPress={() => {/* 오른쪽 아이콘에 대한 액션 */}}>
-//                                 <Image source={require('../../assets/AppBar/ic_search_regular_line.png)}/>
+//                                 <Image source={require('../../assets/AppBar/ic_search_regular_line.png')}/>
 //                             </TouchableOpacity>
 //                         ),
 //                     }}

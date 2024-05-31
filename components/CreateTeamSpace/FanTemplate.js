@@ -1,11 +1,10 @@
 import { View, Text } from "react-native";
 
-function LinkShare() {
+export default function FanTemplate({ navigation }) {
     return (
         <View>
-            <Text>LinkShare</Text>
+            <Text>FanTemplate</Text>
         </View>
       
     );
   }
-  export default LinkShare;
