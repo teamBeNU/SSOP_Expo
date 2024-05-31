@@ -221,6 +221,8 @@ function SignUp() {
                     keyboardType= "email-address"
                     value={email}
                     onChangeText={setEmail}
+                    returnKeyType="next"
+                    onSubmitEditing={handleNext}
                     />
                 </View>
                 <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
@@ -248,7 +250,7 @@ function SignUp() {
                     {!emailCodeIsCorrect  && <Text style={styles.uncorrect}>인증번호가 일치하지 않습니다.</Text>}
                     {isResend && <Text style={styles.resend}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>}
                 </View>
-                <TouchableOpacity style={styles.nextBtn} onPress={(emailCode === testEmailCode) ? handleNext : handleCode}>
+                <TouchableOpacity style={styles.nextBtn} onPress={(emailCode === testEmailCode) ? handleNext : handleEmailCode}>
                     <Text style={styles.nextText}>다음으로</Text>
                 </TouchableOpacity>
             </View>
@@ -268,6 +270,8 @@ function SignUp() {
                     onChange={(e) => {setPassword(e.target.value)}}
                     onChangeText={passwordCheck}
                     value={password}
+                    returnKeyType="next"
+                    onSubmitEditing={handleNext}
                     />
                     {showPw ? <VisibilityIcon onPress={togglePwVisibility} style={styles.visibility}/> : <VisibilityOffIcon onPress={togglePwVisibility} style={styles.visibility}/>}
                     </View>
@@ -415,7 +419,7 @@ function SignUp() {
                 {!phoneCodeIsCorrect  && <Text style={styles.uncorrect}>인증번호가 일치하지 않습니다.</Text>}
                 {isResend && <Text style={styles.resend}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>}
             </View>
-            <TouchableOpacity style={styles.nextBtn} onPress={(phoneCode === testPhoneCode) ? handleNext : handleCode}>
+            <TouchableOpacity style={styles.nextBtn} onPress={(phoneCode === testPhoneCode) ? handleNext : handlePhoneCode}>
                 <Text style={styles.nextText}>다음으로</Text>
             </TouchableOpacity>
          </View>
