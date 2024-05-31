@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     // CardFront
 	card: {
 		width: 158,
-        height: 201,
+        height: 200,
         borderRadius: 8,
         backgroundColor: 'white',
         overflow: 'hidden',
@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
 	},
     btn1: { // 새 카드 만들기
         width: 158,
-        height: 201,
+        height: 200,
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     cardTextArea: {
         height: 53,
         backgroundColor: "white",
-        paddingTop: 14,
+        paddingTop: 16,
         paddingLeft: 12,
         gap: 12,
     },
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
     },
     name: {
         fontFamily: 'PretendardSemiBold',
-        fontSize: 18,
+        fontSize: 16,
         letterSpacing: -0.44,
         marginRight: 8,
     },

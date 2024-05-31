@@ -24,6 +24,26 @@ export const ShareCard = ({ backgroundColor, avatar }) => {
     )
 }
 
+export const SpaceCard = ({ backgroundColor, avatar, name, age, position }) => {
+    return (
+        <View style={[styles.card, { backgroundColor }]}>
+            <View style={styles.cardImgArea}>
+                {avatar}
+            </View>
+            <View style={styles.cardTextArea}>
+                <View style={styles.Info}> 
+                    <Text style={styles.name}>{name}</Text>
+                    <View style={styles.age}>
+                        <Text style={{color: theme.grey20}}>{age}세</Text>
+                        <Text style={{color: theme.grey50}}>•</Text>
+                        <Text style={{color: theme.grey20}}>{position}</Text>
+                    </View>
+                </View>
+            </View>
+        </View>
+    )
+}
+
 export const PlusCardButton = () => {
     const navigation = useNavigation();
     return (
