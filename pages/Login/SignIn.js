@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './LoginStyle.js';
@@ -10,15 +10,23 @@ import VerticalLine from "../../assets/Login/ic_vertical_line.svg";
 function SignIn() {
     const navigation = useNavigation();
 
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const ref_input = useRef();
+
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <View style={{...styles.container, paddingTop: 24,}}>
+        <View style={{...styles.container, paddingTop: 4,}}>
            <View style={styles.inputContainer}>
             <Text style={styles.inputTitle}>아이디</Text>
             <TextInput
             style={styles.input} 
             placeholder="이메일 주소"
             keyboardType= "email-address"
+            value={email}
+            onChangeText={setEmail}
+            onSubmitEditing={() => ref_input.current.focus()}
             />
            </View>
            <View style={styles.inputContainer}>
@@ -26,7 +34,11 @@ function SignIn() {
             <TextInput 
             secureTextEntry 
             style={styles.input} 
-            placeholder="영문과 숫자 포함, 6-20자 이내의 문자"/>
+            placeholder="영문과 숫자 포함, 6-20자 이내의 문자"
+            value={password}
+            onChangeText={setPassword}
+            ref={ref_input}
+            />
            </View>
 
            <View style={styles.textContainer}> 

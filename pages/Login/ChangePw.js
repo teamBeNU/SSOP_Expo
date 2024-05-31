@@ -3,9 +3,12 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFe
 import { theme } from "../../theme";
 import { useNavigation } from '@react-navigation/native';
 
+import LetterIcon from '../../assets/Login/ic_letter.svg'
 
 function ChangePw() {
     const navigation = useNavigation();
+
+    const [email, setEmail] = useState('');
 
     const [step, setStep] = useState(1);
      // step 단위 뒤로 가기
@@ -19,6 +22,7 @@ function ChangePw() {
       // 테스트용 다음 step
       const handleNext = () => {
         if (step === 1 ) {
+          if(email !== '')
           setStep(2);
         } 
       };
@@ -35,6 +39,10 @@ function ChangePw() {
                     style={styles.input} 
                     placeholder="이메일 주소를 입력하세요."
                     keyboardType= "email-address"
+                    value={email}
+                    onChangeText={setEmail}
+                    returnKeyType="next"
+                    onSubmitEditing={handleNext}
                     />
                 </View>
                 <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
@@ -45,6 +53,7 @@ function ChangePw() {
              {step === 2 && (
             <View style={styles.container}>
                 <Text style={{...styles.title, fostSize: 22, letterSpacing: -0.44}}>이메일 주소로{`\n`}새 비밀번호가 발송되었습니다.</Text>
+                <LetterIcon  style={{marginTop: 132, marginHorizontal: 94}}/>
                 
                 <TouchableOpacity style={styles.nextBtn} onPress={() => navigation.navigate('이메일로그인')}>
                     <Text style={styles.nextText}>로그인으로</Text>

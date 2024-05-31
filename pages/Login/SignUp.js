@@ -4,6 +4,7 @@ import { theme } from "../../theme";
 import { styles } from "./SignUpStyle.js";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
+import { ScrollView } from "react-native-gesture-handler";
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -13,7 +14,6 @@ import CheckIcon from '../../assets/Login/ic_done_small_line.svg';
 import BlueCheckIcon from '../../assets/Login/ic_done_small_line_blue.svg';
 import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 import SignUpDone from '../../assets/Login/graphic_signUpDone.svg';
-import { ScrollView } from "react-native-gesture-handler";
 
 function SignUp() {
     const navigation = useNavigation();
