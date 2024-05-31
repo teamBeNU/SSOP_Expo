@@ -3,6 +3,8 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFe
 import { theme } from "../../theme";
 import { styles } from "./SignUpStyle.js";
 import { useNavigation, useRoute } from '@react-navigation/native';
+import * as Progress from 'react-native-progress';
+
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import VisibilityIcon from '../../assets/Login/ic_visibility.svg';
@@ -19,8 +21,8 @@ function SignUp() {
 
     const [email, setEmail] = useState('');
     const [emailCode, setEmailCode] = useState('');
-    const [testEmailCode, setTestEmailCode] = useState('');
-    const [testPhoneCode, setTestPhoneCode] = useState('');
+    const [testEmailCode, setTestEmailCode] = useState('123');
+    const [testPhoneCode, setTestPhoneCode] = useState('123');
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [birth, setBirth] = useState({
@@ -63,7 +65,7 @@ function SignUp() {
 
     const handleEmailCodeChange = (text) => {
       setEmailCode(text);
-      if(emailCcode === testEmailCode) setEmailCodeIsCorrect(true);
+      if(emailCode === testEmailCode) setEmailCodeIsCorrect(true);
     };
     
     const handleEmailCode = () => {
@@ -73,7 +75,7 @@ function SignUp() {
 
     const handlePhoneCodeChange = (text) => {
       setPhoneCode(text);
-      if(phoneCcode === testPhoneCode) setPhoneCodeIsCorrect(true);
+      if(phoneCode === testPhoneCode) setPhoneCodeIsCorrect(true);
     };
     
     const handlePhoneCode = () => {
@@ -210,6 +212,15 @@ function SignUp() {
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{flex: 1}}>
+            {step !== 8 && step !== 9 && (        // 프로그레스 바
+                <Progress.Bar
+                    progress={step / 8}
+                    width={null}
+                    height={2}
+                    color={theme.green}
+                    borderWidth={0}
+                />
+            )}
             {step === 1 && (
             <View style={styles.container}>
                 <Text style={styles.title}>이메일 주소를 입력하세요.</Text>
