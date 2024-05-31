@@ -1,4 +1,4 @@
-import { Dimensions, View, Text, ScrollView, FlatList, TouchableOpacity, Image, Platform, Share} from "react-native";
+import { Dimensions, View, Text, ScrollView, TouchableOpacity,} from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from './MyCardStyle';
 import React, { useState } from 'react';
@@ -16,8 +16,10 @@ import {
     MenuTrigger,
     MenuProvider,
   } from 'react-native-popup-menu';
+  
+import { useNavigation } from '@react-navigation/native';
 
-function MyCard({ route, navigation }) {
+function MyCard() {
     const CARD_WIDTH = Dimensions.get('window').width * 0.8;
     const SPACING_FOR_CARD_INSET = 32;
 
@@ -28,6 +30,8 @@ function MyCard({ route, navigation }) {
     ]
     const [cardPage, setCardPage] = useState(1);
     const [hasCard, setHasCard] = useState(true);
+
+    const navigation = useNavigation();
 
     useFocusEffect(
         React.useCallback(() => {
@@ -92,8 +96,8 @@ function MyCard({ route, navigation }) {
                     <Text style={styles.btnText}>공유하기</Text>
                 </View>
                 <View style={styles.btn}>
-                    <TouchableOpacity style={styles.blackBtn}>
-                        <AddIcon style={{color: 'white'}} />
+                    <TouchableOpacity style={styles.blackBtn} onPress={navigation.navigate("카드 만들기")}>
+                        <AddIcon/>
                     </TouchableOpacity>
                     <Text style={styles.btnText}>새 카드 </Text>
                 </View>
