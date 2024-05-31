@@ -119,7 +119,7 @@ function SignUp() {
     };
     
 
-    const [step, setStep] = useState(7);
+    const [step, setStep] = useState(1);
      // step 단위 뒤로 가기
      const handleBack = () => {
         // 현재 단계(step)에 따라 이전 단계로 이동
@@ -180,6 +180,10 @@ function SignUp() {
       const handleInfoDetail = () => {
         setStep(9);
       };
+      
+      const handleGoBack = () => {
+        navigation.goBack();
+      };
 
       const handleHeaderLeft = (onPress) => {
         if (step > 1 && step !== 8 && step !== 9) {
@@ -196,7 +200,7 @@ function SignUp() {
           );
         } else if (step === 1) {
           return (
-            <TouchableOpacity onPress={onPress}>
+            <TouchableOpacity onPress={handleGoBack}>
               <CloseIcon style={{ marginLeft: 8 }} />
             </TouchableOpacity>
           );
@@ -209,7 +213,6 @@ function SignUp() {
         else return navigation.setOptions({headerTitle: "회원가입"});
       };
       
-
       useEffect(() => {
         navigation.setOptions({
           headerLeft: handleHeaderLeft,
