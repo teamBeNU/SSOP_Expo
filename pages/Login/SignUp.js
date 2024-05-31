@@ -119,7 +119,7 @@ function SignUp() {
     };
     
 
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(7);
      // step 단위 뒤로 가기
      const handleBack = () => {
         // 현재 단계(step)에 따라 이전 단계로 이동
@@ -201,11 +201,19 @@ function SignUp() {
             </TouchableOpacity>
           );
         }
-      }
+      };
+
+      const handleHeaderTitle = () => {
+        if (step === 8) return navigation.setOptions({headerTitle: "서비스 이용약관"});
+        else if (step === 9) return navigation.setOptions({headerTitle: "개인정보 처리방침"});
+        else return navigation.setOptions({headerTitle: "회원가입"});
+      };
+      
 
       useEffect(() => {
         navigation.setOptions({
           headerLeft: handleHeaderLeft,
+          headerTitle: handleHeaderTitle,
         });
       }, [navigation, step]);
   
