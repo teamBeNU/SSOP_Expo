@@ -17,8 +17,10 @@ function SignUp() {
     const navigation = useNavigation();
     const route = useRoute();
 
-    const [code, setCode] = useState('');
-    const [testCode, setTestCode] = useState('');
+    const [email, setEmail] = useState('');
+    const [emailCode, setEmailCode] = useState('');
+    const [testEmailCode, setTestEmailCode] = useState('');
+    const [testPhoneCode, setTestPhoneCode] = useState('');
     const [password, setPassword] = useState("");
     const [name, setName] = useState("");
     const [birth, setBirth] = useState({
@@ -26,8 +28,11 @@ function SignUp() {
         month: '',
         day: '',
     });
+    const [phoneNumber, setPhoneNumber] = useState('');
+    const [phoneCode, setPhoneCode] = useState('');
 
-    const [codeIsCorrect, setCodeIsCorrect] = useState(true);
+    const [emailCodeIsCorrect, setEmailCodeIsCorrect] = useState(true);
+    const [phoneCodeIsCorrect, setPhoneCodeIsCorrect] = useState(true);
     const [isResend, setIsResend] = useState(false);
     const [showPw, setShowPw] = useState(false);
     const [hasEnglish, setHasEnglish] = useState(false);
@@ -56,14 +61,24 @@ function SignUp() {
         setHasLeng(/^.{6,20}$/.test(password));
     };
 
-    const handleCodeChange = (text) => {
-      setCode(text);
-      if(code === testCode) setCodeIsCorrect(true);
+    const handleEmailCodeChange = (text) => {
+      setEmailCode(text);
+      if(emailCcode === testEmailCode) setEmailCodeIsCorrect(true);
     };
     
-    const handleCode = () => {
-      if(code !== testCode) setCodeIsCorrect(false);
-      else if((code === testCode)) setCodeIsCorrect(false);
+    const handleEmailCode = () => {
+      if(emailCode !== testEmailCode) setEmailCodeIsCorrect(false);
+      else if((emailCode === testEmailCode)) setEmailCodeIsCorrect(false);
+    };
+
+    const handlePhoneCodeChange = (text) => {
+      setPhoneCode(text);
+      if(phoneCcode === testPhoneCode) setPhoneCodeIsCorrect(true);
+    };
+    
+    const handlePhoneCode = () => {
+      if(phoneCode !== testPhoneCode) setPhoneCodeIsCorrect(false);
+      else if((phoneCode === testPhoneCode)) setPhoneCodeIsCorrect(false);
     };
 
     const handleRequest = () => {
@@ -102,7 +117,7 @@ function SignUp() {
     };
     
 
-    const [step, setStep] = useState(7);
+    const [step, setStep] = useState(1);
      // step 단위 뒤로 가기
      const handleBack = () => {
         // 현재 단계(step)에 따라 이전 단계로 이동
@@ -125,10 +140,12 @@ function SignUp() {
       // 테스트용 다음 step
       const handleNext = () => {
         if (step === 1 ) {
+          if(email !== '')
           setStep(2);
         } else if (step === 2 ) {
           setStep(3);
         } else if (step === 3 ) {
+          if(password !== '')
           setStep(4);
         } else if (step === 4) {
           const isNameFull = name !== '';
@@ -139,6 +156,7 @@ function SignUp() {
               setStep(5);
           }
         } else if (step === 5 ) {
+          if(phoneNumber !== '')
           setStep(6);
         } else if (step === 6 ) {
           setStep(7);
@@ -161,7 +179,7 @@ function SignUp() {
         setStep(9);
       };
 
-      const handleHeaderLeft = () => {
+      const handleHeaderLeft = (onPress) => {
         if (step > 1 && step !== 8 && step !== 9) {
           return (
             <TouchableOpacity onPress={handleBack}>
@@ -201,6 +219,8 @@ function SignUp() {
                     style={styles.input} 
                     placeholder="이메일 주소를 입력하세요."
                     keyboardType= "email-address"
+                    value={email}
+                    onChangeText={setEmail}
                     />
                 </View>
                 <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
@@ -218,16 +238,17 @@ function SignUp() {
                     style={styles.input} 
                     placeholder="이메일 주소를 확인하세요."
                     keyboardType= "number-pad"
-                    onChangeText={handleCodeChange}             
+                    onChangeText={handleEmailCodeChange}
+                    value={emailCode}         
                     />
                     <TouchableOpacity onPress={handleRequest}>
                         <Text style={styles.request}>인증메일 재요청</Text>
                     </TouchableOpacity>
 
-                    {!codeIsCorrect  && <Text style={styles.uncorrect}>인증번호가 일치하지 않습니다.</Text>}
+                    {!emailCodeIsCorrect  && <Text style={styles.uncorrect}>인증번호가 일치하지 않습니다.</Text>}
                     {isResend && <Text style={styles.resend}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>}
                 </View>
-                <TouchableOpacity style={styles.nextBtn} onPress={(code === testCode) ? handleNext : handleCode}>
+                <TouchableOpacity style={styles.nextBtn} onPress={(emailCode === testEmailCode) ? handleNext : handleCode}>
                     <Text style={styles.nextText}>다음으로</Text>
                 </TouchableOpacity>
             </View>
@@ -246,6 +267,7 @@ function SignUp() {
                     secureTextEntry = {showPw ? false : true}
                     onChange={(e) => {setPassword(e.target.value)}}
                     onChangeText={passwordCheck}
+                    value={password}
                     />
                     {showPw ? <VisibilityIcon onPress={togglePwVisibility} style={styles.visibility}/> : <VisibilityOffIcon onPress={togglePwVisibility} style={styles.visibility}/>}
                     </View>
@@ -358,6 +380,8 @@ function SignUp() {
                 style={styles.input} 
                 placeholder="연락처를 입력하세요."
                 keyboardType= "number-pad"
+                value={phoneNumber}
+                onChangeText={setPhoneNumber}
                 />
             </View>
             <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
@@ -375,7 +399,8 @@ function SignUp() {
                 style={styles.input} 
                 placeholder="인증번호를 입력하세요."
                 keyboardType= "number-pad"
-                onChangeText={handleCodeChange}             
+                onChangeText={handlePhoneCodeChange}
+                value={phoneCode}       
                 />
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                   <View style={{flexDirection: 'row'}}>
@@ -387,10 +412,10 @@ function SignUp() {
                 </TouchableOpacity>
                 </View>
 
-                {!codeIsCorrect  && <Text style={styles.uncorrect}>인증번호가 일치하지 않습니다.</Text>}
+                {!phoneCodeIsCorrect  && <Text style={styles.uncorrect}>인증번호가 일치하지 않습니다.</Text>}
                 {isResend && <Text style={styles.resend}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>}
             </View>
-            <TouchableOpacity style={styles.nextBtn} onPress={(code === testCode) ? handleNext : handleCode}>
+            <TouchableOpacity style={styles.nextBtn} onPress={(phoneCode === testPhoneCode) ? handleNext : handleCode}>
                 <Text style={styles.nextText}>다음으로</Text>
             </TouchableOpacity>
          </View>
