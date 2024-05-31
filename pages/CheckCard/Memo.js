@@ -1,15 +1,28 @@
 import { View, Text, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { TextInput } from "react-native-gesture-handler";
 import { styles } from "./CheckCardStyle";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useNavigation, useRoute } from '@react-navigation/native';
 
-
-function Memo({ navigation }) {
+function Memo() {
     const [textLeng, setTextLeng] = useState(0);
+    const [memo, setMemo] = useState('');
+    const [testMemo, setTestMemo] = useState("이 친구는 개발이랑 디자인 모두 관심이 있다고 한다.\n한번 말을 해보면 나랑 잘 통하지 않을까");
 
-    const handleTextChange = (text) => {
+    const handleTextChange = (text, e) => {
         setTextLeng(text.length);
+        setTestMemo(text);
     };
+
+    const navigation = useNavigation();
+    const route = useRoute();
+
+    useEffect(() => {
+        navigation.setOptions({
+          headerTitle: route.params.isEdit ? '메모 수정' : '메모 작성' ,
+        });
+        if(route.params.isEdit) setTextLeng(testMemo.length)
+      }, [navigation, route.params.isEdit]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -21,10 +34,12 @@ function Memo({ navigation }) {
              style={styles.memoInput}
              multiline
              onChangeText={handleTextChange}
+             maxLength={500}
+             value={route.params.isEdit ? testMemo : memo}
              placeholder="잊으면 안 되거나 특별했던 부분, 첫인상 등"/>
              <Text style={styles.memoLeng}> {textLeng} / 500 </Text>
 
-             <TouchableOpacity style={styles.memoBtn} onPress={() => navigation.navigate('CheckCard')}>
+             <TouchableOpacity style={styles.memoBtn} onPress={() => navigation.navigate('카드 조회')}>
                 <Text style={styles.memoBtnText}>메모 완료하기</Text>
              </TouchableOpacity>
         </View>
