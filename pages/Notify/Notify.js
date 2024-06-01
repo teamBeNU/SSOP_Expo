@@ -29,7 +29,7 @@ const initialNotiData = [
 function Notify() {
 
 // 알림 데이터 유무를 상태로 설정
-const [hasNotify, setHasNotify] = useState(true);
+const [hasNotify, setHasNotify] = useState(false);
 
 // 보낼 사람이 없는 경우
 if (!hasNotify) {
@@ -59,7 +59,8 @@ if (!hasNotify) {
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false}>
+    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: 'white'}}>
+      <Text style={styles.Text14}>알림은 7일 동안 보관됩니다.</Text>
       {notiData.map(card => (
         <View key={card.id} style={card.accepted ? {} : { backgroundColor: '#8CFF791A' }}>
           <View style={card.accepted ? styles.btn2 : styles.btn1}>
