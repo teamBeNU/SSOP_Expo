@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
-import { Title } from 'react-native-paper';
 
 export const styles = StyleSheet.create({
     mainlayout:{      
@@ -10,6 +9,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.white
     },
     backgroundColor:{
+        flex: 1, 
         backgroundColor: theme.white
     },
 
@@ -282,12 +282,17 @@ export const styles = StyleSheet.create({
     personContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-      },
+        marginBottom: 12,
+    },
+    leftContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+    },
     personRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between', // 좌우 여백을 최대화하여 요소를 양쪽으로 펼칩니다
-        flex: 1, // 부모 컨테이너에 맞춰 전체 너비를 차지합니다
+        justifyContent: 'space-between', 
+        flex: 1, 
     },
     positionFilter: {
         marginTop: 24,
@@ -317,6 +322,104 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         letterSpacing: -1,
     },
-    
+    cardLayout:{   
+        flex: 1,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+    },
+
+    // 필터
+    filterText: {
+        marginLeft: 16,
+        marginTop: 32,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -1
+    },
+    elementContainer:{
+        display:'flex',        
+        alignItems: 'flex-start', 
+        marginTop: 16,
+        paddingHorizontal: 16,
+        flexDirection: 'row',
+        flexWrap: 'wrap', 
+        gap: 8,
+    },
+    defaultElement:{    
+        display:'flex',   
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        fontFamily: 'PretendardRegular',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray80, 
+        color: theme.gray50,
+        backgroundColor: theme.gray95,
+    },
+    element:{    
+        display:'flex',   
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        fontFamily: 'PretendardRegular',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray90, 
+        color: theme.gray20,
+        backgroundColor: theme.white,
+    },
+    selectedElement:{ 
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.skyblue,
+        color: theme.skyblue,
+        fontFamily: 'PretendardSemiBold'
+    },
+    selectedText:{
+        color: theme.skyblue,
+        fontFamily: 'PretendardSemiBold'
+    },
+
+     buttonContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: 16,
+        borderTopWidth: 1,
+        borderColor: theme.gray90,
+    },
+    resetButton: {
+        width: 89,
+        height: 48,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginRight: 8,
+        borderRadius: 8,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: theme.gray80,
+    },
+    resetButtonText: {
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold',
+        color: theme.gray50,
+    },
+    viewCardsButton: {
+        width: 231,
+        height: 48,
+        backgroundColor: theme.gray10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+    },
+    viewCardsButtonText: {
+        color: theme.white,
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold',
+    },
 
 })

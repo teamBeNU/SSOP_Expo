@@ -21,6 +21,7 @@ import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import SaveIcon from '../../assets/icons/ic_save_small_line.svg';
 import ContactIcon from '../../assets/icons/ic_contact_small_line.svg';
+import SelectIcon from '../../assets/icons/ic_done_small_line.svg';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -40,8 +41,6 @@ function MySpaceScreen() {
     { id: '6', Component: SpaceCard, backgroundColor: '#FBD13D', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '25', position: '학생' },
     
   ];
-  
-  const sub = '공유할 수 있는 카드가 없어요.'
 
   return hasCards ? (
     <View style={styles.mainlayout}>
@@ -183,7 +182,22 @@ function TeamSpaceScreen({ navigation}) {
 }
 
 // 상세 팀스페이스
-function DetailTeamSpaceScreen() {
+function DetailTeamSpaceScreen({ navigation }) {
+
+  const handleNext = () => {
+    navigation.navigate('필터');
+  };
+
+  const DetailcardData = [
+    { id: '1', Component: SpaceCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "김사라", age: '23', position: '직장인' },
+    { id: '2', Component: SpaceCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이리나", age: '20', position: '학생' },
+    { id: '3', Component: SpaceCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이호영", age: '21', position: '학생' },
+    { id: '4', Component: SpaceCard, backgroundColor: '#FCA5D7', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "임지니", age: '22', position: '팬' },
+    { id: '5', Component: SpaceCard, backgroundColor: '#4E77E0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '24', position: '학생' },
+    { id: '6', Component: SpaceCard, backgroundColor: '#FBD13D', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '25', position: '학생' },
+    
+  ];
+
   return (
     <View style={styles.backgroundColor}>
         <Text style={styles.title}>홍길동의 팀스페이스</Text>
@@ -208,23 +222,123 @@ function DetailTeamSpaceScreen() {
                     <Text style={styles.btnText}>연락처 저장 </Text>
                 </View>
         </View>
+    
+      
         <View style={styles.line} />
         
-          <View style={styles.personContainer}>
-            <View style={styles.personRow}>
-             <Text style={styles.personText}>구성원</Text>
-             <Text style={styles.people}>
-               <People />  8 / 150명
-             </Text>
-             <TouchableOpacity style={styles.positionFilter}>
+        <View style={styles.personContainer}>
+          <View style={styles.personRow}>
+            <View style={styles.leftContainer}>
+              <Text style={styles.personText}>구성원</Text>
+              <Text style={styles.people}>
+                <People />  8 / 150명
+              </Text>
+            </View>
+            <TouchableOpacity style={styles.positionFilter} onPress={handleNext}>
               <Text style={styles.positionFilterText}>포지션 필터</Text>
             </TouchableOpacity>
-            </View>
           </View>
+        </View>
+        <View style={styles.cardLayout}>
           <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+              <View style={styles.row}>
+                  {DetailcardData.map((item) => (
+                      <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigation.navigate('카드 조회')}>
+                      <item.Component 
+                          backgroundColor={item.backgroundColor} 
+                          avatar={item.avatar} 
+                          name={item.name} 
+                          age={item.age} 
+                          position={item.position} 
+                      />
+                      </TouchableOpacity>
+                  ))}
+              </View>
+            </View>
             <View style={styles.innerView}></View>
           </ScrollView>
+        </View>
+          
       </View>
+  );
+}
+
+// 필터
+function Filter() {
+
+  const navigation = useNavigation();
+
+  const [filter, setFilter] = useState({
+    promoter: false,
+    designer: false,
+    frontend: false,
+    backend: false,
+  });
+
+  const handleSelect = (id) => {
+    setFilter(prevState => ({
+      ...prevState,
+      [id]: !prevState[id],
+    }));
+    console.log(id);
+  };
+
+  return (
+    <View style={styles.backgroundColor}>
+        <Text style={styles.filterText}>포지션</Text>
+
+        <View style={styles.elementContainer} >
+              <TouchableOpacity onPress={() => handleSelect('promoter')}
+                style={filter.promoter ? styles.selectedElement : styles.element}>
+                {filter.promoter && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <SelectIcon />
+                    <Text style={styles.selectedText}> #기획자 </Text>
+                  </View>
+                )}
+                {!filter.promoter && <Text> #기획자 </Text>}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleSelect('designer')}
+                 style={filter.designer ? styles.selectedElement : styles.element}>
+                 {filter.designer && (
+                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                     <SelectIcon />
+                     <Text style={styles.selectedText}> #디자이너 </Text>
+                   </View>
+               )}
+                 {!filter.designer && <Text> #디자이너 </Text>}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleSelect('frontend')}
+                 style={filter.frontend ? styles.selectedElement : styles.element}>
+                 {filter.frontend && (
+                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                     <SelectIcon />
+                     <Text style={styles.selectedText}> #프런트엔드 </Text>
+                   </View>
+               )}
+                 {!filter.frontend && <Text> #프런트엔드 </Text>}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleSelect('backend')}
+                 style={filter.backend ? styles.selectedElement : styles.element}>
+                 {filter.backend && (
+                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                     <SelectIcon />
+                     <Text style={styles.selectedText}> #백엔드 </Text>
+                   </View>
+               )}
+                 {!filter.backend && <Text> #백엔드 </Text>}
+              </TouchableOpacity>
+        </View>
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.resetButton}>
+            <Text style={styles.resetButtonText}>재설정</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.viewCardsButton}>
+            <Text style={styles.viewCardsButtonText}>해당되는 카드 보기</Text>
+          </TouchableOpacity>
+        </View>
+    </View>
   );
 }
 
@@ -293,6 +407,15 @@ function Space() {
                   <MenuOption text='팀스페이스 삭제'/>
                 </MenuOptions>
               </Menu>
+            ),
+          }}/>
+          <Stack.Screen name="필터" component={Filter} 
+          options={{
+            title: "필터",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
             ),
           }}/>
       </Stack.Navigator>
