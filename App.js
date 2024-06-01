@@ -41,6 +41,7 @@ import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
+import MyPage from './pages/MyPage/MyPage';
 
 import { styles } from './components/MyCard/CardStyle';
 
@@ -243,7 +244,7 @@ const Tab = createBottomTabNavigator();
               <LeftArrowIcon style={{ marginLeft: 8  }}/>
             </TouchableOpacity>
           ) }} />
-        <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
+        <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
       </Tab.Navigator>
     );
   }
