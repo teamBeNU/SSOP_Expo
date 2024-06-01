@@ -12,10 +12,21 @@ export const styles = StyleSheet.create({
     },
 
     UserInfoMain: {
-        flex: 1,
+        // flex: 1,
+        height: SCREEN_HEIGHT,
         backgroundColor: theme.white,
         paddingHorizontal: 16,
         paddingTop: 24,
+    },
+    title: { 
+        fontFamily: "PretendardSemiBold",
+        fontSize: 20,
+        fontStyle: "normal",
+        fontWeight: "600",
+        marginTop: 32,
+    },
+    titleMarginBottom: {
+        marginBottom: 68,
     },
 
     saveBtn: {
@@ -76,5 +87,42 @@ export const styles = StyleSheet.create({
         textAlign: "right",
         fontFamily: "PretendardRegular",
         fontSize: 16,
+    },
+
+    inputError: {
+        borderWidth:1,
+        borderStyle: "solid",
+        borderColor: theme.red,
+    },
+    inputErrorText: {
+        color: theme.red,
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontWeight: "400",
+        marginHorizontal: 8,
+        marginTop: 8,
+    },
+
+    btnNext: {
+        position: 'absolute',
+        // bottom: 16,  // contair의 height: '100%',
+        bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        width: '100%',
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        marginHorizontal: 16,
+        // paddingVertical: 8,
+        // paddingHorizontal: 16,
+        backgroundColor: theme.gray10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+    },
+    btnNextText: {
+        color: theme.white,
+        fontFamily: "PretendardRegular",
+        fontSize: 16,
+        fontWeight: "600",
     },
 })

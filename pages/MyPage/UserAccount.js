@@ -22,6 +22,7 @@ function UserAccount({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity 
                 style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
+                onPress={() => navigation.navigate('연락처 변경')}
             >
                 <Text style={styles.infoText}>연락처 변경</Text>
                 <RightArrow />
