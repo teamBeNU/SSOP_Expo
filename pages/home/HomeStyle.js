@@ -81,11 +81,6 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         letterSpacing: -1,
     },
-    Text16: {
-        fontFamily: "PretendardRegular",
-        fontSize: 16,
-        letterSpacing: -1,
-    },
     Text18: {
         marginTop: 20,
         marginLeft: 16,

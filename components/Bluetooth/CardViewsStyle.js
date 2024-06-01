@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
     },
 
-    btn1: { // 새 카드 만들기
+    btn1: { 
         marginTop: 12,
         width: 158,
         height: 201,
@@ -86,9 +86,6 @@ export const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5,
         position: 'relative',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: theme.gray90,
     },
     innerView: {
         marginTop: 120,

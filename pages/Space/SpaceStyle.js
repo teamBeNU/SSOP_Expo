@@ -57,11 +57,8 @@ export const styles = StyleSheet.create({
         },
         shadowRadius: 2,
         shadowOpacity: 1,
-        borderStyle: 'solid',
-        borderWidth: 1,
         elevation: 5,
         position: 'relative',
-        borderColor: theme.gray90,
     },
 
     // 팀스페이스 카드
@@ -125,6 +122,7 @@ export const styles = StyleSheet.create({
     },
 
     // 플로팅 버튼
+    
     floatingButton: {
         position: 'absolute',
         bottom: 16,
@@ -132,7 +130,6 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray10,
         width: 100,
         height: 36,
-        borderRadius: 25,
         borderRadius: 25,
 
         shadowColor: "rgba(0, 0, 0, 0.03)",
@@ -145,6 +142,7 @@ export const styles = StyleSheet.create({
 
         justifyContent: 'center',
         alignItems: 'center',
+        zIndex: 9999,
     },
     floatingButtonText: {
         color: theme.white,
@@ -424,5 +422,104 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
     },
+
+    // 모달
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        width: '100%',
+        justifyContent: 'flex-end',
+    },
+    modalView: {
+        height: 340,
+        paddingHorizontal: 16,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 8,
+        borderTopRightRadius: 8,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+    },
+    closeIcon: {
+        marginTop: 19,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end'
+    },
+    modalContent: {
+        borderRadius: 8,
+        backgroundColor: theme.white,
+        borderWidth: 1,
+        borderColor: theme.gray90,
+        marginTop: 24,
+        padding: 16,
+        width: '100%',
+        // display: 'flex',
+        // justifyContent:'center',
+        // alignItems: 'center',
+
+        // Android - Shadow
+        elevation: 5,
+        // IOS - Shadow
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
+    },
+    modalText: {
+        marginTop: 18,
+        textAlign: 'center',
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        letterSpacing: -1
+    },
+
+    btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
+        width: 158,
+        height: 184,
+        borderRadius: 8,
+        backgroundColor: theme.white,
+        shadowColor: "rgba(0, 0, 0, 0.03)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 2,
+        shadowOpacity: 1,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
+        elevation: 5,
+        marginHorizontal: 10,
+        position: 'relative',
+        marginTop: 35,
+    },
+    Text14: {
+        marginLeft: 16,
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        letterSpacing: -1,
+    },
+    Text16: {
+        fontFamily: "PretendardRegular",
+        fontSize: 16,
+        letterSpacing: -1,
+    },
+    Text18: {
+        marginTop: 20,
+        marginLeft: 16,
+        fontFamily: "PretendardSemiBold",
+        fontSize: 18,
+        letterSpacing: -1,
+        marginBottom: 8,
+    },
+    icon2: { // 블루투스, 링크, 팀스페이스 입장, 생성 아이콘
+        position: 'absolute',
+        bottom: 16,
+        right: 16,
+        width: 80,
+        height: 80,
+    }
 
 })

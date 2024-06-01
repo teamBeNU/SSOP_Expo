@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet, Button } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Button } from "react-native";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
 import { SpaceCard } from "../../components/Bluetooth/ShareCard.js";
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import { FAB } from 'react-native-paper';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import NotiIcon from '../../assets/AppBar/ic_noti_regular_line.svg';
@@ -22,6 +22,12 @@ import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import SaveIcon from '../../assets/icons/ic_save_small_line.svg';
 import ContactIcon from '../../assets/icons/ic_contact_small_line.svg';
 import SelectIcon from '../../assets/icons/ic_done_small_line.svg';
+import CloseIcon from '../../assets/icons/close.svg';
+import CreateCardIcon from '../../assets/HomeIcon/CreateCardIcon.svg';
+import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
+import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
+import EnterTeamSPIcon from '../../assets/HomeIcon/EnterTeamSPIcon.svg';
+import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -31,6 +37,21 @@ function MySpaceScreen() {
   const navigation = useNavigation();
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleButtonPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleBluetoothPress = () => {
+    setIsModalVisible(false);
+    navigation.navigate('내 카드 보내기');
+  };
+  
+  const handleLinkCopyPress = () => {
+    setIsModalVisible(false);
+    navigation.navigate('링크 복사'); 
+  };
 
   const cardData = [
     { id: '1', Component: SpaceCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "김사라", age: '23', position: '직장인' },
@@ -74,12 +95,43 @@ function MySpaceScreen() {
           </View>
           <View style={styles.innerView}></View>
         </ScrollView>
-        <TouchableOpacity style={styles.floatingButton} onPress={() => console.log('Button Pressed')}>
+        <TouchableOpacity style={styles.floatingButton} onPress={handleButtonPress}>
           <View style={styles.floatingButtonContent}>
             <Swap style={styles.floatingButtonIcon} />
             <Text style={styles.floatingButtonText}>교환하기</Text>
           </View>
         </TouchableOpacity>
+
+        <Modal
+              animationType="fade"
+              transparent={true}
+              visible={isModalVisible}
+              onRequestClose={() => {
+                setIsModalVisible(!isModalVisible);
+              }}>
+              <View style={styles.modalContainer}>
+                <View style={styles.modalView}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>카드 교환하기</Text>                   
+                    <TouchableOpacity style={styles.closeIcon} onPress={() => setIsModalVisible(false)}>
+                      <CloseIcon />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.row}>
+                        <TouchableOpacity style={styles.btn2} onPress={handleBluetoothPress}>
+                            <Text style={styles.Text18}>블루투스 송신</Text>
+                            <Text style={styles.Text14}>주변에 있다면 바로</Text>
+                            <BluetoothIcon style={styles.icon2}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btn2} onPress={handleLinkCopyPress}>
+                            <Text style={styles.Text18}>링크 복사</Text>
+                            <Text style={styles.Text14}>연락처가 있다면</Text>
+                            <LinkIcon style={styles.icon2}/>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+              </View>
+        </Modal>
       </View>
   ) : (
     <View style={styles.mainlayout}>
@@ -101,9 +153,24 @@ function MySpaceScreen() {
 function TeamSpaceScreen({ navigation}) {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasTeamSP, setHasTeamSP] = useState(true);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleNext = () => {
     navigation.navigate('상세 팀스페이스');
+  };
+
+  const handleButtonPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleEnterTeamSpPress = () => {
+    setIsModalVisible(false);
+    navigation.navigate('팀스페이스 입장');
+  };
+  
+  const handleCreateTeamSpPress = () => {
+    setIsModalVisible(false);
+    navigation.navigate('팀스페이스 생성'); 
   };
 
   const TeamSPContent = ({ name, description, members, isHost }) => (
@@ -159,12 +226,44 @@ function TeamSpaceScreen({ navigation}) {
           {TeamSPContents}
           <View style={styles.innerView}></View>
         </ScrollView>
-        <TouchableOpacity style={styles.floatingButton} onPress={() => console.log('Button Pressed')}>
+        <TouchableOpacity style={styles.floatingButton} onPress={handleButtonPress}>
           <View style={styles.floatingButtonContent}>
             <Swap style={styles.floatingButtonIcon} />
             <Text style={styles.floatingButtonText}>교환하기</Text>
           </View>
         </TouchableOpacity>
+
+        <Modal
+              animationType="fade"
+              transparent={true}
+              visible={isModalVisible}
+              onRequestClose={() => {
+                setIsModalVisible(!isModalVisible);
+              }}>
+              <View style={styles.modalContainer}>
+                <View style={styles.modalView}>
+                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>팀스페이스 교환하기</Text>                   
+                    <TouchableOpacity style={styles.closeIcon} onPress={() => setIsModalVisible(false)}>
+                      <CloseIcon />
+                    </TouchableOpacity>
+                  </View>
+                  <View style={styles.row}>
+                        <TouchableOpacity style={styles.btn2} onPress={handleEnterTeamSpPress}>
+                            <Text style={styles.Text18}>팀스페이스 입장</Text>
+                            <Text style={styles.Text14}>초대받았다면</Text>
+                            <EnterTeamSPIcon style={styles.icon2}/>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.btn2} onPress={handleCreateTeamSpPress}>
+                            <Text style={styles.Text18}>팀스페이스 생성</Text>
+                            <Text style={styles.Text14}>초대하고 싶다면</Text>
+                            <CreatTeamSPIcon style={styles.icon2}/>
+                        </TouchableOpacity>
+                  </View>
+                </View>
+              </View>
+        </Modal>
+
       </View>
     ) : (
       <View style={styles.mainlayout}>
@@ -362,36 +461,35 @@ function Space() {
     const navigation = useNavigation();
     return (
       <Stack.Navigator>
-        <Stack.Screen name="SpaceTabs" component={SpaceTabs} />
-        <Stack.Screen name="마이스페이스" component={MySpaceScreen} 
-          options={{
-            title: " ",
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <NotiIcon style={{ marginLeft: 8  }}/>
+        <Stack.Screen name="SpaceTabs" component={SpaceTabs} 
+        options={{
+          title: " ",
+          headerLeft: () => (
+            <TouchableOpacity >
+              <NotiIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <View style={{ flexDirection: 'row' }}>
+              <TouchableOpacity>
+                <SearchIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            ),
-            headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate(' ')}>
-                <MoreIcon style={{ marginRight: 8 }} />
+              <TouchableOpacity >
+                <Menu>
+                  <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
+                  <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+                    <MenuOption style={{ marginBottom: 10.5}} text='팀스페이스 수정'/>
+                    <MenuOption text='팀스페이스 삭제'/>
+                  </MenuOptions>
+                </Menu>
               </TouchableOpacity>
-            ),
-          }}/>
-          <Stack.Screen name="Step2" component={TeamSpaceScreen} 
-          options={{
-            title: "카드 보내기",
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <NotiIcon style={{ marginLeft: 8  }}/>
-              </TouchableOpacity>
-            ),
-            headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate(' ')}>
-                <MoreIcon style={{ marginRight: 8 }} />
-              </TouchableOpacity>
-            ),
-          }}/>
-          <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpaceScreen}
+            </View>
+            
+          ),
+        }}/>
+        {/* <Stack.Screen name="마이스페이스" component={MySpaceScreen}/>
+        <Stack.Screen name="Step2" component={TeamSpaceScreen}/> */}
+        <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpaceScreen}
           options={{
             title: "상세 팀스페이스",
             headerLeft: ({onPress}) => (
@@ -409,7 +507,7 @@ function Space() {
               </Menu>
             ),
           }}/>
-          <Stack.Screen name="필터" component={Filter} 
+        <Stack.Screen name="필터" component={Filter} 
           options={{
             title: "필터",
             headerLeft: ({onPress}) => (
