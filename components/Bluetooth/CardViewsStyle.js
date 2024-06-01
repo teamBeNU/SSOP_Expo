@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
         flex: 1,  
         paddingVertical: 8,
         paddingHorizontal: 16,
+        backgroundColor: theme.white
     },
     title: { // 글씨 
         marginTop: 30,
@@ -108,7 +109,6 @@ export const styles = StyleSheet.create({
     },
     newContainer: {
         flexDirection: 'row',
-        height: 32,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 4,

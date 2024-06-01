@@ -13,6 +13,9 @@ export const styles = StyleSheet.create({
         shadowOffset: { width: 2, height: 2 },
         shadowOpacity: 0.4,
         shadowRadius: 4,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: "rgba(232, 232, 232, 1.0)",
 	},
     btn1: { // 새 카드 만들기
         width: 158,
@@ -20,7 +23,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.gray95,
+        backgroundColor: theme.white,
         shadowColor: "rgba(0, 0, 0, 0.03)",
         shadowOffset: {
             width: 0,
@@ -31,7 +34,7 @@ export const styles = StyleSheet.create({
         elevation: 5,
         position: 'relative',
         borderStyle: 'solid',
-        borderWidth: 1,
+        borderWidth: 2,
         borderColor: theme.gray90,
     },
     

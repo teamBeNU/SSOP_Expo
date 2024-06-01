@@ -69,7 +69,7 @@ function Step2Screen({ navigation }) {
   return (
     <View style={styles.container3}>
         <View style={styles.mainlayout}>
-          <Text style={styles.title}>링크를 복사하여 전달해 주세요.</Text>
+          <Text style={styles.title}>링크가 생성되었어요.</Text>
           <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
           <Text style={[styles.Text14, {marginBottom: 8}]}> 링크 </Text>
           <View style={styles.linkShareContainer}>

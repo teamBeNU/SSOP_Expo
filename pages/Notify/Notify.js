@@ -29,7 +29,7 @@ const initialNotiData = [
 function Notify() {
 
 // 알림 데이터 유무를 상태로 설정
-const [hasNotify, setHasNotify] = useState(false);
+const [hasNotify, setHasNotify] = useState(true);
 
 // 보낼 사람이 없는 경우
 if (!hasNotify) {
