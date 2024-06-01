@@ -105,14 +105,14 @@ function UserPhoneNumber({navigation}) {
                             />
                             <View style={styles.requestNum}>
                                 <View style={[styles.flexDirectionRow, {marginHorizontal: 4}]}>
-                                    <Text style={[styles.inputText, {marginRight: 4}]}>잔여시간</Text>
+                                    <Text style={[styles.resendText, {marginRight: 4}]}>잔여시간</Text>
                                     <Text style={styles.remainTime}>03:00</Text>
                                 </View>
                                 
                                 <TouchableOpacity
                                     onPress={handleRequest}
                                     >
-                                    <Text style={styles.rerequestNum}>인증문자 재요청</Text>
+                                    <Text style={styles.resendBtn}>인증문자 재요청</Text>
                                 </TouchableOpacity>
                             </View>
 
@@ -120,7 +120,7 @@ function UserPhoneNumber({navigation}) {
                                 <Text style={styles.unCorrect}>인증번호가 일치하지 않습니다.</Text>
                             )}
                             {isResend && (
-                                <Text style={styles.resend}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>
+                                <Text style={styles.resendText}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>
                             )}
                         </View>
                         <TouchableOpacity 

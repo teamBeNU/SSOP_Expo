@@ -129,12 +129,19 @@ export const styles = StyleSheet.create({
         fontWeight: "600",
         color: theme.gray40,
     },
-    rerequestNum: {
+    resendBtn: {
         fontFamily: "PretendardSemiBold",
         fontSize: 14,
         fontStyle: "normal",
         fontWeight: "600",
         color: theme.skyblue,
+    },
+    resendText: {
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
+        color: theme.gray40,
     },
 
     btnNext: {
