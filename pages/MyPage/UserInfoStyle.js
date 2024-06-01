@@ -103,6 +103,33 @@ export const styles = StyleSheet.create({
         marginTop: 8,
     },
 
+    unCorrect: {
+        fontFamily: "PretendardSemiBold",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "600",
+        color: theme.gray40,
+    },
+    requestNum: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        marginVertical: 16,
+    },
+    remainTime: {
+        fontFamily: "PretendardSemiBold",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "600",
+        color: theme.gray40,
+    },
+    rerequestNum: {
+        fontFamily: "PretendardSemiBold",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "600",
+        color: theme.skyblue,
+    },
+
     btnNext: {
         position: 'absolute',
         // bottom: 16,  // contair의 height: '100%',
