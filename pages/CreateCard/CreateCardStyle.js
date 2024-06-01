@@ -6,6 +6,7 @@ const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 export const styles = StyleSheet.create({
     main: {
         // height: SCREEN_HEIGHT,
+        flex: 1
     },  
     title: {
         color: "black",
