@@ -12,9 +12,17 @@ export const styles = StyleSheet.create({
         borderBottomColor: theme.gray90,
     },
 
-    main: {
+    MyPageMain: {
+        flex: 1,
+        backgroundColor: theme.bg,
         paddingHorizontal: 16,
         paddingTop: 12,
+    },
+    accountManageMain: {
+        flex: 1,
+        backgroundColor: theme.white,
+        paddingHorizontal: 16,
+        paddingTop: 24,
     },
 
     accountManageContainer: {

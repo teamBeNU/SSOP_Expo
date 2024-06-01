@@ -42,6 +42,7 @@ import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
 import MyPage from './pages/MyPage/MyPage';
+import UserAccount from './pages/MyPage/UserAccount';
 
 import { styles } from './components/MyCard/CardStyle';
 
@@ -171,6 +172,14 @@ export default function App() {
           }}
           />
           <Stack.Screen name="알림" component={Notify} 
+          options={{
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="계정관리" component={UserAccount} 
           options={{
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>

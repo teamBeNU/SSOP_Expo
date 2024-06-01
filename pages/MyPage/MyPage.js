@@ -7,16 +7,17 @@ import "react-native-gesture-handler";
 import RightArrow from "../../assets/icons/ic_RightArrow_small_line.svg";
 
 import { styles } from "./MyPageStyle";
-import { theme } from "../../theme";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 function MyPage({navigation}) {
     return (
-        <View style={styles.main}>
+        <View style={styles.MyPageMain}>
             <View style={[styles.flexDirectionRow, styles.accountManageContainer]}>
                 <Text style={styles.userName}>김슈니 님</Text>
-                <TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => navigation.navigate('계정관리')}
+                >
                     <Text style={styles.accountManageText}>계정관리</Text>
                 </TouchableOpacity>
             </View>
