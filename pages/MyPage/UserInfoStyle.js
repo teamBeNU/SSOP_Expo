@@ -18,12 +18,19 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingTop: 24,
     },
+
+    UserChangeMain: {
+        // flex: 1,
+        height: SCREEN_HEIGHT,
+        backgroundColor: theme.white,
+        paddingHorizontal: 16,
+        paddingTop: 32,
+    },
     title: { 
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
         fontStyle: "normal",
         fontWeight: "600",
-        marginTop: 32,
     },
     titleMarginBottom: {
         marginBottom: 68,
@@ -148,8 +155,9 @@ export const styles = StyleSheet.create({
     },
     btnNextText: {
         color: theme.white,
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
+        fontStyle: "normal",
         fontWeight: "600",
     },
 })
