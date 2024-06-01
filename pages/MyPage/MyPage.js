@@ -11,10 +11,12 @@ import { styles } from "./MyPageStyle";
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 function MyPage({navigation}) {
+    const [name, setName] = useState('김슈니');
+
     return (
         <View style={styles.MyPageMain}>
             <View style={[styles.flexDirectionRow, styles.accountManageContainer]}>
-                <Text style={styles.userName}>김슈니 님</Text>
+                <Text style={styles.userName}>{name} 님</Text>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('계정관리')}
                 >

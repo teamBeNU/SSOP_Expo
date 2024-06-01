@@ -18,7 +18,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         paddingTop: 12,
     },
-    accountManageMain: {
+    UserAccountMain: {
         flex: 1,
         backgroundColor: theme.white,
         paddingHorizontal: 16,

@@ -43,6 +43,7 @@ import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
 import Notify from './pages/Notify/Notify';
 import MyPage from './pages/MyPage/MyPage';
 import UserAccount from './pages/MyPage/UserAccount';
+import UserInfo from './pages/MyPage/UserInfo';
 
 import { styles } from './components/MyCard/CardStyle';
 
@@ -180,6 +181,14 @@ export default function App() {
             ),
           }}/>
           <Stack.Screen name="계정관리" component={UserAccount} 
+          options={{
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="이름 및 생년월일 변경" component={UserInfo} 
           options={{
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>

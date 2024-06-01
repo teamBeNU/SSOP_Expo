@@ -12,25 +12,26 @@ const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 function UserAccount({navigation}) {
     return (
-        <View style={styles.accountManageMain}>
-            <View style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}>
+        <View style={styles.UserAccountMain}>
+            <TouchableOpacity 
+                style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
+                onPress={() => navigation.navigate('이름 및 생년월일 변경')}
+            >
                 <Text style={styles.infoText}>이름 및 생년월일 변경</Text>
-                <TouchableOpacity>
-                    <RightArrow />
-                </TouchableOpacity>
-            </View>
-            <View style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}>
+                <RightArrow />
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
+            >
                 <Text style={styles.infoText}>연락처 변경</Text>
-                <TouchableOpacity>
-                    <RightArrow />
-                </TouchableOpacity>
-            </View>
-            <View style={[styles.flexDirectionRow, styles.infoBtn]}>
+                <RightArrow />
+            </TouchableOpacity>
+            <TouchableOpacity 
+                style={[styles.flexDirectionRow, styles.infoBtn]}
+            >
                 <Text style={styles.infoText}>비밀번호 변경</Text>
-                <TouchableOpacity>
-                    <RightArrow />
-                </TouchableOpacity>
-            </View>
+                <RightArrow />
+            </TouchableOpacity>
 
             <View style={[styles.logoutContainer, {marginLeft: 0}]}>
                 <TouchableOpacity>
