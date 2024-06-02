@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Button } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert } from "react-native";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -342,6 +342,15 @@ function DetailTeamSpaceScreen({ navigation }) {
     
   ];
 
+  const inviteCode = '123456'; // 초대코드
+
+  // 복사
+  const copyinviteCode = () => {
+    const textToCopy = inviteCode;
+    Clipboard.setString(textToCopy);
+    Alert.alert("클립보드에 복사되었습니다.");
+  };    
+
   return (
     <View style={styles.backgroundColor}>
         <Text style={styles.title}>홍길동의 팀스페이스</Text>
@@ -359,10 +368,10 @@ function DetailTeamSpaceScreen({ navigation }) {
                           }}>
                           <View style={styles.shareModalContainer}>
                             <View style={styles.ShareModalView}>
-                              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                              <TouchableOpacity onPress={() => { copyinviteCode(); setIsModalVisible(false); }}>
                                 <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>                   
                               </TouchableOpacity>
-                              <Text style={styles.ShareModalsmallText}>초대 코드: 123456</Text>
+                              <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
                               <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                                 <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>                   
                               </TouchableOpacity>
