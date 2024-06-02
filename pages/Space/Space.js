@@ -4,7 +4,7 @@ import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
-import { SpaceCard } from "../../components/Bluetooth/ShareCard.js";
+import { SpaceCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { FAB } from 'react-native-paper';
 
@@ -31,6 +31,42 @@ import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
+
+// 모달
+function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, title, option1Text, option1SubText, option1Icon: Option1Icon, option2Text, option2SubText, option2Icon: Option2Icon }) {
+  return (
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={isVisible}
+      onRequestClose={onClose}
+    >
+      <View style={styles.modalContainer}>
+        <View style={styles.modalView}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+            <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>{title}</Text>
+            <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
+              <CloseIcon />
+            </TouchableOpacity>
+          </View>
+          <View style={styles.row}>
+            <TouchableOpacity style={styles.btn2} onPress={onOption1Press}>
+              <Text style={styles.Text18}>{option1Text}</Text>
+              <Text style={styles.Text14}>{option1SubText}</Text>
+              <Option1Icon style={styles.icon2} />
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btn2} onPress={onOption2Press}>
+              <Text style={styles.Text18}>{option2Text}</Text>
+              <Text style={styles.Text14}>{option2SubText}</Text>
+              <Option2Icon style={styles.icon2} />
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    </Modal>
+  );
+}
+
 
 // 마이스페이스
 function MySpaceScreen() {
@@ -102,36 +138,19 @@ function MySpaceScreen() {
           </View>
         </TouchableOpacity>
 
-        <Modal
-              animationType="fade"
-              transparent={true}
-              visible={isModalVisible}
-              onRequestClose={() => {
-                setIsModalVisible(!isModalVisible);
-              }}>
-              <View style={styles.modalContainer}>
-                <View style={styles.modalView}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>카드 교환하기</Text>                   
-                    <TouchableOpacity style={styles.closeIcon} onPress={() => setIsModalVisible(false)}>
-                      <CloseIcon />
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.row}>
-                        <TouchableOpacity style={styles.btn2} onPress={handleBluetoothPress}>
-                            <Text style={styles.Text18}>블루투스 송신</Text>
-                            <Text style={styles.Text14}>주변에 있다면 바로</Text>
-                            <BluetoothIcon style={styles.icon2}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.btn2} onPress={handleLinkCopyPress}>
-                            <Text style={styles.Text18}>링크 복사</Text>
-                            <Text style={styles.Text14}>연락처가 있다면</Text>
-                            <LinkIcon style={styles.icon2}/>
-                        </TouchableOpacity>
-                    </View>
-                </View>
-              </View>
-        </Modal>
+        <ExchangeModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onOption1Press={handleBluetoothPress}
+        onOption2Press={handleLinkCopyPress}
+        title="카드 교환하기"
+        option1Text="블루투스 송신"
+        option1SubText="주변에 있다면 바로"
+        option1Icon={BluetoothIcon}
+        option2Text="링크 복사"
+        option2SubText="연락처가 있다면"
+        option2Icon={LinkIcon}
+      />
       </View>
   ) : (
     <View style={styles.mainlayout}>
@@ -144,6 +163,26 @@ function MySpaceScreen() {
           </View>
         </TouchableOpacity>
       </View>
+      <TouchableOpacity style={styles.floatingButton} onPress={handleButtonPress}>
+          <View style={styles.floatingButtonContent}>
+            <Swap style={styles.floatingButtonIcon} />
+            <Text style={styles.floatingButtonText}>교환하기</Text>
+          </View>
+        </TouchableOpacity>
+
+        <ExchangeModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onOption1Press={handleBluetoothPress}
+        onOption2Press={handleLinkCopyPress}
+        title="카드 교환하기"
+        option1Text="블루투스 송신"
+        option1SubText="주변에 있다면 바로"
+        option1Icon={BluetoothIcon}
+        option2Text="링크 복사"
+        option2SubText="연락처가 있다면"
+        option2Icon={LinkIcon}
+      />
     </View>
   );
 }
@@ -232,37 +271,19 @@ function TeamSpaceScreen({ navigation}) {
             <Text style={styles.floatingButtonText}>교환하기</Text>
           </View>
         </TouchableOpacity>
-
-        <Modal
-              animationType="fade"
-              transparent={true}
-              visible={isModalVisible}
-              onRequestClose={() => {
-                setIsModalVisible(!isModalVisible);
-              }}>
-              <View style={styles.modalContainer}>
-                <View style={styles.modalView}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>팀스페이스 교환하기</Text>                   
-                    <TouchableOpacity style={styles.closeIcon} onPress={() => setIsModalVisible(false)}>
-                      <CloseIcon />
-                    </TouchableOpacity>
-                  </View>
-                  <View style={styles.row}>
-                        <TouchableOpacity style={styles.btn2} onPress={handleEnterTeamSpPress}>
-                            <Text style={styles.Text18}>팀스페이스 입장</Text>
-                            <Text style={styles.Text14}>초대받았다면</Text>
-                            <EnterTeamSPIcon style={styles.icon2}/>
-                        </TouchableOpacity>
-                        <TouchableOpacity style={styles.btn2} onPress={handleCreateTeamSpPress}>
-                            <Text style={styles.Text18}>팀스페이스 생성</Text>
-                            <Text style={styles.Text14}>초대하고 싶다면</Text>
-                            <CreatTeamSPIcon style={styles.icon2}/>
-                        </TouchableOpacity>
-                  </View>
-                </View>
-              </View>
-        </Modal>
+        <ExchangeModal
+          isVisible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          onOption1Press={handleEnterTeamSpPress}
+          onOption2Press={handleCreateTeamSpPress}
+          title="팀스페이스 교환하기"
+          option1Text="팀스페이스 입장"
+          option1SubText="초대받았다면"
+          option1Icon={EnterTeamSPIcon}
+          option2Text="팀스페이스 생성"
+          option2SubText="초대하고 싶다면"
+          option2Icon={CreatTeamSPIcon}
+        />
 
       </View>
     ) : (
@@ -276,6 +297,25 @@ function TeamSpaceScreen({ navigation}) {
             </View>
           </TouchableOpacity>
         </View>
+        <TouchableOpacity style={styles.floatingButton} onPress={handleButtonPress}>
+          <View style={styles.floatingButtonContent}>
+            <Swap style={styles.floatingButtonIcon} />
+            <Text style={styles.floatingButtonText}>교환하기</Text>
+          </View>
+        </TouchableOpacity>
+        <ExchangeModal
+          isVisible={isModalVisible}
+          onClose={() => setIsModalVisible(false)}
+          onOption1Press={handleEnterTeamSpPress}
+          onOption2Press={handleCreateTeamSpPress}
+          title="팀스페이스 교환하기"
+          option1Text="팀스페이스 입장"
+          option1SubText="초대받았다면"
+          option1Icon={EnterTeamSPIcon}
+          option2Text="팀스페이스 생성"
+          option2SubText="초대하고 싶다면"
+          option2Icon={CreatTeamSPIcon}
+        />
       </View>
     );
 }
@@ -288,12 +328,12 @@ function DetailTeamSpaceScreen({ navigation }) {
   };
 
   const DetailcardData = [
-    { id: '1', Component: SpaceCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "김사라", age: '23', position: '직장인' },
-    { id: '2', Component: SpaceCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이리나", age: '20', position: '학생' },
-    { id: '3', Component: SpaceCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이호영", age: '21', position: '학생' },
-    { id: '4', Component: SpaceCard, backgroundColor: '#FCA5D7', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "임지니", age: '22', position: '팬' },
-    { id: '5', Component: SpaceCard, backgroundColor: '#4E77E0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '24', position: '학생' },
-    { id: '6', Component: SpaceCard, backgroundColor: '#FBD13D', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '25', position: '학생' },
+    { id: '1', Component: DetailSpaceCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "김사라", age: '23', position: '직장인', host: true, filter: '#기획' },
+    { id: '2', Component: DetailSpaceCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이리나", age: '20', position: '학생', host: false, filter: '#디자이너' },
+    { id: '3', Component: DetailSpaceCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이호영", age: '21', position: '학생', host: false, filter: '#백엔드' },
+    { id: '4', Component: DetailSpaceCard, backgroundColor: '#FCA5D7', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "임지니", age: '22', position: '팬', host: false, filter: '#프론트엔드' },
+    { id: '5', Component: DetailSpaceCard, backgroundColor: '#4E77E0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '24', position: '학생', host: false, filter: '#디자이너' },
+    { id: '6', Component: DetailSpaceCard, backgroundColor: '#FBD13D', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '25', position: '학생', host: false, filter: '#디자이너' },
     
   ];
 
@@ -350,6 +390,8 @@ function DetailTeamSpaceScreen({ navigation }) {
                           name={item.name} 
                           age={item.age} 
                           position={item.position} 
+                          host={item.host}
+                          filter={item.filter}
                       />
                       </TouchableOpacity>
                   ))}
@@ -478,8 +520,9 @@ function Space() {
                 <Menu>
                   <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                    <MenuOption style={{ marginBottom: 10.5}} text='팀스페이스 수정'/>
-                    <MenuOption text='팀스페이스 삭제'/>
+                    <MenuOption style={{ marginBottom: 10.5}} text='그룹 관리하기'/>
+                    <MenuOption style={{ marginBottom: 10.5}} text='카드 관리하기'/>
+                    <MenuOption text='연락처 관리하기'/>
                   </MenuOptions>
                 </Menu>
               </TouchableOpacity>
@@ -488,7 +531,7 @@ function Space() {
           ),
         }}/>
         {/* <Stack.Screen name="마이스페이스" component={MySpaceScreen}/>
-        <Stack.Screen name="Step2" component={TeamSpaceScreen}/> */}
+        <Stack.Screen name="팀스페이스" component={TeamSpaceScreen}/> */}
         <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpaceScreen}
           options={{
             title: "상세 팀스페이스",
