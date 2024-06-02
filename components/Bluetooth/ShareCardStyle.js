@@ -1,6 +1,5 @@
 import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
-import { DetailSpaceCard } from './ShareCard';
 
 export const styles = StyleSheet.create({
     // CardFront

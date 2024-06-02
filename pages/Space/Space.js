@@ -197,7 +197,7 @@ function TeamSpaceScreen({ navigation}) {
   const handleNext = () => {
     navigation.navigate('상세 팀스페이스');
   };
-
+  
   const handleButtonPress = () => {
     setIsModalVisible(true);
   };
@@ -323,8 +323,13 @@ function TeamSpaceScreen({ navigation}) {
 // 상세 팀스페이스
 function DetailTeamSpaceScreen({ navigation }) {
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
   const handleNext = () => {
     navigation.navigate('필터');
+  };
+
+  const handleShareButtonPress = () => {
+    setIsModalVisible(true);
   };
 
   const DetailcardData = [
@@ -343,8 +348,27 @@ function DetailTeamSpaceScreen({ navigation }) {
         <Text style={styles.sub}>홍길동의 팀스페이스입니다. 안녕하세요.</Text>
         <View style={styles.btnContainer}>
                 <View style={styles.btn}>
-                    <TouchableOpacity style={styles.whiteBtn}>
+                    <TouchableOpacity style={styles.whiteBtn} onPress={handleShareButtonPress}>
                         <ShareIcon />
+                        <Modal
+                          animationType="fade"
+                          transparent={true}
+                          visible={isModalVisible}
+                          onRequestClose={() => {
+                            setIsModalVisible(!isModalVisible);
+                          }}>
+                          <View style={styles.shareModalContainer}>
+                            <View style={styles.ShareModalView}>
+                              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                                <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>                   
+                              </TouchableOpacity>
+                              <Text style={styles.ShareModalsmallText}>초대 코드: 123456</Text>
+                              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                                <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>                   
+                              </TouchableOpacity>
+                            </View>
+                          </View>
+                        </Modal>
                     </TouchableOpacity>
                     <Text style={styles.btnText}>공유하기</Text>
                 </View>

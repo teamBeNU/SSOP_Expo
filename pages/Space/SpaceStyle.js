@@ -520,6 +520,36 @@ export const styles = StyleSheet.create({
         right: 16,
         width: 80,
         height: 80,
-    }
+    },
+
+    // 공유하기 모달
+    shareModalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        width: '100%',
+        justifyContent:'center',
+        alignItems: 'center',
+    },
+    ShareModalView: {
+        paddingVertical: 32,
+        paddingHorizontal: 24,
+        width: 272,
+        height: 180,
+        backgroundColor: 'white',
+        borderRadius: 8,
+    },
+    ShareModalText: {
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -1
+    },
+    ShareModalsmallText: {
+        marginTop: 12,
+        marginBottom: 35,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        letterSpacing: -1,
+        color: theme.gray60,
+    },
 
 })
