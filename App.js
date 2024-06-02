@@ -179,13 +179,22 @@ const Tab = createBottomTabNavigator();
           tabBarInactiveTintColor: theme.gray70,
           tabBarLabelStyle: {
             fontSize: 12,
-            fontFamily: 'Pretendard',
+            fontFamily: 'PretendardRegular',
           },
+          tabBarStyle: {
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+          },
+          headerShadowVisible: false,
+          
         })}
       >
         <Tab.Screen name="홈" component={Home} options={{
           tabBarLabel: '홈',
           headerTitle: ' ',
+          headerStyle: {
+            backgroundColor: '#F5F8F8'
+          },
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.navigate('알림')}>
               <NotiIcon style={{ marginLeft: 8 }} />

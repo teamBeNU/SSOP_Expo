@@ -6,7 +6,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { styles } from './SpaceStyle';
 import { SpaceCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import { FAB } from 'react-native-paper';
+import { theme } from "../../theme";
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import NotiIcon from '../../assets/AppBar/ic_noti_regular_line.svg';
@@ -402,7 +402,7 @@ function DetailTeamSpaceScreen({ navigation }) {
           <View style={styles.personRow}>
             <View style={styles.leftContainer}>
               <Text style={styles.personText}>구성원</Text>
-              <Text style={styles.people}>
+              <Text style={styles.detailPeople}>
                 <People />  8 / 150명
               </Text>
             </View>
@@ -445,10 +445,19 @@ function Filter() {
 
   const [filter, setFilter] = useState({
     promoter: false,
-    designer: false,
-    frontend: false,
+    designer: true,
+    frontend: true,
     backend: false,
   });
+
+  const handleReset = () => {
+    setFilter({
+      promoter: false,
+      designer: false,
+      frontend: false,
+      backend: false,
+    });
+  };
 
   const handleSelect = (id) => {
     setFilter(prevState => ({
@@ -505,10 +514,10 @@ function Filter() {
               </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.resetButton}>
+          <TouchableOpacity style={styles.resetButton} onPress={handleReset}>
             <Text style={styles.resetButtonText}>재설정</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.viewCardsButton}>
+          <TouchableOpacity style={styles.viewCardsButton} onPress={() => navigation.goBack()}>
             <Text style={styles.viewCardsButtonText}>해당되는 카드 보기</Text>
           </TouchableOpacity>
         </View>
@@ -520,10 +529,10 @@ function SpaceTabs() {
   return (
     <Tab.Navigator 
       screenOptions={({ route }) => ({
+        headerShadowVisible: false,
         tabBarLabelStyle: styles.tabLabel,
-        tabBarStyle: styles.tabBar,
         tabBarIndicatorStyle: styles.indicatorStyle,
-        tabBarItemStyle: ({ focused }) => focused ? styles.tabBarSelectedItemStyle : styles.tabBarItemStyle,
+        tabBarIndicatorContainerStyle: styles.tabBarItemStyle,
       })}
     >
       <Tab.Screen name="마이스페이스" component={MySpaceScreen}/>
@@ -539,8 +548,9 @@ function Space() {
         <Stack.Screen name="SpaceTabs" component={SpaceTabs} 
         options={{
           title: " ",
+          headerShadowVisible: false,
           headerLeft: () => (
-            <TouchableOpacity >
+            <TouchableOpacity onPress={() => navigation.navigate('알림')}>
               <NotiIcon style={{ marginLeft: 8  }}/>
             </TouchableOpacity>
           ),
@@ -564,7 +574,7 @@ function Space() {
           ),
         }}/>
         {/* <Stack.Screen name="마이스페이스" component={MySpaceScreen}/>
-        <Stack.Screen name="팀스페이스" component={TeamSpaceScreen}/> */}
+        <Stack.Screen name="팀스페이스" component={TeamSpaceScreen}/>  */}
         <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpaceScreen}
           options={{
             title: "상세 팀스페이스",
@@ -586,6 +596,7 @@ function Space() {
         <Stack.Screen name="필터" component={Filter} 
           options={{
             title: "필터",
+            tabBarStyle: { display: 'none' } ,
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>

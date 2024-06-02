@@ -97,8 +97,6 @@ export const styles = StyleSheet.create({
         marginTop: 12,
         fontSize: 12,
         fontFamily: 'PretendardRegular',
-        alignItems: 'center',
-        justifyContent: 'center',
         letterSpacing: -1,
     },
     TeamSPContent: {
@@ -159,34 +157,29 @@ export const styles = StyleSheet.create({
     
 
     // 상단 탭
-    tabLabel: {
+   tabLabel: {
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
         letterSpacing: -1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    tabBarWrapper: {
+        backgroundColor: '#E5EBEA', // 전체 배경 색상
+        borderRadius: 20,
+        margin: 16, // 외부 여백
+        padding: 4, // 내부 여백
     },
     tabBar: {
-        backgroundColor: theme.white,
+        backgroundColor: 'transparent',
     },
     indicatorStyle: {
         backgroundColor: 'transparent',
     },
-    tabBarItem: {
-        borderRadius: 10,
-        margin: 5,
-        paddingVertical: 10,
-        paddingHorizontal: 15,
-    },
     tabBarItemStyle: {
-        backgroundColor: theme.gray50,
-        borderRadius: 10,
-        marginHorizontal: 5,
-        marginVertical: 5,
-    },
-    tabBarSelectedItemStyle: {
-        backgroundColor: 'white',
         borderRadius: 8,
-        marginHorizontal: 5,
-        marginVertical: 5,
+        height: 40,
+        margin: 8, // 탭 사이의 간격
     },
     
 
@@ -237,7 +230,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         gap: 28,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start',
     },
     btnText: {
         textAlign: 'center',
@@ -246,7 +239,6 @@ export const styles = StyleSheet.create({
         letterSpacing: -1
     },
     btn: {
-        gap: 8,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -265,6 +257,7 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
         //android shadow
         elevation: 4,
+        marginBottom: 8,
     },
     line: {
         marginTop: 32,
@@ -314,7 +307,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         letterSpacing: -1,
     },
-    people: {
+    detailPeople: {
         marginLeft: 8,
         marginTop: 24,
         fontSize: 12,
@@ -394,7 +387,7 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray90,
     },
     resetButton: {
-        width: 89,
+        flex: 1,
         height: 48,
         justifyContent: 'center',
         alignItems: 'center',
@@ -410,7 +403,7 @@ export const styles = StyleSheet.create({
         color: theme.gray50,
     },
     viewCardsButton: {
-        width: 231,
+        flex: 3,
         height: 48,
         backgroundColor: theme.gray10,
         justifyContent: 'center',
