@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { Button, StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
 import React, { useEffect } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -19,15 +19,17 @@ import {
   MenuProvider,
 } from 'react-native-popup-menu';
 
-// Text 적용
+// Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
-
-// TextInput 적용
-// TextInput.defaultProps = TextInput.defaultProps || {};
-// TextInput.defaultProps.allowFontScaling = false;
+TextInput.defaultProps = TextInput.defaultProps || {};
+TextInput.defaultProps.allowFontScaling = false;
 
 import Home from './pages/home/Home';
+import Login from './pages/Login/Login';
+import SignIn from './pages/Login/SignIn';
+import SignUp from './pages/Login/SignUp';
+import ChangePw from './pages/Login/ChangePw';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
 import LinkShare from './pages/LinkShare/LinkShare';
 import CheckCard from './pages/CheckCard/CheckCard';
@@ -39,6 +41,7 @@ import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
+
 import { styles } from './components/MyCard/CardStyle';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
@@ -64,7 +67,33 @@ export default function App() {
     <MenuProvider>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name=" "  component={MyTabs} options={{headerShown: false}}/>
+        <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="로그인" component={Login} />
+        <Stack.Screen 
+        name="이메일로그인" 
+        component={SignIn}
+        options={{
+          headerTitle: "로그인",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <CloseIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),
+        }}
+         />
+        <Stack.Screen 
+        name="비밀번호 변경" 
+        component={ChangePw}
+        options={{
+          headerTitle: "비밀번호 변경",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <CloseIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),
+        }}
+         />
+        <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
         <Stack.Screen 
@@ -89,28 +118,7 @@ export default function App() {
             </Menu>
           }}
           />
-        <Stack.Screen 
-          name="MyCard" 
-          component={MyCard}
-          options={{
-            headerTitle: "내 카드",
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <LeftArrowIcon style={{ marginLeft: 8  }}/>
-              </TouchableOpacity>
-            ),
-            headerRight: () => 
-              <Menu>
-              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                <MenuOption 
-                  // onSelect={() => alert(`Delete`)} 
-                  text='카드 삭제하기'
-                />
-              </MenuOptions>
-            </Menu>
-          }}
-          />
+        <Stack.Screen name="MyCard" component={MyCard}/>
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen 
           name="팀스페이스 생성" 
@@ -154,7 +162,6 @@ export default function App() {
           name="Memo" 
           component={Memo}
           options={{
-            headerTitle: "메모 작성",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -228,7 +235,14 @@ const Tab = createBottomTabNavigator();
           ),
         }}  />
         <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
-        <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: '내 카드' }} />
+        <Tab.Screen name="내 카드" component={MyCard} 
+          options={{ tabBarLabel: '내 카드', 
+          headerTitle: "내 카드",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <LeftArrowIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ) }} />
         <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
       </Tab.Navigator>
     );
