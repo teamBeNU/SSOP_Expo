@@ -6,6 +6,8 @@ import "react-native-gesture-handler";
 
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
+import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 
 function UserPhoneNumber({navigation}) {
     const [step, setStep] = useState(1);
@@ -56,6 +58,33 @@ function UserPhoneNumber({navigation}) {
             setStep(3);
         }
     };
+
+    useEffect(() => {
+        if (step === 1 || step === 3) {
+            navigation.setOptions({
+                headerLeft: () => (
+                    <TouchableOpacity
+                        style={{marginRight: 20}}
+                        onPress={() => {navigation.goBack();}}
+                    >
+                        <CloseIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
+            });
+           
+        } else if (step === 2) {
+            navigation.setOptions({
+                headerLeft: () => (
+                    <TouchableOpacity
+                        style={{marginRight: 20}}
+                        onPress={() => {setStep(1); setTel('');}}
+                    >
+                        <LeftArrowIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
+            });
+        }
+    }, [step]);
 
     return (
         <View>

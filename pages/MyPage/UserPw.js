@@ -6,8 +6,8 @@ import "react-native-gesture-handler";
 
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
-import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import VisibilityIcon from "../../assets/Login/ic_visibility.svg";
 import VisibilityOffIcon from "../../assets/Login/ic_visibility_off.svg";
 import CheckIcon from "../../assets/Login/ic_done_small_line.svg";
@@ -53,7 +53,7 @@ function UserPw({navigation}) {
         }
     };
 
-    useEffect(() => {   // 상단바 타이틀 변경
+    useEffect(() => {
         if (step === 1 || step === 3) {
             navigation.setOptions({
                 headerLeft: () => (
@@ -66,11 +66,6 @@ function UserPw({navigation}) {
                 ),
             });
            
-        } else if (step === 6 || step === 8) {
-            navigation.setOptions({
-                headerTitle: '카드 생성',
-                headerRight: null,
-            });
         } else if (step === 2) {
             navigation.setOptions({
                 headerLeft: () => (
