@@ -15,14 +15,14 @@ function UserAccount({navigation}) {
         <View style={styles.UserAccountMain}>
             <TouchableOpacity 
                 style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
-                onPress={() => navigation.navigate('이름 및 생년월일 변경')}
+                onPress={() => navigation.navigate('MY 이름 및 생년월일 변경')}
             >
                 <Text style={styles.infoText}>이름 및 생년월일 변경</Text>
                 <RightArrow />
             </TouchableOpacity>
             <TouchableOpacity 
                 style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
-                onPress={() => navigation.navigate('연락처 변경')}
+                onPress={() => navigation.navigate('MY 연락처 변경')}
             >
                 <Text style={styles.infoText}>연락처 변경</Text>
                 <RightArrow />

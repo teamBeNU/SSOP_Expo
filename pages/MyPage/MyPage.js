@@ -18,7 +18,7 @@ function MyPage({navigation}) {
             <View style={[styles.flexDirectionRow, styles.accountManageContainer]}>
                 <Text style={styles.userName}>{name} 님</Text>
                 <TouchableOpacity
-                    onPress={() => navigation.navigate('계정관리')}
+                    onPress={() => navigation.navigate('MY 계정관리')}
                 >
                     <Text style={styles.accountManageText}>계정관리</Text>
                 </TouchableOpacity>

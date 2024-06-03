@@ -182,7 +182,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="계정관리" component={UserAccount} 
+          <Stack.Screen name="MY 계정관리" component={UserAccount} 
           options={{
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
@@ -190,7 +190,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="이름 및 생년월일 변경" component={UserInfo} 
+          <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
           options={{
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
@@ -198,7 +198,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="연락처 변경" component={UserPhoneNumber} 
+          <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
           options={{
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
@@ -206,7 +206,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="비밀번호 변경" component={UserPw} 
+          <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
           options={{
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
