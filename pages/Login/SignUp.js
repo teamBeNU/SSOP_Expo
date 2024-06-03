@@ -47,6 +47,7 @@ function SignUp() {
       name: true,
       birth: true,
   })
+    const [isBirthCorrect, setIsBirthCorrect] = useState({year: true, month: true, day: true});
     const [bSecret, setBSecret] = useState(false);
     const [isAgree, setIsAgree] = useState({
       serviceAgree: false,
@@ -154,8 +155,21 @@ function SignUp() {
           const isNameFull = name !== '';
           const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
           setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull})));
+        
+          const isYearCorrect = birth.year.length === 4 && birth.year >= 1800 && birth.year <= new Date().getFullYear();
+          const isMonthCorrect = birth.month.length === 2 && (1 <= parseInt(birth.month) && parseInt(birth.month) <= 12);
+          const isDayCorrect = birth.day.length === 2 && (1 <= parseInt(birth.day) && parseInt(birth.day) <= new Date(birth.year, parseInt(birth.month), 0).getDate());
+
+          if (isFull) {
+            setIsBirthCorrect((prev) => ({
+              ...prev,
+              year: isYearCorrect,
+              month: isMonthCorrect,
+              day: isDayCorrect,
+            }));
+          }
           
-          if (isNameFull && isBirthFull) {
+          if (isNameFull && isBirthFull && isBirthCorrect.year && isBirthCorrect.month && isBirthCorrect.day) {
               setStep(5);
           }
         } else if (step === 5 ) {
@@ -390,9 +404,14 @@ function SignUp() {
                             ) : (
                                 <View></View>
                             )}
+                            {!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day ? (
+                                <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요 (ex 2024년 01월 01일)</Text>
+                            ) : (
+                                <View></View>
+                            )}
                       </View>
               
-                <TouchableOpacity style={styles.nextBtn} onPress={hasName ? handleNext : handleName}>
+                <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
                     <Text style={styles.nextText}>다음으로</Text>
                 </TouchableOpacity>                
             </View>
