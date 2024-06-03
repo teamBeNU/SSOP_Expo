@@ -7,10 +7,14 @@ export const styles = StyleSheet.create({
     flexDirectionRow: {
         flexDirection: "row",
     },
+    marginR4: {
+        marginRight: 4,
+    },
     marginR8: {
         marginRight: 8,
     },
 
+    // UserInfo
     UserInfoMain: {
         // flex: 1,
         height: SCREEN_HEIGHT,
@@ -19,6 +23,7 @@ export const styles = StyleSheet.create({
         paddingTop: 24,
     },
 
+    // UserPhoneNumber, UserPw
     UserChangeMain: {
         // flex: 1,
         height: SCREEN_HEIGHT,
@@ -36,6 +41,7 @@ export const styles = StyleSheet.create({
         marginBottom: 68,
     },
 
+    // UserInfo: 헤더바 저장 버튼
     saveBtn: {
         fontFamily: "PretendardSemiBold",
         fontSize: 14,
@@ -44,6 +50,7 @@ export const styles = StyleSheet.create({
         color: theme.skyblue,
     },
 
+    // 공통: TextInput
     informContainer: {
         marginTop: 68,
     },
@@ -64,6 +71,8 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         margin: 0,
     },
+
+    // 공통: TextInput 아무것도 입력안했을 때
     inputError: {
         borderWidth:1,
         borderStyle: "solid",
@@ -78,6 +87,7 @@ export const styles = StyleSheet.create({
         marginTop: 8,
     },
 
+    // USerInfo: 생일
     inputBirthContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -96,20 +106,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
     },
 
-    inputError: {
-        borderWidth:1,
-        borderStyle: "solid",
-        borderColor: theme.red,
-    },
-    inputErrorText: {
-        color: theme.red,
-        fontFamily: "PretendardRegular",
-        fontSize: 14,
-        fontWeight: "400",
-        marginHorizontal: 8,
-        marginTop: 8,
-    },
-
+    // UserPhoneNumber: 연락처 변경
     unCorrect: {
         fontFamily: "PretendardSemiBold",
         fontSize: 14,
@@ -144,6 +141,44 @@ export const styles = StyleSheet.create({
         color: theme.gray40,
     },
 
+    // UserPw: 비밀번호 변경
+    pwContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+        paddingRight: 16,
+    },
+    checkContainer: {
+        flexDirection: "row",
+        marginTop: 16,
+    },
+    check: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginRight: 12,
+    },
+    checkTextOn: {
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
+        color: theme.gray30,
+    },
+    checkTextOff: {
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
+        color: theme.gray60,
+    },
+    passwordDone: {
+        width: '100%',
+        height: '50%',
+        justifyContent: "center",
+        alignItems: "center",
+    },
+
+    // 공통: Next 버튼
     btnNext: {
         position: 'absolute',
         // bottom: 16,  // contair의 height: '100%',

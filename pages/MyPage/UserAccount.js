@@ -29,6 +29,7 @@ function UserAccount({navigation}) {
             </TouchableOpacity>
             <TouchableOpacity 
                 style={[styles.flexDirectionRow, styles.infoBtn]}
+                onPress={() => navigation.navigate('MY 비밀번호 변경')}
             >
                 <Text style={styles.infoText}>비밀번호 변경</Text>
                 <RightArrow />
