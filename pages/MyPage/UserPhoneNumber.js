@@ -44,11 +44,13 @@ function UserPhoneNumber({navigation}) {
     };
 
     const handleRequest = () => {
+        // 시간 초기화
         setSeconds(180);
         setIsRunning(true);
 
         setIsResend(true);
         setPhoneCodeIsCorrect(true);
+        setPhoneCode('');
     };
 
     const handleNext = () => {
@@ -57,6 +59,7 @@ function UserPhoneNumber({navigation}) {
             setIsTelFull(isTF);
 
             if (isTF) {
+                setPhoneCode('');
                 setStep(2);
                 setIsRunning(true);
             }
