@@ -33,6 +33,11 @@ function UserPw({navigation}) {
         setHasLeng(/^.{6,20}$/.test(password));
     };
 
+    const handleInputPW = (password) => {
+        setInputPw(password); 
+        setPwIsCorrect(true);
+    }
+
     const handleNext = () => {
         if (step === 1) {
             const isFull = inputPw !== '';
@@ -93,7 +98,7 @@ function UserPw({navigation}) {
                                     placeholderTextColor={theme.gray60}
                                     keyboardType="default"
                                     value={inputPw}
-                                    onChangeText={setInputPw}
+                                    onChangeText={handleInputPW}
                                     returnKeyType="done"
                                     maxLength={20}
                                     secureTextEntry = {isPwVisible ? false : true}
