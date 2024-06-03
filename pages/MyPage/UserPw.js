@@ -58,7 +58,6 @@ function UserPw({navigation}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity
-                        style={{marginRight: 20}}
                         onPress={() => {navigation.goBack();}}
                     >
                         <CloseIcon style={{ marginLeft: 8 }} />
@@ -70,7 +69,6 @@ function UserPw({navigation}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity
-                        style={{marginRight: 20}}
                         onPress={() => {setStep(1); setInputPw('');}}
                     >
                         <LeftArrowIcon style={{ marginLeft: 8 }} />

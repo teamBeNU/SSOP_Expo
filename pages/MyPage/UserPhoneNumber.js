@@ -71,7 +71,6 @@ function UserPhoneNumber({navigation}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity
-                        style={{marginRight: 20}}
                         onPress={() => {navigation.goBack();}}
                     >
                         <CloseIcon style={{ marginLeft: 8 }} />
@@ -83,7 +82,6 @@ function UserPhoneNumber({navigation}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity
-                        style={{marginRight: 20}}
                         onPress={() => {setStep(1); setTel(''); setSeconds(180); setIsRunning(false);}}
                     >
                         <LeftArrowIcon style={{ marginLeft: 8 }} />

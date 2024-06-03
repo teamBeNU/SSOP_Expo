@@ -142,9 +142,6 @@ export default function App() {
           component={CreateCard} 
           options={{ 
             headerTitle: "카드 생성",
-            headerTitleStyle: {
-              
-            },
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -184,6 +181,7 @@ export default function App() {
           }}/>
           <Stack.Screen name="MY 계정관리" component={UserAccount} 
           options={{
+            headerTitle: "계정관리",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -192,6 +190,7 @@ export default function App() {
           }}/>
           <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
           options={{
+            headerTitle: "이름 및 생년월일 변경",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -200,6 +199,7 @@ export default function App() {
           }}/>
           <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
           options={{
+            headerTitle: "연락처 변경",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -208,6 +208,7 @@ export default function App() {
           }}/>
           <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
           options={{
+            headerTitle: "비밀번호 변경",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>

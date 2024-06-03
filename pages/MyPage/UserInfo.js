@@ -35,7 +35,6 @@ function UserInfo({navigation}) {
         navigation.setOptions({
             headerLeft: () => (
                 <TouchableOpacity
-                    style={{marginRight: 20}}
                     onPress={() => {
                         if (isNameFull && isBirthFull) {
                             navigation.goBack();
