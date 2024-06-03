@@ -17,6 +17,8 @@ function UserPhoneNumber({navigation}) {
     const [phoneCode, setPhoneCode] = useState('');
     const [phoneCodeIsCorrect, setPhoneCodeIsCorrect] = useState(true);
     const [isResend, setIsResend] = useState(false);
+    const [seconds, setSeconds] = useState(180);
+    const [isRunning, setIsRunning] = useState(true);
     
     const handlePhoneNumChange = (text) => {
         setTel(text);
@@ -42,6 +44,9 @@ function UserPhoneNumber({navigation}) {
     };
 
     const handleRequest = () => {
+        setSeconds(180);
+        setIsRunning(true);
+
         setIsResend(true);
         setPhoneCodeIsCorrect(true);
     };
@@ -53,9 +58,11 @@ function UserPhoneNumber({navigation}) {
 
             if (isTF) {
                 setStep(2);
+                setIsRunning(true);
             }
         } else if (step === 2 ) {
             setStep(3);
+            setIsRunning(false);
         }
     };
 
@@ -77,7 +84,7 @@ function UserPhoneNumber({navigation}) {
                 headerLeft: () => (
                     <TouchableOpacity
                         style={{marginRight: 20}}
-                        onPress={() => {setStep(1); setTel('');}}
+                        onPress={() => {setStep(1); setTel(''); setSeconds(180); setIsRunning(false);}}
                     >
                         <LeftArrowIcon style={{ marginLeft: 8 }} />
                     </TouchableOpacity>
@@ -85,6 +92,31 @@ function UserPhoneNumber({navigation}) {
             });
         }
     }, [step]);
+
+    
+    useEffect(() => {
+        let interval = null;
+        if (isRunning) {
+          interval = setInterval(() => {
+            setSeconds(prevSeconds => {
+              if (prevSeconds === 0) {
+                clearInterval(interval);
+                return 0;
+              }
+              return prevSeconds - 1;
+            });
+          }, 1000);
+        } else if (!isRunning && seconds !== 0) {
+          clearInterval(interval);
+        }
+        return () => clearInterval(interval);
+    }, [isRunning, seconds]);
+
+    const formatTime = (time) => {
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+    };
 
     return (
         <View>
@@ -135,7 +167,8 @@ function UserPhoneNumber({navigation}) {
                             <View style={styles.requestNum}>
                                 <View style={[styles.flexDirectionRow, {marginHorizontal: 4}]}>
                                     <Text style={[styles.resendText, {marginRight: 4}]}>잔여시간</Text>
-                                    <Text style={styles.remainTime}>03:00</Text>
+                                    {/* <Text style={styles.remainTime}>03:00</Text> */}
+                                    <Text style={styles.remainTime}>{formatTime(seconds)}</Text>
                                 </View>
                                 
                                 <TouchableOpacity
