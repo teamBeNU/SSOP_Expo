@@ -47,6 +47,7 @@ import { styles } from './components/MyCard/CardStyle';
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
+import KaKaoLogin from './components/Login/KaKaoLogin';
 
 export default function App() {
   // 폰트 로드
@@ -93,6 +94,7 @@ export default function App() {
           ),
         }}
          />
+         <Stack.Screen name="KaKaoLogin" component={KaKaoLogin} />
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />

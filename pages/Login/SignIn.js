@@ -2,6 +2,7 @@ import React, { useState, useRef } from "react";
 import { View, Text, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './LoginStyle.js';
+
 import GoogleIcon from "../../assets/Login/ic_google.svg";
 import KakaoIcon from "../../assets/Login/ic_kakao.svg";
 import NaverIcon from "../../assets/Login/ic_naver.svg";
@@ -55,9 +56,11 @@ function SignIn() {
                 <TouchableOpacity>
                 <GoogleIcon />
                 </TouchableOpacity>
-                <TouchableOpacity>
+
+                <TouchableOpacity onPress={()=> navigation.navigate("KaKaoLogin", {screen: "KaKaoLogin"})}>
                 <KakaoIcon />
                 </TouchableOpacity>
+
                 <TouchableOpacity>
                 <NaverIcon />
                 </TouchableOpacity>
