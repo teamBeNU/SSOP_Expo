@@ -25,24 +25,18 @@ function MyPage({navigation}) {
             </View>
 
             <View style={styles.infoContainer}>
-                <View style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}>
+                <TouchableOpacity style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}>
                     <Text style={styles.infoText}>자주 묻는 질문</Text>
-                    <TouchableOpacity>
-                        <RightArrow />
-                    </TouchableOpacity>
-                </View>
-                <View style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}>
+                    <RightArrow />
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}>
                     <Text style={styles.infoText}>개인정보 처리방침</Text>
-                    <TouchableOpacity>
-                        <RightArrow />
-                    </TouchableOpacity>
-                </View>
-                <View style={[styles.flexDirectionRow, styles.infoBtn]}>
+                    <RightArrow />
+                </TouchableOpacity>
+                <TouchableOpacity style={[styles.flexDirectionRow, styles.infoBtn]}>
                     <Text style={styles.infoText}>이용약관</Text>
-                    <TouchableOpacity>
-                        <RightArrow />
-                    </TouchableOpacity>
-                </View>
+                    <RightArrow />
+                </TouchableOpacity>
             </View>
 
             <View style={styles.logoutContainer}>
