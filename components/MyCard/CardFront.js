@@ -5,6 +5,8 @@ import { CardSample_student } from './CardSample';
 import AvatarSample from '../../assets/AvatarSample.svg'
 
 export const CardFront = () => {
+    const currentAge = calculateAge(CardSample_student[0].card_birth);
+
     return (
         <View style={styles.card}>
             <View style={styles.cardImgArea}>
@@ -14,7 +16,7 @@ export const CardFront = () => {
                 <View style={styles.basicInfo}> 
                     <Text style={styles.name}>{CardSample_student[0].card_name}</Text>
                     <View style={styles.age}>
-                        <Text style={{color: theme.grey20}}>23세</Text>
+                        <Text style={{color: theme.grey20}}>{currentAge}세</Text>
                         <Text style={{color: theme.grey50}}>•</Text>
                         <Text style={{color: theme.grey20}}>{CardSample_student[0].card_birth.year}.{CardSample_student[0].card_birth.month}.{CardSample_student[0].card_birth.day}</Text>
                     </View>
@@ -30,3 +32,20 @@ export const CardFront = () => {
         </View>
     )
 }
+
+// 만나이 계산
+function calculateAge(birthDate) {
+    const today = new Date();
+    const birthYear = birthDate.year;
+    const birthMonth = birthDate.month;
+    const birthDay = birthDate.day;
+  
+    let age = today.getFullYear() - parseInt(birthYear);
+    const monthDiff = today.getMonth() + 1 - parseInt(birthMonth);
+  
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < parseInt(birthDay))) {
+      age--;
+    }
+  
+    return age;
+  };
