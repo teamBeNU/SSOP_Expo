@@ -206,6 +206,14 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
+          <Stack.Screen name="비밀번호 변경" component={UserPw} 
+          options={{
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
     </MenuProvider>
