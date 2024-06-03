@@ -94,7 +94,13 @@ export default function App() {
           ),
         }}
          />
-         <Stack.Screen name="KaKaoLogin" component={KaKaoLogin} />
+         <Stack.Screen name="KaKaoLogin" component={KaKaoLogin} 
+         options={{headerTitle: "카카오 로그인",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <LeftArrowIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),}} />
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />

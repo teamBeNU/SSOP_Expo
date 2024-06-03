@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
 import { WebView } from 'react-native-webview';
-import {KAKAO_REST_API_KEY, KAKAO_REDIRECT_URI, KAKAO_AUTH_URL, KAKAO_INJECTED_JAVASCRIPT} from '../../components/Login/OAuth.jsx';
+import {KAKAO_AUTH_URL, KAKAO_INJECTED_JAVASCRIPT} from '../../components/Login/OAuth.jsx';
 
 const KaKaoLogin = () => {
     function KakaoLoginWebView (data) {
