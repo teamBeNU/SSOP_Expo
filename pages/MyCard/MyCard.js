@@ -96,7 +96,7 @@ function MyCard() {
                     <Text style={styles.btnText}>공유하기</Text>
                 </View>
                 <View style={styles.btn}>
-                    <TouchableOpacity style={styles.blackBtn} onPress={navigation.navigate("카드 만들기")}>
+                    <TouchableOpacity style={styles.blackBtn}>
                         <AddIcon/>
                     </TouchableOpacity>
                     <Text style={styles.btnText}>새 카드 </Text>

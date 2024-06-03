@@ -237,14 +237,7 @@ const Tab = createBottomTabNavigator();
           ),
         }}  />
         <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
-        <Tab.Screen name="내 카드" component={MyCard} 
-          options={{ tabBarLabel: '내 카드', 
-          headerTitle: "내 카드",
-          headerLeft: ({onPress}) => (
-            <TouchableOpacity onPress={onPress}>
-              <LeftArrowIcon style={{ marginLeft: 8  }}/>
-            </TouchableOpacity>
-          ) }} />
+        <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: "내 카드",}} />
         <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
       </Tab.Navigator>
     );
