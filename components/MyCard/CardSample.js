@@ -60,7 +60,7 @@ export const CardSample_student = [
     
         // 템플릿별 필수
         card_phone: '01012345678',
-        card_birth: {year: '2000', month: '2', day: '1'},
+        card_birth: {year: '2000', month: '02', day: '01'},
         card_school: '서울여자대학교',
         card_grade: '4',
     
