@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Clipboard, Alert } from "react-native";
+import { View, Text, ScrollView, Clipboard, Alert, Modal } from "react-native";
 import { styles } from './LinkShareStyle';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -11,6 +11,8 @@ import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
+import LinkShareImage from '../../assets/icons/LinkShareImage.svg'
+import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 
 function Step1Screen({ navigation }) {
   // 카드 데이터 유무를 상태로 설정
@@ -66,17 +68,50 @@ function Step2Screen({ navigation }) {
     Alert.alert("클립보드에 복사되었습니다.");
   };    
 
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleShareButtonPress = () => {
+    setIsModalVisible(true);
+  };
+
   return (
     <View style={styles.container3}>
         <View style={styles.mainlayout}>
-          <Text style={styles.title}>링크를 복사하여 전달해 주세요.</Text>
+          <Text style={styles.title}>링크가 생성되었어요.</Text>
           <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
-          <Text style={[styles.Text14, {marginBottom: 8}]}> 링크 </Text>
+          {/* <Text style={[styles.Text14, {marginBottom: 8}]}> 링크 </Text>
           <View style={styles.linkShareContainer}>
             <Text style={styles.linkShare}> {LinkShare} </Text>
             <TouchableOpacity onPress={copyLinkShare}>
               <Text style={styles.copy}>복사</Text>
             </TouchableOpacity>
+          </View> */}
+          <View style={styles.linkShareContainer}>
+            <LinkShareImage/>
+            <View style={styles.linkShareBox}>
+              <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 8}} onPress={handleShareButtonPress}>
+                <Text style={styles.linkShareText}>링크 공유하기</Text>
+                <RightArrowBlueIcon />
+              </TouchableOpacity>
+              <Modal
+                          animationType="fade"
+                          transparent={true}
+                          visible={isModalVisible}
+                          onRequestClose={() => {
+                            setIsModalVisible(!isModalVisible);
+                          }}>
+                          <View style={styles.shareModalContainer}>
+                            <View style={styles.ShareModalView}>
+                              <TouchableOpacity onPress={() => { copyLinkShare(); setIsModalVisible(false); }}>
+                                <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
+                              </TouchableOpacity>
+                              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                                <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
+                              </TouchableOpacity>
+                            </View>
+                          </View>
+                        </Modal>
+            </View>
           </View>
         </View>
       <View style={styles.btnContainer}>
