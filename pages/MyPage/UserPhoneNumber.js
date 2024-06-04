@@ -94,6 +94,13 @@ function UserPhoneNumber({navigation}) {
         }
     }, [step]);
 
+    useEffect(() => {
+        if (seconds === 0) {
+            setIsResend(false);
+            setPhoneCodeIsCorrect(true);
+        }
+    }, [seconds]);
+
     
     useEffect(() => {
         let interval = null;
@@ -184,6 +191,9 @@ function UserPhoneNumber({navigation}) {
                             )}
                             {isResend && (
                                 <Text style={styles.resendText}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>
+                            )}
+                            {seconds === 0 && (
+                                <Text style={styles.resendText}>시간이 만료되었습니다.{`\n`}인증문자를 재요청해 주세요.</Text>
                             )}
                         </View>
                         <TouchableOpacity 
