@@ -59,7 +59,7 @@ function UserPw({navigation}) {
     };
 
     useEffect(() => {
-        if (step === 1 || step === 3) {
+        if (step === 1) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity
@@ -68,8 +68,7 @@ function UserPw({navigation}) {
                         <CloseIcon style={{ marginLeft: 8 }} />
                     </TouchableOpacity>
                 ),
-            });
-           
+            });   
         } else if (step === 2) {
             navigation.setOptions({
                 headerLeft: () => (
@@ -80,6 +79,16 @@ function UserPw({navigation}) {
                     </TouchableOpacity>
                 ),
             });
+        } else if (step === 3) {
+            navigation.setOptions({
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => {navigation.navigate('MY')}}
+                    >
+                        <CloseIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
+            });   
         }
     }, [step]);
 
