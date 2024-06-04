@@ -290,9 +290,9 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
             </ScrollView>
 
             <View style={[styles.btnContainer, { marginLeft: 16, marginBottom: -20 }]}>
-              <View style={styles.btnNext}>
+              <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </>
         )}
@@ -458,9 +458,9 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
             </ScrollView>
 
             <View style={[styles.btnContainer, { marginBottom: -28 }]}>
-              <View style={styles.btnNext}>
+              <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -475,9 +475,9 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
             <Text style={[styles.subtitle, { marginTop: 450, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 
             <View style={[styles.btnContainer, { marginBottom: -28 }]}>
-              <View style={styles.btnNext}>
+              <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -497,12 +497,12 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
             </View>
 
             <View style={styles.btnContainer}>
-              <View style={styles.btnNext}>
+              <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={() => navigation.navigate(" ")} style={styles.btnText}> 홈화면으로 </Text>
-              </View>
-              <View style={styles.btnWhite}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnWhite}>
                 <Text onPress={() => navigation.navigate('Space')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
 
           </View>

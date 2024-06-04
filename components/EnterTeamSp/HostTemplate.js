@@ -219,9 +219,9 @@ export default function HostTemplate({ navigation }) {
             </ScrollView>
 
             <View style={styles.btnContainer}>
-              <View style={styles.btnNext}>
+              <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -303,9 +303,9 @@ export default function HostTemplate({ navigation }) {
             </ScrollView>
 
             <View style={styles.btnContainer}>
-              <View style={styles.btnNext}>
+              <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -389,9 +389,9 @@ export default function HostTemplate({ navigation }) {
             </ScrollView>
 
             <View style={styles.btnContainer}>
-              <View style={styles.btnNext}>
+              <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -463,9 +463,9 @@ export default function HostTemplate({ navigation }) {
             </ScrollView>
 
             <View style={styles.btnContainer}>
-              <View style={styles.btnNext}>
+              <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={handleNext} style={styles.btnText}> 카드 생성 완료할래요 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -480,12 +480,12 @@ export default function HostTemplate({ navigation }) {
             </View>
 
             <View style={[styles.btnContainer, { marginBottom: 20 }]}>
-              <View style={[styles.btnNext, {marginBottom: 40}]}>
+              <TouchableOpacity style={[styles.btnNext, {marginBottom: 40}]}>
                 <Text onPress={() => navigation.navigate("Space")} style={styles.btnText}> 팀스페이스 확인 </Text>
-              </View>
-              <View style={styles.btnWhite}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnWhite}>
                 <Text onPress={() => navigation.navigate(" ")} style={styles.btnTextBlack}> 홈 화면으로 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}

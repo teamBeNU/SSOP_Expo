@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { styles } from './EnterTeamSpStyle';
 import { theme } from "../../theme";
-import { View, Text, TextInput, Image, Modal, TouchableOpacity, Alert } from "react-native";
+import { View, Text, TextInput, Modal, TouchableOpacity, Alert } from "react-native";
 import * as Progress from 'react-native-progress';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import People from '../../assets/icons/ic_people_small_fill.svg';
@@ -105,9 +105,9 @@ function EnterTeamSp({ navigation }) {
 
             <View style={styles.flexSpacer} />
 
-            <View style={styles.btnNext}>
+            <TouchableOpacity style={styles.btnNext}>
               <Text onPress={() => setIsModalVisible(true)} style={styles.btnText}> 입장하기 </Text>
-            </View>
+            </TouchableOpacity>
 
             <Modal
               animationType="fade"
@@ -133,9 +133,9 @@ function EnterTeamSp({ navigation }) {
 
 
                   <View style={[styles.btnContainer, { marginLeft: 16 }]}>
-                    <View style={[styles.btnNext, {marginBottom: 24}]}>
+                    <TouchableOpacity style={[styles.btnNext, {marginBottom: 24}]}>
                       <Text onPress={handleNext} style={styles.btnText}> 네, 입장할래요 </Text>
-                    </View>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>
@@ -160,8 +160,7 @@ function EnterTeamSp({ navigation }) {
                 navigation={navigation}
                 sub={"공유할 수 있는 카드가 없어요."}
               />
-            )
-            }
+            )}
           </View>
 
         )}
@@ -178,12 +177,12 @@ function EnterTeamSp({ navigation }) {
             <View style={styles.flexSpacer} />
 
             <View style={[styles.btnContainer, { marginBottom: 20 }]}>
-              <View style={[styles.btnNext, {marginBottom: 40}]}>
+              <TouchableOpacity style={[styles.btnNext, {marginBottom: 40}]}>
                 <Text onPress={() => navigation.navigate("Space")} style={styles.btnText}> 팀스페이스 확인 </Text>
-              </View>
-              <View style={styles.btnWhite}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnWhite}>
                 <Text onPress={() => navigation.navigate(" ")} style={styles.btnTextBlack}> 홈 화면으로 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
           </View>
         )}
@@ -197,15 +196,14 @@ function EnterTeamSp({ navigation }) {
               {"\n"}카드를 새로 만들어 봐요!
             </Text>
             <View style={styles.container}>
-              {/* <Image source={require('../../assets/teamSp/bg_gradation.png')} style={{width: '100%', height: undefined, aspectRatio: 1}} />    */}
               <CardSample />
             </View>
 
             <View style={styles.flexSpacer} />
 
-            <View style={styles.btnNext}>
+            <TouchableOpacity style={styles.btnNext}>
               <Text onPress={handleNext} style={styles.btnText}> 카드 만들기 </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         )}
       </View>

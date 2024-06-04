@@ -142,9 +142,9 @@ function CreateTeamSp({ navigation }) {
 
             <View style={styles.flexSpacer} />
 
-            <View style={styles.btnNext}>
+            <TouchableOpacity style={styles.btnNext}>
               <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -164,9 +164,9 @@ function CreateTeamSp({ navigation }) {
 
             <View style={styles.flexSpacer} />
 
-            <View style={styles.btnNext}>
+            <TouchableOpacity style={styles.btnNext}>
               <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -195,9 +195,9 @@ function CreateTeamSp({ navigation }) {
               </RadioButton.Group>
             </View>
 
-            <View style={styles.btnNext}>
+            <TouchableOpacity style={styles.btnNext}>
               <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-            </View>
+            </TouchableOpacity>
           </View>
         )}
 
@@ -218,12 +218,12 @@ function CreateTeamSp({ navigation }) {
             </View>
 
             <View style={[styles.btnContainer, { marginBottom: 20 }]}>
-              <View style={styles.btnNext}>
+              <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={() => navigation.navigate(' ')} style={styles.btnText}> 홈화면으로 </Text>
-              </View>
-              <View style={styles.btnWhite}>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnWhite}>
                 <Text onPress={() => navigation.navigate('팀스페이스 입장')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
-              </View>
+              </TouchableOpacity>
             </View>
 
           </View>
