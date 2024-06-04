@@ -124,7 +124,7 @@ function UserPw({navigation}) {
                             style={styles.btnNext}
                             onPress={handleNext}
                         >
-                            <Text style={styles.btnNextText}>연락처 인증하기</Text>
+                            <Text style={styles.btnNextText}>다음으로</Text>
                         </TouchableOpacity>
                     </View>
                 </TouchableWithoutFeedback>
