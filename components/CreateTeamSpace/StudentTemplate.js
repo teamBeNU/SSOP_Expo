@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, ScrollView, Clipboard, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Clipboard, Alert, Modal } from "react-native";
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
@@ -8,6 +8,8 @@ import { Card } from "../MyCard/Card";
 import "react-native-gesture-handler";
 import * as Progress from 'react-native-progress';
 import Select from "../../assets/teamSp/select.svg";
+import ShareImage from '../../assets/icons/LinkShareImage.svg'
+import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 
 export default function StudentTemplate({ navigation, teamName, teamComment, istemplate, template }) {
   const [step, setStep] = useState(1);
@@ -149,22 +151,28 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
     Clipboard.setString(textToCopy);
     Alert.alert("클립보드에 복사되었습니다.");
   };
+  
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleShareButtonPress = () => {
+    setIsModalVisible(true);
+  };
 
   // 입력/선택한 값 출력
-  useEffect(() => {
-    if (step === 3) {
-      Alert.alert(
-        "Variable Values",
-        `teamName: ${teamName}
-        teamComment: ${teamComment}
-        istemplate: ${istemplate}
-        template: ${template}
-        position: ${JSON.stringify(positionList)}
-        plus: ${JSON.stringify(plusList)}
-        `
-      );
-    };
-  }, [step]);
+  // useEffect(() => {
+  //   if (step === 3) {
+  //     Alert.alert(
+  //       "Variable Values",
+  //       `teamName: ${teamName}
+  //       teamComment: ${teamComment}
+  //       istemplate: ${istemplate}
+  //       template: ${template}
+  //       position: ${JSON.stringify(positionList)}
+  //       plus: ${JSON.stringify(plusList)}
+  //       `
+  //     );
+  //   };
+  // }, [step]);
 
   return (
     <View>
@@ -488,13 +496,46 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
             <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
               {'\n'} 바로 초대해 보세요. </Text>
 
-            <Text style={[styles.subtitle, { marginTop: 32 }]}> 초대코드 </Text>
+            {/* <Text style={[styles.subtitle, { marginTop: 32 }]}> 초대코드 </Text>
             <View style={styles.inviteCodeContainer}>
               <Text style={styles.inviteCode}> {inviteCode} </Text>
               <TouchableOpacity onPress={copyInviteCode}>
                 <Text style={styles.copy}>복사</Text>
               </TouchableOpacity>
-            </View>
+            </View> */}
+            
+              <View style={styles.shareContainer}>
+                <ShareImage />
+                <View style={styles.shareBox}>
+                  <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 8 }} onPress={handleShareButtonPress}>
+                    <Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
+                    <RightArrowBlueIcon />
+                  </TouchableOpacity>
+                  <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={isModalVisible}
+                    onRequestClose={() => {
+                      setIsModalVisible(!isModalVisible);
+                    }}>
+                    <View style={styles.shareModalContainer}>
+                      <View style={styles.ShareModalView}>
+                        <TouchableOpacity onPress={() => { copyInviteCode(); setIsModalVisible(false); }}>
+                          <Text style={[styles.ShareModalText, {lineHeight: 20}]}>초대 링크 및 초대코드 복사하기 {"\n"}
+                            <Text style={styles.nameLeng}>초대코드 : {inviteCode}</Text>
+                          </Text>
+                        </TouchableOpacity>
+                        
+                        <View style={{ borderBottomWidth:1, borderBottomColor: theme.gray90 }}/>
+
+                        <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                          <Text style={styles.ShareModalText}>초대 링크 및 초대코드 공유하기</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </Modal>
+                </View>
+              </View>
 
             <View style={styles.btnContainer}>
               <TouchableOpacity style={styles.btnNext}>

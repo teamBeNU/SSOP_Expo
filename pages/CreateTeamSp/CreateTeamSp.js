@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Image, TouchableOpacity, Clipboard, Alert } from "react-native";
+import { View, Text, TextInput, Image, TouchableOpacity, Clipboard, Alert, Modal } from "react-native";
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
 import "react-native-gesture-handler";
 import * as Progress from 'react-native-progress';
+import ShareImage from '../../assets/icons/LinkShareImage.svg'
+import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 
 import Student from '../../assets/profile/student.svg';
 import Worker from '../../assets/profile/worker.svg';
@@ -27,28 +29,28 @@ function CreateTeamSp({ navigation }) {
 
   const inviteCode = '120432'; // step6
 
-    // step 단위 뒤로 가기
-    const handleBack = () => {
-      // 현재 단계(step)에 따라 이전 단계로 이동
-      if (step > 1) {
-        setStep(step => step - 1);
+  // step 단위 뒤로 가기
+  const handleBack = () => {
+    // 현재 단계(step)에 따라 이전 단계로 이동
+    if (step > 1) {
+      setStep(step => step - 1);
+    }
+  };
+
+  // 테스트용 다음 step
+  const handleNext = () => {
+    if (step === 1) {
+      setStep(2);
+    } else if (step === 2) {
+      setStep(3);
+    } else if (step === 3) {
+      if (istemplate === "yes") {
+        setStep(5);
+      } else if (istemplate === "no") {
+        setStep(4);
       }
-    };
-    
-    // 테스트용 다음 step
-    const handleNext = () => {
-      if (step === 1 ) {
-        setStep(2);
-      } else if (step === 2 ) {
-        setStep(3);
-      } else if (step === 3 ) {
-        if (istemplate === "yes") {
-          setStep(5);
-        } else if (istemplate === "no") {
-          setStep(4);
-        }
-      } 
-    };
+    }
+  };
 
   // const handleNext = () => {
   //     if (step === 1 && teamName ) {
@@ -89,34 +91,39 @@ function CreateTeamSp({ navigation }) {
     Clipboard.setString(textToCopy);
     Alert.alert("클립보드에 복사되었습니다.");
   };
+  
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
+  const handleShareButtonPress = () => {
+    setIsModalVisible(true);
+  };
 
   // 입력/선택한 값 출력
-  useEffect(() => {
-    if (step === 4) {
-      Alert.alert(
-        "Variable Values",
-        `teamName: ${teamName}
-         teamComment: ${teamComment}
-         istemplate: ${istemplate}
-         template: ${template}
-        `
-      );
-    };
-  }, [step]);
+  // useEffect(() => {
+  //   if (step === 4) {
+  //     Alert.alert(
+  //       "Variable Values",
+  //       `teamName: ${teamName}
+  //        teamComment: ${teamComment}
+  //        istemplate: ${istemplate}
+  //        template: ${template}
+  //       `
+  //     );
+  //   };
+  // }, [step]);
 
   return (
     <View style={{ backgroundColor: theme.white, flex: 1 }}>
 
       {/* progressBar */}
       {step !== 6 &&
-          <Progress.Bar
-            progress={step === 4 ? 1 : step / 8}
-            width={null}
-            height={2}
-            color={theme.green}
-            borderWidth={0}
-          />
+        <Progress.Bar
+          progress={step === 4 ? 1 : step / 8}
+          width={null}
+          height={2}
+          color={theme.green}
+          borderWidth={0}
+        />
       }
 
       {step === 0 && (
@@ -208,13 +215,47 @@ function CreateTeamSp({ navigation }) {
               <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
                 {'\n'} 바로 초대해 보세요. </Text>
 
-              <Text style={[styles.subtitle, { marginTop: 32 }]}> 초대코드 </Text>
+              {/* <Text style={[styles.subtitle, { marginTop: 32 }]}> 초대코드 </Text>
               <View style={styles.inviteCodeContainer}>
                 <Text style={styles.inviteCode}> {inviteCode} </Text>
                 <TouchableOpacity onPress={copyInviteCode}>
                   <Text style={styles.copy}>복사</Text>
                 </TouchableOpacity>
+              </View> */}
+             
+              <View style={styles.shareContainer}>
+                <ShareImage />
+                <View style={styles.shareBox}>
+                  <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 8 }} onPress={handleShareButtonPress}>
+                    <Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
+                    <RightArrowBlueIcon />
+                  </TouchableOpacity>
+                  <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={isModalVisible}
+                    onRequestClose={() => {
+                      setIsModalVisible(!isModalVisible);
+                    }}>
+                    <View style={styles.shareModalContainer}>
+                      <View style={styles.ShareModalView}>
+                        <TouchableOpacity onPress={() => { copyInviteCode(); setIsModalVisible(false); }}>
+                        <Text style={[styles.ShareModalText, {lineHeight: 20}]}>초대 링크 및 초대코드 복사하기 {"\n"}
+                            <Text style={styles.nameLeng}>초대코드 : {inviteCode}</Text>
+                          </Text>
+                        </TouchableOpacity>
+                        
+                        <View style={{ borderBottomWidth:1, borderBottomColor: theme.gray90 }}/>
+                        
+                        <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                          <Text style={styles.ShareModalText}>초대 링크 및 초대코드 공유하기</Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </Modal>
+                </View>
               </View>
+
             </View>
 
             <View style={[styles.btnContainer, { marginBottom: 20 }]}>
