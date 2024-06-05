@@ -7,13 +7,12 @@ import { styles } from "./CancelModalStyle"
 export default function CancelModal({modalVisible, setModalVisible, onConfirm}) {
     return (
         <View>
-            <StatusBar backgroundColor="rgba(0,0,0,0.4)" translucent={true} />
+            {/* <StatusBar backgroundColor="rgba(0,0,0,0.4)" translucent={true} /> */}
             <Modal
                 animationType="fade"
                 transparent={true}
                 visible={modalVisible}
                 onRequestClose={() => {
-                    Alert.alert('Modal has been closed.');
                     setModalVisible(!modalVisible);
                 }}>
                 <View style={styles.centeredView}>
