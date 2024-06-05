@@ -49,10 +49,6 @@ function UserInfo({navigation}) {
         setModalVisible(false);
         navigation.goBack();
     };
-
-    const handleSave = () => {
-        navigation.navigate('MY');
-    }
     
     const isLeapYear = (year) => {    // 윤년 구하기
         return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0));
@@ -129,7 +125,7 @@ function UserInfo({navigation}) {
                         if (isNameFull && isYearValid && isMonthValid && isDayValid) {
                             setName(inputName);
                             setBirth((prev => ({...prev, year: inputBirth.year, month: inputBirth.month, day: inputBirth.day})));
-                            handleSave();
+                            navigation.navigate('MY');
                         }
                     }}
                 >
