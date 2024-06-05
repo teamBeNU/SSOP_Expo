@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     // CardFront
 	card: {
 		width: 288,
-        height: 432,
+        height: 436,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray90,
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
 	},
 	cardImgArea: {
-        height: 296,
+        height: 300,
         backgroundColor: '#B6E96C',
     },
     cardTextArea: {
@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "white",
         paddingTop: 16,
         paddingLeft: 24,
+        paddingBottom: 32,
         gap: 12,
     },
     basicInfo: {
