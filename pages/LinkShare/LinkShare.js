@@ -79,13 +79,6 @@ function Step2Screen({ navigation }) {
         <View style={styles.mainlayout}>
           <Text style={styles.title}>링크가 생성되었어요.</Text>
           <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
-          {/* <Text style={[styles.Text14, {marginBottom: 8}]}> 링크 </Text>
-          <View style={styles.linkShareContainer}>
-            <Text style={styles.linkShare}> {LinkShare} </Text>
-            <TouchableOpacity onPress={copyLinkShare}>
-              <Text style={styles.copy}>복사</Text>
-            </TouchableOpacity>
-          </View> */}
           <View style={styles.linkShareContainer}>
             <LinkShareImage/>
             <View style={styles.linkShareBox}>
@@ -105,6 +98,7 @@ function Step2Screen({ navigation }) {
                               <TouchableOpacity onPress={() => { copyLinkShare(); setIsModalVisible(false); }}>
                                 <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
                               </TouchableOpacity>
+                              <View style={styles.line} />
                               <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                                 <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
                               </TouchableOpacity>
