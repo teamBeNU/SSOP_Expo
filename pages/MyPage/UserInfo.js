@@ -192,7 +192,6 @@ function UserInfo({navigation}) {
                             maxLength={2}
                             returnKeyType="done"
                             ref={ref_input4}
-                            blurOnSubmit={false}
                         />
                     </View>
                 </View>
