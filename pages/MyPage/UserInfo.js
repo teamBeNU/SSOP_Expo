@@ -49,7 +49,7 @@ function UserInfo({navigation}) {
             headerRight: () => (
                 <TouchableOpacity
                     style={{marginRight: 20}}
-                    // onPress={handleNext}
+                    onPress={handleSave}
                 >
                     <Text style={styles.saveBtn}>저장</Text>
                 </TouchableOpacity>
@@ -62,9 +62,13 @@ function UserInfo({navigation}) {
         navigation.goBack();
     };
 
+    const handleSave = () => {
+        navigation.navigate('MY');
+    }
+
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.UserInfoMain}>
+            <View style={styles.userInfoMain}>
                 <View style={styles.inputContainer}>
                     <Text style={styles.inputText}>이름*</Text>
                     <TextInput 

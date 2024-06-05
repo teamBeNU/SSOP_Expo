@@ -136,10 +136,10 @@ function UserPhoneNumber({navigation}) {
     };
 
     return (
-        <View>
+        <View style={styles.userMain}>
             {step === 1 && (
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.UserChangeMain}>
+                    <View style={styles.userChangeMain}>
                         <Text style={[styles.title, styles.titleMarginBottom]}>변경할 연락처를 입력하세요.</Text>
                         <View style={styles.inputContainer}>
                             <Text style={styles.inputText}>연락처</Text>
@@ -156,6 +156,8 @@ function UserPhoneNumber({navigation}) {
                                 <Text style={styles.inputErrorText}>연락처를 입력해 주세요.</Text>
                             )}
                         </View>
+
+                        <View style={styles.btnFlex} />
                         <TouchableOpacity 
                             style={styles.btnNext}
                             onPress={handleNext}
@@ -168,7 +170,7 @@ function UserPhoneNumber({navigation}) {
 
             {step === 2 && (
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.UserChangeMain}>
+                    <View style={styles.userChangeMain}>
                         <Text style={[styles.title, styles.titleMarginBottom]}>문자로 발송된 인증번호를 입력하세요.</Text>
                         <View style={styles.inputContainer}>
                             <Text style={styles.inputText}>인증번호</Text>
@@ -205,6 +207,8 @@ function UserPhoneNumber({navigation}) {
                                 <Text style={styles.resendText}>시간이 만료되었습니다.{`\n`}인증문자를 재요청해 주세요.</Text>
                             )}
                         </View>
+                        
+                        <View style={styles.btnFlex} />
                         <TouchableOpacity 
                             style={styles.btnNext}
                             onPress={(phoneCode === testPhoneCode) ? handleNext : handlePhoneCode}
@@ -216,8 +220,10 @@ function UserPhoneNumber({navigation}) {
             )}
 
             {step === 3 && (
-                <View style={styles.UserChangeMain}>
+                <View style={styles.userChangeMain}>
                     <Text style={[styles.title, styles.titleMarginBottom]}>연락처가 변경되었습니다.</Text>
+                    
+                    <View style={styles.btnFlex} />
                     <TouchableOpacity 
                         style={styles.btnNext}
                         onPress={() => navigation.navigate('MY')}
