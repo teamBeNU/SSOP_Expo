@@ -93,10 +93,10 @@ function UserPw({navigation}) {
     }, [step]);
 
     return (
-        <View>
+        <View style={styles.userMain}>
             {step === 1 && (
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.UserChangeMain}>
+                    <View style={styles.userChangeMain}>
                         <Text style={[styles.title, styles.titleMarginBottom]}>현재 비밀번호를 입력하세요.</Text>
                         <View>
                             <Text style={styles.inputText}>비밀번호</Text>
@@ -120,6 +120,8 @@ function UserPw({navigation}) {
                                 <Text style={[styles.unCorrect, {marginTop: 16}]}>비밀번호가 일치하지 않습니다.</Text>
                             )}
                         </View>
+
+                        <View style={styles.btnFlex} />
                         <TouchableOpacity 
                             style={styles.btnNext}
                             onPress={handleNext}
@@ -132,7 +134,7 @@ function UserPw({navigation}) {
 
             {step === 2 && (
                 <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                    <View style={styles.UserChangeMain}>
+                    <View style={styles.userChangeMain}>
                         <Text style={[styles.title, styles.titleMarginBottom]}>새 비밀번호를 입력하세요.</Text>
                         <View>
                             <Text style={styles.inputText}>비밀번호</Text>
@@ -168,6 +170,8 @@ function UserPw({navigation}) {
                                 <Text style={hasLeng ? styles.checkTextOn : styles.checkTextOff}>6-20자 이내</Text>  
                             </View>
                         </View>
+                        
+                        <View style={styles.btnFlex} />
                         <TouchableOpacity 
                             style={styles.btnNext}
                             onPress={handleNext}
@@ -179,11 +183,13 @@ function UserPw({navigation}) {
             )}
 
             {step === 3 && (
-                <View style={styles.UserChangeMain}>
+                <View style={styles.userChangeMain}>
                     <Text style={[styles.title, styles.titleMarginBottom]}>연락처가 변경되었습니다.</Text>
                     <View style={styles.passwordDone}>
                         <PasswordDone />
                     </View>
+
+                    <View style={styles.btnFlex} />
                     <TouchableOpacity 
                         style={styles.btnNext}
                         onPress={() => navigation.navigate('MY')}

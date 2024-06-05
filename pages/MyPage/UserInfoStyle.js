@@ -14,19 +14,23 @@ export const styles = StyleSheet.create({
         marginRight: 8,
     },
 
+    userMain: {
+        flex: 1,
+        backgroundColor: "yellow"
+    },
     // UserInfo
-    UserInfoMain: {
-        // flex: 1,
-        height: SCREEN_HEIGHT,
+    userInfoMain: {
+        flex: 1,
+        // height: SCREEN_HEIGHT,
         backgroundColor: theme.white,
         paddingHorizontal: 16,
         paddingTop: 24,
     },
 
     // UserPhoneNumber, UserPw
-    UserChangeMain: {
-        // flex: 1,
-        height: SCREEN_HEIGHT,
+    userChangeMain: {
+        flex: 1,
+        // height: SCREEN_HEIGHT,
         backgroundColor: theme.white,
         paddingHorizontal: 16,
         paddingTop: 32,
@@ -44,7 +48,7 @@ export const styles = StyleSheet.create({
     // UserInfo: 헤더바 저장 버튼
     saveBtn: {
         fontFamily: "PretendardSemiBold",
-        fontSize: 14,
+        fontSize: 16,
         fontStyle: "normal",
         fontWeight: "600",
         color: theme.skyblue,
@@ -179,15 +183,31 @@ export const styles = StyleSheet.create({
     },
 
     // 공통: Next 버튼
+    btnFlex: {
+        flex: 1,
+    },
+    // btnNext: {
+    //     position: 'absolute',
+    //     // bottom: 16,  // contair의 height: '100%',
+    //     bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+    //     width: '100%',
+    //     height: 48,
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    //     marginHorizontal: 16,
+    //     // paddingVertical: 8,
+    //     // paddingHorizontal: 16,
+    //     backgroundColor: theme.gray10,
+    //     borderRadius: 8,
+    //     borderWidth: 1,
+    //     borderStyle: "solid",
+    // },
     btnNext: {
-        position: 'absolute',
-        // bottom: 16,  // contair의 height: '100%',
-        bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        marginBottom: 16,
         width: '100%',
         height: 48,
         justifyContent: "center",
         alignItems: "center",
-        marginHorizontal: 16,
         // paddingVertical: 8,
         // paddingHorizontal: 16,
         backgroundColor: theme.gray10,
