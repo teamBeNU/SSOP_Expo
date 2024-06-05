@@ -114,16 +114,6 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            headerRight: () => 
-            <Menu>
-              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                <MenuOption 
-                  // onSelect={() => alert(`Delete`)} 
-                  text='카드 삭제하기'
-                />
-              </MenuOptions>
-            </Menu>
           }}
           />
         <Stack.Screen name="MyCard" component={MyCard}/>
