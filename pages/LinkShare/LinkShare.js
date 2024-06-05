@@ -22,11 +22,8 @@ function Step1Screen({ navigation }) {
   // 카드 데이터
   const cardData = [
     { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
-    { id: '1', Component: ShareCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
-    { id: '2', Component: ShareCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
-    { id: '3', Component: ShareCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
-    { id: '4', Component: ShareCard, backgroundColor: '#FCA5D7', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
-    { id: '5', Component: ShareCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
+    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
+    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
   ];
 
   const title = '공유할 카드를 선택하세요.';
