@@ -18,7 +18,7 @@ function UserPhoneNumber({navigation}) {
     const [phoneCodeIsCorrect, setPhoneCodeIsCorrect] = useState(true);
     const [isResend, setIsResend] = useState(false);
     const [seconds, setSeconds] = useState(180);
-    const [isRunning, setIsRunning] = useState(true);
+    const [isRunning, setIsRunning] = useState(false);
     
     const handlePhoneNumChange = (text) => {
         setTel(text);

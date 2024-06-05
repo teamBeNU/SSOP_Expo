@@ -8,6 +8,7 @@ export const styles = StyleSheet.create({
       flex: 1,
       justifyContent: 'center',
       alignItems: 'center',
+      backgroundColor: 'rgba(0, 0, 0, 0.4)'
     },
     modalView: {
       backgroundColor: 'white',
@@ -15,14 +16,7 @@ export const styles = StyleSheet.create({
       paddingVertical: 32,
       paddingHorizontal: 16,
       alignItems: 'center',
-    //   shadowColor: '#000',
-    //   shadowOffset: {
-    //     width: 0,
-    //     height: 2,
-    //   },
-    //   shadowOpacity: 0.25,
-    //   shadowRadius: 4,
-    //   elevation: 5,
+      backgroundColor: theme.white,
     },
     modalText: {
         fontFamily: "PretendardSemiBold",

@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Modal, Dimensions, Pressable, StyleSheet, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import { View, Text, StatusBar, TouchableOpacity, Modal, Dimensions, Pressable, StyleSheet, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -9,6 +9,7 @@ import { styles } from "./CancelModalStyle"
 export default function CancelModal({modalVisible, setModalVisible, onConfirm}) {
     return (
         <View>
+            <StatusBar backgroundColor="rgba(0,0,0,0.4)" translucent={true} />
             <Modal
                 animationType="fade"
                 transparent={true}
