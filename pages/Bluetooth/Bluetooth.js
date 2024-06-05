@@ -23,8 +23,8 @@ function Step1Screen() {
 
   const cardData = [
     { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
-    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
-    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
+    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: '김슈니', age: '23세', dot: '·', position: '학생' },
+    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: '릴리', position: '팬' },
   ];
 
   const title = '블루투스로 보낼 카드를 선택하세요.'
@@ -37,7 +37,7 @@ function Step1Screen() {
   return (
     <View style={{ flex: 1 }}>
       <Progress.Bar
-        progress={0.5}  // Set the progress value for step 1 (0.5 for half complete)
+        progress={0.5} 
         width={null}
         height={2}
         color={theme.green}
@@ -109,7 +109,7 @@ function Step2Screen() {
   return (
     <View style={{ flex: 1 }}>
       <Progress.Bar
-        progress={1.0}  // Set the progress value for step 2 (1.0 for fully complete)
+        progress={1.0}
         width={null}
         height={2}
         color={theme.green}

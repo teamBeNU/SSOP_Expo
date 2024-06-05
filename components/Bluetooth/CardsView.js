@@ -27,7 +27,13 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, handleNext, 
                 {showPlusCardButton && <PlusCardButton navigation={navigation} />}
                 {cardData.map((item) => (
                     <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
-                    <item.Component backgroundColor={item.backgroundColor} avatar={item.avatar} />
+                    <item.Component 
+                    backgroundColor={item.backgroundColor} 
+                    avatar={item.avatar}
+                    name={item.name}
+                    age={item.age}
+                    dot={item.dot}
+                    position={item.position} />
                     </TouchableOpacity>
                 ))}
             </View>
