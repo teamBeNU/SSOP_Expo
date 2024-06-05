@@ -199,15 +199,6 @@ function UserInfo({navigation}) {
                             blurOnSubmit={false}
                         />
                     </View>
-
-                    <Text style={styles.inputText}>{`isBirthValid.year: ${isBirthValid.year}`}</Text>
-                    <Text style={styles.inputText}>{`isBirthValid.month: ${isBirthValid.month}`}</Text>
-                    <Text style={styles.inputText}>{`isBirthValid.day: ${isBirthValid.day}`}</Text>
-                    <Text style={styles.inputText}>{`dayInMonth: ${dayInMonth}`}</Text>
-                    <Text style={styles.inputText}>{`isFull.name: ${isFull.name}`}</Text>
-                    <Text style={styles.inputText}>{`isFull.birth: ${isFull.birth}`}</Text>
-                    <Text style={styles.inputText}>{`{isCorrect.name: ${isCorrect.name}`}</Text>
-                    <Text style={styles.inputText}>{`isCorrect.birth: ${isCorrect.birth}`}</Text>
                 </View>
 
                 {modalVisible && (
