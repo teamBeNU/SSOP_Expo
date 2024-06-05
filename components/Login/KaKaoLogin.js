@@ -1,6 +1,6 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-import { WebView } from 'react-native-webview';
+// import { WebView } from 'react-native-webview';
 import {KAKAO_AUTH_URL, KAKAO_INJECTED_JAVASCRIPT} from '../../components/Login/OAuth.jsx';
 
 const KaKaoLogin = () => {
@@ -15,7 +15,7 @@ const KaKaoLogin = () => {
     
       return (
         <View style={Styles.container}>      
-          <WebView
+          {/* <WebView
             style={{ flex: 1 }}
             originWhitelist={['*']}
             scalesPageToFit={false}
@@ -25,7 +25,7 @@ const KaKaoLogin = () => {
             injectedJavaScript={KAKAO_INJECTED_JAVASCRIPT}
             javaScriptEnabled
             onMessage={event => { KakaoLoginWebView(event.nativeEvent["url"]); }}
-          />
+          /> */}
         </View>
     );
 };
