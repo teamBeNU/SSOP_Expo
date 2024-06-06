@@ -3,6 +3,7 @@ import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-nativ
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
 import { RadioButton } from 'react-native-paper';
+import Select from "../../assets/teamSp/select.svg";
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 
@@ -10,38 +11,47 @@ import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 export default function HostTemplate({ navigation }) {
   const [step, setStep] = useState(1);
-  const [name, setName] = useState('');
-  const [introduction, setIntroduction] = useState('');
-  const [year, setYear] = useState('');
-  const [month, setMonth] = useState('');
-  const [day, setDay] = useState('');
-  const [tel, setTel] = useState('');
-  const [school, setSchool] = useState('');
-  const [grade, setGrade] = useState('');
-  const [studNum, setStudNum] = useState('');
-  const [job, setJob] = useState('');
-  const [club, setClub] = useState('');
-  const [status, setStatus] = useState('휴학');
-  const [sns, setSns] = useState(['', '']);
-  const [email, setEmail] = useState('');
-  const [mbti, setMbti] = useState('');
-  const [music, setMusic] = useState('');
-  const [movie, setMovie] = useState('');
+  const [card_name, setName] = useState('');
+  const [card_introduction, setIntroduction] = useState('');
+  const [card_birth, setBirth] = { year: '', month: '', day: '' };
+  const [card_tel, setTel] = useState('');
+  const [card_school, setSchool] = useState('');
+  const [card_grade, setGrade] = useState('');
+  const [card_studNum, setStudNum] = useState('');
+  const [card_role, setRole] = useState('');
+  const [card_club, setClub] = useState('');
+  const [card_SNS, setSNS] = { insta: '', x: '' }
+  const [card_email, setEmail] = useState('');
+  const [card_MBTI, setMBTI] = useState('');
+  const [card_music, setMusic] = { title: '', singer: '' };
+  const [card_movie, setMovie] = useState('');
 
   const [showAge, setShowAge] = useState(1);
   const [showSchool, setShowSchool] = useState(1);
   const [showGrade, setShowGrade] = useState(1);
   const [showStudNum, setShowStudNum] = useState(1);
-  const [showJob, setShowJob] = useState(1);
+  const [showRole, setShowRole] = useState(1);
   const [showClub, setShowClub] = useState(1);
   const [showStatus, setShowStatus] = useState(1);
   const [showTel, setShowTel] = useState(1);
-  const [showSns, setShowSns] = useState(1);
+  const [showSNS, setShowSNS] = useState(1);
   const [showEmail, setShowEmail] = useState(1);
-  const [showMbti, setShowMbti] = useState(1);
+  const [showMBTI, setShowMBTI] = useState(1);
   const [showMusic, setShowMusic] = useState(1);
   const [showMovie, setShowMovie] = useState(1);
   // const [cover, setCover] = useState(1);
+
+  const [roleList, setRoleList] = useState([
+    { role: '회장', selected: false },
+    { role: '부회장', selected: false },
+    { role: '팀장', selected: false },
+    { role: '팀원', selected: false },
+    { role: '마케터', selected: false },
+    { role: '기획자', selected: false },
+    { role: '디자이너', selected: false },
+    { role: '백엔드', selected: false },
+    { role: '프론트엔드', selected: false },
+  ]);
 
   const handleNext = () => {
     setStep(prevStep => prevStep + 1);
@@ -51,17 +61,17 @@ export default function HostTemplate({ navigation }) {
     const checkAndSkipStep = () => {
       if (step === 1 && !showAge && !showSchool && !showGrade) {
         handleNext();
-      } else if (step === 2 && !showStudNum && !showJob && !showClub && !showStatus) {
+      } else if (step === 2 && !showStudNum && !showRole && !showClub && !showStatus) {
         handleNext();
-      } else if (step === 3 && !showTel && !showSns && !showEmail) {
+      } else if (step === 3 && !showTel && !showSNS && !showEmail) {
         handleNext();
-      } else if (step === 4 && !showMbti && !showMusic && !showMovie) {
+      } else if (step === 4 && !showMBTI && !showMusic && !showMovie) {
         handleNext();
       }
     };
 
     checkAndSkipStep();
-  }, [step, showAge, showSchool, showGrade, showStudNum, showJob, showClub, showStatus, showTel, showSns, showEmail, showMbti, showMusic, showMovie]);
+  }, [step, showAge, showSchool, showGrade, showStudNum, showRole, showClub, showStatus, showTel, showSNS, showEmail, showMBTI, showMusic, showMovie]);
 
 
   const nameRef = useRef(null);
@@ -73,7 +83,7 @@ export default function HostTemplate({ navigation }) {
   const introductionRef = useRef(null);
 
   const studNumRef = useRef(null);
-  const jobRef = useRef(null);
+  const roleRef = useRef(null);
   const clubRef = useRef(null);
 
   const telRef = useRef(null);
@@ -81,11 +91,11 @@ export default function HostTemplate({ navigation }) {
   const xRef = useRef(null);
   const emailRef = useRef(null);
 
-  const mbtiRef = useRef(null);
+  const MBTIRef = useRef(null);
+  const titleRef = useRef(null);
   const singerRef = useRef(null);
-  const songRef = useRef(null);
   const movieRef = useRef(null);
-  
+
   // progressBar
   const maxSteps = 7;
   const initialProgress = 0.4285;
@@ -118,7 +128,7 @@ export default function HostTemplate({ navigation }) {
                   placeholder="이름을 입력하세요."
                   keyboardType="default"
                   returnKeyType='next'
-                  value={name}
+                  value={card_name}
                   onChangeText={setName}
                   ref={nameRef}
                   onSubmitEditing={() => yearRef.current.focus()}
@@ -137,8 +147,8 @@ export default function HostTemplate({ navigation }) {
                       placeholder="년"
                       keyboardType="numeric"
                       returnKeyType='done'
-                      value={year}
-                      onChangeText={setYear}
+                      value={card_birth.year}
+                      onChangeText={setBirth.year}
                       maxLength={4}
                       ref={yearRef}
                       onSubmitEditing={() => monthRef.current.focus()}
@@ -147,8 +157,8 @@ export default function HostTemplate({ navigation }) {
                       style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
                       placeholder="월"
                       keyboardType="numeric"
-                      value={month}
-                      onChangeText={setMonth}
+                      value={card_birth.month}
+                      onChangeText={setBirth.month}
                       maxLength={2}
                       ref={monthRef}
                       returnKeyType='done'
@@ -158,8 +168,8 @@ export default function HostTemplate({ navigation }) {
                       style={[styles.inputBirth, styles.inputBirthText]}
                       placeholder="일"
                       keyboardType="numeric"
-                      value={day}
-                      onChangeText={setDay}
+                      value={card_birth.day}
+                      onChangeText={setBirth.day}
                       maxLength={2}
                       ref={dayRef}
                       returnKeyType='done'
@@ -178,7 +188,7 @@ export default function HostTemplate({ navigation }) {
                     placeholder="학교명을 입력하세요."
                     keyboardType="default"
                     returnKeyType='next'
-                    value={school}
+                    value={card_school}
                     onChangeText={setSchool}
                     ref={schoolRef}
                     onSubmitEditing={() => gradeRef.current.focus()}
@@ -195,7 +205,7 @@ export default function HostTemplate({ navigation }) {
                     placeholder="학년을 입력하세요."
                     keyboardType="numeric"
                     returnKeyType='done'
-                    value={grade}
+                    value={card_grade}
                     onChangeText={setGrade}
                     ref={gradeRef}
                     onSubmitEditing={() => introductionRef.current.focus()}
@@ -204,13 +214,13 @@ export default function HostTemplate({ navigation }) {
               )}
 
               {/* 한줄소개 */}
-              <View style={[styles.nameContainer, {marginBottom: 200}]}>
+              <View style={[styles.nameContainer, { marginBottom: 200 }]}>
                 <Text style={styles.name}>한줄소개</Text>
                 <TextInput
                   style={styles.nameInput}
                   placeholder="한줄소개를 입력하세요."
                   keyboardType="default"
-                  value={introduction}
+                  value={card_introduction}
                   onChangeText={setIntroduction}
                   ref={introductionRef}
                 />
@@ -226,7 +236,7 @@ export default function HostTemplate({ navigation }) {
           </View>
         )}
 
-        {/* 카드 뒷면 - 학번/직무/동아리/재학여부*/}
+        {/* 카드 뒷면 - 학번/동아리/역할*/}
         {step === 2 && (
           <View style={{ height: '100%' }}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -242,26 +252,10 @@ export default function HostTemplate({ navigation }) {
                     placeholder="학생번호를 입력하세요"
                     keyboardType="numeric"
                     returnKeyType='done'
-                    value={studNum}
+                    value={card_studNum}
                     onChangeText={setStudNum}
                     Ref={studNumRef}
-                    onSubmitEditing={() => jobRef.current.focus()}
-                  />
-                </View>
-              )}
-
-              {/* 직무 */}
-              {showJob && (
-                <View style={styles.nameContainer}>
-                  <Text style={styles.name}>직무</Text>
-                  <TextInput
-                    style={styles.nameInput}
-                    placeholder="직무를 입력하세요."
-                    keyboardType="default"
-                    value={job}
-                    onChangeText={setJob}
-                    ref={jobRef}
-                    onSubmitEditing={() => clubRef.current.focus()}
+                    onSubmitEditing={() => roleRef.current.focus()}
                   />
                 </View>
               )}
@@ -274,32 +268,36 @@ export default function HostTemplate({ navigation }) {
                     style={styles.nameInput}
                     placeholder="소속 동아리를 입력하세요."
                     keyboardType="default"
-                    value={club}
+                    value={card_club}
                     onChangeText={setClub}
                     ref={clubRef}
                   />
                 </View>
               )}
 
-              {/* 재학여부 */}
-              {showStatus && (
+              {/*  역할 */}
+              {showRole && (
                 <View style={styles.nameContainer}>
-                  <Text style={styles.name}>재학여부</Text>
-                  <RadioButton.Group onValueChange={status => setStatus(status)} value={status}>
-                    <View style={styles.radioBtnGruopContainer}>
-                      <TouchableOpacity style={styles.radioBtnContainer} onPress={() => setStatus('휴학')}>
-                        <RadioButton value="휴학" uncheckedColor={theme.gray30} color={theme.skyblue} />
-                        <Text style={styles.font16}>휴학 중</Text>
-                      </TouchableOpacity >
-                      <TouchableOpacity style={styles.radioBtnContainer} onPress={() => setStatus('재학')}>
-                        <RadioButton value="재학" uncheckedColor={theme.gray30} color={theme.skyblue} />
-                        <Text style={styles.font16}>재학 중</Text>
+                  <Text style={[styles.font16, { marginTop: 28 }]}>역할</Text>
+                  <Text style={styles.subtitle}>역할을 등록해두면 통일하여 필터링하기 편해요.</Text>
+
+                  <View style={styles.elementContainer}>
+                    {roleList.map((item, index) => (
+                      <TouchableOpacity key={index} onPress={() => roleSelected(index)}
+                        style={item.selected ? styles.selectedElement : styles.element}>
+                        {item.selected && (
+                          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                            <Select />
+                            <Text style={styles.selectedText}> #{item.role} </Text>
+                          </View>
+                        )}
+                        {!item.selected && <Text> #{item.role} </Text>}
                       </TouchableOpacity>
-                    </View>
-                  </RadioButton.Group>
+                    ))}
+                  </View>
+                
                 </View>
               )}
-
             </ScrollView>
 
             <View style={styles.btnContainer}>
@@ -311,7 +309,7 @@ export default function HostTemplate({ navigation }) {
         )}
 
 
-        {/* 카드 뒷면 - 연락처/sns/이메일 */}
+        {/* 카드 뒷면 - 연락처/SNS/이메일 */}
         {step === 3 && (
           <View style={{ height: '100%' }}>
             <ScrollView showsVerticalScrollIndicator={false}>
@@ -327,7 +325,7 @@ export default function HostTemplate({ navigation }) {
                     placeholder="연락처를 입력하세요"
                     keyboardType="numeric"
                     returnKeyType='done'
-                    value={tel}
+                    value={card_tel}
                     onChangeText={setTel}
                     ref={telRef}
                     onSubmitEditing={() => instaRef.current.focus()}
@@ -335,8 +333,8 @@ export default function HostTemplate({ navigation }) {
                 </View>
               )}
 
-              {/* sns */}
-              {showSns && (
+              {/* SNS */}
+              {showSNS && (
                 <View style={{ marginTop: 32 }}>
 
                   <Text style={[styles.font16, { fontFamily: 'PretendardSemiBold' }]}>SNS</Text>
@@ -348,8 +346,8 @@ export default function HostTemplate({ navigation }) {
                       style={styles.nameInput}
                       placeholder="Instargram"
                       keyboardType="default"
-                      value={sns[0]}
-                      onChangeText={text => setSns(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
+                      value={card_SNS.insta}
+                      onChangeText={setSNS.insta}
                       ref={instaRef}
                       onSubmitEditing={() => xRef.current.focus()}
                     />
@@ -362,8 +360,8 @@ export default function HostTemplate({ navigation }) {
                       style={styles.nameInput}
                       placeholder="X"
                       keyboardType="default"
-                      value={sns[1]}
-                      onChangeText={text => setSns(prevState => [...prevState.slice(0, 2), text])}
+                      value={card_SNS.x}
+                      onChangeText={setSNS.x}
                       ref={xRef}
                       onSubmitEditing={() => emailRef.current.focus()}
                     />
@@ -379,7 +377,7 @@ export default function HostTemplate({ navigation }) {
                     style={styles.nameInput}
                     placeholder="이메일 주소"
                     keyboardType="email"
-                    value={email}
+                    value={card_email}
                     onChangeText={setEmail}
                     ref={emailRef}
                   />
@@ -404,16 +402,16 @@ export default function HostTemplate({ navigation }) {
               <Text style={styles.title}> 사소한 것까지 더 알려주세요. </Text>
 
               {/* MBTI */}
-              {showMbti && (
+              {showMBTI && (
                 <View style={styles.nameContainer}>
                   <Text style={styles.name}>MBTI</Text>
                   <TextInput
                     style={styles.nameInput}
                     placeholder="MBTI를 입력하세요."
                     keyboardType="default"
-                    value={mbti}
-                    onChangeText={setMbti}
-                    ref={mbtiRef}
+                    value={card_MBTI}
+                    onChangeText={setMBTI}
+                    ref={MBTIRef}
                     onSubmitEditing={() => singerRef.current.focus()}
                   />
                 </View>
@@ -428,18 +426,18 @@ export default function HostTemplate({ navigation }) {
                       style={[styles.musicInput, { marginRight: 6 }]}
                       placeholder="제목명"
                       keyboardType="default"
-                      value={music[0]}
-                      onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
-                      ref={singerRef}
+                      value={card_music.title}
+                      onChangeText={setMusic.title}
+                      ref={titleRef}
                       onSubmitEditing={() => songRef.current.focus()}
                     />
                     <TextInput
                       style={styles.musicInput}
                       placeholder="가수명"
                       keyboardType="default"
-                      value={music[1]}
-                      onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
-                      ref={songRef}
+                      value={card_music.singer}
+                      onChangeText={setMusic.singer}
+                      ref={singerRef}
                       onSubmitEditing={() => movieRef.current.focus()}
                     />
                   </View>
@@ -454,7 +452,7 @@ export default function HostTemplate({ navigation }) {
                     style={styles.nameInput}
                     placeholder="영화명을 입력하세요."
                     keyboardType="default"
-                    value={movie}
+                    value={card_movie}
                     onChangeText={setMovie}
                     ref={movieRef}
                   />
@@ -480,7 +478,7 @@ export default function HostTemplate({ navigation }) {
             </View>
 
             <View style={[styles.btnContainer, { marginBottom: 20 }]}>
-              <TouchableOpacity style={[styles.btnNext, {marginBottom: 40}]}>
+              <TouchableOpacity style={[styles.btnNext, { marginBottom: 40 }]}>
                 <Text onPress={() => navigation.navigate("Space")} style={styles.btnText}> 팀스페이스 확인 </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btnWhite}>

@@ -22,11 +22,10 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
   const [showStudNum, setShowStudNum] = useState(false);
   const [showRole, setShowRole] = useState(false);
   const [showClub, setShowClub] = useState(false);
-  const [showStatus, setShowStatus] = useState(false);
   const [showTel, setShowTel] = useState(false);
-  const [showSns, setShowSns] = useState(false);
+  const [showSNS, setShowSNS] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
-  const [showMbti, setShowMbti] = useState(false);
+  const [showMBTI, setShowMBTI] = useState(false);
   const [showMusic, setShowMusic] = useState(false);
   const [showMovie, setShowMovie] = useState(false);
   const [cover, setCover] = useState("free");
@@ -92,20 +91,17 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
       case 'showClub':
         setShowClub((prevState) => !prevState);
         break;
-      case 'showStatus':
-        setShowStatus((prevState) => !prevState);
-        break;
       case 'showTel':
         setShowTel((prevState) => !prevState);
         break;
-      case 'showSns':
-        setShowSns((prevState) => !prevState);
+      case 'showSNS':
+        setShowSNS((prevState) => !prevState);
         break;
       case 'showEmail':
         setShowEmail((prevState) => !prevState);
         break;
-      case 'showMbti':
-        setShowMbti((prevState) => !prevState);
+      case 'showMBTI':
+        setShowMBTI((prevState) => !prevState);
         break;
       case 'showMusic':
         setShowMusic((prevState) => !prevState);
@@ -311,17 +307,6 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                   {!showClub && <Text> 동아리 </Text>}
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleSelect('showStatus')}
-                  style={showStatus ? styles.selectedElement : styles.element}>
-                  {showStatus && (
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Select />
-                      <Text style={styles.selectedText}> 재학여부 </Text>
-                    </View>
-                  )}
-                  {!showStatus && <Text> 재학여부 </Text>}
-                </TouchableOpacity>
-
                 <TouchableOpacity onPress={() => handleSelect('showRole')}
                   style={showRole ? styles.selectedElement : styles.element}>
                   {showRole && (
@@ -331,6 +316,23 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                         <Text style={styles.selectedText}> 역할 </Text>
                       </View>
 
+                      <Text style={[styles.font16, { marginTop: 28 }]}>역할</Text>
+                      <Text style={styles.subtitle}>역할을 등록해두면 통일하여 필터링하기 편해요.</Text>
+                      <View style={styles.elementContainer}>
+                        {roleList.map((item, index) => (
+                          <TouchableOpacity key={index} onPress={() => roleSelected(index)}
+                            style={item.selected ? styles.selectedElement : styles.element}>
+                            {item.selected && (
+                              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                <Select />
+                                <Text style={styles.selectedText}> #{item.role} </Text>
+                              </View>
+                            )}
+                            {!item.selected && <Text> #{item.role} </Text>}
+                          </TouchableOpacity>
+                        ))}
+                      </View>
+                      
                       <View style={styles.plusContainer}>
                         <TextInput
                           style={[styles.nameInput, { flex: 1 }]}
@@ -350,23 +352,6 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
               </View>
 
-              <Text style={[styles.font16, { marginTop: 28 }]}>포지션</Text>
-              <Text style={styles.subtitle}> 포지션을 등록하면 태그로 편하게 분류할 수 있어요.</Text>
-              <View style={styles.elementContainer}>
-                {roleList.map((item, index) => (
-                  <TouchableOpacity key={index} onPress={() => roleSelected(index)}
-                    style={item.selected ? styles.selectedElement : styles.element}>
-                    {item.selected && (
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Select />
-                        <Text style={styles.selectedText}> #{item.role} </Text>
-                      </View>
-                    )}
-                    {!item.selected && <Text> #{item.role} </Text>}
-                  </TouchableOpacity>
-                ))}
-              </View>
-
               <Text style={[styles.font16, { marginTop: 28 }]}>연락수단</Text>
               <View style={styles.elementContainer}>
 
@@ -381,15 +366,15 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                   {!showTel && <Text> 연락처 </Text>}
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleSelect('showSns')}
-                  style={showSns ? styles.selectedElement : styles.element}>
-                  {showSns && (
+                <TouchableOpacity onPress={() => handleSelect('showSNS')}
+                  style={showSNS ? styles.selectedElement : styles.element}>
+                  {showSNS && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> SNS </Text>
                     </View>
                   )}
-                  {!showSns && <Text> SNS </Text>}
+                  {!showSNS && <Text> SNS </Text>}
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleSelect('showEmail')}
@@ -408,15 +393,15 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
               <Text style={[styles.font16, { marginTop: 28 }]}>특징</Text>
               <View style={styles.elementContainer}>
 
-                <TouchableOpacity onPress={() => handleSelect('showMbti')}
-                  style={showMbti ? styles.selectedElement : styles.element}>
-                  {showMbti && (
+                <TouchableOpacity onPress={() => handleSelect('showMBTI')}
+                  style={showMBTI ? styles.selectedElement : styles.element}>
+                  {showMBTI && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
                       <Text style={styles.selectedText}> MBTI </Text>
                     </View>
                   )}
-                  {!showMbti && <Text> MBTI </Text>}
+                  {!showMBTI && <Text> MBTI </Text>}
                 </TouchableOpacity>
 
                 <TouchableOpacity onPress={() => handleSelect('showMusic')}

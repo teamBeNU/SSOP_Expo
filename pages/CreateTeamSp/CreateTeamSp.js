@@ -5,6 +5,7 @@ import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
 import "react-native-gesture-handler";
 import * as Progress from 'react-native-progress';
+// import Share from 'react-native-share';
 import ShareImage from '../../assets/icons/LinkShareImage.svg'
 import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 
@@ -25,7 +26,7 @@ function CreateTeamSp({ navigation }) {
   const [teamComment, setTeamComment] = useState(''); // step2
   const [cmtLength, setCmtLength] = useState(0);
   const [istemplate, setIsTemplate] = useState("yes"); // step3 - 라디오버튼 선택
-  const [template, setTemplate] = useState(null); // step4
+  const [card_template, setTemplate] = useState(null); // step4
 
   const inviteCode = '120432'; // step6
 
@@ -91,7 +92,7 @@ function CreateTeamSp({ navigation }) {
     Clipboard.setString(textToCopy);
     Alert.alert("클립보드에 복사되었습니다.");
   };
-  
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleShareButtonPress = () => {
@@ -106,7 +107,7 @@ function CreateTeamSp({ navigation }) {
   //       `teamName: ${teamName}
   //        teamComment: ${teamComment}
   //        istemplate: ${istemplate}
-  //        template: ${template}
+  //        card_template: ${card_template}
   //       `
   //     );
   //   };
@@ -215,14 +216,6 @@ function CreateTeamSp({ navigation }) {
               <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
                 {'\n'} 바로 초대해 보세요. </Text>
 
-              {/* <Text style={[styles.subtitle, { marginTop: 32 }]}> 초대코드 </Text>
-              <View style={styles.inviteCodeContainer}>
-                <Text style={styles.inviteCode}> {inviteCode} </Text>
-                <TouchableOpacity onPress={copyInviteCode}>
-                  <Text style={styles.copy}>복사</Text>
-                </TouchableOpacity>
-              </View> */}
-             
               <View style={styles.shareContainer}>
                 <ShareImage />
                 <View style={styles.shareBox}>
@@ -240,14 +233,16 @@ function CreateTeamSp({ navigation }) {
                     <View style={styles.shareModalContainer}>
                       <View style={styles.ShareModalView}>
                         <TouchableOpacity onPress={() => { copyInviteCode(); setIsModalVisible(false); }}>
-                        <Text style={[styles.ShareModalText, {lineHeight: 20}]}>초대 링크 및 초대코드 복사하기 {"\n"}
+                          <Text style={[styles.ShareModalText, { lineHeight: 20 }]}>초대 링크 및 초대코드 복사하기 {"\n"}
                             <Text style={styles.nameLeng}>초대코드 : {inviteCode}</Text>
                           </Text>
                         </TouchableOpacity>
-                        
-                        <View style={{ borderBottomWidth:1, borderBottomColor: theme.gray90 }}/>
-                        
-                        <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+
+                        <View style={{ borderBottomWidth: 1, borderBottomColor: theme.gray90 }} />
+
+                        <TouchableOpacity onPress={() => {
+                          setIsModalVisible(false);
+                        }}>
                           <Text style={styles.ShareModalText}>초대 링크 및 초대코드 공유하기</Text>
                         </TouchableOpacity>
                       </View>
@@ -298,17 +293,17 @@ function CreateTeamSp({ navigation }) {
       {/* 팀스페이스 성격에 맞는 컴포넌트 연동 */}
       {step === 6 && (
         <View>
-          {template === "student" &&
+          {card_template === "student" &&
             <StudentTemplate navigation={navigation}
               teamName={teamName}
               nameLength={nameLength}
               teamComment={teamComment}
               istemplate={istemplate}
-              template={template}
+              card_template={card_template}
             />}
-          {template === "worker" && <WorkerTemplate navigation={navigation} />}
-          {template === "fan" && <FanTemplate navigation={navigation} />}
-          {template === "free" && <FreeTemplate navigation={navigation} />}
+          {card_template === "worker" && <WorkerTemplate navigation={navigation} />}
+          {card_template === "fan" && <FanTemplate navigation={navigation} />}
+          {card_template === "free" && <FreeTemplate navigation={navigation} />}
         </View>
       )}
     </View>
