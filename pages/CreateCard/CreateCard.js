@@ -9,7 +9,7 @@ function CreateCard({navigation}) {
     const [template, setTemplate] = useState();
     const [step, setStep] = useState(1);
 
-    const templates = [
+    const items = [
         { id: 'student', label: '학생', description: '학교에 다닌다면', image: require('../../assets/profile/student.png') },
         { id: 'worker', label: '직장인', description: '직장에 다닌다면', image: require('../../assets/profile/worker.png')  },
         { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', image: require('../../assets/profile/fan.png')  },
@@ -25,8 +25,8 @@ function CreateCard({navigation}) {
 
     // 템플릿 2*2 배치
     const rows = [];
-    for (let i = 0; i < templates.length; i += 2) {
-        rows.push(templates.slice(i, i+2))
+    for (let i = 0; i < items.length; i += 2) {
+        rows.push(items.slice(i, i+2))
     }
 
     return (
@@ -39,25 +39,22 @@ function CreateCard({navigation}) {
                         <Text style={styles.subTitle}>아이덴티티에 따라 구성되는 선택지가 달라요.</Text>
                     </View>
                     <View style={styles.templates}>
-                        {rows.map((row, rowIndex) => (
-                            <View key={rowIndex} style={styles.row}>
-                            {row.map((temp, colIndex) => (
+                        <View style={styles.row}>
+                            {items.map(item => (
                                 <TouchableOpacity
-                                    key={temp.id}
+                                    key={item.id}
                                     style={[
                                         styles.cell,
-                                        colIndex !== row.length - 1 && { marginRight: 12 }, // 오른쪽에 margin
-                                        rowIndex !== rows.length - 1 && { marginBottom: 12 } // 아래쪽에 margin
+                                        
                                     ]}
-                                    onPress={() => handleSelectTemp(temp.id)}
+                                    onPress={() => handleSelectTemp(item.id)}
                                 >
-                                    <Image source={temp.image} style={{ width: '50%', height: undefined, aspectRatio: 1 }} />
-                                    <Text style={styles.label}>{temp.label}</Text>
-                                    <Text style={styles.describe}>{temp.description}</Text>
+                                    <Image source={item.image} style={{ width: '50%', height: undefined, aspectRatio: 1 }} />
+                                    <Text style={styles.label}>{item.label}</Text>
+                                    <Text style={styles.describe}>{item.description}</Text>
                                 </TouchableOpacity>
                             ))}
                             </View>
-                        ))}
                     </View>
                 </View>
             )}
@@ -84,5 +81,6 @@ function CreateCard({navigation}) {
         </View>
     );
 }
+
 export default CreateCard;
 

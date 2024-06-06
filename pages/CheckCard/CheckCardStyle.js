@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         },
 	cardPage: {
-        color: theme.grey50,
+        color: theme.gray50,
         fontFamily: 'Pretendard',
         fontSize: 14, 
         fontWeight: '400',
@@ -89,12 +89,12 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: theme.grey10,
+        borderColor: theme.gray10,
         fontFamily: 'Pretendard'
         },
         memoLeng: {
         fontSize: 14,
-        color: theme.grey60,
+        color: theme.gray60,
         alignSelf: 'flex-end',
         fontFamily: 'Pretendard'
         },
@@ -105,7 +105,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: theme.grey10,
+        backgroundColor: theme.gray10,
         borderRadius: 8,
         position: 'absolute',
         left: 16,
@@ -162,7 +162,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: theme.grey10,
+        backgroundColor: theme.gray10,
         },
         modalFont: {
         fontFamily: 'Pretendard',

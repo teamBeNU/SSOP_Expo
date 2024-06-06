@@ -1,99 +1,210 @@
-import { View, Text, TouchableOpacity, Dimensions } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity, Image, Dimensions } from "react-native";
 import React, { useState } from 'react';
 import "react-native-gesture-handler";
 
 import { styles } from "./AvatarCustomStyles";
+import AutoAvatarIcon from "../../assets/icons/ic_autoAvatar_small_line.svg";
+import UndoIcon from "../../assets/icons/ic_undo_small_line.svg";
+import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
+import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
+import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function AvatarCustom({step: initalStep, onStepChange}) {
-    const [step, setStep] = useState(initalStep);
+    // const [step, setStep] = useState(initalStep);
     const [avaIndex, setAvaIndex] = useState(1);
+    const [avatar, setAvatar] = useState({
+        face: 1,
+        hair: 1,
+        hairColor: 1,
+        clothes: 1,
+        acc: 0,
+        bg: 1,
+        bgColor: 1,
+    })
 
-    const handleAvata = (id) => {
+    const handleCategory = (id) => {
         setAvaIndex(id);
     }
 
-    const handleNext = () => {
-        const nextStep = step + 1;
-        setStep(nextStep);
-        onStepChange(nextStep);
+    const handleHairColor = (id) => {
+        setAvatar((prev => ({...prev, hairColor: id})));
     }
 
+    const handleBgColor = (id) => {
+        setAvatar((prev => ({...prev, bgColor: id})));
+    }
+
+    // const handleNext = () => {
+    //     const nextStep = step + 1;
+    //     setStep(nextStep);
+    //     onStepChange(nextStep);
+    // }
+
     return (
-        <View style={styles.avatarContainer}>
-            <View style={styles.avatarView}>
+        <View style={styles.container}>
+            <View style={styles.avatarContainer}>
                 <View style={styles.avatarDo}>
                     <TouchableOpacity>
-                        <Text>전</Text>
+                        <UndoIcon />
                     </TouchableOpacity>
                     <TouchableOpacity>
-                        <Text>후</Text>
+                        <RedoIcon />
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarAuto}>
                     <TouchableOpacity style={styles.flexDirectionRow}>
-                        <Text style={styles.avatarAutoText}>ㅁ</Text>
+                        <AutoAvatarIcon style={styles.autoAvatarIcon} />
                         <Text style={styles.avatarAutoText}>자동생성</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarRestart}>
                     <TouchableOpacity>
-                        <Text style={styles.avatarRestartText}>ㅁ</Text>
+                        <RestartIcon />
                     </TouchableOpacity>
                 </View>
-                <View style={styles.avatarBg}></View>
+                <View style={styles.avatarView}>
+                    <Image
+                        source={require("../../assets/images/sample-avatar-1.png")} 
+                        resizeMode="contain"
+                        style={styles.avatarImg}
+                    />
+                    <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === avatar.bgColor).color}]}></View>
+                </View>
+                
             </View>
             <View style={styles.avatarItemContainer}>
-                <View style={styles.avatarItemList}>
+                <View style={styles.avatarItemCategory}>
                     <TouchableOpacity
-                        onPress={() => handleAvata(1)}
+                        onPress={() => handleCategory(1)}
                     >
-                        <Text style={avaIndex === 1 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>이목구비</Text>
+                        <Text style={avaIndex === 1 ? styles.avatarItemCategoryTextOn : styles.avatarItemCategoryTextOff}>이목구비</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => handleAvata(2)}
+                        onPress={() => handleCategory(2)}
                     >
-                        <Text style={avaIndex === 2 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>헤어</Text>
+                        <Text style={avaIndex === 2 ? styles.avatarItemCategoryTextOn : styles.avatarItemCategoryTextOff}>헤어</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => handleAvata(3)}
+                        onPress={() => handleCategory(3)}
                     >
-                        <Text style={avaIndex === 3 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>옷</Text>
+                        <Text style={avaIndex === 3 ? styles.avatarItemCategoryTextOn : styles.avatarItemCategoryTextOff}>옷</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => handleAvata(4)}
+                        onPress={() => handleCategory(4)}
                     >
-                        <Text style={avaIndex === 4 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>악세사리</Text>
+                        <Text style={avaIndex === 4 ? styles.avatarItemCategoryTextOn : styles.avatarItemCategoryTextOff}>악세사리</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
-                        onPress={() => handleAvata(5)}
+                        onPress={() => handleCategory(5)}
                     >
-                        <Text style={avaIndex === 5 ? styles.avatarItemListTextOn : styles.avatarItemListTextOff}>배경</Text>
+                        <Text style={avaIndex === 5 ? styles.avatarItemCategoryTextOn : styles.avatarItemCategoryTextOff}>배경</Text>
                     </TouchableOpacity>
                 </View>
-                <View>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     {avaIndex === 1 && (
-                        <View><Text>이목구비</Text></View>
+                        <View style={styles.avatarItemList}>
+                            {faceItems.map(item => (
+                                <TouchableOpacity
+                                    key={item.id}
+                                    onPress={(() => setAvatar((prev => ({...prev, face: item.id}))))}
+                                    style={[
+                                        styles.avatarItems, 
+                                        avatar.face === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                    ]}
+                                >
+                                    <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                </TouchableOpacity>
+                            ))}
+                        </View>
                     )}
                     {avaIndex === 2 && (
-                        <View><Text>헤어</Text></View>
+                        <View>
+                            <View style={styles.colorChipContainer}>
+                                {hairColors.map(hc => (
+                                    <TouchableOpacity 
+                                        key={hc.id}
+                                        onPress={(() => handleHairColor(hc.id))}
+                                        style={[styles.colorChipOn, avatar.hairColor === hc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                    ><View style={[styles.colorChip, {backgroundColor: hc.color}]}></View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <View style={styles.avatarItemList}>
+                                {hairItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, hair: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.hair === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        </View>
                     )}
                     {avaIndex === 3 && (
-                        <View><Text>옷</Text></View>
+                        <Text>옷</Text>
                     )}
                     {avaIndex === 4 && (
-                        <View><Text>악세사리</Text></View>
+                        <View>
+                            <Text style={styles.avatarItemText}>귀걸이</Text>
+                            <View style={styles.avatarItemList}>
+                                {accItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, acc: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        </View>
                     )}
                     {avaIndex === 5 && (
-                        <View><Text>배경</Text></View>
+                        <View>
+                        <Text style={styles.avatarItemText}>배경색</Text>
+                        <View style={styles.colorChipContainer}>
+                            {bgColors.map(bc => (
+                                <TouchableOpacity 
+                                    key={bc.id}
+                                    onPress={(() => handleBgColor(bc.id))}
+                                    style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                        <Text style={styles.avatarItemText}>오브젝트</Text>
+                        <View style={styles.avatarItemList}>
+                            {objectItems.map(item => (
+                                <TouchableOpacity
+                                    key={item.id}
+                                    onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
+                                    style={[
+                                        styles.avatarItems, 
+                                        avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                    ]}
+                                >
+                                    <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
                     )}
-                </View>
-                <TouchableOpacity onPress={handleNext}>
+                </ScrollView>
+                {/* <TouchableOpacity onPress={handleNext}>
                     <Text 
                         style={[styles.btnNextText, {backgroundColor: "black"}, {padding: 10}, {width: 200}]}>임시 버튼: 다음으로 넘어가기
                     </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     );

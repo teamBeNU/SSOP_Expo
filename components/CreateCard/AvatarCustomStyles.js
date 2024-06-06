@@ -25,21 +25,19 @@ export const styles = StyleSheet.create({
         borderStyle: "solid",
     },
     btnNextText: {
-        color: "white",
+        color: theme.white,
         fontFamily: "PretendardRegular",
         fontSize: 16,
         fontWeight: "600",
     },
 
-    avatarContainer: {
+    container: {
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,
-        backgroundColor: "orange",
+        // backgroundColor: "orange",
     },
-    avatarView: {
+    avatarContainer: {
         flex: 1,
-        backgroundColor: "pink",
-        position: "relative",
     },
     avatarDo: {
         zIndex: 0,
@@ -64,17 +62,23 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray10,
         borderRadius: 26,
         elevation: 4,
+        justifyContent: "center",
         alignItems: "center",
-        paddingVertical: 8,
+        paddingVertical: 6,
         paddingHorizontal: 12,
         position: 'absolute',
         left: 16,
         bottom: 12,
     },
+    autoAvatarIcon: {
+        color: theme.white,
+        marginRight: 6,
+    },
     avatarAutoText: {
-        color: "white",
+        color: theme.white,
         fontFamily: "PretendardRegular",
         fontSize: 14,
+        fontWeight: "600",
     },
     avatarRestart: {
         zIndex: 0,
@@ -90,6 +94,7 @@ export const styles = StyleSheet.create({
         // },
         // shadowOpacity: 0.5,
         // shadowRadius: 12,
+        justifyContent: "center",
         alignItems: "center",
         paddingVertical: 8,
         paddingHorizontal: 12,
@@ -97,20 +102,30 @@ export const styles = StyleSheet.create({
         right: 12,
         bottom: 12,
     },
-    avatarRestartText: {
-        
+    avatarView: {
+        zIndex: -100,
+        width: '100%',
+        height: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+    },
+    avatarImg: {
+        position: 'absolute',
+        width: "100%", 
+        height: "100%",
     },
     avatarBg: {
-        width: SCREEN_WIDTH,
-        height: SCREEN_HEIGHT,
-        zIndex: -100,
-        backgroundColor: "#B6E96C",
+        position: 'static',
+        zIndex: -101,
+        width: "100%", 
+        height: "100%",
     },
+
     avatarItemContainer: {
         flex: 1.3,
-        backgroundColor: "white",
+        backgroundColor: theme.white,
     },
-    avatarItemList: {
+    avatarItemCategory: {
         flexDirection: "row",
         justifyContent: "space-around",
         paddingVertical: 12,
@@ -118,18 +133,79 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: theme.gray90,
     },
-    avatarItemListTextOn: {
+    avatarItemCategoryTextOn: {
         color: "black",
         textAlign: "center",
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 14,
+        fontStyle: "normal",
         fontWeight: "600",
     },
-    avatarItemListTextOff: {
+    avatarItemCategoryTextOff: {
         color: theme.gray50,
         textAlign: "center",
         fontFamily: "PretendardRegular",
         fontSize: 14,
+        fontStyle: "normal",
         fontWeight: "400",
+    },
+
+    avatarItemList: {
+        width: SCREEN_WIDTH,
+        flexDirection: "row",
+        flexWrap: "wrap",
+        justifyContent: "space-between",
+        marginTop: 8,
+        marginBottom: 100,
+    },
+    avatarItems: {
+        width: "30%",
+        aspectRatio: 1,
+        margin: "1.5%",
+        borderRadius: 8,
+    },
+    itemSelectOn: {
+        borderWidth: 2,
+        borderColor: theme.gray80,
+    },
+    itemSelectOff: {
+        padding: 2, // 이미지와 테두리 사이 여백
+    },
+
+    avatarItemText: {
+        color: "black",
+        fontFamily: "PretendardSemiBold",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "600",
+        marginTop: 20,
+        marginLeft: 16,
+    },
+
+    colorChipContainer: {
+        flexDirection: "row",
+        justifyContent: "space-around",
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.gray90,
+    },
+    colorChip: {
+        // (SCREEN_WIDTH/360) * 20
+        width: 30,
+        height: 30,
+        borderRadius: 30,
+    },
+    colorChipOn: {
+        borderWidth: 2,
+        borderColor: theme.gray80,
+        borderRadius: 30,
+        padding: 6,
+    },
+    colorChipOff: {
+        borderWidth: 2,
+        borderColor: "white",
+        borderRadius: 30,
+        padding: 6,
     },
 })

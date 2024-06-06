@@ -9,7 +9,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         },
 	cardPage: {
-        color: theme.grey50,
+        color: theme.gray50,
         fontFamily: 'Pretendard',
         fontSize: 14, 
         fontWeight: '400',
@@ -19,7 +19,7 @@ export const styles = StyleSheet.create({
         marginBottom: 16,       
 	},
         cardContainer: {
-        height: 368,
+        height: 432,
         flexDirection: 'row',
         },
         cardWrapper: {
@@ -72,6 +72,31 @@ export const styles = StyleSheet.create({
         backgroundColor: 'black',
         borderRadius: 39,
         },
-        
-
+        emptyContainer: {
+        alignItems: 'center',
+        gap: 16,
+        },
+        noCard: {
+        color: theme.gray60,
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontWeight: '600',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        },
+        newContainer: {
+        flexDirection: 'row',
+        height: 32,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 4,
+        },
+        newCard: {
+        color:theme.skyblue,
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontWeight: '600',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        },
 });
