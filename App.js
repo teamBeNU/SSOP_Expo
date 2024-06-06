@@ -5,6 +5,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
 import { useFonts } from 'expo-font';
 import MoreIcon from './assets/icons/ic_more_small_line.svg';
@@ -59,6 +60,38 @@ export default function App() {
 
   // 스택 네비게이터
   const Stack = createStackNavigator();
+
+  // 토스트
+  const customToast = {
+    selectedToast: ({ text1 }) => (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          height: 40,
+          width: '90%',
+          paddingHorizontal: 16,
+          borderRadius: 8,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: theme.gray30
+        }}>
+        <Text
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontFamily: "PretendardRegular",
+            fontSize: 14,
+            letterSpacing: -1,
+            color: theme.white,
+            textAlign: 'center'
+          }}>
+          {text1}
+        </Text>
+      </View>
+    ),
+  };
+  
 
   return (
     <MenuProvider>
@@ -137,6 +170,7 @@ export default function App() {
           }}/>
       </Stack.Navigator>
     </NavigationContainer>
+    <Toast config={customToast} />
     </MenuProvider>
   );
 };

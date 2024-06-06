@@ -91,4 +91,19 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         letterSpacing: -0.2,
     },
+    toastContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.gray30
+    },
+    toastText: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        letterSpacing: -1,
+        color: theme.white,
+        textAlign: 'center'
+    },
 })
