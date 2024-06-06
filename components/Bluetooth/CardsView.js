@@ -30,10 +30,10 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, handleNext, 
                     <item.Component 
                     backgroundColor={item.backgroundColor} 
                     avatar={item.avatar}
-                    name={item.name}
+                    card_name={item.card_name}
                     age={item.age}
                     dot={item.dot}
-                    position={item.position} />
+                    card_template={item.card_template} />
                     </TouchableOpacity>
                 ))}
             </View>
