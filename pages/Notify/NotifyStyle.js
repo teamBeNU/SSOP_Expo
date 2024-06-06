@@ -3,8 +3,10 @@ import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
     mainlayout:{        
+        flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 16,
+        backgroundColor: theme.white,
     },
     btn1: { // 보낸 카드
         height: 81,
@@ -23,6 +25,15 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardRegular",
         fontSize: 16,
         letterSpacing: -1,
+    }, 
+    Text14: { 
+        marginTop: 8,
+        marginBottom: 8,
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        letterSpacing: -1,
+        color: theme.gray40,
+        textAlign: 'center'
     }, 
     line: {
         borderBottomWidth:1,
@@ -55,14 +66,14 @@ export const styles = StyleSheet.create({
         color: theme.gray10,
         letterSpacing: -1,
     },  
+    
     // 알림이 없을 때
     emptyContainer: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 16,
      },
     noCard: {
-        marginTop: 310,
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
@@ -70,7 +81,6 @@ export const styles = StyleSheet.create({
     },
     newContainer: {
         flexDirection: 'row',
-        height: 32,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 4,
@@ -80,5 +90,20 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         letterSpacing: -0.2,
+    },
+    toastContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.gray30
+    },
+    toastText: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        letterSpacing: -1,
+        color: theme.white,
+        textAlign: 'center'
     },
 })

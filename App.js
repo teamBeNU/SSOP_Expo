@@ -5,6 +5,8 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
+
 import { useFonts } from 'expo-font';
 import MoreIcon from './assets/icons/ic_more_small_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
@@ -35,7 +37,7 @@ import LinkShare from './pages/LinkShare/LinkShare';
 import CheckCard from './pages/CheckCard/CheckCard';
 import Memo from './pages/CheckCard/Memo';
 import MyCard from './pages/MyCard/MyCard';
-import Space from './pages/Space';
+import Space from './pages/Space/Space';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
@@ -49,8 +51,8 @@ import UserPw from './pages/MyPage/UserPw';
 
 import { styles } from './components/MyCard/CardStyle';
 
-import PretendardRegular from './assets/fonts/pretendard-regular.otf';
-import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
+import PretendardRegular from './assets/fonts/Pretendard-Regular.otf';
+import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
 import { theme } from './theme';
 
 export default function App() {
@@ -67,6 +69,38 @@ export default function App() {
 
   // 스택 네비게이터
   const Stack = createStackNavigator();
+
+  // 토스트
+  const customToast = {
+    selectedToast: ({ text1 }) => (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          height: 40,
+          width: '90%',
+          paddingHorizontal: 16,
+          borderRadius: 8,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: theme.gray30
+        }}>
+        <Text
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontFamily: "PretendardRegular",
+            fontSize: 14,
+            letterSpacing: -1,
+            color: theme.white,
+            textAlign: 'center'
+          }}>
+          {text1}
+        </Text>
+      </View>
+    ),
+  };
+  
 
   return (
     <MenuProvider>
@@ -217,6 +251,7 @@ export default function App() {
           }}/>
       </Stack.Navigator>
     </NavigationContainer>
+    <Toast config={customToast} />
     </MenuProvider>
   );
 };
@@ -225,6 +260,9 @@ export default function App() {
 const Tab = createBottomTabNavigator();
   
   function MyTabs() {
+
+    const navigation = useNavigation();
+
     return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -256,15 +294,26 @@ const Tab = createBottomTabNavigator();
           tabBarInactiveTintColor: theme.gray70,
           tabBarLabelStyle: {
             fontSize: 12,
-            fontFamily: 'Pretendard',
+            fontFamily: 'PretendardRegular',
           },
+          tabBarStyle: {
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+          },
+          headerShadowVisible: false,
+          
         })}
       >
         <Tab.Screen name="홈" component={Home} options={{
           tabBarLabel: '홈',
           headerTitle: ' ',
+          headerStyle: {
+            backgroundColor: '#F5F8F8'
+          },
           headerLeft: () => (
-            <HeaderLeftButton />
+            <TouchableOpacity onPress={() => navigation.navigate('알림')}>
+              <NotiIcon style={{ marginLeft: 8 }} />
+            </TouchableOpacity>
           ),
           headerRight: () => (
             <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
@@ -283,14 +332,5 @@ const Tab = createBottomTabNavigator();
           ) }} />
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
       </Tab.Navigator>
-    );
-  }
-
-  function HeaderLeftButton() {
-    const navigation = useNavigation();
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate('알림')}>
-        <NotiIcon style={{ marginLeft: 8 }} />
-      </TouchableOpacity>
     );
   }
