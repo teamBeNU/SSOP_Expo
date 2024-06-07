@@ -70,15 +70,20 @@ export const styles = StyleSheet.create({
         left: 16,
         bottom: 12,
     },
+    avatarAutoBtn: {
+        flexDirection: "row",
+        alignItems: "center",
+    }, 
     autoAvatarIcon: {
         color: theme.white,
-        marginRight: 6,
+        marginRight: 4,
     },
     avatarAutoText: {
         color: theme.white,
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 14,
         fontWeight: "600",
+        textAlign: "center"
     },
     avatarRestart: {
         zIndex: 0,

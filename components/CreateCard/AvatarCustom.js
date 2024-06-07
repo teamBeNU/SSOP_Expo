@@ -55,7 +55,7 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarAuto}>
-                    <TouchableOpacity style={styles.flexDirectionRow}>
+                    <TouchableOpacity style={styles.avatarAutoBtn}>
                         <AutoAvatarIcon style={styles.autoAvatarIcon} />
                         <Text style={styles.avatarAutoText}>자동생성</Text>
                     </TouchableOpacity>
