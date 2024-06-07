@@ -10,12 +10,13 @@ import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
 import AvatarCustom from "./AvatarCustom";
 
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import CreateCardDoneSvg from "../../assets/createCard/createCardDone.svg";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
-export default function TemplateStudent({navigation}) {
+export default function TemplateStudent({navigation, goToStepOne}) {
     const [step, setStep] = useState(1);
     const [name, setName] = useState('');
     const [birth, setBirth] = useState({
@@ -113,15 +114,45 @@ export default function TemplateStudent({navigation}) {
 
     useEffect(() => {   // 상단바 타이틀 변경
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
-            navigation.setOptions({headerTitle: '카드 정보 작성'});
+            navigation.setOptions({
+                headerTitle: '카드 정보 작성',
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => {
+                            if (step === 1) {
+                                goToStepOne();
+                            } else {
+                                setStep(step-1);
+                            }
+                        }}
+                    >
+                        <LeftArrowIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
+                headerRight: null,
+            });
         } else if (step === 6 || step === 8) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => {setStep(step-1);}}
+                    >
+                        <LeftArrowIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
                 headerRight: null,
             });
         } else if (step === 7) {
             navigation.setOptions({
                 headerTitle: '아바타 커스터마이징',
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => {setStep(step-1);}}
+                    >
+                        <LeftArrowIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
                 headerRight: () => (
                     <TouchableOpacity
                         style={{marginRight: 20}}

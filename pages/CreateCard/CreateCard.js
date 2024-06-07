@@ -28,11 +28,15 @@ function CreateCard({navigation}) {
         }
     };
 
+    const goToStepOne = () => {
+        setStep(1);
+    };
+
     // 템플릿 2*2 배치
-    const rows = [];
-    for (let i = 0; i < items.length; i += 2) {
-        rows.push(items.slice(i, i+2))
-    }
+    // const rows = [];
+    // for (let i = 0; i < items.length; i += 2) {
+    //     rows.push(items.slice(i, i+2))
+    // }
 
     return (
         <View style={styles.main}>
@@ -67,19 +71,19 @@ function CreateCard({navigation}) {
             {step === 2 && (
                 <View>
                     {template === "student" && (
-                        <TemplateStudent navigation={navigation} />
+                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
                     {template === 2 && (
                         // 직장인
-                        <TemplateStudent navigation={navigation} />
+                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
                     {template === 3 && (
                         // 팬
-                        <TemplateStudent navigation={navigation} />
+                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
                     {template === 4 && (
                         // 자유 생성
-                        <TemplateStudent navigation={navigation} />
+                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
                 </View>
             )}
