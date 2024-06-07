@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { View, Text, Modal } from 'react-native';
+import React, { useState, useRef, useEffect  } from 'react';
+import { View, Text, Pressable, Modal, TouchableWithoutFeedback } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './CardStyle';
 import { CardSample_student } from './CardSample';
@@ -11,11 +11,24 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 export const CardBack = () => {
-
     const [showDetails, setShowDetails] = useState(false);
+    const textRef = useRef();
     
     const handleDetailsToggle = () => {
         setShowDetails((prevState) => !prevState);
+    };
+
+    const handleCloseModal = () => {
+      setShowDetails(false);
+    };
+
+    const [modalTop, setModalTop] = useState(0);
+    const [modalLeft, setModalLeft] = useState(0);
+  
+    const handleLayout = (event) => {
+      const { x, y, width, height } = event.nativeEvent.layout;
+      setModalTop(y + height + 260);
+      setModalLeft(x + width + 60);
     };
     
     return (
@@ -48,15 +61,51 @@ export const CardBack = () => {
                     <Text style={styles.content}>{CardSample_student[0].card_phone}</Text>
                 </View>
 
-                <View style={styles.info}>
-                    <Text style={styles.topic}>SNS</Text>
-                    <View style={styles.SNScontainer}>
-                        <InstaLogo />
-                        <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
-                    </View>
-                    <TouchableOpacity onPress={handleDetailsToggle}>
-                    <DownIcon />
-                    </TouchableOpacity>
+                <View>
+                    {showDetails ? 
+                        <View style={styles.info}>
+                            <Text style={styles.topic} onLayout={handleLayout} ref={textRef}>SNS</Text>
+                            <Modal
+                            animationType="none"
+                            transparent={true}
+                            visible={showDetails}
+                            onRequestClose={handleCloseModal}
+                            >
+                            <TouchableWithoutFeedback onPress={handleCloseModal}>
+                                <View style={{...styles.modalContainer, bottom: modalTop, left: modalLeft}}>
+                                <View style={styles.detailsContainer}>
+                                    <View style={{ ...styles.SNScontainer, height: 40 }}>
+                                    <InstaLogo />
+                                    <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                                    </View>
+                                    <View style={{ ...styles.SNScontainer, height: 40 }}>
+                                    <XLogo />
+                                    <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                                    </View>
+                                    <View style={{ ...styles.SNScontainer, height: 40 }}>
+                                    <EmailLogo />
+                                    <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                                    </View>
+                                </View>
+                                </View>
+                            </TouchableWithoutFeedback>
+                            </Modal>
+                        </View>
+                        : 
+                        <View style={styles.info}>
+                            <Text style={styles.topic}>SNS</Text>
+                            <View style={styles.SNScontainer}>
+                             <InstaLogo />
+                             <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                            </View>
+                            <Pressable onPress={(event) => {
+                                                    event.stopPropagation(); // 이벤트 전파 막기
+                                                    handleDetailsToggle();
+                                                }}>
+                            <DownIcon />
+                            </Pressable>
+                        </View>
+                    }
                 </View>
 
                 <View style={styles.line} />

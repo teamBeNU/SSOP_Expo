@@ -66,8 +66,8 @@ export const CardSample_student = [
     
         // 공통 선택
         card_SNS_insta: 'kimswuni',
-        card_SNS_X: '',
-        card_email: '',
+        card_SNS_X: 'kimswuni',
+        card_email: 'kimswuni@swu.ac.kr',
     
         card_MBTI: 'ENTJ',
         card_music: {title: 'How Sweet', singer: 'NewJeans'},

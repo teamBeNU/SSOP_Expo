@@ -105,12 +105,34 @@ export const styles = StyleSheet.create({
     SNScontainer: {
         flexDirection: "row",
         gap: 4,
-        alignItems: 'center'
+        alignItems: 'center',
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        width: '100%',
+        justifyContent: 'flex-end',
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        letterSpacing: -0.32,
+        fontWeight: 400,
+        lineHeight: 19,
     },
     detailsContainer: {
         width: 212,
-        height: 120,
-        backgroundColor: 'red'
-    }
+        backgroundColor: 'white',
+        borderRadius: 4,
+        position: 'relative',
+        paddingVertical: 16,
+        paddingHorizontal: 24,
+        shadowColor: 'rgba(0, 0, 0, 0.05)',
+        shadowOffset: {
+        width: 4,
+        height: 4,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 12,
+        elevation: 3,
+    },
     
 });
