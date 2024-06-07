@@ -30,6 +30,7 @@ import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
 import GroupIcon from '../../assets/icons/ic_group_regular.svg';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import NewFolderIcon from '../../assets/icons/ic_newFolder_regular.svg';
+import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -71,11 +72,14 @@ function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, tit
 
 
 // 마이스페이스
-function MySpaceScreen() {
-  const navigation = useNavigation();
+function MySpaceScreen({navigation}) {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
+  const handleNext = () => {
+    navigation.navigate('그룹');
+  };
 
   const handleButtonPress = () => {
     setIsModalVisible(true);
@@ -92,7 +96,7 @@ function MySpaceScreen() {
   };
 
   const MySpaceGroup = ({ name, members }) => (
-    <TouchableOpacity style={styles.groupContent} >
+    <TouchableOpacity style={styles.groupContent} onPress={handleNext} >
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <GroupIcon/>
             <Text style={styles.fontGroup}>{name}</Text>
@@ -390,8 +394,8 @@ function DetailTeamSpaceScreen({ navigation }) {
 
   return (
     <View style={styles.backgroundColor}>
-        <Text style={styles.title}>홍길동의 팀스페이스</Text>
-        <Text style={styles.sub}>홍길동의 팀스페이스입니다. 안녕하세요.</Text>
+        <Text style={styles.title}>김슈니의 팀스페이스</Text>
+        <Text style={styles.sub}>IT 소학회 SWUT 스페이스입니다.</Text>
         <View style={styles.btnContainer}>
                 <View style={styles.btn}>
                     <TouchableOpacity style={styles.whiteBtn} onPress={handleShareButtonPress}>
@@ -444,7 +448,7 @@ function DetailTeamSpaceScreen({ navigation }) {
               </Text>
             </View>
             <TouchableOpacity style={styles.positionFilter} onPress={handleNext}>
-              <Text style={styles.positionFilterText}>포지션 필터</Text>
+              <Text style={styles.positionFilterText}>필터</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -563,6 +567,94 @@ function Filter() {
   );
 }
 
+// 그룹 상세
+function DetailGroup({ navigation }) {
+    const [selectedOption, setSelectedOption] = useState('최신순');
+    const [isModalVisible, setIsModalVisible] = useState(false);
+  
+    const handleShareButtonPress = () => {
+      setIsModalVisible(true);
+    };
+  
+    const DetailcardData = [
+      { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+      { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생' },
+      { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
+      { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬' },
+      { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+      { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+  
+    ];
+  
+    return (
+      <View style={styles.backgroundColor}>
+          <Text style={[styles.title, {marginBottom: 32}]}>24학번 후배</Text>
+          <View style={[styles.btnContainer, {marginBottom: 28}]}>
+                  <View style={styles.btn}>
+                      <TouchableOpacity style={styles.whiteBtn}>
+                          <ContactIcon style={{color: 'white'}} />
+                      </TouchableOpacity>
+                      <Text style={styles.btnText}>연락처 저장 </Text>
+                  </View>
+                  <View style={styles.btn}>
+                      <TouchableOpacity style={styles.whiteBtn} onPress={handleShareButtonPress}>
+                          <EditIcon />
+                      </TouchableOpacity>
+                      <Text style={styles.btnText}>카드 관리</Text>
+                  </View>
+          </View>
+      
+        
+          <View style={styles.line} />
+          
+          <View style={styles.personContainer}>
+            <View style={styles.personRow}>
+              <View style={styles.leftContainer}>
+                <Text style={styles.personText}>구성원</Text>
+                <Text style={styles.detailPeople}>
+                  <People />  8명
+                </Text>
+              </View>
+            </View>
+            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.range2}>{selectedOption}</Text>
+                    <Menu style={styles.DownArrowIcon2}>
+                    <MenuTrigger><DownArrowIcon/></MenuTrigger>
+                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+                        <MenuOption style={{ marginBottom: 10.5}} onSelect={() => setSelectedOption('최신순')} text='최신순'/>
+                        <MenuOption onSelect={() => setSelectedOption('오래된 순')} text='오래된 순'/>
+                    </MenuOptions>
+                    </Menu>
+                </View>
+          </View>
+          <View style={styles.cardLayout}>
+            <ScrollView showsVerticalScrollIndicator={false}>
+              <View style={styles.container}>
+                <View style={styles.row}>
+                    {DetailcardData.map((item) => (
+                        <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigation.navigate('카드 조회')}>
+                        <item.Component 
+                            backgroundColor={item.backgroundColor} 
+                            avatar={item.avatar} 
+                            card_name={item.card_name} 
+                            age={item.age} 
+                            dot={item.dot}
+                            card_template={item.card_template} 
+                            host={item.host}
+                            filter={item.filter}
+                        />
+                        </TouchableOpacity>
+                    ))}
+                </View>
+              </View>
+              <View style={styles.innerView}></View>
+            </ScrollView>
+          </View>
+            
+        </View>
+    );
+  }
+
 function SpaceTabs() {
   return (
     <Tab.Navigator 
@@ -607,7 +699,6 @@ function Space() {
                 </Menu>
               </TouchableOpacity>
             </View>
-            
           ),
         }}/>
         {/* <Stack.Screen name="마이스페이스" component={MySpaceScreen}/>
@@ -615,6 +706,7 @@ function Space() {
         <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpaceScreen}
           options={{
             title: "상세 팀스페이스",
+            tabBarStyle: { display: 'none' },
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -639,6 +731,25 @@ function Space() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+          }}/>
+          <Stack.Screen name="그룹" component={DetailGroup} 
+          options={{
+            title: "그룹",
+            tabBarStyle: { display: 'none' } ,
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+                <Menu>
+                  <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
+                  <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+                    <MenuOption style={{ marginBottom: 10.5}} text='그룹명 변경하기'/>
+                    <MenuOption text='그룹 삭제하기'/>
+                  </MenuOptions>
+                </Menu>
+              ),            
           }}/>
       </Stack.Navigator>
     );

@@ -34,6 +34,16 @@ export const styles = StyleSheet.create({
         marginTop: 8,
         marginBottom: 12,
     },
+    range2: {
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        letterSpacing: -1,
+        marginTop: 17
+    },
+    DownArrowIcon2: { 
+        marginRight: 24,
+        marginTop: 17.5
+    },
 
     // 마이스페이스 그룹
     fontGroup: {
@@ -327,8 +337,8 @@ export const styles = StyleSheet.create({
     positionFilter: {
         marginTop: 24,
         marginLeft: 'auto',
-        width: 88,
-        height: 33,
+        paddingHorizontal: 12,
+        paddingVertical: 8,
         borderRadius: 36,
         backgroundColor: theme.gray95,
         marginRight: 16,
