@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "react-native-gesture-handler";
 import { styles } from "./CreateCardStyle";
 
@@ -7,6 +7,7 @@ import Student from '../../assets/profile/student.svg';
 import Worker from '../../assets/profile/worker.svg';
 import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 
 import TemplateStudent from "../../components/CreateCard/TemplateStudent";
 
@@ -31,6 +32,22 @@ function CreateCard({navigation}) {
     const goToStepOne = () => {
         setStep(1);
     };
+
+    useEffect(() => {   // 상단바 타이틀 변경
+        if (step === 1) {
+            navigation.setOptions({
+                headerTitle: '카드 생성',
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => {navigation.goBack();}}
+                    >
+                        <CloseIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
+                headerRight: null,
+            });
+        }
+    }, [step]);
 
     return (
         <View style={styles.main}>
