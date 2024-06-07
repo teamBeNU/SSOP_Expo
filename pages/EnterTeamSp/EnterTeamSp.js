@@ -51,9 +51,14 @@ function EnterTeamSp({ navigation }) {
 
   const cardData = [
     { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
+<<<<<<< HEAD
     { id: '1', Component: ShareCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{ marginLeft: -10 }} /> },
     { id: '2', Component: ShareCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{ marginLeft: -10 }} /> },
     { id: '3', Component: ShareCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{ marginLeft: -10 }} /> },
+=======
+    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
+    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬' },
+>>>>>>> 4c18181085ce1074fa2abda797db73c222e26ea0
   ];
 
   return (

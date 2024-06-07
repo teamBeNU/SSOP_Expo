@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './NotifyStyle';
+import Toast from 'react-native-toast-message';
 
 const initialNotiData = [
   {
@@ -48,8 +49,19 @@ if (!hasNotify) {
 
   const handleRefuse = (id) => {
     setNotiData(notiData.filter(card => card.id !== id));
+    showCustomToast('카드를 거절했습니다.');
   };
-
+  
+  const showCustomToast = (text) => {
+    Toast.show({
+      text1: text,
+      type: 'selectedToast',
+      position: 'bottom',
+      visibilityTime: 2000,
+    });
+  };
+  
+  
   const handleAccept = (id) => {
     setNotiData(notiData.map(card => 
       card.id === id 

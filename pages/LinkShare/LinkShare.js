@@ -6,6 +6,8 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { createStackNavigator } from '@react-navigation/stack';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
+import * as Progress from 'react-native-progress';
+import { theme } from "../../theme";
 
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -22,11 +24,8 @@ function Step1Screen({ navigation }) {
   // 카드 데이터
   const cardData = [
     { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
-    { id: '1', Component: ShareCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
-    { id: '2', Component: ShareCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
-    { id: '3', Component: ShareCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
-    { id: '4', Component: ShareCard, backgroundColor: '#FCA5D7', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
-    { id: '5', Component: ShareCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
+    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
+    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬' },
   ];
 
   const title = '공유할 카드를 선택하세요.';
@@ -36,25 +35,32 @@ function Step1Screen({ navigation }) {
     navigation.navigate('Step2');
   };
 
-  if (!hasCards) {
-    return (
-      <NoCardsView 
-        navigation={navigation} 
-        title={title}
-        sub={sub}
-      />
-    );
-  }
-
   return (
-    <CardsView 
-      navigation={navigation} 
-      selectedOption={selectedOption} 
-      setSelectedOption={setSelectedOption} 
-      handleNext={handleNext} 
-      cardData={cardData} 
-      title={title}
-    />
+    <View style={{ flex: 1 }}>
+      <Progress.Bar
+        progress={0.5} 
+        width={null}
+        height={2}
+        color={theme.green}
+        borderWidth={0}
+      />
+      {hasCards ? (
+        <CardsView
+          navigation={navigation}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+          handleNext={handleNext}
+          cardData={cardData}
+          title={title}
+        />
+      ) : (
+        <NoCardsView 
+          navigation={navigation}
+          title={title}
+          sub={sub}
+        />
+      )}
+    </View>
   );
 }
 
@@ -75,17 +81,18 @@ function Step2Screen({ navigation }) {
   };
 
   return (
-    <View style={styles.container3}>
+    <View style={{ flex: 1 }}>
+      <Progress.Bar
+        progress={1.0} // Step2에서는 100%로 설정
+        width={null}
+        height={2}
+        color={theme.green}
+        borderWidth={0}
+      />
+      <View style={styles.container3}>
         <View style={styles.mainlayout}>
           <Text style={styles.title}>링크가 생성되었어요.</Text>
           <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
-          {/* <Text style={[styles.Text14, {marginBottom: 8}]}> 링크 </Text>
-          <View style={styles.linkShareContainer}>
-            <Text style={styles.linkShare}> {LinkShare} </Text>
-            <TouchableOpacity onPress={copyLinkShare}>
-              <Text style={styles.copy}>복사</Text>
-            </TouchableOpacity>
-          </View> */}
           <View style={styles.linkShareContainer}>
             <LinkShareImage/>
             <View style={styles.linkShareBox}>
@@ -94,30 +101,32 @@ function Step2Screen({ navigation }) {
                 <RightArrowBlueIcon />
               </TouchableOpacity>
               <Modal
-                          animationType="fade"
-                          transparent={true}
-                          visible={isModalVisible}
-                          onRequestClose={() => {
-                            setIsModalVisible(!isModalVisible);
-                          }}>
-                          <View style={styles.shareModalContainer}>
-                            <View style={styles.ShareModalView}>
-                              <TouchableOpacity onPress={() => { copyLinkShare(); setIsModalVisible(false); }}>
-                                <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
-                              </TouchableOpacity>
-                              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                                <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
-                              </TouchableOpacity>
-                            </View>
-                          </View>
-                        </Modal>
+                animationType="fade"
+                transparent={true}
+                visible={isModalVisible}
+                onRequestClose={() => {
+                  setIsModalVisible(!isModalVisible);
+                }}>
+                <View style={styles.shareModalContainer}>
+                  <View style={styles.ShareModalView}>
+                    <TouchableOpacity onPress={() => { copyLinkShare(); setIsModalVisible(false); }}>
+                      <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
+                    </TouchableOpacity>
+                    <View style={styles.line} />
+                    <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                      <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </Modal>
             </View>
           </View>
         </View>
-      <View style={styles.btnContainer}>
-        <TouchableOpacity style={styles.btnNext} onPress={() => navigation.navigate(' ')}>
-          <Text style={styles.btnText}> 홈 화면으로 </Text>
-        </TouchableOpacity>
+        <View style={styles.btnContainer}>
+          <TouchableOpacity style={styles.btnNext} onPress={() => navigation.navigate(' ')}>
+            <Text style={styles.btnText}> 홈 화면으로 </Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );

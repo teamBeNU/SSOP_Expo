@@ -177,10 +177,10 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     ShareModalView: {
-        paddingVertical: 32,
+        paddingVertical: 42,
         paddingHorizontal: 24,
         width: 272,
-        height: 151,
+        height: 176,
         backgroundColor: 'white',
         borderRadius: 8,
     },
@@ -188,6 +188,11 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         letterSpacing: -1,
-        marginBottom: 35,
+        marginBottom: 27,
+    },
+    line: {
+        borderBottomWidth:1,
+        borderBottomColor: theme.gray90,
+        marginBottom: 27,
     },
 })
