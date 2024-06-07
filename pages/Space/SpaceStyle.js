@@ -15,6 +15,8 @@ export const styles = StyleSheet.create({
 
     // 정렬
     container2: {
+        alignItems: 'flex-end',
+        marginRight: 8,
     },
     row2: {
         flexDirection: 'row',
@@ -30,6 +32,39 @@ export const styles = StyleSheet.create({
     },
     DownArrowIcon: { 
         marginTop: 8,
+        marginBottom: 12,
+    },
+
+    // 마이스페이스 그룹
+    fontGroup: {
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold',
+        letterSpacing: -1,
+    },
+    peopleGroup: {
+        fontSize: 12,
+        fontFamily: 'PretendardRegular',
+        letterSpacing: -1,
+        justifyContent: 'center',
+        marginLeft: 8,
+    },
+    groupContent: {
+        borderRadius: 8,
+        backgroundColor: theme.white,
+        borderWidth: 1,
+        borderColor: theme.gray90,
+        padding: 16,
+        width: '100%',
+        // Android - Shadow
+        elevation: 5,
+        // IOS - Shadow
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
         marginBottom: 12,
     },
 
@@ -74,6 +109,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         justifyContent: 'center',
         alignItems: 'center',
+        marginLeft: 4,
     },
     hostText: {
         color: theme.gray60,

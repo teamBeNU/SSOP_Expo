@@ -4,7 +4,7 @@ import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
-import { SpaceCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
+import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 
@@ -23,11 +23,13 @@ import SaveIcon from '../../assets/icons/ic_save_small_line.svg';
 import ContactIcon from '../../assets/icons/ic_contact_small_line.svg';
 import SelectIcon from '../../assets/icons/ic_done_small_line.svg';
 import CloseIcon from '../../assets/icons/close.svg';
-import CreateCardIcon from '../../assets/HomeIcon/CreateCardIcon.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import EnterTeamSPIcon from '../../assets/HomeIcon/EnterTeamSPIcon.svg';
 import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
+import GroupIcon from '../../assets/icons/ic_group_regular.svg';
+import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
+import NewFolderIcon from '../../assets/icons/ic_newFolder_regular.svg';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -89,15 +91,42 @@ function MySpaceScreen() {
     navigation.navigate('링크 복사'); 
   };
 
-  const cardData = [
-    { id: '1', Component: SpaceCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "김사라", age: '23', position: '직장인' },
-    { id: '2', Component: SpaceCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이리나", age: '20', position: '학생' },
-    { id: '3', Component: SpaceCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이호영", age: '21', position: '학생' },
-    { id: '4', Component: SpaceCard, backgroundColor: '#FCA5D7', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "임지니", age: '22', position: '팬' },
-    { id: '5', Component: SpaceCard, backgroundColor: '#4E77E0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '24', position: '학생' },
-    { id: '6', Component: SpaceCard, backgroundColor: '#FBD13D', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '25', position: '학생' },
-    
+  const MySpaceGroup = ({ name, members }) => (
+    <TouchableOpacity style={styles.groupContent} >
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <GroupIcon/>
+            <Text style={styles.fontGroup}>{name}</Text>
+            <Text style={styles.peopleGroup}>
+                <People /> {members}명
+            </Text>
+            <View style={{ marginLeft: 'auto' }}>
+                 <Menu>
+                  <MenuTrigger><MoreGrayIcon style={{ marginRight: 8  }}/></MenuTrigger>
+                  <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+                    <MenuOption style={{ marginBottom: 10.5}} text='그룹명 변경하기'/>
+                    <MenuOption text='그룹 삭제하기'/>
+                  </MenuOptions>
+                </Menu>
+            </View>
+        </View>
+    </TouchableOpacity>
+
+  );
+
+  const teamData = [
+    { id: 1, name: '24학번 후배', members: 8 },
+    { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
   ];
+
+  const cardData = [
+    { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+    { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생' },
+    { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
+    { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬' },
+    { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+    { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+
+];
 
   return hasCards ? (
     <View style={styles.mainlayout}>
@@ -116,14 +145,24 @@ function MySpaceScreen() {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View style={styles.row}>
+                {teamData.map((team) => (
+                    <MySpaceGroup
+                    key={team.id}
+                    name={team.name}
+                    description={team.description}
+                    members={team.members}
+                    isHost={team.isHost}
+                    />
+                ))}
                 {cardData.map((item) => (
                     <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigation.navigate('카드 조회')}>
                     <item.Component 
                         backgroundColor={item.backgroundColor} 
                         avatar={item.avatar} 
-                        name={item.name} 
+                        card_name={item.card_name} 
                         age={item.age} 
-                        position={item.position} 
+                        dot={item.dot} 
+                        card_template={item.card_template} 
                     />
                     </TouchableOpacity>
                 ))}
@@ -215,12 +254,12 @@ function TeamSpaceScreen({ navigation}) {
   const TeamSPContent = ({ name, description, members, isHost }) => (
     <TouchableOpacity style={styles.TeamSPContent}  onPress={handleNext}>
       <View style={[{ flexDirection: 'row', alignItems: 'center' }]}>
+        <Text style={styles.font18}>{name}</Text>
         {isHost && (
           <View style={styles.host}>
             <Text style={styles.hostText}>호스트</Text>
           </View>
         )}
-        <Text style={styles.font18}>{name}의 팀스페이스</Text>
       </View>
       <Text style={styles.font16}>{description}</Text>
       <Text style={styles.people}>
@@ -230,11 +269,9 @@ function TeamSpaceScreen({ navigation}) {
   );
 
   const teamData = [
-    { id: 1, name: '홍길동', description: '부가설명', members: 8, isHost: true },
-    { id: 2, name: '홍길동', description: '부가설명', members: 8, isHost: false },
-    { id: 3, name: '홍길동', description: '부가설명', members: 8, isHost: false },
-    { id: 4, name: '홍길동', description: '부가설명', members: 8, isHost: false },
-    { id: 5, name: '홍길동', description: '부가설명', members: 8, isHost: false },
+    { id: 1, name: '김슈니의 팀스페이스', description: 'IT 소학회 SWUT 스페이스입니다.', members: 48, isHost: true },
+    { id: 2, name: '영어 교양 스페이스', description: '24-1학기 영어 교양 스페이스입니다.', members: 50, isHost: false },
+    { id: 3, name: '여대 교류회', description: '여대 교류를 위한 스페이스입니다.', members: 80, isHost: false },
   ];
 
   const TeamSPContents = teamData.map((team) => (
@@ -333,13 +370,13 @@ function DetailTeamSpaceScreen({ navigation }) {
   };
 
   const DetailcardData = [
-    { id: '1', Component: DetailSpaceCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "김사라", age: '23', position: '직장인', host: true, filter: '#기획' },
-    { id: '2', Component: DetailSpaceCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이리나", age: '20', position: '학생', host: false, filter: '#디자이너' },
-    { id: '3', Component: DetailSpaceCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} />, name: "이호영", age: '21', position: '학생', host: false, filter: '#백엔드' },
-    { id: '4', Component: DetailSpaceCard, backgroundColor: '#FCA5D7', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "임지니", age: '22', position: '팬', host: false, filter: '#프론트엔드' },
-    { id: '5', Component: DetailSpaceCard, backgroundColor: '#4E77E0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '24', position: '학생', host: false, filter: '#디자이너' },
-    { id: '6', Component: DetailSpaceCard, backgroundColor: '#FBD13D', avatar: <AvatarSample1 style={{marginLeft: -10}} />, name: "홍길동", age: '25', position: '학생', host: false, filter: '#디자이너' },
-    
+    { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+    { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생' },
+    { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
+    { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬' },
+    { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+    { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+
   ];
 
   const inviteCode = '123456'; // 초대코드
@@ -420,9 +457,10 @@ function DetailTeamSpaceScreen({ navigation }) {
                       <item.Component 
                           backgroundColor={item.backgroundColor} 
                           avatar={item.avatar} 
-                          name={item.name} 
+                          card_name={item.card_name} 
                           age={item.age} 
-                          position={item.position} 
+                          dot={item.dot}
+                          card_template={item.card_template} 
                           host={item.host}
                           filter={item.filter}
                       />
@@ -556,9 +594,8 @@ function Space() {
           ),
           headerRight: () => (
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity>
-                <SearchIcon style={{ marginLeft: 8  }}/>
-              </TouchableOpacity>
+              <TouchableOpacity><SearchIcon /></TouchableOpacity>
+              <TouchableOpacity><NewFolderIcon /></TouchableOpacity>
               <TouchableOpacity >
                 <Menu>
                   <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
