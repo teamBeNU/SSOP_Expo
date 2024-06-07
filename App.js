@@ -5,6 +5,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 
 import { useFonts } from 'expo-font';
 import MoreIcon from './assets/icons/ic_more_small_line.svg';
@@ -42,11 +43,16 @@ import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
 // import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
+import MyPage from './pages/MyPage/MyPage';
+import UserAccount from './pages/MyPage/UserAccount';
+import UserInfo from './pages/MyPage/UserInfo';
+import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
+import UserPw from './pages/MyPage/UserPw';
 
 import { styles } from './components/MyCard/CardStyle';
 
-import PretendardRegular from './assets/fonts/pretendard-regular.otf';
-import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
+import PretendardRegular from './assets/fonts/Pretendard-Regular.otf';
+import PretendardSemiBold from './assets/fonts/Pretendard-SemiBold.otf';
 import { theme } from './theme';
 
 export default function App() {
@@ -63,6 +69,38 @@ export default function App() {
 
   // 스택 네비게이터
   const Stack = createStackNavigator();
+
+  // 토스트
+  const customToast = {
+    selectedToast: ({ text1 }) => (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          height: 40,
+          width: '90%',
+          paddingHorizontal: 16,
+          borderRadius: 8,
+          justifyContent: 'center',
+          alignItems: 'center',
+          backgroundColor: theme.gray30
+        }}>
+        <Text
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontFamily: "PretendardRegular",
+            fontSize: 14,
+            letterSpacing: -1,
+            color: theme.white,
+            textAlign: 'center'
+          }}>
+          {text1}
+        </Text>
+      </View>
+    ),
+  };
+  
 
   return (
     <MenuProvider>
@@ -138,9 +176,6 @@ export default function App() {
           component={CreateCard} 
           options={{ 
             headerTitle: "카드 생성",
-            headerTitleStyle: {
-              
-            },
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -178,8 +213,45 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
+          <Stack.Screen name="MY 계정관리" component={UserAccount} 
+          options={{
+            headerTitle: "계정관리",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
+          options={{
+            headerTitle: "이름 및 생년월일 변경",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
+          options={{
+            headerTitle: "연락처 변경",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
+          options={{
+            headerTitle: "비밀번호 변경",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
+    <Toast config={customToast} />
     </MenuProvider>
   );
 };
@@ -249,9 +321,16 @@ const Tab = createBottomTabNavigator();
             </TouchableOpacity>
           ),
         }}  />
-        <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: ' ', headerShown: false }} />
-        <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: '내 카드' }} />
-        <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
+        <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
+        <Tab.Screen name="내 카드" component={MyCard} 
+          options={{ tabBarLabel: '내 카드', 
+          headerTitle: "내 카드",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <LeftArrowIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ) }} />
+        <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
       </Tab.Navigator>
     );
   }

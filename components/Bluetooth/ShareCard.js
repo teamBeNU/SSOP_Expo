@@ -4,7 +4,7 @@ import { styles } from './ShareCardStyle';
 import { useNavigation } from '@react-navigation/native';
 import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
 
-export const ShareCard = ({ backgroundColor, avatar }) => {
+export const ShareCard = ({ backgroundColor, avatar, card_name, age, dot, card_template }) => {
     return (
         <View style={[styles.card, { backgroundColor }]}>
             <View style={styles.cardImgArea}>
@@ -12,61 +12,12 @@ export const ShareCard = ({ backgroundColor, avatar }) => {
             </View>
             <View style={styles.cardTextArea}>
                 <View style={styles.Info}> 
-                    <Text style={styles.name}>홍길동</Text>
+                    <Text style={styles.name}>{card_name}</Text>
                     <View style={styles.age}>
-                        <Text style={{color: theme.gray20}}>23세</Text>
-                        <Text style={{color: theme.gray50}}>•</Text>
-                        <Text style={{color: theme.gray20}}>학생</Text>
+                        {age ? <Text style={styles.ageText}>{age}</Text> : null}
+                        {dot ? <Text style={styles.ageText}>{dot}</Text> : null}
+                        {card_template ? <Text style={styles.ageText}>{card_template}</Text> : null}
                     </View>
-                </View>
-            </View>
-        </View>
-    )
-}
-
-export const SpaceCard = ({ backgroundColor, avatar, name, age, position }) => {
-    return (
-        <View style={[styles.card, { backgroundColor }]}>
-            <View style={styles.cardImgArea}>
-                {avatar}
-            </View>
-            <View style={styles.cardTextArea}>
-                <View style={styles.Info}> 
-                    <Text style={styles.name}>{name}</Text>
-                    <View style={styles.age}>
-                        <Text style={{color: theme.grey20}}>{age}세</Text>
-                        <Text style={{color: theme.grey50}}>•</Text>
-                        <Text style={{color: theme.grey20}}>{position}</Text>
-                    </View>
-                </View>
-            </View>
-        </View>
-    )
-}
-
-export const DetailSpaceCard = ({ backgroundColor, avatar, name, age, position, host, filter }) => {
-    return (
-        <View style={[styles.DetailSpaceCard, { backgroundColor }]}>
-            <View style={styles.cardImgArea}>
-                {avatar}
-            </View>
-            {host && (
-                <View style={styles.DetailcardHost}>
-                    <Text style={styles.DetailcardFilterText}>호스트</Text>
-                </View>
-            )}
-            
-            <View style={styles.DetailcardTextArea}>
-                <View style={styles.Info}> 
-                    <Text style={styles.name}>{name}</Text>
-                    <View style={styles.age}>
-                        <Text style={{color: theme.grey20}}>{age}세</Text>
-                        <Text style={{color: theme.grey50}}>•</Text>
-                        <Text style={{color: theme.grey20}}>{position}</Text>
-                    </View>
-                </View>
-                <View style={styles.DetailcardFilter}>
-                    <Text style={styles.DetailcardFilterText}>{filter}</Text>
                 </View>
             </View>
         </View>
@@ -82,3 +33,52 @@ export const PlusCardButton = () => {
       </TouchableOpacity>
     );
   };
+
+export const SpaceCard = ({ backgroundColor, avatar, card_name, age, card_template }) => {
+    return (
+        <View style={[styles.card, { backgroundColor }]}>
+            <View style={styles.cardImgArea}>
+                {avatar}
+            </View>
+            <View style={styles.cardTextArea}>
+                <View style={styles.Info}> 
+                    <Text style={styles.name}>{card_name}</Text>
+                    <View style={styles.age}>
+                        <Text style={{color: theme.gray20}}>{age}세</Text>
+                        <Text style={{color: theme.gray50}}>•</Text>
+                        <Text style={{color: theme.gray20}}>{card_template}</Text>
+                    </View>
+                </View>
+            </View>
+        </View>
+    )
+}
+
+export const DetailSpaceCard = ({ backgroundColor, avatar, card_name, age, card_template, host, filter }) => {
+    return (
+        <View style={[styles.DetailSpaceCard, { backgroundColor }]}>
+            <View style={styles.cardImgArea}>
+                {avatar}
+            </View>
+            {host && (
+                <View style={styles.DetailcardHost}>
+                    <Text style={styles.DetailcardFilterText}>호스트</Text>
+                </View>
+            )}
+            
+            <View style={styles.DetailcardTextArea}>
+                <View style={styles.Info}> 
+                    <Text style={styles.name}>{card_name}</Text>
+                    <View style={styles.age}>
+                        <Text style={{color: theme.gray20}}>{age}세</Text>
+                        <Text style={{color: theme.gray50}}>•</Text>
+                        <Text style={{color: theme.gray20}}>{card_template}</Text>
+                    </View>
+                </View>
+                <View style={styles.DetailcardFilter}>
+                    <Text style={styles.DetailcardFilterText}>{filter}</Text>
+                </View>
+            </View>
+        </View>
+    )
+}

@@ -48,13 +48,13 @@ export const styles = StyleSheet.create({
     cardTextArea: {
         height: 53,
         backgroundColor: "white",
-        paddingTop: 16,
-        paddingLeft: 12,
         gap: 12,
     },
     Info: {
         flexDirection: "row",
         alignItems: 'flex-end',
+        paddingHorizontal: 12,
+        paddingVertical:16,
     },
     name: {
         fontFamily: 'PretendardSemiBold',
@@ -67,7 +67,11 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         fontFamily: 'PretendardRegular',
         fontSize: 14,
-        letterSpacing: -0.32,
+    },
+    ageText: {
+        fontFamily: "PretendardRegular",
+        color: theme.gray20,
+        letterSpacing: -0.44,
     },
     Text14: {
         marginBottom: 21,
