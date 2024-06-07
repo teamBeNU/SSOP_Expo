@@ -490,6 +490,12 @@ function Filter() {
     designer: true,
     frontend: true,
     backend: false,
+    dimi: false,
+    math: false,
+    info: false,
+    software: false,
+    student: false,
+    woker: false,
   });
 
   const handleReset = () => {
@@ -498,6 +504,12 @@ function Filter() {
       designer: false,
       frontend: false,
       backend: false,
+      dimi: false,
+    math: false,
+    info: false,
+    software: false,
+    student: false,
+    woker: false,
     });
   };
 
@@ -511,8 +523,7 @@ function Filter() {
 
   return (
     <View style={styles.backgroundColor}>
-        <Text style={styles.filterText}>포지션</Text>
-
+        <Text style={styles.filterText}>역할</Text>
         <View style={styles.elementContainer} >
               <TouchableOpacity onPress={() => handleSelect('promoter')}
                 style={filter.promoter ? styles.selectedElement : styles.element}>
@@ -553,6 +564,72 @@ function Filter() {
                    </View>
                )}
                  {!filter.backend && <Text> #백엔드 </Text>}
+              </TouchableOpacity>
+        </View>
+        <Text style={styles.filterText}>전공</Text>
+        <View style={styles.elementContainer} >
+              <TouchableOpacity onPress={() => handleSelect('dimi')}
+                style={filter.dimi ? styles.selectedElement : styles.element}>
+                {filter.dimi && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <SelectIcon />
+                    <Text style={styles.selectedText}> 디지털미디어학과 </Text>
+                  </View>
+                )}
+                {!filter.dimi && <Text> 디지털미디어학과 </Text>}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleSelect('math')}
+                 style={filter.math ? styles.selectedElement : styles.element}>
+                 {filter.math && (
+                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                     <SelectIcon />
+                     <Text style={styles.selectedText}> 수학과 </Text>
+                   </View>
+               )}
+                 {!filter.math && <Text> 수학과 </Text>}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleSelect('info')}
+                 style={filter.info ? styles.selectedElement : styles.element}>
+                 {filter.info && (
+                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                     <SelectIcon />
+                     <Text style={styles.selectedText}> 정보보호학과 </Text>
+                   </View>
+               )}
+                 {!filter.info && <Text> 정보보호학과 </Text>}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleSelect('software')}
+                 style={filter.software ? styles.selectedElement : styles.element}>
+                 {filter.software && (
+                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                     <SelectIcon />
+                     <Text style={styles.selectedText}> 소프트웨어융합학과 </Text>
+                   </View>
+               )}
+                 {!filter.software && <Text> 소프트웨어융합학과 </Text>}
+              </TouchableOpacity>
+        </View>
+        <Text style={styles.filterText}>신분</Text>
+        <View style={styles.elementContainer} >
+              <TouchableOpacity onPress={() => handleSelect('student')}
+                style={filter.student ? styles.selectedElement : styles.element}>
+                {filter.student && (
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <SelectIcon />
+                    <Text style={styles.selectedText}> 학생 </Text>
+                  </View>
+                )}
+                {!filter.student && <Text> 학생 </Text>}
+              </TouchableOpacity>
+              <TouchableOpacity onPress={() => handleSelect('worker')}
+                 style={filter.worker ? styles.selectedElement : styles.element}>
+                 {filter.worker && (
+                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                     <SelectIcon />
+                     <Text style={styles.selectedText}> 직장인 </Text>
+                   </View>
+               )}
+                 {!filter.worker && <Text> 직장인 </Text>}
               </TouchableOpacity>
         </View>
         <View style={styles.buttonContainer}>
