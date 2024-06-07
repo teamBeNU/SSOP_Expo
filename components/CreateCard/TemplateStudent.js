@@ -24,9 +24,6 @@ export default function TemplateStudent({navigation, goToStepOne}) {
         month: '',
         day: '',
     });
-    // const [year, setYear] = useState('');
-    // const [month, setMonth] = useState('');
-    // const [day, setDay] = useState('');
     const [bSecret, setBSecret] = useState(false);
     const [tel, setTel] = useState('');
     const [school, setSchool] = useState('');
@@ -41,7 +38,6 @@ export default function TemplateStudent({navigation, goToStepOne}) {
     });
     const [email, setEmail] = useState('');
     const [mbti, setMbti] = useState('');
-    // const [music, setMusic] = useState('');
     const [music, setMusic] = useState({
         title: '',
         musician: '',
@@ -65,6 +61,15 @@ export default function TemplateStudent({navigation, goToStepOne}) {
         introduction: true,
     })
     const [imageWidth, setImageWidth] = useState(0);
+    const [avatar, setAvatar] = useState({
+        face: 1,
+        hair: 1,
+        hairColor: 1,
+        clothes: 1,
+        acc: 0,
+        bg: 0,
+        bgColor: 1,
+    })
 
     const ref_input2 = useRef();
     const ref_input3 = useRef();
@@ -715,7 +720,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
             {step === 7 && (
                 <View>
                     {cover === "avatar" && (
-                        <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} />
+                        <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} avatar={avatar} setAvatar={setAvatar} />
                     )}
                     {cover === "picture" && (
                         <></>

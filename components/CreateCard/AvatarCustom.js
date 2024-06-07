@@ -12,18 +12,8 @@ import SampleAvatarSvg from "../../assets/avatars/sample-avatar-1.svg";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
-export default function AvatarCustom({step: initalStep, onStepChange}) {
-    // const [step, setStep] = useState(initalStep);
+export default function AvatarCustom({step: initalStep, onStepChange, avatar, setAvatar}) {
     const [avaIndex, setAvaIndex] = useState(1);
-    const [avatar, setAvatar] = useState({
-        face: 1,
-        hair: 1,
-        hairColor: 1,
-        clothes: 1,
-        acc: 0,
-        bg: 0,
-        bgColor: 1,
-    })
 
     const handleCategory = (id) => {
         setAvaIndex(id);
@@ -36,12 +26,6 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
     const handleBgColor = (id) => {
         setAvatar((prev => ({...prev, bgColor: id})));
     }
-
-    // const handleNext = () => {
-    //     const nextStep = step + 1;
-    //     setStep(nextStep);
-    //     onStepChange(nextStep);
-    // }
 
     return (
         <View style={styles.container}>

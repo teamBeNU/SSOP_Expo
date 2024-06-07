@@ -32,12 +32,6 @@ function CreateCard({navigation}) {
         setStep(1);
     };
 
-    // 템플릿 2*2 배치
-    // const rows = [];
-    // for (let i = 0; i < items.length; i += 2) {
-    //     rows.push(items.slice(i, i+2))
-    // }
-
     return (
         <View style={styles.main}>
 
