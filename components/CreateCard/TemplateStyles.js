@@ -252,7 +252,7 @@ export const styles = StyleSheet.create({
     },
 
     avatarNext: {
-        color: "black",
+        color: theme.skyblue,
         fontFamily: "PretendardSemiBold",
         fontSize: 16,
         fontStyle: "normal",
