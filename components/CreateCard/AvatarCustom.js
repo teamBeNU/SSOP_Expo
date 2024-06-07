@@ -21,7 +21,7 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
         hairColor: 1,
         clothes: 1,
         acc: 0,
-        bg: 1,
+        bg: 0,
         bgColor: 1,
     })
 
@@ -106,27 +106,33 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                         <Text style={avaIndex === 5 ? styles.avatarItemCategoryTextOn : styles.avatarItemCategoryTextOff}>배경</Text>
                     </TouchableOpacity>
                 </View>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <View>
                     {avaIndex === 1 && (
-                        <View style={styles.avatarItemList}>
-                            {faceItems.map(item => (
-                                <TouchableOpacity
-                                    key={item.id}
-                                    onPress={(() => setAvatar((prev => ({...prev, face: item.id}))))}
-                                    style={[
-                                        styles.avatarItems, 
-                                        avatar.face === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                    ]}
-                                >
-                                    <View style={styles.avatarItem}>
-                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    )}
+                        <ScrollView 
+                            showsVerticalScrollIndicator={true}
+                        >
+                            <View style={styles.avatarItemList}>
+                                {faceItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, face: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.face === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        </ScrollView>
+                    )}  
                     {avaIndex === 2 && (
-                        <View>
+                        <ScrollView
+                            showsVerticalScrollIndicator={true}
+                        >
                             <View style={styles.colorChipContainer}>
                                 {hairColors.map(hc => (
                                     <TouchableOpacity 
@@ -153,13 +159,15 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                                     </TouchableOpacity>
                                 ))}
                             </View>
-                        </View>
+                        </ScrollView>
                     )}
                     {avaIndex === 3 && (
                         <Text>옷</Text>
                     )}
                     {avaIndex === 4 && (
-                        <View>
+                        <ScrollView
+                            showsVerticalScrollIndicator={true}
+                        >
                             <Text style={styles.avatarItemText}>귀걸이</Text>
                             <View style={styles.avatarItemList}>
                                 {accItems.map(item => (
@@ -177,41 +185,43 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                                     </TouchableOpacity>
                                 ))}
                             </View>
-                        </View>
+                        </ScrollView>
                     )}
                     {avaIndex === 5 && (
-                        <View>
-                        <Text style={styles.avatarItemText}>배경색</Text>
-                        <View style={styles.colorChipContainer}>
-                            {bgColors.map(bc => (
-                                <TouchableOpacity 
-                                    key={bc.id}
-                                    onPress={(() => handleBgColor(bc.id))}
-                                    style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
-                                ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                        <Text style={styles.avatarItemText}>오브젝트</Text>
-                        <View style={styles.avatarItemList}>
-                            {objectItems.map(item => (
-                                <TouchableOpacity
-                                    key={item.id}
-                                    onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
-                                    style={[
-                                        styles.avatarItems, 
-                                        avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                    ]}
-                                >
-                                    <View style={styles.avatarItem}>
-                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
-                                    </View>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    </View>
+                        <ScrollView
+                            showsVerticalScrollIndicator={true}
+                        >
+                            <Text style={styles.avatarItemText}>배경색</Text>
+                            <View style={styles.colorChipContainer}>
+                                {bgColors.map(bc => (
+                                    <TouchableOpacity 
+                                        key={bc.id}
+                                        onPress={(() => handleBgColor(bc.id))}
+                                        style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                    ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>오브젝트</Text>
+                            <View style={styles.avatarItemList}>
+                                {objectItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                        </ScrollView>
                     )}
-                </ScrollView>
+                </View>
             </View>
         </View>
     );
