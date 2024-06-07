@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef} from "react";
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
 import { theme } from "../../theme";
 import { styles } from "./SignUpStyle.js";
 import { useNavigation, useRoute } from '@react-navigation/native';
@@ -41,8 +41,8 @@ function SignUp() {
     const [hasEnglish, setHasEnglish] = useState(false);
     const [hasNum, setHasNum] = useState(false);
     const [hasLeng, setHasLeng] = useState(false);
-    const [hasName, setHasName] = useState(true);
-    const [hasBirth, setHasBirth] = useState(true);
+    // const [hasName, setHasName] = useState(true);
+    // const [hasBirth, setHasBirth] = useState(true);
     const [isFull, setIsFull] = useState({
       name: true,
       birth: true,
@@ -53,6 +53,8 @@ function SignUp() {
       serviceAgree: false,
       informationAgree: false,
     });
+    
+    const currentYear = new Date().getFullYear();
 
     const ref_input2 = useRef();
     const ref_input3 = useRef();
@@ -156,9 +158,29 @@ function SignUp() {
           const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
           setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull})));
         
-          const isYearCorrect = birth.year.length === 4 && birth.year >= 1800 && birth.year <= new Date().getFullYear();
+          const isLeapYear = (year) => {    // 윤년 구하기
+            return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0));
+          }
+
+          const getDayInMonth = (year, month) => {    // 윤달 구하기
+            month = parseInt(month);
+            switch (month) {
+                case 1: case 3: case 5: case 7: case 8: case 10: case 12:   // 31일
+                    return 31;
+                case 4: case 6: case 9: case 11:    //30일
+                    return 30;
+                case 2:
+                    return isLeapYear(year) ? 29 : 28;      // 윤달(2/29), 2/28
+                default:
+                    return 0;
+            }
+         }
+
+         const days = getDayInMonth(birth.year, birth.month);
+
+          const isYearCorrect = birth.year >= currentYear - 110 && birth.year <= currentYear;
           const isMonthCorrect = birth.month.length === 2 && (1 <= parseInt(birth.month) && parseInt(birth.month) <= 12);
-          const isDayCorrect = birth.day.length === 2 && (1 <= parseInt(birth.day) && parseInt(birth.day) <= new Date(birth.year, parseInt(birth.month), 0).getDate());
+          const isDayCorrect = birth.day.length === 2 && (1 <= parseInt(birth.day) && parseInt(birth.day) <= days);
 
           if (isFull) {
             setIsBirthCorrect((prev) => ({
