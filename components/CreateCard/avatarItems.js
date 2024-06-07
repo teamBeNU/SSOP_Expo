@@ -76,12 +76,14 @@ export const hairColors = [
 ]
 
 // 배경 컬러
+import { theme } from '../../theme';
+
 export const bgColors = [
-    {id: 1, color: "#B6E96C"},
-    {id: 2, color: "#83936D"},
-    {id: 3, color: "#FBD13D"},
-    {id: 4, color: "#FCA5D7"},
-    {id: 5, color: "#6ED5EC"},
-    {id: 6, color: "#4E77E0"},
-    {id: 7, color: "#484848"},
+    {id: 1, color: theme.cardBG01},
+    {id: 2, color: theme.cardBG02},
+    {id: 3, color: theme.cardBG03},
+    {id: 4, color: theme.cardBG04},
+    {id: 5, color: theme.cardBG05},
+    {id: 6, color: theme.cardBG06},
+    {id: 7, color: theme.gray30},
 ]
