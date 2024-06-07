@@ -9,7 +9,9 @@ import "react-native-gesture-handler";
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
 import AvatarCustom from "./AvatarCustom";
+
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
+import CreateCardDoneSvg from "../../assets/createCard/createCardDone.svg";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -695,11 +697,12 @@ export default function TemplateStudent({navigation}) {
                 <View style={styles.container}>
                     <Text style={styles.title}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
                     <View style={styles.cardDone} >
-                        <Image
+                        {/* <Image
                             source={require('../../assets/images/cardDone.png')}
                             style={{widht: '100%', height: '100%', backgroundColor: "white"}} 
                             resizeMode="contain"
-                        /> 
+                        />  */}
+                        <CreateCardDoneSvg />
                     </View>
                     <View style={styles.btnDone}>
                         <TouchableOpacity 

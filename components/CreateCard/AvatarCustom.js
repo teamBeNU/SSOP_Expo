@@ -8,6 +8,7 @@ import UndoIcon from "../../assets/icons/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
 import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
+import SampleAvatarSvg from "../../assets/avatars/sample-avatar-1.svg";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -65,11 +66,14 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarView}>
-                    <Image
+                    {/* <Image
                         source={require("../../assets/images/sample-avatar-1.png")} 
                         resizeMode="contain"
                         style={styles.avatarImg}
-                    />
+                    /> */}
+                    <View style={styles.avatarSvg}>
+                        <SampleAvatarSvg width="100%" height="100%" />
+                    </View>
                     <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === avatar.bgColor).color}]}></View>
                 </View>
                 
@@ -114,7 +118,9 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                                         avatar.face === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                     ]}
                                 >
-                                    <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                    <View style={styles.avatarItem}>
+                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                    </View>
                                 </TouchableOpacity>
                             ))}
                         </View>
@@ -141,7 +147,9 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                                             avatar.hair === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                         ]}
                                     >
-                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                        <View style={styles.avatarItem}>
+                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                        </View>
                                     </TouchableOpacity>
                                 ))}
                             </View>
@@ -163,7 +171,9 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                                             avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                         ]}
                                     >
-                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                        <View style={styles.avatarItem}>
+                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                        </View>
                                     </TouchableOpacity>
                                 ))}
                             </View>
@@ -193,18 +203,15 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                                         avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                     ]}
                                 >
-                                    <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                    <View style={styles.avatarItem}>
+                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                    </View>
                                 </TouchableOpacity>
                             ))}
                         </View>
                     </View>
                     )}
                 </ScrollView>
-                {/* <TouchableOpacity onPress={handleNext}>
-                    <Text 
-                        style={[styles.btnNextText, {backgroundColor: "black"}, {padding: 10}, {width: 200}]}>임시 버튼: 다음으로 넘어가기
-                    </Text>
-                </TouchableOpacity> */}
             </View>
         </View>
     );

@@ -1,0 +1,45 @@
+<svg width="72" height="72" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1183_2849)">
+<rect width="72" height="72" rx="36" fill="#E8E8E8"/>
+<rect x="19" y="25" width="36" height="34" fill="#212121"/>
+<ellipse cx="37" cy="79.3125" rx="36" ry="33.1875" fill="#F5C6BC"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M37 54.9999C41.4183 54.9999 45 52.3136 45 48.9999C45 48.2383 44.8108 47.5099 44.4658 46.8396C60.7653 50.0085 73 63.3434 73 79.3125C73 97.6415 56.8823 112.5 37 112.5C17.1177 112.5 1 97.6415 1 79.3125C1 63.3434 13.2347 50.0085 29.5342 46.8396C29.1892 47.5099 29 48.2383 29 48.9999C29 52.3136 32.5817 54.9999 37 54.9999Z" fill="white"/>
+<mask id="mask0_1183_2849" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="1" y="46" width="72" height="67">
+<ellipse cx="37" cy="79.3125" rx="36" ry="33.1875" fill="#F5BCBC"/>
+</mask>
+<g mask="url(#mask0_1183_2849)">
+<ellipse cx="37" cy="43.3125" rx="7.875" ry="6.1875" fill="#EE9595"/>
+</g>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M23.5736 48.51L37 68L50.4264 48.51C63.6586 53.4163 73 65.3587 73 79.3125C73 97.6414 56.8823 112.5 37 112.5C17.1177 112.5 1 97.6414 1 79.3125C1 65.3587 10.3414 53.4163 23.5736 48.51Z" fill="#48475C"/>
+<circle cx="37" cy="62" r="1" fill="#CACACA"/>
+<circle cx="37" cy="58" r="1" fill="#CACACA"/>
+<circle cx="17.875" cy="32.625" r="5.625" fill="#F5C6BC"/>
+<circle cx="37" cy="27" r="20.25" fill="#F5C6BC"/>
+<circle cx="29.125" cy="34.875" r="2.25" fill="#212121"/>
+<circle cx="39.25" cy="34.875" r="2.25" fill="#212121"/>
+<circle opacity="0.4" cx="44.875" cy="39.375" r="3.375" fill="#FF85CB"/>
+<circle cx="56.125" cy="32.625" r="5.625" fill="#F5C6BC"/>
+<circle cx="22.375" cy="20.25" r="10.125" fill="#212121"/>
+<circle cx="35.875" cy="20.25" r="10.125" fill="#212121"/>
+<circle cx="50.5" cy="20.25" r="10.125" fill="#212121"/>
+<path d="M36.4375 5.625C24.9431 5.625 15.625 15.1949 15.625 27H57.25C57.25 15.1949 47.9319 5.625 36.4375 5.625Z" fill="#212121"/>
+<path opacity="0.2" d="M23 52L21 53" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M51 52L53 53" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M25 55L23 56" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M49 55L51 56" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M27 58L25 59" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M47 58L49 59" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M29 61L27 62" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M45 61L47 62" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M31 64L29 65" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M43 64L45 65" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M33 67L31 68" stroke="white" stroke-linecap="round"/>
+<path opacity="0.2" d="M41 67L43 68" stroke="white" stroke-linecap="round"/>
+</g>
+<rect x="1" y="1" width="70" height="70" rx="35" stroke="#E8E8E8" stroke-width="2"/>
+<defs>
+<clipPath id="clip0_1183_2849">
+<rect width="72" height="72" rx="36" fill="white"/>
+</clipPath>
+</defs>
+</svg>
