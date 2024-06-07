@@ -101,6 +101,16 @@ export const styles = StyleSheet.create({
         alignSelf: 'stretch',
         borderTopWidth: 1,
         borderColor: theme.gray90,
+    },
+    SNScontainer: {
+        flexDirection: "row",
+        gap: 4,
+        alignItems: 'center'
+    },
+    detailsContainer: {
+        width: 212,
+        height: 120,
+        backgroundColor: 'red'
     }
     
 });

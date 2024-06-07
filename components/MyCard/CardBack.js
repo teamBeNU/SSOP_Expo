@@ -1,9 +1,23 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, Modal } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './CardStyle';
 import { CardSample_student } from './CardSample';
+import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
+import InstaLogo from '../../assets/Card/logo_insta.svg';
+import XLogo from '../../assets/Card/logo_x.svg';
+import EmailLogo from '../../assets/Card/logo_email.svg';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+
 
 export const CardBack = () => {
+
+    const [showDetails, setShowDetails] = useState(false);
+    
+    const handleDetailsToggle = () => {
+        setShowDetails((prevState) => !prevState);
+    };
+    
     return (
         <View style={styles.card}>
             <View style={styles.textArea}>
@@ -36,7 +50,13 @@ export const CardBack = () => {
 
                 <View style={styles.info}>
                     <Text style={styles.topic}>SNS</Text>
-                    <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                    <View style={styles.SNScontainer}>
+                        <InstaLogo />
+                        <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                    </View>
+                    <TouchableOpacity onPress={handleDetailsToggle}>
+                    <DownIcon />
+                    </TouchableOpacity>
                 </View>
 
                 <View style={styles.line} />
