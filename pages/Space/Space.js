@@ -5,10 +5,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
 import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
+import SpaceModal from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 
-import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import NotiIcon from '../../assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
@@ -18,10 +18,6 @@ import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 import People from '../../assets/icons/ic_person_small_fill.svg';
 import Swap from '../../assets/icons/ic_swap_regular_line.svg';
 import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
-import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
-import SaveIcon from '../../assets/icons/ic_save_small_line.svg';
-import ContactIcon from '../../assets/icons/ic_contact_small_line.svg';
-import SelectIcon from '../../assets/icons/ic_done_small_line.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
@@ -30,7 +26,7 @@ import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
 import GroupIcon from '../../assets/icons/ic_group_regular.svg';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import NewFolderIcon from '../../assets/icons/ic_newFolder_regular.svg';
-import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
+
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -76,6 +72,7 @@ function MySpaceScreen({navigation}) {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
 
   const handleNext = () => {
     navigation.navigate('그룹');
@@ -95,6 +92,15 @@ function MySpaceScreen({navigation}) {
     navigation.navigate('링크 복사'); 
   };
 
+  const handleDeleteGroup = () => {
+    setIsSpaceModalVisible(true); // "그룹 삭제하기" 눌렀을 때 모달 표시
+  };
+
+  const handleConfirmDelete = () => {
+    // 그룹 삭제 로직을 여기에 작성합니다
+    setIsSpaceModalVisible(false);
+  };
+
   const MySpaceGroup = ({ name, members }) => (
     <TouchableOpacity style={styles.groupContent} onPress={handleNext} >
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -108,13 +114,12 @@ function MySpaceScreen({navigation}) {
                   <MenuTrigger><MoreGrayIcon style={{ marginRight: 8  }}/></MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
                     <MenuOption style={{ marginBottom: 10.5}} text='그룹명 변경하기'/>
-                    <MenuOption text='그룹 삭제하기'/>
+                    <MenuOption text='그룹 삭제하기' onSelect={handleDeleteGroup}/>
                   </MenuOptions>
                 </Menu>
             </View>
         </View>
     </TouchableOpacity>
-
   );
 
   const teamData = [
@@ -193,6 +198,14 @@ function MySpaceScreen({navigation}) {
         option2Text="링크 복사"
         option2SubText="연락처가 있다면"
         option2Icon={LinkIcon}
+      />
+      <SpaceModal
+        isVisible={isSpaceModalVisible}
+        onClose={() => setIsSpaceModalVisible(false)}
+        title={'그룹을 삭제하시겠습니까?'}
+        sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
+        btn1={'취소할래요'}
+        btn2={'네, 삭제할래요'}
       />
       </View>
   ) : (
