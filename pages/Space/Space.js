@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
 import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
-import SpaceModal from "../../components/Space/SpaceModal.js";
+import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 import Toast from 'react-native-toast-message';
@@ -74,9 +74,14 @@ function MySpaceScreen({navigation}) {
   const [hasCards, setHasCards] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
+  const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
 
   const handleDeleteGroup = () => {
     setIsSpaceModalVisible(true);
+  };
+
+  const handleChangeGroupName = () => {
+    setIsGroupNameChangeModalVisible(true);
   };
 
   const handleNext = () => {
@@ -123,7 +128,7 @@ function MySpaceScreen({navigation}) {
                  <Menu>
                   <MenuTrigger><MoreGrayIcon style={{ marginRight: 8  }}/></MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                    <MenuOption style={{ marginBottom: 10.5}} text='그룹명 변경하기'/>
+                    <MenuOption style={{ marginBottom: 10.5}} text='그룹명 변경하기' onSelect={handleChangeGroupName}/>
                     <MenuOption text='그룹 삭제하기' onSelect={handleDeleteGroup}/>
                   </MenuOptions>
                 </Menu>
@@ -216,6 +221,14 @@ function MySpaceScreen({navigation}) {
         sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
         btn1={'취소할래요'}
         btn2={'네, 삭제할래요'}
+        toast={handleDelete} 
+      />
+      <SpaceNameChangeModal
+        isVisible={isGroupNameChangeModalVisible}
+        onClose={() => setIsGroupNameChangeModalVisible(false)}
+        groupName={'그룹 이름을 작성하세요'}
+        btn1={'취소하기'}
+        btn2={'수정하기'}
         toast={handleDelete} 
       />
       </View>

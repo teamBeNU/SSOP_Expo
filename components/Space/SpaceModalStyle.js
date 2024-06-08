@@ -70,4 +70,13 @@ export const styles = StyleSheet.create({
         textAlign: "center",
         letterSpacing: -1,
     },
+    textInput: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: 276,
+        paddingVertical: 14.5,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray95,
+        borderRadius: 8,
+    },
   });
