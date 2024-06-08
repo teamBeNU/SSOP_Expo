@@ -101,6 +101,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 24,
     },
+    pwInput: {
+    justifyContent: 'space-between',
+    gap: 8,
+    alignItems: 'center',
+    flexDirection: 'row',
+    },
     pwChange: {
     fontFamily: 'Pretendard',
     color: theme.gray60,
@@ -110,11 +116,11 @@ export const styles = StyleSheet.create({
     letterSpacing: -0.14,
     },
     join:{
-        fontFamily: 'Pretendard',
-        color: theme.gray40,
-        fontSize: 14,
-        fontWeight: '600',
-        lineHeight: 17,
-        letterSpacing: -0.14,
+    fontFamily: 'Pretendard',
+    color: theme.gray40,
+    fontSize: 14,
+    fontWeight: '600',
+    lineHeight: 17,
+    letterSpacing: -0.14,
     }
 });
