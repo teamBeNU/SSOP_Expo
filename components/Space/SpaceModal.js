@@ -1,10 +1,17 @@
-import { View, Text, StatusBar, TouchableOpacity, Modal, Pressable } from "react-native";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import "react-native-gesture-handler";
 
 import { styles } from "./SpaceModalStyle"
 
-export default function SpaceModal({isVisible, onClose, title, sub, btn1, btn2}) {
+export default function SpaceModal({isVisible, onClose, title, sub, btn1, btn2, toast}) {
+    
+    const handleBtn2Press = () => {
+        if (typeof toast === 'function') {
+            toast();
+        }
+    };
+
     return (
         <View>
             <Modal
@@ -22,7 +29,7 @@ export default function SpaceModal({isVisible, onClose, title, sub, btn1, btn2})
                                 <Text style={styles.yesText}>{btn1}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.noBtn}>
+                                style={styles.noBtn} onPress={() => {handleBtn2Press(); onClose();}}>
                                 <Text style={styles.noText}>{btn2}</Text>
                             </TouchableOpacity>
                         </View>

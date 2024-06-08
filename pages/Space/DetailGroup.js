@@ -106,7 +106,7 @@ function DetailGroup() {
     const navigation = useNavigation();
     return (
       <Stack.Navigator>
-          <Stack.Screen name="그룹" component={DetailSpaceGroup} 
+          <Stack.Screen name="Group" component={DetailSpaceGroup} 
           options={{
             title: "그룹",
             tabBarStyle: { display: 'none' } ,

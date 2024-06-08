@@ -249,8 +249,8 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="Detail TeamSpace" component={DetailTeamSpace} options={{ headerShown: false }}/>
-          <Stack.Screen name="Group" component={DetailGroup} options={{ headerShown: false }} />
+          <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
+          <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />

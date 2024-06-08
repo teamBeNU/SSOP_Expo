@@ -308,7 +308,7 @@ function DetailTeamSpace() {
   const navigation = useNavigation();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpaceScreen}
+      <Stack.Screen name="DetailTeamSpace" component={DetailTeamSpaceScreen}
         options={{
           title: "상세 팀스페이스",
           tabBarStyle: { display: 'none' },

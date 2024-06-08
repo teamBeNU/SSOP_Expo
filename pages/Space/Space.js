@@ -8,6 +8,7 @@ import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard
 import SpaceModal from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
+import Toast from 'react-native-toast-message';
 
 import NotiIcon from '../../assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
@@ -74,6 +75,10 @@ function MySpaceScreen({navigation}) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
 
+  const handleDeleteGroup = () => {
+    setIsSpaceModalVisible(true);
+  };
+
   const handleNext = () => {
     navigation.navigate('그룹');
   };
@@ -92,13 +97,18 @@ function MySpaceScreen({navigation}) {
     navigation.navigate('링크 복사'); 
   };
 
-  const handleDeleteGroup = () => {
-    setIsSpaceModalVisible(true); // "그룹 삭제하기" 눌렀을 때 모달 표시
+  const handleDelete = () => {
+    //setNotiData(notiData.filter(card => card.id !== id));
+    showCustomToast('카드가 성공적으로 삭제되었습니다.');
   };
-
-  const handleConfirmDelete = () => {
-    // 그룹 삭제 로직을 여기에 작성합니다
-    setIsSpaceModalVisible(false);
+  
+  const showCustomToast = (text) => {
+    Toast.show({
+      text1: text,
+      type: 'selectedToast',
+      position: 'bottom',
+      visibilityTime: 2000,
+    });
   };
 
   const MySpaceGroup = ({ name, members }) => (
@@ -206,6 +216,7 @@ function MySpaceScreen({navigation}) {
         sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
         btn1={'취소할래요'}
         btn2={'네, 삭제할래요'}
+        toast={handleDelete} 
       />
       </View>
   ) : (
