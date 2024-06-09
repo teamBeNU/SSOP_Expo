@@ -13,11 +13,13 @@ import AvatarCustom from "./AvatarCustom";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import CreateCardDoneSvg from "../../assets/createCard/createCardDone.svg";
+import CoverAvatar from "../../assets/createCard/coverAvatar.svg";
+import CoverPicture from "../../assets/createCard/coverPicture.svg";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function TemplateStudent({navigation, goToStepOne}) {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(6);
     const [name, setName] = useState('');
     const [birth, setBirth] = useState({
         year: '',
@@ -678,7 +680,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                             <TouchableOpacity  
                                 onPress={() => {handleNext(); setCover("avatar");}}    
                             >
-                                <Image 
+                                {/* <Image 
                                     source={require("../../assets/images/cardCover-1.png")}
                                     style={[styles.coverImg, {marginLeft: (SCREEN_WIDTH - imageWidth)/2, marginRight:16}]}
                                     resizeMode="contain"
@@ -686,16 +688,28 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         const { width } = event.nativeEvent.layout;
                                         setImageWidth(width);
                                     }}
-                                />
+                                /> */}
+                                <View
+                                    style={{marginLeft: (SCREEN_WIDTH - imageWidth)/2, marginRight:16}}
+                                    onLayout={(event) => {
+                                        const { width } = event.nativeEvent.layout;
+                                        setImageWidth(width);
+                                    }}
+                                >
+                                    <CoverAvatar />
+                                </View>
                             </TouchableOpacity>
                             <TouchableOpacity
                                 onPress={() => {handleNext(); setCover("picture");}}  
                             >
-                                <Image 
+                                {/* <Image 
                                     source={require("../../assets/images/cardCover-2.png")}
                                     style={[styles.coverImg, {marginRight: (SCREEN_WIDTH - imageWidth)/2}]}
                                     resizeMode="contain"
-                                />
+                                /> */}
+                                <View style={{marginRight: (SCREEN_WIDTH - imageWidth)/2}}>
+                                <CoverPicture />
+                                </View>
                             </TouchableOpacity>
                         </ScrollView>
                     </View>
