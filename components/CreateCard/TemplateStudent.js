@@ -386,21 +386,27 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     style={[styles.flexDirectionRow, styles.btnMore, showJob ? styles.btnOn : styles.btnOff]}  
                                     onPress={() => setShowJob(!showJob)}
                                 >
-                                    <DoneIcon style={[styles.doneIcon, {color: showJob ? theme.skyblue : theme.gray60}]} />
+                                    {showJob && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
                                     <Text style={showJob ? styles.btnTextOn : styles.btnTextOff}>직무</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
                                     style={[styles.flexDirectionRow, styles.btnMore, showClub ? styles.btnOn : styles.btnOff]} 
                                     onPress={() => setShowClub(!showClub)}
                                 >
-                                    <DoneIcon style={[styles.doneIcon, {color: showClub ? theme.skyblue : theme.gray60}]} />
+                                    {showClub && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
                                     <Text style={showClub ? styles.btnTextOn : styles.btnTextOff}>동아리</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
                                     style={[styles.flexDirectionRow, styles.btnMore, showStatus ? styles.btnOn : styles.btnOff]} 
                                     onPress={() => setShowStatus(!showStatus)}
                                 >
-                                    <DoneIcon style={[styles.doneIcon, {color: showStatus ? theme.skyblue : theme.gray60}]} />
+                                    {showStatus && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
                                     <Text style={showStatus ? styles.btnTextOn : styles.btnTextOff}>재학여부</Text>
                                 </TouchableOpacity>
                             </View>
@@ -478,14 +484,18 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     style={[styles.flexDirectionRow, styles.btnMore, showSns ? styles.btnOn : styles.btnOff]}
                                     onPress={() => setShowSns(!showSns)}
                                 >
-                                    <DoneIcon style={[styles.doneIcon, {color: showSns ? theme.skyblue : theme.gray60}]} />
+                                    {showSns && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
                                     <Text style={showSns ? styles.btnTextOn : styles.btnTextOff}>SNS 계정</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
                                     style={[styles.flexDirectionRow, styles.btnMore, showEmail ? styles.btnOn : styles.btnOff]}
                                     onPress={() => setShowEmail(!showEmail)}
                                 >
-                                    <DoneIcon style={[styles.doneIcon, {color: showEmail ? theme.skyblue : theme.gray60}]} />
+                                    {showEmail && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
                                     <Text style={showEmail ? styles.btnTextOn : styles.btnTextOff}>이메일</Text>
                                 </TouchableOpacity>
                             </View>
@@ -564,21 +574,27 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     style={[styles.flexDirectionRow, styles.btnMore, showMbti ? styles.btnOn : styles.btnOff]}
                                     onPress={() => setShowMbti(!showMbti)}
                                 >
-                                    <DoneIcon style={[styles.doneIcon, {color: showMbti ? theme.skyblue : theme.gray60}]} />
+                                    {showMbti && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
                                     <Text style={showMbti ? styles.btnTextOn : styles.btnTextOff}>MBTI</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
                                     style={[styles.flexDirectionRow, styles.btnMore, showMusic ? styles.btnOn : styles.btnOff]}
                                     onPress={() => setShowMusic(!showMusic)}
                                 >
-                                    <DoneIcon style={[styles.doneIcon, {color: showMusic ? theme.skyblue : theme.gray60}]} />
+                                    {showMusic && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
                                     <Text style={showMusic ? styles.btnTextOn : styles.btnTextOff}>인생 음악</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={[styles.flexDirectionRow, styles.btnMore, showMovie ? styles.btnOn : styles.btnOff]}
                                     onPress={() => setShowMovie(!showMovie)}
                                 >
-                                    <DoneIcon style={[styles.doneIcon, {color: showMovie ? theme.skyblue : theme.gray60}]} />
+                                    {showMovie && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
                                     <Text style={showMovie ? styles.btnTextOn : styles.btnTextOff}>인생 영화</Text>
                                 </TouchableOpacity>
                             </View>

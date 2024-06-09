@@ -90,6 +90,7 @@ export const styles = StyleSheet.create({
     
     doneIcon: {
         marginRight: 4,
+        color: theme.skyblue,
     },
     birthSecret: {
         flexDirection: "row",
@@ -151,11 +152,17 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray90,
     },
     btnTextOn: {
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
+        fontWeight: "600",
+        fontStyle: "normal",
         color: theme.skyblue,
     },
     btnTextOff: {
+        fontFamily: "PretendardRegular",
         fontSize: 16,
+        fontWeight: "400",
+        fontStyle: "normal",
         color: theme.gray20,
     },
 
