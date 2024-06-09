@@ -19,7 +19,7 @@ import CoverPicture from "../../assets/createCard/coverPicture.svg";
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function TemplateStudent({navigation, goToStepOne}) {
-    const [step, setStep] = useState(6);
+    const [step, setStep] = useState(1);
     const [name, setName] = useState('');
     const [birth, setBirth] = useState({
         year: '',
@@ -511,7 +511,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         />
                                     </View>
                                     <View style={styles.margintB48}>
-                                        <Text style={styles.inputText}>X</Text>
+                                        <Text style={styles.inputText}>X(트위터)</Text>
                                         <TextInput 
                                             style={styles.customInput}
                                             placeholder="X 계정을 입력하세요."
