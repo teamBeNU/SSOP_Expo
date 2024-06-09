@@ -5,7 +5,6 @@ export const styles = StyleSheet.create({
     // CardFront
 	card: {
 		width: 158,
-        height: 200,
         borderRadius: 8,
         backgroundColor: 'white',
         overflow: 'hidden',
@@ -46,15 +45,14 @@ export const styles = StyleSheet.create({
         height: 148,
     },
     cardTextArea: {
-        height: 53,
         backgroundColor: "white",
         gap: 12,
+        paddingHorizontal: 12,
+        paddingVertical: 14,
     },
     Info: {
         flexDirection: "row",
         alignItems: 'flex-end',
-        paddingHorizontal: 12,
-        paddingVertical:16,
     },
     name: {
         fontFamily: 'PretendardSemiBold',
@@ -96,7 +94,6 @@ export const styles = StyleSheet.create({
         borderColor: "rgba(232, 232, 232, 1.0)",
 	},
     DetailcardTextArea: {
-        height: 85,
         backgroundColor: "white",
         paddingTop: 16,
         paddingLeft: 12,
@@ -113,7 +110,6 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: theme.gray90,
-        zIndex: 1000,
     },
     DetailcardHost: {
         position: 'absolute',

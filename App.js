@@ -49,6 +49,7 @@ import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
 import UserPw from './pages/MyPage/UserPw';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import DetailGroup from './pages/Space/DetailGroup';
+import MySpaceManage from './pages/Space/MySpaceManage';
 
 import { styles } from './components/MyCard/CardStyle';
 
@@ -251,6 +252,15 @@ export default function App() {
           }}/>
           <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
+          <Stack.Screen name="마이 스페이스 관리" component={MySpaceManage}
+          options={{
+            headerTitle: "관리",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />

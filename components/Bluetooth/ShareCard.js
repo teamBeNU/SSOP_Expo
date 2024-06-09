@@ -24,10 +24,13 @@ export const ShareCard = ({ backgroundColor, avatar, host, card_name, age, dot, 
                         {card_template ? <Text style={styles.ageText}>{card_template}</Text> : null}
                     </View>
                 </View>
-                <View style={styles.DetailcardFilter}>
+                {filter && (
+                    <View style={styles.DetailcardFilter}>
                     <Text style={styles.DetailcardFilterText}>{filter}</Text>
                 </View>
+                )}
             </View>
+            
         </View>
     )
 }

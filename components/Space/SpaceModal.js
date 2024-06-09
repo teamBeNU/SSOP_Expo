@@ -61,8 +61,7 @@ export const SpaceNameChangeModal = ({isVisible, onClose, groupName, btn1, btn2,
                             keyboardType='default'
                             value={inputName}
                             onChangeText={setInputName}
-                            returnKeyType="next"
-                            onSubmitEditing={() => ref_input2.current.focus()}
+                            returnKeyType='done'
                             blurOnSubmit={false}
                         />
                         <View style={styles.Btn}>

@@ -226,7 +226,7 @@ function MySpaceScreen({navigation}) {
       <SpaceNameChangeModal
         isVisible={isGroupNameChangeModalVisible}
         onClose={() => setIsGroupNameChangeModalVisible(false)}
-        groupName={'그룹 이름을 작성하세요'}
+        groupName={'그룹 이름을 작성하세요.'}
         btn1={'취소하기'}
         btn2={'수정하기'}
         toast={handleDelete} 
@@ -266,7 +266,6 @@ function MySpaceScreen({navigation}) {
     </View>
   );
 }
-
 
 // 팀스페이스 
 function TeamSpaceScreen({ navigation}) {
@@ -398,6 +397,77 @@ function TeamSpaceScreen({ navigation}) {
     );
 }
 
+// function MySpaceStack({ navigation }) {
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen 
+//         name="myspace" 
+//         component={MySpaceScreen} 
+//         options={{
+//           title: " ",
+//           headerShadowVisible: false,
+//           headerLeft: () => (
+//             <TouchableOpacity onPress={() => navigation.navigate('알림')}>
+//               <NotiIcon style={{ marginLeft: 8 }} />
+//             </TouchableOpacity>
+//           ),
+//           headerRight: () => (
+//             <View style={{ flexDirection: 'row' }}>
+//               <TouchableOpacity><SearchIcon /></TouchableOpacity>
+//               <TouchableOpacity><NewFolderIcon /></TouchableOpacity>
+//               <TouchableOpacity>
+//                 <Menu>
+//                   <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
+//                   <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
+//                     <MenuOption style={{ marginBottom: 10.5 }} text='그룹 관리하기' />
+//                     <MenuOption style={{ marginBottom: 10.5 }} text='카드 관리하기' onPress={() => navigation.navigate('마이 스페이스 관리')} />
+//                     <MenuOption text='연락처 관리하기' />
+//                   </MenuOptions>
+//                 </Menu>
+//               </TouchableOpacity>
+//             </View>
+//           ),
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
+
+
+// function TeamSpaceStack() {
+//   const navigation = useNavigation();
+//   return (
+//     <Stack.Navigator>
+//       <Stack.Screen 
+//         name="teamspace" 
+//         component={TeamSpaceScreen} 
+//         options={{
+//           title: " ",
+//           headerShadowVisible: false,
+//           headerLeft: () => (
+//             <TouchableOpacity onPress={() => navigation.navigate('알림')}>
+//               <NotiIcon style={{ marginLeft: 8  }}/>
+//             </TouchableOpacity>
+//           ),
+//           headerRight: () => (
+//             <View style={{ flexDirection: 'row' }}>
+//               <TouchableOpacity><SearchIcon /></TouchableOpacity>
+//               <TouchableOpacity >
+//                 <Menu>
+//                   <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
+//                   <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+//                     <MenuOption text='팀스페이스 편집하기'/>
+//                   </MenuOptions>
+//                 </Menu>
+//               </TouchableOpacity>
+//             </View>
+//           ),
+//         }}
+//       />
+//     </Stack.Navigator>
+//   );
+// }
+
 function SpaceTabs() {
   return (
     <Tab.Navigator 
@@ -414,38 +484,44 @@ function SpaceTabs() {
   );
 }
 
-function Space() {
-    const navigation = useNavigation();
-    return (
-      <Stack.Navigator>
-        <Stack.Screen name="SpaceTabs" component={SpaceTabs} 
-        options={{
-          title: " ",
-          headerShadowVisible: false,
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('알림')}>
-              <NotiIcon style={{ marginLeft: 8  }}/>
+function Space({navigation}) {
+
+  const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
+
+  const handleChangeGroupName = () => {
+    setIsGroupNameChangeModalVisible(true);
+  };
+
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="SpaceTabs" component={SpaceTabs} 
+      options={{
+        title: " ",
+        headerShadowVisible: false,
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('알림')}>
+            <NotiIcon style={{ marginLeft: 8 }} />
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity onPress={() => navigation.navigate('마이 스페이스 관리')}><SearchIcon /></TouchableOpacity>
+            <TouchableOpacity onPress={handleChangeGroupName}><NewFolderIcon /></TouchableOpacity>
+            <TouchableOpacity>
+              <Menu>
+                <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
+                <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
+                  <MenuOption style={{ marginBottom: 10.5 }} text='그룹 관리하기' />
+                  <MenuOption style={{ marginBottom: 10.5 }} text='카드 관리하기' />
+                  <MenuOption text='연락처 관리하기' />
+                </MenuOptions>
+              </Menu>
             </TouchableOpacity>
-          ),
-          headerRight: () => (
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity><SearchIcon /></TouchableOpacity>
-              <TouchableOpacity><NewFolderIcon /></TouchableOpacity>
-              <TouchableOpacity >
-                <Menu>
-                  <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
-                  <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                    <MenuOption style={{ marginBottom: 10.5}} text='그룹 관리하기'/>
-                    <MenuOption style={{ marginBottom: 10.5}} text='카드 관리하기'/>
-                    <MenuOption text='연락처 관리하기'/>
-                  </MenuOptions>
-                </Menu>
-              </TouchableOpacity>
-            </View>
-          ),
-        }}/>
-      </Stack.Navigator>
-    );
-  }
+          </View>
+        ),
+      }}/>
+    </Stack.Navigator>
+  );
+}
 
   export default Space;

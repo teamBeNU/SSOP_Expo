@@ -4,6 +4,7 @@ import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { styles } from './SpaceStyle';
 import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
+import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -20,10 +21,15 @@ const Stack = createStackNavigator();
 // 그룹 상세
 function DetailSpaceGroup({ navigation }) {
     const [selectedOption, setSelectedOption] = useState('최신순');
-    const [isModalVisible, setIsModalVisible] = useState(false);
-  
-    const handleShareButtonPress = () => {
-      setIsModalVisible(true);
+    const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
+    const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
+
+    const handleDeleteGroup = () => {
+      setIsSpaceModalVisible(true);
+    };
+
+    const handleChangeGroupName = () => {
+      setIsGroupNameChangeModalVisible(true);
     };
   
     const DetailcardData = [
@@ -47,7 +53,7 @@ function DetailSpaceGroup({ navigation }) {
                       <Text style={styles.btnText}>연락처 저장 </Text>
                   </View>
                   <View style={styles.btn}>
-                      <TouchableOpacity style={styles.whiteBtn} onPress={handleShareButtonPress}>
+                      <TouchableOpacity style={styles.whiteBtn}>
                           <EditIcon />
                       </TouchableOpacity>
                       <Text style={styles.btnText}>카드 관리</Text>
@@ -97,13 +103,26 @@ function DetailSpaceGroup({ navigation }) {
               <View style={styles.innerView}></View>
             </ScrollView>
           </View>
-            
+          <SpaceModal
+            isVisible={isSpaceModalVisible}
+            onClose={() => setIsSpaceModalVisible(false)}
+            title={'그룹을 삭제하시겠습니까?'}
+            sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
+            btn1={'취소할래요'}
+            btn2={'네, 삭제할래요'}
+          />
+          <SpaceNameChangeModal
+            isVisible={isGroupNameChangeModalVisible}
+            onClose={() => setIsGroupNameChangeModalVisible(false)}
+            groupName={'그룹 이름을 작성하세요.'}
+            btn1={'취소하기'}
+            btn2={'수정하기'}
+          />
         </View>
     );
   }
 
 function DetailGroup() {
-    const navigation = useNavigation();
     return (
       <Stack.Navigator>
           <Stack.Screen name="Group" component={DetailSpaceGroup} 
