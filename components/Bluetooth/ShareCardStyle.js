@@ -133,4 +133,34 @@ export const styles = StyleSheet.create({
         fontSize: 12,
         letterSpacing: -0.5,
     },
+
+    radioButtonContainer: {
+        position: 'absolute',
+        top: 10,
+        left: 10,
+    },
+
+    // 라디오 커스텀
+    radioContainer: {
+        width: 20,
+        height: 20,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: theme.white,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: "rgba(0, 0, 0, 0.5)",
+    },
+    radioContainerSelected: {
+        borderColor: '#000', // Border color for selected state
+    },
+    radioInnerSelected: {
+        width: 12,
+        height: 12,
+        backgroundColor: theme.white, // Inner circle color for selected state
+    },
+    radioInnerUnselected: {
+        width: 12,
+        height: 12, // Inner circle color for unselected state
+    },
 });

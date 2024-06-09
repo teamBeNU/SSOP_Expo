@@ -4,7 +4,7 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     mainlayout:{      
         flex: 1,  
-        paddingVertical: 8,
+        paddingTop: 8,
         paddingHorizontal: 16,
         backgroundColor: theme.white
     },
@@ -591,4 +591,55 @@ export const styles = StyleSheet.create({
         color: theme.gray60,
     },
 
+    // 라디오
+    radioContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+      radio: {
+        height: 20,
+        width: 20,
+        borderRadius: 12,
+        borderWidth: 2,
+        borderColor: theme.gray80,
+        alignItems: 'center',
+        justifyContent: 'center',
+        marginRight: 8,
+        marginLeft: 28,
+        marginTop: 20,
+      },
+      radioSelected: {
+        borderColor: '#7F7F7F',
+        backgroundColor: '#7F7F7F',
+      },
+      radioInner: {
+        backgroundColor: '#7F7F7F',
+      },
+      label: {
+        fontSize: 14,
+        fontFamily: 'PretendardSemiBold',
+        letterSpacing: -1,
+        marginTop: 21.5,
+      },
+
+      // 하단
+    bottomContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
+        padding: 20,
+        borderTopWidth: 1,
+        borderColor: theme.gray90,
+        backgroundColor: theme.white
+    },
+    bottomText: {
+        fontSize: 14,
+        fontFamily: 'PretendardSemiBold',
+        color: 'black',
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
 })
