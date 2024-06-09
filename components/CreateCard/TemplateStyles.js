@@ -126,7 +126,7 @@ export const styles = StyleSheet.create({
     },
     btnNextText: {
         color: theme.white,
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
         fontWeight: "600",
     },
