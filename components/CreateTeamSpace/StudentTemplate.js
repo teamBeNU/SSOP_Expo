@@ -18,8 +18,9 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
   const [showAge, setShowAge] = useState(false);
   const [showSchool, setShowSchool] = useState(false);
   const [showGrade, setShowGrade] = useState(false);
-  // 뒷면 - step2
   const [showStudNum, setShowStudNum] = useState(false);
+  // 뒷면 - step2  
+  const [showMajor, setShowMajor] = useState(false);
   const [showRole, setShowRole] = useState(false);
   const [showClub, setShowClub] = useState(false);
   const [showTel, setShowTel] = useState(false);
@@ -81,6 +82,9 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
         break;
       case 'showGrade':
         setShowGrade((prevState) => !prevState);
+        break;
+      case 'showMajor':
+        setShowMajor((prevState) => !prevState);
         break;
       case 'showStudNum':
         setShowStudNum((prevState) => !prevState);
@@ -239,6 +243,17 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                   )}
                   {!showGrade && <Text> 학년 </Text>}
                 </TouchableOpacity>
+
+                <TouchableOpacity onPress={() => handleSelect('showStudNum')}
+                  style={showStudNum ? styles.selectedElement : styles.element}>
+                  {showStudNum && (
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Select />
+                      <Text style={styles.selectedText}> 학생번호 </Text>
+                    </View>
+                  )}
+                  {!showStudNum && <Text> 학생번호 </Text>}
+                </TouchableOpacity>
               </View>
 
               <View style={styles.line} />
@@ -285,17 +300,67 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
               <Text style={[styles.font16, { marginTop: 28 }]}>학생정보</Text>
               <View style={styles.elementContainer}>
-                <TouchableOpacity onPress={() => handleSelect('showStudNum')}
-                  style={showStudNum ? styles.selectedElement : styles.element}>
-                  {showStudNum && (
+
+                {/* 전공 */}
+                <TouchableOpacity onPress={() => handleSelect('showMajor')}
+                  style={showMajor ? styles.selectedElement : styles.element}>
+                  {showMajor && (
                     <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                       <Select />
-                      <Text style={styles.selectedText}> 학생번호 </Text>
+                      <Text style={styles.selectedText}> 전공 </Text>
                     </View>
                   )}
-                  {!showStudNum && <Text> 학생번호 </Text>}
+                  {!showMajor && <Text> 전공 </Text>}
+                </TouchableOpacity>
+                
+                {/* 역할 */}
+                <TouchableOpacity onPress={() => handleSelect('showRole')}
+                  style={showRole ? styles.selectedElement : styles.element}>
+                  {showRole ? (
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Select />
+                      <Text style={styles.selectedText}> 역할 </Text>
+                    </View>
+                  ) : (
+                    <Text> 역할 </Text>
+                  )}
                 </TouchableOpacity>
 
+                {showRole && (
+                  <View>
+                    <Text style={[styles.font16, { marginTop: 28, marginLeft: 0 }]}>역할 선택지 입력</Text>
+                    <Text style={styles.subtitle}>역할을 등록해두면 통일하여 필터링하기 편해요.</Text>
+                    <View style={styles.elementContainer}>
+                      {roleList.map((item, index) => (
+                        <TouchableOpacity key={index} onPress={() => roleSelected(index)}
+                          style={item.selected ? styles.selectedElement : styles.element}>
+                          {item.selected && (
+                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                              <Select />
+                              <Text style={styles.selectedText}> #{item.role} </Text>
+                            </View>
+                          )}
+                          {!item.selected && <Text> #{item.role} </Text>}
+                        </TouchableOpacity>
+                      ))}
+                    </View>
+
+                    <View style={styles.plusContainer}>
+                      <TextInput
+                        style={[styles.nameInput, { flex: 1 }]}
+                        placeholder='직접 입력하여 추가'
+                        maxLength={10}
+                        value={rolePlus}
+                        onChangeText={text => setRolePlus(text)}
+                        onSubmitEditing={addRole}
+                      />
+                    </View>
+
+                    <Text style={styles.nameLeng}> {roleLength} / 10 </Text>
+                  </View>
+                )}
+
+                {/* 동아리 */}
                 <TouchableOpacity onPress={() => handleSelect('showClub')}
                   style={showClub ? styles.selectedElement : styles.element}>
                   {showClub && (
@@ -307,54 +372,12 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                   {!showClub && <Text> 동아리 </Text>}
                 </TouchableOpacity>
 
-                <TouchableOpacity onPress={() => handleSelect('showRole')}
-                  style={showRole ? styles.selectedElement : styles.element}>
-                  {showRole && (
-                    <View>
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Select />
-                        <Text style={styles.selectedText}> 역할 </Text>
-                      </View>
-
-                      <Text style={[styles.font16, { marginTop: 28 }]}>역할</Text>
-                      <Text style={styles.subtitle}>역할을 등록해두면 통일하여 필터링하기 편해요.</Text>
-                      <View style={styles.elementContainer}>
-                        {roleList.map((item, index) => (
-                          <TouchableOpacity key={index} onPress={() => roleSelected(index)}
-                            style={item.selected ? styles.selectedElement : styles.element}>
-                            {item.selected && (
-                              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                <Select />
-                                <Text style={styles.selectedText}> #{item.role} </Text>
-                              </View>
-                            )}
-                            {!item.selected && <Text> #{item.role} </Text>}
-                          </TouchableOpacity>
-                        ))}
-                      </View>
-                      
-                      <View style={styles.plusContainer}>
-                        <TextInput
-                          style={[styles.nameInput, { flex: 1 }]}
-                          placeholder='직접 입력하여 추가'
-                          maxLength={10}
-                          value={rolePlus}
-                          onChangeText={text => setRolePlus(text)}
-                          onSubmitEditing={addRole}
-                        />
-                      </View>
-
-                      <Text style={styles.nameLeng}> {roleLength} / 10 </Text>
-                    </View>
-                  )}
-                  {!showRole && <Text> 역할 </Text>}
-                </TouchableOpacity>
-
               </View>
 
               <Text style={[styles.font16, { marginTop: 28 }]}>연락수단</Text>
               <View style={styles.elementContainer}>
-
+                
+                {/* 연락처 */}
                 <TouchableOpacity onPress={() => handleSelect('showTel')}
                   style={showTel ? styles.selectedElement : styles.element}>
                   {showTel && (
@@ -366,6 +389,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                   {!showTel && <Text> 연락처 </Text>}
                 </TouchableOpacity>
 
+                {/* SNS */}
                 <TouchableOpacity onPress={() => handleSelect('showSNS')}
                   style={showSNS ? styles.selectedElement : styles.element}>
                   {showSNS && (
@@ -377,6 +401,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                   {!showSNS && <Text> SNS </Text>}
                 </TouchableOpacity>
 
+                {/* 이메일 */}
                 <TouchableOpacity onPress={() => handleSelect('showEmail')}
                   style={showEmail ? styles.selectedElement : styles.element}>
                   {showEmail && (
@@ -476,7 +501,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
             <View style={[styles.btnContainer, { marginBottom: -28 }]}>
               <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+                <Text onPress={handleNext} style={styles.btnText}> 팀스페이스 생성을 완료할래요 </Text>
               </TouchableOpacity>
             </View>
           </View>
