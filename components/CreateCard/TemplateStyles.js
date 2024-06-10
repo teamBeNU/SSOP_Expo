@@ -19,6 +19,9 @@ export const styles = StyleSheet.create({
     marginR8: {
         marginRight: 8,
     },
+    marginT32: {
+        marginTop: 32,
+    },
     flexDirectionRow: {
         flexDirection: "row",
     },
@@ -40,7 +43,7 @@ export const styles = StyleSheet.create({
         marginTop: 68,
     },
     inputContainer: {
-        marginBottom: 32,
+        marginBottom: 40,
     },
     inputText: {
         fontFamily: "PretendardRegular",
@@ -76,6 +79,32 @@ export const styles = StyleSheet.create({
         marginTop: 8,
     },
 
+    birthContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    doneIcon: {
+        marginRight: 4,
+        color: theme.skyblue,
+    },
+    birthSecret: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        marginBottom: 8,
+    },
+    birthSecretOn: {
+        fontSize: 14,
+        fontFamily: "PretendardRegular",
+        color: "black",
+    },
+    birthSecretOff: {        
+        fontSize: 14,
+        fontFamily: "PretendardRegular",
+        color: theme.gray30,
+    },
+
     inputBirthContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -92,27 +121,6 @@ export const styles = StyleSheet.create({
         textAlign: "right",
         fontFamily: "PretendardRegular",
         fontSize: 16,
-    },
-    
-    doneIcon: {
-        marginRight: 4,
-        color: theme.skyblue,
-    },
-    birthSecret: {
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        marginTop: 12,
-    },
-    birthSecretOn: {
-        fontSize: 14,
-        fontFamily: "PretendardRegular",
-        color: "black",
-    },
-    birthSecretOff: {        
-        fontSize: 14,
-        fontFamily: "PretendardRegular",
-        color: theme.gray30,
     },
 
     btnNext: {
@@ -198,7 +206,11 @@ export const styles = StyleSheet.create({
     },
 
     snsText: {
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
+        fontWeight: "600",
+        fontStyle: "normal",
+        color: "black",
         marginBottom: 16,
     },
     musicInput: {

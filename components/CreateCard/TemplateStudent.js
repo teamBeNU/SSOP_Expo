@@ -220,7 +220,15 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     )}
                                 </View>
                                 <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>생년월일*</Text>
+                                    <View style={styles.birthContainer}>
+                                        <Text style={styles.inputText}>생년월일*</Text>
+                                        <TouchableOpacity 
+                                            style={styles.birthSecret} 
+                                            onPress={() => setBSecret(!bSecret)}>
+                                            <DoneIcon style={[styles.doneIcon, {color: bSecret ? theme.skyblue : theme.gray60}]} />
+                                            <Text style={bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 비밀로 할래요</Text>
+                                        </TouchableOpacity>
+                                    </View>
                                     <View style={styles.inputBirthContainer}>
                                         <TextInput
                                             style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
@@ -265,19 +273,11 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             blurOnSubmit={false}
                                         />
                                     </View>
-                                    <View style={[styles.flexDirectionRow, {justifyContent: "space-between", alignItems: 'center' }]}>
-                                        {!isFull.birth ? (
-                                            <Text style={[styles.inputErrorText, {marginTop: 12}]}>생년월일을 입력해 주세요.</Text>
-                                        ) : (
-                                            <View></View>
-                                        )}
-                                        <TouchableOpacity 
-                                            style={styles.birthSecret} 
-                                            onPress={() => setBSecret(!bSecret)}>
-                                            <DoneIcon style={[styles.doneIcon, {color: bSecret ? theme.skyblue : theme.gray60}]} />
-                                            <Text style={bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 비밀로 할래요</Text>
-                                        </TouchableOpacity>
-                                    </View>
+                                    {!isFull.birth ? (
+                                        <Text style={[styles.inputErrorText, {marginTop: 12}]}>생년월일을 입력해 주세요.</Text>
+                                    ) : (
+                                        <View></View>
+                                    )}
                                 </View>
                                 <View style={[styles.inputContainer, !isFull.tel && {marginBottom: 15}]}>
                                     <Text style={styles.inputText}>연락처*</Text>
@@ -426,72 +426,74 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                             {!showStudentNumber && !showMajor && !showRole && !showClub && (
                                 <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                             )}
-                            {showStudentNumber && (
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>학생번호</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="학번이나 출석번호를 입력하세요. e.g., 17(학)번"
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={studentNumber}
-                                        onChangeText={setStudentNumber}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input2.current.focus()}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            )}
-                            {showMajor && (
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>전공</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="전공을 입력하세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={major}
-                                        onChangeText={setMajor}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input3.current.focus()}
-                                        ref={ref_input2}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            )}
-                            {showRole && (
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>역할</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="역할을 입력하세요. e.g., 회장, 디자이너 등"
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={role}
-                                        onChangeText={setRole}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input4.current.focus()}
-                                        ref={ref_input3}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            )}
-                            {showClub && (
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>동아리</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="소속 동아리명을 입력하세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={club}
-                                        onChangeText={setClub}
-                                        returnKeyType="next"
-                                        ref={ref_input4}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            )}
+                            <View style={styles.marginT32}>
+                                {showStudentNumber && (
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>학생번호</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="학번이나 출석번호를 입력하세요. e.g., 17(학)번"
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={studentNumber}
+                                            onChangeText={setStudentNumber}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input2.current.focus()}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                )}
+                                {showMajor && (
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>전공</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="전공을 입력하세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={major}
+                                            onChangeText={setMajor}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input3.current.focus()}
+                                            ref={ref_input2}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                )}
+                                {showRole && (
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>역할</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="역할을 입력하세요. e.g., 회장, 디자이너 등"
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={role}
+                                            onChangeText={setRole}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input4.current.focus()}
+                                            ref={ref_input3}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                )}
+                                {showClub && (
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>동아리</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="소속 동아리명을 입력하세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={club}
+                                            onChangeText={setClub}
+                                            returnKeyType="next"
+                                            ref={ref_input4}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                )}
+                            </View>
                             <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}
@@ -532,56 +534,59 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                             {!showSns && !showEmail && (
                                 <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                             )}
-                            {showSns && (
-                                <View>
-                                    <Text style={styles.snsText}>SNS</Text>
-                                    <View style={styles.margintB16}>
-                                        <Text style={styles.inputText}>Instargram</Text>
+                            <View style={styles.marginT32}>
+                                {showSns && (
+                                    <View>
+                                        <Text style={styles.snsText}>SNS</Text>
+                                        <View style={styles.margintB16}>
+                                            <Text style={styles.inputText}>Instargram</Text>
+                                            <TextInput 
+                                                style={styles.customInput}
+                                                placeholder="인스타그램 계정을 입력하세요."
+                                                placeholderTextColor={theme.gray60}
+                                                keyboardType="default"
+                                                value={sns.instargram}
+                                                onChangeText={(newInstargram) => {setSns((prevSns => ({...prevSns, instargram: newInstargram})));}}
+                                                returnKeyType="next"
+                                                onSubmitEditing={() => ref_input2.current.focus()}
+                                                blurOnSubmit={false}
+                                            />
+                                        </View>
+                                        <View style={styles.margintB48}>
+                                            <Text style={styles.inputText}>X(트위터)</Text>
+                                            <TextInput 
+                                                style={styles.customInput}
+                                                placeholder="X 계정을 입력하세요."
+                                                placeholderTextColor={theme.gray60}
+                                                keyboardType="default"
+                                                value={sns.x}
+                                                onChangeText={(newX) => {setSns((prevSns => ({...prevSns, x: newX})));}}
+                                                returnKeyType="next"
+                                                onSubmitEditing={() => ref_input3.current.focus()}
+                                                ref={ref_input2}
+                                                blurOnSubmit={false}
+                                            />
+                                        </View>
+                                    </View>
+                                )}
+                                {showEmail && (
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>이메일</Text>
                                         <TextInput 
                                             style={styles.customInput}
-                                            placeholder="인스타그램 계정을 입력하세요."
+                                            placeholder="이메일 주소를 입력하세요."
                                             placeholderTextColor={theme.gray60}
-                                            keyboardType="default"
-                                            value={sns.instargram}
-                                            onChangeText={(newInstargram) => {setSns((prevSns => ({...prevSns, instargram: newInstargram})));}}
+                                            keyboardType="email"
+                                            value={email}
+                                            onChangeText={setEmail}
                                             returnKeyType="next"
-                                            onSubmitEditing={() => ref_input2.current.focus()}
+                                            ref={ref_input3}
                                             blurOnSubmit={false}
                                         />
                                     </View>
-                                    <View style={styles.margintB48}>
-                                        <Text style={styles.inputText}>X(트위터)</Text>
-                                        <TextInput 
-                                            style={styles.customInput}
-                                            placeholder="X 계정을 입력하세요."
-                                            placeholderTextColor={theme.gray60}
-                                            keyboardType="default"
-                                            value={sns.x}
-                                            onChangeText={(newX) => {setSns((prevSns => ({...prevSns, x: newX})));}}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input3.current.focus()}
-                                            ref={ref_input2}
-                                            blurOnSubmit={false}
-                                        />
-                                    </View>
-                                </View>
-                            )}
-                            {showEmail && (
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>이메일</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="이메일 주소를 입력하세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="email"
-                                        value={email}
-                                        onChangeText={setEmail}
-                                        returnKeyType="next"
-                                        ref={ref_input3}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            )}
+                                )}
+                            </View>
+                            
                             <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}
@@ -631,71 +636,73 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                             {!showMbti && !showMusic && !showMovie && (
                                 <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                             )}
-                            {showMbti && (
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>MBTI</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="MBTI를 입력하세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={mbti}
-                                        onChangeText={setMbti}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input2.current.focus()}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            )}
-                            {showMusic && (
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>인생 음악</Text>
-                                    <View style={styles.flexDirectionRow}>
+                            <View style={styles.marginT32}>
+                                {showMbti && (
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>MBTI</Text>
                                         <TextInput 
-                                            style={[styles.musicInput, styles.marginR6]}
-                                            placeholder="제목명"
+                                            style={styles.customInput}
+                                            placeholder="MBTI를 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={music.title}
-                                            // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
-                                            onChangeText={(newTitle) => {setMusic((prevMusic => ({...prevMusic, title: newTitle})));}}
+                                            value={mbti}
+                                            onChangeText={setMbti}
                                             returnKeyType="next"
-                                            onSubmitEditing={() => ref_input3.current.focus()}
-                                            ref={ref_input2}
-                                            blurOnSubmit={false}
-                                        />
-                                        <TextInput 
-                                            style={styles.musicInput}
-                                            placeholder="가수명"
-                                            placeholderTextColor={theme.gray60}
-                                            keyboardType="default"
-                                            value={music.musician}
-                                            // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
-                                            onChangeText={(newMusician) => {setMusic((prevMusic => ({...prevMusic, musician: newMusician})));}}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input4.current.focus()}
-                                            ref={ref_input3}
+                                            onSubmitEditing={() => ref_input2.current.focus()}
                                             blurOnSubmit={false}
                                         />
                                     </View>
-                                </View>
-                            )}
-                            {showMovie && (
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>인생 영화</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="영화 제목을 입력하세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={movie}
-                                        onChangeText={setMovie}
-                                        returnKeyType="next"
-                                        ref={ref_input4}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            )}
+                                )}
+                                {showMusic && (
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>인생 음악</Text>
+                                        <View style={styles.flexDirectionRow}>
+                                            <TextInput 
+                                                style={[styles.musicInput, styles.marginR6]}
+                                                placeholder="제목명"
+                                                placeholderTextColor={theme.gray60}
+                                                keyboardType="default"
+                                                value={music.title}
+                                                // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
+                                                onChangeText={(newTitle) => {setMusic((prevMusic => ({...prevMusic, title: newTitle})));}}
+                                                returnKeyType="next"
+                                                onSubmitEditing={() => ref_input3.current.focus()}
+                                                ref={ref_input2}
+                                                blurOnSubmit={false}
+                                            />
+                                            <TextInput 
+                                                style={styles.musicInput}
+                                                placeholder="가수명"
+                                                placeholderTextColor={theme.gray60}
+                                                keyboardType="default"
+                                                value={music.musician}
+                                                // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
+                                                onChangeText={(newMusician) => {setMusic((prevMusic => ({...prevMusic, musician: newMusician})));}}
+                                                returnKeyType="next"
+                                                onSubmitEditing={() => ref_input4.current.focus()}
+                                                ref={ref_input3}
+                                                blurOnSubmit={false}
+                                            />
+                                        </View>
+                                    </View>
+                                )}
+                                {showMovie && (
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>인생 영화</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="영화 제목을 입력하세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={movie}
+                                            onChangeText={setMovie}
+                                            returnKeyType="next"
+                                            ref={ref_input4}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                )}
+                            </View>
                             <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}
