@@ -639,7 +639,13 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
         color: 'black',
+        letterSpacing: -1,
         justifyContent: 'center',
         alignContent: 'center'
+    },
+
+    bottomLine: {
+        marginLeft: 20,
+        marginRight: 20,
     },
 })
