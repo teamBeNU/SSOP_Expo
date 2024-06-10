@@ -12,7 +12,7 @@ import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import TemplateStudent from "../../components/CreateCard/TemplateStudent";
 
 function CreateCard({navigation}) {
-    const [template, setTemplate] = useState();
+    const [card_template, setTemplate] = useState();
     const [step, setStep] = useState(1);
 
     const items = [
@@ -81,18 +81,18 @@ function CreateCard({navigation}) {
 
             {step === 2 && (
                 <View>
-                    {template === "student" && (
+                    {card_template === "student" && (
                         <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
-                    {template === 2 && (
+                    {card_template === "worker" && (
                         // 직장인
                         <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
-                    {template === 3 && (
+                    {card_template === "fan" && (
                         // 팬
                         <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
-                    {template === 4 && (
+                    {card_template === "free" && (
                         // 자유 생성
                         <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}

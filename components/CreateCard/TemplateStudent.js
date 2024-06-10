@@ -20,51 +20,34 @@ const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function TemplateStudent({navigation, goToStepOne}) {
     const [step, setStep] = useState(1);
-    const [name, setName] = useState('');
-    const [birth, setBirth] = useState({
-        year: '',
-        month: '',
-        day: '',
-    });
-    const [bSecret, setBSecret] = useState(false);
-    const [tel, setTel] = useState('');
-    const [school, setSchool] = useState('');
-    const [grade, setGrade] = useState('');
-    const [introduction, setIntroduction] = useState('');
-    const [studentNumber, setStudentNumber] = useState('');
-    const [major, setMajor] = useState('');
-    const [role, setRole] = useState('');
-    const [club, setClub] = useState('');
-    const [sns, setSns] = useState({
-        instargram: '',
-        x: '',
-    });
-    const [email, setEmail] = useState('');
-    const [mbti, setMbti] = useState('');
-    const [music, setMusic] = useState({
-        title: '',
-        musician: '',
-    });
-    const [movie, setMovie] = useState('');
-    const [showStudentNumber, setShowStudentNumber] = useState(false);
+    const [card_name, setName] = useState('');
+    const [card_birth, setBirth] = useState({ year: '', month: '', day: '', });
+    const [card_bSecret, setBSecret] = useState(false);
+    const [card_tel, setTel] = useState('');
+    const [card_school, setSchool] = useState('');
+    const [card_grade, setGrade] = useState('');
+    const [card_introduction, setIntroduction] = useState('');
+    const [card_studNum, setStudNum] = useState('');
+    const [card_major, setMajor] = useState('');
+    const [card_role, setRole] = useState('');
+    const [card_club, setClub] = useState('');
+    const [card_SNS, setSNS] = useState({ insta: '', x: '', });
+    const [card_email, setEmail] = useState('');
+    const [card_MBTI, setMBTI] = useState('');
+    const [card_music, setMusic] = useState({ title: '', singer: '', });
+    const [card_movie, setMovie] = useState('');
+
+    const [showStudNum, setShowStudNum] = useState(false);
     const [showMajor, setShowMajor] = useState(false);
     const [showRole, setShowRole] = useState(false);
     const [showClub, setShowClub] = useState(false);
-    const [showSns, setShowSns] = useState(false);
+    const [showSNS, setShowSNS] = useState(false);
     const [showEmail, setShowEmail] = useState(false);
-    const [showMbti, setShowMbti] = useState(false);
+    const [showMBTI, setShowMBTI] = useState(false);
     const [showMusic, setShowMusic] = useState(false);
     const [showMovie, setShowMovie] = useState(false);
-    const [cover, setCover] = useState('avatar');
-    const [isFull, setIsFull] = useState({
-        name: true,
-        birth: true,
-        tel: true,
-        school: true,
-        grade: true,
-        introduction: true,
-    })
-    const [imageWidth, setImageWidth] = useState(0);
+
+    const [card_cover, setCover] = useState('avatar');
     const [avatar, setAvatar] = useState({
         face: 1,
         hair: 1,
@@ -74,6 +57,16 @@ export default function TemplateStudent({navigation, goToStepOne}) {
         bg: 0,
         bgColor: 1,
     })
+
+    const [isFull, setIsFull] = useState({
+        name: true,
+        birth: true,
+        tel: true,
+        school: true,
+        grade: true,
+        introduction: true,
+    })
+    const [imageWidth, setImageWidth] = useState(0);
     const [isBirthValid, setIsBirthValid] = useState({
         year: true,
         month: true,
@@ -107,25 +100,25 @@ export default function TemplateStudent({navigation, goToStepOne}) {
 
     const handleNext = () => {
         if (step === 1) {
-            const isNameFull = name !== '';
-            const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
-            const isTelFull = tel !== '';
+            const isNameFull = card_name !== '';
+            const isBirthFull = card_birth.year !== '' && card_birth.month !== '' && card_birth.day !== '';
+            const isTelFull = card_tel !== '';
             setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull, tel: isTelFull})));
         
             // 생년월일 올바른지 구하기 
-            const days = getDayInMonth(birth.year, birth.month);    
-            const isBirthYearValid = birth.year > currentYear - 110 && birth.year <= currentYear;
-            const isBirthMonthValid = birth.month >= 1 && birth.month <= 12;
-            const isBirthDayValid = birth.day >= 1 && birth.day <= days;
+            const days = getDayInMonth(card_birth.year, card_birth.month);    
+            const isBirthYearValid = card_birth.year > currentYear - 110 && card_birth.year <= currentYear;
+            const isBirthMonthValid = card_birth.month >= 1 && card_birth.month <= 12;
+            const isBirthDayValid = card_birth.day >= 1 && card_birth.day <= days;
             setIsBirthValid((prev => ({...prev, year: isBirthYearValid, month: isBirthMonthValid, day: isBirthDayValid})));
 
             if (isNameFull && isBirthFull && isBirthYearValid && isBirthMonthValid && isBirthDayValid && isTelFull) {
                 setStep(2);
             }
         } else if (step === 2 ) {
-            const isSchoolFull = school !== '';
-            const isGradeFull = grade !== '';
-            const isIntroductionFull = introduction !== '';
+            const isSchoolFull = card_school !== '';
+            const isGradeFull = card_grade !== '';
+            const isIntroductionFull = card_introduction !== '';
             setIsFull((prev => ({...prev, school: isSchoolFull, grade: isGradeFull, introduction: isIntroductionFull})));
             
             if (isSchoolFull && isGradeFull && isIntroductionFull) {
@@ -231,7 +224,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         placeholder="이름을 입력하세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="default"
-                                        value={name}
+                                        value={card_name}
                                         onChangeText={setName}
                                         returnKeyType="next"
                                         onSubmitEditing={() => ref_input2.current.focus()}
@@ -247,9 +240,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         <Text style={styles.inputText}>생년월일*</Text>
                                         <TouchableOpacity 
                                             style={styles.birthSecret} 
-                                            onPress={() => setBSecret(!bSecret)}>
-                                            <DoneIcon style={[styles.doneIcon, {color: bSecret ? theme.skyblue : theme.gray60}]} />
-                                            <Text style={bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 비밀로 할래요</Text>
+                                            onPress={() => setBSecret(!card_bSecret)}>
+                                            <DoneIcon style={[styles.doneIcon, {color: card_bSecret ? theme.skyblue : theme.gray60}]} />
+                                            <Text style={card_bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 비밀로 할래요</Text>
                                         </TouchableOpacity>
                                     </View>
                                     <View style={styles.inputBirthContainer}>
@@ -258,7 +251,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="년"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="numeric"
-                                            value={birth.year}
+                                            value={card_birth.year}
                                             onChangeText={(newYear) => {setBirth((prevBirth => ({...prevBirth, year: newYear})));}}
                                             // onChangeText={setYear}
                                             maxLength={4}
@@ -272,7 +265,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="월"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="numeric"
-                                            value={birth.month}
+                                            value={card_birth.month}
                                             onChangeText={(newMonth) => {setBirth((prevBirth => ({...prevBirth, month: newMonth})));}}
                                             // onChangeText={setMonth}
                                             maxLength={2}
@@ -286,7 +279,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="일"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="numeric"
-                                            value={birth.day}
+                                            value={card_birth.day}
                                             onChangeText={(newDay) => {setBirth((prevBirth => ({...prevBirth, day: newDay})));}}
                                             // onChangeText={setDay}
                                             maxLength={2}
@@ -310,7 +303,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         placeholder="연락처를 입력하세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="phone-pad"
-                                        value={tel}
+                                        value={card_tel}
                                         onChangeText={setTel}
                                         returnKeyType="done"
                                         ref={ref_input5}
@@ -344,7 +337,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         placeholder="학교명을 입력하세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="default"
-                                        value={school}
+                                        value={card_school}
                                         onChangeText={setSchool}
                                         returnKeyType="next"
                                         onSubmitEditing={() => ref_input2.current.focus()}
@@ -361,7 +354,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         placeholder="학년을 입력하세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="numeric"
-                                        value={grade}
+                                        value={card_grade}
                                         onChangeText={setGrade}
                                         returnKeyType="next"
                                         onSubmitEditing={() => ref_input3.current.focus()}
@@ -379,7 +372,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         placeholder="간단하게 자신을 소개해 보세요."
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="default"
-                                        value={introduction}
+                                        value={card_introduction}
                                         onChangeText={setIntroduction}
                                         returnKeyType="done"
                                         ref={ref_input3}
@@ -407,13 +400,13 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                             <Text style={styles.title}>학교 속 나에 대해 더 알려주고 싶다면</Text>
                             <View style={[styles.flexDirectionRow, styles.btnMores]}>
                                 <TouchableOpacity 
-                                    style={[styles.flexDirectionRow, styles.btnMore, showStudentNumber ? styles.btnOn : styles.btnOff]}  
-                                    onPress={() => setShowStudentNumber(!showStudentNumber)}
+                                    style={[styles.flexDirectionRow, styles.btnMore, showStudNum ? styles.btnOn : styles.btnOff]}  
+                                    onPress={() => setShowStudNum(!showStudNum)}
                                 >
-                                    {showStudentNumber && (
+                                    {showStudNum && (
                                         <DoneIcon style={styles.doneIcon} />
                                     )}
-                                    <Text style={showStudentNumber ? styles.btnTextOn : styles.btnTextOff}>학생번호</Text>
+                                    <Text style={showStudNum ? styles.btnTextOn : styles.btnTextOff}>학생번호</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
                                     style={[styles.flexDirectionRow, styles.btnMore, showMajor ? styles.btnOn : styles.btnOff]}  
@@ -445,11 +438,11 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                 
                             </View>
                             <View style={styles.line}></View>
-                            {!showStudentNumber && !showMajor && !showRole && !showClub && (
+                            {!showStudNum && !showMajor && !showRole && !showClub && (
                                 <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                             )}
                             <View style={styles.marginT32}>
-                                {showStudentNumber && (
+                                {showStudNum && (
                                     <View style={styles.inputContainer}>
                                         <Text style={styles.inputText}>학생번호</Text>
                                         <TextInput 
@@ -457,8 +450,8 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="학번이나 출석번호를 입력하세요. e.g., 17(학)번"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={studentNumber}
-                                            onChangeText={setStudentNumber}
+                                            value={card_studNum}
+                                            onChangeText={setStudNum}
                                             returnKeyType="done"
                                             // onSubmitEditing={() => ref_input2.current.focus()}
                                             // blurOnSubmit={false}
@@ -473,7 +466,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="전공을 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={major}
+                                            value={card_major}
                                             onChangeText={setMajor}
                                             returnKeyType="done"
                                             // onSubmitEditing={() => ref_input3.current.focus()}
@@ -490,7 +483,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="역할을 입력하세요. e.g., 회장, 디자이너 등"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={role}
+                                            value={card_role}
                                             onChangeText={setRole}
                                             returnKeyType="done"
                                             // onSubmitEditing={() => ref_input4.current.focus()}
@@ -507,7 +500,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="소속 동아리명을 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={club}
+                                            value={card_club}
                                             onChangeText={setClub}
                                             returnKeyType="done"
                                             // ref={ref_input4}
@@ -534,13 +527,13 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                             <Text style={styles.title}>추가적인 연락 수단을 알려주고 싶다면</Text>
                             <View style={[styles.flexDirectionRow, styles.btnMores]}>
                                 <TouchableOpacity 
-                                    style={[styles.flexDirectionRow, styles.btnMore, showSns ? styles.btnOn : styles.btnOff]}
-                                    onPress={() => setShowSns(!showSns)}
+                                    style={[styles.flexDirectionRow, styles.btnMore, showSNS ? styles.btnOn : styles.btnOff]}
+                                    onPress={() => setShowSNS(!showSNS)}
                                 >
-                                    {showSns && (
+                                    {showSNS && (
                                         <DoneIcon style={styles.doneIcon} />
                                     )}
-                                    <Text style={showSns ? styles.btnTextOn : styles.btnTextOff}>SNS 계정</Text>
+                                    <Text style={showSNS ? styles.btnTextOn : styles.btnTextOff}>SNS 계정</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
                                     style={[styles.flexDirectionRow, styles.btnMore, showEmail ? styles.btnOn : styles.btnOff]}
@@ -553,11 +546,11 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.line}></View>
-                            {!showSns && !showEmail && (
+                            {!showSNS && !showEmail && (
                                 <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                             )}
                             <View style={styles.marginT32}>
-                                {showSns && (
+                                {showSNS && (
                                     <View>
                                         <Text style={styles.snsText}>SNS</Text>
                                         <View style={styles.margintB16}>
@@ -567,8 +560,8 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 placeholder="인스타그램 계정을 입력하세요."
                                                 placeholderTextColor={theme.gray60}
                                                 keyboardType="default"
-                                                value={sns.instargram}
-                                                onChangeText={(newInstargram) => {setSns((prevSns => ({...prevSns, instargram: newInstargram})));}}
+                                                value={card_SNS.insta}
+                                                onChangeText={(newInsta) => {setSNS((prevSNS => ({...prevSNS, insta: newInsta})));}}
                                                 returnKeyType="done"
                                                 // onSubmitEditing={() => ref_input2.current.focus()}
                                                 // blurOnSubmit={false}
@@ -581,8 +574,8 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 placeholder="X 계정을 입력하세요."
                                                 placeholderTextColor={theme.gray60}
                                                 keyboardType="default"
-                                                value={sns.x}
-                                                onChangeText={(newX) => {setSns((prevSns => ({...prevSns, x: newX})));}}
+                                                value={card_SNS.x}
+                                                onChangeText={(newX) => {setSNS((prevSNS => ({...prevSNS, x: newX})));}}
                                                 returnKeyType="done"
                                                 // onSubmitEditing={() => ref_input3.current.focus()}
                                                 // ref={ref_input2}
@@ -599,7 +592,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="이메일 주소를 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="email"
-                                            value={email}
+                                            value={card_email}
                                             onChangeText={setEmail}
                                             returnKeyType="done"
                                             // ref={ref_input3}
@@ -626,13 +619,13 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                             <Text style={styles.title}>사소한 것까지 더 알려주고 싶다면</Text>
                             <View style={[styles.flexDirectionRow, styles.btnMores]}>
                                 <TouchableOpacity
-                                    style={[styles.flexDirectionRow, styles.btnMore, showMbti ? styles.btnOn : styles.btnOff]}
-                                    onPress={() => setShowMbti(!showMbti)}
+                                    style={[styles.flexDirectionRow, styles.btnMore, showMBTI ? styles.btnOn : styles.btnOff]}
+                                    onPress={() => setShowMBTI(!showMBTI)}
                                 >
-                                    {showMbti && (
+                                    {showMBTI && (
                                         <DoneIcon style={styles.doneIcon} />
                                     )}
-                                    <Text style={showMbti ? styles.btnTextOn : styles.btnTextOff}>MBTI</Text>
+                                    <Text style={showMBTI ? styles.btnTextOn : styles.btnTextOff}>MBTI</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
                                     style={[styles.flexDirectionRow, styles.btnMore, showMusic ? styles.btnOn : styles.btnOff]}
@@ -654,11 +647,11 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                 </TouchableOpacity>
                             </View>
                             <View style={styles.line}></View>
-                            {!showMbti && !showMusic && !showMovie && (
+                            {!showMBTI && !showMusic && !showMovie && (
                                 <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                             )}
                             <View style={styles.marginT32}>
-                                {showMbti && (
+                                {showMBTI && (
                                     <View style={styles.inputContainer}>
                                         <Text style={styles.inputText}>MBTI</Text>
                                         <TextInput 
@@ -666,8 +659,8 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="MBTI를 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={mbti}
-                                            onChangeText={setMbti}
+                                            value={card_MBTI}
+                                            onChangeText={setMBTI}
                                             returnKeyType="done"
                                             // onSubmitEditing={() => ref_input2.current.focus()}
                                             // blurOnSubmit={false}
@@ -683,7 +676,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 placeholder="제목명"
                                                 placeholderTextColor={theme.gray60}
                                                 keyboardType="default"
-                                                value={music.title}
+                                                value={card_music.title}
                                                 // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
                                                 onChangeText={(newTitle) => {setMusic((prevMusic => ({...prevMusic, title: newTitle})));}}
                                                 returnKeyType="done"
@@ -696,9 +689,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 placeholder="가수명"
                                                 placeholderTextColor={theme.gray60}
                                                 keyboardType="default"
-                                                value={music.musician}
+                                                value={card_music.singer}
                                                 // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
-                                                onChangeText={(newMusician) => {setMusic((prevMusic => ({...prevMusic, musician: newMusician})));}}
+                                                onChangeText={(newSinger) => {setMusic((prevMusic => ({...prevMusic, singer: newSinger})));}}
                                                 returnKeyType="done"
                                                 // onSubmitEditing={() => ref_input4.current.focus()}
                                                 // ref={ref_input3}
@@ -715,7 +708,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="영화 제목을 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={movie}
+                                            value={card_movie}
                                             onChangeText={setMovie}
                                             returnKeyType="done"
                                             // ref={ref_input4}
@@ -790,13 +783,13 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                         <View 
                             style={[
                                 styles.circle,
-                                cover === "avatar" ? styles.activeCircle : styles.inactiveCircle,
+                                card_cover === "avatar" ? styles.activeCircle : styles.inactiveCircle,
                             ]}
                         ></View>
                         <View
                             style={[
                                 styles.circle,
-                                cover === "picture" ? styles.activeCircle : styles.inactiveCircle,
+                                card_cover === "picture" ? styles.activeCircle : styles.inactiveCircle,
                             ]}
                         ></View>
                     </View>
@@ -806,10 +799,10 @@ export default function TemplateStudent({navigation, goToStepOne}) {
 
             {step === 7 && (
                 <View>
-                    {cover === "avatar" && (
+                    {card_cover === "avatar" && (
                         <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} avatar={avatar} setAvatar={setAvatar} />
                     )}
-                    {cover === "picture" && (
+                    {card_cover === "picture" && (
                         <></>
                         // <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} />
                     )}
