@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -318,7 +318,7 @@ function Filter() {
 }
 
  // 마이스페이스로 카드 저장
- function SaveMySpaceScreen() {
+ function SaveMySpaceScreen({navigation}) {
   const showCustomToast = (text) => {
     Toast.show({
       text1: text,
@@ -334,6 +334,12 @@ function Filter() {
 
   const [selectedCards, setSelectedCards] = useState([]);
   const [selectedOption, setSelectedOption] = useState('최신순');
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: `${selectedCards.length}개 선택됨`,
+    });
+  }, [selectedCards]);
 
   const handlePress = (cardId) => {
     setSelectedCards(prevSelectedCards => 
@@ -395,7 +401,7 @@ function Filter() {
 }
 
  // 연락처 저장
- function SaveTellScreen() {
+ function SaveTellScreen({navigation}) {
   const showCustomToast = (text) => {
     Toast.show({
       text1: text,
@@ -427,6 +433,12 @@ function Filter() {
       setSelectedCards(cardData.map(card => card.id));
     }
   };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+      headerTitle: `${selectedCards.length}개 선택됨`,
+    });
+  }, [selectedCards]);
 
   return (
     <View style={styles.backgroundColor}>

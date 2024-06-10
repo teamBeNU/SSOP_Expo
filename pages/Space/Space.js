@@ -361,7 +361,6 @@ function TeamSpaceScreen({ navigation}) {
           option2SubText="초대하고 싶다면"
           option2Icon={CreatTeamSPIcon}
         />
-
       </View>
     ) : (
       <View style={styles.mainlayout}>

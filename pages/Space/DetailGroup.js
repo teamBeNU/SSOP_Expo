@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet} from "react-native";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -138,7 +138,7 @@ function DetailSpaceGroup({ navigation }) {
 
 
   // 연락처 저장
-  function SaveTellScreen() {
+  function SaveTellScreen({navigation}) {
     const showCustomToast = (text) => {
       Toast.show({
         text1: text,
@@ -170,15 +170,12 @@ function DetailSpaceGroup({ navigation }) {
         setSelectedCards(cardData.map(card => card.id));
       }
     };
-  
-    // const cardData = [
-    //   { id: '1', Component: RadioCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-    //   { id: '2', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 style={{ marginLeft: -10 }} />, card_name: '이사나', age: '23세', dot: '·', card_template: '학생' },
-    //   { id: '3', Component: RadioCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
-    //   { id: '4', Component: RadioCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{ marginLeft: -10 }} />, card_name: '임지니', age: '22세', dot: '·', card_template: '팬' },
-    //   { id: '5', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-    //   { id: '6', Component: RadioCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-    // ];
+
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: `${selectedCards.length}개 선택됨`,
+      });
+    }, [selectedCards]);
   
     return (
       <View style={styles.backgroundColor}>
@@ -256,16 +253,13 @@ function DetailSpaceGroup({ navigation }) {
           setSelectedCards(cardData.map(card => card.id));
         }
       };
-    
-      // const cardData = [
-      //   { id: '1', Component: RadioCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      //   { id: '2', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 style={{ marginLeft: -10 }} />, card_name: '이사나', age: '23세', dot: '·', card_template: '학생' },
-      //   { id: '3', Component: RadioCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
-      //   { id: '4', Component: RadioCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{ marginLeft: -10 }} />, card_name: '임지니', age: '22세', dot: '·', card_template: '팬' },
-      //   { id: '5', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      //   { id: '6', Component: RadioCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      // ];
-    
+
+      useLayoutEffect(() => {
+        navigation.setOptions({
+          headerTitle: `${selectedCards.length}개 선택됨`,
+        });
+      }, [selectedCards]);
+  
       return (
         <View style={styles.backgroundColor}>
           <SpaceManage
