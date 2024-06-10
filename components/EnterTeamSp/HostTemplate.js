@@ -13,17 +13,17 @@ export default function HostTemplate({ navigation }) {
   const [step, setStep] = useState(1);
   const [card_name, setName] = useState('');
   const [card_introduction, setIntroduction] = useState('');
-  const [card_birth, setBirth] = { year: '', month: '', day: '' };
+  const [card_birth, setBirth] = useState({ year: '', month: '', day: '' });
   const [card_tel, setTel] = useState('');
   const [card_school, setSchool] = useState('');
   const [card_grade, setGrade] = useState('');
   const [card_studNum, setStudNum] = useState('');
   const [card_role, setRole] = useState('');
   const [card_club, setClub] = useState('');
-  const [card_SNS, setSNS] = { insta: '', x: '' }
+  const [card_SNS, setSNS] = useState({ insta: '', x: '' });
   const [card_email, setEmail] = useState('');
   const [card_MBTI, setMBTI] = useState('');
-  const [card_music, setMusic] = { title: '', singer: '' };
+  const [card_music, setMusic] = useState({ title: '', singer: '' });
   const [card_movie, setMovie] = useState('');
 
   const [showAge, setShowAge] = useState(1);
@@ -52,6 +52,15 @@ export default function HostTemplate({ navigation }) {
     { role: '백엔드', selected: false },
     { role: '프론트엔드', selected: false },
   ]);
+
+  
+  const roleSelected = (index) => {
+    setRoleList(prevList => {
+      const updatedList = [...prevList];
+      updatedList[index].selected = !updatedList[index].selected;
+      return updatedList;
+    });
+  };
 
   const handleNext = () => {
     setStep(prevStep => prevStep + 1);
@@ -148,7 +157,7 @@ export default function HostTemplate({ navigation }) {
                       keyboardType="numeric"
                       returnKeyType='done'
                       value={card_birth.year}
-                      onChangeText={setBirth.year}
+                      onChangeText={(text) => setBirth(prevState => ({ ...prevState, year: text }))}
                       maxLength={4}
                       ref={yearRef}
                       onSubmitEditing={() => monthRef.current.focus()}
@@ -158,7 +167,7 @@ export default function HostTemplate({ navigation }) {
                       placeholder="월"
                       keyboardType="numeric"
                       value={card_birth.month}
-                      onChangeText={setBirth.month}
+                      onChangeText={(text) => setBirth(prevState => ({ ...prevState, month: text }))}
                       maxLength={2}
                       ref={monthRef}
                       returnKeyType='done'
@@ -169,7 +178,7 @@ export default function HostTemplate({ navigation }) {
                       placeholder="일"
                       keyboardType="numeric"
                       value={card_birth.day}
-                      onChangeText={setBirth.day}
+                      onChangeText={(text) => setBirth(prevState => ({ ...prevState, day: text }))}
                       maxLength={2}
                       ref={dayRef}
                       returnKeyType='done'
@@ -347,7 +356,7 @@ export default function HostTemplate({ navigation }) {
                       placeholder="Instargram"
                       keyboardType="default"
                       value={card_SNS.insta}
-                      onChangeText={setSNS.insta}
+                      onChangeText={(text) => setSNS(prevState => ({ ...prevState, insta: text }))}
                       ref={instaRef}
                       onSubmitEditing={() => xRef.current.focus()}
                     />
@@ -361,7 +370,7 @@ export default function HostTemplate({ navigation }) {
                       placeholder="X"
                       keyboardType="default"
                       value={card_SNS.x}
-                      onChangeText={setSNS.x}
+                      onChangeText={(text) => setSNS(prevState => ({ ...prevState, x: text }))}
                       ref={xRef}
                       onSubmitEditing={() => emailRef.current.focus()}
                     />
@@ -427,7 +436,7 @@ export default function HostTemplate({ navigation }) {
                       placeholder="제목명"
                       keyboardType="default"
                       value={card_music.title}
-                      onChangeText={setMusic.title}
+                      onChangeText={(text) => setMusic(prevState => ({ ...prevState, title: text }))}
                       ref={titleRef}
                       onSubmitEditing={() => songRef.current.focus()}
                     />
@@ -436,7 +445,7 @@ export default function HostTemplate({ navigation }) {
                       placeholder="가수명"
                       keyboardType="default"
                       value={card_music.singer}
-                      onChangeText={setMusic.singer}
+                      onChangeText={(text) => setMusic(prevState => ({ ...prevState, singer: text }))}
                       ref={singerRef}
                       onSubmitEditing={() => movieRef.current.focus()}
                     />
