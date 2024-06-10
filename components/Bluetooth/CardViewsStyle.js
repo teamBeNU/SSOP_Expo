@@ -72,12 +72,10 @@ export const styles = StyleSheet.create({
     btn1: { 
         marginTop: 12,
         // width: 158,
-        height: 201,
         width: '44%',
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: theme.white,
         shadowColor: "rgba(0, 0, 0, 0.03)",
         shadowOffset: {
             width: 0,

@@ -302,7 +302,7 @@ function DetailSpaceGroup({ navigation }) {
           </View>
           <View style={styles.bottomContainer}>
             <TouchableOpacity onPress={handleDeleteCard}>
-              <Text style={styles.bottomText}>삭제</Text>
+              <Text style={styles.bottomTextRed}>삭제</Text>
             </TouchableOpacity>
             <BottomLineIcon style={styles.bottomLine}/>
             <TouchableOpacity onPress={() => navigation.navigate('그룹 이동')}>

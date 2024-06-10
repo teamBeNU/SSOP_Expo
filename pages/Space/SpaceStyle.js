@@ -643,6 +643,14 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center'
     },
+    bottomTextRed: {
+        fontSize: 14,
+        fontFamily: 'PretendardSemiBold',
+        color: '#CC4646',
+        letterSpacing: -1,
+        justifyContent: 'center',
+        alignContent: 'center'
+    },
 
     bottomLine: {
         marginLeft: 20,

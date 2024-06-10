@@ -6,9 +6,9 @@ import { RadioButton } from 'react-native-paper';
 import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
 import RadioGrayIcon from '../../assets/icons/ic_radio_check_gray.svg';
 
-export const ShareCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter, selected, onPress }) => {
+export const ShareCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter }) => {
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.card, { backgroundColor }]}>
+        <View style={[styles.card, { backgroundColor }]}>
             <View style={styles.cardImgArea}>
                 {avatar}
             </View>
@@ -32,12 +32,10 @@ export const ShareCard = ({ backgroundColor, avatar, host, card_name, age, dot, 
                     </View>
                 )}
             </View>
-
-        </TouchableOpacity>
+        </View>
     )
 }
 
-// CustomCardRadioButton 컴포넌트
 const CustomCardRadioButton = ({ selected, onPress }) => {
     return (
         <TouchableOpacity onPress={onPress} style={styles.radioContainer}>
@@ -48,7 +46,6 @@ const CustomCardRadioButton = ({ selected, onPress }) => {
     );
 };
 
-// RadioCard 컴포넌트
 export const RadioCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter, selected, onPress }) => {
     return (
         <View style={[styles.card, { backgroundColor }]}>
@@ -81,9 +78,6 @@ export const RadioCard = ({ backgroundColor, avatar, host, card_name, age, dot, 
         </View>
     );
 };
-
-
-
 
 export const PlusCardButton = () => {
     const navigation = useNavigation();
