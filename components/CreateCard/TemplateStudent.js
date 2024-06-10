@@ -312,9 +312,8 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         keyboardType="phone-pad"
                                         value={tel}
                                         onChangeText={setTel}
-                                        returnKeyType="next"
+                                        returnKeyType="done"
                                         ref={ref_input5}
-                                        blurOnSubmit={false}
                                     />
                                     {!isFull.tel && (
                                         <Text style={styles.inputErrorText}>연락처를 입력해 주세요.</Text>
@@ -382,9 +381,8 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         keyboardType="default"
                                         value={introduction}
                                         onChangeText={setIntroduction}
-                                        returnKeyType="next"
+                                        returnKeyType="done"
                                         ref={ref_input3}
-                                        blurOnSubmit={false}
                                     />
                                     {!isFull.introduction && (
                                         <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
@@ -461,9 +459,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             keyboardType="default"
                                             value={studentNumber}
                                             onChangeText={setStudentNumber}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input2.current.focus()}
-                                            blurOnSubmit={false}
+                                            returnKeyType="done"
+                                            // onSubmitEditing={() => ref_input2.current.focus()}
+                                            // blurOnSubmit={false}
                                         />
                                     </View>
                                 )}
@@ -477,10 +475,10 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             keyboardType="default"
                                             value={major}
                                             onChangeText={setMajor}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input3.current.focus()}
-                                            ref={ref_input2}
-                                            blurOnSubmit={false}
+                                            returnKeyType="done"
+                                            // onSubmitEditing={() => ref_input3.current.focus()}
+                                            // ref={ref_input2}
+                                            // blurOnSubmit={false}
                                         />
                                     </View>
                                 )}
@@ -494,10 +492,10 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             keyboardType="default"
                                             value={role}
                                             onChangeText={setRole}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input4.current.focus()}
-                                            ref={ref_input3}
-                                            blurOnSubmit={false}
+                                            returnKeyType="done"
+                                            // onSubmitEditing={() => ref_input4.current.focus()}
+                                            // ref={ref_input3}
+                                            // blurOnSubmit={false}
                                         />
                                     </View>
                                 )}
@@ -511,9 +509,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             keyboardType="default"
                                             value={club}
                                             onChangeText={setClub}
-                                            returnKeyType="next"
-                                            ref={ref_input4}
-                                            blurOnSubmit={false}
+                                            returnKeyType="done"
+                                            // ref={ref_input4}
+                                            // blurOnSubmit={false}
                                         />
                                     </View>
                                 )}
@@ -571,9 +569,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 keyboardType="default"
                                                 value={sns.instargram}
                                                 onChangeText={(newInstargram) => {setSns((prevSns => ({...prevSns, instargram: newInstargram})));}}
-                                                returnKeyType="next"
-                                                onSubmitEditing={() => ref_input2.current.focus()}
-                                                blurOnSubmit={false}
+                                                returnKeyType="done"
+                                                // onSubmitEditing={() => ref_input2.current.focus()}
+                                                // blurOnSubmit={false}
                                             />
                                         </View>
                                         <View style={styles.margintB48}>
@@ -585,10 +583,10 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 keyboardType="default"
                                                 value={sns.x}
                                                 onChangeText={(newX) => {setSns((prevSns => ({...prevSns, x: newX})));}}
-                                                returnKeyType="next"
-                                                onSubmitEditing={() => ref_input3.current.focus()}
-                                                ref={ref_input2}
-                                                blurOnSubmit={false}
+                                                returnKeyType="done"
+                                                // onSubmitEditing={() => ref_input3.current.focus()}
+                                                // ref={ref_input2}
+                                                // blurOnSubmit={false}
                                             />
                                         </View>
                                     </View>
@@ -603,9 +601,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             keyboardType="email"
                                             value={email}
                                             onChangeText={setEmail}
-                                            returnKeyType="next"
-                                            ref={ref_input3}
-                                            blurOnSubmit={false}
+                                            returnKeyType="done"
+                                            // ref={ref_input3}
+                                            // blurOnSubmit={false}
                                         />
                                     </View>
                                 )}
@@ -670,9 +668,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             keyboardType="default"
                                             value={mbti}
                                             onChangeText={setMbti}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input2.current.focus()}
-                                            blurOnSubmit={false}
+                                            returnKeyType="done"
+                                            // onSubmitEditing={() => ref_input2.current.focus()}
+                                            // blurOnSubmit={false}
                                         />
                                     </View>
                                 )}
@@ -688,10 +686,10 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 value={music.title}
                                                 // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
                                                 onChangeText={(newTitle) => {setMusic((prevMusic => ({...prevMusic, title: newTitle})));}}
-                                                returnKeyType="next"
-                                                onSubmitEditing={() => ref_input3.current.focus()}
-                                                ref={ref_input2}
-                                                blurOnSubmit={false}
+                                                returnKeyType="done"
+                                                // onSubmitEditing={() => ref_input3.current.focus()}
+                                                // ref={ref_input2}
+                                                // blurOnSubmit={false}
                                             />
                                             <TextInput 
                                                 style={styles.musicInput}
@@ -701,10 +699,10 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 value={music.musician}
                                                 // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 2), text])}
                                                 onChangeText={(newMusician) => {setMusic((prevMusic => ({...prevMusic, musician: newMusician})));}}
-                                                returnKeyType="next"
-                                                onSubmitEditing={() => ref_input4.current.focus()}
-                                                ref={ref_input3}
-                                                blurOnSubmit={false}
+                                                returnKeyType="done"
+                                                // onSubmitEditing={() => ref_input4.current.focus()}
+                                                // ref={ref_input3}
+                                                // blurOnSubmit={false}
                                             />
                                         </View>
                                     </View>
@@ -719,9 +717,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             keyboardType="default"
                                             value={movie}
                                             onChangeText={setMovie}
-                                            returnKeyType="next"
-                                            ref={ref_input4}
-                                            blurOnSubmit={false}
+                                            returnKeyType="done"
+                                            // ref={ref_input4}
+                                            // blurOnSubmit={false}
                                         />
                                     </View>
                                 )}
