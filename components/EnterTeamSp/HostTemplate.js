@@ -54,7 +54,7 @@ export default function HostTemplate({ navigation }) {
     { role: '프론트엔드', selected: false },
   ]);
 
-  
+
   const roleSelected = (index) => {
     setRoleList(prevList => {
       const updatedList = [...prevList];
@@ -81,7 +81,7 @@ export default function HostTemplate({ navigation }) {
     };
 
     checkAndSkipStep();
-  }, [step, showAge, showSchool, showGrade, showStudNum, ,showMajor, showRole, showClub, showTel, showSNS, showEmail, showMBTI, showMusic, showMovie]);
+  }, [step, showAge, showSchool, showGrade, showStudNum, , showMajor, showRole, showClub, showTel, showSNS, showEmail, showMBTI, showMusic, showMovie]);
 
 
   const nameRef = useRef(null);
@@ -241,7 +241,7 @@ export default function HostTemplate({ navigation }) {
               )}
 
               {/* 한줄소개 */}
-              <View style={[styles.nameContainer, { marginBottom: 200 }]}>
+              <View style={styles.nameContainer}>
                 <Text style={styles.name}>한줄소개</Text>
                 <TextInput
                   style={styles.nameInput}
@@ -252,6 +252,9 @@ export default function HostTemplate({ navigation }) {
                   ref={introductionRef}
                 />
               </View>
+
+              {/* 키보드에 가려진 부분 스크롤 */}
+              <View style={{ marginBottom: 300 }} />
 
             </ScrollView>
 
@@ -306,7 +309,7 @@ export default function HostTemplate({ navigation }) {
                       </TouchableOpacity>
                     ))}
                   </View>
-                
+
                 </View>
               )}
 
@@ -324,6 +327,10 @@ export default function HostTemplate({ navigation }) {
                   />
                 </View>
               )}
+              
+              {/* 키보드에 가려진 부분 스크롤 */}
+              <View style={{ marginBottom: 300 }} />
+
             </ScrollView>
 
             <View style={styles.btnContainer}>
@@ -410,6 +417,9 @@ export default function HostTemplate({ navigation }) {
                 </View>
               )}
 
+              {/* 키보드에 가려진 부분 스크롤 */}
+              <View style={{ marginBottom: 300 }} />
+
             </ScrollView>
 
             <View style={styles.btnContainer}>
@@ -484,6 +494,10 @@ export default function HostTemplate({ navigation }) {
                   />
                 </View>
               )}
+
+              {/* 키보드에 가려진 부분 스크롤 */}
+              <View style={{ marginBottom: 300 }} />
+
             </ScrollView>
 
             <View style={styles.btnContainer}>

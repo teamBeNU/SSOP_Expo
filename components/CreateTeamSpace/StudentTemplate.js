@@ -480,6 +480,10 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                 />
               </View>
               <Text style={styles.nameLeng}> {plusLength} / 5 </Text>
+              
+              {/* 키보드에 가려진 부분 스크롤 */}
+              <View style={{ marginBottom: 300 }} />
+
             </ScrollView>
 
             <View style={[styles.btnContainer, { marginBottom: -28 }]}>
