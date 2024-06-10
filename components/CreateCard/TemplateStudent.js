@@ -680,9 +680,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 // onChangeText={text => setMusic(prevState => [...prevState.slice(0, 1), text, ...prevState.slice(2)])}
                                                 onChangeText={(newTitle) => {setMusic((prevMusic => ({...prevMusic, title: newTitle})));}}
                                                 returnKeyType="done"
-                                                // onSubmitEditing={() => ref_input3.current.focus()}
+                                                onSubmitEditing={() => ref_input2.current.focus()}
                                                 // ref={ref_input2}
-                                                // blurOnSubmit={false}
+                                                blurOnSubmit={false}
                                             />
                                             <TextInput 
                                                 style={styles.musicInput}
@@ -694,7 +694,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                                 onChangeText={(newSinger) => {setMusic((prevMusic => ({...prevMusic, singer: newSinger})));}}
                                                 returnKeyType="done"
                                                 // onSubmitEditing={() => ref_input4.current.focus()}
-                                                // ref={ref_input3}
+                                                ref={ref_input2}
                                                 // blurOnSubmit={false}
                                             />
                                         </View>
