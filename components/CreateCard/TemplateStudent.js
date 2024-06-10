@@ -79,7 +79,6 @@ export default function TemplateStudent({navigation, goToStepOne}) {
         month: true,
         day: true,
     });
-    const [dayInMonth, setDayInMonth] = useState(0);
 
     const currentYear = new Date().getFullYear();
 
@@ -219,20 +218,10 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                 />
             )}
 
-            {step === 0 && (
-                <View style={styles.container}>
-                    <Text> dddd</Text>
-                    <Text> dddd</Text>
-                    <Text> dddd</Text>
-                    <Text> dddd</Text>
-                    <Text> dddd</Text>
-                </View>
-            )}
-
             {step === 1 && (
-                <KeyboardAvoidingView behavior="padding">
+                <View style={styles.container}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
+                        <ScrollView showsVerticalScrollIndicator={false}>
                             <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
                             <View style={styles.informContainer}>
                                 <View style={[styles.inputContainer, !isFull.name && {marginBottom: 15}]}>
@@ -332,21 +321,21 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     )}
                                 </View>
                             </View>
-                            <TouchableOpacity 
-                                    style={styles.btnNext}
-                                    onPress={handleNext}
-                                >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
-                        </View>
+                        </ScrollView>
                     </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    <TouchableOpacity 
+                        style={styles.btnNext}
+                        onPress={handleNext}
+                    >
+                        <Text style={styles.btnNextText}>다음으로</Text>
+                    </TouchableOpacity>
+                </View>
             )}
 
             {step === 2 && (
-                <KeyboardAvoidingView behavior="padding">
+                <View style={styles.container}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
+                        <ScrollView showsVerticalScrollIndicator={false}>
                             <Text style={styles.title}>학교와 관련된 정보를 알려주세요.</Text>
                             <View style={styles.informContainer}>
                                 <View style={[styles.inputContainer, !isFull.school && {marginBottom: 15}]}>
@@ -402,21 +391,21 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     )}
                                 </View>
                             </View>
-                            <TouchableOpacity 
-                                    style={styles.btnNext}
-                                    onPress={handleNext}
-                                >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
-                        </View>
+                        </ScrollView>
                     </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    <TouchableOpacity 
+                        style={styles.btnNext}
+                        onPress={handleNext}
+                    >
+                        <Text style={styles.btnNextText}>다음으로</Text>
+                    </TouchableOpacity>
+                </View>
             )}
 
             {step === 3 && (
-                <KeyboardAvoidingView behavior="padding">
+                <View style={styles.container}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
+                        <ScrollView showsVerticalScrollIndicator={false}>
                             <Text style={styles.title}>학교 속 나에 대해 더 알려주고 싶다면</Text>
                             <View style={[styles.flexDirectionRow, styles.btnMores]}>
                                 <TouchableOpacity 
@@ -529,21 +518,21 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     </View>
                                 )}
                             </View>
-                            <TouchableOpacity 
-                                    style={styles.btnNext}
-                                    onPress={handleNext}
-                                >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
-                        </View>
+                        </ScrollView>
                     </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    <TouchableOpacity 
+                        style={styles.btnNext}
+                        onPress={handleNext}
+                    >
+                        <Text style={styles.btnNextText}>다음으로</Text>
+                    </TouchableOpacity>
+                </View>
             )}
 
             {step === 4 && (
-                <KeyboardAvoidingView behavior="padding">
+                <View style={styles.container}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
+                        <ScrollView showsVerticalScrollIndicator={false}>
                             <Text style={styles.title}>추가적인 연락 수단을 알려주고 싶다면</Text>
                             <View style={[styles.flexDirectionRow, styles.btnMores]}>
                                 <TouchableOpacity 
@@ -621,22 +610,21 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     </View>
                                 )}
                             </View>
-                            
-                            <TouchableOpacity 
-                                    style={styles.btnNext}
-                                    onPress={handleNext}
-                                >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
-                        </View>
+                        </ScrollView>
                     </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    <TouchableOpacity 
+                        style={styles.btnNext}
+                        onPress={handleNext}
+                    >
+                        <Text style={styles.btnNextText}>다음으로</Text>
+                    </TouchableOpacity>
+                </View>
             )}
 
             {step === 5 && (
-                <KeyboardAvoidingView behavior="padding">
+                <View style={styles.container}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
+                        <ScrollView showsVerticalScrollIndicator={false}>
                             <Text style={styles.title}>사소한 것까지 더 알려주고 싶다면</Text>
                             <View style={[styles.flexDirectionRow, styles.btnMores]}>
                                 <TouchableOpacity
@@ -738,15 +726,15 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     </View>
                                 )}
                             </View>
-                            <TouchableOpacity 
-                                    style={styles.btnNext}
-                                    onPress={handleNext}
-                                >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
-                        </View>
+                        </ScrollView>
                     </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    <TouchableOpacity 
+                        style={styles.btnNext}
+                        onPress={handleNext}
+                    >
+                        <Text style={styles.btnNextText}>다음으로</Text>
+                    </TouchableOpacity>
+                </View>
             )}
 
             {step === 6 && (
@@ -841,6 +829,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                         />  */}
                         <CreateCardDoneSvg />
                     </View>
+                    <View style={{flex:1}} />
                     <View style={styles.btnDone}>
                         <TouchableOpacity 
                                 style={styles.btnCheckCard}
