@@ -233,6 +233,38 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         margin: 0,
     },
+    elementContainer:{
+        display:'flex',        
+        alignItems: 'flex-start', 
+        marginTop: 16,
+        flexDirection: 'row',
+        flexWrap: 'wrap', // 줄바꿈
+        gap: 8,
+    },
+    element:{    
+        display:'flex',   
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        fontFamily: 'PretendardRegular',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray90, 
+        color: theme.gray20,
+        backgroundColor: theme.white,
+    },
+    selectedElement:{ 
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.skyblue,
+        color: theme.skyblue,
+        fontFamily: 'PretendardSemiBold'
+    },
+    selectedText:{
+        color: theme.skyblue,
+        fontFamily: 'PretendardSemiBold'
+    },
 
     
 })
