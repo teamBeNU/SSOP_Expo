@@ -56,6 +56,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         margin: 0,
     },
+    customInputText: {
+        fontFamily: "PretendardRegular",
+        fontFamily: 16,
+        fontWeight: "400",
+        fontStyle: "normal",
+    },
     inputError: {
         borderWidth:1,
         borderStyle: "solid",
@@ -133,7 +139,9 @@ export const styles = StyleSheet.create({
     },
 
     btnMores: {
-        marginVertical: 32,
+        marginTop: 32,
+        marginBottom: 24,
+        flexWrap: "wrap",
     },
     btnMore: {
         alignItems: "center",
@@ -143,6 +151,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 12,
         marginRight: 8,
+        marginBottom: 8,
     },
 
     btnOn: {

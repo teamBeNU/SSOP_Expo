@@ -31,9 +31,10 @@ export default function TemplateStudent({navigation, goToStepOne}) {
     const [school, setSchool] = useState('');
     const [grade, setGrade] = useState('');
     const [introduction, setIntroduction] = useState('');
-    const [job, setJob] = useState('');
+    const [studentNumber, setStudentNumber] = useState('');
+    const [major, setMajor] = useState('');
+    const [role, setRole] = useState('');
     const [club, setClub] = useState('');
-    const [status, setStatus] = useState('휴학');
     const [sns, setSns] = useState({
         instargram: '',
         x: '',
@@ -45,9 +46,10 @@ export default function TemplateStudent({navigation, goToStepOne}) {
         musician: '',
     });
     const [movie, setMovie] = useState('');
-    const [showJob, setShowJob] = useState(false);
+    const [showStudentNumber, setShowStudentNumber] = useState(false);
+    const [showMajor, setShowMajor] = useState(false);
+    const [showRole, setShowRole] = useState(false);
     const [showClub, setShowClub] = useState(false);
-    const [showStatus, setShowStatus] = useState(false);
     const [showSns, setShowSns] = useState(false);
     const [showEmail, setShowEmail] = useState(false);
     const [showMbti, setShowMbti] = useState(false);
@@ -383,13 +385,31 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                             <Text style={styles.title}>학교 속 나에 대해 더 알려주고 싶다면</Text>
                             <View style={[styles.flexDirectionRow, styles.btnMores]}>
                                 <TouchableOpacity 
-                                    style={[styles.flexDirectionRow, styles.btnMore, showJob ? styles.btnOn : styles.btnOff]}  
-                                    onPress={() => setShowJob(!showJob)}
+                                    style={[styles.flexDirectionRow, styles.btnMore, showStudentNumber ? styles.btnOn : styles.btnOff]}  
+                                    onPress={() => setShowStudentNumber(!showStudentNumber)}
                                 >
-                                    {showJob && (
+                                    {showStudentNumber && (
                                         <DoneIcon style={styles.doneIcon} />
                                     )}
-                                    <Text style={showJob ? styles.btnTextOn : styles.btnTextOff}>직무</Text>
+                                    <Text style={showStudentNumber ? styles.btnTextOn : styles.btnTextOff}>학생번호</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity 
+                                    style={[styles.flexDirectionRow, styles.btnMore, showMajor ? styles.btnOn : styles.btnOff]}  
+                                    onPress={() => setShowMajor(!showMajor)}
+                                >
+                                    {showMajor && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
+                                    <Text style={showMajor ? styles.btnTextOn : styles.btnTextOff}>전공</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity 
+                                    style={[styles.flexDirectionRow, styles.btnMore, showRole ? styles.btnOn : styles.btnOff]}  
+                                    onPress={() => setShowRole(!showRole)}
+                                >
+                                    {showRole && (
+                                        <DoneIcon style={styles.doneIcon} />
+                                    )}
+                                    <Text style={showRole ? styles.btnTextOn : styles.btnTextOff}>역할</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity 
                                     style={[styles.flexDirectionRow, styles.btnMore, showClub ? styles.btnOn : styles.btnOff]} 
@@ -400,32 +420,58 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     )}
                                     <Text style={showClub ? styles.btnTextOn : styles.btnTextOff}>동아리</Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity 
-                                    style={[styles.flexDirectionRow, styles.btnMore, showStatus ? styles.btnOn : styles.btnOff]} 
-                                    onPress={() => setShowStatus(!showStatus)}
-                                >
-                                    {showStatus && (
-                                        <DoneIcon style={styles.doneIcon} />
-                                    )}
-                                    <Text style={showStatus ? styles.btnTextOn : styles.btnTextOff}>재학여부</Text>
-                                </TouchableOpacity>
+                                
                             </View>
                             <View style={styles.line}></View>
-                            {!showJob && !showClub && !showStatus && (
+                            {!showStudentNumber && !showMajor && !showRole && !showClub && (
                                 <Text style={styles.addText}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                             )}
-                            {showJob && (
+                            {showStudentNumber && (
                                 <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>직무</Text>
+                                    <Text style={styles.inputText}>학생번호</Text>
                                     <TextInput 
                                         style={styles.customInput}
-                                        placeholder="직무를 입력하세요."
+                                        placeholder="학번이나 출석번호를 입력하세요. e.g., 17(학)번"
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="default"
-                                        value={job}
-                                        onChangeText={setJob}
+                                        value={studentNumber}
+                                        onChangeText={setStudentNumber}
                                         returnKeyType="next"
                                         onSubmitEditing={() => ref_input2.current.focus()}
+                                        blurOnSubmit={false}
+                                    />
+                                </View>
+                            )}
+                            {showMajor && (
+                                <View style={styles.inputContainer}>
+                                    <Text style={styles.inputText}>전공</Text>
+                                    <TextInput 
+                                        style={styles.customInput}
+                                        placeholder="전공을 입력하세요."
+                                        placeholderTextColor={theme.gray60}
+                                        keyboardType="default"
+                                        value={major}
+                                        onChangeText={setMajor}
+                                        returnKeyType="next"
+                                        onSubmitEditing={() => ref_input3.current.focus()}
+                                        ref={ref_input2}
+                                        blurOnSubmit={false}
+                                    />
+                                </View>
+                            )}
+                            {showRole && (
+                                <View style={styles.inputContainer}>
+                                    <Text style={styles.inputText}>역할</Text>
+                                    <TextInput 
+                                        style={styles.customInput}
+                                        placeholder="역할을 입력하세요. e.g., 회장, 디자이너 등"
+                                        placeholderTextColor={theme.gray60}
+                                        keyboardType="default"
+                                        value={role}
+                                        onChangeText={setRole}
+                                        returnKeyType="next"
+                                        onSubmitEditing={() => ref_input4.current.focus()}
+                                        ref={ref_input3}
                                         blurOnSubmit={false}
                                     />
                                 </View>
@@ -441,26 +487,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         value={club}
                                         onChangeText={setClub}
                                         returnKeyType="next"
-                                        ref={ref_input2}
+                                        ref={ref_input4}
                                         blurOnSubmit={false}
                                     />
-                                </View>
-                            )}
-                            {showStatus && (
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>재학여부</Text>
-                                        <RadioButton.Group onValueChange={status => setStatus(status)} value={status}>
-                                            <View style={styles.radioBtnGruopContainer}>
-                                                <TouchableOpacity  style={styles.radioBtnContainer} onPress={() => setStatus('휴학')}>
-                                                    <RadioButton value="휴학" uncheckedColor={theme.grey30} color={theme.skyblue} />
-                                                    <Text style={styles.font16}>휴학 중</Text>
-                                                </TouchableOpacity >
-                                                <TouchableOpacity style={styles.radioBtnContainer} onPress={() => setStatus('재학')}>
-                                                    <RadioButton value="재학" uncheckedColor={theme.grey30} color={theme.skyblue} />
-                                                    <Text style={styles.font16}>재학 중</Text>
-                                                </TouchableOpacity>
-                                            </View>
-                                        </RadioButton.Group>
                                 </View>
                             )}
                             <TouchableOpacity 
