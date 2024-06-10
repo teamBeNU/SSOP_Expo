@@ -4,6 +4,7 @@ import { styles } from './ShareCardStyle';
 import { useNavigation } from '@react-navigation/native';
 import { RadioButton } from 'react-native-paper';
 import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
+import RadioGrayIcon from '../../assets/icons/ic_radio_check_gray.svg';
 
 export const ShareCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter, selected, onPress }) => {
     return (
@@ -36,24 +37,23 @@ export const ShareCard = ({ backgroundColor, avatar, host, card_name, age, dot, 
     )
 }
 
-const CustomRadioButton = ({ selected, onPress }) => {
+// CustomCardRadioButton 컴포넌트
+const CustomCardRadioButton = ({ selected, onPress }) => {
     return (
-        <View style={[styles.radioContainer, selected && styles.radioContainerSelected]}>
-            <TouchableOpacity  onPress={onPress} style={selected ? styles.radioInnerSelected : styles.radioInnerUnselected} />
-        </View>
-        
+        <TouchableOpacity onPress={onPress} style={styles.radioContainer}>
+            <View style={[styles.radio, selected && styles.radioSelected]}>
+                {selected && <RadioGrayIcon style={styles.radioInner} />}
+            </View>
+        </TouchableOpacity>
     );
 };
 
+// RadioCard 컴포넌트
 export const RadioCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter, selected, onPress }) => {
-    const handlePress = () => {
-        onPress(); // 라디오 버튼을 눌렀을 때 부모 컴포넌트로부터 전달받은 onPress 핸들러를 호출하여 선택 상태 변경
-    };
-
     return (
         <View style={[styles.card, { backgroundColor }]}>
             <View style={styles.radioButtonContainer}>
-                <CustomRadioButton selected={selected} onPress={handlePress} />
+                <CustomCardRadioButton selected={selected} onPress={onPress} />
             </View>
             <View style={styles.cardImgArea}>
                 {avatar}
