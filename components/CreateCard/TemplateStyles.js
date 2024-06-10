@@ -78,8 +78,8 @@ export const styles = StyleSheet.create({
         marginHorizontal: 8,
         marginTop: 8,
     },
-
-    birthContainer: {
+    
+    birthTextContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
         alignItems: "center",

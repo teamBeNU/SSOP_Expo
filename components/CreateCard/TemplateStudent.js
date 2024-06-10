@@ -74,11 +74,37 @@ export default function TemplateStudent({navigation, goToStepOne}) {
         bg: 0,
         bgColor: 1,
     })
+    const [isBirthValid, setIsBirthValid] = useState({
+        year: true,
+        month: true,
+        day: true,
+    });
+    const [dayInMonth, setDayInMonth] = useState(0);
+
+    const currentYear = new Date().getFullYear();
 
     const ref_input2 = useRef();
     const ref_input3 = useRef();
     const ref_input4 = useRef();
     const ref_input5 = useRef();
+
+    const isLeapYear = (year) => {    // 윤년 구하기
+        return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0));
+    }
+
+    const getDayInMonth = (year, month) => {    // 윤달 구하기
+        month = parseInt(month);
+        switch (month) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:   // 31일
+                return 31;
+            case 4: case 6: case 9: case 11:    //30일
+                return 30;
+            case 2:
+                return isLeapYear(year) ? 29 : 28;      // 윤달(2/29), 2/28
+            default:
+                return 0;
+        }
+    }
 
     const handleNext = () => {
         if (step === 1) {
@@ -86,8 +112,15 @@ export default function TemplateStudent({navigation, goToStepOne}) {
             const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
             const isTelFull = tel !== '';
             setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull, tel: isTelFull})));
-            
-            if (isNameFull && isBirthFull && isTelFull) {
+        
+            // 생년월일 올바른지 구하기 
+            const days = getDayInMonth(birth.year, birth.month);    
+            const isBirthYearValid = birth.year > currentYear - 110 && birth.year <= currentYear;
+            const isBirthMonthValid = birth.month >= 1 && birth.month <= 12;
+            const isBirthDayValid = birth.day >= 1 && birth.day <= days;
+            setIsBirthValid((prev => ({...prev, year: isBirthYearValid, month: isBirthMonthValid, day: isBirthDayValid})));
+
+            if (isNameFull && isBirthFull && isBirthYearValid && isBirthMonthValid && isBirthDayValid && isTelFull) {
                 setStep(2);
             }
         } else if (step === 2 ) {
@@ -219,8 +252,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         <Text style={styles.inputErrorText}>이름을 입력해 주세요.</Text>
                                     )}
                                 </View>
-                                <View style={styles.inputContainer}>
-                                    <View style={styles.birthContainer}>
+                                <View style={[styles.inputContainer, !isFull.birth && {marginBottom: 15}, 
+                                    (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && {marginBottom: 15}]}>
+                                    <View style={styles.birthTextContainer}>
                                         <Text style={styles.inputText}>생년월일*</Text>
                                         <TouchableOpacity 
                                             style={styles.birthSecret} 
@@ -274,10 +308,11 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                         />
                                     </View>
                                     {!isFull.birth ? (
-                                        <Text style={[styles.inputErrorText, {marginTop: 12}]}>생년월일을 입력해 주세요.</Text>
-                                    ) : (
-                                        <View></View>
-                                    )}
+                                        <Text style={[styles.inputErrorText]}>생년월일을 입력해 주세요.</Text>
+                                    ) : null}
+                                    {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) ? (
+                                        <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요 (ex 2024년 01월 01일)</Text>
+                                    ) : null}
                                 </View>
                                 <View style={[styles.inputContainer, !isFull.tel && {marginBottom: 15}]}>
                                     <Text style={styles.inputText}>연락처*</Text>
