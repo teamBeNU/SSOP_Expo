@@ -18,7 +18,8 @@ export default function HostTemplate({ navigation }) {
   const [card_school, setSchool] = useState('');
   const [card_grade, setGrade] = useState('');
   const [card_studNum, setStudNum] = useState('');
-  const [card_role, setRole] = useState('');
+  const [card_major, setMajor] = useState('');
+  const [card_role, setRole] = useState({});
   const [card_club, setClub] = useState('');
   const [card_SNS, setSNS] = useState({ insta: '', x: '' });
   const [card_email, setEmail] = useState('');
@@ -30,9 +31,9 @@ export default function HostTemplate({ navigation }) {
   const [showSchool, setShowSchool] = useState(1);
   const [showGrade, setShowGrade] = useState(1);
   const [showStudNum, setShowStudNum] = useState(1);
+  const [showMajor, setShowMajor] = useState(1);
   const [showRole, setShowRole] = useState(1);
   const [showClub, setShowClub] = useState(1);
-  const [showStatus, setShowStatus] = useState(1);
   const [showTel, setShowTel] = useState(1);
   const [showSNS, setShowSNS] = useState(1);
   const [showEmail, setShowEmail] = useState(1);
@@ -68,9 +69,9 @@ export default function HostTemplate({ navigation }) {
 
   useEffect(() => {
     const checkAndSkipStep = () => {
-      if (step === 1 && !showAge && !showSchool && !showGrade) {
+      if (step === 1 && !showAge && !showSchool && !showGrade && !showStudNum) {
         handleNext();
-      } else if (step === 2 && !showStudNum && !showRole && !showClub && !showStatus) {
+      } else if (step === 2 && !showMajor && !showRole && !showClub) {
         handleNext();
       } else if (step === 3 && !showTel && !showSNS && !showEmail) {
         handleNext();
@@ -80,7 +81,7 @@ export default function HostTemplate({ navigation }) {
     };
 
     checkAndSkipStep();
-  }, [step, showAge, showSchool, showGrade, showStudNum, showRole, showClub, showStatus, showTel, showSNS, showEmail, showMBTI, showMusic, showMovie]);
+  }, [step, showAge, showSchool, showGrade, showStudNum, ,showMajor, showRole, showClub, showTel, showSNS, showEmail, showMBTI, showMusic, showMovie]);
 
 
   const nameRef = useRef(null);
@@ -89,10 +90,10 @@ export default function HostTemplate({ navigation }) {
   const dayRef = useRef(null);
   const schoolRef = useRef(null);
   const gradeRef = useRef(null);
+  const studNumRef = useRef(null);
   const introductionRef = useRef(null);
 
-  const studNumRef = useRef(null);
-  const roleRef = useRef(null);
+  const majorRef = useRef(null);
   const clubRef = useRef(null);
 
   const telRef = useRef(null);
@@ -217,6 +218,23 @@ export default function HostTemplate({ navigation }) {
                     value={card_grade}
                     onChangeText={setGrade}
                     ref={gradeRef}
+                    onSubmitEditing={() => studNumRef.current.focus()}
+                  />
+                </View>
+              )}
+
+              {/* 학생번호 */}
+              {showStudNum && (
+                <View style={styles.nameContainer}>
+                  <Text style={styles.name}>학생번호</Text>
+                  <TextInput
+                    style={styles.nameInput}
+                    placeholder="학생번호를 입력하세요"
+                    keyboardType="numeric"
+                    returnKeyType='done'
+                    value={card_studNum}
+                    onChangeText={setStudNum}
+                    ref={studNumRef}
                     onSubmitEditing={() => introductionRef.current.focus()}
                   />
                 </View>
@@ -252,34 +270,18 @@ export default function HostTemplate({ navigation }) {
 
               <Text style={styles.title}> 나에 대해 더 알려주세요. </Text>
 
-              {/* 학생번호 */}
-              {showStudNum && (
+              {/* 전공 */}
+              {showMajor && (
                 <View style={styles.nameContainer}>
-                  <Text style={styles.name}>학생번호</Text>
+                  <Text style={styles.name}>전공</Text>
                   <TextInput
                     style={styles.nameInput}
-                    placeholder="학생번호를 입력하세요"
+                    placeholder="전공을 입력하세요"
                     keyboardType="numeric"
                     returnKeyType='done'
-                    value={card_studNum}
-                    onChangeText={setStudNum}
-                    Ref={studNumRef}
-                    onSubmitEditing={() => roleRef.current.focus()}
-                  />
-                </View>
-              )}
-
-              {/* 동아리 */}
-              {showClub && (
-                <View style={styles.nameContainer}>
-                  <Text style={styles.name}>동아리</Text>
-                  <TextInput
-                    style={styles.nameInput}
-                    placeholder="소속 동아리를 입력하세요."
-                    keyboardType="default"
-                    value={card_club}
-                    onChangeText={setClub}
-                    ref={clubRef}
+                    value={card_major}
+                    onChangeText={setMajor}
+                    ref={majorRef}
                   />
                 </View>
               )}
@@ -305,6 +307,21 @@ export default function HostTemplate({ navigation }) {
                     ))}
                   </View>
                 
+                </View>
+              )}
+
+              {/* 동아리 */}
+              {showClub && (
+                <View style={styles.nameContainer}>
+                  <Text style={styles.name}>동아리</Text>
+                  <TextInput
+                    style={styles.nameInput}
+                    placeholder="소속 동아리를 입력하세요."
+                    keyboardType="default"
+                    value={card_club}
+                    onChangeText={setClub}
+                    ref={clubRef}
+                  />
                 </View>
               )}
             </ScrollView>
@@ -421,7 +438,7 @@ export default function HostTemplate({ navigation }) {
                     value={card_MBTI}
                     onChangeText={setMBTI}
                     ref={MBTIRef}
-                    onSubmitEditing={() => singerRef.current.focus()}
+                    onSubmitEditing={() => titleRef.current.focus()}
                   />
                 </View>
               )}
@@ -438,7 +455,7 @@ export default function HostTemplate({ navigation }) {
                       value={card_music.title}
                       onChangeText={(text) => setMusic(prevState => ({ ...prevState, title: text }))}
                       ref={titleRef}
-                      onSubmitEditing={() => songRef.current.focus()}
+                      onSubmitEditing={() => singerRef.current.focus()}
                     />
                     <TextInput
                       style={styles.musicInput}
