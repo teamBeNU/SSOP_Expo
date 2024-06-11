@@ -3,10 +3,8 @@ import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
     mainlayout:{    
-        flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        backgroundColor: theme.white,
     },
     title: { // 글씨 
         marginTop: 30,
@@ -100,6 +98,7 @@ export const styles = StyleSheet.create({
         position: 'relative',
     },
     btnNext: {
+        marginTop: 50,
         marginBottom: 16,
         width: '100%',
         height: 48,
@@ -114,32 +113,28 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'PretendardSemiBold'
     },
-    
-    //링크 공유하기 버튼, 사진
+    // 초대코드
     linkShareContainer: {
-        flex: 0.7,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    linkShareText: {
-        fontSize: 16,
-        marginLeft: 16,
-        fontFamily: 'PretendardSemiBold',
-        color: theme.skyblue,
-        letterSpacing: -1,
-    },
-    linkShareBox:{
-        alignSelf: 'center',
-        flexShrink: 1,
-        paddingVertical: 14.5,
-        marginTop: 33,
+        width: '100%',
         height: 48,
+        marginTop: 8,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
         borderRadius: 8,
-        borderStyle: 'solid',
         borderWidth: 1,
-        borderColor: theme.skyblue,
-        justifyContent: 'center',
+        borderColor: theme.gray10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
+    },
+    linkShare: {
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold',
+    },
+    copy:{
+        fontSize: 16,
+        color: theme.skyblue,
+        fontFamily: 'PretendardSemiBold'
     },
     
     // 카드가 없을 때
@@ -149,6 +144,7 @@ export const styles = StyleSheet.create({
         gap: 16,
      },
     noCard: {
+        marginTop: 250,
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
@@ -166,33 +162,5 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         letterSpacing: -0.2,
-    },
-
-    // 공유하기 모달
-    shareModalContainer: {
-        flex: 1,
-        backgroundColor: 'rgba(0, 0, 0, 0.4)',
-        width: '100%',
-        justifyContent:'center',
-        alignItems: 'center',
-    },
-    ShareModalView: {
-        paddingVertical: 42,
-        paddingHorizontal: 24,
-        width: 272,
-        height: 176,
-        backgroundColor: 'white',
-        borderRadius: 8,
-    },
-    ShareModalText: {
-        fontFamily: 'PretendardSemiBold',
-        fontSize: 16,
-        letterSpacing: -1,
-        marginBottom: 27,
-    },
-    line: {
-        borderBottomWidth:1,
-        borderBottomColor: theme.gray90,
-        marginBottom: 27,
     },
 })

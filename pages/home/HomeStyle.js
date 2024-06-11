@@ -2,11 +2,9 @@ import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
-    mainlayout:{ //메인 레이아웃   
-        flex: 1, 
+    mainlayout:{ //메인 레이아웃    
         paddingVertical: 16,
         paddingHorizontal: 16,
-        backgroundColor: '#F5F8F8',
     },
     title: { // 글씨  
         marginTop: 40,
@@ -79,6 +77,11 @@ export const styles = StyleSheet.create({
         marginLeft: 16,
         fontFamily: "PretendardRegular",
         fontSize: 14,
+        letterSpacing: -1,
+    },
+    Text16: {
+        fontFamily: "PretendardRegular",
+        fontSize: 16,
         letterSpacing: -1,
     },
     Text18: {

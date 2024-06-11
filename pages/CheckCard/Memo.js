@@ -12,6 +12,7 @@ function Memo() {
     const handleTextChange = (text, e) => {
         setTextLeng(text.length);
         setTestMemo(text);
+        setMemo(text);
     };
 
     const navigation = useNavigation();

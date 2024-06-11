@@ -6,8 +6,8 @@
 >1) issue를 생성한다. <br/>
 >2) branch를 생성한다. <br/>
 >3) add → commit → push → pull request 과정을 거친다. <br/>
->4) pull request를 develop으로 요청한다. <br/>
->5) 다른 팀원이 develop인지 확인 후 merge한다. <br/>
+>4) pull request를 요청하면, 다른 팀원이 code review를 한다. <br/>
+>5) code review가 완료되면, pull request 요청자가 main branch로 merge한다. <br/>
 <br/>
 
 ## Commit Convention

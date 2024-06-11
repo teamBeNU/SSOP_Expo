@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './NotifyStyle';
-import Toast from 'react-native-toast-message';
 
 const initialNotiData = [
   {
@@ -27,7 +26,7 @@ const initialNotiData = [
   }
 ];
 
-function Notify() {
+function Notify({}) {
 
 // 알림 데이터 유무를 상태로 설정
 const [hasNotify, setHasNotify] = useState(true);
@@ -49,19 +48,8 @@ if (!hasNotify) {
 
   const handleRefuse = (id) => {
     setNotiData(notiData.filter(card => card.id !== id));
-    showCustomToast('카드를 거절했습니다.');
   };
-  
-  const showCustomToast = (text) => {
-    Toast.show({
-      text1: text,
-      type: 'selectedToast',
-      position: 'bottom',
-      visibilityTime: 2000,
-    });
-  };
-  
-  
+
   const handleAccept = (id) => {
     setNotiData(notiData.map(card => 
       card.id === id 
@@ -71,8 +59,7 @@ if (!hasNotify) {
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: 'white'}}>
-      <Text style={styles.Text14}>알림은 7일 동안 보관됩니다.</Text>
+    <ScrollView showsVerticalScrollIndicator={false}>
       {notiData.map(card => (
         <View key={card.id} style={card.accepted ? {} : { backgroundColor: '#8CFF791A' }}>
           <View style={card.accepted ? styles.btn2 : styles.btn1}>
