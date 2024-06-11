@@ -261,18 +261,18 @@ export const styles = StyleSheet.create({
         height: SCREEN_WIDTH*0.8*1.2,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        // elevation: 5,
+        
         // 그림자가 안보여서 임시 border
-        borderWidth: 1,
-        borderColor: theme.gray90,
-        borderRadius: 10
+        // borderWidth: 1,
+        // borderColor: theme.gray90,
+        // borderRadius: 10
     },
     circles: {
         flexDirection: "row",

@@ -19,7 +19,7 @@ import CoverPicture from "../../assets/createCard/coverPicture.svg";
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function TemplateStudent({navigation, goToStepOne}) {
-    const [step, setStep] = useState(1);
+    const [step, setStep] = useState(6);
     const [card_name, setName] = useState('');
     const [card_birth, setBirth] = useState({ year: '', month: '', day: '', });
     const [card_bSecret, setBSecret] = useState(false);
@@ -756,13 +756,13 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     }}
                                 /> */}
                                 <View
-                                    style={{marginLeft: (SCREEN_WIDTH - imageWidth)/2, marginRight:16}}
+                                    style={[styles.coverImg, {marginLeft: (SCREEN_WIDTH - imageWidth)/2, marginRight:16}]}
                                     onLayout={(event) => {
                                         const { width } = event.nativeEvent.layout;
                                         setImageWidth(width);
                                     }}
                                 >
-                                    <CoverAvatar />
+                                    <CoverAvatar width="130%" height="130%" />
                                 </View>
                             </TouchableOpacity>
                             <TouchableOpacity
@@ -773,8 +773,8 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                     style={[styles.coverImg, {marginRight: (SCREEN_WIDTH - imageWidth)/2}]}
                                     resizeMode="contain"
                                 /> */}
-                                <View style={{marginRight: (SCREEN_WIDTH - imageWidth)/2}}>
-                                <CoverPicture />
+                                <View style={[styles.coverImg, {marginRight: (SCREEN_WIDTH - imageWidth)/2}]}>
+                                    <CoverPicture width="130%" height="130%" />
                                 </View>
                             </TouchableOpacity>
                         </ScrollView>
