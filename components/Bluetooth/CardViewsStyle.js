@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
         flex: 1,  
         paddingVertical: 8,
         paddingHorizontal: 16,
+        backgroundColor: theme.white
     },
     title: { // 글씨 
         marginTop: 30,
@@ -68,7 +69,7 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
     },
 
-    btn1: { // 새 카드 만들기
+    btn1: {
         marginTop: 12,
         // width: 158,
         height: 201,
@@ -86,9 +87,6 @@ export const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5,
         position: 'relative',
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: theme.gray90,
     },
     innerView: {
         marginTop: 120,
@@ -96,12 +94,12 @@ export const styles = StyleSheet.create({
 
     // 카드가 없을 때
     emptyContainer: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 16,
      },
     noCard: {
-        marginTop: 250,
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
@@ -109,7 +107,6 @@ export const styles = StyleSheet.create({
     },
     newContainer: {
         flexDirection: 'row',
-        height: 32,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 4,
