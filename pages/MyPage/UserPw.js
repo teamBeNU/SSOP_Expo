@@ -184,7 +184,7 @@ function UserPw({navigation}) {
 
             {step === 3 && (
                 <View style={styles.userChangeMain}>
-                    <Text style={[styles.title, styles.titleMarginBottom]}>연락처가 변경되었습니다.</Text>
+                    <Text style={[styles.title, styles.titleMarginBottom]}>비밀번호가 변경되었습니다.</Text>
                     <View style={styles.passwordDone}>
                         <PasswordDone />
                     </View>
