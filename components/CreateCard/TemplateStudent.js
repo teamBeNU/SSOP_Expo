@@ -27,7 +27,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
     const [card_school, setSchool] = useState('');
     const [card_grade, setGrade] = useState('');
     const [card_introduction, setIntroduction] = useState('');
-    const [card_studNum, setStudNum] = useState('');
+    const [card_student_num, setStudNum] = useState('');
     const [card_student_major, setMajor] = useState('');
     const [card_student_role, setRole] = useState('');
     const [card_student_club, setClub] = useState('');
@@ -450,7 +450,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="학번이나 출석번호를 입력하세요. e.g., 17(학)번"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={card_studNum}
+                                            value={card_student_num}
                                             onChangeText={setStudNum}
                                             returnKeyType="done"
                                             // onSubmitEditing={() => ref_input2.current.focus()}
