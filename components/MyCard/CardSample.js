@@ -1,49 +1,48 @@
 export const CardSample = [
 {
-    user_id: '',
-    card_id: '',
-    card_template: '', // student, officer, fan, free
+    user_id: '', 
+    card_id: '', 
+    card_template: '', // student, worker, fan, free
     card_background: '', // custom, photo
-
+    
     // 공통 필수
     card_name: '',
-    card_description: '',
-
+    card_introduction: '', // 한줄소개
+    
     // 템플릿별 필수
         // 학생 & 직장인
-        card_phone: '',
-        card_birth: {year: '', month: '', day: ''},
+        card_tel: '', // 01012345678
+        card_birth: {year: '', month: '', day: ''}, // 2000 01 01
         // 학생
         card_school: '',
         card_grade: '',
         // 직장인
         card_job: '',
         // 팬
-        card_genre: '',
-
+        card_genre: '', // 장르 (야구, 아이돌, 뮤지컬 등등)
+    
     // 공통 선택
-    card_SNS_insta: '',
-    card_SNS_X: '',
+    card_SNS: {insta: '', x: ''},
     card_email: '',
-
+    
     card_MBTI: '',
     card_music: {title: '', singer: ''},
     card_movie: '',
     
     // 템플릿별 선택
     // 학생
+    card_student_major: '',
     card_student_role: '',
     card_student_club: '',
-    card_student_isAttending: '',
     // 직장인
-    card_officer_position: '',
-    card_officer_company: '',
+    card_worker_position: '',
+    card_worker_company: '',
     // 팬
     card_fan_favorite: '',
     card_fan_2ndFavorite: '',
     card_fan_cause: '',
     // 자유
-    card_free_1: '',
+    card_free_1: '', // { }
 }
 ]
 
