@@ -28,9 +28,9 @@ export default function TemplateStudent({navigation, goToStepOne}) {
     const [card_grade, setGrade] = useState('');
     const [card_introduction, setIntroduction] = useState('');
     const [card_studNum, setStudNum] = useState('');
-    const [card_major, setMajor] = useState('');
-    const [card_role, setRole] = useState('');
-    const [card_club, setClub] = useState('');
+    const [card_student_major, setMajor] = useState('');
+    const [card_student_role, setRole] = useState('');
+    const [card_student_club, setClub] = useState('');
     const [card_SNS, setSNS] = useState({ insta: '', x: '', });
     const [card_email, setEmail] = useState('');
     const [card_MBTI, setMBTI] = useState('');
@@ -466,7 +466,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="전공을 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={card_major}
+                                            value={card_student_major}
                                             onChangeText={setMajor}
                                             returnKeyType="done"
                                             // onSubmitEditing={() => ref_input3.current.focus()}
@@ -483,7 +483,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="역할을 입력하세요. e.g., 회장, 디자이너 등"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={card_role}
+                                            value={card_student_role}
                                             onChangeText={setRole}
                                             returnKeyType="done"
                                             // onSubmitEditing={() => ref_input4.current.focus()}
@@ -500,7 +500,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                                             placeholder="소속 동아리명을 입력하세요."
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
-                                            value={card_club}
+                                            value={card_student_club}
                                             onChangeText={setClub}
                                             returnKeyType="done"
                                             // ref={ref_input4}
