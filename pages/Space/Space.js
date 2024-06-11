@@ -467,19 +467,62 @@ function TeamSpaceScreen({ navigation}) {
 //   );
 // }
 
+const CustomTabBar = ({ state, descriptors, navigation, position }) => {
+  return (
+    <View style={styles.containerTabBar}>
+      <View style={styles.tabContainer}>
+      {state.routes.map((route, index) => {
+        const { options } = descriptors[route.key];
+        const label =
+          options.tabBarLabel !== undefined
+            ? options.tabBarLabel
+            : options.title !== undefined
+            ? options.title
+            : route.name;
+
+        const isFocused = state.index === index;
+
+        const onPress = () => {
+          const event = navigation.emit({
+            type: 'tabPress',
+            target: route.key,
+            canPreventDefault: true,
+          });
+
+          if (!isFocused && !event.defaultPrevented) {
+            navigation.navigate(route.name);
+          }
+        };
+
+        return (
+          <TouchableOpacity
+            key={index}
+            onPress={onPress}
+            style={[styles.tab, isFocused ? styles.activeTab : styles.inactiveTab]}
+          >
+            <Text style={{
+              color: isFocused ? '#000000' : theme.gray50,
+              fontFamily: 'PretendardSemiBold',
+              fontSize: 14,
+              letterSpacing: -1,
+            }}>
+              {label}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+    </View>
+    
+  );
+};
+
 function SpaceTabs() {
   return (
-    <Tab.Navigator 
-      screenOptions={({ route }) => ({
-        headerShadowVisible: false,
-        tabBarLabelStyle: styles.tabLabel,
-        tabBarIndicatorStyle: styles.indicatorStyle,
-        tabBarIndicatorContainerStyle: styles.tabBarItemStyle,
-      })}
-    >
-      <Tab.Screen name="마이스페이스" component={MySpaceScreen}/>
-      <Tab.Screen name="팀스페이스" component={TeamSpaceScreen}/>
-    </Tab.Navigator>
+      <Tab.Navigator tabBar={(props) => <CustomTabBar {...props} />}>
+        <Tab.Screen name="마이스페이스" component={MySpaceScreen} />
+        <Tab.Screen name="팀스페이스" component={TeamSpaceScreen} />
+      </Tab.Navigator>
   );
 }
 

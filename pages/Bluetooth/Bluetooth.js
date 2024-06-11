@@ -84,7 +84,8 @@ function Step2Screen() {
     { id: '1', name: '홍길동', status: '' },
     { id: '2', name: '홍길동', status: '' },
     { id: '3', name: '홍길동', status: '' },
-    { id: '4', name: '홍길동', status: '공유 완료됨' }
+    { id: '4', name: '홍길동', status: '공유 완료됨' },
+    { id: '5', name: '홍길동', status: '' },
   ];
 
   const [recipientStatuses, setRecipientStatuses] = useState(

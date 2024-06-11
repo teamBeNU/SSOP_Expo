@@ -201,33 +201,44 @@ export const styles = StyleSheet.create({
         marginRight: 4.5,
     },
     
-
-    // 상단 탭
-   tabLabel: {
-        fontSize: 14,
-        fontFamily: 'PretendardSemiBold',
-        letterSpacing: -1,
-        alignItems: 'center',
-        justifyContent: 'center',
+    // 탭 바 디자인
+containerTabBar: {
+    backgroundColor: theme.white
+  },
+  tabContainer: {
+    flexDirection: 'row',
+    backgroundColor: theme.gray90,
+    marginHorizontal: 16,
+    marginTop: 16,
+    height: 40,
+    borderRadius: 8,
+  },
+  tab: {
+    flex: 1,
+    paddingHorizontal: 45,
+    paddingVertical: 10,
+    alignItems: 'center',
+    borderRadius: 8,
+  },
+  activeTab: {
+    backgroundColor: theme.white,
+    marginHorizontal: 2,
+    marginVertical: 2,
+    shadowColor: "rgba(0, 0, 0, 0.03)",
+    shadowOffset: {
+        width: 0,
+        height: 2
     },
-    tabBarWrapper: {
-        backgroundColor: '#E5EBEA', // 전체 배경 색상
-        borderRadius: 20,
-        margin: 16, // 외부 여백
-        padding: 4, // 내부 여백
-    },
-    tabBar: {
-        backgroundColor: 'transparent',
-    },
-    indicatorStyle: {
-        backgroundColor: 'transparent',
-    },
-    tabBarItemStyle: {
-        borderRadius: 8,
-        height: 40,
-        margin: 8, // 탭 사이의 간격
-    },
-    
+    shadowRadius: 2,
+    shadowOpacity: 1,
+    //android shadow
+    elevation: 1,
+  },
+  inactiveTab: {
+    backgroundColor: theme.gray90,
+    marginHorizontal: 2,
+    marginVertical: 2,
+  },
 
     // 카드가 없을 때
     emptyContainer: {
