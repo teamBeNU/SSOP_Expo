@@ -824,7 +824,7 @@ export default function TemplateStudent({navigation, goToStepOne}) {
                     <View style={styles.btnDone}>
                         <TouchableOpacity 
                                 style={styles.btnCheckCard}
-                                onPress={() => navigation.navigate('MyCard')}
+                                onPress={() => navigation.navigate('내 카드')}
                             >
                             <Text style={styles.btnNextText}>카드 확인하기</Text>
                         </TouchableOpacity>
