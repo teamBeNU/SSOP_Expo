@@ -116,7 +116,7 @@ export default function App() {
             ),
           }}
           />
-        <Stack.Screen name="MyCard" component={MyCard}/>
+        <Stack.Screen name="내 카드" component={MyCard} />
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen 
           name="팀스페이스 생성" 
