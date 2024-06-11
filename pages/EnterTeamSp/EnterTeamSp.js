@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { styles } from './EnterTeamSpStyle';
-import { View, Text, TextInput,Image, Modal, TouchableOpacity, Alert } from "react-native";
+import { theme } from "../../theme";
+import { View, Text, TextInput, Modal, TouchableOpacity, Alert } from "react-native";
+import * as Progress from 'react-native-progress';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import People from '../../assets/icons/ic_people_small_fill.svg';
 
@@ -15,12 +17,12 @@ import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation }) {
   const [step, setStep] = useState(1);
-  
+
   // const [inviteCode, setInviteCode] = useState(null);
   const inviteCode = '123456';
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
-  
+
   const [hostTemplate, setHostTemplate] = useState(1); // 호스트 지정 템플릿 없음
 
   const [selectedOption, setSelectedOption] = useState('최신순');
@@ -31,9 +33,9 @@ function EnterTeamSp({ navigation }) {
       if (inputcode === inviteCode) {
         setIsModalVisible(true);
         if (hostTemplate) {
-          setStep(2);
-        } else {
           setStep(4);
+        } else {
+          setStep(2);
         }
       } else {
         Alert.alert("존재하지 않는 초대코드입니다.");
@@ -53,137 +55,162 @@ function EnterTeamSp({ navigation }) {
     { id: '2', Component: ShareCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
     { id: '3', Component: ShareCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
   ];
-  
+
   return (
-    <View style={styles.mainlayout}>
+    <View style={{ backgroundColor: theme.white, flex: 1 }}>
 
-      {/* 초대코드 입력 */}
-      {step === 1 && (
-        <View style={styles.stepContainer}>
-          <Text style={styles.title}> 팀스페이스에 입장하려면 {"\n"} 초대코드를 입력하세요. </Text>
+      {/* progressBar */}
+      {hostTemplate ? (
+        step !== 5 && (
+          <Progress.Bar
+            progress={step === 4 ? 0.2857 : step / 7}
+            width={null}
+            height={2}
+            color={theme.green}
+            borderWidth={0}
+          />
+        )
+      ) : (
+        <Progress.Bar
+          progress={step / 3}
+          width={null}
+          height={2}
+          color={theme.green}
+          borderWidth={0}
+        />
+      )}
 
-          <View style={styles.nameContainer}>
-            <Text style={styles.name}>초대코드 입력</Text>
-            <TextInput style={styles.nameInput} placeholder='초대코드를 입력하세요.'
-              maxLength={6}
-              value={inputcode}
-              keyboardType='numeric'
-              returnKeyType='done'
-              onChangeText={setInputCode}
-              onSubmitEditing={() => setIsModalVisible(true)} />
-          </View>
+      {step === 0 && (
+        <View>
+        </View>
+      )}
 
-          <View style={styles.flexSpacer} />
+      <View style={styles.mainlayout}>
 
-          <View style={styles.btnNext}>
-            <Text onPress={() => setIsModalVisible(true)} style={styles.btnText}> 입장하기 </Text>
-          </View>
+        {/* 초대코드 입력 */}
+        {step === 1 && (
+          <View style={styles.stepContainer}>
+            <Text style={styles.title}> 팀스페이스에 입장하려면 {"\n"} 초대코드를 입력하세요. </Text>
 
-          <Modal
-            animationType="fade"
-            transparent={true}
-            visible={isModalVisible}
-            onRequestClose={() => {
-              setIsModalVisible(!isModalVisible);
-            }}>
+            <View style={styles.nameContainer}>
+              <Text style={styles.name}>초대코드 입력</Text>
+              <TextInput style={styles.nameInput} placeholder='초대코드를 입력하세요.'
+                maxLength={6}
+                value={inputcode}
+                keyboardType='numeric'
+                returnKeyType='done'
+                onChangeText={setInputCode}
+                onSubmitEditing={() => setIsModalVisible(true)} />
+            </View>
+
+            <View style={styles.flexSpacer} />
+
+            <TouchableOpacity style={styles.btnNext}>
+              <Text onPress={() => setIsModalVisible(true)} style={styles.btnText}> 입장하기 </Text>
+            </TouchableOpacity>
+
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={isModalVisible}
+              onRequestClose={() => {
+                setIsModalVisible(!isModalVisible);
+              }}>
               <View style={styles.modalContainer}>
                 <View style={styles.modalView}>
                   <TouchableOpacity style={styles.closeIcon} onPress={() => setIsModalVisible(false)}>
                     <CloseIcon />
                   </TouchableOpacity>
-                  <View style={{alignItems: 'center'}}>
+                  <View style={{ alignItems: 'center' }}>
                     <Text style={styles.font18}>찾으시는 팀스페이스가 맞나요?</Text>
                   </View>
-                        
+
                   <View style={styles.modalContent}>
-                    <Text style={[styles.font18, {marginLeft: 0}]}> 홍길동의 팀스페이스 </Text>
+                    <Text style={[styles.font18, { marginLeft: 0 }]}> 홍길동의 팀스페이스 </Text>
                     <Text style={styles.font16}> 부가설명 </Text>
-                    <Text style={styles.people}> <People/>  8 / 150명 </Text>
+                    <Text style={styles.people}> <People />  8 / 150명 </Text>
                   </View>
 
-                  <View style={styles.btnNext}>
-                    <Text onPress={handleNext} style={styles.btnText}> 네, 입장할래요 </Text>
+
+                  <View style={[styles.btnContainer, { marginLeft: 16 }]}>
+                    <TouchableOpacity style={[styles.btnNext, {marginBottom: 24}]}>
+                      <Text onPress={handleNext} style={styles.btnText}> 네, 입장할래요 </Text>
+                    </TouchableOpacity>
                   </View>
                 </View>
               </View>
-          </Modal>
-        </View>
-      )}
-
-      {/* 호스트가 템플릿 지정 */}
-      {step === 2 && (
-        <View style={styles.stepContainer}>
-          <Text style={styles.font22}>
-            호스트가 템플릿을 지정했어요.
-            {"\n"}팀스페이스에 보여질
-            {"\n"}카드를 새로 만들어 봐요!
-          </Text>
-          <View style={styles.container}> 
-          {/* <Image source={require('../../assets/teamSp/bg_gradation.png')} style={{width: '100%', height: undefined, aspectRatio: 1}} />    */}
-          <CardSample />
-          </View>       
-
-          <View style={styles.flexSpacer} />
-
-          <View style={styles.btnNext}>
-            <Text onPress={handleNext} style={styles.btnText}> 카드 만들기 </Text>
+            </Modal>
           </View>
-        </View>
-      )}
+        )}
 
-      {/* 호스트 지정 템플릿으로 이동 */}
-      {step === 3 && (
-        <View style={styles.stepContainer}>
-          <HostTemplate navigation={navigation} />
-        </View>
-      )}
-
-      {/* 제출할 카드 선택 */}
-      {step === 4 && (
-        <View style={styles.stepContainer}>
-          { hasCards ? (
-          <CardsView
-            navigation={navigation}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-            handleNext={handleNext}
-            cardData={cardData}
-            title={"팀스페이스에 보여질 카드를 선택하세요."}
-            />
-          ) : (
-            <NoCardsView
-              navigation={navigation}
-              sub={"공유할 수 있는 카드가 없어요."}
+        {/* 제출할 카드 선택 */}
+        {step === 2 && (
+          <View style={styles.stepContainer}>
+            {hasCards ? (
+              <CardsView
+                navigation={navigation}
+                selectedOption={selectedOption}
+                setSelectedOption={setSelectedOption}
+                handleNext={handleNext}
+                cardData={cardData}
+                title={"팀스페이스에 보여질 카드를 선택하세요."}
               />
-          )
-        }
-        </View>
+            ) : (
+              <NoCardsView
+                navigation={navigation}
+                sub={"공유할 수 있는 카드가 없어요."}
+              />
+            )}
+          </View>
 
-      )}
+        )}
 
-      {/* 팀스페이스 입장 완료 */}
+        {/* 팀스페이스 입장 완료 */}
+        {step === 3 && (
+          <View style={styles.stepContainer}>
+            <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
+
+            <View style={{ alignItems: 'center', marginTop: 135 }}>
+              <EnterEndCard />
+            </View>
+
+            <View style={styles.flexSpacer} />
+
+            <View style={[styles.btnContainer, { marginBottom: 20 }]}>
+              <TouchableOpacity style={[styles.btnNext, {marginBottom: 40}]}>
+                <Text onPress={() => navigation.navigate("Space")} style={styles.btnText}> 팀스페이스 확인 </Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.btnWhite}>
+                <Text onPress={() => navigation.navigate(" ")} style={styles.btnTextBlack}> 홈 화면으로 </Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        )}
+
+        {/* 호스트가 템플릿 지정 */}
+        {step === 4 && (
+          <View style={styles.stepContainer}>
+            <Text style={styles.font22}>
+              호스트가 템플릿을 지정했어요.
+              {"\n"}팀스페이스에 보여질
+              {"\n"}카드를 새로 만들어 봐요!
+            </Text>
+            <View style={styles.container}>
+              <CardSample />
+            </View>
+
+            <View style={styles.flexSpacer} />
+
+            <TouchableOpacity style={styles.btnNext}>
+              <Text onPress={handleNext} style={styles.btnText}> 카드 만들기 </Text>
+            </TouchableOpacity>
+          </View>
+        )}
+      </View>
+      {/* 호스트 지정 템플릿으로 이동 */}
       {step === 5 && (
-        <View style={styles.stepContainer}>
-          <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
-
-          <View style={{alignItems: 'center', marginTop: 135}}>
-            <EnterEndCard/>
-          </View>
-
-          <View style={styles.flexSpacer} />
-
-          <View style={[styles.btnContainer, {marginBottom: 20}]}>
-            <View style={styles.btnNext}>
-              <Text onPress={() => navigation.navigate("카드 조회")} style={styles.btnText}> 팀스페이스 확인 </Text>
-            </View>
-            <View style={styles.btnWhite}>
-              <Text onPress={() => navigation.navigate(" ")} style={styles.btnTextBlack}> 홈 화면으로 </Text>
-            </View>
-          </View>
-        </View>
+          <HostTemplate navigation={navigation} />
       )}
-
-
     </View>
 
   );
