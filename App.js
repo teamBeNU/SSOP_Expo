@@ -52,6 +52,7 @@ import { styles } from './components/MyCard/CardStyle';
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
+// import KaKaoLogin from './components/Login/KaKaoLogin';
 
 export default function App() {
   // 폰트 로드
@@ -98,6 +99,13 @@ export default function App() {
           ),
         }}
          />
+         {/* <Stack.Screen name="KaKaoLogin" component={KaKaoLogin} 
+         options={{headerTitle: "카카오 로그인",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <LeftArrowIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),}} /> */}
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
@@ -111,16 +119,6 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            headerRight: () => 
-            <Menu>
-              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                <MenuOption 
-                  // onSelect={() => alert(`Delete`)} 
-                  text='카드 삭제하기'
-                />
-              </MenuOptions>
-            </Menu>
           }}
           />
         <Stack.Screen name="MyCard" component={MyCard}/>
@@ -130,8 +128,8 @@ export default function App() {
           component={CreateTeamSp}
           options={{ 
             headerTitle: "팀스페이스 생성",
-            headerLeft: ({navigation}) => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
@@ -154,8 +152,8 @@ export default function App() {
           component={EnterTeamSp} 
           options={{ 
             headerTitle: "팀스페이스 입장",
-            headerLeft: ({navigation}) => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
@@ -273,15 +271,9 @@ const Tab = createBottomTabNavigator();
           ),
         }}  />
         <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
-        <Tab.Screen name="내 카드" component={MyCard} 
-          options={{ tabBarLabel: '내 카드', 
-          headerTitle: "내 카드",
-          headerLeft: ({onPress}) => (
-            <TouchableOpacity onPress={onPress}>
-              <LeftArrowIcon style={{ marginLeft: 8  }}/>
-            </TouchableOpacity>
-          ) }} />
-        <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
+        <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: "내 카드",}} />
+        <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
+
       </Tab.Navigator>
     );
   }
