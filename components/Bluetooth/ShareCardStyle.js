@@ -134,11 +134,11 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.5,
     },
 
-    // radioButtonContainer: {
-    //     position: 'absolute',
-    //     top: 10,
-    //     left: 10,
-    // },
+    radioButtonContainer: {
+        position: 'absolute',
+        top: 10,
+        left: 10,
+    },
 
     radioContainer: {    
         position: 'relative',
@@ -152,8 +152,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: "rgba(0, 0, 0, 0.5)",
-        top: 10,
-        left: 10,
+
       },
       radioSelected: {
         borderColor: theme.white,

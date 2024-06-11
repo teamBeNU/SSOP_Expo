@@ -48,7 +48,7 @@ const CustomCardRadioButton = ({ selected, onPress }) => {
 
 export const RadioCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter, selected, onPress }) => {
     return (
-        <View style={[styles.card, { backgroundColor }]}>
+        <TouchableOpacity style={[styles.card, { backgroundColor }]} onPress={onPress}>
             <View style={styles.radioButtonContainer}>
                 <CustomCardRadioButton selected={selected} onPress={onPress} />
             </View>
@@ -75,7 +75,7 @@ export const RadioCard = ({ backgroundColor, avatar, host, card_name, age, dot, 
                     </View>
                 )}
             </View>
-        </View>
+        </TouchableOpacity>
     );
 };
 
