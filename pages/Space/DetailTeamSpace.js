@@ -18,7 +18,7 @@ import People from '../../assets/icons/ic_person_small_fill.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import SaveIcon from '../../assets/icons/ic_save_small_line.svg';
 import ContactIcon from '../../assets/icons/ic_contact_small_line.svg';
-import SelectIcon from '../../assets/icons/ic_done_small_line.svg';
+import SelectIcon from '../../assets/icons/ic_done_small_line_blue.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 
 const Tab = createMaterialTopTabNavigator();
@@ -178,11 +178,11 @@ function Filter() {
       frontend: false,
       backend: false,
       dimi: false,
-    math: false,
-    info: false,
-    software: false,
-    student: false,
-    woker: false,
+      math: false,
+      info: false,
+      software: false,
+      student: false,
+      woker: false,
     });
   };
 

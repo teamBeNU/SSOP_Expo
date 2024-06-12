@@ -81,7 +81,7 @@ function Step2Screen({ navigation }) {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: 'white' }}>
       <Progress.Bar
         progress={1.0} // Step2에서는 100%로 설정
         width={null}
