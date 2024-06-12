@@ -40,13 +40,15 @@ import Space from './pages/Space/Space';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
-// import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
 import MyPage from './pages/MyPage/MyPage';
 import UserAccount from './pages/MyPage/UserAccount';
 import UserInfo from './pages/MyPage/UserInfo';
 import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
 import UserPw from './pages/MyPage/UserPw';
+import DetailTeamSpace from './pages/Space/DetailTeamSpace';
+import DetailGroup from './pages/Space/DetailGroup';
+import MySpaceManage from './pages/Space/MySpaceManage';
 
 import { styles } from './components/MyCard/CardStyle';
 
@@ -245,6 +247,17 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
+          <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
+          <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
+          <Stack.Screen name="마이 스페이스 관리" component={MySpaceManage}
+          options={{
+            headerTitle: "관리",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />
@@ -252,7 +265,18 @@ export default function App() {
   );
 };
 
-// 바텀 네비게이션 (MyPage 연결 변경 필요)
+const StackNavigator1 = ({ navigation, route }) => {
+  React.useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName === "Space") {
+      navigation.setOptions({ tabBarStyle: { display: 'flex' } });
+    } else {
+      navigation.setOptions({ tabBarStyle: { display: 'none' } });
+    }
+  }, [navigation, route]);
+};
+
+// 바텀 네비게이션
 const Tab = createBottomTabNavigator();
   
   function MyTabs() {
@@ -314,7 +338,12 @@ const Tab = createBottomTabNavigator();
             </TouchableOpacity>
           ),
         }}  />
-        <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
+        <Tab.Screen name="스페이스" component={Space} 
+        options={{ 
+          tabBarLabel: '스페이스', 
+          headerTitle: 'Space', 
+          headerShown: false
+          }} />
         <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: "내 카드",}} />
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
       </Tab.Navigator>

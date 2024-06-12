@@ -20,7 +20,7 @@ function Home({navigation}) {
                     </TouchableOpacity>
                 </View>
 
-                <Text style={styles.title}>카드 교환할까?</Text>
+                <Text style={styles.title}>우리끼리 카드 교환할까?</Text>
                 <View style={styles.container}>
                     <View style={styles.row}>
                         <TouchableOpacity style={styles.btn2} onPress={() => navigation.navigate('내 카드 보내기')}>
