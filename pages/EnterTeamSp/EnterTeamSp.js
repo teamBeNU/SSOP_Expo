@@ -11,7 +11,7 @@ import AvatarSample2 from '../../assets/icons/AbatarSample2';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard";
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
-import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
+import HostStudTemplate from '../../components/EnterTeamSp/HostStudTemplate.js';
 import CardSample from '../../assets/teamSp/bg_gradation';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
@@ -23,7 +23,7 @@ function EnterTeamSp({ navigation }) {
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
 
-  const [hostTemplate, setHostTemplate] = useState(1); // 호스트 지정 템플릿 없음
+  const [hostTemplate, setHostStudTemplate] = useState(1); // 호스트 지정 템플릿 없음
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
@@ -208,7 +208,7 @@ function EnterTeamSp({ navigation }) {
       </View>
       {/* 호스트 지정 템플릿으로 이동 */}
       {step === 5 && (
-          <HostTemplate navigation={navigation} />
+          <HostStudTemplate navigation={navigation} />
       )}
     </View>
 

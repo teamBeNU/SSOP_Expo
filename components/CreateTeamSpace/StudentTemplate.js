@@ -313,6 +313,18 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                   {!showMajor && <Text> 전공 </Text>}
                 </TouchableOpacity>
                 
+                {/* 동아리 */}
+                <TouchableOpacity onPress={() => handleSelect('showClub')}
+                  style={showClub ? styles.selectedElement : styles.element}>
+                  {showClub && (
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                      <Select />
+                      <Text style={styles.selectedText}> 동아리 </Text>
+                    </View>
+                  )}
+                  {!showClub && <Text> 동아리 </Text>}
+                </TouchableOpacity>
+
                 {/* 역할 */}
                 <TouchableOpacity onPress={() => handleSelect('showRole')}
                   style={showRole ? styles.selectedElement : styles.element}>
@@ -359,18 +371,6 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                     <Text style={styles.nameLeng}> {roleLength} / 10 </Text>
                   </View>
                 )}
-
-                {/* 동아리 */}
-                <TouchableOpacity onPress={() => handleSelect('showClub')}
-                  style={showClub ? styles.selectedElement : styles.element}>
-                  {showClub && (
-                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                      <Select />
-                      <Text style={styles.selectedText}> 동아리 </Text>
-                    </View>
-                  )}
-                  {!showClub && <Text> 동아리 </Text>}
-                </TouchableOpacity>
 
               </View>
 
