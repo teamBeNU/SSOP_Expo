@@ -69,7 +69,7 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
     },
 
-    btn1: { 
+    btn1: {
         marginTop: 12,
         // width: 158,
         width: '44%',
@@ -109,10 +109,10 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 4,
     },
-    newCard: {
+        newCard: {
         color:theme.skyblue,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         letterSpacing: -0.2,
-    },
+        },
 })

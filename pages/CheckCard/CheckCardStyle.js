@@ -29,7 +29,7 @@ export const styles = StyleSheet.create({
         btnContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 140,
+        width: 224,
         height: 65,
         gap: 28,
         position: 'absolute',

@@ -78,7 +78,6 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         letterSpacing: -1,
     },
-
     DetailSpaceCard: {
 		width: 158,
         height: 235,

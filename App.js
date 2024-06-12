@@ -6,7 +6,6 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
-
 import { useFonts } from 'expo-font';
 import MoreIcon from './assets/icons/ic_more_small_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
@@ -56,6 +55,7 @@ import { styles } from './components/MyCard/CardStyle';
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
+import KaKaoLogin from './components/Login/KaKaoLogin';
 
 export default function App() {
   // 폰트 로드
@@ -74,34 +74,34 @@ export default function App() {
 
   // 토스트
   const customToast = {
-    selectedToast: ({ text1 }) => (
-      <View
+  selectedToast: ({ text1 }) => (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        height: 40,
+        width: '90%',
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.gray30
+      }}>
+      <Text
         style={{
-          flex: 1,
-          flexDirection: 'row',
-          height: 40,
-          width: '90%',
-          paddingHorizontal: 16,
-          borderRadius: 8,
           justifyContent: 'center',
           alignItems: 'center',
-          backgroundColor: theme.gray30
+          fontFamily: "PretendardRegular",
+          fontSize: 14,
+          letterSpacing: -1,
+          color: theme.white,
+          textAlign: 'center'
         }}>
-        <Text
-          style={{
-            justifyContent: 'center',
-            alignItems: 'center',
-            fontFamily: "PretendardRegular",
-            fontSize: 14,
-            letterSpacing: -1,
-            color: theme.white,
-            textAlign: 'center'
-          }}>
-          {text1}
-        </Text>
-      </View>
-    ),
-  };
+        {text1}
+      </Text>
+    </View>
+  ),
+};
 
   return (
     <MenuProvider>
@@ -133,6 +133,13 @@ export default function App() {
           ),
         }}
          />
+         <Stack.Screen name="KaKaoLogin" component={KaKaoLogin} 
+         options={{headerTitle: "카카오 로그인",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <LeftArrowIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),}} />
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
@@ -146,19 +153,9 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            headerRight: () => 
-            <Menu>
-              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                <MenuOption 
-                  // onSelect={() => alert(`Delete`)} 
-                  text='카드 삭제하기'
-                />
-              </MenuOptions>
-            </Menu>
           }}
           />
-        <Stack.Screen name="MyCard" component={MyCard}/>
+        <Stack.Screen name="내 카드" component={MyCard} />
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen 
           name="팀스페이스 생성" 
@@ -214,7 +211,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="MY 계정관리" component={UserAccount} 
+       <Stack.Screen name="MY 계정관리" component={UserAccount} 
           options={{
             headerTitle: "계정관리",
             headerLeft: ({onPress}) => (
@@ -283,9 +280,7 @@ const StackNavigator1 = ({ navigation, route }) => {
 const Tab = createBottomTabNavigator();
   
   function MyTabs() {
-
     const navigation = useNavigation();
-
     return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -324,7 +319,6 @@ const Tab = createBottomTabNavigator();
             borderTopRightRadius: 8,
           },
           headerShadowVisible: false,
-          
         })}
       >
         <Tab.Screen name="홈" component={Home} options={{
@@ -335,8 +329,8 @@ const Tab = createBottomTabNavigator();
           },
           headerLeft: () => (
             <TouchableOpacity onPress={() => navigation.navigate('알림')}>
-              <NotiIcon style={{ marginLeft: 8 }} />
-            </TouchableOpacity>
+            <NotiIcon style={{ marginLeft: 8 }} />
+           </TouchableOpacity>
           ),
           headerRight: () => (
             <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
@@ -350,14 +344,7 @@ const Tab = createBottomTabNavigator();
           headerTitle: 'Space', 
           headerShown: false
           }} />
-        <Tab.Screen name="내 카드" component={MyCard} 
-          options={{ tabBarLabel: '내 카드', 
-          headerTitle: "내 카드",
-          headerLeft: ({onPress}) => (
-            <TouchableOpacity onPress={onPress}>
-              <LeftArrowIcon style={{ marginLeft: 8  }}/>
-            </TouchableOpacity>
-          ) }} />
+        <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: "내 카드",}} />
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
       </Tab.Navigator>
     );

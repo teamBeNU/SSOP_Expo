@@ -51,7 +51,7 @@ if (!hasNotify) {
     setNotiData(notiData.filter(card => card.id !== id));
     showCustomToast('카드를 거절했습니다.');
   };
-  
+
   const showCustomToast = (text) => {
     Toast.show({
       text1: text,
@@ -60,8 +60,7 @@ if (!hasNotify) {
       visibilityTime: 2000,
     });
   };
-  
-  
+
   const handleAccept = (id) => {
     setNotiData(notiData.map(card => 
       card.id === id 

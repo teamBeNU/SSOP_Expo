@@ -11,7 +11,7 @@ import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
 
 function Home({navigation}) {
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: '#F5F8F8'}}> 
+        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: '#F5F8F8'}}>
             <View style={styles.mainlayout}>
                 <View>
                     <TouchableOpacity style={styles.btn1} onPress={() => navigation.navigate('카드 만들기')}>

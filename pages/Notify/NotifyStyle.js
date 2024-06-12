@@ -66,7 +66,6 @@ export const styles = StyleSheet.create({
         color: theme.gray10,
         letterSpacing: -1,
     },  
-    
     // 알림이 없을 때
     emptyContainer: {
         flex: 1,

@@ -8,7 +8,7 @@ export const styles = StyleSheet.create({
     // CardFront
 	card: {
 		width: 288,
-        height: 432,
+        height: 436,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray90,
@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
 	},
 	cardImgArea: {
-        height: 296,
+        height: 300,
         backgroundColor: '#B6E96C',
     },
     cardTextArea: {
@@ -28,6 +28,7 @@ export const styles = StyleSheet.create({
         backgroundColor: "white",
         paddingTop: 16,
         paddingLeft: 24,
+        paddingBottom: 32,
         gap: 12,
     },
     basicInfo: {
@@ -100,6 +101,38 @@ export const styles = StyleSheet.create({
         alignSelf: 'stretch',
         borderTopWidth: 1,
         borderColor: theme.gray90,
-    }
+    },
+    SNScontainer: {
+        flexDirection: "row",
+        gap: 4,
+        alignItems: 'center',
+    },
+    modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        width: '100%',
+        justifyContent: 'flex-end',
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        letterSpacing: -0.32,
+        fontWeight: 400,
+        lineHeight: 19,
+    },
+    detailsContainer: {
+        width: 212,
+        backgroundColor: 'white',
+        borderRadius: 4,
+        position: 'relative',
+        paddingVertical: 16,
+        paddingHorizontal: 24,
+        shadowColor: 'rgba(0, 0, 0, 0.05)',
+        shadowOffset: {
+        width: 4,
+        height: 4,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 12,
+        elevation: 3,
+    },
     
 });

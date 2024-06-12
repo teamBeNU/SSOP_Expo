@@ -11,9 +11,9 @@ import { theme } from "../../theme";
 
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
-import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
-import LinkShareImage from '../../assets/icons/LinkShareImage.svg'
+import AvatarSample1 from '../../assets/icons/AbatarSample1.svg';
+import AvatarSample2 from '../../assets/icons/AbatarSample2.svg';
+import LinkShareImage from '../../assets/icons/LinkShareImage.svg';
 import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 
 function Step1Screen({ navigation }) {
@@ -72,8 +72,8 @@ function Step2Screen({ navigation }) {
     const textToCopy = LinkShare;
     Clipboard.setString(textToCopy);
     Alert.alert("클립보드에 복사되었습니다.");
-  };    
-
+  };
+  
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleShareButtonPress = () => {
@@ -94,7 +94,7 @@ function Step2Screen({ navigation }) {
           <Text style={styles.title}>링크가 생성되었어요.</Text>
           <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
           <View style={styles.linkShareContainer}>
-            <LinkShareImage/>
+          <LinkShareImage/>
             <View style={styles.linkShareBox}>
               <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 8}} onPress={handleShareButtonPress}>
                 <Text style={styles.linkShareText}>링크 공유하기</Text>

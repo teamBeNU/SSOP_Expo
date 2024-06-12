@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        backgroundColor: theme.white,
+        backgroundColor: theme.whit,
     },
     title: { // 글씨 
         marginTop: 30,
@@ -114,8 +114,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'PretendardSemiBold'
     },
-    
-    //링크 공유하기 버튼, 사진
+    // 링크 공유하기 버튼, 사진
     linkShareContainer: {
         flex: 0.7,
         justifyContent: 'center',
@@ -140,8 +139,7 @@ export const styles = StyleSheet.create({
         borderColor: theme.skyblue,
         justifyContent: 'center',
         alignItems: 'center',
-    },
-    
+    },    
     // 카드가 없을 때
     emptyContainer: {
         justifyContent: 'center',
@@ -167,9 +165,8 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         letterSpacing: -0.2,
     },
-
-    // 공유하기 모달
-    shareModalContainer: {
+     // 공유하기 모달
+     shareModalContainer: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         width: '100%',
