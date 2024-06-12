@@ -5,6 +5,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
+import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import { useFonts } from 'expo-font';
 import MoreIcon from './assets/icons/ic_more_small_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
@@ -35,18 +36,26 @@ import LinkShare from './pages/LinkShare/LinkShare';
 import CheckCard from './pages/CheckCard/CheckCard';
 import Memo from './pages/CheckCard/Memo';
 import MyCard from './pages/MyCard/MyCard';
-import Space from './pages/Space';
+import Space from './pages/Space/Space';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
 import CreateCard from './pages/CreateCard/CreateCard';
 import EnterTeamSp from './pages/EnterTeamSp/EnterTeamSp';
-// import HomeStack from './pages/home/Home';
 import Notify from './pages/Notify/Notify';
+import MyPage from './pages/MyPage/MyPage';
+import UserAccount from './pages/MyPage/UserAccount';
+import UserInfo from './pages/MyPage/UserInfo';
+import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
+import UserPw from './pages/MyPage/UserPw';
+import DetailTeamSpace from './pages/Space/DetailTeamSpace';
+import DetailGroup from './pages/Space/DetailGroup';
+import MySpaceManage from './pages/Space/MySpaceManage';
 
 import { styles } from './components/MyCard/CardStyle';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
+import KaKaoLogin from './components/Login/KaKaoLogin';
 
 export default function App() {
   // 폰트 로드
@@ -62,6 +71,37 @@ export default function App() {
 
   // 스택 네비게이터
   const Stack = createStackNavigator();
+
+  // 토스트
+  const customToast = {
+  selectedToast: ({ text1 }) => (
+    <View
+      style={{
+        flex: 1,
+        flexDirection: 'row',
+        height: 40,
+        width: '90%',
+        paddingHorizontal: 16,
+        borderRadius: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.gray30
+      }}>
+      <Text
+        style={{
+          justifyContent: 'center',
+          alignItems: 'center',
+          fontFamily: "PretendardRegular",
+          fontSize: 14,
+          letterSpacing: -1,
+          color: theme.white,
+          textAlign: 'center'
+        }}>
+        {text1}
+      </Text>
+    </View>
+  ),
+};
 
   return (
     <MenuProvider>
@@ -93,6 +133,13 @@ export default function App() {
           ),
         }}
          />
+         <Stack.Screen name="KaKaoLogin" component={KaKaoLogin} 
+         options={{headerTitle: "카카오 로그인",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <LeftArrowIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),}} />
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
@@ -106,27 +153,17 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            headerRight: () => 
-            <Menu>
-              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                <MenuOption 
-                  // onSelect={() => alert(`Delete`)} 
-                  text='카드 삭제하기'
-                />
-              </MenuOptions>
-            </Menu>
           }}
           />
-        <Stack.Screen name="MyCard" component={MyCard}/>
+        <Stack.Screen name="내 카드" component={MyCard} />
         <Stack.Screen name="Space" component={Space} />
         <Stack.Screen 
           name="팀스페이스 생성" 
           component={CreateTeamSp}
           options={{ 
             headerTitle: "팀스페이스 생성",
-            headerLeft: ({navigation}) => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
@@ -137,9 +174,6 @@ export default function App() {
           component={CreateCard} 
           options={{ 
             headerTitle: "카드 생성",
-            headerTitleStyle: {
-              
-            },
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -152,8 +186,8 @@ export default function App() {
           component={EnterTeamSp} 
           options={{ 
             headerTitle: "팀스페이스 입장",
-            headerLeft: ({navigation}) => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
@@ -177,16 +211,76 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
+       <Stack.Screen name="MY 계정관리" component={UserAccount} 
+          options={{
+            headerTitle: "계정관리",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
+          options={{
+            headerTitle: "이름 및 생년월일 변경",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
+          options={{
+            headerTitle: "연락처 변경",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
+          options={{
+            headerTitle: "비밀번호 변경",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
+          <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
+          <Stack.Screen name="마이 스페이스 관리" component={MySpaceManage}
+          options={{
+            headerTitle: "관리",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
       </Stack.Navigator>
     </NavigationContainer>
+    <Toast config={customToast} />
     </MenuProvider>
   );
 };
 
-// 바텀 네비게이션 (MyPage 연결 변경 필요)
+const StackNavigator1 = ({ navigation, route }) => {
+  React.useLayoutEffect(() => {
+    const routeName = getFocusedRouteNameFromRoute(route);
+    if (routeName === "Space") {
+      navigation.setOptions({ tabBarStyle: { display: 'flex' } });
+    } else {
+      navigation.setOptions({ tabBarStyle: { display: 'none' } });
+    }
+  }, [navigation, route]);
+};
+
+// 바텀 네비게이션
 const Tab = createBottomTabNavigator();
   
   function MyTabs() {
+    const navigation = useNavigation();
     return (
       <Tab.Navigator
         screenOptions={({ route }) => ({
@@ -218,15 +312,25 @@ const Tab = createBottomTabNavigator();
           tabBarInactiveTintColor: theme.gray70,
           tabBarLabelStyle: {
             fontSize: 12,
-            fontFamily: 'Pretendard',
+            fontFamily: 'PretendardRegular',
           },
+          tabBarStyle: {
+            borderTopLeftRadius: 8,
+            borderTopRightRadius: 8,
+          },
+          headerShadowVisible: false,
         })}
       >
         <Tab.Screen name="홈" component={Home} options={{
           tabBarLabel: '홈',
           headerTitle: ' ',
+          headerStyle: {
+            backgroundColor: '#F5F8F8'
+          },
           headerLeft: () => (
-            <HeaderLeftButton />
+            <TouchableOpacity onPress={() => navigation.navigate('알림')}>
+            <NotiIcon style={{ marginLeft: 8 }} />
+           </TouchableOpacity>
           ),
           headerRight: () => (
             <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
@@ -234,25 +338,14 @@ const Tab = createBottomTabNavigator();
             </TouchableOpacity>
           ),
         }}  />
-        <Tab.Screen name="스페이스" component={Space} options={{ tabBarLabel: '스페이스', headerTitle: 'Space' }} />
-        <Tab.Screen name="내 카드" component={MyCard} 
-          options={{ tabBarLabel: '내 카드', 
-          headerTitle: "내 카드",
-          headerLeft: ({onPress}) => (
-            <TouchableOpacity onPress={onPress}>
-              <LeftArrowIcon style={{ marginLeft: 8  }}/>
-            </TouchableOpacity>
-          ) }} />
-        <Tab.Screen name="MY" component={Notify} options={{ tabBarLabel: 'MY', headerTitle: '알림' }} />
+        <Tab.Screen name="스페이스" component={Space} 
+        options={{ 
+          tabBarLabel: '스페이스', 
+          headerTitle: 'Space', 
+          headerShown: false
+          }} />
+        <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: "내 카드",}} />
+        <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
       </Tab.Navigator>
-    );
-  }
-
-  function HeaderLeftButton() {
-    const navigation = useNavigation();
-    return (
-      <TouchableOpacity onPress={() => navigation.navigate('알림')}>
-        <NotiIcon style={{ marginLeft: 8 }} />
-      </TouchableOpacity>
     );
   }

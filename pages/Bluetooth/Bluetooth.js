@@ -7,6 +7,8 @@ import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
+import * as Progress from 'react-native-progress';
+import { theme } from "../../theme";
 
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -21,9 +23,8 @@ function Step1Screen() {
 
   const cardData = [
     { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
-    { id: '1', Component: ShareCard, backgroundColor: '#B6E96C', avatar: <AvatarSample1 style={{marginLeft: -10}} /> },
-    { id: '2', Component: ShareCard, backgroundColor: '#83936D', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
-    { id: '3', Component: ShareCard, backgroundColor: '#6ED5EC', avatar: <AvatarSample2 style={{marginLeft: -10}} /> },
+    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
+    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬' },
   ];
 
   const title = '블루투스로 보낼 카드를 선택하세요.'
@@ -33,21 +34,32 @@ function Step1Screen() {
     navigation.navigate('Step2');
   };
 
-  return hasCards ? (
-    <CardsView
-      navigation={navigation}
-      selectedOption={selectedOption}
-      setSelectedOption={setSelectedOption}
-      handleNext={handleNext}
-      cardData={cardData}
-      title={title}
-    />
-  ) : (
-    <NoCardsView 
-      navigation={navigation}
-      title={title}
-      sub={sub}
-       />
+  return (
+    <View style={{ flex: 1 }}>
+      <Progress.Bar
+        progress={0.5} 
+        width={null}
+        height={2}
+        color={theme.green}
+        borderWidth={0}
+      />
+      {hasCards ? (
+        <CardsView
+          navigation={navigation}
+          selectedOption={selectedOption}
+          setSelectedOption={setSelectedOption}
+          handleNext={handleNext}
+          cardData={cardData}
+          title={title}
+        />
+      ) : (
+        <NoCardsView 
+          navigation={navigation}
+          title={title}
+          sub={sub}
+        />
+      )}
+    </View>
   );
 }
 
@@ -72,7 +84,8 @@ function Step2Screen() {
     { id: '1', name: '홍길동', status: '' },
     { id: '2', name: '홍길동', status: '' },
     { id: '3', name: '홍길동', status: '' },
-    { id: '4', name: '홍길동', status: '공유 완료됨' }
+    { id: '4', name: '홍길동', status: '공유 완료됨' },
+    { id: '5', name: '홍길동', status: '' },
   ];
 
   const [recipientStatuses, setRecipientStatuses] = useState(
@@ -95,28 +108,35 @@ function Step2Screen() {
   };
 
   return (
+    <View style={{ flex: 1 }}>
+      <Progress.Bar
+        progress={1.0}
+        width={null}
+        height={2}
+        color={theme.green}
+        borderWidth={0}
+      />
       <View style={styles.mainlayout}>
-      <Text style={[styles.title, {marginBottom: 46}]}>보낼 사람을 선택하여 카드를 공유하세요.</Text>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {recipients.map((recipient) => (
-        <React.Fragment key={recipient.id}>
-          <View>
-            <TouchableOpacity style={styles.namebox} onPress={() => handlePressRecipient(recipient.id)}>
-              <Text style={styles.name}>{recipient.name}</Text>
-              {recipientStatuses[recipient.id] && (
-                <Text style={recipientStatuses[recipient.id] === '요청 중...' ? styles.stateCall : styles.stateFinish}>
-                  {recipientStatuses[recipient.id]}
-                </Text>
-              )}
-            </TouchableOpacity>
-          </View>
-          <View style={styles.line} />
-        </React.Fragment>
-      ))}
-      </ScrollView>
-      
+        <Text style={[styles.title, {marginBottom: 46}]}>보낼 사람을 선택하여 카드를 공유하세요.</Text>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {recipients.map((recipient) => (
+            <React.Fragment key={recipient.id}>
+              <View>
+                <TouchableOpacity style={styles.namebox} onPress={() => handlePressRecipient(recipient.id)}>
+                  <Text style={styles.name}>{recipient.name}</Text>
+                  {recipientStatuses[recipient.id] && (
+                    <Text style={recipientStatuses[recipient.id] === '요청 중...' ? styles.stateCall : styles.stateFinish}>
+                      {recipientStatuses[recipient.id]}
+                    </Text>
+                  )}
+                </TouchableOpacity>
+              </View>
+              <View style={styles.line} />
+            </React.Fragment>
+          ))}
+        </ScrollView>
+      </View>
     </View>
-    
   );
 }
 

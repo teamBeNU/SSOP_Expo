@@ -23,7 +23,7 @@ function Login() {
                 <TouchableOpacity>
                 <GoogleIcon />
                 </TouchableOpacity>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={()=> navigation.navigate("KaKaoLogin", {screen: "KaKaoLogin"})}>
                 <KakaoIcon />
                 </TouchableOpacity>
                 <TouchableOpacity>

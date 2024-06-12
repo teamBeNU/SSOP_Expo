@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
         flex: 1,  
         paddingVertical: 8,
         paddingHorizontal: 16,
+        backgroundColor: theme.white,
     },
     title: { // 글씨 
         marginTop: 30,
@@ -109,20 +110,18 @@ export const styles = StyleSheet.create({
 
     // 카드가 없을 때
     emptyContainer: {
+        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 16,
      },
     noCard: {
-        marginTop: 250,
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         letterSpacing: -0.2,
     },
     newContainer: {
-        flexDirection: 'row',
-        height: 32,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 4,
