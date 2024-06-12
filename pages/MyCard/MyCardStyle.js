@@ -28,11 +28,11 @@ export const styles = StyleSheet.create({
         btnContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
-        width: 192,
+        width: 280,
         height: 65,
         gap: 28,
         position: 'absolute',
-        top: 521,
+        top: 545,
         },
         btnText: {
         color: 'black',

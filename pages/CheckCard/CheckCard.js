@@ -5,6 +5,7 @@ import React, { useState, useEffect } from 'react';
 import SaveIcon from '../../assets/icons/ic_contact_small_line.svg';
 import MemoWriteIcon from '../../assets/icons/ic_editNote_small_line.svg';
 import MemoViewIcon from '../../assets/icons/ic_notes_small_line.svg';
+import DeleteIcon from '../../assets/icons/ic_delete.svg';
 
 const CARD_WIDTH = Dimensions.get('window').width * 0.8;
 const SPACING_FOR_CARD_INSET = 32;
@@ -109,6 +110,12 @@ function CheckCard({ navigation }) {
                 </TouchableOpacity>
                 <Text style={styles.btnText}>메모하기</Text>
                 </View>}
+            </View>
+            <View style={styles.btn}>
+                <TouchableOpacity style={styles.whiteBtn}>
+                    <DeleteIcon />
+                </TouchableOpacity>
+                <Text style={styles.btnText}>삭제하기</Text>
             </View>
         </View>
     </View>

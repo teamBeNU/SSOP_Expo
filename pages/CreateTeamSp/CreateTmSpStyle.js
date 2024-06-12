@@ -274,9 +274,52 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
     },
-    copy:{
+    // 공유하기 버튼, 사진
+    shareContainer: {
+        marginTop: 150,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    shareText: {
         fontSize: 16,
+        marginLeft: 16,
+        fontFamily: 'PretendardSemiBold',
         color: theme.skyblue,
-        fontFamily: 'PretendardSemiBold'
-    }   
+        letterSpacing: -1,
+    },
+    shareBox:{
+        alignSelf: 'center',
+        flexShrink: 1,
+        paddingVertical: 14.5,
+        marginTop: 33,
+        height: 48,
+        borderRadius: 8,
+        borderStyle: 'solid',
+        borderWidth: 1,
+        borderColor: theme.skyblue,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+     // 공유하기 모달
+     shareModalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        width: '100%',
+        justifyContent:'center',
+        alignItems: 'center',
+    },
+    ShareModalView: {
+        paddingVertical: 4,
+        paddingHorizontal: 24,
+        width: 272,
+        height: 151,
+        backgroundColor: 'white',
+        borderRadius: 8,
+    },
+    ShareModalText: {
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        marginTop: 20,
+        marginBottom: 20,
+    },
 })
