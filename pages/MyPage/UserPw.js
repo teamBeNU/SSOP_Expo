@@ -18,7 +18,7 @@ const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 function UserPw({navigation}) {
     const [step, setStep] = useState(1);
-    const [password, setPassword] = useState('qwerty12345');    // 사용자 비밀번호
+    const [user_password, setPassword] = useState('qwerty12345');    // 사용자 비밀번호
     const [inputPw, setInputPw] = useState('');     // 사용자가 입력한 비밀번호
     const [isPwVisible, setIsPwVisible] = useState(false);
     const [isPwFull, setIsPwFull] = useState(true);
@@ -43,7 +43,7 @@ function UserPw({navigation}) {
             const isFull = inputPw !== '';
             setIsPwFull(isFull);
 
-            const isCorrect = password === inputPw;
+            const isCorrect = user_password === inputPw;
             setPwIsCorrect(isCorrect);
 
             if (isFull && isCorrect) {
@@ -184,7 +184,7 @@ function UserPw({navigation}) {
 
             {step === 3 && (
                 <View style={styles.userChangeMain}>
-                    <Text style={[styles.title, styles.titleMarginBottom]}>연락처가 변경되었습니다.</Text>
+                    <Text style={[styles.title, styles.titleMarginBottom]}>비밀번호가 변경되었습니다.</Text>
                     <View style={styles.passwordDone}>
                         <PasswordDone />
                     </View>
