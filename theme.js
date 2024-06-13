@@ -17,4 +17,11 @@ export const theme = {
     gray90: "#E8E8E8",
     gray95: "#F4F4F4",
     gray99: "#FDFDFD",
+
+    cardBG01: "#CFEAA3",
+    cardBG02: "#DFC4F0",
+    cardBG03: "#FFD079",
+    cardBG04: "#F4BAAE",
+    cardBG05: "#87A5F2",
+    cardBG06: "#78D7BE",
 };

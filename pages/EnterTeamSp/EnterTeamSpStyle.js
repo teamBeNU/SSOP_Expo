@@ -77,8 +77,8 @@ export const styles = StyleSheet.create({
     },
     // 버튼들
     btnNext: {
-        marginTop: 40,
-        marginBottom: 40,
+        marginTop: 16,
+        marginBottom: 16,
         width: '100%',
         height: 48,
         justifyContent: 'center',
@@ -149,7 +149,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'Pretendard',
     },
     modalView: {
-        height: 340,
+        height: 320,
         paddingHorizontal: 16,
         backgroundColor: 'white',
         borderTopLeftRadius: 8,
@@ -232,6 +232,38 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         margin: 0,
+    },
+    elementContainer:{
+        display:'flex',        
+        alignItems: 'flex-start', 
+        marginTop: 16,
+        flexDirection: 'row',
+        flexWrap: 'wrap', // 줄바꿈
+        gap: 8,
+    },
+    element:{    
+        display:'flex',   
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        fontFamily: 'PretendardRegular',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray90, 
+        color: theme.gray20,
+        backgroundColor: theme.white,
+    },
+    selectedElement:{ 
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.skyblue,
+        color: theme.skyblue,
+        fontFamily: 'PretendardSemiBold'
+    },
+    selectedText:{
+        color: theme.skyblue,
+        fontFamily: 'PretendardSemiBold'
     },
 
     

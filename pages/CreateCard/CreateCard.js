@@ -1,19 +1,25 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "react-native-gesture-handler";
 import { styles } from "./CreateCardStyle";
+
+import Student from '../../assets/profile/student.svg';
+import Worker from '../../assets/profile/worker.svg';
+import Fan from '../../assets/profile/fan.svg';
+import Free from '../../assets/profile/free.svg';
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 
 import TemplateStudent from "../../components/CreateCard/TemplateStudent";
 
 function CreateCard({navigation}) {
-    const [template, setTemplate] = useState();
+    const [card_template, setTemplate] = useState();
     const [step, setStep] = useState(1);
 
     const items = [
-        { id: 'student', label: '학생', description: '학교에 다닌다면', image: require('../../assets/profile/student.png') },
-        { id: 'worker', label: '직장인', description: '직장에 다닌다면', image: require('../../assets/profile/worker.png')  },
-        { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', image: require('../../assets/profile/fan.png')  },
-        { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', image: require('../../assets/profile/free.png')  },
+        { id: 'student', label: '학생', description: '학교에 다닌다면',  icon: <Student /> },
+        { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker /> },
+        { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', icon: <Fan /> },
+        { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', icon: <Free /> },
     ]
 
     const handleSelectTemp = (id) => {
@@ -23,17 +29,31 @@ function CreateCard({navigation}) {
         }
     };
 
-    // 템플릿 2*2 배치
-    const rows = [];
-    for (let i = 0; i < items.length; i += 2) {
-        rows.push(items.slice(i, i+2))
-    }
+    const goToStepOne = () => {
+        setStep(1);
+    };
+
+    useEffect(() => {   // 상단바 타이틀 변경
+        if (step === 1) {
+            navigation.setOptions({
+                headerTitle: '카드 생성',
+                headerLeft: () => (
+                    <TouchableOpacity
+                        onPress={() => {navigation.goBack();}}
+                    >
+                        <CloseIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
+                headerRight: null,
+            });
+        }
+    }, [step]);
 
     return (
         <View style={styles.main}>
 
             {step === 1 && (
-                <View style={{}}>
+                <View>
                     <View>
                         <Text style={styles.title}>템플릿을 선택하세요.</Text>
                         <Text style={styles.subTitle}>아이덴티티에 따라 구성되는 선택지가 달라요.</Text>
@@ -49,7 +69,7 @@ function CreateCard({navigation}) {
                                     ]}
                                     onPress={() => handleSelectTemp(item.id)}
                                 >
-                                    <Image source={item.image} style={{ width: '50%', height: undefined, aspectRatio: 1 }} />
+                                    {item.icon}
                                     <Text style={styles.label}>{item.label}</Text>
                                     <Text style={styles.describe}>{item.description}</Text>
                                 </TouchableOpacity>
@@ -61,20 +81,20 @@ function CreateCard({navigation}) {
 
             {step === 2 && (
                 <View>
-                    {template === "student" && (
-                        <TemplateStudent navigation={navigation} />
+                    {card_template === "student" && (
+                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
-                    {template === 2 && (
+                    {card_template === "worker" && (
                         // 직장인
-                        <TemplateStudent navigation={navigation} />
+                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
-                    {template === 3 && (
+                    {card_template === "fan" && (
                         // 팬
-                        <TemplateStudent navigation={navigation} />
+                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
-                    {template === 4 && (
+                    {card_template === "free" && (
                         // 자유 생성
-                        <TemplateStudent navigation={navigation} />
+                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
                     )}
                 </View>
             )}

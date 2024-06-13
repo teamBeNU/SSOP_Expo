@@ -19,14 +19,17 @@ export const styles = StyleSheet.create({
     marginR8: {
         marginRight: 8,
     },
+    marginT32: {
+        marginTop: 32,
+    },
     flexDirectionRow: {
         flexDirection: "row",
     },
 
     container: {
         // width: SCREEN_WIDTH,
-        // height: '100%',
-        height: SCREEN_HEIGHT,
+        height: '100%',
+        // height: SCREEN_HEIGHT,
         paddingHorizontal: 16,
         backgroundColor: theme.white,
     },
@@ -40,7 +43,7 @@ export const styles = StyleSheet.create({
         marginTop: 68,
     },
     inputContainer: {
-        marginBottom: 32,
+        marginBottom: 40,
     },
     inputText: {
         fontFamily: "PretendardRegular",
@@ -56,6 +59,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         margin: 0,
     },
+    customInputText: {
+        fontFamily: "PretendardRegular",
+        fontFamily: 16,
+        fontWeight: "400",
+        fontStyle: "normal",
+    },
     inputError: {
         borderWidth:1,
         borderStyle: "solid",
@@ -68,6 +77,32 @@ export const styles = StyleSheet.create({
         fontWeight: "400",
         marginHorizontal: 8,
         marginTop: 8,
+    },
+    
+    birthTextContainer: {
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    doneIcon: {
+        marginRight: 4,
+        color: theme.skyblue,
+    },
+    birthSecret: {
+        flexDirection: "row",
+        justifyContent: "flex-end",
+        alignItems: "center",
+        marginBottom: 8,
+    },
+    birthSecretOn: {
+        fontSize: 14,
+        fontFamily: "PretendardRegular",
+        color: "black",
+    },
+    birthSecretOff: {        
+        fontSize: 14,
+        fontFamily: "PretendardRegular",
+        color: theme.gray30,
     },
 
     inputBirthContainer: {
@@ -87,38 +122,30 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardRegular",
         fontSize: 16,
     },
-    
-    doneIcon: {
-        marginRight: 4,
-    },
-    birthSecret: {
-        flexDirection: "row",
-        justifyContent: "flex-end",
-        alignItems: "center",
-        marginTop: 12,
-    },
-    birthSecretOn: {
-        fontSize: 14,
-        fontFamily: "PretendardRegular",
-        color: "black",
-    },
-    birthSecretOff: {        
-        fontSize: 14,
-        fontFamily: "PretendardRegular",
-        color: theme.gray30,
-    },
 
+    // 공통: Next 버튼
+    // btnNext: {
+    //     position: 'absolute',
+    //     // bottom: 16,  // contair의 height: '100%',
+    //     bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+    //     width: '100%',
+    //     height: 48,
+    //     justifyContent: "center",
+    //     alignItems: "center",
+    //     marginHorizontal: 16,
+    //     // paddingVertical: 8,
+    //     // paddingHorizontal: 16,
+    //     backgroundColor: theme.gray10,
+    //     borderRadius: 8,
+    //     borderWidth: 1,
+    //     borderStyle: "solid",
+    // },
     btnNext: {
-        position: 'absolute',
-        // bottom: 16,  // contair의 height: '100%',
-        bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        marginBottom: 16,
         width: '100%',
         height: 48,
         justifyContent: "center",
         alignItems: "center",
-        marginHorizontal: 16,
-        // paddingVertical: 8,
-        // paddingHorizontal: 16,
         backgroundColor: theme.gray10,
         borderRadius: 8,
         borderWidth: 1,
@@ -126,13 +153,16 @@ export const styles = StyleSheet.create({
     },
     btnNextText: {
         color: theme.white,
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
+        fontStyle: "normal",
         fontWeight: "600",
     },
 
     btnMores: {
-        marginVertical: 32,
+        marginTop: 32,
+        marginBottom: 24,
+        flexWrap: "wrap",
     },
     btnMore: {
         alignItems: "center",
@@ -142,6 +172,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 12,
         marginRight: 8,
+        marginBottom: 8,
     },
 
     btnOn: {
@@ -151,11 +182,17 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray90,
     },
     btnTextOn: {
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
+        fontWeight: "600",
+        fontStyle: "normal",
         color: theme.skyblue,
     },
     btnTextOff: {
+        fontFamily: "PretendardRegular",
         fontSize: 16,
+        fontWeight: "400",
+        fontStyle: "normal",
         color: theme.gray20,
     },
 
@@ -182,7 +219,11 @@ export const styles = StyleSheet.create({
     },
 
     snsText: {
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
+        fontWeight: "600",
+        fontStyle: "normal",
+        color: "black",
         marginBottom: 16,
     },
     musicInput: {
@@ -220,18 +261,18 @@ export const styles = StyleSheet.create({
         height: SCREEN_WIDTH*0.8*1.2,
         justifyContent: 'center',
         alignItems: 'center',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
-
+        // shadowOffset: {
+        //     width: 0,
+        //     height: 2,
+        // },
+        // shadowOpacity: 0.25,
+        // shadowRadius: 3.84,
+        // elevation: 5,
+        
         // 그림자가 안보여서 임시 border
-        borderWidth: 1,
-        borderColor: theme.gray90,
-        borderRadius: 10
+        // borderWidth: 1,
+        // borderColor: theme.gray90,
+        // borderRadius: 10
     },
     circles: {
         flexDirection: "row",
@@ -252,7 +293,7 @@ export const styles = StyleSheet.create({
     },
 
     avatarNext: {
-        color: "black",
+        color: theme.skyblue,
         fontFamily: "PretendardSemiBold",
         fontSize: 16,
         fontStyle: "normal",
@@ -268,10 +309,13 @@ export const styles = StyleSheet.create({
         marginTop: "20%",
     },
     btnDone: {
-        position: 'absolute',
-        bottom: 60+16,
-        width: '100%',
-        marginHorizontal: 16,
+        // position: 'absolute',
+        // bottom: 60+16,
+        // width: '100%',
+        // marginHorizontal: 16,
+        marginBottom: 16,
+        justifyContent: "center",
+        alignItems: "center",
     },
     btnCheckCard: {
         // position: 'absolute',

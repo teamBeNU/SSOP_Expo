@@ -70,15 +70,20 @@ export const styles = StyleSheet.create({
         left: 16,
         bottom: 12,
     },
+    avatarAutoBtn: {
+        flexDirection: "row",
+        alignItems: "center",
+    }, 
     autoAvatarIcon: {
         color: theme.white,
-        marginRight: 6,
+        marginRight: 4,
     },
     avatarAutoText: {
         color: theme.white,
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 14,
         fontWeight: "600",
+        textAlign: "center"
     },
     avatarRestart: {
         zIndex: 0,
@@ -113,6 +118,13 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         width: "100%", 
         height: "100%",
+    },
+    avatarSvg: {
+        position: 'absolute',
+        width: "100%", 
+        height: "100%",
+        justifyContent: "center",
+        alignItems: "center",
     },
     avatarBg: {
         position: 'static',
@@ -157,8 +169,11 @@ export const styles = StyleSheet.create({
         justifyContent: "space-between",
         marginTop: 8,
         marginBottom: 100,
+        paddingHorizontal: 8,
     },
     avatarItems: {
+        justifyContent: "center",
+        alignItems: "center",
         width: "30%",
         aspectRatio: 1,
         margin: "1.5%",
@@ -170,6 +185,13 @@ export const styles = StyleSheet.create({
     },
     itemSelectOff: {
         padding: 2, // 이미지와 테두리 사이 여백
+    },
+    avatarItem: {
+        width: "100%",
+        height: "100%",
+        borderRadius: 8,
+        overflow: "hidden",
+        backgroundColor: theme.white,
     },
 
     avatarItemText: {
