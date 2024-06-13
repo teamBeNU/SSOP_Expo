@@ -136,6 +136,7 @@ function SignUp() {
             break;
           case 10:
             setStep(7);
+            break;
           default:
             setStep(step - 1);
             break;
