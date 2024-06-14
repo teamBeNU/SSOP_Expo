@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Clipboard, Alert, Modal } from "react-native";
+import { View, Text, ScrollView, Clipboard, Alert, Modal, TouchableWithoutFeedback } from "react-native";
 import { styles } from './LinkShareStyle';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -101,24 +101,29 @@ function Step2Screen({ navigation }) {
                 <RightArrowBlueIcon style={styles.linkArrowIcon}/>
               </TouchableOpacity >
               <Modal
-                animationType="fade"
-                transparent={true}
-                visible={isModalVisible}
-                onRequestClose={() => {
-                  setIsModalVisible(!isModalVisible);
-                }}>
+              animationType="fade"
+              transparent={true}
+              visible={isModalVisible}
+              onRequestClose={() => {
+                setIsModalVisible(!isModalVisible);
+              }}>
+              <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
                 <View style={styles.shareModalContainer}>
-                  <View style={styles.ShareModalView}>
-                    <TouchableOpacity onPress={() => { copyLinkShare(); setIsModalVisible(false); }}>
-                      <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
-                    </TouchableOpacity>
-                    <View style={styles.line} />
-                    <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                      <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
-                    </TouchableOpacity>
-                  </View>
+                  <TouchableWithoutFeedback>
+                    <View style={styles.ShareModalView}>
+                      <TouchableOpacity onPress={() => { copyLinkShare(); setIsModalVisible(false); }}>
+                        <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
+                      </TouchableOpacity>
+                      <View style={styles.line} />
+                      <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                        <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
+                      </TouchableOpacity>
+                    </View>
+                  </TouchableWithoutFeedback>
                 </View>
-              </Modal>
+              </TouchableWithoutFeedback>
+            </Modal>
+
             </View>
           </View>
         </View>

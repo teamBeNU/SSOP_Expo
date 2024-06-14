@@ -80,7 +80,6 @@ export const styles = StyleSheet.create({
 
     // 마이스페이스 카드
     container: {
-        paddingHorizontal: 16,
     },
     row: {
         flexDirection: 'row',

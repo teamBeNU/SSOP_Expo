@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert, TouchableWithoutFeedback } from "react-native";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -81,17 +81,20 @@ function DetailTeamSpaceScreen({ navigation }) {
                           onRequestClose={() => {
                             setIsModalVisible(!isModalVisible);
                           }}>
-                          <View style={styles.shareModalContainer}>
-                            <View style={styles.ShareModalView}>
-                              <TouchableOpacity onPress={() => { copyinviteCode(); setIsModalVisible(false); }}>
-                                <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>                   
-                              </TouchableOpacity>
-                              <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
-                              <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                                <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>                   
-                              </TouchableOpacity>
+                          <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+                            <View style={styles.shareModalContainer}>
+                              <View style={styles.ShareModalView}>
+                                <TouchableOpacity onPress={() => { copyinviteCode(); setIsModalVisible(false); }}>
+                                  <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>                   
+                                </TouchableOpacity>
+                                <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
+                                <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                                  <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>                   
+                                </TouchableOpacity>
+                              </View>
                             </View>
-                          </View>
+                          </TouchableWithoutFeedback>
+
                         </Modal>
                     </TouchableOpacity>
                     <Text style={styles.btnText}>공유하기</Text>
