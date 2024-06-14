@@ -292,7 +292,6 @@ export const styles = StyleSheet.create({
         flexShrink: 1,
         paddingVertical: 14.5,
         marginTop: 33,
-        height: 48,
         borderRadius: 8,
         borderStyle: 'solid',
         borderWidth: 1,

@@ -96,10 +96,10 @@ function Step2Screen({ navigation }) {
           <View style={styles.linkShareContainer}>
           <LinkShareImage/>
             <View style={styles.linkShareBox}>
-              <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 8}} onPress={handleShareButtonPress}>
+              <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={handleShareButtonPress}>
                 <Text style={styles.linkShareText}>링크 공유하기</Text>
-                <RightArrowBlueIcon />
-              </TouchableOpacity>
+                <RightArrowBlueIcon style={styles.linkArrowIcon}/>
+              </TouchableOpacity >
               <Modal
                 animationType="fade"
                 transparent={true}
