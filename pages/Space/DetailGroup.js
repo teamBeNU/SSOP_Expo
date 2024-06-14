@@ -58,6 +58,7 @@ function DetailSpaceGroup({ navigation }) {
   
     return (
       <View style={styles.backgroundColor}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={[styles.title, {marginBottom: 32}]}>24학번 후배</Text>
           <View style={[styles.btnContainer, {marginBottom: 28}]}>
                   <View style={styles.btn}>
@@ -95,7 +96,7 @@ function DetailSpaceGroup({ navigation }) {
                 </View>
           </View>
           <View style={styles.cardLayout}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+          
               <View style={styles.container}>
                 <View style={styles.row}>
                     {DetailcardData.map((item) => (
@@ -115,7 +116,6 @@ function DetailSpaceGroup({ navigation }) {
                 </View>
               </View>
               <View style={styles.innerView}></View>
-            </ScrollView>
           </View>
           <SpaceModal
             isVisible={isSpaceModalVisible}
@@ -132,6 +132,7 @@ function DetailSpaceGroup({ navigation }) {
             btn1={'취소하기'}
             btn2={'수정하기'}
           />
+          </ScrollView>
         </View>
     );
   }

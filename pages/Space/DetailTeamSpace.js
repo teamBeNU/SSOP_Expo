@@ -67,6 +67,7 @@ function DetailTeamSpaceScreen({ navigation }) {
 
   return (
     <View style={styles.backgroundColor}>
+       <ScrollView showsVerticalScrollIndicator={false}>
         <Text style={styles.title}>김슈니의 팀스페이스</Text>
         <Text style={styles.sub}>IT 소학회 SWUT 스페이스입니다.</Text>
         <View style={styles.btnContainer}>
@@ -126,7 +127,7 @@ function DetailTeamSpaceScreen({ navigation }) {
           </View>
         </View>
         <View style={styles.cardLayout}>
-          <ScrollView showsVerticalScrollIndicator={false}>
+         
             <View style={styles.container}>
               <View style={styles.row}>
                   {DetailcardData.map((item) => (
@@ -146,9 +147,8 @@ function DetailTeamSpaceScreen({ navigation }) {
               </View>
             </View>
             <View style={styles.innerView}></View>
-          </ScrollView>
         </View>
-          
+        </ScrollView>
       </View>
   );
 }
