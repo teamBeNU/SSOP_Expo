@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './ShareCardStyle';
 import { useNavigation } from '@react-navigation/native';
@@ -6,9 +6,12 @@ import { RadioButton } from 'react-native-paper';
 import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
 import RadioGrayIcon from '../../assets/icons/ic_radio_check_gray.svg';
 
+const screenWidth = Dimensions.get('window').width;
+const cardWidth = (screenWidth - 16 * 2 - 12) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
+
 export const ShareCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter }) => {
     return (
-        <View style={[styles.card, { backgroundColor }]}>
+        <View style={[styles.card, { backgroundColor, width: cardWidth }]}>
             <View style={styles.cardImgArea}>
                 {avatar}
             </View>
@@ -48,7 +51,7 @@ const CustomCardRadioButton = ({ selected, onPress }) => {
 
 export const RadioCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter, selected, onPress }) => {
     return (
-        <TouchableOpacity style={[styles.card, { backgroundColor }]} onPress={onPress}>
+        <TouchableOpacity style={[styles.card, { backgroundColor, width: cardWidth }]} onPress={onPress}>
             <View style={styles.radioButtonContainer}>
                 <CustomCardRadioButton selected={selected} onPress={onPress} />
             </View>
@@ -82,7 +85,7 @@ export const RadioCard = ({ backgroundColor, avatar, host, card_name, age, dot, 
 export const PlusCardButton = () => {
     const navigation = useNavigation();
     return (
-      <TouchableOpacity style={styles.btn1} onPress={() => navigation.navigate('카드 만들기')}>
+      <TouchableOpacity style={[styles.btn1, { width: cardWidth }]} onPress={() => navigation.navigate('카드 만들기')}>
         <PlusCardIcon/>
         <Text style={styles.Text14}>새 카드 만들기</Text>
       </TouchableOpacity>

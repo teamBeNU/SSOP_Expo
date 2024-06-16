@@ -4,12 +4,12 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     mainlayout:{      
         flex: 1,  
-        paddingVertical: 8,
-        paddingHorizontal: 16,
+        // paddingVertical: 8,
+        // paddingHorizontal: 16,
         backgroundColor: theme.white
     },
     title: { // 글씨 
-        marginTop: 30,
+        marginTop: 22,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
         letterSpacing: -1,
@@ -70,7 +70,7 @@ export const styles = StyleSheet.create({
     },
 
     btn1: {
-        marginTop: 12,
+        marginBottom: 12,
         // width: 158,
         width: '44%',
         borderRadius: 8,

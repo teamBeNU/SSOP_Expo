@@ -4,7 +4,6 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-		width: 158,
         borderRadius: 8,
         backgroundColor: 'white',
         overflow: 'hidden',
@@ -42,7 +41,9 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
 	cardImgArea: {
-        height: 148,
+        height: 150,
+        alignItems: 'center',
+        marginRight: 15
     },
     cardTextArea: {
         backgroundColor: "white",

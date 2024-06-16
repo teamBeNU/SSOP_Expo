@@ -8,6 +8,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         backgroundColor: theme.white,
     },
+    shareContainer:{      
+        flex: 1,  
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: theme.white,
+    },
     title: { // 글씨 
         marginTop: 30,
         fontFamily: "PretendardSemiBold",

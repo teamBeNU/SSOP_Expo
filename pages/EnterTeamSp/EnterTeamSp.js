@@ -23,7 +23,7 @@ function EnterTeamSp({ navigation }) {
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
 
-  const [hostTemplate, setHostStudTemplate] = useState(1); // 호스트 지정 템플릿 없음
+  const [hostTemplate, setHostStudTemplate] = useState(0); // 호스트 지정 템플릿 없음
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
@@ -51,8 +51,8 @@ function EnterTeamSp({ navigation }) {
 
   const cardData = [
     { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
-    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
-    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬' },
+    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
+    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 />, card_name: '릴리', card_template: '팬' },
   ];
 
   return (
