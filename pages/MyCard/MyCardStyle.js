@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         },
 	cardPage: {
         color: theme.gray50,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14, 
         fontWeight: '400',
         lineHeight: 17,
@@ -36,7 +36,7 @@ export const styles = StyleSheet.create({
         },
         btnText: {
         color: 'black',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 17,
@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
         },
         noCard: {
         color: theme.gray60,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         fontWeight: '600',
         lineHeight: 19,
@@ -93,7 +93,7 @@ export const styles = StyleSheet.create({
         },
         newCard: {
         color:theme.skyblue,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         fontWeight: '600',
         lineHeight: 19,

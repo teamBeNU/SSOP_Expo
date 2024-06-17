@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         },
 	cardPage: {
         color: theme.gray50,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14, 
         fontWeight: '400',
         lineHeight: 17,
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
         },
         btnText: {
         color: 'black',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 17,
@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         },
         memoTitle:{
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 20,
         fontWeight: '600',
         lineHeight: 30,
@@ -90,13 +90,13 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray10,
-        fontFamily: 'Pretendard'
+        fontFamily: 'PretendardRegular'
         },
         memoLeng: {
         fontSize: 14,
         color: theme.gray60,
         alignSelf: 'flex-end',
-        fontFamily: 'Pretendard'
+        fontFamily: 'PretendardRegular'
         },
         memoBtn: {
         width: '100%',
@@ -113,7 +113,7 @@ export const styles = StyleSheet.create({
         },
         memoBtnText:{
         color: 'white',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize:16,
         fontWeight: '600',
         lineHeight: 19,
@@ -126,7 +126,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         width: '100%',
         justifyContent: 'flex-end',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         letterSpacing: -0.32,
         fontWeight: 400,
@@ -165,7 +165,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray10,
         },
         modalFont: {
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: 400,
         letterSpacing: -0.32,
