@@ -428,7 +428,7 @@ function SignUp() {
                                 <View></View>
                             )}
                             {!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day ? (
-                                <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요 (ex 2024년 01월 01일)</Text>
+                                <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
                             ) : (
                                 <View></View>
                             )}
