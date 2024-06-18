@@ -1,14 +1,14 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
-const WIDTH = Dimensions.get('window').width;
+const WIDTH = Dimensions.get('window').width; //390
 const HEIGHT = Dimensions.get('window').height;
 
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-		width: 288,
-        height: 436,
+		width: WIDTH * 0.8, //WIDTH * 0.8
+        height: WIDTH * 1.2, //WIDTH * 1.2 = 436
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray90,
@@ -24,7 +24,6 @@ export const styles = StyleSheet.create({
         backgroundColor: '#B6E96C',
     },
     cardTextArea: {
-        height: 136,
         backgroundColor: "white",
         paddingTop: 16,
         paddingLeft: 24,

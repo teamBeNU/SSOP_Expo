@@ -11,8 +11,9 @@ import DeleteIcon from '../../assets/icons/ic_delete.svg';
 import { useNavigation } from '@react-navigation/native';
 
 function MyCard() {
-    const CARD_WIDTH = Dimensions.get('window').width * 0.8;
-    const SPACING_FOR_CARD_INSET = 32;
+    const { width:SCREEN_WIDTH } = Dimensions.get('window');
+    const CARD_WIDTH = SCREEN_WIDTH * 0.8;
+    const SPACING_FOR_CARD_INSET = SCREEN_WIDTH * 0.1 - 10;
 
     const data = [
         { id: '1', name: 'Card 1' },
@@ -40,17 +41,11 @@ function MyCard() {
                pagingEnabled
                showsHorizontalScrollIndicator={false}
                decelerationRate={0} 
-               snapToInterval={CARD_WIDTH + 32}
+               snapToInterval={SCREEN_WIDTH * 0.89}
                snapToAlignment='center'
-               contentContainerStyle={{height: 436, paddingHorizontal: SPACING_FOR_CARD_INSET,   //ios shadow
-                shadowColor: 'rgba(0, 0, 0, 0.08)',
-                shadowOffset: { width: 0, height: 1 },
-                shadowOpacity: 4,
-                shadowRadius: 4,
-                //android shadow
-                elevation: 4,}}
+               contentContainerStyle={{ ...styles.cardScrollView, paddingHorizontal: SPACING_FOR_CARD_INSET, }}
                onScroll={handleScroll}
-               scrollEventThrottle={16}
+               scrollEventThrottle={16} 
             >
                 {data.map((item, index) => (
                 <View key={index} style={styles.cardWrapper}>

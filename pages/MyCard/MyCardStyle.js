@@ -23,7 +23,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         },
         cardWrapper: {
-        marginHorizontal: 16,
+        marginHorizontal: 8,
         },
         btnContainer: {
         flexDirection: 'row',
@@ -31,8 +31,9 @@ export const styles = StyleSheet.create({
         width: 280,
         height: 65,
         gap: 28,
-        position: 'absolute',
-        top: 545,
+        marginBottom: 44,
+        // position: 'absolute',
+        // top: 545,
         },
         btnText: {
         color: 'black',
@@ -99,4 +100,14 @@ export const styles = StyleSheet.create({
         lineHeight: 19,
         letterSpacing: -0.32,
         },
+        cardScrollView: {
+        height: 436,  
+        //ios shadow
+        shadowColor: 'rgba(0, 0, 0, 0.08)',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 4,
+        //android shadow
+        elevation: 4,
+        }
 });
