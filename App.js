@@ -148,9 +148,22 @@ export default function App() {
           component={CheckCard}
           options={{
             headerTitle: "카드 조회",
+            headerTitleAlign: 'center',
+            headerTitleStyle: {
+              fontFamily: 'PretendardRegular',
+              fontSize: 16,
+              fontStyle: 'normal',
+              fontWeight: '400',
+              lineHeight: 19,
+              letterSpacing: -0.32,
+            },
+            headerStyle: {
+              borderBottomWidth: 1,
+              borderBottomColor: theme.gray90,
+            },
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
-                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+                <LeftArrowIcon style={{ marginLeft: 8, }}/>
               </TouchableOpacity>
             ),
           }}
@@ -344,7 +357,22 @@ const Tab = createBottomTabNavigator();
           headerTitle: 'Space', 
           headerShown: false
           }} />
-        <Tab.Screen name="내 카드" component={MyCard} options={{ tabBarLabel: '내 카드', headerTitle: "내 카드",}} />
+        <Tab.Screen name="내 카드" component={MyCard} options={{ 
+          tabBarLabel: '내 카드', headerTitle: "내 카드",
+          headerTitleAlign: 'center',
+          headerTitleStyle: {
+            fontFamily: 'PretendardRegular',
+            fontSize: 16,
+            fontStyle: 'normal',
+            fontWeight: '400',
+            lineHeight: 19,
+            letterSpacing: -0.32,
+          },
+          headerStyle: {
+            borderBottomWidth: 1,
+            borderBottomColor: theme.gray90,
+          },
+          }} />
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
       </Tab.Navigator>
     );
