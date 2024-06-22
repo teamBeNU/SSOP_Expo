@@ -1,6 +1,10 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
+const cardWidth = WIDTH * 0.8;
+const cardHeight = WIDTH * 1.2;
+
 export const styles = StyleSheet.create({
         container:{
         alignItems: 'center',
@@ -16,24 +20,22 @@ export const styles = StyleSheet.create({
         lineHeight: 17,
         letterSpacing: -0.14,    
         marginTop: 40,
-        marginBottom: 16,       
+        marginBottom: 6,       
 	},
         cardContainer: {
-        height: 368,
+        height: cardHeight,
         flexDirection: 'row',
         },
         cardWrapper: {
-        marginHorizontal: 16,
+        marginHorizontal: 8,
         },
-
         btnContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: 224,
         height: 65,
         gap: 28,
-        position: 'absolute',
-        top: 545,
+        marginBottom: HEIGHT * 0.1,
         },
         btnText: {
         color: 'black',
@@ -170,4 +172,15 @@ export const styles = StyleSheet.create({
         fontWeight: 400,
         letterSpacing: -0.32,
         },
+        cardScrollView: {
+        height: cardHeight + 20,  
+        paddingVertical: 10,
+        //ios shadow
+        shadowColor: 'rgba(0, 0, 0, 0.08)',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 4,
+        //android shadow
+        elevation: 4,
+        }
 });

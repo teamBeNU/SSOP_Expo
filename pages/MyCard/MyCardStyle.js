@@ -1,6 +1,10 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
+const cardWidth = WIDTH * 0.8;
+const cardHeight = WIDTH * 1.2;
+
 export const styles = StyleSheet.create({
         container:{
         alignItems: 'center',
@@ -19,7 +23,7 @@ export const styles = StyleSheet.create({
         marginBottom: 16,       
 	},
         cardContainer: {
-        height: 432,
+        height: cardHeight,
         flexDirection: 'row',
         },
         cardWrapper: {
@@ -32,8 +36,6 @@ export const styles = StyleSheet.create({
         height: 65,
         gap: 28,
         marginBottom: 44,
-        // position: 'absolute',
-        // top: 545,
         },
         btnText: {
         color: 'black',

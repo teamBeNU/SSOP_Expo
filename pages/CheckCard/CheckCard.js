@@ -7,9 +7,9 @@ import MemoWriteIcon from '../../assets/icons/ic_editNote_small_line.svg';
 import MemoViewIcon from '../../assets/icons/ic_notes_small_line.svg';
 import DeleteIcon from '../../assets/icons/ic_delete.svg';
 
-const CARD_WIDTH = Dimensions.get('window').width * 0.8;
-const SPACING_FOR_CARD_INSET = 32;
-
+const { width:SCREEN_WIDTH } = Dimensions.get('window');
+const CARD_WIDTH = SCREEN_WIDTH * 0.8;
+const SPACING_FOR_CARD_INSET = SCREEN_WIDTH * 0.1 - 10;
 
 function CheckCard({ navigation }) {
 
@@ -17,7 +17,7 @@ function CheckCard({ navigation }) {
         { id: '1', name: 'Card 1', hasMemo: false },
         { id: '2', name: 'Card 2', hasMemo: true },
         { id: '3', name: 'Card 3', hasMemo: false },
-    ]
+    ];
     const [hasMemo, setHasMemo] = useState(false);
     const [cardPage, setCardPage] = useState(1);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -45,21 +45,21 @@ function CheckCard({ navigation }) {
         <View style={styles.container}>
         <Text style={styles.cardPage}>{cardPage} / {data.length}</Text>
         <ScrollView 
-           horizontal 
-           pagingEnabled
-           showsHorizontalScrollIndicator={false}
-           decelerationRate={0} 
-           snapToInterval={CARD_WIDTH + 32}
-           snapToAlignment='center'
-           contentContainerStyle={{height: 432, paddingHorizontal: SPACING_FOR_CARD_INSET}}
-           onScroll={handleScroll}
-           scrollEventThrottle={16}
-        >
+               horizontal 
+               pagingEnabled
+               showsHorizontalScrollIndicator={false}
+               decelerationRate={0} 
+               snapToInterval={SCREEN_WIDTH * 0.89}
+               snapToAlignment='center'
+               contentContainerStyle={{ ...styles.cardScrollView, paddingHorizontal: SPACING_FOR_CARD_INSET, }}
+               onScroll={handleScroll}
+               scrollEventThrottle={16} 
+            >
             {data.map((item, index) => (
-      <View key={index} style={styles.cardWrapper}>
-        <Card name={item.name} />
-      </View>
-    ))}
+              <View key={index} style={styles.cardWrapper}>
+                <Card name={item.name} />
+              </View>
+            ))}
         </ScrollView>
         
         <View style={styles.btnContainer}>

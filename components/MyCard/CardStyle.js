@@ -1,14 +1,15 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
-const WIDTH = Dimensions.get('window').width; //390
-const HEIGHT = Dimensions.get('window').height;
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
+const cardWidth = WIDTH * 0.8;
+const cardHeight = WIDTH * 1.2;
 
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-		width: WIDTH * 0.8, //WIDTH * 0.8
-        height: WIDTH * 1.2, //WIDTH * 1.2 = 436
+		width: cardWidth, //WIDTH * 0.8
+        height: cardHeight, //WIDTH * 1.2 = 436
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray90,
@@ -20,8 +21,10 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
 	},
 	cardImgArea: {
-        height: 300,
+        height: cardHeight * 0.67,
         backgroundColor: '#B6E96C',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     cardTextArea: {
         backgroundColor: "white",
