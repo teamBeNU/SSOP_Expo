@@ -41,8 +41,6 @@ function SignUp() {
     const [hasEnglish, setHasEnglish] = useState(false);
     const [hasNum, setHasNum] = useState(false);
     const [hasLeng, setHasLeng] = useState(false);
-    // const [hasName, setHasName] = useState(true);
-    // const [hasBirth, setHasBirth] = useState(true);
     const [isFull, setIsFull] = useState({
       name: true,
       birth: true,
@@ -53,7 +51,36 @@ function SignUp() {
       serviceAgree: false,
       informationAgree: false,
     });
-    
+
+    // 카운트다운
+    const [seconds, setSeconds] = useState(180);
+    const [timerActive, setTimerActive] = useState(true);
+
+    useEffect(() => {
+      let timer;
+  
+      if (timerActive && seconds > 0) {
+        timer = setInterval(() => {
+          setSeconds((prevTime) => prevTime - 1);
+        }, 1000);
+      } else if (seconds === 0) {
+        clearInterval(timer);
+      }
+  
+      return () => clearInterval(timer);
+    }, [timerActive, seconds]);
+
+    const formatTime = (time) => {
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
+    };
+  
+    const handleResend = () => {
+      setSeconds(180);
+      setTimerActive(true);
+    };
+
     const currentYear = new Date().getFullYear();
 
     const ref_input2 = useRef();
@@ -89,6 +116,7 @@ function SignUp() {
 
     const handleRequest = () => {
       setIsResend(true);
+      setSeconds(180);
     };
 
     const togglePwVisibility = () => {
@@ -198,6 +226,7 @@ function SignUp() {
         } else if (step === 5 ) {
           if(phoneNumber !== '')
           setStep(6);
+          setSeconds(180);
         } else if (step === 6 ) {
           setStep(7);
         } else if (step === 7 ) {
@@ -474,7 +503,7 @@ function SignUp() {
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                   <View style={{flexDirection: 'row'}}>
                     <Text style={{...styles.request, color: theme.gray40, fontWeight: '400', marginLeft: 8}}>잔여시간</Text>
-                    <Text style={{...styles.request, color: theme.gray40, marginLeft: 4}}>3:00</Text>
+                    <Text style={{...styles.request, color: theme.gray40, marginLeft: 4}}>{formatTime(seconds)}</Text>
                   </View>
                 <TouchableOpacity onPress={handleRequest}>
                     <Text style={styles.request}>인증문자 재요청</Text>
