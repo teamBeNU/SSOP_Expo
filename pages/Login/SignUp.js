@@ -20,39 +20,82 @@ function SignUp() {
     const navigation = useNavigation();
     const route = useRoute();
 
+    // 1. email 입력
     const [email, setEmail] = useState('');
+
+    // 2. email 인증번호 입력
     const [emailCode, setEmailCode] = useState('');
     const [testEmailCode, setTestEmailCode] = useState('123');
     const [testPhoneCode, setTestPhoneCode] = useState('123');
+    const [emailCodeIsCorrect, setEmailCodeIsCorrect] = useState(true);
+    const [isResend, setIsResend] = useState(false);
+    const handleEmailCodeChange = (text) => {
+      setEmailCode(text);
+      if(emailCode === testEmailCode) setEmailCodeIsCorrect(true);
+    };
+    
+    const handleEmailCode = () => {
+      if(emailCode !== testEmailCode) setEmailCodeIsCorrect(false);
+      else if((emailCode === testEmailCode)) setEmailCodeIsCorrect(false);
+    };
+
+    // 3. pw 입력
     const [password, setPassword] = useState("");
+    const [showPw, setShowPw] = useState(false);
+    const [hasEnglish, setHasEnglish] = useState(false);
+    const [hasNum, setHasNum] = useState(false);
+    const [hasLeng, setHasLeng] = useState(false);
+    const passwordCheck = (password) => {
+      setHasEnglish(/[a-zA-Z]/.test(password));
+      setHasNum(/[0-9]/.test(password));
+      setHasLeng(/^.{6,20}$/.test(password));
+    };
+    const togglePwVisibility = () => {
+      setShowPw(!showPw);
+    };
+
+    // 4. 이름, 생년월일 입력
     const [name, setName] = useState("");
     const [birth, setBirth] = useState({
         year: '',
         month: '',
         day: '',
     });
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [phoneCode, setPhoneCode] = useState('');
-
-    const [emailCodeIsCorrect, setEmailCodeIsCorrect] = useState(true);
-    const [phoneCodeIsCorrect, setPhoneCodeIsCorrect] = useState(true);
-    const [isResend, setIsResend] = useState(false);
-    const [showPw, setShowPw] = useState(false);
-    const [hasEnglish, setHasEnglish] = useState(false);
-    const [hasNum, setHasNum] = useState(false);
-    const [hasLeng, setHasLeng] = useState(false);
     const [isFull, setIsFull] = useState({
       name: true,
       birth: true,
-  })
+    })
     const [isBirthCorrect, setIsBirthCorrect] = useState({year: true, month: true, day: true});
     const [bSecret, setBSecret] = useState(false);
-    const [isAgree, setIsAgree] = useState({
-      serviceAgree: false,
-      informationAgree: false,
-    });
+        
+    const currentYear = new Date().getFullYear();
+    const ref_input2 = useRef();
+    const ref_input3 = useRef();
+    const ref_input4 = useRef();
+    const ref_input5 = useRef();
 
-    // 카운트다운
+    // 5. 연락처 입력
+    const [phoneNumber, setPhoneNumber] = useState('');
+
+    // 6. 연락처 인증번호 입력
+    const [phoneCode, setPhoneCode] = useState('');
+    const [phoneCodeIsCorrect, setPhoneCodeIsCorrect] = useState(true);
+    const handlePhoneCodeChange = (text) => {
+      setPhoneCode(text);
+      if(phoneCode === testPhoneCode) setPhoneCodeIsCorrect(true);
+    };
+    
+    const handlePhoneCode = () => {
+      if(phoneCode !== testPhoneCode) setPhoneCodeIsCorrect(false);
+      else if((phoneCode === testPhoneCode)) setPhoneCodeIsCorrect(false);
+    };
+
+    const handleRequest = () => {
+      setIsResend(true);
+      setSeconds(180);
+    };
+
+      // 카운트다운
     const [seconds, setSeconds] = useState(180);
     const [timerActive, setTimerActive] = useState(true);
 
@@ -75,53 +118,12 @@ function SignUp() {
       const sec = time % 60;
       return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
     };
-  
-    const handleResend = () => {
-      setSeconds(180);
-      setTimerActive(true);
-    };
 
-    const currentYear = new Date().getFullYear();
-
-    const ref_input2 = useRef();
-    const ref_input3 = useRef();
-    const ref_input4 = useRef();
-    const ref_input5 = useRef();
-
-    const passwordCheck = (password) => {
-        setHasEnglish(/[a-zA-Z]/.test(password));
-        setHasNum(/[0-9]/.test(password));
-        setHasLeng(/^.{6,20}$/.test(password));
-    };
-
-    const handleEmailCodeChange = (text) => {
-      setEmailCode(text);
-      if(emailCode === testEmailCode) setEmailCodeIsCorrect(true);
-    };
-    
-    const handleEmailCode = () => {
-      if(emailCode !== testEmailCode) setEmailCodeIsCorrect(false);
-      else if((emailCode === testEmailCode)) setEmailCodeIsCorrect(false);
-    };
-
-    const handlePhoneCodeChange = (text) => {
-      setPhoneCode(text);
-      if(phoneCode === testPhoneCode) setPhoneCodeIsCorrect(true);
-    };
-    
-    const handlePhoneCode = () => {
-      if(phoneCode !== testPhoneCode) setPhoneCodeIsCorrect(false);
-      else if((phoneCode === testPhoneCode)) setPhoneCodeIsCorrect(false);
-    };
-
-    const handleRequest = () => {
-      setIsResend(true);
-      setSeconds(180);
-    };
-
-    const togglePwVisibility = () => {
-      setShowPw(!showPw);
-    };
+    // 7. 약관 동의
+    const [isAgree, setIsAgree] = useState({
+      serviceAgree: false,
+      informationAgree: false,
+    });
 
     const handleAgreeAll = () => {
       if(!isAgree.serviceAgree || !isAgree.informationAgree)
@@ -149,8 +151,8 @@ function SignUp() {
         informationAgree: !prevState.informationAgree,
       }));
     };
-    
 
+    // 페이지 이동
     const [step, setStep] = useState(1);
      // step 단위 뒤로 가기
      const handleBack = () => {
