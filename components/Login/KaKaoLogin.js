@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet } from "react-native";
-// import { WebView } from 'react-native-webview';
-import {KAKAO_AUTH_URL, KAKAO_INJECTED_JAVASCRIPT} from '../../components/Login/OAuth.jsx';
+import { WebView } from 'react-native-webview';
+import {KAKAO_REST_API_KEY, KAKAO_REDIRECT_URI, KAKAO_AUTH_URL, KAKAO_INJECTED_JAVASCRIPT} from '../../components/Login/OAuth.jsx';
 
 const KaKaoLogin = () => {
     function KakaoLoginWebView (data) {
@@ -12,10 +12,10 @@ const KaKaoLogin = () => {
           console.log(authorize_code);
         };
       }
-    
+
       return (
         <View style={Styles.container}>      
-          {/* <WebView
+          <WebView
             style={{ flex: 1 }}
             originWhitelist={['*']}
             scalesPageToFit={false}
@@ -25,7 +25,7 @@ const KaKaoLogin = () => {
             injectedJavaScript={KAKAO_INJECTED_JAVASCRIPT}
             javaScriptEnabled
             onMessage={event => { KakaoLoginWebView(event.nativeEvent["url"]); }}
-          /> */}
+          />
         </View>
     );
 };
