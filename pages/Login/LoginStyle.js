@@ -1,6 +1,8 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
+const { height:HEIGHT } = Dimensions.get('window');
+
 export const styles = StyleSheet.create({
     container:{
     backgroundColor: 'white',
@@ -15,7 +17,6 @@ export const styles = StyleSheet.create({
     lineHeight: 42,
     letterSpacing: -0.56,
     color: theme.gray30, 
-    marginTop: 150,
     height: 84,
     },
     ssop: {
@@ -24,16 +25,14 @@ export const styles = StyleSheet.create({
     fontWeight: '700',
     },
     cardicon:{
-    height: 182,
-    width: '100%',
-    paddingVertical: 48,
-    paddingHorizontal: 95,
-    marginTop: 8,
+    height: 278,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
     },
     socialContainer: {
     flexDirection: 'row',
     gap: 20,
-    marginTop: 102
     },
     emailContainer: {
     gap: 8,
