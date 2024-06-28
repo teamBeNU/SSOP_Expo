@@ -1,5 +1,5 @@
-import React, { useState, useRef, useEffect  } from 'react';
-import { View, Text, Pressable, Modal, TouchableWithoutFeedback } from 'react-native';
+import React, { useState, useRef, useCallback  } from 'react';
+import { View, Text, Pressable, Modal, TouchableWithoutFeedback, Linking, Alert, TouchableOpacity } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './CardStyle';
 import { CardSample_student } from './CardSample';
@@ -7,8 +7,32 @@ import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import InstaLogo from '../../assets/Card/logo_insta.svg';
 import XLogo from '../../assets/Card/logo_x.svg';
 import EmailLogo from '../../assets/Card/logo_email.svg';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+// import { TouchableOpacity } from 'react-native-gesture-handler';
 
+const instaURL = `https://www.instagram.com/${CardSample_student[0].card_SNS_insta}/`;
+const xURL = `https://x.com/${CardSample_student[0].card_SNS_X}`;
+
+const OpenURLButton = ({url, children}) => {
+    const handlePress = useCallback(async () => {
+      // Checking if the link is supported for links with custom URL scheme.
+      const supported = await Linking.canOpenURL(url);
+  
+      if (supported) {
+        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
+        // by some browser in the mobile
+        await Linking.openURL(url);
+      } else {
+        Alert.alert(`Don't know how to open this URL: ${url}`);
+      }
+    }, [url]);
+  
+    // return <Button title={children} onPress={handlePress} style={styles.content}/>;
+    return (
+        <TouchableOpacity onPress={handlePress}>
+          <Text style={styles.content}>{children}</Text>
+        </TouchableOpacity>
+      );
+  };
 
 export const CardBack = () => {
     const [showDetails, setShowDetails] = useState(false);
@@ -76,15 +100,15 @@ export const CardBack = () => {
                                 <View style={styles.detailsContainer}>
                                     <View style={{ ...styles.SNScontainer, height: 40 }}>
                                     <InstaLogo />
-                                    <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                                    <OpenURLButton url={instaURL}>{CardSample_student[0].card_SNS_insta}</OpenURLButton>
                                     </View>
                                     <View style={{ ...styles.SNScontainer, height: 40 }}>
                                     <XLogo />
-                                    <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                                    <OpenURLButton url={xURL}>{CardSample_student[0].card_SNS_X}</OpenURLButton>
                                     </View>
                                     <View style={{ ...styles.SNScontainer, height: 40 }}>
                                     <EmailLogo />
-                                    <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                                    <Text style={styles.content}>{CardSample_student[0].card_email}</Text>
                                     </View>
                                 </View>
                                 </View>
