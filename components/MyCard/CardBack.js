@@ -108,7 +108,9 @@ export const CardBack = () => {
                                     </View>
                                     <View style={{ ...styles.SNScontainer, height: 40 }}>
                                     <EmailLogo />
-                                    <Text style={styles.content}>{CardSample_student[0].card_email}</Text>
+                                    <TouchableOpacity style={styles.content} onPress={() => Linking.openURL(`mailto:${CardSample_student[0].card_email}`)}>
+                                        <Text>{CardSample_student[0].card_email}</Text>
+                                    </TouchableOpacity >
                                     </View>
                                 </View>
                                 </View>
