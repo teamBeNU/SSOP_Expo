@@ -7,6 +7,7 @@ import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import InstaLogo from '../../assets/Card/logo_insta.svg';
 import XLogo from '../../assets/Card/logo_x.svg';
 import EmailLogo from '../../assets/Card/logo_email.svg';
+import AddContact from './AddTel';
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const instaURL = `https://www.instagram.com/${CardSample_student[0].card_SNS_insta}/`;
@@ -82,7 +83,7 @@ export const CardBack = () => {
 
                 <View style={styles.info}>
                     <Text style={styles.topic}>연락처</Text>
-                    <Text style={styles.content}>{CardSample_student[0].card_phone}</Text>
+                    <AddContact phoneNumber={CardSample_student[0].card_phone} firstName = {CardSample_student[0].card_name} style={styles.content}/>
                 </View>
 
                 <View>
