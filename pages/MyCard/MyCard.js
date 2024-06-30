@@ -1,4 +1,4 @@
-import { Dimensions, View, Text, ScrollView, TouchableOpacity,} from "react-native";
+import { Dimensions, View, Text, ScrollView, TouchableOpacity, Share, } from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from './MyCardStyle';
 import React, { useState } from 'react';
@@ -30,6 +30,27 @@ function MyCard() {
         const currentIndex = Math.floor(contentOffset.x / CARD_WIDTH);
         setCardPage(currentIndex + 1);
       };
+
+    const onShare = async () => {
+    try {
+        const result = await Share.share({
+        title: `SSOP`,
+        message:
+            'SSOP : Share SOcial Profile card TEST MESSAGE',
+        });
+        if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+            // shared with activity type of result.activityType
+        } else {
+            // shared
+        }
+        } else if (result.action === Share.dismissedAction) {
+        // dismissed
+        }
+    } catch (error) {
+        Alert.alert(error.message);
+    }
+    };
     
     return (
         <View style={{flex: 1}}> 
@@ -62,7 +83,7 @@ function MyCard() {
                     <Text style={styles.btnText}>수정하기</Text>
                 </View>
                 <View style={styles.btn}>
-                    <TouchableOpacity style={styles.whiteBtn}>
+                    <TouchableOpacity style={styles.whiteBtn} onPress={onShare}>
                         <ShareIcon />
                     </TouchableOpacity>
                     <Text style={styles.btnText}>공유하기</Text>

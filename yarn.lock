@@ -5186,6 +5186,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"expo-contacts@npm:~13.0.4":
+  version: 13.0.4
+  resolution: "expo-contacts@npm:13.0.4"
+  peerDependencies:
+    expo: "*"
+  checksum: e83785be51f33ba2fde83a7195279cd0e9eb2443ccf66bec42179ddcb9486951d594733f982a5584dc5aa637d088c2ae1b79349167319edae8c9e461a93e9048
+  languageName: node
+  linkType: hard
+
 "expo-file-system@npm:~17.0.1":
   version: 17.0.1
   resolution: "expo-file-system@npm:17.0.1"
@@ -9633,6 +9642,7 @@ __metadata:
     "@urql/core": ^5.0.3
     cacache: ^18.0.3
     expo: ^51.0.0
+    expo-contacts: ~13.0.4
     expo-status-bar: ~1.12.1
     fs-extra: ^11.2.0
     fs-minipass: ^3.0.3
