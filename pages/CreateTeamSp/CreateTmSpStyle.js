@@ -281,6 +281,7 @@ export const styles = StyleSheet.create({
     },
     shareText: {
         fontSize: 16,
+        marginTop: -3,
         marginLeft: 16,
         fontFamily: 'PretendardSemiBold',
         color: theme.skyblue,
