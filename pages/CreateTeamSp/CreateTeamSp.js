@@ -258,7 +258,7 @@ function CreateTeamSp({ navigation }) {
                 <Text onPress={() => navigation.navigate(' ')} style={styles.btnText}> 홈화면으로 </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btnWhite}>
-                <Text onPress={() => navigation.navigate('팀스페이스 입장')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
+                <Text onPress={() => navigation.navigate('스페이스')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
               </TouchableOpacity>
             </View>
 
