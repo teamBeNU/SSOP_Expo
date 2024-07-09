@@ -15,21 +15,31 @@ export const styles = StyleSheet.create({
     lineHeight: 42,
     letterSpacing: -0.56,
     color: theme.gray30, 
+    marginTop: 150,
+    height: 84,
     },
     ssop: {
     color: theme.gray10,
     fontWeight: '700',
     },
+    cardicon:{
+    height: 182,
+    width: '100%',
+    paddingVertical: 48,
+    paddingHorizontal: 95,
+    marginTop: 8,
+    },
     socialContainer: {
     flexDirection: 'row',
     gap: 20,
-    marginTop: 102,
+    marginTop: 102
     },
     emailContainer: {
-    marginTop: 32,
     gap: 8,
     flex: 0,
     width: '100%',
+    position: 'absolute',
+    bottom: 32
     },
     email: {
     height: 48,

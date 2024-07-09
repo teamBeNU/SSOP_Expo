@@ -11,15 +11,17 @@ function Login() {
     const navigation = useNavigation();
 
     return(
-        <View style={{...styles.container, alignItems: 'center', justifyContent: 'center',}}>
+        <View style={{...styles.container, alignItems: 'center'}}>
             <View>
                 <Text style={styles.title}> <Text style={styles.ssop}>쏩 카드</Text>로{`\n`}서로에게 스며들다
                 </Text>
             </View>
             
-            <CardsIcon style={{marginTop: 48}} />
-            
-            <View style={styles.socialContainer}>
+            <View style={styles.cardicon}>
+                <CardsIcon />
+            </View>
+
+            <View style={{...styles.socialContainer, position: 'absolute', bottom: 168}}>
                 <TouchableOpacity>
                 <GoogleIcon />
                 </TouchableOpacity>
@@ -30,7 +32,7 @@ function Login() {
                 <NaverIcon />
                 </TouchableOpacity>
             </View>
-
+            {/* <View style={{flex: 1}}/> */}
             <View style={styles.emailContainer}>
                 <TouchableOpacity style={styles.email} onPress={() => navigation.navigate('회원가입')}>
                     <Text style={styles.emailText}>이메일로 회원가입하기</Text>

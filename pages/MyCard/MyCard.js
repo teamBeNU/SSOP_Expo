@@ -42,7 +42,13 @@ function MyCard() {
                decelerationRate={0} 
                snapToInterval={CARD_WIDTH + 32}
                snapToAlignment='center'
-               contentContainerStyle={{height: 436, paddingHorizontal: SPACING_FOR_CARD_INSET}}
+               contentContainerStyle={{height: 436, paddingHorizontal: SPACING_FOR_CARD_INSET,   //ios shadow
+                shadowColor: 'rgba(0, 0, 0, 0.08)',
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 4,
+                shadowRadius: 4,
+                //android shadow
+                elevation: 4,}}
                onScroll={handleScroll}
                scrollEventThrottle={16}
             >
