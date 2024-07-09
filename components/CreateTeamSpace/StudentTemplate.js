@@ -195,7 +195,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
 
         {/* 카드 앞면 */}
         {step === 1 && (
-          <>
+          <View style={{ height: '100%' }}>
             <ScrollView showsVerticalScrollIndicator={false}>
               <Text style={styles.title}> 카드 앞면에 보여질 정보를 선택하세요. </Text>
               <Text style={styles.subtitle}> 팀원들이 입력해줬으면 하는 항목을 선택하세요. </Text>
@@ -283,12 +283,12 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
               </RadioButton.Group>
             </ScrollView>
 
-            <View style={[styles.btnContainer, { marginLeft: 16, marginBottom: -20 }]}>
+            <View style={[styles.btnContainer, { marginBottom: -28 }]}>
               <TouchableOpacity style={styles.btnNext}>
                 <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
               </TouchableOpacity>
             </View>
-          </>
+          </View>
         )}
 
         {/* 카드 뒷면 */}
@@ -557,7 +557,7 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
                 <Text onPress={() => navigation.navigate(" ")} style={styles.btnText}> 홈화면으로 </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btnWhite}>
-                <Text onPress={() => navigation.navigate('Space')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
+                <Text onPress={() => navigation.navigate('스페이스')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
               </TouchableOpacity>
             </View>
 

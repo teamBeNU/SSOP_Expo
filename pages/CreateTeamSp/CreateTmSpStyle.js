@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
     // 버튼들
     btnNext: {
         marginTop: 40,
-        marginBottom: 40,
+        marginBottom: 8,
         width: '100%',
         height: 48,
         justifyContent: 'center',
@@ -93,7 +93,6 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold'
     },
     btnWhite: {
-        marginTop: -32,
         height: 48,
         justifyContent: 'center',
         borderRadius: 8,

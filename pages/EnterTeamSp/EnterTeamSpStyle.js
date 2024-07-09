@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
     // 버튼들
     btnNext: {
         marginTop: 16,
-        marginBottom: 16,
+        marginBottom: 8,
         width: '100%',
         height: 48,
         justifyContent: 'center',

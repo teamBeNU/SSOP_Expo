@@ -515,9 +515,9 @@ export default function HostSrudTemplate({ navigation }) {
               <EnterEndCard />
             </View>
 
-            <View style={[styles.btnContainer, { marginBottom: 20 }]}>
+            <View style={[styles.btnContainer, { marginBottom: 8 }]}>
               <TouchableOpacity style={[styles.btnNext, { marginBottom: 40 }]}>
-                <Text onPress={() => navigation.navigate("Space")} style={styles.btnText}> 팀스페이스 확인 </Text>
+                <Text onPress={() => navigation.navigate("스페이스")} style={styles.btnText}> 팀스페이스 확인 </Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.btnWhite}>
                 <Text onPress={() => navigation.navigate(" ")} style={styles.btnTextBlack}> 홈 화면으로 </Text>
