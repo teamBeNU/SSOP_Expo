@@ -23,7 +23,7 @@ function EnterTeamSp({ navigation }) {
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
 
-  const [hostTemplate, setHostStudTemplate] = useState(1); // 호스트 지정 템플릿 없음
+  const [hostTemplate, setHostStudTemplate] = useState(1); // 호스트 지정 템플릿 있:true, 없: false
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
@@ -32,11 +32,6 @@ function EnterTeamSp({ navigation }) {
     if (step === 1) {
       if (inputcode === inviteCode) {
         setIsModalVisible(true);
-        if (hostTemplate) {
-          setStep(4);
-        } else {
-          setStep(2);
-        }
       } else {
         Alert.alert("존재하지 않는 초대코드입니다.");
       }
@@ -47,6 +42,15 @@ function EnterTeamSp({ navigation }) {
     } else if (step === 4) {
       setStep(5)
     }
+  }
+
+  const handleEnterModal = () => {
+    if (hostTemplate) {
+      setStep(4);
+    } else {
+      setStep(2);
+    }
+    setIsModalVisible(false); // 모달 닫기
   }
 
   const cardData = [
@@ -100,13 +104,13 @@ function EnterTeamSp({ navigation }) {
                   keyboardType='numeric'
                   returnKeyType='done'
                   onChangeText={setInputCode}
-                  onSubmitEditing={() => setIsModalVisible(true)} />
+                  onSubmitEditing={handleNext} />
               </View>
 
               <View style={styles.flexSpacer} />
 
               <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={() => setIsModalVisible(true)} style={styles.btnText}> 입장하기 </Text>
+                <Text onPress={handleNext} style={styles.btnText}> 입장하기 </Text>
               </TouchableOpacity>
 
               <Modal
@@ -134,7 +138,7 @@ function EnterTeamSp({ navigation }) {
 
                     <View style={[styles.btnContainer, { marginLeft: 16 }]}>
                       <TouchableOpacity style={[styles.btnNext, { marginBottom: 16 }]}>
-                        <Text onPress={handleNext} style={styles.btnText}> 네, 입장할래요 </Text>
+                        <Text onPress={handleEnterModal} style={styles.btnText}> 네, 입장할래요 </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
