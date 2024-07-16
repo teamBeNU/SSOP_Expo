@@ -8,11 +8,12 @@ import { Card } from "../MyCard/Card";
 import "react-native-gesture-handler";
 import * as Progress from 'react-native-progress';
 // import Share from 'react-native-share';
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import Select from "../../assets/teamSp/select.svg";
 import ShareImage from '../../assets/icons/LinkShareImage.svg'
 import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 
-export default function StudentTemplate({ navigation, teamName, teamComment, istemplate, template }) {
+export default function StudentTemplate({ navigation, goToOriginal, teamName, teamComment, istemplate, template }) {
   const [step, setStep] = useState(1);
   const [isEmpty, setIsEmpty] = useState(false);
   // 앞면 - step1
@@ -63,6 +64,34 @@ export default function StudentTemplate({ navigation, teamName, teamComment, ist
       setStep(3);
     } else if (step === 3) {
       setStep(4);
+    }
+  };
+
+  // step 단위로 뒤로가기
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: handleHeaderLeft
+    });
+  }, [navigation, step]);
+
+  const handleHeaderLeft = (onPress) => {
+    if (step < 5) {
+      return (
+        <TouchableOpacity onPress={handleBack}>
+          <LeftArrowIcon style={{ marginLeft: 8 }} />
+        </TouchableOpacity>
+      );
+    }
+  };
+
+  const handleBack = () => {
+    switch (step) {
+      case 1:
+        goToOriginal(); // CreateTeamSp.js로 이동
+        break;
+      default:
+        setStep(step - 1);
+        break;
     }
   };
 

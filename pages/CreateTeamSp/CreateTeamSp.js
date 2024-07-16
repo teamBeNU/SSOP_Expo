@@ -6,6 +6,7 @@ import { theme } from "../../theme";
 import "react-native-gesture-handler";
 import * as Progress from 'react-native-progress';
 // import Share from 'react-native-share';
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import ShareImage from '../../assets/icons/LinkShareImage.svg'
 import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 
@@ -32,14 +33,6 @@ function CreateTeamSp({ navigation }) {
 
   const inviteCode = '120432'; // step6
 
-  // step 단위 뒤로 가기
-  const handleBack = () => {
-    // 현재 단계(step)에 따라 이전 단계로 이동
-    if (step > 1) {
-      setStep(step => step - 1);
-    }
-  };
-
   // 테스트용 다음 step
   // const handleNext = () => {
   //   if (step === 1) {
@@ -55,20 +48,6 @@ function CreateTeamSp({ navigation }) {
   //   }
   // };
 
-  // const handleNext = () => {
-  //     if (step === 1 && teamName ) {
-  //       setStep(2);
-  //     } else if (step === 2 && teamComment) {
-  //       setStep(3);
-  //     } else if (step === 3 ) {
-  //       if (istemplate === "yes") {
-  //         setStep(5); // 템플릿 4가지 중 선택
-  //       } else if (istemplate === "no") {
-  //         setStep(4); // 초대코드 생성
-  //       }
-  //     } 
-  //   };
-  
   const handleNext = () => {
     if (step === 1) {
       if (teamName.trim() === '') {
@@ -93,6 +72,42 @@ function CreateTeamSp({ navigation }) {
     }
   };
 
+  // 컴포넌트에서 페이지로 이동 함수
+  const goToOriginal = () => {
+    setStep(5);
+  };
+  
+  // step 단위로 뒤로가기
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: handleHeaderLeft
+    });
+  }, [navigation, step]);
+
+  const handleHeaderLeft = (onPress) => {
+    if (step < 7) {
+      return (
+        <TouchableOpacity onPress={handleBack}>
+          <LeftArrowIcon style={{ marginLeft: 8 }} />
+        </TouchableOpacity>
+      );
+    }
+  };
+
+  const handleBack = () => {
+    switch (step) {
+      case 1:
+        navigation.goBack();
+        break;
+      case 5:
+        setStep(3);
+        break;
+      default:
+        setStep(step - 1);
+        break;
+    }
+  };
+
   // 텍스트 길이 검사
   useEffect(() => {
     setNameLength(teamName.length);
@@ -105,6 +120,7 @@ function CreateTeamSp({ navigation }) {
     { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', icon: <Fan /> },
     { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', icon: <Free /> },
   ]
+
   //step4 - 템플릿 선택
   const handleTempClick = (id) => {
     setTemplate(id);
@@ -336,6 +352,7 @@ function CreateTeamSp({ navigation }) {
           <View>
             {card_template === "student" &&
               <StudentTemplate navigation={navigation}
+                goToOriginal={goToOriginal}
                 teamName={teamName}
                 nameLength={nameLength}
                 teamComment={teamComment}
