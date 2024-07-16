@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, Clipboard, Alert } from "react-native";
+import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, Dimensions, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './LoginStyle.js';
 import CardsIcon from "../../assets/Login/ic_cards.svg";
@@ -7,17 +7,19 @@ import GoogleIcon from "../../assets/Login/ic_google.svg";
 import KakaoIcon from "../../assets/Login/ic_kakao.svg";
 import NaverIcon from "../../assets/Login/ic_naver.svg";
 
+const { height:HEIGHT } = Dimensions.get('window');
+
 function Login() {
     const navigation = useNavigation();
 
     return(
         <View style={{...styles.container, alignItems: 'center'}}>
-            <View>
+            <View style={{position: 'absolute', top: (HEIGHT / 7)}}>
                 <Text style={styles.title}> <Text style={styles.ssop}>쏩 카드</Text>로{`\n`}서로에게 스며들다
                 </Text>
             </View>
             
-            <View style={styles.cardicon}>
+            <View style={{...styles.cardicon, position: 'absolute', top: (HEIGHT / 2) - 140}}>
                 <CardsIcon />
             </View>
 
@@ -32,7 +34,7 @@ function Login() {
                 <NaverIcon />
                 </TouchableOpacity>
             </View>
-            {/* <View style={{flex: 1}}/> */}
+
             <View style={styles.emailContainer}>
                 <TouchableOpacity style={styles.email} onPress={() => navigation.navigate('회원가입')}>
                     <Text style={styles.emailText}>이메일로 회원가입하기</Text>
