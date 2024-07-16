@@ -73,6 +73,7 @@ export const styles = StyleSheet.create({
         marginTop: 8,
         fontSize: 14,
         color: theme.gray60,
+        alignSelf: 'flex-end',
         fontFamily: 'PretendardRegular',
     },
     // 버튼들
