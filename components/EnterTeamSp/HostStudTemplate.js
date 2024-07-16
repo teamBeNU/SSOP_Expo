@@ -123,13 +123,13 @@ export default function HostSrudTemplate({ navigation }) {
   useEffect(() => {
     const checkAndSkipStep = () => {
       if (step === 1 && !showAge && !showSchool && !showGrade && !showStudNum) {
-        handleNext();
+        setStep(2);
       } else if (step === 2 && !showMajor && !showRole && !showClub) {
-        handleNext();
+        setStep(3);
       } else if (step === 3 && !showTel && !showSNS && !showEmail) {
-        handleNext();
+        setStep(4);
       } else if (step === 4 && !showMBTI && !showMusic && !showMovie) {
-        handleNext();
+        setStep(5);
       }
     };
 
