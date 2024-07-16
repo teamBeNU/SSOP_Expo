@@ -70,6 +70,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular'
     },
     nameLeng:{
+        marginTop: 8,
         fontSize: 14,
         color: theme.gray60,
         alignSelf: 'flex-end',
@@ -78,7 +79,7 @@ export const styles = StyleSheet.create({
     // 버튼들
     btnNext: {
         marginTop: 40,
-        marginBottom: 40,
+        marginBottom: 8,
         width: '100%',
         height: 48,
         justifyContent: 'center',
@@ -93,7 +94,6 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold'
     },
     btnWhite: {
-        marginTop: -32,
         height: 48,
         justifyContent: 'center',
         borderRadius: 8,
@@ -282,6 +282,7 @@ export const styles = StyleSheet.create({
     },
     shareText: {
         fontSize: 16,
+        marginTop: -3,
         marginLeft: 16,
         fontFamily: 'PretendardSemiBold',
         color: theme.skyblue,
@@ -321,5 +322,19 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 20,
         marginBottom: 20,
+    },
+    // 입력 안 한 텍스트 박스
+    inputEmpty: {
+        borderWidth:1,
+        borderStyle: "solid",
+        borderColor: theme.red,
+    },
+    inputEmptyText: {
+        color: theme.red,
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontWeight: "400",
+        marginHorizontal: 8,
+        marginTop: 8
     },
 })
