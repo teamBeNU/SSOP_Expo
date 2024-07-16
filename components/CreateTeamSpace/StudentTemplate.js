@@ -7,7 +7,7 @@ import { theme } from "../../theme";
 import { Card } from "../MyCard/Card";
 import "react-native-gesture-handler";
 import * as Progress from 'react-native-progress';
-// import Share from 'react-native-share';
+import * as Sharing from 'expo-sharing';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import Select from "../../assets/teamSp/select.svg";
 import ShareImage from '../../assets/icons/LinkShareImage.svg'
@@ -186,6 +186,22 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
     const textToCopy = inviteCode;
     Clipboard.setString(textToCopy);
     Alert.alert("클립보드에 복사되었습니다.");
+  };
+
+  const shareInviteCode = async () => {
+    try {
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (!isAvailable) {
+        Alert.alert('Sharing is not available on this device');
+        return;
+      }
+
+      await Sharing.shareAsync('https://naver.com', {
+        dialogTitle: 'SSOP Share TEST',
+      });
+    } catch (error) {
+      Alert.alert('Error sharing', error.message);
+    }
   };
 
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -562,23 +578,31 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     onRequestClose={() => {
                       setIsModalVisible(!isModalVisible);
                     }}>
-                    <View style={styles.shareModalContainer}>
-                      <View style={styles.ShareModalView}>
-                        <TouchableOpacity onPress={() => { copyInviteCode(); setIsModalVisible(false); }}>
-                          <Text style={[styles.ShareModalText, { lineHeight: 20 }]}>초대 링크 및 초대코드 복사하기 {"\n"}
-                            <Text style={styles.nameLeng}>초대코드 : {inviteCode}</Text>
-                          </Text>
-                        </TouchableOpacity>
+                    <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+                      <View style={styles.shareModalContainer}>
+                        <TouchableWithoutFeedback>
+                          <View style={styles.ShareModalView}>
+                            <TouchableOpacity
+                              onPress={() => {
+                                copyInviteCode();
+                                setIsModalVisible(false);
+                              }}
+                            >
+                              <Text style={[styles.ShareModalText, { lineHeight: 20 }]}>
+                                초대 링크 및 초대코드 복사하기 {"\n"}
+                                <Text style={styles.nameLeng}>초대코드 : {inviteCode}</Text>
+                              </Text>
+                            </TouchableOpacity>
 
-                        <View style={{ borderBottomWidth: 1, borderBottomColor: theme.gray90 }} />
+                            <View style={{ borderBottomWidth: 1, borderBottomColor: theme.gray90 }} />
 
-                        <TouchableOpacity onPress={() => {
-                          setIsModalVisible(false);
-                        }}>
-                          <Text style={styles.ShareModalText}>초대 링크 및 초대코드 공유하기</Text>
-                        </TouchableOpacity>
+                            <TouchableOpacity onPress={shareInviteCode}>
+                              <Text style={styles.ShareModalText}>초대 링크 및 초대코드 공유하기</Text>
+                            </TouchableOpacity>
+                          </View>
+                        </TouchableWithoutFeedback>
                       </View>
-                    </View>
+                    </TouchableWithoutFeedback>
                   </Modal>
                 </View>
               </View>
