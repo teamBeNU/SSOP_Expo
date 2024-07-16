@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { styles } from './EnterTeamSpStyle';
 import { theme } from "../../theme";
 import { View, Text, TextInput, Modal, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
 import * as Progress from 'react-native-progress';
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import People from '../../assets/icons/ic_people_small_fill.svg';
 
@@ -16,7 +17,7 @@ import CardSample from '../../assets/teamSp/bg_gradation';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation }) {
-  const [step, setStep] = useState(4);
+  const [step, setStep] = useState(1);
 
   // const [inviteCode, setInviteCode] = useState(null);
   const inviteCode = '123456';
@@ -43,6 +44,42 @@ function EnterTeamSp({ navigation }) {
       setStep(5)
     }
   }
+  
+  // 컴포넌트에서 페이지로 이동 함수
+  const goToOriginal = () => {
+    setStep(1);
+  };
+  
+  // step 단위로 뒤로가기
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: handleHeaderLeft
+    });
+  }, [navigation, step]);
+
+  const handleHeaderLeft = (onPress) => {
+    if (step < 6) {
+      return (
+        <TouchableOpacity onPress={handleBack}>
+          <LeftArrowIcon style={{ marginLeft: 8 }} />
+        </TouchableOpacity>
+      );
+    }
+  };
+
+  const handleBack = () => {
+    switch (step) {
+      case 1:
+        navigation.goBack();
+        break;
+      case 4:
+        setStep(1);
+        break;
+      default:
+        setStep(step - 1);
+        break;
+    }
+  };
 
   const handleEnterModal = () => {
     if (hostTemplate) {
@@ -213,7 +250,7 @@ function EnterTeamSp({ navigation }) {
         </View>
         {/* 호스트 지정 템플릿으로 이동 */}
         {step === 5 && (
-          <HostStudTemplate navigation={navigation} />
+          <HostStudTemplate navigation={navigation} goToOriginal={goToOriginal} />
         )}
       </View>
     </TouchableWithoutFeedback>

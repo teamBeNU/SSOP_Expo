@@ -4,12 +4,13 @@ import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
 import { RadioButton } from 'react-native-paper';
 import Select from "../../assets/teamSp/select.svg";
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
-export default function HostSrudTemplate({ navigation }) {
+export default function HostSrudTemplate({ navigation, goToOriginal }) {
   const [step, setStep] = useState(1);
   const [isEmpty, setIsEmpty] = useState(false);
 
@@ -116,6 +117,34 @@ export default function HostSrudTemplate({ navigation }) {
         setIsEmpty(false);
         setStep(5);
       }
+    }
+  };
+
+  // step 단위로 뒤로가기
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: handleHeaderLeft
+    });
+  }, [navigation, step]);
+
+  const handleHeaderLeft = (onPress) => {
+    if (step < 6) {
+      return (
+        <TouchableOpacity onPress={handleBack}>
+          <LeftArrowIcon style={{ marginLeft: 8 }} />
+        </TouchableOpacity>
+      );
+    }
+  };
+
+  const handleBack = () => {
+    switch (step) {
+      case 1:
+        goToOriginal();
+        break;
+      default:
+        setStep(step - 1);
+        break;
     }
   };
 
