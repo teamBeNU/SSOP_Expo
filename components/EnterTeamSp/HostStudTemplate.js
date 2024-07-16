@@ -11,6 +11,8 @@ import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 export default function HostSrudTemplate({ navigation }) {
   const [step, setStep] = useState(1);
+  const [isEmpty, setIsEmpty] = useState(false);
+
   const [card_student_name, setName] = useState('');
   const [card_student_introduction, setIntroduction] = useState('');
   const [card_student_birth, setBirth] = useState({ year: '', month: '', day: '' });
@@ -62,10 +64,62 @@ export default function HostSrudTemplate({ navigation }) {
     });
   };
 
+  const emptyName = card_student_name.trim() === '';
+  const emptyYear = card_student_birth.year.trim() === '';
+  const emptyMonth = card_student_birth.month.trim() === '';
+  const emptyDay = card_student_birth.day.trim() === '';
+  const emptySchool = card_student_school.trim() === '';
+  const emptyGrade = card_student_grade.trim() === '';
+  const emptyStudNum = card_student_studNum.trim() === '';
+  const emptyIntroduction = card_student_introduction.trim() === '';
+
+  const emptyMajor = card_student_major.trim() === '';
+  const emptyClub = card_student_club.trim() === '';
+
+  const emptyTel = card_student_tel.trim() === '';
+  const emptyEmail = card_student_email.trim() === '';
+
+  const emptyMBTI = card_student_MBTI.trim() === '';
+  const emptyTitle = card_student_music.title.trim() === '';
+  const emptySinger = card_student_music.singer.trim() === '';
+  const emptyMovie = card_student_movie.trim() === '';
+
   const handleNext = () => {
-    setStep(prevStep => prevStep + 1);
+    if (step === 1) {
+      if (emptyName || emptyYear || emptyMonth || emptyDay || emptySchool || emptyGrade || emptyStudNum || emptyIntroduction) {
+        setIsEmpty(true);
+      } else {
+        setIsEmpty(false);
+        setStep(2);
+      }
+    }
+    else if (step === 2) {
+      if (emptyMajor || emptyClub) {
+        setIsEmpty(true);
+      } else {
+        setIsEmpty(false);
+        setStep(3);
+      }
+    }
+    else if (step === 3) {
+      if (emptyTel || emptyEmail) {
+        setIsEmpty(true);
+      } else {
+        setIsEmpty(false);
+        setStep(4);
+      }
+    }
+    else if (step === 4) {
+      if (emptyMBTI || emptyTitle || emptySinger || emptyMovie) {
+        setIsEmpty(true);
+      } else {
+        setIsEmpty(false);
+        setStep(5);
+      }
+    }
   };
 
+  // 호스트가 지정해서 보이는 항목 설정 -> 호스트가 한페이지의 모든 항목을 선택하지 않았다면 skip
   useEffect(() => {
     const checkAndSkipStep = () => {
       if (step === 1 && !showAge && !showSchool && !showGrade && !showStudNum) {
@@ -134,7 +188,7 @@ export default function HostSrudTemplate({ navigation }) {
                 <View style={styles.nameContainer}>
                   <Text style={styles.name}>이름</Text>
                   <TextInput
-                    style={styles.nameInput}
+                    style={[styles.nameInput, isEmpty && emptyName && styles.inputEmpty]}
                     placeholder="이름을 입력하세요."
                     keyboardType="default"
                     returnKeyType='next'
@@ -143,6 +197,9 @@ export default function HostSrudTemplate({ navigation }) {
                     ref={nameRef}
                     onSubmitEditing={() => yearRef.current.focus()}
                   />
+                  {isEmpty && emptyName && (
+                    <Text style={styles.inputEmptyText}> 이름을 입력해 주세요.</Text>
+                  )}
                 </View>
 
                 {/* 생년월일 */}
@@ -153,7 +210,7 @@ export default function HostSrudTemplate({ navigation }) {
 
                     <View style={styles.inputBirthContainer}>
                       <TextInput
-                        style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
+                        style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, isEmpty && emptyYear && styles.inputEmpty]}
                         placeholder="년"
                         keyboardType="numeric"
                         returnKeyType='done'
@@ -164,7 +221,7 @@ export default function HostSrudTemplate({ navigation }) {
                         onSubmitEditing={() => monthRef.current.focus()}
                       />
                       <TextInput
-                        style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
+                        style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, isEmpty && emptyMonth && styles.inputEmpty]}
                         placeholder="월"
                         keyboardType="numeric"
                         value={card_student_birth.month}
@@ -175,7 +232,7 @@ export default function HostSrudTemplate({ navigation }) {
                         onSubmitEditing={() => dayRef.current.focus()}
                       />
                       <TextInput
-                        style={[styles.inputBirth, styles.inputBirthText]}
+                        style={[styles.inputBirth, styles.inputBirthText, isEmpty && emptyDay && styles.inputEmpty]}
                         placeholder="일"
                         keyboardType="numeric"
                         value={card_student_birth.day}
@@ -186,6 +243,9 @@ export default function HostSrudTemplate({ navigation }) {
                         onSubmitEditing={() => schoolRef.current.focus()}
                       />
                     </View>
+                    {isEmpty && (emptyYear || emptyMonth || emptyDay) && (
+                      <Text style={styles.inputEmptyText}> 생년월일을 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -194,7 +254,7 @@ export default function HostSrudTemplate({ navigation }) {
                   <View style={styles.nameContainer}>
                     <Text style={styles.name}>학교명</Text>
                     <TextInput
-                      style={styles.nameInput}
+                      style={[styles.nameInput, isEmpty && emptySchool && styles.inputEmpty]}
                       placeholder="학교명을 입력하세요."
                       keyboardType="default"
                       returnKeyType='next'
@@ -203,6 +263,9 @@ export default function HostSrudTemplate({ navigation }) {
                       ref={schoolRef}
                       onSubmitEditing={() => gradeRef.current.focus()}
                     />
+                    {isEmpty && emptySchool && (
+                      <Text style={styles.inputEmptyText}> 학교명을 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -211,7 +274,7 @@ export default function HostSrudTemplate({ navigation }) {
                   <View style={styles.nameContainer}>
                     <Text style={styles.name}>학년</Text>
                     <TextInput
-                      style={styles.nameInput}
+                      style={[styles.nameInput, isEmpty && emptyGrade && styles.inputEmpty]}
                       placeholder="학년을 입력하세요."
                       keyboardType="numeric"
                       returnKeyType='done'
@@ -220,6 +283,9 @@ export default function HostSrudTemplate({ navigation }) {
                       ref={gradeRef}
                       onSubmitEditing={() => studNumRef.current.focus()}
                     />
+                    {isEmpty && emptyGrade && (
+                      <Text style={styles.inputEmptyText}> 학년을 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -228,7 +294,7 @@ export default function HostSrudTemplate({ navigation }) {
                   <View style={styles.nameContainer}>
                     <Text style={styles.name}>학생번호</Text>
                     <TextInput
-                      style={styles.nameInput}
+                      style={[styles.nameInput, isEmpty && emptyStudNum && styles.inputEmpty]}
                       placeholder="학생번호를 입력하세요"
                       keyboardType="numeric"
                       returnKeyType='done'
@@ -237,6 +303,9 @@ export default function HostSrudTemplate({ navigation }) {
                       ref={studNumRef}
                       onSubmitEditing={() => introductionRef.current.focus()}
                     />
+                    {isEmpty && emptyStudNum && (
+                      <Text style={styles.inputEmptyText}> 학생번호를 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -244,13 +313,16 @@ export default function HostSrudTemplate({ navigation }) {
                 <View style={styles.nameContainer}>
                   <Text style={styles.name}>한줄소개</Text>
                   <TextInput
-                    style={styles.nameInput}
+                    style={[styles.nameInput, isEmpty && emptyIntroduction && styles.inputEmpty]}
                     placeholder="한줄소개를 입력하세요."
                     keyboardType="default"
                     value={card_student_introduction}
                     onChangeText={setIntroduction}
                     ref={introductionRef}
                   />
+                  {isEmpty && emptyIntroduction && (
+                    <Text style={styles.inputEmptyText}> 한줄소개를 입력해 주세요.</Text>
+                  )}
                 </View>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
@@ -278,7 +350,7 @@ export default function HostSrudTemplate({ navigation }) {
                   <View style={styles.nameContainer}>
                     <Text style={styles.name}>전공</Text>
                     <TextInput
-                      style={styles.nameInput}
+                      style={[styles.nameInput, isEmpty && emptyMajor && styles.inputEmpty]}
                       placeholder="전공을 입력하세요"
                       keyboardType="numeric"
                       returnKeyType='done'
@@ -286,6 +358,9 @@ export default function HostSrudTemplate({ navigation }) {
                       onChangeText={setMajor}
                       ref={majorRef}
                     />
+                    {isEmpty && emptyMajor && (
+                      <Text style={styles.inputEmptyText}> 전공을 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -294,13 +369,16 @@ export default function HostSrudTemplate({ navigation }) {
                   <View style={styles.nameContainer}>
                     <Text style={styles.name}>동아리</Text>
                     <TextInput
-                      style={styles.nameInput}
+                      style={[styles.nameInput, isEmpty && emptyClub && styles.inputEmpty]}
                       placeholder="소속 동아리를 입력하세요."
                       keyboardType="default"
                       value={card_student_club}
                       onChangeText={setClub}
                       ref={clubRef}
                     />
+                    {isEmpty && emptyClub && (
+                      <Text style={styles.inputEmptyText}> 동아리를 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -353,7 +431,7 @@ export default function HostSrudTemplate({ navigation }) {
                   <View style={styles.nameContainer}>
                     <Text style={styles.name}>연락처</Text>
                     <TextInput
-                      style={styles.nameInput}
+                      style={[styles.nameInput, isEmpty && emptyTel && styles.inputEmpty]}
                       placeholder="연락처를 입력하세요"
                       keyboardType="numeric"
                       returnKeyType='done'
@@ -362,6 +440,9 @@ export default function HostSrudTemplate({ navigation }) {
                       ref={telRef}
                       onSubmitEditing={() => instaRef.current.focus()}
                     />
+                    {isEmpty && emptyTel && (
+                      <Text style={styles.inputEmptyText}> 연락처를 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -406,13 +487,16 @@ export default function HostSrudTemplate({ navigation }) {
                   <View style={styles.nameContainer}>
                     <Text style={styles.name}>이메일</Text>
                     <TextInput
-                      style={styles.nameInput}
+                      style={[styles.nameInput, isEmpty && emptyEmail && styles.inputEmpty]}
                       placeholder="이메일 주소"
                       keyboardType="email"
                       value={card_student_email}
                       onChangeText={setEmail}
                       ref={emailRef}
                     />
+                    {isEmpty && emptyEmail && (
+                      <Text style={styles.inputEmptyText}> 이메일을 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -441,7 +525,7 @@ export default function HostSrudTemplate({ navigation }) {
                   <View style={styles.nameContainer}>
                     <Text style={styles.name}>MBTI</Text>
                     <TextInput
-                      style={styles.nameInput}
+                      style={[styles.nameInput, isEmpty && emptyMBTI && styles.inputEmpty]}
                       placeholder="MBTI를 입력하세요."
                       keyboardType="default"
                       value={card_student_MBTI}
@@ -449,6 +533,9 @@ export default function HostSrudTemplate({ navigation }) {
                       ref={MBTIRef}
                       onSubmitEditing={() => titleRef.current.focus()}
                     />
+                    {isEmpty && emptyMBTI && (
+                      <Text style={styles.inputEmptyText}> MBTI를 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -458,7 +545,7 @@ export default function HostSrudTemplate({ navigation }) {
                     <Text style={styles.name}>인생 음악</Text>
                     <View style={{ flexDirection: "row" }}>
                       <TextInput
-                        style={[styles.musicInput, { marginRight: 6 }]}
+                        style={[styles.musicInput, { marginRight: 6 }, isEmpty && emptyTitle && styles.inputEmpty]}
                         placeholder="제목명"
                         keyboardType="default"
                         value={card_student_music.title}
@@ -467,7 +554,7 @@ export default function HostSrudTemplate({ navigation }) {
                         onSubmitEditing={() => singerRef.current.focus()}
                       />
                       <TextInput
-                        style={styles.musicInput}
+                        style={[styles.musicInput, isEmpty && emptySinger && styles.inputEmpty]}
                         placeholder="가수명"
                         keyboardType="default"
                         value={card_student_music.singer}
@@ -476,6 +563,9 @@ export default function HostSrudTemplate({ navigation }) {
                         onSubmitEditing={() => movieRef.current.focus()}
                       />
                     </View>
+                    {isEmpty && (emptyTitle || emptySinger)&& (
+                      <Text style={styles.inputEmptyText}> 인생 음악을 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 
@@ -484,13 +574,16 @@ export default function HostSrudTemplate({ navigation }) {
                   <View style={styles.nameContainer}>
                     <Text style={styles.name}>인생 영화</Text>
                     <TextInput
-                      style={styles.nameInput}
+                      style={[styles.nameInput, isEmpty && emptyMovie && styles.inputEmpty]}
                       placeholder="영화명을 입력하세요."
                       keyboardType="default"
                       value={card_student_movie}
                       onChangeText={setMovie}
                       ref={movieRef}
                     />
+                    {isEmpty && emptyMovie && (
+                      <Text style={styles.inputEmptyText}> 인생 영화를 입력해 주세요.</Text>
+                    )}
                   </View>
                 )}
 

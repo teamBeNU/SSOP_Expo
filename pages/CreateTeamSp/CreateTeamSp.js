@@ -21,6 +21,8 @@ import FreeTemplate from "../../components/CreateTeamSpace/FreeTemplate";
 
 function CreateTeamSp({ navigation }) {
   const [step, setStep] = useState(1);
+  const [isEmpty, setIsEmpty] = useState(false);
+
   const [teamName, setTeamName] = useState(''); // step1
   const [nameLength, setNameLength] = useState(0);
   const [teamComment, setTeamComment] = useState(''); // step2
@@ -39,19 +41,19 @@ function CreateTeamSp({ navigation }) {
   };
 
   // 테스트용 다음 step
-  const handleNext = () => {
-    if (step === 1) {
-      setStep(2);
-    } else if (step === 2) {
-      setStep(3);
-    } else if (step === 3) {
-      if (istemplate === "yes") {
-        setStep(5);
-      } else if (istemplate === "no") {
-        setStep(4);
-      }
-    }
-  };
+  // const handleNext = () => {
+  //   if (step === 1) {
+  //     setStep(2);
+  //   } else if (step === 2) {
+  //     setStep(3);
+  //   } else if (step === 3) {
+  //     if (istemplate === "yes") {
+  //       setStep(5);
+  //     } else if (istemplate === "no") {
+  //       setStep(4);
+  //     }
+  //   }
+  // };
 
   // const handleNext = () => {
   //     if (step === 1 && teamName ) {
@@ -60,12 +62,36 @@ function CreateTeamSp({ navigation }) {
   //       setStep(3);
   //     } else if (step === 3 ) {
   //       if (istemplate === "yes") {
-  //         setStep(4); // 템플릿 4가지 중 선택
+  //         setStep(5); // 템플릿 4가지 중 선택
   //       } else if (istemplate === "no") {
-  //         setStep(6); // 초대코드 생성
+  //         setStep(4); // 초대코드 생성
   //       }
   //     } 
   //   };
+  
+  const handleNext = () => {
+    if (step === 1) {
+      if (teamName.trim() === '') {
+        setIsEmpty(true);
+      } else {
+        setIsEmpty(false);
+        setStep(2);
+      }
+    } else if (step === 2) {
+      if (teamComment.trim() === '') {
+        setIsEmpty(true);
+      } else {
+        setIsEmpty(false);
+        setStep(3);
+      }
+    } else if (step === 3) {
+      if (istemplate === "yes") {
+        setStep(5); // 템플릿 4가지 중 선택
+      } else if (istemplate === "no") {
+        setStep(4); // 초대코드 생성
+      }
+    }
+  };
 
   // 텍스트 길이 검사
   useEffect(() => {
@@ -141,12 +167,19 @@ function CreateTeamSp({ navigation }) {
 
               <View style={[styles.nameContainer, { marginTop: 68 }]}>
                 <Text style={styles.name}>이름</Text>
-                <TextInput style={styles.nameInput} placeholder='팀스페이스의 이름을 지어주세요.'
+                <TextInput style={[styles.nameInput, isEmpty && styles.inputEmpty]} placeholder='팀스페이스의 이름을 지어주세요.'
                   maxLength={15}
                   value={teamName}
                   onChangeText={text => setTeamName(text)}
                   onSubmitEditing={handleNext} />
-                <Text style={styles.nameLeng}> {nameLength} / 15 </Text>
+
+                <View style={{ flexDirection: "row" }}>
+                  {isEmpty && (
+                    <Text style={styles.inputEmptyText}> 팀스페이스의 이름을 입력해 주세요.</Text>
+                  )}
+                  <View style={{ flex: 1 }} />
+                  <Text style={styles.nameLeng}> {nameLength} / 15 </Text>
+                </View>
               </View>
 
               <View style={styles.flexSpacer} />
@@ -163,12 +196,19 @@ function CreateTeamSp({ navigation }) {
               <Text style={styles.title}> 팀스페이스를 설명하는 {"\n"} 문장을 적어주세요. </Text>
               <View style={styles.nameContainer}>
                 <Text style={styles.name}> 상세 설명 </Text>
-                <TextInput style={styles.nameInput} placeholder='팀스페이스의 특징이나 설명을 적어보세요.'
+                <TextInput style={[styles.nameInput, isEmpty && styles.inputEmpty]} placeholder='팀스페이스의 특징이나 설명을 적어보세요.'
                   maxLength={20}
                   value={teamComment}
                   onChangeText={text => setTeamComment(text)}
                   onSubmitEditing={handleNext} />
-                <Text style={styles.nameLeng}> {cmtLength} / 20 </Text>
+
+                <View style={{ flexDirection: "row" }}>
+                  {isEmpty && (
+                    <Text style={styles.inputEmptyText}> 팀스페이스의 특징이나 설명을 입력해 주세요.</Text>
+                  )}
+                  <View style={{ flex: 1 }} />
+                  <Text style={styles.nameLeng}> {cmtLength} / 20 </Text>
+                </View>
               </View>
 
               <View style={styles.flexSpacer} />

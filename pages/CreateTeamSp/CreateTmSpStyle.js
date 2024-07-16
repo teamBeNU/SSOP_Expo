@@ -70,9 +70,9 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular'
     },
     nameLeng:{
+        marginTop: 8,
         fontSize: 14,
         color: theme.gray60,
-        alignSelf: 'flex-end',
         fontFamily: 'PretendardRegular',
     },
     // 버튼들
@@ -321,5 +321,19 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 20,
         marginBottom: 20,
+    },
+    // 입력 안 한 텍스트 박스
+    inputEmpty: {
+        borderWidth:1,
+        borderStyle: "solid",
+        borderColor: theme.red,
+    },
+    inputEmptyText: {
+        color: theme.red,
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontWeight: "400",
+        marginHorizontal: 8,
+        marginTop: 8
     },
 })

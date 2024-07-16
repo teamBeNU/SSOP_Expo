@@ -16,7 +16,7 @@ import CardSample from '../../assets/teamSp/bg_gradation';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation }) {
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(4);
 
   // const [inviteCode, setInviteCode] = useState(null);
   const inviteCode = '123456';

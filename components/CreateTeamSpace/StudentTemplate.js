@@ -14,6 +14,7 @@ import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line
 
 export default function StudentTemplate({ navigation, teamName, teamComment, istemplate, template }) {
   const [step, setStep] = useState(1);
+  const [isEmpty, setIsEmpty] = useState(false);
   // 앞면 - step1
   const [showAge, setShowAge] = useState(false);
   const [showSchool, setShowSchool] = useState(false);
