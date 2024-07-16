@@ -8933,13 +8933,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-pager-view@npm:^6.3.1":
-  version: 6.3.3
-  resolution: "react-native-pager-view@npm:6.3.3"
+"react-native-pager-view@npm:6.3.0":
+  version: 6.3.0
+  resolution: "react-native-pager-view@npm:6.3.0"
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: b4f6ef33a7de34c254aa0cfdcdb7231c256e5d2b5c5d16f16a7c54379829bae7ec1d86e7daf23ef89dbac6088cf36e9678c3009a20e4ba786498848c86113399
+  checksum: 6a7224c191bf64a2a476627221cc7fcbcb9bbc735ec5f2215d5b888fb8d31c0fc2c769b298b9a21d68636bcef626ae8d1b266f0b414d469a9a8fb21b4357c45c
   languageName: node
   linkType: hard
 
@@ -9063,16 +9063,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-native-webview@npm:^13.10.4":
-  version: 13.10.5
-  resolution: "react-native-webview@npm:13.10.5"
+"react-native-webview@npm:13.8.6":
+  version: 13.8.6
+  resolution: "react-native-webview@npm:13.8.6"
   dependencies:
     escape-string-regexp: 2.0.0
     invariant: 2.2.4
   peerDependencies:
     react: "*"
     react-native: "*"
-  checksum: fa4bd3885a405236474d2baf455d81bddc024874ec012884fbded02f47303c47c00edaf8ef7072eb52e6fb8c68f1f2fd2abe6ca5890ae217102e7742ab97f3f8
+  checksum: 5b2971499bdf67bb161918205b2f9e19d96160dd139f75cbbbc1e13e52e9133c623cdf06f5dd4846903029b55bd0c963277768cf17d5c47f8b7fcb8c5a1469a8
   languageName: node
   linkType: hard
 
@@ -9945,7 +9945,7 @@ __metadata:
     react-native: 0.74.2
     react-native-flip-card: ^3.5.7
     react-native-gesture-handler: ~2.16.1
-    react-native-pager-view: ^6.3.1
+    react-native-pager-view: 6.3.0
     react-native-paper: ^5.12.3
     react-native-picker-select: ^9.1.3
     react-native-popup-menu: ^0.16.1
@@ -9956,7 +9956,7 @@ __metadata:
     react-native-svg-transformer: ^1.4.0
     react-native-tab-view: ^3.5.2
     react-native-toast-message: ^2.2.0
-    react-native-webview: ^13.10.4
+    react-native-webview: 13.8.6
     signal-exit: ^4.1.0
     source-map: ^0.7.4
     ssri: ^10.0.6
