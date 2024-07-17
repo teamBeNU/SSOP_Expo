@@ -1,6 +1,8 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
+const { height:HEIGHT } = Dimensions.get('window');
+
 export const styles = StyleSheet.create({
     container:{
     backgroundColor: 'white',
@@ -8,31 +10,29 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     },
 	title: {
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardRegular',
     textAlign: 'center',
     fontSize: 28,
     fontWeight: '500',
     lineHeight: 42,
     letterSpacing: -0.56,
     color: theme.gray30, 
-    marginTop: 150,
     height: 84,
     },
     ssop: {
+    fontFamily: 'PretendardSemiBold',
     color: theme.gray10,
     fontWeight: '700',
     },
     cardicon:{
-    height: 182,
-    width: '100%',
-    paddingVertical: 48,
-    paddingHorizontal: 95,
-    marginTop: 8,
+    height: 278,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
     },
     socialContainer: {
     flexDirection: 'row',
     gap: 20,
-    marginTop: 102
     },
     emailContainer: {
     gap: 8,
@@ -52,7 +52,7 @@ export const styles = StyleSheet.create({
     },
     emailText: {
     color: 'white',
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 19,
@@ -70,7 +70,7 @@ export const styles = StyleSheet.create({
     },
     LoginText: {
     color: theme.gray50,
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 19,
@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardRegular',
     color: theme.gray40,
     fontSize: 14,
     fontWeight: '400',
@@ -118,7 +118,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     },
     pwChange: {
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     color: theme.gray60,
     fontSize: 14,
     fontWeight: '600',
@@ -126,7 +126,7 @@ export const styles = StyleSheet.create({
     letterSpacing: -0.14,
     },
     join:{
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     color: theme.gray40,
     fontSize: 14,
     fontWeight: '600',

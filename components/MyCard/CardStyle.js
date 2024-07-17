@@ -1,14 +1,15 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
-const WIDTH = Dimensions.get('window').width;
-const HEIGHT = Dimensions.get('window').height;
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
+const cardWidth = WIDTH * 0.8;
+const cardHeight = WIDTH * 1.2;
 
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-		width: 288,
-        height: 436,
+		width: cardWidth, //WIDTH * 0.8
+        height: cardHeight, //WIDTH * 1.2 = 436
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray90,
@@ -20,11 +21,12 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
 	},
 	cardImgArea: {
-        height: 300,
+        height: cardHeight * 0.67,
         backgroundColor: '#B6E96C',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     cardTextArea: {
-        height: 136,
         backgroundColor: "white",
         paddingTop: 16,
         paddingLeft: 24,
@@ -36,7 +38,7 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     name: {
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 22,
         fontWeight: "600",
         letterSpacing: -0.44,
@@ -46,21 +48,21 @@ export const styles = StyleSheet.create({
     age: {
         gap: 4,
         flexDirection: "row",
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16, 
         fontWeight: "400",
         letterSpacing: -0.32,
         lineHeight: 19,
     },
     sub: {
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         fontWeight: "600",
         letterSpacing: -0.32,
         lineHeight: 19,
     },
     sub2: {
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: "400",
         letterSpacing: -0.32,
@@ -82,7 +84,7 @@ export const styles = StyleSheet.create({
     topic: {
         width: 52,
         color: theme.gray20,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 19,
@@ -90,7 +92,7 @@ export const styles = StyleSheet.create({
     },
     content: {
         color: 'black',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
         lineHeight: 19,
@@ -112,7 +114,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0)',
         width: '100%',
         justifyContent: 'flex-end',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         letterSpacing: -0.32,
         fontWeight: 400,

@@ -20,53 +20,15 @@ function SignUp() {
     const navigation = useNavigation();
     const route = useRoute();
 
+    // 1. email 입력
     const [email, setEmail] = useState('');
+
+    // 2. email 인증번호 입력
     const [emailCode, setEmailCode] = useState('');
     const [testEmailCode, setTestEmailCode] = useState('123');
     const [testPhoneCode, setTestPhoneCode] = useState('123');
-    const [password, setPassword] = useState("");
-    const [name, setName] = useState("");
-    const [birth, setBirth] = useState({
-        year: '',
-        month: '',
-        day: '',
-    });
-    const [phoneNumber, setPhoneNumber] = useState('');
-    const [phoneCode, setPhoneCode] = useState('');
-
     const [emailCodeIsCorrect, setEmailCodeIsCorrect] = useState(true);
-    const [phoneCodeIsCorrect, setPhoneCodeIsCorrect] = useState(true);
     const [isResend, setIsResend] = useState(false);
-    const [showPw, setShowPw] = useState(false);
-    const [hasEnglish, setHasEnglish] = useState(false);
-    const [hasNum, setHasNum] = useState(false);
-    const [hasLeng, setHasLeng] = useState(false);
-    // const [hasName, setHasName] = useState(true);
-    // const [hasBirth, setHasBirth] = useState(true);
-    const [isFull, setIsFull] = useState({
-      name: true,
-      birth: true,
-  })
-    const [isBirthCorrect, setIsBirthCorrect] = useState({year: true, month: true, day: true});
-    const [bSecret, setBSecret] = useState(false);
-    const [isAgree, setIsAgree] = useState({
-      serviceAgree: false,
-      informationAgree: false,
-    });
-    
-    const currentYear = new Date().getFullYear();
-
-    const ref_input2 = useRef();
-    const ref_input3 = useRef();
-    const ref_input4 = useRef();
-    const ref_input5 = useRef();
-
-    const passwordCheck = (password) => {
-        setHasEnglish(/[a-zA-Z]/.test(password));
-        setHasNum(/[0-9]/.test(password));
-        setHasLeng(/^.{6,20}$/.test(password));
-    };
-
     const handleEmailCodeChange = (text) => {
       setEmailCode(text);
       if(emailCode === testEmailCode) setEmailCodeIsCorrect(true);
@@ -77,6 +39,47 @@ function SignUp() {
       else if((emailCode === testEmailCode)) setEmailCodeIsCorrect(false);
     };
 
+    // 3. pw 입력
+    const [password, setPassword] = useState("");
+    const [showPw, setShowPw] = useState(false);
+    const [hasEnglish, setHasEnglish] = useState(false);
+    const [hasNum, setHasNum] = useState(false);
+    const [hasLeng, setHasLeng] = useState(false);
+    const passwordCheck = (password) => {
+      setHasEnglish(/[a-zA-Z]/.test(password));
+      setHasNum(/[0-9]/.test(password));
+      setHasLeng(/^.{6,20}$/.test(password));
+    };
+    const togglePwVisibility = () => {
+      setShowPw(!showPw);
+    };
+
+    // 4. 이름, 생년월일 입력
+    const [name, setName] = useState("");
+    const [birth, setBirth] = useState({
+        year: '',
+        month: '',
+        day: '',
+    });
+    const [isFull, setIsFull] = useState({
+      name: true,
+      birth: true,
+    })
+    const [isBirthCorrect, setIsBirthCorrect] = useState({year: true, month: true, day: true});
+    const [bSecret, setBSecret] = useState(false);
+        
+    const currentYear = new Date().getFullYear();
+    const ref_input2 = useRef();
+    const ref_input3 = useRef();
+    const ref_input4 = useRef();
+    const ref_input5 = useRef();
+
+    // 5. 연락처 입력
+    const [phoneNumber, setPhoneNumber] = useState('');
+
+    // 6. 연락처 인증번호 입력
+    const [phoneCode, setPhoneCode] = useState('');
+    const [phoneCodeIsCorrect, setPhoneCodeIsCorrect] = useState(true);
     const handlePhoneCodeChange = (text) => {
       setPhoneCode(text);
       if(phoneCode === testPhoneCode) setPhoneCodeIsCorrect(true);
@@ -89,11 +92,38 @@ function SignUp() {
 
     const handleRequest = () => {
       setIsResend(true);
+      setSeconds(180);
     };
 
-    const togglePwVisibility = () => {
-      setShowPw(!showPw);
+      // 카운트다운
+    const [seconds, setSeconds] = useState(180);
+    const [timerActive, setTimerActive] = useState(true);
+
+    useEffect(() => {
+      let timer;
+  
+      if (timerActive && seconds > 0) {
+        timer = setInterval(() => {
+          setSeconds((prevTime) => prevTime - 1);
+        }, 1000);
+      } else if (seconds === 0) {
+        clearInterval(timer);
+      }
+  
+      return () => clearInterval(timer);
+    }, [timerActive, seconds]);
+
+    const formatTime = (time) => {
+      const min = Math.floor(time / 60);
+      const sec = time % 60;
+      return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
     };
+
+    // 7. 약관 동의
+    const [isAgree, setIsAgree] = useState({
+      serviceAgree: false,
+      informationAgree: false,
+    });
 
     const handleAgreeAll = () => {
       if(!isAgree.serviceAgree || !isAgree.informationAgree)
@@ -121,8 +151,8 @@ function SignUp() {
         informationAgree: !prevState.informationAgree,
       }));
     };
-    
 
+    // 페이지 이동
     const [step, setStep] = useState(1);
      // step 단위 뒤로 가기
      const handleBack = () => {
@@ -198,6 +228,7 @@ function SignUp() {
         } else if (step === 5 ) {
           if(phoneNumber !== '')
           setStep(6);
+          setSeconds(180);
         } else if (step === 6 ) {
           setStep(7);
         } else if (step === 7 ) {
@@ -427,8 +458,8 @@ function SignUp() {
                             ) : (
                                 <View></View>
                             )}
-                            {!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day ? (
-                                <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요 (ex 2024년 01월 01일)</Text>
+                            {isFull.birth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) ? (
+                                <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
                             ) : (
                                 <View></View>
                             )}
@@ -474,7 +505,7 @@ function SignUp() {
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                   <View style={{flexDirection: 'row'}}>
                     <Text style={{...styles.request, color: theme.gray40, fontWeight: '400', marginLeft: 8}}>잔여시간</Text>
-                    <Text style={{...styles.request, color: theme.gray40, marginLeft: 4}}>3:00</Text>
+                    <Text style={{...styles.request, color: theme.gray40, marginLeft: 4}}>{formatTime(seconds)}</Text>
                   </View>
                 <TouchableOpacity onPress={handleRequest}>
                     <Text style={styles.request}>인증문자 재요청</Text>
