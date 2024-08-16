@@ -279,7 +279,7 @@ export default function HostSrudTemplate({ navigation }) {
                   <TextInput
                     style={styles.nameInput}
                     placeholder="전공을 입력하세요"
-                    keyboardType="numeric"
+                    keyboardType='default'
                     returnKeyType='done'
                     value={card_student_major}
                     onChangeText={setMajor}

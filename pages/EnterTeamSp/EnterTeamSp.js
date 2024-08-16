@@ -23,7 +23,7 @@ function EnterTeamSp({ navigation }) {
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
 
-  const [hostTemplate, setHostStudTemplate] = useState(0); // 호스트 지정 템플릿 없음
+  const [hostTemplate, setHostStudTemplate] = useState(1); // 호스트 지정 템플릿 없음
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무

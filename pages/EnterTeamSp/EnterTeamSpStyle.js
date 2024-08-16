@@ -12,10 +12,6 @@ export const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'space-between',
     },
-    cardContainer: {
-        flex: 1,
-        justifyContent: 'space-between',
-    },
     flexSpacer: {
         flex: 1,
       },
