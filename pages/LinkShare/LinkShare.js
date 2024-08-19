@@ -77,6 +77,22 @@ function Step2Screen({ navigation }) {
     Alert.alert("클립보드에 복사되었습니다.");
   };
   
+  const shareLinkCode = async () => {
+    try {
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (!isAvailable) {
+        Alert.alert('Sharing is not available on this device');
+        return;
+      }
+
+      await Sharing.shareAsync('https://naver.com', {
+        dialogTitle: 'SSOP Share TEST',
+      });
+    } catch (error) {
+      Alert.alert('Error sharing', error.message);
+    }
+  };
+
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleShareButtonPress = () => {
@@ -118,7 +134,7 @@ function Step2Screen({ navigation }) {
                         <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
                       </TouchableOpacity>
                       <View style={styles.line} />
-                      <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                      <TouchableOpacity onPress={() => { shareLinkCode(); setIsModalVisible(false)}}>
                         <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
                       </TouchableOpacity>
                     </View>
