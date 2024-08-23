@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import * as Progress from 'react-native-progress';
+import * as Sharing from 'expo-sharing';
 import { theme } from "../../theme";
 
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
