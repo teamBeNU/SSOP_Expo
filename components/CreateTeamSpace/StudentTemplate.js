@@ -16,21 +16,30 @@ import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line
 export default function StudentTemplate({ navigation, goToOriginal, teamName, teamComment, istemplate, template }) {
   const [step, setStep] = useState(1);
   const [isEmpty, setIsEmpty] = useState(false);
-  // 앞면 - step1
+  const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
+  // step1
+  // 기본 정보
   const [showAge, setShowAge] = useState(false);
+  const [showBirth, setShowBirth] = useState(false);
+  const [showMBTI, setShowMBTI] = useState(false);
+  // 연락처, SNS
+  const [showTel, setShowTel] = useState(false);
+  const [showEmail, setShowEmail] = useState(false);
+  const [showSNS, setShowSNS] = useState(false);
+  // 학생정보
   const [showSchool, setShowSchool] = useState(false);
   const [showGrade, setShowGrade] = useState(false);
   const [showStudNum, setShowStudNum] = useState(false);
-  // 뒷면 - step2  
   const [showMajor, setShowMajor] = useState(false);
-  const [showRole, setShowRole] = useState(false);
   const [showClub, setShowClub] = useState(false);
-  const [showTel, setShowTel] = useState(false);
-  const [showSNS, setShowSNS] = useState(false);
-  const [showEmail, setShowEmail] = useState(false);
-  const [showMBTI, setShowMBTI] = useState(false);
+  const [showRole, setShowRole] = useState(false);
+  const [showStatus, setShowStatus] = useState(false);
+  // 기타
+  const [showHobby, setShowHobby] = useState(false);
   const [showMusic, setShowMusic] = useState(false);
   const [showMovie, setShowMovie] = useState(false);
+  const [showLive, setShowLive] = useState(false);
+
   const [cover, setCover] = useState("free");
 
   const [roleList, setRoleList] = useState([
@@ -62,9 +71,12 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
       setStep(2);
     } else if (step === 2) {
       setStep(3);
-    } else if (step === 3) {
-      setStep(4);
+      setIsModalVisible(false)
     }
+  };
+
+  const handleCheck = () => {
+    setIsModalVisible(true);
   };
 
   // step 단위로 뒤로가기
@@ -91,6 +103,7 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
         break;
       default:
         setStep(step - 1);
+        setIsModalVisible(false)
         break;
     }
   };
@@ -107,6 +120,21 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
       case 'showAge':
         setShowAge((prevState) => !prevState);
         break;
+      case 'showBirth':
+        setShowBirth((prevState) => !prevState);
+        break;
+      case 'showMBTI':
+        setShowMBTI((prevState) => !prevState);
+        break;
+      case 'showTel':
+        setShowTel((prevState) => !prevState);
+        break;
+      case 'showEmail':
+        setShowEmail((prevState) => !prevState);
+        break;
+      case 'showSNS':
+        setShowSNS((prevState) => !prevState);
+        break;
       case 'showSchool':
         setShowSchool((prevState) => !prevState);
         break;
@@ -119,29 +147,26 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
       case 'showStudNum':
         setShowStudNum((prevState) => !prevState);
         break;
-      case 'showRole':
-        setShowRole((prevState) => !prevState);
-        break;
       case 'showClub':
         setShowClub((prevState) => !prevState);
         break;
-      case 'showTel':
-        setShowTel((prevState) => !prevState);
+      case 'showRole':
+        setShowRole((prevState) => !prevState);
         break;
-      case 'showSNS':
-        setShowSNS((prevState) => !prevState);
+      case 'showStatus':
+        setShowStatus((prevState) => !prevState);
         break;
-      case 'showEmail':
-        setShowEmail((prevState) => !prevState);
-        break;
-      case 'showMBTI':
-        setShowMBTI((prevState) => !prevState);
+      case 'showHobby':
+        setShowHobby((prevState) => !prevState);
         break;
       case 'showMusic':
         setShowMusic((prevState) => !prevState);
         break;
       case 'showMovie':
         setShowMovie((prevState) => !prevState);
+        break;
+      case 'showLive':
+        setShowLive((prevState) => !prevState);
         break;
       default:
         break;
@@ -204,8 +229,6 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
     }
   };
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
   const handleShareButtonPress = () => {
     setIsModalVisible(true);
   };
@@ -244,17 +267,12 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
           {step === 1 && (
             <View style={{ height: '100%' }}>
               <ScrollView showsVerticalScrollIndicator={false}>
-                <Text style={styles.title}> 카드 앞면에 보여질 정보를 선택하세요. </Text>
-                <Text style={styles.subtitle}> 팀원들이 입력해줬으면 하는 항목을 선택하세요. </Text>
-
-                <Text style={[styles.font16, { marginTop: 32 }]}>필수정보</Text>
-                <View style={styles.elementContainer}>
-                  <Text style={styles.defaultElement}>이름</Text>
-                  <Text style={styles.defaultElement}>한줄소개</Text>
-                </View>
+                <Text style={styles.title}>팀원들이 입력해줬으면 하는 항목을{'\n'}선택하세요. </Text>
 
                 <Text style={[styles.font16, { marginTop: 28 }]}>기본정보</Text>
+                <Text style={styles.subtitle}> 이름과 한줄소개는 필수입니다. </Text>
                 <View style={styles.elementContainer}>
+                  {/* 나이 */}
                   <TouchableOpacity onPress={() => handleSelect('showAge')}
                     style={showAge ? styles.selectedElement : styles.element}>
                     {showAge && (
@@ -265,21 +283,90 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     )}
                     {!showAge && <Text> 나이 </Text>}
                   </TouchableOpacity>
+
+                  {/* 생년월일 */}
+                  <TouchableOpacity onPress={() => handleSelect('showBirth')}
+                    style={showBirth ? styles.selectedElement : styles.element}>
+                    {showBirth && (
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Select />
+                        <Text style={styles.selectedText}> 생년월일 </Text>
+                      </View>
+                    )}
+                    {!showBirth && <Text> 생년월일 </Text>}
+                  </TouchableOpacity>
+
+                  {/* MBTI */}
+                  <TouchableOpacity onPress={() => handleSelect('showMBTI')}
+                    style={showMBTI ? styles.selectedElement : styles.element}>
+                    {showMBTI && (
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Select />
+                        <Text style={styles.selectedText}> MBTI </Text>
+                      </View>
+                    )}
+                    {!showMBTI && <Text> MBTI </Text>}
+                  </TouchableOpacity>
                 </View>
 
-                <Text style={[styles.font16, { marginTop: 28 }]}>학생정보</Text>
+                <Text style={[styles.font16, { marginTop: 28 }]}>연락처 · SNS</Text>
                 <View style={styles.elementContainer}>
+
+                  {/* 연락처 */}
+                  <TouchableOpacity onPress={() => handleSelect('showTel')}
+                    style={showTel ? styles.selectedElement : styles.element}>
+                    {showTel && (
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Select />
+                        <Text style={styles.selectedText}> 연락처 </Text>
+                      </View>
+                    )}
+                    {!showTel && <Text> 연락처 </Text>}
+                  </TouchableOpacity>
+
+                  {/* 이메일 */}
+                  <TouchableOpacity onPress={() => handleSelect('showEmail')}
+                    style={showEmail ? styles.selectedElement : styles.element}>
+                    {showEmail && (
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Select />
+                        <Text style={styles.selectedText}> 이메일 </Text>
+                      </View>
+                    )}
+                    {!showEmail && <Text> 이메일 </Text>}
+                  </TouchableOpacity>
+
+                  {/* SNS */}
+                  <TouchableOpacity onPress={() => handleSelect('showSNS')}
+                    style={showSNS ? styles.selectedElement : styles.element}>
+                    {showSNS && (
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Select />
+                        <Text style={styles.selectedText}> SNS </Text>
+                      </View>
+                    )}
+                    {!showSNS && <Text> SNS </Text>}
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.line} />
+
+
+                <Text style={styles.font16}>학생정보</Text>
+                <View style={styles.elementContainer}>
+                  {/* 학교 */}
                   <TouchableOpacity onPress={() => handleSelect('showSchool')}
                     style={showSchool ? styles.selectedElement : styles.element}>
                     {showSchool && (
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Select />
-                        <Text style={styles.selectedText}> 학교명 </Text>
+                        <Text style={styles.selectedText}> 학교 </Text>
                       </View>
                     )}
-                    {!showSchool && <Text> 학교명 </Text>}
+                    {!showSchool && <Text> 학교 </Text>}
                   </TouchableOpacity>
 
+                  {/* 학년 */}
                   <TouchableOpacity onPress={() => handleSelect('showGrade')}
                     style={showGrade ? styles.selectedElement : styles.element}>
                     {showGrade && (
@@ -291,62 +378,17 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     {!showGrade && <Text> 학년 </Text>}
                   </TouchableOpacity>
 
+                  {/* 학번 */}
                   <TouchableOpacity onPress={() => handleSelect('showStudNum')}
                     style={showStudNum ? styles.selectedElement : styles.element}>
                     {showStudNum && (
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Select />
-                        <Text style={styles.selectedText}> 학생번호 </Text>
+                        <Text style={styles.selectedText}> 학번 </Text>
                       </View>
                     )}
-                    {!showStudNum && <Text> 학생번호 </Text>}
+                    {!showStudNum && <Text> 학번 </Text>}
                   </TouchableOpacity>
-                </View>
-
-                <View style={styles.line} />
-
-                <Text style={styles.font16}> 카드 커버 설정 </Text>
-                <RadioButton.Group
-                  onValueChange={(value) => setCover(value)}
-                  value={cover}>
-                  <View style={styles.coverContainer}>
-
-                    <View style={styles.coverRadioBtn}>
-                      <RadioButton value="free" color={theme.skyblue} />
-                      <Text>자유</Text>
-                    </View>
-
-                    <View style={styles.coverRadioBtn}>
-                      <RadioButton value="avatar" color={theme.skyblue} />
-                      <Text>아바타만 허용</Text>
-                    </View>
-
-                    <View style={styles.coverRadioBtn}>
-                      <RadioButton value="picture" color={theme.skyblue} />
-                      <Text>사진만 허용</Text>
-                    </View>
-
-                  </View>
-                </RadioButton.Group>
-              </ScrollView>
-
-              <View style={[styles.btnContainer, { marginBottom: -28 }]}>
-                <TouchableOpacity style={styles.btnNext}>
-                  <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          )}
-
-          {/* 카드 뒷면 */}
-          {step === 2 && (
-            <View style={{ height: '100%' }}>
-              <ScrollView showsVerticalScrollIndicator={false}>
-                <Text style={styles.title}> 카드 뒷면에 보여질 정보를 선택하세요. </Text>
-                <Text style={styles.subtitle}> 최대 8개까지 정보를 표시할 수 있어요. </Text>
-
-                <Text style={[styles.font16, { marginTop: 28 }]}>학생정보</Text>
-                <View style={styles.elementContainer}>
 
                   {/* 전공 */}
                   <TouchableOpacity onPress={() => handleSelect('showMajor')}
@@ -385,6 +427,18 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     )}
                   </TouchableOpacity>
 
+                  {/* 재학상태 */}
+                  <TouchableOpacity onPress={() => handleSelect('showStatus')}
+                    style={showStatus ? styles.selectedElement : styles.element}>
+                    {showStatus && (
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Select />
+                        <Text style={styles.selectedText}> 동아리 </Text>
+                      </View>
+                    )}
+                    {!showStatus && <Text> 동아리 </Text>}
+                  </TouchableOpacity>
+
                   {showRole && (
                     <View>
                       <Text style={[styles.font16, { marginTop: 28, marginLeft: 0 }]}>역할 선택지 입력</Text>
@@ -418,64 +472,25 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                       <Text style={styles.nameLeng}> {roleLength} / 10 </Text>
                     </View>
                   )}
-
                 </View>
 
-                <Text style={[styles.font16, { marginTop: 28 }]}>연락수단</Text>
+                <View style={styles.line} />
+
+                <Text style={styles.font16}>기타</Text>
                 <View style={styles.elementContainer}>
-
-                  {/* 연락처 */}
-                  <TouchableOpacity onPress={() => handleSelect('showTel')}
-                    style={showTel ? styles.selectedElement : styles.element}>
-                    {showTel && (
+                  {/* 취미 */}
+                  <TouchableOpacity onPress={() => handleSelect('showHobby')}
+                    style={showHobby ? styles.selectedElement : styles.element}>
+                    {showHobby && (
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Select />
-                        <Text style={styles.selectedText}> 연락처 </Text>
+                        <Text style={styles.selectedText}> 취미 </Text>
                       </View>
                     )}
-                    {!showTel && <Text> 연락처 </Text>}
+                    {!showHobby && <Text> 취미 </Text>}
                   </TouchableOpacity>
 
-                  {/* SNS */}
-                  <TouchableOpacity onPress={() => handleSelect('showSNS')}
-                    style={showSNS ? styles.selectedElement : styles.element}>
-                    {showSNS && (
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Select />
-                        <Text style={styles.selectedText}> SNS </Text>
-                      </View>
-                    )}
-                    {!showSNS && <Text> SNS </Text>}
-                  </TouchableOpacity>
-
-                  {/* 이메일 */}
-                  <TouchableOpacity onPress={() => handleSelect('showEmail')}
-                    style={showEmail ? styles.selectedElement : styles.element}>
-                    {showEmail && (
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Select />
-                        <Text style={styles.selectedText}> 이메일 </Text>
-                      </View>
-                    )}
-                    {!showEmail && <Text> 이메일 </Text>}
-                  </TouchableOpacity>
-
-                </View>
-
-                <Text style={[styles.font16, { marginTop: 28 }]}>특징</Text>
-                <View style={styles.elementContainer}>
-
-                  <TouchableOpacity onPress={() => handleSelect('showMBTI')}
-                    style={showMBTI ? styles.selectedElement : styles.element}>
-                    {showMBTI && (
-                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                        <Select />
-                        <Text style={styles.selectedText}> MBTI </Text>
-                      </View>
-                    )}
-                    {!showMBTI && <Text> MBTI </Text>}
-                  </TouchableOpacity>
-
+                  {/* 인생음악 */}
                   <TouchableOpacity onPress={() => handleSelect('showMusic')}
                     style={showMusic ? styles.selectedElement : styles.element}>
                     {showMusic && (
@@ -487,6 +502,7 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     {!showMusic && <Text> 인생 음악 </Text>}
                   </TouchableOpacity>
 
+                  {/* 인생영화 */}
                   <TouchableOpacity onPress={() => handleSelect('showMovie')}
                     style={showMovie ? styles.selectedElement : styles.element}>
                     {showMovie && (
@@ -498,8 +514,18 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     {!showMovie && <Text> 인생 영화 </Text>}
                   </TouchableOpacity>
 
+                  {/* 거주지 */}
+                  <TouchableOpacity onPress={() => handleSelect('showLive')}
+                    style={showLive ? styles.selectedElement : styles.element}>
+                    {showLive && (
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Select />
+                        <Text style={styles.selectedText}> 거주지 </Text>
+                      </View>
+                    )}
+                    {!showLive && <Text> 거주지 </Text>}
+                  </TouchableOpacity>
                 </View>
-
 
                 <Text style={[styles.font16, { marginTop: 28 }]}>자유 선택지</Text>
                 <View style={styles.elementContainer}>
@@ -526,11 +552,33 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     onSubmitEditing={addPlus}
                   />
                 </View>
-                <Text style={styles.nameLeng}> {plusLength} / 5 </Text>
+                <Text style={[styles.nameLeng, { marginTop: -32, marginRight: 16, marginBottom: 16 }]}> {plusLength} / 5 </Text>
 
-                {/* 키보드에 가려진 부분 스크롤 */}
-                <View style={{ marginBottom: 300 }} />
+                <View style={styles.line} />
 
+                <Text style={styles.font16}> 카드 커버 설정 </Text>
+                <RadioButton.Group
+                  onValueChange={(value) => setCover(value)}
+                  value={cover}>
+                  <View style={styles.coverContainer}>
+
+                    <View style={styles.coverRadioBtn}>
+                      <RadioButton value="free" color={theme.skyblue} />
+                      <Text>자유</Text>
+                    </View>
+
+                    <View style={styles.coverRadioBtn}>
+                      <RadioButton value="avatar" color={theme.skyblue} />
+                      <Text>아바타만 허용</Text>
+                    </View>
+
+                    <View style={styles.coverRadioBtn}>
+                      <RadioButton value="picture" color={theme.skyblue} />
+                      <Text>사진만 허용</Text>
+                    </View>
+
+                  </View>
+                </RadioButton.Group>
               </ScrollView>
 
               <View style={[styles.btnContainer, { marginBottom: -28 }]}>
@@ -542,24 +590,50 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
           )}
 
           {/* 템플릿 예시 */}
-          {step === 3 && (
+          {step === 2 && (
             <View style={{ height: '100%' }} >
               <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
               <View style={styles.cardShadow}>
                 <Card />
               </View>
-              <Text style={[styles.subtitle, { marginTop: 450, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
+              <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 
               <View style={[styles.btnContainer, { marginBottom: -28 }]}>
                 <TouchableOpacity style={styles.btnNext}>
-                  <Text onPress={handleNext} style={styles.btnText}> 팀스페이스 생성을 완료할래요 </Text>
+                  <Text onPress={handleCheck} style={styles.btnText}> 팀스페이스 생성을 완료할래요 </Text>
                 </TouchableOpacity>
+
+                <Modal
+                  animationType="fade"
+                  transparent={true}
+                  visible={isModalVisible}
+                  onRequestClose={() => {
+                    setIsModalVisible(!isModalVisible);
+                  }}>
+                  <View style={styles.modalContainer}>
+                    <View style={styles.modalView}>
+                      <View style={{ alignItems: 'center' }}>
+                        <Text style={styles.font16}>템플릿을 확정하시겠어요?</Text>
+                        <Text style={[styles.subtitle, { marginTop: 12 }]}>템플릿은 다시 수정할 수 없습니다.</Text>
+                      </View>
+
+                      <View style={styles.modalCheckBtn}>
+                        <TouchableOpacity style={styles.modalBtnWhite}>
+                          <Text onPress={handleBack} style={styles.modalBtnTextBlack}> 수정할래요 </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.modalBtnNext}>
+                          <Text onPress={handleNext} style={styles.modalBtnText}> 확정할래요 </Text>
+                        </TouchableOpacity>
+                      </View>
+                    </View>
+                  </View>
+                </Modal>
               </View>
             </View>
           )}
 
           {/* 초대 코드 */}
-          {step === 4 && (
+          {step === 3 && (
             <View style={{ height: '100%' }}>
               <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
                 {'\n'} 바로 초대해 보세요. </Text>
