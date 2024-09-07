@@ -15,10 +15,7 @@ import Worker from '../../assets/profile/worker.svg';
 import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
 
-import StudentTemplate from "../../components/CreateTeamSpace/StudentTemplate";
-import WorkerTemplate from "../../components/CreateTeamSpace/WorkerTemplate";
-import FanTemplate from "../../components/CreateTeamSpace/FanTemplate";
-import FreeTemplate from "../../components/CreateTeamSpace/FreeTemplate";
+import TeamSpTemplate from "../../components/CreateTeamSpace/TeamSpTemplate";
 
 function CreateTeamSp({ navigation }) {
   const [step, setStep] = useState(1);
@@ -370,18 +367,13 @@ function CreateTeamSp({ navigation }) {
         {/* 팀스페이스 성격에 맞는 컴포넌트 연동 */}
         {step === 6 && (
           <View>
-            {card_template === "student" &&
-              <StudentTemplate navigation={navigation}
+              <TeamSpTemplate navigation={navigation}
                 goToOriginal={goToOriginal}
                 teamName={teamName}
                 nameLength={nameLength}
                 teamComment={teamComment}
                 istemplate={istemplate}
-                card_template={card_template}
-              />}
-            {card_template === "worker" && <WorkerTemplate navigation={navigation} />}
-            {card_template === "fan" && <FanTemplate navigation={navigation} />}
-            {card_template === "free" && <FreeTemplate navigation={navigation} />}
+                card_template={card_template}/>
           </View>
         )}
       </View>

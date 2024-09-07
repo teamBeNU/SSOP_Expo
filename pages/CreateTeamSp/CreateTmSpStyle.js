@@ -233,7 +233,7 @@ export const styles = StyleSheet.create({
     coverContainer: {
         flexDirection: 'row',
         marginTop: 16,
-        marginBottom: 200
+        marginBottom: 150
     },
     coverRadioBtn: {
         flexDirection: 'row',
