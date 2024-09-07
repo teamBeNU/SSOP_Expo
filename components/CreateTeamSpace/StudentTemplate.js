@@ -25,7 +25,8 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
   // 연락처, SNS
   const [showTel, setShowTel] = useState(false);
   const [showEmail, setShowEmail] = useState(false);
-  const [showSNS, setShowSNS] = useState(false);
+  const [showInsta, setShowInsta] = useState(false);
+  const [showX, setShowX] = useState(false);
   // 학생정보
   const [showSchool, setShowSchool] = useState(false);
   const [showGrade, setShowGrade] = useState(false);
@@ -58,8 +59,8 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
   const inviteCode = '120432'; // step4
 
   // progressBar
-  const maxSteps = 8;
-  const initialProgress = 0.625;
+  const maxSteps = 7;
+  const initialProgress = 0.714;
 
   const handleNext = () => {
     if (step === 1) {
@@ -109,7 +110,6 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
     setPlusLength(plus.length);
   }, [rolePlus, plus]);
 
-  //step 5-6 
   const handleSelect = (id) => {
     switch (id) {
       case 'showAge':
@@ -127,8 +127,11 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
       case 'showEmail':
         setShowEmail((prevState) => !prevState);
         break;
-      case 'showSNS':
-        setShowSNS((prevState) => !prevState);
+      case 'showInsta':
+        setShowInsta((prevState) => !prevState);
+        break;
+      case 'showX':
+        setShowX((prevState) => !prevState);
         break;
       case 'showSchool':
         setShowSchool((prevState) => !prevState);
@@ -169,7 +172,6 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
     console.log(id);
   };
 
-
   const roleSelected = (index) => {
     setRoleList(prevList => {
       const updatedList = [...prevList];
@@ -201,7 +203,7 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
     }
   };
 
-  // step8 - 초대 코드 복사
+  // step7 - 초대 코드 복사
   const copyInviteCode = () => {
     const textToCopy = inviteCode;
     Clipboard.setString(textToCopy);
@@ -331,21 +333,32 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     {!showEmail && <Text> 이메일 </Text>}
                   </TouchableOpacity>
 
-                  {/* SNS */}
-                  <TouchableOpacity onPress={() => handleSelect('showSNS')}
-                    style={showSNS ? styles.selectedElement : styles.element}>
-                    {showSNS && (
+                  {/* Insta */}
+                  <TouchableOpacity onPress={() => handleSelect('showInsta')}
+                    style={showInsta ? styles.selectedElement : styles.element}>
+                    {showInsta && (
                       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                         <Select />
                         <Text style={styles.selectedText}> SNS </Text>
                       </View>
                     )}
-                    {!showSNS && <Text> SNS </Text>}
+                    {!showInsta && <Text> SNS </Text>}
+                  </TouchableOpacity>
+
+                  {/* X */}
+                  <TouchableOpacity onPress={() => handleSelect('showX')}
+                    style={showX ? styles.selectedElement : styles.element}>
+                    {showX && (
+                      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        <Select />
+                        <Text style={styles.selectedText}> SNS </Text>
+                      </View>
+                    )}
+                    {!showX && <Text> SNS </Text>}
                   </TouchableOpacity>
                 </View>
 
                 <View style={styles.line} />
-
 
                 <Text style={styles.font16}>학생정보</Text>
                 <View style={styles.elementContainer}>
@@ -436,7 +449,7 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
 
                   {showRole && (
                     <View style={styles.roleView}>
-                      <Text style={[styles.font16,{marginLeft: 0}]}>역할 선택지를 입력해보세요.</Text>
+                      <Text style={[styles.font16, { marginLeft: 0 }]}>역할 선택지를 입력해보세요.</Text>
                       <Text style={styles.subtitle}>역할은 팀 내에서 개인이 맡는 포지션을 말해요.{'\n'}
                         등록해두면 필터링으로 편하게 파악할 수 있어요.
                       </Text>
@@ -551,7 +564,7 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     </TouchableOpacity>
                   ))}
                 </View>
-                
+
                 <View style={styles.line} />
 
                 <Text style={styles.font16}> 카드 커버 설정 </Text>
