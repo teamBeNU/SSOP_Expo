@@ -222,7 +222,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        marginTop: 16
+        marginTop: 16,
     },
     line: {
         borderBottomWidth: 1,
@@ -385,4 +385,11 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'PretendardSemiBold'
     },
+    roleView: {
+        width: '100%',
+        backgroundColor : '#F8F8F8',
+        paddingVertical: 28,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+    }
 })

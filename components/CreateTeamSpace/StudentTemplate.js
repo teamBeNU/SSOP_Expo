@@ -47,11 +47,6 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
     { role: '부회장', selected: false },
     { role: '팀장', selected: false },
     { role: '팀원', selected: false },
-    { role: '마케터', selected: false },
-    { role: '기획자', selected: false },
-    { role: '디자이너', selected: false },
-    { role: '백엔드', selected: false },
-    { role: '프론트엔드', selected: false },
   ]);
   const [rolePlus, setRolePlus] = useState("");
   const [roleLength, setRoleLength] = useState(0);
@@ -440,9 +435,24 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                   </TouchableOpacity>
 
                   {showRole && (
-                    <View>
-                      <Text style={[styles.font16, { marginTop: 28, marginLeft: 0 }]}>역할 선택지 입력</Text>
-                      <Text style={styles.subtitle}>역할을 등록해두면 통일하여 필터링하기 편해요.</Text>
+                    <View style={styles.roleView}>
+                      <Text style={[styles.font16,{marginLeft: 0}]}>역할 선택지를 입력해보세요.</Text>
+                      <Text style={styles.subtitle}>역할은 팀 내에서 개인이 맡는 포지션을 말해요.{'\n'}
+                        등록해두면 필터링으로 편하게 파악할 수 있어요.
+                      </Text>
+                      <View style={styles.plusContainer}>
+                        <TextInput
+                          style={[styles.nameInput, { backgroundColor: theme.gray90, flex: 1 }]}
+                          placeholder='직접 입력하여 추가'
+                          maxLength={10}
+                          value={rolePlus}
+                          onChangeText={text => setRolePlus(text)}
+                          onSubmitEditing={addRole}
+                        />
+                      </View>
+
+                      <Text style={[styles.nameLeng, { marginTop: -32, marginRight: 16, marginBottom: 16 }]}> {roleLength} / 10 </Text>
+
                       <View style={styles.elementContainer}>
                         {roleList.map((item, index) => (
                           <TouchableOpacity key={index} onPress={() => roleSelected(index)}
@@ -457,19 +467,6 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                           </TouchableOpacity>
                         ))}
                       </View>
-
-                      <View style={styles.plusContainer}>
-                        <TextInput
-                          style={[styles.nameInput, { flex: 1 }]}
-                          placeholder='직접 입력하여 추가'
-                          maxLength={10}
-                          value={rolePlus}
-                          onChangeText={text => setRolePlus(text)}
-                          onSubmitEditing={addRole}
-                        />
-                      </View>
-
-                      <Text style={styles.nameLeng}> {roleLength} / 10 </Text>
                     </View>
                   )}
                 </View>
@@ -528,6 +525,18 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                 </View>
 
                 <Text style={[styles.font16, { marginTop: 28 }]}>자유 선택지</Text>
+                <View style={styles.plusContainer}>
+                  <TextInput
+                    style={[styles.nameInput, { flex: 1 }]}
+                    placeholder='직접 입력하여 추가'
+                    maxLength={5}
+                    value={plus}
+                    onChangeText={text => setPlus(text)}
+                    onSubmitEditing={addPlus}
+                  />
+                </View>
+                <Text style={[styles.nameLeng, { marginTop: -32, marginRight: 16, marginBottom: 16 }]}> {plusLength} / 5 </Text>
+
                 <View style={styles.elementContainer}>
                   {plusList.map((item, index) => (
                     <TouchableOpacity key={index} onPress={() => plusSelected(index)}
@@ -542,18 +551,7 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
                     </TouchableOpacity>
                   ))}
                 </View>
-                <View style={styles.plusContainer}>
-                  <TextInput
-                    style={[styles.nameInput, { flex: 1 }]}
-                    placeholder='직접 입력하여 추가'
-                    maxLength={5}
-                    value={plus}
-                    onChangeText={text => setPlus(text)}
-                    onSubmitEditing={addPlus}
-                  />
-                </View>
-                <Text style={[styles.nameLeng, { marginTop: -32, marginRight: 16, marginBottom: 16 }]}> {plusLength} / 5 </Text>
-
+                
                 <View style={styles.line} />
 
                 <Text style={styles.font16}> 카드 커버 설정 </Text>
