@@ -146,8 +146,8 @@ function EnterTeamSp({ navigation }) {
 
               <View style={styles.flexSpacer} />
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 입장하기 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 입장하기 </Text>
               </TouchableOpacity>
 
               <Modal
@@ -174,8 +174,8 @@ function EnterTeamSp({ navigation }) {
 
 
                     <View style={[styles.btnContainer, { marginLeft: 16 }]}>
-                      <TouchableOpacity style={[styles.btnNext, { marginBottom: 16 }]}>
-                        <Text onPress={handleEnterModal} style={styles.btnText}> 네, 입장할래요 </Text>
+                      <TouchableOpacity style={[styles.btnNext, { marginBottom: 16 }]} onPress={handleEnterModal}>
+                        <Text style={styles.btnText}> 네, 입장할래요 </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -218,11 +218,11 @@ function EnterTeamSp({ navigation }) {
               <View style={styles.flexSpacer} />
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, { marginBottom: 40 }]}>
-                  <Text onPress={() => navigation.navigate("스페이스")} style={styles.btnText}> 팀스페이스 확인 </Text>
+                <TouchableOpacity style={[styles.btnNext, { marginBottom: 40 }]} onPress={() => navigation.navigate("스페이스")}>
+                  <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btnWhite}>
-                  <Text onPress={() => navigation.navigate(" ")} style={styles.btnTextBlack}> 홈 화면으로 </Text>
+                <TouchableOpacity style={styles.btnWhite} onPress={() => navigation.navigate(" ")}>
+                  <Text style={styles.btnTextBlack}> 홈 화면으로 </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -242,8 +242,8 @@ function EnterTeamSp({ navigation }) {
 
               <View style={styles.flexSpacer} />
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 카드 만들기 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 카드 만들기 </Text>
               </TouchableOpacity>
             </View>
           )}

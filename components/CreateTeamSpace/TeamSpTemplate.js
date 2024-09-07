@@ -434,8 +434,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             </ScrollView>
 
                             <View style={[styles.btnContainer, { marginBottom: -28 }]}>
-                                <TouchableOpacity style={styles.btnNext}>
-                                    <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+                                <TouchableOpacity style={styles.btnNext} onPress={handleNext} >
+                                    <Text style={styles.btnText}> 다음으로 </Text>
                                 </TouchableOpacity>
                             </View>
                         </View>
@@ -451,8 +451,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 
                             <View style={[styles.btnContainer, { marginBottom: -28 }]}>
-                                <TouchableOpacity style={styles.btnNext}>
-                                    <Text onPress={handleCheck} style={styles.btnText}> 팀스페이스 생성을 완료할래요 </Text>
+                                <TouchableOpacity style={styles.btnNext} onPress={handleCheck} >
+                                    <Text style={styles.btnText}> 팀스페이스 생성을 완료할래요 </Text>
                                 </TouchableOpacity>
 
                                 <Modal
@@ -470,11 +470,11 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                             </View>
 
                                             <View style={styles.modalCheckBtn}>
-                                                <TouchableOpacity style={styles.modalBtnWhite}>
-                                                    <Text onPress={handleBack} style={styles.modalBtnTextBlack}> 수정할래요 </Text>
+                                                <TouchableOpacity style={styles.modalBtnWhite} onPress={handleBack} >
+                                                    <Text style={styles.modalBtnTextBlack}> 수정할래요 </Text>
                                                 </TouchableOpacity>
-                                                <TouchableOpacity style={styles.modalBtnNext}>
-                                                    <Text onPress={handleNext} style={styles.modalBtnText}> 확정할래요 </Text>
+                                                <TouchableOpacity style={styles.modalBtnNext} onPress={handleNext}>
+                                                    <Text style={styles.modalBtnText}> 확정할래요 </Text>
                                                 </TouchableOpacity>
                                             </View>
                                         </View>
@@ -534,11 +534,11 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             </View>
 
                             <View style={styles.btnContainer}>
-                                <TouchableOpacity style={styles.btnNext}>
-                                    <Text onPress={() => navigation.navigate(" ")} style={styles.btnText}> 홈화면으로 </Text>
+                                <TouchableOpacity style={styles.btnNext} onPress={() => navigation.navigate(" ")}>
+                                    <Text style={styles.btnText}> 홈화면으로 </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={styles.btnWhite}>
-                                    <Text onPress={() => navigation.navigate('스페이스')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
+                                <TouchableOpacity style={styles.btnWhite} onPress={() => navigation.navigate('스페이스')}>
+                                    <Text style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
                                 </TouchableOpacity>
                             </View>
 

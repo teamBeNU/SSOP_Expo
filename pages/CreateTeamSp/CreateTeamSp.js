@@ -213,8 +213,8 @@ function CreateTeamSp({ navigation }) {
 
               <View style={styles.flexSpacer} />
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 다음으로 </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -242,8 +242,8 @@ function CreateTeamSp({ navigation }) {
 
               <View style={styles.flexSpacer} />
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 다음으로 </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -273,8 +273,8 @@ function CreateTeamSp({ navigation }) {
                 </RadioButton.Group>
               </View>
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 다음으로 </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -328,11 +328,11 @@ function CreateTeamSp({ navigation }) {
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 20 }]}>
-                <TouchableOpacity style={styles.btnNext}>
-                  <Text onPress={() => navigation.navigate(' ')} style={styles.btnText}> 홈화면으로 </Text>
+                <TouchableOpacity style={styles.btnNext} onPress={() => navigation.navigate(' ')}>
+                  <Text style={styles.btnText}> 홈화면으로 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btnWhite}>
-                  <Text onPress={() => navigation.navigate('스페이스')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
+                <TouchableOpacity style={styles.btnWhite} onPress={() => navigation.navigate('스페이스')}>
+                  <Text style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
               </View>
 
