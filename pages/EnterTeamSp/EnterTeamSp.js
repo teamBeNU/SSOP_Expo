@@ -24,7 +24,7 @@ function EnterTeamSp({ navigation }) {
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
 
-  const [hostTemplate, setHostStudTemplate] = useState(1); // 호스트 지정 템플릿 있:true, 없: false
+  const [hostTemplate, setHostStudTemplate] = useState(false); // 호스트 지정 템플릿 있:true, 없: false
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
@@ -44,12 +44,12 @@ function EnterTeamSp({ navigation }) {
       setStep(5)
     }
   }
-  
+
   // 컴포넌트에서 페이지로 이동 함수
   const goToOriginal = () => {
     setStep(1);
   };
-  
+
   // step 단위로 뒤로가기
   useEffect(() => {
     navigation.setOptions({
@@ -218,11 +218,11 @@ function EnterTeamSp({ navigation }) {
               <View style={styles.flexSpacer} />
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, { marginBottom: 40 }]} onPress={() => navigation.navigate("스페이스")}>
+                <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
                   <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btnWhite} onPress={() => navigation.navigate(" ")}>
-                  <Text style={styles.btnTextBlack}> 홈 화면으로 </Text>
+                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate(" ")}>
+                  <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                 </TouchableOpacity>
               </View>
             </View>

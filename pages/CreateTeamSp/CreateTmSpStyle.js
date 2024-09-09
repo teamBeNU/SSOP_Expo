@@ -88,12 +88,6 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         backgroundColor: theme.gray10,
     },
-    btnText: {
-        textAlign: 'center',
-        color: theme.white,
-        fontSize: 16,
-        fontFamily: 'PretendardSemiBold'
-    },
     btnWhite: {
         height: 48,
         justifyContent: 'center',
@@ -102,6 +96,19 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.gray80,
         backgroundColor: theme.white
+    },
+    btnBlue: {
+        height: 48,
+        justifyContent: 'center',
+        borderRadius: 8,
+        fontFamily: 'PretendardRegular',
+        backgroundColor: theme.skyblue
+    },
+    btnText: {
+        textAlign: 'center',
+        color: theme.white,
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold'
     },
     btnTextBlack: {
         textAlign: 'center',
@@ -294,7 +301,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 14.5,
         marginTop: 33,
         height: 48,
-        borderRadius: 8,
+        borderRadius: 16,
         borderStyle: 'solid',
         borderWidth: 1,
         borderColor: theme.skyblue,

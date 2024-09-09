@@ -102,6 +102,13 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray80,
         backgroundColor: theme.white
     },
+    btnBlue: {
+        height: 48,
+        justifyContent: 'center',
+        borderRadius: 8,
+        fontFamily: 'PretendardRegular',
+        backgroundColor: theme.skyblue
+    },
     btnTextBlack: {
         textAlign: 'center',
         color: theme.gray50,

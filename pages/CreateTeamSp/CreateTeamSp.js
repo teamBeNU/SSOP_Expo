@@ -327,57 +327,57 @@ function CreateTeamSp({ navigation }) {
 
               </View>
 
-              <View style={[styles.btnContainer, { marginBottom: 20 }]}>
-                <TouchableOpacity style={styles.btnNext} onPress={() => navigation.navigate(' ')}>
-                  <Text style={styles.btnText}> 홈화면으로 </Text>
+              <View style={[styles.btnContainer, { marginBottom: 8 }]}>
+                <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
+                  <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btnWhite} onPress={() => navigation.navigate('스페이스')}>
-                  <Text style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
+                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate(" ")}>
+                  <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                 </TouchableOpacity>
-              </View>
+            </View>
 
             </View>
           )}
 
-          {/* 템플릿 성격 선택 */}
-          {step === 5 && (
-            <View>
-              <Text style={styles.largetitle}> 팀스페이스 성격에 제일 가까운 {'\n'} 템플릿을 선택하세요. </Text>
-
-              <View style={styles.container}>
-                <View style={styles.row}>
-                  {items.map(item => (
-                    <TouchableOpacity
-                      key={item.id}
-                      style={[styles.item]}
-                      onPress={() => handleTempClick(item.id)}
-                    >
-                      {item.icon}
-                      <Text style={[styles.font18, { marginTop: 11 }]}>{item.label}</Text>
-                      <Text style={styles.text}>{item.description}</Text>
-                    </TouchableOpacity>
-                  ))}
-
-                </View>
-              </View>
-            </View>
-          )}
-        </View>
-
-        {/* 팀스페이스 성격에 맞는 컴포넌트 연동 */}
-        {step === 6 && (
+        {/* 템플릿 성격 선택 */}
+        {step === 5 && (
           <View>
-              <TeamSpTemplate navigation={navigation}
-                goToOriginal={goToOriginal}
-                teamName={teamName}
-                nameLength={nameLength}
-                teamComment={teamComment}
-                istemplate={istemplate}
-                card_template={card_template}/>
+            <Text style={styles.largetitle}> 팀스페이스 성격에 제일 가까운 {'\n'} 템플릿을 선택하세요. </Text>
+
+            <View style={styles.container}>
+              <View style={styles.row}>
+                {items.map(item => (
+                  <TouchableOpacity
+                    key={item.id}
+                    style={[styles.item]}
+                    onPress={() => handleTempClick(item.id)}
+                  >
+                    {item.icon}
+                    <Text style={[styles.font18, { marginTop: 11 }]}>{item.label}</Text>
+                    <Text style={styles.text}>{item.description}</Text>
+                  </TouchableOpacity>
+                ))}
+
+              </View>
+            </View>
           </View>
         )}
       </View>
-    </TouchableWithoutFeedback>
+
+      {/* 팀스페이스 성격에 맞는 컴포넌트 연동 */}
+      {step === 6 && (
+        <View>
+          <TeamSpTemplate navigation={navigation}
+            goToOriginal={goToOriginal}
+            teamName={teamName}
+            nameLength={nameLength}
+            teamComment={teamComment}
+            istemplate={istemplate}
+            card_template={card_template} />
+        </View>
+      )}
+    </View>
+    </TouchableWithoutFeedback >
   );
 }
 
