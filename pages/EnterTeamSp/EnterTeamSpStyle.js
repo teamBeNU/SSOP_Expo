@@ -8,6 +8,10 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
+    noPaddingMainlayout: {
+        backgroundColor: theme.white,
+        flex: 1, // 디바이스 세로 100%
+    },
     stepContainer: {
         flex: 1,
         justifyContent: 'space-between',

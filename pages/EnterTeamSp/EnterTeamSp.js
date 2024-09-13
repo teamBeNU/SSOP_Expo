@@ -27,6 +27,7 @@ function EnterTeamSp({ navigation }) {
   const [hostTemplate, setHostStudTemplate] = useState(false); // 호스트 지정 템플릿 있:true, 없: false
 
   const [selectedOption, setSelectedOption] = useState('최신순');
+  const [viewOption, setViewOption] = useState('격자형')
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
 
   const handleNext = () => {
@@ -126,7 +127,7 @@ function EnterTeamSp({ navigation }) {
           </View>
         )}
 
-        <View style={styles.mainlayout}>
+        <View style={step === 2 ? styles.noPaddingMainlayout : styles.mainlayout}>
 
           {/* 초대코드 입력 */}
           {step === 1 && (
@@ -192,10 +193,13 @@ function EnterTeamSp({ navigation }) {
                   navigation={navigation}
                   selectedOption={selectedOption}
                   setSelectedOption={setSelectedOption}
+                  viewOption={viewOption}
+                  setViewOption={setViewOption}
                   handleNext={handleNext}
                   cardData={cardData}
                   title={"팀스페이스에 보여질 카드를 선택하세요."}
                 />
+                
               ) : (
                 <NoCardsView
                   navigation={navigation}
