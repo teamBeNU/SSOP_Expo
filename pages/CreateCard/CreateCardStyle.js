@@ -6,24 +6,25 @@ const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 export const styles = StyleSheet.create({
     main: {
         // height: SCREEN_HEIGHT,
-        flex: 1
+        flex: 1,
+        backgroundColor: theme.bg
     },  
     title: {
-        color: "black",
+        color: theme.gray10,
         fontFamily: 'PretendardSemiBold',
-        fontSize: 24,
+        fontSize: 22,
         fontStyle: "normal",
         fontWeight: "600",
         marginTop: 72,
         textAlign: "center",
     },
     subTitle: {
-        color: "black",
+        color: theme.gray10,
         fontFamily: 'Pretendard',
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
-        marginTop: 12,
+        marginTop: 15,
         textAlign: "center",
     },
     templates: {
@@ -73,6 +74,7 @@ export const styles = StyleSheet.create({
         shadowRadius: 12,
     },
     label: {
+        color: theme.gray10,
         fontFamily: "PretendardSemiBold",
         fontSize: 18,
         fontStyle: "normal",
@@ -82,6 +84,7 @@ export const styles = StyleSheet.create({
         marginBottom: 4,
     },
     describe: {
+        color: theme.gray30,
         fontFamily: "PretendardRegular",
         fontSize: 12,
         fontStyle: "normal",

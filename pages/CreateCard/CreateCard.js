@@ -1,5 +1,5 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import "react-native-gesture-handler";
 import { styles } from "./CreateCardStyle";
 
@@ -9,10 +9,12 @@ import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
 
 import TemplateStudent from "../../components/CreateCard/TemplateStudent";
+import BottomSheet from "../../components/CreateCard/BottomSheet";
 
 function CreateCard({navigation}) {
     const [template, setTemplate] = useState();
     const [step, setStep] = useState(1);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const items = [
         { id: 'student', label: '학생', description: '학교에 다닌다면', icon: <Student/> },
@@ -21,18 +23,33 @@ function CreateCard({navigation}) {
         { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', icon: <Free/> },
     ]
 
-    const handleSelectTemp = (id) => {
+    const handleSelectTemplate = (id) => {
         if (step === 1) {
+            if (id === "student") {
+                openModal();
+            } else {
+                setStep(2);
+            }
             setTemplate(id);
-            setStep(2);
         }
     };
+
+    // 학생 템플릿 - 바텀시트 열기
+    const openModal = () => {
+        setModalVisible(true);
+    }
 
     // 템플릿 2*2 배치
     const rows = [];
     for (let i = 0; i < items.length; i += 2) {
         rows.push(items.slice(i, i+2))
     }
+
+    // useEffect(() => {
+    //     if(template === "student") {
+    //         setStep === 1;
+    //     }
+    // })
 
     return (
         <View style={styles.main}>
@@ -52,7 +69,7 @@ function CreateCard({navigation}) {
                                         styles.cell,
                                         
                                     ]}
-                                    onPress={() => handleSelectTemp(item.id)}
+                                    onPress={() => handleSelectTemplate(item.id)}
                                 >
                                     {item.icon}
                                     <Text style={styles.label}>{item.label}</Text>
@@ -61,23 +78,34 @@ function CreateCard({navigation}) {
                             ))}
                             </View>
                     </View>
+                    {template === "student" && (
+                        // <TemplateStudent navigation={navigation} />
+                        <BottomSheet                 
+                            modalVisible={modalVisible}
+                            setModalVisible={setModalVisible}
+                        />
+                    )}
                 </View>
             )}
 
             {step === 2 && (
                 <View>
-                    {template === "student" && (
-                        <TemplateStudent navigation={navigation} />
-                    )}
-                    {template === 2 && (
+                    {/* {template === "student" && (
+                        // <TemplateStudent navigation={navigation} />
+                        <BottomSheet                 
+                            modalVisible={modalVisible}
+                            setModalVisible={setModalVisible}
+                        />
+                    )} */}
+                    {template === "worker" && (
                         // 직장인
                         <TemplateStudent navigation={navigation} />
                     )}
-                    {template === 3 && (
+                    {template === "fan" && (
                         // 팬
                         <TemplateStudent navigation={navigation} />
                     )}
-                    {template === 4 && (
+                    {template === "free" && (
                         // 자유 생성
                         <TemplateStudent navigation={navigation} />
                     )}
