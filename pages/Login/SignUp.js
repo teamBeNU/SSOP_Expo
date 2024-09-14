@@ -56,23 +56,15 @@ function SignUp() {
 
     // 4. 이름, 생년월일 입력
     const [name, setName] = useState("");
-    const [birth, setBirth] = useState({
-        year: '',
-        month: '',
-        day: '',
-    });
+    const [birth, setBirth] = useState("");
     const [isFull, setIsFull] = useState({
       name: true,
       birth: true,
     })
     const [isBirthCorrect, setIsBirthCorrect] = useState({year: true, month: true, day: true});
-    const [bSecret, setBSecret] = useState(false);
         
     const currentYear = new Date().getFullYear();
     const ref_input2 = useRef();
-    const ref_input3 = useRef();
-    const ref_input4 = useRef();
-    const ref_input5 = useRef();
 
     // 5. 연락처 입력
     const [phoneNumber, setPhoneNumber] = useState('');
@@ -184,7 +176,12 @@ function SignUp() {
           setStep(3);
         } else if (step === 3 ) {
           const isNameFull = name !== '';
-          const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
+
+          const year = birth.slice(0, 4);
+          const month = birth.slice(5, 7);
+          const day = birth.slice(8, 10);
+
+          const isBirthFull = year !== '' && month !== '' && day !== '';
           setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull})));
         
           const isLeapYear = (year) => {    // 윤년 구하기
@@ -205,11 +202,11 @@ function SignUp() {
             }
          }
 
-         const days = getDayInMonth(birth.year, birth.month);
+         const days = getDayInMonth(year, month);
 
-          const isYearCorrect = birth.year >= currentYear - 110 && birth.year <= currentYear;
-          const isMonthCorrect = birth.month.length === 2 && (1 <= parseInt(birth.month) && parseInt(birth.month) <= 12);
-          const isDayCorrect = birth.day.length === 2 && (1 <= parseInt(birth.day) && parseInt(birth.day) <= days);
+          const isYearCorrect = year >= currentYear - 110 && year <= currentYear;
+          const isMonthCorrect = month.length === 2 && (1 <= parseInt(month) && parseInt(month) <= 12);
+          const isDayCorrect = day.length === 2 && (1 <= parseInt(day) && parseInt(day) <= days);
 
           if (isFull) {
             setIsBirthCorrect((prev) => ({
@@ -382,44 +379,26 @@ function SignUp() {
                      <View style={styles.birthContainer}>
                          <TextInput
                              style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
-                             placeholder="년"
+                             placeholder="YYYY/MM/DD"
                              placeholderTextColor={theme.gray60}
                              keyboardType="numeric"
-                             value={birth.year}
-                             onChangeText={(newYear) => {setBirth((prevBirth => ({...prevBirth, year: newYear})));}}
-                             // onChangeText={setYear}
-                             maxLength={4}
+                             value={birth}
+                             onChangeText={(text) => {
+                              const cleaned = text.replace(/[^0-9]/g, '');
+                              
+                              let formatted = cleaned;
+                              if (cleaned.length > 4) {
+                                  formatted = `${cleaned.slice(0, 4)}/${cleaned.slice(4, 6)}`;
+                              }
+                              if (cleaned.length > 6) {
+                                  formatted = `${formatted}/${cleaned.slice(6, 8)}`;
+                              }
+                  
+                              setBirth(formatted);
+                             }}
+                             maxLength={10}
                              returnKeyType="next"
-                             onSubmitEditing={() => ref_input3.current.focus()}
                              ref={ref_input2}
-                             blurOnSubmit={false}
-                         />
-                         <TextInput
-                             style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
-                             placeholder="월"
-                             placeholderTextColor={theme.gray60}
-                             keyboardType="numeric"
-                             value={birth.month}
-                             onChangeText={(newMonth) => {setBirth((prevBirth => ({...prevBirth, month: newMonth})));}}
-                             // onChangeText={setMonth}
-                             maxLength={2}
-                             returnKeyType="next"
-                             onSubmitEditing={() => ref_input4.current.focus()}
-                             ref={ref_input3}
-                             blurOnSubmit={false}
-                         />
-                         <TextInput
-                             style={[styles.inputBirth, styles.inputBirthText, !isFull.birth && styles.inputError]}
-                             placeholder="일"
-                             placeholderTextColor={theme.gray60}
-                             keyboardType="numeric"
-                             value={birth.day}
-                             onChangeText={(newDay) => {setBirth((prevBirth => ({...prevBirth, day: newDay})));}}
-                             // onChangeText={setDay}
-                             maxLength={2}
-                             returnKeyType="next"
-                             onSubmitEditing={() => ref_input5.current.focus()}
-                             ref={ref_input4}
                              blurOnSubmit={false}
                          />
                      </View>
