@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
 import { styles } from './EnterTeamSpStyle';
 import { theme } from "../../theme";
 import { View, Text, TextInput, Modal, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
@@ -17,10 +18,12 @@ import CardSample from '../../assets/teamSp/bg_gradation';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation }) {
+  const baseUrl = 'http://43.202.52.64:8080/api'
+  const [data, setData] = useState(null);
   const [step, setStep] = useState(1);
 
-  // const [inviteCode, setInviteCode] = useState(null);
-  const inviteCode = '123456';
+  // const inviteCode = '123456';
+  const [inviteCode, setInviteCode] = useState(null);
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
 
@@ -29,10 +32,51 @@ function EnterTeamSp({ navigation }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형')
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
+  
+  // 팀스페이스 팀스페이스 정보 테스트
+  useEffect(() => {
+    const apiUrl = `${baseUrl}/teamsp/total`;
+    axios
+    .get(apiUrl, {
+      // headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => {
+        const inviteCodeCheck = response.data[0]?.inviteCode;
+        setInviteCode(inviteCodeCheck)
+        setData(response.data[0]);
+        console.log('data: ',data)
+        console.log('inviteCode : ', inviteCodeCheck)
+      })
+      .catch((error) => {
+        console.error('팀스페이스 입장 API 요청 에러:', error);
+      });
+  }, []); 
+
+  // 팀스페이스 입장 API 호출
+  const handleEnterModal = () => {
+    const apiUrl = `${baseUrl}/teamsp/enter`;
+    axios
+      .post(apiUrl, null, {
+        // headers: { Authorization: `Bearer ${token}` }, // 필요 시 토큰 추가
+      })
+      .then((response) => {
+        if (hostTemplate) {
+          setStep(4);
+        } else {
+          setStep(2);
+        }
+        console.log('팀스페이스 입장 성공:', response.data);
+        setIsModalVisible(false);
+      })
+      .catch((error) => {
+        console.error('팀스페이스 입장 API 요청 에러:', error);
+        Alert.alert("팀스페이스 입장에 실패했습니다. 다시 시도해 주세요.");
+      });
+  };
 
   const handleNext = () => {
     if (step === 1) {
-      if (inputcode === inviteCode) {
+      if (inputcode === String(inviteCode)) {
         setIsModalVisible(true);
       } else {
         Alert.alert("존재하지 않는 초대코드입니다.");
@@ -81,15 +125,6 @@ function EnterTeamSp({ navigation }) {
         break;
     }
   };
-
-  const handleEnterModal = () => {
-    if (hostTemplate) {
-      setStep(4);
-    } else {
-      setStep(2);
-    }
-    setIsModalVisible(false); // 모달 닫기
-  }
 
   const cardData = [
     { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
@@ -168,8 +203,8 @@ function EnterTeamSp({ navigation }) {
                     </View>
 
                     <View style={styles.modalContent}>
-                      <Text style={[styles.font18, { marginLeft: 0 }]}> 홍길동의 팀스페이스 </Text>
-                      <Text style={styles.font16}> 부가설명 </Text>
+                      <Text style={[styles.font18, { marginLeft: 0 }]}> {data.team_name} </Text>
+                      <Text style={styles.font16}> {data.team_comment} </Text>
                       <Text style={styles.people}> <People />  8 / 150명 </Text>
                     </View>
 
