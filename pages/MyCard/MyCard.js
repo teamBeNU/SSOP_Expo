@@ -1,4 +1,4 @@
-import { Dimensions, View, Text, ScrollView, TouchableOpacity, Share, } from "react-native";
+import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal } from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from './MyCardStyle';
 import React, { useState } from 'react';
@@ -7,6 +7,7 @@ import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import AddIcon from '../../assets/icons/ic_add_small_line.svg';
 import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 import DeleteIcon from '../../assets/icons/ic_delete.svg';
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
   
 import { useNavigation } from '@react-navigation/native';
 
@@ -22,6 +23,7 @@ function MyCard() {
     ]
     const [cardPage, setCardPage] = useState(1);
     const [hasCard, setHasCard] = useState(true);
+    const [isModalVisible, setIsModalVisible] = useState(false);
 
     const navigation = useNavigation();
 
@@ -77,10 +79,38 @@ function MyCard() {
             
             <View style={styles.btnContainer}>
                 <View style={styles.btn}>
-                    <TouchableOpacity style={styles.whiteBtn}>
+                    <TouchableOpacity style={styles.whiteBtn} onPress={() => setIsModalVisible(true)}>
                         <EditIcon />
                     </TouchableOpacity>
                     <Text style={styles.btnText}>수정하기</Text>
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={isModalVisible}
+                        onRequestClose={() => {
+                            setIsModalVisible(false); 
+                        }}
+                    >
+                        <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+                            <View style={styles.modalContainer}>
+                                <TouchableWithoutFeedback>
+                                    <View style={styles.modalView}>
+                                        <View style={styles.modalTitle}>
+                                            <Text style={styles.modalFont}>프로필 카드 수정하기</Text>
+                                            <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                                                <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={styles.modalContent}>
+                                            <Text style={styles.modalTitle}>정보 수정할래요</Text>
+                                            <View style={styles.line} />
+                                            <Text style={styles.modalTitle}>표지 수정할래요</Text>
+                                        </View>
+                                    </View>
+                                </TouchableWithoutFeedback>
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </Modal>
                 </View>
                 <View style={styles.btn}>
                     <TouchableOpacity style={styles.whiteBtn} onPress={onShare}>
