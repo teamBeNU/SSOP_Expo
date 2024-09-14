@@ -20,6 +20,7 @@
     "@react-navigation/native-stack": "^6.9.26",
     "@react-navigation/stack": "^6.3.29",
     "@urql/core": "^5.0.3",
+    "axios": "^1.7.7",
     "cacache": "^18.0.3",
     "expo": "^51.0.0",
     "expo-contacts": "~13.0.4",
