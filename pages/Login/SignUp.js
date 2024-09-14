@@ -161,11 +161,11 @@ function SignUp() {
           case 1:
             // 1단계에서는 이동하지 않음
             break;
-          case 9:
-            setStep(7);
+          case 6:
+            setStep(5);
             break;
-          case 10:
-            setStep(7);
+          case 7:
+            setStep(5);
             break;
           default:
             setStep(step - 1);
@@ -180,11 +180,9 @@ function SignUp() {
           if(email !== '')
           setStep(2);
         } else if (step === 2 ) {
+          if(password !== '')
           setStep(3);
         } else if (step === 3 ) {
-          if(password !== '')
-          setStep(4);
-        } else if (step === 4) {
           const isNameFull = name !== '';
           const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
           setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull})));
@@ -223,31 +221,28 @@ function SignUp() {
           }
           
           if (isNameFull && isBirthFull && isBirthCorrect.year && isBirthCorrect.month && isBirthCorrect.day) {
-              setStep(5);
+              setStep(4);
           }
-        } else if (step === 5 ) {
+        } else if (step === 4) {
           if(phoneNumber !== '')
-          setStep(6);
-          setSeconds(180);
-        } else if (step === 6 ) {
-          setStep(7);
-        } else if (step === 7 ) {
-          if(Object.values(isAgree).every(value => value === true)) setStep(10);
+          setStep(5);
+        } else if (step === 5 ) {
+          if(Object.values(isAgree).every(value => value === true)) setStep(8);
           else null;
+        } else if (step === 6 ) {
+          setStep(5);
+        } else if (step === 7 ) {
+          setStep(5);
         } else if (step === 8 ) {
-          setStep(7);
-        } else if (step === 9 ) {
-          setStep(6);
-        } else if (step === 10) {
           navigation.navigate('홈');
         }
       };
 
       const handleSeviceDetail = () => {
-        setStep(8);
+        setStep(6);
       };
       const handleInfoDetail = () => {
-        setStep(9);
+        setStep(7);
       };
       
       const handleGoBack = () => {
@@ -255,13 +250,13 @@ function SignUp() {
       };
 
       const handleHeaderLeft = (onPress) => {
-        if (step > 1 && step !== 8 && step !== 9) {
+        if (step > 1 && step !== 6 && step !== 7) {
           return (
             <TouchableOpacity onPress={handleBack}>
               <LeftArrowIcon style={{ marginLeft: 8 }} />
             </TouchableOpacity>
           );
-        } else if (step === 8 || step === 9) {
+        } else if (step === 6 || step === 7) {
           return (
             <TouchableOpacity onPress={handleBack}>
               <CloseIcon style={{ marginLeft: 8 }} />
@@ -277,8 +272,8 @@ function SignUp() {
       };
 
       const handleHeaderTitle = () => {
-        if (step === 8) return navigation.setOptions({headerTitle: "서비스 이용약관"});
-        else if (step === 9) return navigation.setOptions({headerTitle: "개인정보 처리방침"});
+        if (step === 6) return navigation.setOptions({headerTitle: "서비스 이용약관"});
+        else if (step === 7) return navigation.setOptions({headerTitle: "개인정보 처리방침"});
         else return navigation.setOptions({headerTitle: "회원가입"});
       };
       
@@ -292,9 +287,9 @@ function SignUp() {
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{flex: 1}}>
-            {step !== 8 && step !== 9 && (        // 프로그레스 바
+            {step !== 6 && step !== 7 && (        // 프로그레스 바
                 <Progress.Bar
-                    progress={step / 8}
+                    progress={step / 6}
                     width={null}
                     height={2}
                     color={theme.green}
@@ -317,38 +312,13 @@ function SignUp() {
                     />
                 </View>
                 <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
-                    <Text style={styles.nextText}>이메일 주소 인증하기</Text>
-                </TouchableOpacity>
-            </View>
-            )}
-
-             {step === 2 && (
-            <View style={styles.container}>
-                <Text style={styles.title}>이메일 주소로 발송된{`\n`}인증번호를 입력하세요.</Text>
-                <View style={{...styles.inputContainer, marginTop: 32}}>
-                    <Text style={styles.inputTitle}>인증번호</Text>
-                    <TextInput
-                    style={styles.input} 
-                    placeholder="이메일 주소를 확인하세요."
-                    keyboardType= "number-pad"
-                    onChangeText={handleEmailCodeChange}
-                    value={emailCode}         
-                    />
-                    <TouchableOpacity onPress={handleRequest}>
-                        <Text style={styles.request}>인증메일 재요청</Text>
-                    </TouchableOpacity>
-
-                    {!emailCodeIsCorrect  && <Text style={styles.uncorrect}>인증번호가 일치하지 않습니다.</Text>}
-                    {isResend && <Text style={styles.resend}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>}
-                </View>
-                <TouchableOpacity style={styles.nextBtn} onPress={(emailCode === testEmailCode) ? handleNext : handleEmailCode}>
                     <Text style={styles.nextText}>다음으로</Text>
                 </TouchableOpacity>
             </View>
             )}
 
-            {step === 3 && (
-            <View style={styles.container}>
+             {step === 2 && (
+              <View style={styles.container}>
                 <Text style={styles.title}>비밀번호를 입력하세요.</Text>
                 <View style={styles.inputContainer}>
                     <Text style={styles.inputTitle}>비밀번호</Text>
@@ -378,150 +348,119 @@ function SignUp() {
                       <View style={styles.check}>
                       {hasLeng ? <BlueCheckIcon/> : <CheckIcon />}
                       <Text>6-20자 이내</Text>  
-                      </View>
                     </View>
-                </View>
+                  </View>
+                </View> 
                 <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
                     <Text style={styles.nextText}>다음으로</Text>
                 </TouchableOpacity>
-            </View>
+              </View>
+            )}
+
+            {step === 3 && (
+              <View style={styles.container}>
+              <Text style={styles.title}>이름과 생년월일을 입력하세요.</Text>
+                 <View style={styles.inputContainer}>
+                     <Text style={styles.inputTitle}>이름*</Text>
+                     <TextInput 
+                         style={[styles.input, !isFull.name && styles.inputError]}
+                         placeholder="이름을 입력하세요."
+                         placeholderTextColor={theme.gray60}
+                         keyboardType="default"
+                         value={name}
+                         onChangeText={setName}
+                         returnKeyType="next"
+                         onSubmitEditing={() => ref_input2.current.focus()}
+                         blurOnSubmit={false}
+                     />
+                     {!isFull.name && (
+                         <Text style={styles.inputErrorText}>이름을 입력해 주세요.</Text>
+                     )}
+                 </View>
+                 <View style={[styles.inputContainer, !isFull.name ? {marginTop: 15}: {marginTop: 40}]}>
+                     <Text style={styles.inputTitle}>생년월일*</Text>
+                     <View style={styles.birthContainer}>
+                         <TextInput
+                             style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
+                             placeholder="년"
+                             placeholderTextColor={theme.gray60}
+                             keyboardType="numeric"
+                             value={birth.year}
+                             onChangeText={(newYear) => {setBirth((prevBirth => ({...prevBirth, year: newYear})));}}
+                             // onChangeText={setYear}
+                             maxLength={4}
+                             returnKeyType="next"
+                             onSubmitEditing={() => ref_input3.current.focus()}
+                             ref={ref_input2}
+                             blurOnSubmit={false}
+                         />
+                         <TextInput
+                             style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
+                             placeholder="월"
+                             placeholderTextColor={theme.gray60}
+                             keyboardType="numeric"
+                             value={birth.month}
+                             onChangeText={(newMonth) => {setBirth((prevBirth => ({...prevBirth, month: newMonth})));}}
+                             // onChangeText={setMonth}
+                             maxLength={2}
+                             returnKeyType="next"
+                             onSubmitEditing={() => ref_input4.current.focus()}
+                             ref={ref_input3}
+                             blurOnSubmit={false}
+                         />
+                         <TextInput
+                             style={[styles.inputBirth, styles.inputBirthText, !isFull.birth && styles.inputError]}
+                             placeholder="일"
+                             placeholderTextColor={theme.gray60}
+                             keyboardType="numeric"
+                             value={birth.day}
+                             onChangeText={(newDay) => {setBirth((prevBirth => ({...prevBirth, day: newDay})));}}
+                             // onChangeText={setDay}
+                             maxLength={2}
+                             returnKeyType="next"
+                             onSubmitEditing={() => ref_input5.current.focus()}
+                             ref={ref_input4}
+                             blurOnSubmit={false}
+                         />
+                     </View>
+                         {!isFull.birth ? (
+                             <Text style={styles.inputErrorText}>생년월일을 입력해 주세요.</Text>
+                         ) : (
+                             <View></View>
+                         )}
+                         {isFull.birth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) ? (
+                             <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
+                         ) : (
+                             <View></View>
+                         )}
+                   </View>
+           
+             <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
+                 <Text style={styles.nextText}>다음으로</Text>
+             </TouchableOpacity>                
+         </View>
             )}
 
             {step === 4 && ( 
-            <View style={styles.container}>
-                 <Text style={styles.title}>이름과 생년월일을 입력하세요.</Text>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.inputTitle}>이름*</Text>
-                        <TextInput 
-                            style={[styles.input, !isFull.name && styles.inputError]}
-                            placeholder="이름을 입력하세요."
-                            placeholderTextColor={theme.gray60}
-                            keyboardType="default"
-                            value={name}
-                            onChangeText={setName}
-                            returnKeyType="next"
-                            onSubmitEditing={() => ref_input2.current.focus()}
-                            blurOnSubmit={false}
-                        />
-                        {!isFull.name && (
-                            <Text style={styles.inputErrorText}>이름을 입력해 주세요.</Text>
-                        )}
-                    </View>
-                    <View style={[styles.inputContainer, !isFull.name ? {marginTop: 15}: {marginTop: 40}]}>
-                        <Text style={styles.inputTitle}>생년월일*</Text>
-                        <View style={styles.birthContainer}>
-                            <TextInput
-                                style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
-                                placeholder="년"
-                                placeholderTextColor={theme.gray60}
-                                keyboardType="numeric"
-                                value={birth.year}
-                                onChangeText={(newYear) => {setBirth((prevBirth => ({...prevBirth, year: newYear})));}}
-                                // onChangeText={setYear}
-                                maxLength={4}
-                                returnKeyType="next"
-                                onSubmitEditing={() => ref_input3.current.focus()}
-                                ref={ref_input2}
-                                blurOnSubmit={false}
-                            />
-                            <TextInput
-                                style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
-                                placeholder="월"
-                                placeholderTextColor={theme.gray60}
-                                keyboardType="numeric"
-                                value={birth.month}
-                                onChangeText={(newMonth) => {setBirth((prevBirth => ({...prevBirth, month: newMonth})));}}
-                                // onChangeText={setMonth}
-                                maxLength={2}
-                                returnKeyType="next"
-                                onSubmitEditing={() => ref_input4.current.focus()}
-                                ref={ref_input3}
-                                blurOnSubmit={false}
-                            />
-                            <TextInput
-                                style={[styles.inputBirth, styles.inputBirthText, !isFull.birth && styles.inputError]}
-                                placeholder="일"
-                                placeholderTextColor={theme.gray60}
-                                keyboardType="numeric"
-                                value={birth.day}
-                                onChangeText={(newDay) => {setBirth((prevBirth => ({...prevBirth, day: newDay})));}}
-                                // onChangeText={setDay}
-                                maxLength={2}
-                                returnKeyType="next"
-                                onSubmitEditing={() => ref_input5.current.focus()}
-                                ref={ref_input4}
-                                blurOnSubmit={false}
-                            />
-                        </View>
-                            {!isFull.birth ? (
-                                <Text style={styles.inputErrorText}>생년월일을 입력해 주세요.</Text>
-                            ) : (
-                                <View></View>
-                            )}
-                            {isFull.birth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) ? (
-                                <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
-                            ) : (
-                                <View></View>
-                            )}
-                      </View>
-              
-                <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
-                    <Text style={styles.nextText}>다음으로</Text>
-                </TouchableOpacity>                
-            </View>
+              <View style={styles.container}>
+              <Text style={styles.title}>연락처를 입력해 주세요.</Text>
+              <View style={styles.inputContainer}>
+                  <Text style={styles.inputTitle}>연락처</Text>
+                  <TextInput
+                  style={styles.input} 
+                  placeholder="연락처를 입력하세요."
+                  keyboardType= "number-pad"
+                  value={phoneNumber}
+                  onChangeText={setPhoneNumber}
+                  />
+              </View>
+              <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
+                  <Text style={styles.nextText}>다음으로</Text>
+              </TouchableOpacity>
+             </View>
             )}
 
            {step === 5 && (
-            <View style={styles.container}>
-            <Text style={styles.title}>연락처를 입력해 주세요.</Text>
-            <View style={styles.inputContainer}>
-                <Text style={styles.inputTitle}>연락처</Text>
-                <TextInput
-                style={styles.input} 
-                placeholder="연락처를 입력하세요."
-                keyboardType= "number-pad"
-                value={phoneNumber}
-                onChangeText={setPhoneNumber}
-                />
-            </View>
-            <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
-                <Text style={styles.nextText}>연락처 인증하기</Text>
-            </TouchableOpacity>
-           </View>
-          )}
-
-          {step === 6 && (
-          <View style={styles.container}>
-            <Text style={styles.title}>문자로 발송된 인증번호를 입력하세요. </Text>
-            <View style={{...styles.inputContainer, marginTop: 32}}>
-                <Text style={styles.inputTitle}>인증번호</Text>
-                <TextInput
-                style={styles.input} 
-                placeholder="인증번호를 입력하세요."
-                keyboardType= "number-pad"
-                onChangeText={handlePhoneCodeChange}
-                value={phoneCode}       
-                />
-                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
-                  <View style={{flexDirection: 'row'}}>
-                    <Text style={{...styles.request, color: theme.gray40, fontWeight: '400', marginLeft: 8}}>잔여시간</Text>
-                    <Text style={{...styles.request, color: theme.gray40, marginLeft: 4}}>{formatTime(seconds)}</Text>
-                  </View>
-                <TouchableOpacity onPress={handleRequest}>
-                    <Text style={styles.request}>인증문자 재요청</Text>
-                </TouchableOpacity>
-                </View>
-
-                {!phoneCodeIsCorrect  && <Text style={styles.uncorrect}>인증번호가 일치하지 않습니다.</Text>}
-                {isResend && <Text style={styles.resend}>인증번호가 재발송되었습니다.{`\n`}재발송이 재차 필요한 경우 15초 후에 시도해 주세요.</Text>}
-            </View>
-            <TouchableOpacity style={styles.nextBtn} onPress={(phoneCode === testPhoneCode) ? handleNext : handlePhoneCode}>
-                <Text style={styles.nextText}>다음으로</Text>
-            </TouchableOpacity>
-         </View>
-          )}
-
-          {step === 7 && (
             <View style={styles.container}>
             <Text style={styles.title}>서비스 약관에 동의해 주세요.</Text>
             <View style={styles.agreeContainer}>
@@ -556,21 +495,22 @@ function SignUp() {
             <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
                 <Text style={styles.nextText}>다음으로</Text>
             </TouchableOpacity>
-           </View>
+           </View>            
+          )}
+
+          {step === 6 && (
+          <ScrollView showsVerticalScrollIndicator={false} style={{...styles.container, paddingTop: 24}}>
+          <Text style={styles.agreeContent}>{serviceAgreeText}</Text>
+          </ScrollView>                     
+          )}
+
+          {step === 7 && (
+          <ScrollView showsVerticalScrollIndicator={false} style={{...styles.container, paddingTop: 24}}>
+          <Text style={{paddingBottom: 100}}>{infoAgreeText}</Text>
+          </ScrollView>
           )}
 
           {step === 8 && (
-              <ScrollView showsVerticalScrollIndicator={false} style={{...styles.container, paddingTop: 24}}>
-               <Text style={styles.agreeContent}>{serviceAgreeText}</Text>
-              </ScrollView>
-          )}
-          {step === 9 && (
-            <ScrollView showsVerticalScrollIndicator={false} style={{...styles.container, paddingTop: 24}}>
-            <Text style={{paddingBottom: 100}}>{infoAgreeText}</Text>
-           </ScrollView>
-          )}
-
-          {step === 10 && (
             <View style={styles.container}>
             <Text style={styles.title}>회원가입이 완료되었습니다!{`\n`}환영합니다.</Text>
             <SignUpDone style={{marginTop: 72}}/>
