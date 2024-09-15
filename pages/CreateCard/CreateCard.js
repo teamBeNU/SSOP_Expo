@@ -10,9 +10,10 @@ import Free from '../../assets/profile/free.svg';
 
 import TemplateStudent from "../../components/CreateCard/TemplateStudent";
 import BottomSheet from "../../components/CreateCard/BottomSheet";
+import TemplateStudentTeenager from "../../components/CreateCard/TeamplateStudentTeenager";
 
 function CreateCard({navigation}) {
-    const [template, setTemplate] = useState();
+    const [card_template, setCardTemplate] = useState();
     const [selectStudent, setSelectStudent] = useState("");     // 초,중,고등학생: teenager, 대학(원)생: youth
     const [step, setStep] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
@@ -31,7 +32,7 @@ function CreateCard({navigation}) {
             } else {
                 setStep(2);
             }
-            setTemplate(id);
+            setCardTemplate(id);
         }
     };
 
@@ -45,12 +46,6 @@ function CreateCard({navigation}) {
     for (let i = 0; i < items.length; i += 2) {
         rows.push(items.slice(i, i+2))
     }
-
-    // useEffect(() => {
-    //     if(template === "student") {
-    //         setStep === 1;
-    //     }
-    // })
 
     return (
         <View style={styles.main}>
@@ -79,8 +74,7 @@ function CreateCard({navigation}) {
                             ))}
                             </View>
                     </View>
-                    {template === "student" && (
-                        // <TemplateStudent navigation={navigation} />
+                    {card_template === "student" && (
                         <BottomSheet                 
                             modalVisible={modalVisible}
                             setModalVisible={setModalVisible}
@@ -93,23 +87,26 @@ function CreateCard({navigation}) {
 
             {step === 2 && (
                 <View>
-                    {template === "student" && selectStudent === "teenager" && (
-                        <TemplateStudent navigation={navigation} />
+                    {card_template === "student" && selectStudent === "teenager" && (
+                        <TemplateStudentTeenager navigation={navigation} card_template={card_template} />
                     )} 
-                    {template === "student" && selectStudent === "teenager" && (
+                    {card_template === "student" && selectStudent === "teenager" && (
                         <></>
                     )} 
-                    {template === "worker" && (
+                    {card_template === "worker" && (
                         // 직장인
                         <TemplateStudent navigation={navigation} />
+                        
                     )}
-                    {template === "fan" && (
+                    {card_template === "fan" && (
                         // 팬
-                        <TemplateStudent navigation={navigation} />
+                        //<TemplateStudent navigation={navigation} />
+                        <></>
                     )}
-                    {template === "free" && (
+                    {card_template === "free" && (
                         // 자유 생성
-                        <TemplateStudent navigation={navigation} />
+                        //<TemplateStudent navigation={navigation} />
+                        <></>
                     )}
                 </View>
             )}

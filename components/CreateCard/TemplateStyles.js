@@ -7,11 +7,20 @@ export const styles = StyleSheet.create({
     font16: {
         fontSize: 16,
     },
-    margintB16: {
+    marginB16: {
         marginBottom: 16,
     },
-    margintB48: {
+    marginB28: {
+        marginBottom: 28,
+    },
+    marginB48: {
         marginBottom: 48,
+    },
+    marginT49: {
+        marginTop: 49,
+    },
+    marginT64: {
+        marginTop: 64,
     },
     marginR6: {
         marginRight: 6,
@@ -32,20 +41,41 @@ export const styles = StyleSheet.create({
     },
     title: { 
         marginTop: 32,
-        fontSize: 20,
         fontFamily: "PretendardSemiBold",
+        fontSize: 20,
+        color: theme.gray10,
+        fontStyle: "normal",
+        fontWeight: "600",
+    },
+    subTitle: { 
+        marginTop: 12,
+        fontFamily: "Pretendard",
+        fontSize: 16,
+        color: theme.gray30,
+        fontStyle: "normal",
+        fontWeight: "400",
     },
 
     informContainer: {
-        marginTop: 68,
+        marginTop: 64,
     },
     inputContainer: {
-        marginBottom: 32,
+        marginBottom: 28,
+    },
+    inputTextEssential: {
+        fontFamily: "PretendardSemiBold",
+        fontSize: 14,
+        color: theme.gray30,
+        fontStyle: "normal",
+        fontWeight: "600",
+        marginBottom: 8,
     },
     inputText: {
         fontFamily: "PretendardRegular",
         fontSize: 14,
         color: theme.gray40,
+        fontStyle: "normal",
+        fontWeight: "400",
         marginBottom: 8,
     },
     customInput: {
@@ -69,7 +99,15 @@ export const styles = StyleSheet.create({
         marginHorizontal: 8,
         marginTop: 8,
     },
-
+    
+    birthTitle: {
+        color: theme.gray10,
+        fontFamily: "PretendardRegular",
+        fontSize: 18,
+        fontWeight: "500",
+        marginTop: 28,
+        marginBottom: 24,
+    },
     inputBirthContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
@@ -162,7 +200,7 @@ export const styles = StyleSheet.create({
     line: {
         borderBottomColor: theme.gray90,
         borderBottomWidth: 1,
-        marginVertical: 10,
+        // marginVertical: 10,
     },
 
     addText: {
