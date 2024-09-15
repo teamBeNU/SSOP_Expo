@@ -13,6 +13,7 @@ import BottomSheet from "../../components/CreateCard/BottomSheet";
 
 function CreateCard({navigation}) {
     const [template, setTemplate] = useState();
+    const [selectStudent, setSelectStudent] = useState("");     // 초,중,고등학생: teenager, 대학(원)생: youth
     const [step, setStep] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -83,6 +84,8 @@ function CreateCard({navigation}) {
                         <BottomSheet                 
                             modalVisible={modalVisible}
                             setModalVisible={setModalVisible}
+                            setSelectStudent={setSelectStudent}
+                            setStep={setStep}
                         />
                     )}
                 </View>
@@ -90,13 +93,12 @@ function CreateCard({navigation}) {
 
             {step === 2 && (
                 <View>
-                    {/* {template === "student" && (
-                        // <TemplateStudent navigation={navigation} />
-                        <BottomSheet                 
-                            modalVisible={modalVisible}
-                            setModalVisible={setModalVisible}
-                        />
-                    )} */}
+                    {template === "student" && selectStudent === "teenager" && (
+                        <TemplateStudent navigation={navigation} />
+                    )} 
+                    {template === "student" && selectStudent === "teenager" && (
+                        <></>
+                    )} 
                     {template === "worker" && (
                         // 직장인
                         <TemplateStudent navigation={navigation} />
