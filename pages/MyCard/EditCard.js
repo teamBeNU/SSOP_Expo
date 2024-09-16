@@ -4,6 +4,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { theme } from "../../theme";
 import * as Progress from 'react-native-progress';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import RNPickerSelect from 'react-native-picker-select';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -17,6 +18,8 @@ function EditCard() {
 
     const [birth, setBirth] = useState('');
     const [MBTI, setMBTI] = useState('');
+
+    const [grade, setGrade] = useState('');
 
     const handleMBTI = (input) => {
           // 영어만 입력되도록 정규식 필터 적용
@@ -244,10 +247,75 @@ function EditCard() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
             >
-                <View style={{...styles.content, marginBottom: 550}}>
-                    <Text style={styles.title}>나에 대한 기본 정보 수정하기</Text>
+                <View style={{marginBottom: 120}}>
+
+                <Text style={styles.title}>학교 속 나에 대한 정보 수정하기</Text>
+
+                <ScrollView>
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>학교*</Text>
+                <TextInput 
+                    style={styles.input}
+                    placeholder="학교명을 입력해 주세요."
+                    placeholderTextColor={theme.gray60}
+                    />
                 </View>
 
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>학년*</Text>
+                <RNPickerSelect
+                    onValueChange={(value) => setGrade(value)}
+                    items={[
+                    { label: '1학년', value: '1학년' },
+                    { label: '2학년', value: '2학년' },
+                    { label: '3학년', value: '3학년' },
+                    { label: '4학년', value: '4학년' },
+                    { label: '추가학기', value: '추가학기' },
+                    { label: '그 외', value: '그 외' },
+                    ]}
+                />
+                </View>
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>전공*</Text>
+                <TextInput 
+                    style={styles.input}
+                    placeholder="전공을 입력해 주세요."
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+
+                <View style={styles.line} />
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>학생번호</Text>
+                <TextInput 
+                    style={styles.input}
+                    placeholder="학번을 입력해 주세요. 예) 17학번"
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>역할</Text>
+                <TextInput 
+                    style={styles.input}
+                    placeholder="프로젝트 혹은 학과 내 역할을 입력해 주세요."
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>    
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>동아리</Text>
+                <TextInput 
+                    style={styles.input}
+                    placeholder="소속된 동아리가 있다면 입력해 주세요."
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>   
+                </ScrollView>
+
+                </View>
                 <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
                 <Text style={styles.memoBtnText}>수정완료</Text>
                 </TouchableOpacity>

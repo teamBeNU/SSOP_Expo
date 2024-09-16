@@ -13,6 +13,12 @@ export const styles = StyleSheet.create({
     paddingTop: 32,
     justifyContent: 'center'
     },
+    scrollContainer:{
+    backgroundColor: 'white',
+    flex: 1,
+    paddingHorizontal: 16,
+    paddingTop: 32,
+    },
     title:{
     color: theme.gray10,
     fontFamily: 'PretendardSemiBold',
