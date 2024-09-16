@@ -1,8 +1,11 @@
 import { Dimensions, View, Text, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
 import { styles } from "./EditCardStyle";
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { theme } from "../../theme";
 import * as Progress from 'react-native-progress';
+import { useNavigation, useRoute } from '@react-navigation/native';
+
+import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import DoneIcon from '../../assets/icons/ic_done_small_line.svg';
 import DoneIconBlue from '../../assets/icons/ic_done_small_line_blue.svg';
@@ -16,18 +19,59 @@ function EditCard() {
     const [MBTI, setMBTI] = useState('');
 
     const handleMBTI = (input) => {
-        setMBTI(input.toUpperCase());
+          // 영어만 입력되도록 정규식 필터 적용
+        const filteredText = input.replace(/[^a-zA-Z]/g, '');
+        setMBTI(filteredText.toUpperCase());
     }
+
+    const navigation = useNavigation();
 
     const handleNext = () => {
         if (step === 1 ) {
             setStep(2);
         } else if (step === 2) {
+
             setStep(3);
         } else if (step === 3) {
             
         }
     }
+
+    const handleBack = () => {
+        switch (step) {
+          case 1:
+            break;
+          default:
+            setStep(step - 1);
+            break;
+        }
+      };
+
+      const handleGoBack = () => {
+        navigation.goBack();
+      };
+
+    const handleHeaderLeft = (onPress) => {
+        if (step > 1) {
+          return (
+            <TouchableOpacity onPress={handleBack}>
+              <LeftArrowIcon style={{ marginLeft: 8 }} />
+            </TouchableOpacity>
+          );
+        } else if (step === 1) {
+            return (
+              <TouchableOpacity onPress={handleGoBack}>
+                <CloseIcon style={{ marginLeft: 8 }} />
+              </TouchableOpacity>
+            );
+          }
+      };
+
+      useEffect(() => {
+        navigation.setOptions({
+          headerLeft: handleHeaderLeft,
+        });
+      }, [navigation, step]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -121,61 +165,78 @@ function EditCard() {
             )}
 
             {step === 2 && (
-            <View style={styles.container}>
-                <Text style={styles.title}>내 연락처와 SNS 계정 수정하기</Text>
+                <KeyboardAvoidingView 
+                style={styles.container}
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
+                >
+                <View style={{...styles.content, marginBottom: 120}}>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
-                <Text style={styles.subTitle}>전화번호</Text>
-                <TextInput 
-                    style={styles.input}
-                    placeholder="전화번호를 입력해 주세요."
-                    placeholderTextColor={theme.gray60}
-                    />
-                </View>
+                    <Text style={styles.title}>내 연락처와 SNS 계정 수정하기</Text>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
-                <Text style={styles.subTitle}>이메일</Text>
-                <TextInput 
-                    style={styles.input}
-                    placeholder="이메일을 입력해 주세요."
-                    placeholderTextColor={theme.gray60}
-                    />
-                </View>
+                    <View style={{...styles.inputContainer, marginBottom: 28}}>
+                    <Text style={styles.subTitle}>전화번호</Text>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder="전화번호를 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
+                        keyboardType="number-pad"
+                        maxLength={11}
+                        />
+                    </View>
 
-                <View style={styles.line} />
+                    <View style={{...styles.inputContainer, marginBottom: 28}}>
+                    <Text style={styles.subTitle}>이메일</Text>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder="이메일을 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
+                        keyboardType="email-address"
+                        />
+                    </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
-                <Text style={styles.subTitle}>Instagram</Text>
-                <TextInput 
-                    style={styles.input}
-                    placeholder="인스타그램 계정을 입력해 주세요."
-                    placeholderTextColor={theme.gray60}
-                    />
-                </View>
+                    <View style={styles.line} />
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
-                <Text style={styles.subTitle}>X(트위터)</Text>
-                <TextInput 
-                    style={styles.input}
-                    placeholder="X 계정을 입력해 주세요."
-                    placeholderTextColor={theme.gray60}
-                    />
+                    <View style={{...styles.inputContainer, marginBottom: 28}}>
+                    <Text style={styles.subTitle}>Instagram</Text>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder="인스타그램 계정을 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
+                        />
+                    </View>
+
+                    <View style={{...styles.inputContainer, marginBottom: 28}}>
+                    <Text style={styles.subTitle}>X(트위터)</Text>
+                    <TextInput 
+                        style={styles.input}
+                        placeholder="X 계정을 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
+                        />
+                    </View>    
                 </View>
 
                 <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
                 <Text style={styles.memoBtnText}>다음으로</Text>
                 </TouchableOpacity>
-            </View>
+           
+            </KeyboardAvoidingView>
             )}
 
             {step === 3 && (
-            <View style={styles.container}>
-                <Text style={styles.title}>나에 대한 기본 정보 수정하기</Text>
+            <KeyboardAvoidingView 
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
+            >
+                <View style={{...styles.content, marginBottom: 550}}>
+                    <Text style={styles.title}>나에 대한 기본 정보 수정하기</Text>
+                </View>
 
                 <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
                 <Text style={styles.memoBtnText}>수정완료</Text>
                 </TouchableOpacity>
-            </View>
+            </KeyboardAvoidingView>
             )}
             
             
