@@ -57,6 +57,7 @@ import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
 import KaKaoLogin from './components/Login/KaKaoLogin';
 import EditCard from './pages/MyCard/EditCard';
+import EditCardCover from './pages/MyCard/EditCardCover';
 
 export default function App() {
   // 폰트 로드
@@ -188,6 +189,18 @@ export default function App() {
           component={EditCard}
           options={{
             headerTitle: "카드 정보 수정",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            )
+          }}
+        />
+        <Stack.Screen 
+          name="카드 커버 수정"
+          component={EditCardCover}
+          options={{
+            headerTitle: "카드 커버 수정",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>

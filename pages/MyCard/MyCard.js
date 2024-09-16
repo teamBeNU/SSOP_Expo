@@ -108,7 +108,11 @@ function MyCard() {
                                              <Text style={styles.modalTitle}>정보 수정할래요</Text>
                                             </TouchableOpacity>
                                             <View style={styles.line} />
+                                            <TouchableOpacity onPress={() => {
+                                                setIsModalVisible(false);
+                                                navigation.navigate('카드 커버 수정');}}>
                                             <Text style={styles.modalTitle}>표지 수정할래요</Text>
+                                            </TouchableOpacity>
                                         </View>
                                     </View>
                                 </TouchableWithoutFeedback>
