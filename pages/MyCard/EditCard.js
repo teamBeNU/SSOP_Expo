@@ -9,7 +9,7 @@ import RNPickerSelect from 'react-native-picker-select';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import DoneIcon from '../../assets/icons/ic_done_small_line.svg';
-import DoneIconBlue from '../../assets/icons/ic_done_small_line_blue.svg';
+import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
 
 function EditCard() {
     const [isSecret, setIsSecret] = useState(false);
@@ -20,6 +20,7 @@ function EditCard() {
     const [MBTI, setMBTI] = useState('');
 
     const [grade, setGrade] = useState('');
+    const [studentStatus, setStudentStatus] = useState('');
 
     const handleMBTI = (input) => {
           // 영어만 입력되도록 정규식 필터 적용
@@ -109,7 +110,7 @@ function EditCard() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
             >
-            <View style={styles.content}>
+            <View style={{marginBottom: 120, marginTop: 17}}>
 
                 <Text style={styles.title}>나에 대한 기본 정보 수정하기</Text>
 
@@ -188,10 +189,11 @@ function EditCard() {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
                 >
-                <View style={{...styles.content, marginBottom: 120}}>
+                <View style={{marginBottom: 120, marginTop: 20}}>
 
                     <Text style={styles.title}>내 연락처와 SNS 계정 수정하기</Text>
-
+                    
+                    <View style={{marginBottom: 120}}>
                     <View style={{...styles.inputContainer, marginBottom: 28}}>
                     <Text style={styles.subTitle}>전화번호</Text>
                     <TextInput 
@@ -232,6 +234,7 @@ function EditCard() {
                         placeholderTextColor={theme.gray60}
                         />
                     </View>    
+                 </View>
                 </View>
 
                 <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
@@ -247,7 +250,7 @@ function EditCard() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
             >
-                <View style={{marginBottom: 120}}>
+                <View style={{marginBottom: 120, marginTop: 33}}>
 
                 <Text style={styles.title}>학교 속 나에 대한 정보 수정하기</Text>
 
@@ -263,8 +266,10 @@ function EditCard() {
 
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
                 <Text style={styles.subTitle}>학년*</Text>
+                <View style={styles.dropDown}>
                 <RNPickerSelect
                     onValueChange={(value) => setGrade(value)}
+                    value={grade}
                     items={[
                     { label: '1학년', value: '1학년' },
                     { label: '2학년', value: '2학년' },
@@ -273,7 +278,16 @@ function EditCard() {
                     { label: '추가학기', value: '추가학기' },
                     { label: '그 외', value: '그 외' },
                     ]}
+                    placeholder={{ label: '학년', value: null }}
+                    useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
+                    style={{
+                        inputIOS: styles.dropDownInput, // iOS 스타일 적용
+                        inputAndroid: styles.dropDownInput, // Android 스타일 적용
+                        iconContainer: styles.dropDownIconContainer, // 아이콘 위치 조정
+                      }}
+                      Icon={() => <DownIcon />} // 드롭다운 화살표 아이콘
                 />
+                </View>
                 </View>
 
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
@@ -313,6 +327,30 @@ function EditCard() {
                     placeholderTextColor={theme.gray60}
                     />
                 </View>   
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>재학상태</Text>
+                <View style={styles.dropDown}>
+                <RNPickerSelect
+                    onValueChange={(value) => setStudentStatus(value)}
+                    value={studentStatus}
+                    items={[
+                    { label: '재학', value: '재학' },
+                    { label: '휴학', value: '휴학' },
+                    { label: '졸업 예정', value: '졸업 예정' },
+                    { label: '졸업', value: '졸업' },
+                    ]}
+                    placeholder={{ label: '학년', value: null }}
+                    useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
+                    style={{
+                        inputIOS: styles.dropDownInput, // iOS 스타일 적용
+                        inputAndroid: styles.dropDownInput, // Android 스타일 적용
+                        iconContainer: styles.dropDownIconContainer, // 아이콘 위치 조정
+                      }}
+                      Icon={() => <DownIcon />} // 드롭다운 화살표 아이콘
+                />
+                </View>
+                </View>
                 </ScrollView>
 
                 </View>
