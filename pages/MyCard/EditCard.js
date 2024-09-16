@@ -26,6 +26,10 @@ function EditCard() {
 
     const navigation = useNavigation();
 
+    const handleSubmit = () =>  {
+        navigation.goBack();
+    }
+
     const handleNext = () => {
         if (step === 1 ) {
             setStep(2);
@@ -67,9 +71,20 @@ function EditCard() {
           }
       };
 
+      const handleHeaderRight = (onPress) => {
+        if(step === 1 || step === 2) {
+            return (
+                <TouchableOpacity onPress={handleSubmit}>
+                    <Text style={styles.submit}>완료</Text>
+                </TouchableOpacity>
+            )
+        }
+      }
+
       useEffect(() => {
         navigation.setOptions({
           headerLeft: handleHeaderLeft,
+          headerRight: handleHeaderRight
         });
       }, [navigation, step]);
 

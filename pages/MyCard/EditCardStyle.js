@@ -22,6 +22,16 @@ export const styles = StyleSheet.create({
     letterSpacing: -0.4,
     marginBottom: 48,
     },
+    submit:{
+    marginRight: 12, 
+    padding: 8, 
+    color: theme.skyblue, 
+    fontFamily: 'PretendardRegular', 
+    fontSize: 16,
+    fontWeight: '500',
+    lineHeight: 19,
+    letterSpacing: -0.32
+    },
     inputContainer:{
     gap: 8,
     },
