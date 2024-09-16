@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     paddingTop: 32,
+    justifyContent: 'center'
     },
     title:{
     color: theme.gray10,
@@ -23,6 +24,9 @@ export const styles = StyleSheet.create({
     },
     inputContainer:{
     gap: 8,
+    },
+    content:{
+    paddingBottom: 64
     },
     subTitle:{
     color: theme.gray30,
@@ -55,5 +59,27 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 2,
     alignItems: 'center',
+    paddingBottom: 100
+    },
+    memoBtn: {
+    width: '100%',
+    height: 48,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: theme.gray10,
+    borderRadius: 8,
+    position: 'absolute',
+    left: 16,
+    bottom: 16,
+    },
+    memoBtnText:{
+    color: 'white',
+    fontFamily: 'PretendardRegular',
+    fontSize:16,
+    fontWeight: '600',
+    lineHeight: 19,
+    letterSpacing: -0.32,
     },
 })
