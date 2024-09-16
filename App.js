@@ -56,6 +56,7 @@ import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
 import KaKaoLogin from './components/Login/KaKaoLogin';
+import EditCard from './pages/MyCard/EditCard';
 
 export default function App() {
   // 폰트 로드
@@ -178,6 +179,18 @@ export default function App() {
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            )
+          }}
+        />
+        <Stack.Screen 
+          name="카드 정보 수정"
+          component={EditCard}
+          options={{
+            headerTitle: "카드 정보 수정",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
           }}
