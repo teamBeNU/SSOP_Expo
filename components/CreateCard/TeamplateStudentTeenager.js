@@ -56,12 +56,14 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
         { label: '2학년', value: '2학년' },
         { label: '3학년', value: '3학년' },
         { label: '4학년', value: '4학년' },
-        { label: '추가학기', value: '추가학기' }
+        { label: '추가학기', value: '추가학기' },
+        { label: '그 외', value: '그 외' },
     ]);
     const [statusItems, setStatusItems] = useState([
-        { label: '재학 중', value: '재학 중' },
-        { label: '휴학 중', value: '휴학 중' },
-        { label: '졸업 예정', value: '졸업 예정' }
+        { label: '재학', value: '재학' },
+        { label: '휴학', value: '휴학' },
+        { label: '졸업 예정', value: '졸업 예정' },
+        { label: '졸업', value: '졸업' },
     ]);
     
     
@@ -76,11 +78,10 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
     const [showMovie, setShowMovie] = useState(false);
     const [isFull, setIsFull] = useState({
         name: true,
-        birth: true,
-        tel: true,
+        introduction: true,
         school: true,
         grade: true,
-        introduction: true,
+        major: true,
     })
     const [imageWidth, setImageWidth] = useState(0);
 
@@ -89,29 +90,91 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
     const ref_input4 = useRef();
     const ref_input5 = useRef();
 
+    
+    // 생년월일 '/' 자동 추가
+    useEffect(() => {
+        const formatBirth = (input) => {
+            const cleaned = input.replace(/\D/g, ''); // 숫자 이외의 문자 제거
+            const match = cleaned.match(/^(\d{0,4})(\d{0,2})(\d{0,2})$/);
+            if (match) {
+                return [match[1], match[2], match[3]].filter(Boolean).join('/');
+            }
+            return input;
+        };
+
+        const formattedBirth = formatBirth(card_birth);
+        setCardBirth(formattedBirth);
+    }, [card_birth]);
+
+    // 생년월일 올바른지 확인
+    const [isBirthValid, setIsBirthValid] = useState({
+        year: true,
+        month: true,
+        day: true,
+    });
+
+    const currentYear = new Date().getFullYear();
+
+    const isLeapYear = (year) => {    // 윤년 구하기
+        return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0));
+    }
+
+    const getDayInMonth = (year, month) => {    // 윤달 구하기
+        month = parseInt(month, 10) || 0;
+        switch (month) {
+            case 1: case 3: case 5: case 7: case 8: case 10: case 12:   // 31일
+                return 31;
+            case 4: case 6: case 9: case 11:    //30일
+                return 30;
+            case 2:
+                return isLeapYear(year) ? 29 : 28;      // 윤달(2/29), 2/28
+            default:
+                return 0;
+        }
+    }
+
+    const isBirthCorrect = (b) => {
+        const birth = b.split('/');
+
+        const year = birth[0];
+        const month = birth[1];
+        const day = birth[2];
+
+        const days = getDayInMonth(year, month);
+        const isYearValid = year > currentYear - 110 && year <= currentYear;
+        const isMonthValid = month >= 1 && month <= 12;
+        const isDayValid = day >= 1 && day <= days;
+    
+        setIsBirthValid({
+            year: isYearValid,
+            month: isMonthValid,
+            day: isDayValid,
+        });
+    }
+
+    // 다음으로 버튼
     const handleNext = () => {
         if (step === 1) {
-            // const isNameFull = card_name !== '';
+            const isNameFull = card_name !== '';
+            const isIntroductionFull = card_introduction !== '';
             // const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
             // const isTelFull = tel !== '';
-            // setIsFull((prev => ({...prev, card_name: isNameFull, birth: isBirthFull, tel: isTelFull})));
-            
-            // if (isNameFull && isBirthFull && isTelFull) {
-            //     setStep(2);
-            // }
-            setStep(2);
+            setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull })));
+            isBirthCorrect(card_birth);
+
+            if (isNameFull && isIntroductionFull && isBirthValid.year && isBirthValid.month && isBirthValid.day) {
+                setStep(2);
+            }
         } else if (step === 2 ) {
-            // const isSchoolFull = school !== '';
-            // const isGradeFull = grade !== '';
-            // const isIntroductionFull = introduction !== '';
-            // setIsFull((prev => ({...prev, school: isSchoolFull, grade: isGradeFull, introduction: isIntroductionFull})));
-            
-            // if (isSchoolFull && isGradeFull && isIntroductionFull) {
-            //     setStep(3);
-            // }
             setStep(3);
         } else if (step === 3 ) {
-            setStep(4);
+            const isSchoolFull = card_student_school !== '';
+            const isGradeFull = card_student_grade !== '';
+            setIsFull((prev => ({ ...prev, school: isSchoolFull, grade: isGradeFull })));
+            
+            if (isSchoolFull && isGradeFull) {
+                setStep(4);
+            }
         } else if (step === 4 ) {
             setStep(5);
         } else if (step === 5 ) {
@@ -123,6 +186,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
         }
     };
 
+    // 커버
     const handleScroll = (event) => {
         // const contentOffsetX = event.nativeEvent.contentOffset.x;
         // const currentIndex = Math.floor(contentOffsetX / (SCREEN_WIDTH));
@@ -132,7 +196,8 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
         else if (currentIndex == 1) {setCardCover('picture');}
     }
 
-    useEffect(() => {   // 상단바 타이틀 변경
+    // 상단바 타이틀 변경, 버튼 변경
+    useEffect(() => {   
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
@@ -176,23 +241,14 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                     borderWidth={0}
                 />
             )}
-{/* 
-            {step === 0 && (
-                <View style={styles.container}>
-                    <Text> dddd</Text>
-                    <Text> dddd</Text>
-                    <Text> dddd</Text>
-                    <Text> dddd</Text>
-                    <Text> dddd</Text>
-                </View>
-            )} */}
 
             {step === 1 && (
                 <KeyboardAvoidingView behavior="padding">
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
                             <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
-                            <View style={styles.marginT64}>
+                            <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
+                            <View style={styles.informContainer}>
                                 <View style={[styles.inputContainer, !isFull.name && {marginBottom: 15}]}>
                                     <Text style={styles.inputTextEssential}>이름*</Text>
                                     <TextInput 
@@ -206,9 +262,9 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         onSubmitEditing={() => ref_input2.current.focus()}
                                         blurOnSubmit={false}
                                     />
-                                    {/* {!isFull.name && (
+                                    {!isFull.name && (
                                         <Text style={styles.inputErrorText}>이름을 입력해 주세요.</Text>
-                                    )} */}
+                                    )}
                                 </View>
                                 <View style={[styles.inputContainer, !isFull.introduction && {marginBottom: 15}]}>
                                     <Text style={styles.inputTextEssential}>한줄소개*</Text>
@@ -224,9 +280,9 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         ref={ref_input2}
                                         blurOnSubmit={false}
                                     />
-                                    {/* {!isFull.introduction && (
+                                    {!isFull.introduction && (
                                         <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
-                                    )} */}
+                                    )}
                                 </View>
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.inputText}>MBTI</Text>
@@ -243,14 +299,12 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         blurOnSubmit={false}
                                     />
                                 </View>
-
                                 <View style={styles.line}></View>
                                 <Text style={styles.birthTitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
-
-                                <View style={styles.inputContainer}>
+                                <View style={[styles.inputContainer, (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && {marginBottom: 15}]}>
                                     <Text style={styles.inputText}>생년월일 8자리</Text>
                                     <TextInput 
-                                        style={styles.customInput}
+                                        style={[styles.customInput, (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && styles.inputError]}
                                         placeholder="YYYY/MM/DD"
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="numeric"
@@ -260,9 +314,9 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         ref={ref_input4}
                                         blurOnSubmit={false}
                                     />
-                                    {/* {!isFull.tel && (
-                                        <Text style={styles.inputErrorText}>연락처를 입력해 주세요.</Text>
-                                    )} */}
+                                    {(!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
+                                        <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요.{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
+                                    )}
                                 </View>
                             </View>
                             <TouchableOpacity 
@@ -281,7 +335,8 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
                             <Text style={styles.title}>내 연락처와 SNS 계정을 알려주세요.</Text>
-                            <View style={styles.marginT64}>
+                            <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
+                            <View style={styles.informContainer}>
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.inputText}>전화번호</Text>
                                     <TextInput 
@@ -359,7 +414,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                         <View style={styles.container}>
                             <Text style={styles.title}>학교 속 나에 대해 알려주세요.</Text>
                             <Text style={styles.subTitle}>날 소개하기 위한 필수 정보들이에요.</Text>
-                            <View style={styles.marginT49}>
+                            <View style={styles.informContainer}>
                                 <View style={[styles.inputContainer, !isFull.school && {marginBottom: 15}]}>
                                     <Text style={styles.inputTextEssential}>학교*</Text>
                                     <TextInput 
@@ -390,7 +445,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         placeholder={'학년'}
                                     />
                                     </View>
-                                    
                                     {!isFull.grade && (
                                         <Text style={styles.inputErrorText}>학년을 입력해 주세요.</Text>
                                     )}
@@ -429,8 +483,8 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
                             <Text style={styles.title}>더 자세히 알려주실래요?</Text>
-                            <Text style={styles.subTitle}>나를 더 자세히 알려줄 정보를 자유롭게 추가하세요.</Text>
-                            <View style={styles.marginT49}>
+                            <Text style={styles.subTitle}>정보를 자유롭게 추가하세요.</Text>
+                            <View style={styles.informContainer}>
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.inputText}>학생번호</Text>
                                     <TextInput 
@@ -505,8 +559,9 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                 <KeyboardAvoidingView behavior="padding">
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
-                            <Text style={styles.title}>사소한 것까지 더 알려주고 싶다면</Text>
-                            <View style={styles.marginT64}>
+                            <Text style={styles.title}>나에 대해 더 많이 알려주고 싶다면</Text>
+                            <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
+                            <View style={styles.informContainer}>
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.inputText}>취미</Text>
                                     <TextInput 
