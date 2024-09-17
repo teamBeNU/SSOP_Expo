@@ -10,7 +10,7 @@ import Free from '../../assets/profile/free.svg';
 
 import TemplateStudent from "../../components/CreateCard/TemplateStudent";
 import BottomSheet from "../../components/CreateCard/BottomSheet";
-import TemplateStudentTeenager from "../../components/CreateCard/TeamplateStudentTeenager";
+import TemplateStudentTeenager from "../../components/CreateCard/TemplateStudentTeenager";
 
 function CreateCard({navigation}) {
     const [card_template, setCardTemplate] = useState();
