@@ -66,16 +66,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
         { label: '졸업', value: '졸업' },
     ]);
     
-    
-    
-    const [showJob, setShowJob] = useState(false);
-    const [showClub, setShowClub] = useState(false);
-    const [showStatus, setShowStatus] = useState(false);
-    const [showSns, setShowSns] = useState(false);
-    const [showEmail, setShowEmail] = useState(false);
-    const [showMbti, setShowMbti] = useState(false);
-    const [showMusic, setShowMusic] = useState(false);
-    const [showMovie, setShowMovie] = useState(false);
     const [isFull, setIsFull] = useState({
         name: true,
         introduction: true,
@@ -88,8 +78,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
     const ref_input2 = useRef();
     const ref_input3 = useRef();
     const ref_input4 = useRef();
-    const ref_input5 = useRef();
-
     
     // 생년월일 '/' 자동 추가
     useEffect(() => {
