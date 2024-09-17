@@ -51,7 +51,7 @@ function CreateCard({navigation}) {
         <View style={styles.main}>
 
             {step === 1 && (
-                <View style={{}}>
+                <View>
                     <View>
                         <Text style={styles.title}>템플릿을 선택하세요.</Text>
                         <Text style={styles.subTitle}>아이덴티티에 따라 구성되는 선택지가 달라요.</Text>
@@ -96,7 +96,6 @@ function CreateCard({navigation}) {
                     {card_template === "worker" && (
                         // 직장인
                         <TemplateStudent navigation={navigation} />
-                        
                     )}
                     {card_template === "fan" && (
                         // 팬
