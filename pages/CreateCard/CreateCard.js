@@ -11,6 +11,7 @@ import Free from '../../assets/profile/free.svg';
 import TemplateStudent from "../../components/CreateCard/TemplateStudent";
 import BottomSheet from "../../components/CreateCard/BottomSheet";
 import TemplateStudentTeenager from "../../components/CreateCard/TemplateStudentTeenager";
+import TemplateStudentYouth from "../../components/CreateCard/TemplateStudentYouth";
 
 function CreateCard({navigation}) {
     const [card_template, setCardTemplate] = useState();
@@ -86,12 +87,12 @@ function CreateCard({navigation}) {
             )}
 
             {step === 2 && (
-                <View>
+                <View style={{flex:1}}>
                     {card_template === "student" && selectStudent === "teenager" && (
                         <TemplateStudentTeenager navigation={navigation} card_template={card_template} />
                     )} 
-                    {card_template === "student" && selectStudent === "teenager" && (
-                        <></>
+                    {card_template === "student" && selectStudent === "youth" && (
+                        <TemplateStudentYouth navigation={navigation} card_template={card_template} />
                     )} 
                     {card_template === "worker" && (
                         // 직장인

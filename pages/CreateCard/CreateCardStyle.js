@@ -7,7 +7,7 @@ export const styles = StyleSheet.create({
     main: {
         // height: SCREEN_HEIGHT,
         flex: 1,
-        backgroundColor: theme.bg
+        backgroundColor: theme.white
     },  
     title: {
         color: theme.gray10,
