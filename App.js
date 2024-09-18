@@ -53,6 +53,7 @@ import MySpaceManage from './pages/Space/MySpaceManage';
 import { styles } from './components/MyCard/CardStyle';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
+import PretendardMedium from './assets/fonts/pretendard-medium.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
 import KaKaoLogin from './components/Login/KaKaoLogin';
@@ -62,6 +63,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Pretendard : PretendardRegular,
     PretendardRegular : PretendardRegular,
+    PretendardMedium : PretendardMedium,
     PretendardSemiBold : PretendardSemiBold
   });
 
