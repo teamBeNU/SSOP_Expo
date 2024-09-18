@@ -222,7 +222,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
     }, [step]);
 
     return (
-        <View>
+        <View style={{flex:1}}>
             {step !== 7 && (        // 프로그레스 바
                 <Progress.Bar
                     progress={step / 8}
@@ -237,87 +237,88 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                 <KeyboardAvoidingView
                     behavior="padding"
                     // keyboardVerticalOffset={100}
+                    style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
+                        <View>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
                                 showsVerticalScrollIndicator={false}
                             >
-                            <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
-                            <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
-                            <View style={styles.informContainer}>
-                                <View style={[styles.inputContainer, !isFull.name && {marginBottom: 15}]}>
-                                    <Text style={styles.inputTextEssential}>이름*</Text>
-                                    <TextInput 
-                                        style={[styles.customInput, !isFull.name && styles.inputError]}
-                                        placeholder="이름을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_name}
-                                        onChangeText={setCardName}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input2.current.focus()}
-                                        blurOnSubmit={false}
-                                    />
-                                    {!isFull.name && (
-                                        <Text style={styles.inputErrorText}>이름을 입력해 주세요.</Text>
-                                    )}
+                                <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
+                                <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
+                                <View style={styles.informContainer}>
+                                    <View style={[styles.inputContainer, !isFull.name && {marginBottom: 15}]}>
+                                        <Text style={styles.inputTextEssential}>이름*</Text>
+                                        <TextInput 
+                                            style={[styles.customInput, !isFull.name && styles.inputError]}
+                                            placeholder="이름을 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_name}
+                                            onChangeText={setCardName}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input2.current.focus()}
+                                            blurOnSubmit={false}
+                                        />
+                                        {!isFull.name && (
+                                            <Text style={styles.inputErrorText}>이름을 입력해 주세요.</Text>
+                                        )}
+                                    </View>
+                                    <View style={[styles.inputContainer, !isFull.introduction && {marginBottom: 15}]}>
+                                        <Text style={styles.inputTextEssential}>한줄소개*</Text>
+                                        <TextInput 
+                                            style={[styles.customInput, !isFull.introduction && styles.inputError]}
+                                            placeholder="나에 대해 간단히 알려주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_introduction}
+                                            onChangeText={setCardIntroduction}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input3.current.focus()}
+                                            ref={ref_input2}
+                                            blurOnSubmit={false}
+                                        />
+                                        {!isFull.introduction && (
+                                            <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
+                                        )}
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>MBTI</Text>
+                                        <TextInput
+                                            style={styles.customInput}
+                                            placeholder="MBTI를 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_mbti}
+                                            onChangeText={setCardMbti}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input4.current.focus()}
+                                            ref={ref_input3}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={styles.line}></View>
+                                    <Text style={styles.birthTitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
+                                    <View style={[styles.inputContainer, isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && {marginBottom: 15}]}>
+                                        <Text style={styles.inputText}>생년월일 8자리</Text>
+                                        <TextInput 
+                                            style={[styles.customInput, isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && styles.inputError]}
+                                            placeholder="YYYY/MM/DD"
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="numeric"
+                                            value={card_birth}
+                                            onChangeText={setCardBirth}
+                                            returnKeyType="done"
+                                            ref={ref_input4}
+                                            blurOnSubmit={true}
+                                        />
+                                        {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
+                                            <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요.{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
+                                        )}
+                                    </View>
                                 </View>
-                                <View style={[styles.inputContainer, !isFull.introduction && {marginBottom: 15}]}>
-                                    <Text style={styles.inputTextEssential}>한줄소개*</Text>
-                                    <TextInput 
-                                        style={[styles.customInput, !isFull.introduction && styles.inputError]}
-                                        placeholder="나에 대해 간단히 알려주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_introduction}
-                                        onChangeText={setCardIntroduction}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input3.current.focus()}
-                                        ref={ref_input2}
-                                        blurOnSubmit={false}
-                                    />
-                                    {!isFull.introduction && (
-                                        <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
-                                    )}
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>MBTI</Text>
-                                    <TextInput
-                                        style={styles.customInput}
-                                        placeholder="MBTI를 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_mbti}
-                                        onChangeText={setCardMbti}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input4.current.focus()}
-                                        ref={ref_input3}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={styles.line}></View>
-                                <Text style={styles.birthTitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
-                                <View style={[styles.inputContainer, isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && {marginBottom: 15}]}>
-                                    <Text style={styles.inputText}>생년월일 8자리</Text>
-                                    <TextInput 
-                                        style={[styles.customInput, isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && styles.inputError]}
-                                        placeholder="YYYY/MM/DD"
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="numeric"
-                                        value={card_birth}
-                                        onChangeText={setCardBirth}
-                                        returnKeyType="done"
-                                        ref={ref_input4}
-                                        blurOnSubmit={true}
-                                    />
-                                    {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
-                                        <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요.{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
-                                    )}
-                                </View>
-                            </View>
-                            <View style={styles.marginB100}></View>
+                                <View style={styles.marginB100}></View>
                             </ScrollView>
                             <View style={styles.btnContainer}>
                                 <TouchableOpacity 
@@ -327,21 +328,19 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                     <Text style={styles.btnNextText}>다음으로</Text>
                                 </TouchableOpacity>
                             </View>
-                            {/* <TouchableOpacity 
-                                    style={styles.btnNext}
-                                    onPress={handleNext}
-                                >
-                                    <Text style={styles.btnNextText}>다음으로</Text>
-                                </TouchableOpacity> */}
                         </View>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
             )}
 
             {step === 2 && (
-                <KeyboardAvoidingView behavior="padding">
+                <KeyboardAvoidingView 
+                    behavior="padding"
+                    // keyboardVerticalOffset={100}
+                    style={styles.container}
+                >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
+                        <View>
                             <Text style={styles.title}>내 연락처와 SNS 계정을 알려주세요.</Text>
                             <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
                             <View style={styles.informContainer}>
@@ -405,19 +404,26 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                     />
                                 </View>
                             </View>
-                            <TouchableOpacity 
+                            <View style={styles.marginB100}></View>
+                            <View style={styles.btnContainer}>
+                                <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}
                                 >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
+                                    <Text style={styles.btnNextText}>다음으로</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
             )}
 
             {step === 3 && (
-                <KeyboardAvoidingView behavior="padding">
+                <KeyboardAvoidingView
+                    behavior="padding"
+                    // keyboardVerticalOffset={100}
+                    style={styles.flex}
+                >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
                             <Text style={styles.title}>학교 속 나에 대해 알려주세요.</Text>
@@ -442,7 +448,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                 </View>
                                 <View style={[styles.inputContainer, !isFull.grade && {marginBottom: 15}]}>
                                     <Text style={styles.inputTextEssential}>학년*</Text>
-                                    <View style={{marginRight: "63%"}}>
+                                    <View style={styles.dropDownContainer}>
                                     <DropDown
                                         dropDownOpen={dropDownOpen}
                                         dropDownValue={card_student_grade}
@@ -451,10 +457,11 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         items={teenGradeItems}
                                         setItems={setTeenGradeItems}
                                         placeholder={'학년'}
+                                        isError={isFull.grade}
                                     />
                                     </View>
                                     {!isFull.grade && (
-                                        <Text style={styles.inputErrorText}>학년을 입력해 주세요.</Text>
+                                        <Text style={[styles.inputErrorText, styles.zIndex2]}>학년을 입력해 주세요.</Text>
                                     )}
                                 </View>
                                 {/* <View style={[styles.inputContainer]}>
@@ -476,9 +483,9 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                 </View> */}
                             </View>
                             <TouchableOpacity 
-                                    style={styles.btnNext}
-                                    onPress={handleNext}
-                                >
+                                style={styles.btnNext2}
+                                onPress={handleNext}
+                            >
                                 <Text style={styles.btnNextText}>다음으로</Text>
                             </TouchableOpacity>
                         </View>
@@ -487,7 +494,11 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             )}
 
             {step === 4 && (
-                <KeyboardAvoidingView behavior="padding">
+                <KeyboardAvoidingView 
+                    behavior="padding"
+                    // keyboardVerticalOffset={100}
+                    style={styles.flex}
+                >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
                             <Text style={styles.title}>더 자세히 알려주실래요?</Text>
@@ -553,9 +564,9 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                 </View>
                             </View>
                             <TouchableOpacity 
-                                    style={styles.btnNext}
-                                    onPress={handleNext}
-                                >
+                                style={styles.btnNext2}
+                                onPress={handleNext}
+                            >
                                 <Text style={styles.btnNextText}>다음으로</Text>
                             </TouchableOpacity>
                         </View>
@@ -564,7 +575,11 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             )}
 
             {step === 5 && (
-                <KeyboardAvoidingView behavior="padding">
+                <KeyboardAvoidingView 
+                    behavior="padding"
+                    // keyboardVerticalOffset={100}
+                    style={styles.flex}
+                >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
                             <Text style={styles.title}>나에 대해 더 많이 알려주고 싶다면</Text>
@@ -630,9 +645,9 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                 </View>
                             </View>
                             <TouchableOpacity 
-                                    style={styles.btnNext}
-                                    onPress={handleNext}
-                                >
+                                style={styles.btnNext2}
+                                onPress={handleNext}
+                            >
                                 <Text style={styles.btnNextText}>다음으로</Text>
                             </TouchableOpacity>
                         </View>

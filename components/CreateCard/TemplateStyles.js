@@ -35,6 +35,9 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
     },
 
+    flex: {
+        flex:1
+    },
     container: {
         // width: SCREEN_WIDTH,
         // height: '100%',
@@ -42,6 +45,7 @@ export const styles = StyleSheet.create({
         // height: SCREEN_HEIGHT,
         paddingHorizontal: 16,
         backgroundColor: theme.white,
+        flex:1
     },
     title: { 
         marginTop: 32,
@@ -183,11 +187,35 @@ export const styles = StyleSheet.create({
 
         marginTop: "auto",
     },
+    btnNext2: {
+        position: 'absolute',
+        bottom: 16,  // contair의 height: '100%',
+        // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        width: '100%',
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        marginHorizontal: 16,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+    },
     btnNextText: {
         color: theme.white,
         fontFamily: "PretendardRegular",
         fontSize: 16,
         fontWeight: "600",
+    },
+
+    dropDownContainer: {
+        marginRight: "63%",
+        zIndex: -1,
+    },
+    zIndex2: {
+        zIndex: -2
     },
 
     btnMores: {

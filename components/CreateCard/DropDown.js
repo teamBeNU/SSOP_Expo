@@ -9,7 +9,8 @@ export default function DropDown ({
     setDropDownValue,
     items,
     setItems,
-    placeholder
+    placeholder,
+    isError
 }) {
 
     return (
@@ -23,7 +24,7 @@ export default function DropDown ({
             placeholder={placeholder}
             style={{
                 borderWidth: 1,
-                borderColor: theme.gray90,
+                borderColor: isError ? theme.gray90 : theme.red,
                 borderRadius: 16,
             }}
             dropDownContainerStyle={{
