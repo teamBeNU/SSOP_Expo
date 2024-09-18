@@ -1,6 +1,10 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
+const cardWidth = WIDTH * 0.8;
+const cardHeight = WIDTH * 1.2;
+
 export const styles = StyleSheet.create({
         container:{
         alignItems: 'center',
@@ -10,7 +14,7 @@ export const styles = StyleSheet.create({
         },
 	cardPage: {
         color: theme.gray50,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14, 
         fontWeight: '400',
         lineHeight: 17,
@@ -19,11 +23,11 @@ export const styles = StyleSheet.create({
         marginBottom: 16,       
 	},
         cardContainer: {
-        height: 432,
+        height: cardHeight,
         flexDirection: 'row',
         },
         cardWrapper: {
-        marginHorizontal: 16,
+        marginHorizontal: 8,
         },
         btnContainer: {
         flexDirection: 'row',
@@ -31,12 +35,11 @@ export const styles = StyleSheet.create({
         width: 280,
         height: 65,
         gap: 28,
-        position: 'absolute',
-        top: 545,
+        marginBottom: 44,
         },
         btnText: {
         color: 'black',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 17,
@@ -78,7 +81,7 @@ export const styles = StyleSheet.create({
         },
         noCard: {
         color: theme.gray60,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         fontWeight: '600',
         lineHeight: 19,
@@ -93,10 +96,20 @@ export const styles = StyleSheet.create({
         },
         newCard: {
         color:theme.skyblue,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         fontWeight: '600',
         lineHeight: 19,
         letterSpacing: -0.32,
         },
+        cardScrollView: {
+        height: 436,  
+        //ios shadow
+        shadowColor: 'rgba(0, 0, 0, 0.08)',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 4,
+        //android shadow
+        elevation: 4,
+        }
 });

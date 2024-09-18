@@ -10,7 +10,7 @@ export const CardFront = () => {
     return (
         <View style={styles.card}>
             <View style={styles.cardImgArea}>
-                <AvatarSample style={{marginLeft: -30}} />
+                <AvatarSample style={{marginBottom: -36}} />
             </View>
             <View style={styles.cardTextArea}>
                 <View style={styles.basicInfo}> 
