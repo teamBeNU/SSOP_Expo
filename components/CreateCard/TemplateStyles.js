@@ -190,6 +190,38 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderStyle: "solid",
     },
+    btnContainer2: {
+        // // position: 'absolute',
+        // // bottom: 16,  // contair의 height: '100%',
+        // // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        // width: '100%',
+        // height: 48,
+        // justifyContent: "center",
+        // alignItems: "center",
+        // // marginHorizontal: 16,
+        // // paddingVertical: 8,
+        // // paddingHorizontal: 16,
+
+        // marginTop: "auto",
+        // marginBottom: 16,
+        // backgroundColor:"red",
+        // paddingTop: "auto"
+
+        position: 'absolute',
+        bottom: 16,  // contair의 height: '100%',
+        // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        width: '100%',
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+    },
     btnNext: {
         // // position: 'absolute',
         // // bottom: 16,  // contair의 height: '100%',
