@@ -73,7 +73,7 @@ if (!hasNotify) {
     <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: 'white'}}>
       <Text style={styles.Text14}>알림은 7일 동안 보관됩니다.</Text>
       {notiData.map(card => (
-        <View key={card.id} style={card.accepted ? {} : { backgroundColor: '#8CFF791A' }}>
+        <View key={card.id} style={card.accepted ? {} : { backgroundColor: '#00C2ED0D' }}>
           <View style={card.accepted ? styles.btn2 : styles.btn1}>
             <Text style={styles.title}>{card.title}</Text>
             {card.accepted ? (
