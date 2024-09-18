@@ -313,6 +313,10 @@ const Tab = createBottomTabNavigator();
               iconSource = focused
                 ? require('./assets/Navigation/ic_myCard_regular_line.png')
                 : require('./assets/Navigation/ic_myCard_regular.png');
+            } else if (route.name === '알림') {
+              iconSource = focused
+                ? require('./assets/Navigation/ic_profile_regular_line.png')
+                : require('./assets/Navigation/ic_profile_regular.png');
             } else if (route.name === 'MY') {
               iconSource = focused
                 ? require('./assets/Navigation/ic_profile_regular_line.png')
@@ -340,11 +344,6 @@ const Tab = createBottomTabNavigator();
           headerStyle: {
             backgroundColor: '#F5F8F8'
           },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('알림')}>
-            <NotiIcon style={{ marginLeft: 8 }} />
-           </TouchableOpacity>
-          ),
           headerRight: () => (
             <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
               <SearchIcon style={{ marginRight: 8 }} />
@@ -373,6 +372,7 @@ const Tab = createBottomTabNavigator();
             borderBottomColor: theme.gray90,
           },
           }} />
+          <Tab.Screen name="알림" component={Notify}/>
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
       </Tab.Navigator>
     );
