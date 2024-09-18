@@ -234,7 +234,10 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             )}
 
             {step === 1 && (
-                <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={100}>
+                <KeyboardAvoidingView
+                    behavior="padding"
+                    // keyboardVerticalOffset={100}
+                >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
                             <ScrollView 
@@ -313,15 +316,23 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요.{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
                                     )}
                                 </View>
-                                <View style={{marginBottom: 100}}></View>
                             </View>
+                            <View style={styles.marginB100}></View>
                             </ScrollView>
-                            <TouchableOpacity 
+                            <View style={styles.btnContainer}>
+                                <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}
                                 >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
+                                    <Text style={styles.btnNextText}>다음으로</Text>
+                                </TouchableOpacity>
+                            </View>
+                            {/* <TouchableOpacity 
+                                    style={styles.btnNext}
+                                    onPress={handleNext}
+                                >
+                                    <Text style={styles.btnNextText}>다음으로</Text>
+                                </TouchableOpacity> */}
                         </View>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>

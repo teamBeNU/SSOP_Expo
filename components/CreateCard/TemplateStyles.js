@@ -16,6 +16,9 @@ export const styles = StyleSheet.create({
     marginB48: {
         marginBottom: 48,
     },
+    marginB100: {
+        marginBottom: 100,
+    },
     marginT48: {
         marginTop: 48,
     },
@@ -147,6 +150,21 @@ export const styles = StyleSheet.create({
         color: theme.gray30,
     },
 
+    btnContainer: {
+        // position: 'absolute',
+        // bottom: 16,  // contair의 height: '100%',
+        // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        width: '100%',
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        // marginHorizontal: 16,
+        // paddingVertical: 8,
+        // paddingHorizontal: 16,
+
+        marginTop: "auto",
+        marginBottom: 16
+    },
     btnNext: {
         // position: 'absolute',
         // bottom: 16,  // contair의 height: '100%',
