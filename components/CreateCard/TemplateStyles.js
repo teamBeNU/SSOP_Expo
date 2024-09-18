@@ -34,7 +34,7 @@ export const styles = StyleSheet.create({
 
     container: {
         // width: SCREEN_WIDTH,
-        height: '100%',
+        // height: '100%',
         
         // height: SCREEN_HEIGHT,
         paddingHorizontal: 16,
@@ -148,20 +148,22 @@ export const styles = StyleSheet.create({
     },
 
     btnNext: {
-        position: 'absolute',
-        bottom: 16,  // contair의 height: '100%',
-        //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        // position: 'absolute',
+        // bottom: 16,  // contair의 height: '100%',
+        // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
         width: '100%',
         height: 48,
         justifyContent: "center",
         alignItems: "center",
-        marginHorizontal: 16,
+        // marginHorizontal: 16,
         // paddingVertical: 8,
         // paddingHorizontal: 16,
         backgroundColor: theme.gray10,
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
+
+        marginTop: "auto",
     },
     btnNextText: {
         color: theme.white,

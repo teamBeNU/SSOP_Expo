@@ -69,6 +69,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
     const [isFull, setIsFull] = useState({
         name: true,
         introduction: true,
+        birth: false,
         school: true,
         grade: true,
         major: true,
@@ -92,13 +93,13 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
 
         const formattedBirth = formatBirth(card_birth);
         setCardBirth(formattedBirth);
-    }, [card_birth]);
+    }, [card_birth, isFull.birth]);
 
     // 생년월일 올바른지 확인
     const [isBirthValid, setIsBirthValid] = useState({
-        year: true,
-        month: true,
-        day: true,
+        year: false,
+        month: false,
+        day: false,
     });
 
     const currentYear = new Date().getFullYear();
@@ -145,13 +146,15 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
         if (step === 1) {
             const isNameFull = card_name !== '';
             const isIntroductionFull = card_introduction !== '';
-            // const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
-            // const isTelFull = tel !== '';
-            setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull })));
+            const isBirthFull = card_birth !== '';
+
+            setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull, birth: isBirthFull })));
             isBirthCorrect(card_birth);
 
-            if (isNameFull && isIntroductionFull && isBirthValid.year && isBirthValid.month && isBirthValid.day) {
-                setStep(2);
+            if (isNameFull && isIntroductionFull) {
+                if(!isBirthFull || (isBirthFull && isBirthValid.year && isBirthValid.month && isBirthValid.day)) {
+                    setStep(2);
+                }
             }
         } else if (step === 2 ) {
             setStep(3);
@@ -231,9 +234,13 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             )}
 
             {step === 1 && (
-                <KeyboardAvoidingView behavior="padding">
+                <KeyboardAvoidingView behavior="position" keyboardVerticalOffset={100}>
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.container}>
+                            <ScrollView 
+                                contentContainerStyle={{ flexGrow: 1 }}
+                                showsVerticalScrollIndicator={false}
+                            >
                             <Text style={styles.title}>나에 대한 기본 정보를 알려주세요.</Text>
                             <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
                             <View style={styles.informContainer}>
@@ -289,24 +296,26 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                 </View>
                                 <View style={styles.line}></View>
                                 <Text style={styles.birthTitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
-                                <View style={[styles.inputContainer, (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && {marginBottom: 15}]}>
+                                <View style={[styles.inputContainer, isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && {marginBottom: 15}]}>
                                     <Text style={styles.inputText}>생년월일 8자리</Text>
                                     <TextInput 
-                                        style={[styles.customInput, (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && styles.inputError]}
+                                        style={[styles.customInput, isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && styles.inputError]}
                                         placeholder="YYYY/MM/DD"
                                         placeholderTextColor={theme.gray60}
                                         keyboardType="numeric"
                                         value={card_birth}
                                         onChangeText={setCardBirth}
-                                        returnKeyType="next"
+                                        returnKeyType="done"
                                         ref={ref_input4}
-                                        blurOnSubmit={false}
+                                        blurOnSubmit={true}
                                     />
-                                    {(!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
+                                    {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
                                         <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요.{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
                                     )}
                                 </View>
+                                <View style={{marginBottom: 100}}></View>
                             </View>
+                            </ScrollView>
                             <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}
