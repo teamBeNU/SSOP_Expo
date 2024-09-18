@@ -9,54 +9,57 @@ export const styles = StyleSheet.create({
         backgroundColor: '#F5F8F8',
     },
     title: { // 글씨  
-        marginTop: 40,
+        marginTop: 64,
         marginLeft: 8, 
-        marginBottom: 20,
+        marginBottom: 17,
         fontFamily: "PretendardSemiBold",
-        fontSize: 18,
+        fontSize: 20,
         letterSpacing: -1,
     },        
     btn1: { // 카드 만들기 버튼 
         flexDirection: 'column',
-        height: 104,
-        borderRadius: 8,
-        backgroundColor: theme.white,
+        height: 120,
+        borderRadius: 16,
+        backgroundColor: theme.green,
         position: 'relative',
-        shadowColor: "rgba(29, 51, 55, 0.03)",
+        shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
             height: 2
         },
-        shadowRadius: 2,
+        shadowRadius: 16,
         shadowOpacity: 1
     },
     btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
-        borderRadius: 8,
+        borderRadius: 16,
         backgroundColor: theme.white,
-        shadowColor: "rgba(0, 0, 0, 0.03)",
+        shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
-          width: 0,
-          height: 2,
+            width: 0,
+            height: 2
         },
+        shadowRadius: 16,
         shadowOpacity: 1,
-        shadowRadius: 4,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
         elevation: 5,
         position: 'relative',
     },
     btn3: { // 내가 받은 카드 보기
         width: '100%',
-        paddingVertical: 16,
+        paddingVertical: 20,
         paddingHorizontal: 16,
-        marginBottom: 64,
-        borderRadius: 8,
+        borderRadius: 16,
         backgroundColor: theme.white,
-        shadowColor: "rgba(0, 0, 0, 0.03)",
+        shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
             height: 2
         },
-        shadowRadius: 2,
-        shadowOpacity: 1
+        shadowRadius: 16,
+        shadowOpacity: 1,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)"
     },
     container: {
         flex: 1,
