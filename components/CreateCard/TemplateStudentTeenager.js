@@ -240,7 +240,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View>
+                        <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
                                 showsVerticalScrollIndicator={false}
@@ -318,7 +318,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         )}
                                     </View>
                                 </View>
-                                <View style={styles.marginB100}></View>
                             </ScrollView>
                             <View style={styles.btnContainer}>
                                 <TouchableOpacity 
@@ -340,71 +339,76 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View>
-                            <Text style={styles.title}>내 연락처와 SNS 계정을 알려주세요.</Text>
-                            <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
-                            <View style={styles.informContainer}>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>전화번호</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="전화번호를 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="phone-pad"
-                                        value={card_tel}
-                                        onChangeText={setCardTel}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input2.current.focus()}
-                                        blurOnSubmit={false}
-                                    />
+                        <View style={styles.viewContainer}>
+                            <ScrollView 
+                                contentContainerStyle={{ flexGrow: 1 }}
+                                showsVerticalScrollIndicator={false}
+                            >
+                                <Text style={styles.title}>내 연락처와 SNS 계정을 알려주세요.</Text>
+                                <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
+                                <View style={styles.informContainer}>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>전화번호</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="전화번호를 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="phone-pad"
+                                            value={card_tel}
+                                            onChangeText={setCardTel}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input2.current.focus()}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>이메일</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="이메일 주소를 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_email}
+                                            onChangeText={setCardEmail}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input3.current.focus()}
+                                            ref={ref_input2}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={[styles.line, styles.marginB40]}></View>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>Instargram</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="인스타그램 계정을 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_sns_insta}
+                                            onChangeText={setCardSnsInsta}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input4.current.focus()}
+                                            ref={ref_input3}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>X(트위터)</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="X 계정을 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_sns_x}
+                                            onChangeText={setCardSnsX}
+                                            returnKeyType="next"
+                                            ref={ref_input4}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
                                 </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>이메일</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="이메일 주소를 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_email}
-                                        onChangeText={setCardEmail}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input3.current.focus()}
-                                        ref={ref_input2}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={[styles.line, styles.marginB28]}></View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>Instargram</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="인스타그램 계정을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_sns_insta}
-                                        onChangeText={setCardSnsInsta}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input4.current.focus()}
-                                        ref={ref_input3}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>X(트위터)</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="X 계정을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_sns_x}
-                                        onChangeText={setCardSnsX}
-                                        returnKeyType="next"
-                                        ref={ref_input4}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            </View>
-                            <View style={styles.marginB100}></View>
+                                {/* <View style={styles.marginB100}></View> */}
+                            </ScrollView>
                             <View style={styles.btnContainer}>
                                 <TouchableOpacity 
                                     style={styles.btnNext}
@@ -422,10 +426,10 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                 <KeyboardAvoidingView
                     behavior="padding"
                     // keyboardVerticalOffset={100}
-                    style={styles.flex}
+                    style={styles.container} 
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
+                        <View style={styles.viewContainer}>
                             <Text style={styles.title}>학교 속 나에 대해 알려주세요.</Text>
                             <Text style={styles.subTitle}>날 소개하기 위한 필수 정보들이에요.</Text>
                             <View style={styles.informContainer}>
@@ -438,9 +442,8 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         keyboardType="default"
                                         value={card_student_school}
                                         onChangeText={setCardStudentSchool}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input2.current.focus()}
-                                        blurOnSubmit={false}
+                                        returnKeyType="done"
+                                        blurOnSubmit={true}
                                     />
                                     {!isFull.school && (
                                         <Text style={styles.inputErrorText}>학교명을 입력해 주세요.</Text>
@@ -464,30 +467,15 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         <Text style={[styles.inputErrorText, styles.zIndex2]}>학년을 입력해 주세요.</Text>
                                     )}
                                 </View>
-                                {/* <View style={[styles.inputContainer]}>
-                                    <Text style={styles.inputTextEssential}>전공*</Text>
-                                    <TextInput 
-                                        style={[styles.customInput, !isFull.introduction && styles.inputError]}
-                                        placeholder="전공을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_major}
-                                        onChangeText={setCardStudentMajor}
-                                        returnKeyType="next"
-                                        ref={ref_input3}
-                                        blurOnSubmit={false}
-                                    />
-                                    {!isFull.introduction && (
-                                        <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
-                                    )}
-                                </View> */}
                             </View>
-                            <TouchableOpacity 
-                                style={styles.btnNext2}
-                                onPress={handleNext}
-                            >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
+                            <View style={styles.btnContainer}>
+                                <TouchableOpacity 
+                                    style={styles.btnNext}
+                                    onPress={handleNext}
+                                >
+                                    <Text style={styles.btnNextText}>다음으로</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
@@ -497,78 +485,86 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                 <KeyboardAvoidingView 
                     behavior="padding"
                     // keyboardVerticalOffset={100}
-                    style={styles.flex}
+                    style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
-                            <Text style={styles.title}>더 자세히 알려주실래요?</Text>
-                            <Text style={styles.subTitle}>정보를 자유롭게 추가하세요.</Text>
-                            <View style={styles.informContainer}>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>학생번호</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="학생 번호를 입력해 주세요. 예) 17번"
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_id}
-                                        onChangeText={setCardStudentId}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input2.current.focus()}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>역할</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="학급 혹은 학교 내 역할을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_role}
-                                        onChangeText={setCardStudentRole}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input3.current.focus()}
-                                        ref={ref_input2}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>동아리</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="소속된 동아리가 있다면 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_club}
-                                        onChangeText={setCardStudentClub}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input4.current.focus()}
-                                        ref={ref_input3}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={[styles.inputContainer]}>
-                                    <Text style={styles.inputText}>전공</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="전공을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_major}
-                                        onChangeText={setCardStudentMajor}
-                                        returnKeyType="next"
-                                        ref={ref_input4}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            </View>
-                            <TouchableOpacity 
-                                style={styles.btnNext2}
-                                onPress={handleNext}
+                        <View style={styles.viewContainer}>
+                            <ScrollView 
+                                contentContainerStyle={{ flexGrow: 1 }}
+                                showsVerticalScrollIndicator={false}
                             >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
+                                <Text style={styles.title}>더 자세히 알려주실래요?</Text>
+                                <Text style={styles.subTitle}>정보를 자유롭게 추가하세요.</Text>
+                                <View style={styles.informContainer}>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>학생번호</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="학생 번호를 입력해 주세요. 예) 17번"
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_student_id}
+                                            onChangeText={setCardStudentId}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input2.current.focus()}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>역할</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="학급 혹은 학교 내 역할을 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_student_role}
+                                            onChangeText={setCardStudentRole}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input3.current.focus()}
+                                            ref={ref_input2}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>동아리</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="소속된 동아리가 있다면 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_student_club}
+                                            onChangeText={setCardStudentClub}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input4.current.focus()}
+                                            ref={ref_input3}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={[styles.inputContainer]}>
+                                        <Text style={styles.inputText}>전공</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="전공을 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_student_major}
+                                            onChangeText={setCardStudentMajor}
+                                            returnKeyType="done"
+                                            ref={ref_input4}
+                                            blurOnSubmit={true}
+                                        />
+                                    </View>
+                                </View>
+                                {/* <View style={styles.marginB100}></View> */}
+                            </ScrollView>
+                            <View style={styles.btnContainer}>
+                                <TouchableOpacity 
+                                    style={styles.btnNext}
+                                    onPress={handleNext}
+                                >
+                                    <Text style={styles.btnNextText}>다음으로</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
@@ -578,78 +574,85 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                 <KeyboardAvoidingView 
                     behavior="padding"
                     // keyboardVerticalOffset={100}
-                    style={styles.flex}
+                    style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <View style={styles.container}>
-                            <Text style={styles.title}>나에 대해 더 많이 알려주고 싶다면</Text>
-                            <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
-                            <View style={styles.informContainer}>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>취미</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="취미를 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_hobby}
-                                        onChangeText={setCardHobby}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input2.current.focus()}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>인생 음악</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="노래 제목을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_music}
-                                        onChangeText={setCardMusic}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input3.current.focus()}
-                                        ref={ref_input2}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>인생 영화</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="영화 제목을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_movie}
-                                        onChangeText={setCardMovie}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input4.current.focus()}
-                                        ref={ref_input3}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={[styles.inputContainer]}>
-                                    <Text style={styles.inputText}>거주지</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구 테헤란로"
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_address}
-                                        onChangeText={setCardAddress}
-                                        returnKeyType="next"
-                                        ref={ref_input4}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                            </View>
-                            <TouchableOpacity 
-                                style={styles.btnNext2}
-                                onPress={handleNext}
+                        <View style={styles.viewContainer}>
+                            <ScrollView 
+                                contentContainerStyle={{ flexGrow: 1 }}
+                                showsVerticalScrollIndicator={false}
                             >
-                                <Text style={styles.btnNextText}>다음으로</Text>
-                            </TouchableOpacity>
+                                <Text style={styles.title}>나에 대해 더 많이 알려주고 싶다면</Text>
+                                <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
+                                <View style={styles.informContainer}>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>취미</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="취미를 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_hobby}
+                                            onChangeText={setCardHobby}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input2.current.focus()}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>인생 음악</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="노래 제목을 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_music}
+                                            onChangeText={setCardMusic}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input3.current.focus()}
+                                            ref={ref_input2}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={styles.inputContainer}>
+                                        <Text style={styles.inputText}>인생 영화</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="영화 제목을 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_movie}
+                                            onChangeText={setCardMovie}
+                                            returnKeyType="next"
+                                            onSubmitEditing={() => ref_input4.current.focus()}
+                                            ref={ref_input3}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                    <View style={[styles.inputContainer]}>
+                                        <Text style={styles.inputText}>거주지</Text>
+                                        <TextInput 
+                                            style={styles.customInput}
+                                            placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구 테헤란로"
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_address}
+                                            onChangeText={setCardAddress}
+                                            returnKeyType="next"
+                                            ref={ref_input4}
+                                            blurOnSubmit={false}
+                                        />
+                                    </View>
+                                </View>
+                            </ScrollView>
+                            <View style={styles.btnContainer}>
+                                <TouchableOpacity 
+                                    style={styles.btnNext}
+                                    onPress={handleNext}
+                                >
+                                    <Text style={styles.btnNextText}>다음으로</Text>
+                                </TouchableOpacity>
+                            </View>
                         </View>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>

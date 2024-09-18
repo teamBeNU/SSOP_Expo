@@ -10,8 +10,8 @@ export const styles = StyleSheet.create({
     marginB16: {
         marginBottom: 16,
     },
-    marginB28: {
-        marginBottom: 28,
+    marginB40: {
+        marginBottom: 40,
     },
     marginB48: {
         marginBottom: 48,
@@ -64,11 +64,15 @@ export const styles = StyleSheet.create({
         fontWeight: "400",
     },
 
+    viewContainer: {
+        flex: 1,
+        paddingBottom: 48+16   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
+    },
     informContainer: {
         marginTop: 48,
     },
     inputContainer: {
-        marginBottom: 28,
+        marginBottom: 40,
     },
     inputTextEssential: {
         fontFamily: "PretendardSemiBold",
@@ -110,7 +114,7 @@ export const styles = StyleSheet.create({
     
     birthTitle: {
         color: theme.gray10,
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardMedium",
         fontSize: 18,
         fontWeight: "500",
         marginTop: 28,
@@ -155,37 +159,59 @@ export const styles = StyleSheet.create({
     },
 
     btnContainer: {
-        // position: 'absolute',
-        // bottom: 16,  // contair의 height: '100%',
-        // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
-        width: '100%',
-        height: 48,
-        justifyContent: "center",
-        alignItems: "center",
-        // marginHorizontal: 16,
-        // paddingVertical: 8,
-        // paddingHorizontal: 16,
+        // // position: 'absolute',
+        // // bottom: 16,  // contair의 height: '100%',
+        // // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        // width: '100%',
+        // height: 48,
+        // justifyContent: "center",
+        // alignItems: "center",
+        // // marginHorizontal: 16,
+        // // paddingVertical: 8,
+        // // paddingHorizontal: 16,
 
-        marginTop: "auto",
-        marginBottom: 16
-    },
-    btnNext: {
-        // position: 'absolute',
-        // bottom: 16,  // contair의 height: '100%',
+        // marginTop: "auto",
+        // marginBottom: 16,
+        // backgroundColor:"red",
+        // paddingTop: "auto"
+
+        position: 'absolute',
+        bottom: 16,  // contair의 height: '100%',
         // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
         width: '100%',
         height: 48,
         justifyContent: "center",
         alignItems: "center",
-        // marginHorizontal: 16,
-        // paddingVertical: 8,
-        // paddingHorizontal: 16,
+        
+        paddingVertical: 8,
+        paddingHorizontal: 16,
         backgroundColor: theme.gray10,
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
+    },
+    btnNext: {
+        // // position: 'absolute',
+        // // bottom: 16,  // contair의 height: '100%',
+        // // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        // width: '100%',
+        // height: 48,
+        // justifyContent: "center",
+        // alignItems: "center",
+        // // marginHorizontal: 16,
+        // // paddingVertical: 8,
+        // // paddingHorizontal: 16,
+        // backgroundColor: theme.gray10,
+        // borderRadius: 8,
+        // borderWidth: 1,
+        // borderStyle: "solid",
 
-        marginTop: "auto",
+        // marginTop: "auto",
+        justifyContent: "center",
+        alignItems: "center",
+        width: '100%',
+        height: '100%',
+
     },
     btnNext2: {
         position: 'absolute',
@@ -215,7 +241,10 @@ export const styles = StyleSheet.create({
         zIndex: -1,
     },
     zIndex2: {
-        zIndex: -2
+        zIndex: -2,
+    },
+    zIndex3: {
+        zIndex: -3,
     },
 
     btnMores: {
