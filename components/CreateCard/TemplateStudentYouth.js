@@ -44,14 +44,6 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
 
     // 드롭다운
     const [dropDownOpen, setDropDownOpen] = useState(false);
-    const [teenGradeItems, setTeenGradeItems] = useState([
-        { label: '1학년', value: '1학년' },
-        { label: '2학년', value: '2학년' },
-        { label: '3학년', value: '3학년' },
-        { label: '4학년', value: '4학년' },
-        { label: '5학년', value: '5학년' },
-        { label: '6학년', value: '6학년' }
-    ]);
     const [youthGradeItems, setYouthGradeItems] = useState([
         { label: '1학년', value: '1학년' },
         { label: '2학년', value: '2학년' },

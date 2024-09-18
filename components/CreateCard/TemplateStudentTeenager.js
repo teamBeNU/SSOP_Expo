@@ -51,20 +51,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
         { label: '5학년', value: '5학년' },
         { label: '6학년', value: '6학년' }
     ]);
-    const [youthGradeItems, setYouthGradeItems] = useState([
-        { label: '1학년', value: '1학년' },
-        { label: '2학년', value: '2학년' },
-        { label: '3학년', value: '3학년' },
-        { label: '4학년', value: '4학년' },
-        { label: '추가학기', value: '추가학기' },
-        { label: '그 외', value: '그 외' },
-    ]);
-    const [statusItems, setStatusItems] = useState([
-        { label: '재학', value: '재학' },
-        { label: '휴학', value: '휴학' },
-        { label: '졸업 예정', value: '졸업 예정' },
-        { label: '졸업', value: '졸업' },
-    ]);
     
     const [isFull, setIsFull] = useState({
         name: true,
