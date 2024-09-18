@@ -8,6 +8,10 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
+    noPaddingMainlayout: {
+        backgroundColor: theme.white,
+        flex: 1, // 디바이스 세로 100%
+    },
     stepContainer: {
         flex: 1,
         justifyContent: 'space-between',
@@ -101,6 +105,13 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.gray80,
         backgroundColor: theme.white
+    },
+    btnBlue: {
+        height: 48,
+        justifyContent: 'center',
+        borderRadius: 8,
+        fontFamily: 'PretendardRegular',
+        backgroundColor: theme.skyblue
     },
     btnTextBlack: {
         textAlign: 'center',
