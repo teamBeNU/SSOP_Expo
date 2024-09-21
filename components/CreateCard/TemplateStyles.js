@@ -274,12 +274,10 @@ export const styles = StyleSheet.create({
     },
     dropDownContainer: {
         marginRight: "63%",
-    },
-    zIndex1: {
-        zIndex: 1,
-    },
+        zIndex: 0,
+    }, 
     zIndex2: {
-        zIndex: -2,
+        zIndex: -2
     },
     zIndex3: {
         zIndex: -3,
