@@ -466,4 +466,42 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "600",
     },
+
+    // 팬 템플릿
+    paddignB0: {
+        paddingBottom: 0,
+    },
+    paddignB24: {
+        paddingBottom: 24,
+    },
+    selectContaienr: {
+        paddingTop: 31-8,
+    },
+    selectBtnContainer: {
+        backgroundColor: theme.white,
+        paddingHorizontal: 16,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: theme.gray90,
+        marginTop: 8,
+    },
+    selectBtnTitleContainer: {
+        flexDirection:"row",
+        justifyContent: "space-between",
+        alignItems:"center",
+        paddingTop: 24,
+    },
+    selectBtnTitle: {
+        color: theme.gray10,
+        fontFamily: 'PretendardMedium',
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "500",
+        textAlign: "center",
+    },
+    selectBtns: {
+        flexDirection:"row",
+        flexWrap: 'wrap',
+        marginTop: 16,
+    }
 })

@@ -13,6 +13,7 @@ import TemplateStudentTeenager from "../../components/CreateCard/TemplateStudent
 import TemplateStudentYouth from "../../components/CreateCard/TemplateStudentYouth";
 import TemplateWorker from "../../components/CreateCard/TemplateWorker";
 import TemplateFan from "../../components/CreateCard/TemplateFan";
+import TemplateFree from "../../components/CreateCard/TemplateFree";
 
 function CreateCard({navigation}) {
     const [card_template, setCardTemplate] = useState();
@@ -65,7 +66,6 @@ function CreateCard({navigation}) {
                                     key={item.id}
                                     style={[
                                         styles.cell,
-                                        
                                     ]}
                                     onPress={() => handleSelectTemplate(item.id)}
                                 >
@@ -105,8 +105,7 @@ function CreateCard({navigation}) {
                     )}
                     {card_template === "free" && (
                         // 자유 생성
-                        //<TemplateStudent navigation={navigation} />
-                        <></>
+                        <TemplateFree navigation={navigation} />
                     )}
                 </View>
             )}
