@@ -76,12 +76,15 @@ export const styles = StyleSheet.create({
         borderRadius: 39,
         },
         emptyContainer: {
+        backgroundColor: 'white',
+        flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
         gap: 16,
         },
         noCard: {
         color: theme.gray60,
-        fontFamily: 'PretendardSemiBold',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '600',
         lineHeight: 19,
@@ -96,7 +99,7 @@ export const styles = StyleSheet.create({
         },
         newCard: {
         color:theme.skyblue,
-        fontFamily: 'PretendardSemiBold',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '600',
         lineHeight: 19,

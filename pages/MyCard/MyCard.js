@@ -5,11 +5,13 @@ import React, { useState } from 'react';
 import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import AddIcon from '../../assets/icons/ic_add_small_line.svg';
-import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 import DeleteIcon from '../../assets/icons/ic_delete.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
   
 import { useNavigation } from '@react-navigation/native';
+import { Colors } from "react-native/Libraries/NewAppScreen";
+import { theme } from "../../theme";
 
 function MyCard() {
     const { width:SCREEN_WIDTH } = Dimensions.get('window');
@@ -22,7 +24,7 @@ function MyCard() {
         { id: '3', name: 'Card 3' },
     ]
     const [cardPage, setCardPage] = useState(1);
-    const [hasCard, setHasCard] = useState(true);
+    const [hasCard, setHasCard] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
 
     const navigation = useNavigation();
@@ -54,6 +56,41 @@ function MyCard() {
     }
     };
     
+    // const handleHeaderLeft = (onPress) => {
+    //     if (step > 1 && step !== 6 && step !== 7) {
+    //       return (
+    //         <TouchableOpacity onPress={handleBack}>
+    //           <LeftArrowIcon style={{ marginLeft: 8 }} />
+    //         </TouchableOpacity>
+    //       );
+    //     } else if (step === 6 || step === 7) {
+    //       return (
+    //         <TouchableOpacity onPress={handleBack}>
+    //           <CloseIcon style={{ marginLeft: 8 }} />
+    //         </TouchableOpacity>
+    //       );
+    //     } else if (step === 1) {
+    //       return (
+    //         <TouchableOpacity onPress={handleGoBack}>
+    //           <CloseIcon style={{ marginLeft: 8 }} />
+    //         </TouchableOpacity>
+    //       );
+    //     }
+    //   };
+
+    //   const handleHeaderTitle = () => {
+    //     if (!hasCard) return navigation.setOptions({headerTitle: null});
+    //     else if (step === 7) return navigation.setOptions({headerTitle: "개인정보 처리방침"});
+    //     else return navigation.setOptions({headerTitle: "회원가입"});
+    //   };
+      
+    //   useEffect(() => {
+    //     navigation.setOptions({
+    //       headerLeft: handleHeaderLeft,
+    //       headerTitle: handleHeaderTitle,
+    //     });
+    //   }, [navigation, step]);
+
     return (
         <View style={{flex: 1}}> 
             {hasCard ?

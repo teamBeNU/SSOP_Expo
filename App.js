@@ -384,7 +384,7 @@ const Tab = createBottomTabNavigator();
           headerShown: false
           }} />
         <Tab.Screen name="내 카드" component={MyCard} options={{ 
-          tabBarLabel: '내 카드', headerTitle: "내 카드",
+          tabBarLabel: '내 카드', headerTitle: "",
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontFamily: 'PretendardRegular',
