@@ -16,7 +16,7 @@ function MyCard() {
     const CARD_WIDTH = SCREEN_WIDTH * 0.8;
     const SPACING_FOR_CARD_INSET = SCREEN_WIDTH * 0.1 - 10;
 
-    const data = [
+    const cardData = [
         { id: '1', name: 'Card 1' },
         { id: '2', name: 'Card 2' },
         { id: '3', name: 'Card 3' },
@@ -58,7 +58,7 @@ function MyCard() {
         <View style={{flex: 1}}> 
             {hasCard ?
             <View style={styles.container}>
-            <Text style={styles.cardPage}>{cardPage} / {data.length}</Text>
+            <Text style={styles.cardPage}>{cardPage} / {cardData.length}</Text>
             <ScrollView 
                horizontal 
                pagingEnabled
@@ -70,9 +70,9 @@ function MyCard() {
                onScroll={handleScroll}
                scrollEventThrottle={16} 
             >
-                {data.map((item, index) => (
+                {cardData.map((item, index) => (
                 <View key={index} style={styles.cardWrapper}>
-                    <Card name={item.name} />
+                    <Card />
                 </View>
                 ))}
             </ScrollView>
@@ -104,13 +104,13 @@ function MyCard() {
                                         <View style={styles.modalContent}>
                                             <TouchableOpacity onPress={() => {
                                                 setIsModalVisible(false);
-                                                navigation.navigate('카드 정보 수정');}}>
+                                                navigation.navigate('카드 정보 수정', {card: cardData});}}>
                                              <Text style={styles.modalTitle}>정보 수정할래요</Text>
                                             </TouchableOpacity>
                                             <View style={styles.line} />
                                             <TouchableOpacity onPress={() => {
                                                 setIsModalVisible(false);
-                                                navigation.navigate('카드 커버 수정');}}>
+                                                navigation.navigate('카드 커버 수정', {card: cardData});}}>
                                             <Text style={styles.modalTitle}>표지 수정할래요</Text>
                                             </TouchableOpacity>
                                         </View>

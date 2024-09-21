@@ -8,9 +8,9 @@ const cardHeight = WIDTH * 1.2;
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-		width: cardWidth, //WIDTH * 0.8
-        height: cardHeight, //WIDTH * 1.2 = 436
-        borderRadius: 8,
+        width: 304,
+        height: 432,
+        borderRadius: 32,
         borderWidth: 1,
         borderColor: theme.gray90,
         backgroundColor: 'white',
@@ -21,16 +21,16 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
 	},
 	cardImgArea: {
-        height: cardHeight * 0.67,
+        height: 293,
         backgroundColor: '#B6E96C',
         alignItems: 'center',
         justifyContent: 'center',
     },
     cardTextArea: {
         backgroundColor: "white",
-        paddingTop: 16,
-        paddingLeft: 24,
-        paddingBottom: 32,
+        height: 139,
+        padding: 24,
+        borderRadius: 20,
         gap: 12,
     },
     basicInfo: {
@@ -71,8 +71,8 @@ export const styles = StyleSheet.create({
 
     // CardBack
     textArea: {
-        height: 368,
-        marginVertical: 32,
+        height: 352,
+        marginVertical: 40,
         marginHorizontal: 24,
         alignItems: 'flex-start',
         gap: 24,
@@ -83,15 +83,15 @@ export const styles = StyleSheet.create({
     },
     topic: {
         width: 52,
-        color: theme.gray20,
+        color: theme.gray50,
         fontFamily: 'PretendardRegular',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '400',
         lineHeight: 19,
-        letterSpacing: -0.14,
+        letterSpacing: -0.32,
     },
     content: {
-        color: 'black',
+        color: theme.gray10,
         fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
@@ -136,5 +136,13 @@ export const styles = StyleSheet.create({
         shadowRadius: 12,
         elevation: 3,
     },
+    graybox: {
+        backgroundColor: theme.gray95,
+        borderRadius: 20,
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
     
 });

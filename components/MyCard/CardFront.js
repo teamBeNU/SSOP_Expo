@@ -1,52 +1,62 @@
-import { View, Text, StyleSheet } from 'react-native';
+import React from 'react';
+import { View, Text } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './CardStyle';
 import { CardSample_student } from './CardSample';
 import AvatarSample from '../../assets/AvatarSample.svg'
 
 export const CardFront = () => {
-    const currentAge = calculateAge(CardSample_student[0].card_birth);
+    const cardData = CardSample_student[0];
+    const { card_name, card_birth, card_student_school, card_student_grade, card_introduction } = cardData;
+    
+    const formattedBirthDate = cardData.cardOptional
+    .card_birth 
+    ? `${cardData.cardOptional
+        .card_birth.slice(0, 4)}.${cardData.cardOptional
+        .card_birth.slice(5, 7)}.${cardData.cardOptional
+        .card_birth.slice(8, 10)}`
+    : 'Unknown Date';
 
+const currentAge = cardData.cardOptional.card_birth ? calculateAge(cardData.cardOptional.card_birth) : 'Unknown';
     return (
-        <View style={styles.card}>
+        <View style={{...styles.card, backgroundColor: '#B6E96C'}}>
             <View style={styles.cardImgArea}>
                 <AvatarSample style={{marginBottom: -36}} />
             </View>
             <View style={styles.cardTextArea}>
                 <View style={styles.basicInfo}> 
-                    <Text style={styles.name}>{CardSample_student[0].card_name}</Text>
+                    <Text style={styles.name}>{cardData.cardEssential.card_name}</Text>
                     <View style={styles.age}>
                         <Text style={{color: theme.grey20}}>{currentAge}세</Text>
                         <Text style={{color: theme.grey50}}>•</Text>
-                        <Text style={{color: theme.grey20}}>{CardSample_student[0].card_birth.year}.{CardSample_student[0].card_birth.month}.{CardSample_student[0].card_birth.day}</Text>
+                        <Text style={{color: theme.grey20}}>
+                        {formattedBirthDate}
+                        </Text>
                     </View>
                 </View>
                 <Text style={styles.sub}>
-                    {CardSample_student[0].card_school} {CardSample_student[0].card_grade}학년
+                    {cardData.student.card_student_school} {cardData.student.card_student_grade}
                 </Text>
                 <Text style={styles.sub2}>
-                    {CardSample_student[0].card_description}
+                    {cardData.cardEssential.card_introduction}
                 </Text>
-
             </View>
         </View>
-    )
-}
+    );
+};
 
 // 만나이 계산
 function calculateAge(birthDate) {
     const today = new Date();
-    const birthYear = birthDate.year;
-    const birthMonth = birthDate.month;
-    const birthDay = birthDate.day;
-  
-    let age = today.getFullYear() - parseInt(birthYear);
-    const monthDiff = today.getMonth() + 1 - parseInt(birthMonth);
-  
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < parseInt(birthDay))) {
-      age--;
+    const [year, month, day] = birthDate.split('/').map(Number);
+
+    let age = today.getFullYear() - year;
+    const monthDiff = today.getMonth() + 1 - month;
+
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < day)) {
+        age--;
     }
-  
+
     return age;
   };
 

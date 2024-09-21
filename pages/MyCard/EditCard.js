@@ -1,29 +1,35 @@
-import { Dimensions, View, Text, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from "react-native";
-import { styles } from "./EditCardStyle";
-import React, { useState, useRef, useEffect } from 'react';
-import { theme } from "../../theme";
-import * as Progress from 'react-native-progress';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import RNPickerSelect from 'react-native-picker-select';
+import { Dimensions, View, Text, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from "react-native"
+import { styles } from "./EditCardStyle"
+import React, { useState, useRef, useEffect } from 'react'
+import { theme } from "../../theme"
+import * as Progress from 'react-native-progress'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import RNPickerSelect from 'react-native-picker-select'
 
-import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
-import DoneIcon from '../../assets/icons/ic_done_small_line.svg';
+import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg'
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg'
+import DoneIcon from '../../assets/icons/ic_done_small_line.svg'
 import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
 
 function EditCard() {
+    const route = useRoute();
+    const {card} = route.params;
+
+    const [name, setName] = useState(card?.card_name || '');
+    const [mbti, setMBTI] = useState(card?.MBTI || '');
+    const [birth, setBirth] = useState(card?.birth || '');
+    const [introduce, setIntroduce] = useState(card?.introduce || '');
+
     const [isSecret, setIsSecret] = useState(false);
     const [step, setStep] = useState(1);
     const ref_input = useRef();
 
-    const [birth, setBirth] = useState('');
-    const [MBTI, setMBTI] = useState('');
 
     const [grade, setGrade] = useState('');
     const [studentStatus, setStudentStatus] = useState('');
 
     const handleMBTI = (input) => {
-          // 영어만 입력되도록 정규식 필터 적용
+        // 영어만 입력되도록 정규식 필터 적용
         const filteredText = input.replace(/[^a-zA-Z]/g, '');
         setMBTI(filteredText.toUpperCase());
     }
@@ -38,11 +44,13 @@ function EditCard() {
         if (step === 1 ) {
             setStep(2);
         } else if (step === 2) {
+            if (cardData.card_template === '대학생') setStep(3);
+            // else if (cardData.card_template === '초중고등학생') setStep(4);
+            // else if (cardData.card_template === '직장인') setStep(5);
+            // else if (cardData.card_template === '팬') setStep(6);
+            // else if (cardData.card_template === '자유') setStep(7);
 
-            setStep(3);
-        } else if (step === 3) {
-            
-        }
+        } 
     }
 
     const handleBack = () => {
@@ -117,6 +125,8 @@ function EditCard() {
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
                 <Text style={styles.subTitle}>이름*</Text>
                 <TextInput 
+                    value={name}
+                    onChangeText={setName}
                     style={styles.input}
                     placeholder="이름을 입력해 주세요."
                     placeholderTextColor={theme.gray60}
@@ -126,6 +136,8 @@ function EditCard() {
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
                 <Text style={styles.subTitle}>한줄소개*</Text>
                 <TextInput 
+                    value={introduce}
+                    onChangeText={setIntroduce}
                     style={styles.input}
                     placeholder="나에 대해 간단히 알려주세요."
                     placeholderTextColor={theme.gray60}
@@ -137,7 +149,7 @@ function EditCard() {
                 <TextInput 
                     style={styles.input}
                     placeholder="MBTI를 입력해 주세요."
-                    value={MBTI}
+                    value={mbti}
                     onChangeText={handleMBTI}
                     placeholderTextColor={theme.gray60}
                     maxLength={4}
@@ -244,7 +256,8 @@ function EditCard() {
             </KeyboardAvoidingView>
             )}
 
-            {step === 3 && (
+            
+            {step === 3 && ( // 대학생
             <KeyboardAvoidingView 
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -259,7 +272,7 @@ function EditCard() {
                 <Text style={styles.subTitle}>학교*</Text>
                 <TextInput 
                     style={styles.input}
-                    placeholder="학교명을 입력해 주세요."
+                    placeholder= {cardData.card_school ? cardData.card_school : "학교명을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>
@@ -271,12 +284,12 @@ function EditCard() {
                     onValueChange={(value) => setGrade(value)}
                     value={grade}
                     items={[
-                    { label: '1학년', value: '1학년' },
-                    { label: '2학년', value: '2학년' },
-                    { label: '3학년', value: '3학년' },
-                    { label: '4학년', value: '4학년' },
-                    { label: '추가학기', value: '추가학기' },
-                    { label: '그 외', value: '그 외' },
+                    { label: '1학년', value: '1학년', key: '1' },
+                    { label: '2학년', value: '2학년', key: '2' },
+                    { label: '3학년', value: '3학년', key: '3' },
+                    { label: '4학년', value: '4학년', key: '4' },
+                    { label: '추가학기', value: '추가학기', key: '5' },
+                    { label: '그 외', value: '그 외', key: '6' },
                     ]}
                     placeholder={{ label: '학년', value: null }}
                     useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
@@ -335,10 +348,10 @@ function EditCard() {
                     onValueChange={(value) => setStudentStatus(value)}
                     value={studentStatus}
                     items={[
-                    { label: '재학', value: '재학' },
-                    { label: '휴학', value: '휴학' },
-                    { label: '졸업 예정', value: '졸업 예정' },
-                    { label: '졸업', value: '졸업' },
+                    { label: '재학', value: '재학', key: '1' },
+                    { label: '휴학', value: '휴학', key: '2' },
+                    { label: '졸업 예정', value: '졸업 예정', key: '3' },
+                    { label: '졸업', value: '졸업', key: '4' },
                     ]}
                     placeholder={{ label: '학년', value: null }}
                     useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
