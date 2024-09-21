@@ -4,6 +4,8 @@ import { styles } from './CardViewsStyle';
 import { PlusCardButton } from './ShareCard';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import PlusCardIcon from '../../assets/icons/ic_add_medium_line.svg';
+import ListIcon from '../../assets/icons/ic_lists.svg';
+import AllListIcon from'../../assets/icons/ic_border_all.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
 const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, title, showPlusCardButton }) => {
@@ -12,23 +14,30 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, 
       <Text style={styles.title}>{title}</Text>
 
       <View style={styles.container2}>
-        <View style={styles.row2}>
+        <View style={styles.rowRange}>
+          {/* 격자형, 리스트형 */}
+          <TouchableOpacity
+            onPress={() => setViewOption(viewOption === '격자형' ? '리스트형' : '격자형')}
+            style={styles.iconContainer}>
+            {viewOption === '격자형' ? (
+              <AllListIcon/>
+            ) : (
+              <ListIcon/>
+            )}
+          </TouchableOpacity>
 
-          <Text style={styles.range}>{selectedOption}</Text>
-          <Menu style={styles.DownArrowIcon}>
-            <MenuTrigger><DownArrowIcon /></MenuTrigger>
-            <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+          {/* 최신순, 오래된순 */}
+          <Menu>
+            <MenuTrigger>
+              <View style={styles.optionButton}>
+                <Text style={styles.range}>{selectedOption}</Text>
+                <DownArrowIcon style={styles.DownArrowIcon} />
+              </View>
+            </MenuTrigger>
+            <MenuOptions
+              optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
               <MenuOption style={{ marginBottom: 10.5 }} onSelect={() => setSelectedOption('최신순')} text='최신순' />
               <MenuOption onSelect={() => setSelectedOption('오래된 순')} text='오래된 순' />
-            </MenuOptions>
-          </Menu>
-
-          <Text style={styles.range}>{viewOption}</Text>
-          <Menu style={styles.DownArrowIcon}>
-            <MenuTrigger><DownArrowIcon /></MenuTrigger>
-            <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-              <MenuOption style={{ marginBottom: 10.5 }} onSelect={() => setViewOption('격자형')} text='격자형' />
-              <MenuOption onSelect={() => setViewOption('리스트형')} text='리스트형' />
             </MenuOptions>
           </Menu>
 
