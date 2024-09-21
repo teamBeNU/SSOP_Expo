@@ -315,8 +315,8 @@ const Tab = createBottomTabNavigator();
                 : require('./assets/Navigation/ic_myCard_regular.png');
             } else if (route.name === '알림') {
               iconSource = focused
-                ? require('./assets/Navigation/ic_profile_regular_line.png')
-                : require('./assets/Navigation/ic_profile_regular.png');
+                ? require('./assets/Navigation/ic_noti_regular_line.png')
+                : require('./assets/Navigation/ic_noti_regular.png');
             } else if (route.name === 'MY') {
               iconSource = focused
                 ? require('./assets/Navigation/ic_profile_regular_line.png')

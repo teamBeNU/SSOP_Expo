@@ -2,16 +2,14 @@ import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
-    mainlayout:{      
-        flex: 1,  
+    mainlayout:{   
+        flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 16,
         backgroundColor: theme.white,
     },
     shareContainer:{      
         flex: 1,  
-        paddingVertical: 8,
-        paddingHorizontal: 16,
         backgroundColor: theme.white,
     },
     title: { // 글씨 

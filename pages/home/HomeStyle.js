@@ -99,8 +99,8 @@ export const styles = StyleSheet.create({
     },
     
     Text20: {
-        marginTop: 16,
-        marginLeft: 16,
+        marginTop: 20,
+        marginLeft: 20,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
         letterSpacing: -1,

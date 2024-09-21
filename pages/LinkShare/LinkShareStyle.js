@@ -10,8 +10,6 @@ export const styles = StyleSheet.create({
     },
     shareContainer:{      
         flex: 1,  
-        paddingVertical: 8,
-        paddingHorizontal: 16,
         backgroundColor: theme.white,
     },
     title: { // 글씨 
