@@ -16,7 +16,7 @@ const cardHeight = (cardWidth * 184) / 154; // 184x154 비율에 맞춘 카드 �
 
 function Home({navigation}) {
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: '#F5F8F8'}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: theme.white}}>
             <View style={styles.mainlayout}>
                 <View>
                     <TouchableOpacity style={styles.btn1} onPress={() => navigation.navigate('카드 만들기')}>

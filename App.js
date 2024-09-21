@@ -342,7 +342,7 @@ const Tab = createBottomTabNavigator();
           tabBarLabel: '홈',
           headerTitle: ' ',
           headerStyle: {
-            backgroundColor: '#F5F8F8'
+            backgroundColor: theme.white
           },
           headerRight: () => (
             <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>

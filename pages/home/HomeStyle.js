@@ -6,7 +6,7 @@ export const styles = StyleSheet.create({
         flex: 1, 
         paddingVertical: 16,
         paddingHorizontal: 16,
-        backgroundColor: '#F5F8F8',
+        backgroundColor: theme.white,
     },
     title: { // 글씨  
         marginTop: 64,
