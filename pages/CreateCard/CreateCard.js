@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState } from 'react';
 import "react-native-gesture-handler";
 import { styles } from "./CreateCardStyle";
 
@@ -8,10 +8,11 @@ import Worker from '../../assets/profile/worker.svg';
 import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
 
-import TemplateStudent from "../../components/CreateCard/TemplateStudent";
 import BottomSheet from "../../components/CreateCard/BottomSheet";
 import TemplateStudentTeenager from "../../components/CreateCard/TemplateStudentTeenager";
 import TemplateStudentYouth from "../../components/CreateCard/TemplateStudentYouth";
+import TemplateWorker from "../../components/CreateCard/TemplateWorker";
+import TemplateFan from "../../components/CreateCard/TemplateFan";
 
 function CreateCard({navigation}) {
     const [card_template, setCardTemplate] = useState();
@@ -96,12 +97,11 @@ function CreateCard({navigation}) {
                     )} 
                     {card_template === "worker" && (
                         // 직장인
-                        <TemplateStudent navigation={navigation} />
+                        <TemplateWorker navigation={navigation} />
                     )}
                     {card_template === "fan" && (
                         // 팬
-                        //<TemplateStudent navigation={navigation} />
-                        <></>
+                        <TemplateFan navigation={navigation} />
                     )}
                     {card_template === "free" && (
                         // 자유 생성
