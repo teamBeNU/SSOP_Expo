@@ -66,6 +66,13 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
     const ref_input3 = useRef();
     const ref_input4 = useRef();
     
+    // mbti
+    const handleMBTI = (input) => {
+        // 영어만 입력되도록 정규식 필터 적용
+        const filteredText = input.replace(/[^a-zA-Z]/g, '');
+        setCardMbti(filteredText.toUpperCase());
+    }
+
     // 생년월일 '/' 자동 추가
     useEffect(() => {
         const formatBirth = (input) => {
@@ -276,7 +283,8 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={card_mbti}
-                                            onChangeText={setCardMbti}
+                                            onChangeText={handleMBTI}
+                                            maxLength={4}
                                             returnKeyType="next"
                                             onSubmitEditing={() => ref_input4.current.focus()}
                                             ref={ref_input3}
