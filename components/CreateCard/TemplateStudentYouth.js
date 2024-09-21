@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Platform, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, SafeAreaView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { NavigationContainer } from '@react-navigation/native';
@@ -230,7 +230,6 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
             {step === 1 && (
                 <KeyboardAvoidingView
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -329,7 +328,6 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
             {step === 2 && (
                 <KeyboardAvoidingView 
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -418,18 +416,17 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
             {step === 3 && (
                 <KeyboardAvoidingView
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <SafeAreaView style={styles.viewContainer}>
+                        <View style={styles.viewContainer}>
                             <View>
                                 <ScrollView 
                                     contentContainerStyle={{ flexGrow: 1 }}
                                     showsVerticalScrollIndicator={false}
                                 >
                                     <Text style={styles.title}>학교 속 나에 대해 알려주세요.</Text>
-                                    <Text style={styles.subTitle}>날 소개하기 위한 필수 정보들이에요.</Text>
+                                    <Text style={styles.subTitle}>카드 앞면에 표시돼요.</Text>
                                     <View style={styles.informContainer}>
                                         <View style={[styles.inputContainer, !isFull.school && {marginBottom: 15}]}>
                                             <Text style={styles.inputTextEssential}>학교*</Text>
@@ -468,7 +465,7 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
                                     </View>
                                 </ScrollView>
                                 <View style={[styles.inputContainer, !isFull.grade && {marginBottom: 15}]}>
-                                    <Text style={styles.inputTextEssential}>학년*</Text>
+                                    <Text style={[styles.inputTextEssential, styles.zIndex2]}>학년*</Text>
                                     <View style={styles.dropDownContainerZIndex}>
                                     <DropDown
                                         dropDownOpen={dropDownOpen}
@@ -494,33 +491,31 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
                                     <Text style={styles.btnNextText}>다음으로</Text>
                                 </TouchableOpacity>
                             </View>
-                        </SafeAreaView>
+                        </View>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
             )}
 
             {step === 4 && (
-                // <KeyboardAwareScrollView style={[styles.container, {backgroundColor:"red"}]} >
                 <KeyboardAvoidingView
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <SafeAreaView style={styles.viewContainer}>
+                        <View style={styles.viewContainer}>
                             <View>
                                 <ScrollView 
                                     contentContainerStyle={{ flexGrow: 1 }}
                                     showsVerticalScrollIndicator={false}
                                 >
                                     <Text style={styles.title}>더 자세히 알려주실래요?</Text>
-                                    <Text style={styles.subTitle}>정보를 자유롭게 추가하세요.</Text>
+                                    <Text style={styles.subTitle}>카드 뒷면에 표시돼요.</Text>
                                     <View style={styles.informContainer}>
                                         <View style={styles.inputContainer}>
                                             <Text style={styles.inputText}>학생번호</Text>
                                             <TextInput 
                                                 style={styles.customInput}
-                                                placeholder="학생 번호를 입력해 주세요. 예) 17번"
+                                                placeholder="학생 번호를 입력해 주세요. 예) 17학번"
                                                 placeholderTextColor={theme.gray60}
                                                 keyboardType="default"
                                                 value={card_student_id}
@@ -534,7 +529,7 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
                                             <Text style={styles.inputText}>역할</Text>
                                             <TextInput 
                                                 style={styles.customInput}
-                                                placeholder="학급 혹은 학교 내 역할을 입력해 주세요."
+                                                placeholder="프로젝트 혹은 학교 내 역할을 입력해 주세요."
                                                 placeholderTextColor={theme.gray60}
                                                 keyboardType="default"
                                                 value={card_student_role}
@@ -545,7 +540,7 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
                                                 blurOnSubmit={false}
                                             />
                                         </View>
-                                        <View style={styles.inputContainer}>
+                                        <View style={[styles.inputContainer, styles.zIndex2]}>
                                             <Text style={styles.inputText}>동아리</Text>
                                             <TextInput 
                                                 style={styles.customInput}
@@ -562,22 +557,22 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
                                     </View>
                                 </ScrollView>
                                 <View style={styles.inputContainer}>
-                                    <Text style={styles.inputTextEssential}>재학상태</Text>
+                                    <Text style={[styles.inputText, styles.zIndex2]}>재학상태</Text>
                                     <View style={styles.dropDownContainer}>
-                                    <DropDown
-                                        dropDownOpen={dropDownOpen}
-                                        dropDownValue={card_student_status}
-                                        setDropDownOpen={setDropDownOpen}
-                                        setDropDownValue={setCardStudentStatus}
-                                        items={statusItems}
-                                        setItems={setStatusItems}
-                                        placeholder={'재학상태'}
-                                        isError={true}
-                                    />
+                                        <DropDown
+                                            dropDownOpen={dropDownOpen}
+                                            dropDownValue={card_student_status}
+                                            setDropDownOpen={setDropDownOpen}
+                                            setDropDownValue={setCardStudentStatus}
+                                            items={statusItems}
+                                            setItems={setStatusItems}
+                                            placeholder={'재학상태'}
+                                            isError={true}
+                                        />
                                     </View>
                                 </View>
                             </View>
-                            <View style={[styles.btnContainer2, styles.zIndex1]}>
+                            <View style={[styles.btnContainer2]}>
                                 <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}
@@ -585,16 +580,14 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
                                     <Text style={styles.btnNextText}>다음으로</Text>
                                 </TouchableOpacity>
                             </View>
-                        </SafeAreaView>
+                        </View>
                     </TouchableWithoutFeedback>
                 </KeyboardAvoidingView>
-            //     </KeyboardAwareScrollView>
             )}
 
             {step === 5 && (
                 <KeyboardAvoidingView 
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

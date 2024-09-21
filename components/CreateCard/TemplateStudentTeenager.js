@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, SafeAreaView, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -222,7 +222,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             {step === 1 && (
                 <KeyboardAvoidingView
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -321,7 +320,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             {step === 2 && (
                 <KeyboardAvoidingView 
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -393,7 +391,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         />
                                     </View>
                                 </View>
-                                {/* <View style={styles.marginB100}></View> */}
                             </ScrollView>
                             <View style={styles.btnContainer}>
                                 <TouchableOpacity 
@@ -411,7 +408,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             {step === 3 && (
                 <KeyboardAvoidingView
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container} 
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -436,7 +432,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                     )}
                                 </View>
                                 <View style={[styles.inputContainer, !isFull.grade && {marginBottom: 15}]}>
-                                    <Text style={styles.inputTextEssential}>학년*</Text>
+                                    <Text style={[styles.inputTextEssential, styles.zIndex2]}>학년*</Text>
                                     <View style={styles.dropDownContainerZIndex}>
                                     <DropDown
                                         dropDownOpen={dropDownOpen}
@@ -470,7 +466,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             {step === 4 && (
                 <KeyboardAvoidingView 
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -541,7 +536,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         />
                                     </View>
                                 </View>
-                                {/* <View style={styles.marginB100}></View> */}
                             </ScrollView>
                             <View style={styles.btnContainer}>
                                 <TouchableOpacity 
@@ -559,7 +553,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             {step === 5 && (
                 <KeyboardAvoidingView 
                     behavior="padding"
-                    // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
