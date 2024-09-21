@@ -15,7 +15,7 @@ function Login() {
     return(
         <View style={{...styles.container, alignItems: 'center'}}>
             <View style={{position: 'absolute', top: (HEIGHT / 7)}}>
-                <Text style={styles.title}> <Text style={styles.ssop}>쏩 카드</Text>로{`\n`}서로에게 스며들다
+                <Text style={styles.title}> <Text style={styles.ssop}>프로필 카드</Text>로{`\n`}쉬워지는 자기소개
                 </Text>
             </View>
             
