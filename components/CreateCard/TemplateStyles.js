@@ -268,9 +268,15 @@ export const styles = StyleSheet.create({
         fontWeight: "600",
     },
 
-    dropDownContainer: {
+    dropDownContainerZIndex: {
         marginRight: "63%",
         zIndex: -1,
+    },
+    dropDownContainer: {
+        marginRight: "63%",
+    },
+    zIndex1: {
+        zIndex: 1,
     },
     zIndex2: {
         zIndex: -2,

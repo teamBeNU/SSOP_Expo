@@ -123,7 +123,7 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
         const day = birth[2];
 
         const days = getDayInMonth(year, month);
-        const isYearValid = year > currentYear - 110 && year <= currentYear;
+        const isYearValid = year > currentYear - 150 && year <= currentYear;
         const isMonthValid = month >= 1 && month <= 12;
         const isDayValid = day >= 1 && day <= days;
     
@@ -417,35 +417,59 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
 
             {step === 3 && (
                 <KeyboardAvoidingView
-                    behavior="height"
+                    behavior="padding"
                     // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <SafeAreaView style={styles.viewContainer}>
-                            <Text style={styles.title}>학교 속 나에 대해 알려주세요.</Text>
-                            <Text style={styles.subTitle}>날 소개하기 위한 필수 정보들이에요.</Text>
-                            <View style={styles.informContainer}>
-                                <View style={[styles.inputContainer, !isFull.school && {marginBottom: 15}]}>
-                                    <Text style={styles.inputTextEssential}>학교*</Text>
-                                    <TextInput 
-                                        style={[styles.customInput, !isFull.school && styles.inputError]}
-                                        placeholder="학교명을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_school}
-                                        onChangeText={setCardStudentSchool}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input2.current.focus()}
-                                        blurOnSubmit={false}
-                                    />
-                                    {!isFull.school && (
-                                        <Text style={styles.inputErrorText}>학교명을 입력해 주세요.</Text>
-                                    )}
-                                </View>
+                            <View>
+                                <ScrollView 
+                                    contentContainerStyle={{ flexGrow: 1 }}
+                                    showsVerticalScrollIndicator={false}
+                                >
+                                    <Text style={styles.title}>학교 속 나에 대해 알려주세요.</Text>
+                                    <Text style={styles.subTitle}>날 소개하기 위한 필수 정보들이에요.</Text>
+                                    <View style={styles.informContainer}>
+                                        <View style={[styles.inputContainer, !isFull.school && {marginBottom: 15}]}>
+                                            <Text style={styles.inputTextEssential}>학교*</Text>
+                                            <TextInput 
+                                                style={[styles.customInput, !isFull.school && styles.inputError]}
+                                                placeholder="학교명을 입력해 주세요."
+                                                placeholderTextColor={theme.gray60}
+                                                keyboardType="default"
+                                                value={card_student_school}
+                                                onChangeText={setCardStudentSchool}
+                                                returnKeyType="next"
+                                                onSubmitEditing={() => ref_input2.current.focus()}
+                                                blurOnSubmit={false}
+                                            />
+                                            {!isFull.school && (
+                                                <Text style={styles.inputErrorText}>학교명을 입력해 주세요.</Text>
+                                            )}
+                                        </View>
+                                        <View style={[styles.inputContainer, !isFull.major && {marginBottom: 15}]}>
+                                            <Text style={styles.inputTextEssential}>전공*</Text>
+                                            <TextInput 
+                                                style={[styles.customInput, !isFull.major && styles.inputError]}
+                                                placeholder="전공을 입력해 주세요."
+                                                placeholderTextColor={theme.gray60}
+                                                keyboardType="default"
+                                                value={card_student_major}
+                                                onChangeText={setCardStudentMajor}
+                                                returnKeyType="done"
+                                                ref={ref_input2}
+                                                blurOnSubmit={true}
+                                            />
+                                            {!isFull.major && (
+                                                <Text style={styles.inputErrorText}>전공을 입력해 주세요.</Text>
+                                            )}
+                                        </View>
+                                    </View>
+                                </ScrollView>
                                 <View style={[styles.inputContainer, !isFull.grade && {marginBottom: 15}]}>
                                     <Text style={styles.inputTextEssential}>학년*</Text>
-                                    <View style={styles.dropDownContainer}>
+                                    <View style={styles.dropDownContainerZIndex}>
                                     <DropDown
                                         dropDownOpen={dropDownOpen}
                                         dropDownValue={card_student_grade}
@@ -459,23 +483,6 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
                                     </View>
                                     {!isFull.grade && (
                                         <Text style={[styles.inputErrorText, styles.zIndex2]}>학년을 입력해 주세요.</Text>
-                                    )}
-                                </View>
-                                <View style={[styles.inputContainer, styles.zIndex3]}>
-                                    <Text style={styles.inputTextEssential}>전공*</Text>
-                                    <TextInput 
-                                        style={[styles.customInput, !isFull.major && styles.inputError]}
-                                        placeholder="전공을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_major}
-                                        onChangeText={setCardStudentMajor}
-                                        returnKeyType="done"
-                                        ref={ref_input2}
-                                        blurOnSubmit={true}
-                                    />
-                                    {!isFull.major && (
-                                        <Text style={styles.inputErrorText}>전공을 입력해 주세요.</Text>
                                     )}
                                 </View>
                             </View>
@@ -495,58 +502,65 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
             {step === 4 && (
                 // <KeyboardAwareScrollView style={[styles.container, {backgroundColor:"red"}]} >
                 <KeyboardAvoidingView
-                    behavior="height"
+                    behavior="padding"
                     // keyboardVerticalOffset={100}
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <SafeAreaView style={styles.viewContainer}>
-                            <Text style={styles.title}>더 자세히 알려주실래요?</Text>
-                            <Text style={styles.subTitle}>정보를 자유롭게 추가하세요.</Text>
-                            <View style={styles.informContainer}>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>학생번호</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="학생 번호를 입력해 주세요. 예) 17번"
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_id}
-                                        onChangeText={setCardStudentId}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input2.current.focus()}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>역할</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="학급 혹은 학교 내 역할을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_role}
-                                        onChangeText={setCardStudentRole}
-                                        returnKeyType="next"
-                                        onSubmitEditing={() => ref_input3.current.focus()}
-                                        ref={ref_input2}
-                                        blurOnSubmit={false}
-                                    />
-                                </View>
-                                <View style={styles.inputContainer}>
-                                    <Text style={styles.inputText}>동아리</Text>
-                                    <TextInput 
-                                        style={styles.customInput}
-                                        placeholder="소속된 동아리가 있다면 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_club}
-                                        onChangeText={setCardStudentClub}
-                                        returnKeyType="done"
-                                        ref={ref_input3}
-                                        blurOnSubmit={true}
-                                    />
-                                </View>
+                            <View>
+                                <ScrollView 
+                                    contentContainerStyle={{ flexGrow: 1 }}
+                                    showsVerticalScrollIndicator={false}
+                                >
+                                    <Text style={styles.title}>더 자세히 알려주실래요?</Text>
+                                    <Text style={styles.subTitle}>정보를 자유롭게 추가하세요.</Text>
+                                    <View style={styles.informContainer}>
+                                        <View style={styles.inputContainer}>
+                                            <Text style={styles.inputText}>학생번호</Text>
+                                            <TextInput 
+                                                style={styles.customInput}
+                                                placeholder="학생 번호를 입력해 주세요. 예) 17번"
+                                                placeholderTextColor={theme.gray60}
+                                                keyboardType="default"
+                                                value={card_student_id}
+                                                onChangeText={setCardStudentId}
+                                                returnKeyType="next"
+                                                onSubmitEditing={() => ref_input2.current.focus()}
+                                                blurOnSubmit={false}
+                                            />
+                                        </View>
+                                        <View style={styles.inputContainer}>
+                                            <Text style={styles.inputText}>역할</Text>
+                                            <TextInput 
+                                                style={styles.customInput}
+                                                placeholder="학급 혹은 학교 내 역할을 입력해 주세요."
+                                                placeholderTextColor={theme.gray60}
+                                                keyboardType="default"
+                                                value={card_student_role}
+                                                onChangeText={setCardStudentRole}
+                                                returnKeyType="next"
+                                                onSubmitEditing={() => ref_input3.current.focus()}
+                                                ref={ref_input2}
+                                                blurOnSubmit={false}
+                                            />
+                                        </View>
+                                        <View style={styles.inputContainer}>
+                                            <Text style={styles.inputText}>동아리</Text>
+                                            <TextInput 
+                                                style={styles.customInput}
+                                                placeholder="소속된 동아리가 있다면 입력해 주세요."
+                                                placeholderTextColor={theme.gray60}
+                                                keyboardType="default"
+                                                value={card_student_club}
+                                                onChangeText={setCardStudentClub}
+                                                returnKeyType="done"
+                                                ref={ref_input3}
+                                                blurOnSubmit={true}
+                                            />
+                                        </View>
+                                    </View>
+                                </ScrollView>
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.inputTextEssential}>재학상태</Text>
                                     <View style={styles.dropDownContainer}>
@@ -563,7 +577,7 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
                                     </View>
                                 </View>
                             </View>
-                            <View style={styles.btnContainer2}>
+                            <View style={[styles.btnContainer2, styles.zIndex1]}>
                                 <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}

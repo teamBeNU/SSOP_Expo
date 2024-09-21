@@ -116,7 +116,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
         const day = birth[2];
 
         const days = getDayInMonth(year, month);
-        const isYearValid = year > currentYear - 110 && year <= currentYear;
+        const isYearValid = year > currentYear - 150 && year <= currentYear;
         const isMonthValid = month >= 1 && month <= 12;
         const isDayValid = day >= 1 && day <= days;
     
@@ -437,7 +437,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                 </View>
                                 <View style={[styles.inputContainer, !isFull.grade && {marginBottom: 15}]}>
                                     <Text style={styles.inputTextEssential}>학년*</Text>
-                                    <View style={styles.dropDownContainer}>
+                                    <View style={styles.dropDownContainerZIndex}>
                                     <DropDown
                                         dropDownOpen={dropDownOpen}
                                         dropDownValue={card_student_grade}
