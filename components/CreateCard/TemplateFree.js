@@ -1,19 +1,14 @@
 import { View, Text, TextInput, TouchableOpacity, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, SafeAreaView } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { RadioButton } from 'react-native-paper';
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
-import DropDown from "./DropDown";
 import AvatarCustom from "./AvatarCustom";
-import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import DownArrow from "./FreeTemplate/DownArrow";
 import SelectBtn from "./FreeTemplate/SelectBtn";
+import SelectTextInput from "./FreeTemplate/SelectTextInput";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -36,11 +31,24 @@ export default function TemplateFree ({navigation, card_template}) {
     const [card_hobby, setCardHobby] = useState('');
     const [card_address, setCardAddress] = useState('');
 
+    const [card_student_school, setCardStudentSchool] = useState('');   // 학교
+    const [card_student_grade, setCardStudentGrade] = useState('');   // 학년
+    const [card_student_major, setCardStudentMajor] = useState('');   // 전공
+    const [card_student_id, setCardStudentId] = useState('');   // 학번
+    const [card_student_club, setCardStudentClub] = useState('');   // 동아리
+    const [card_student_role, setCardStudentRole] = useState('');   // 역할
+    const [card_student_status, setCardStudentStatus] = useState('');   // 재학 상태
+
     const [card_worker_company, setCardWorkerCompany] = useState('');   // 회사
     const [card_worker_job, setCardWorkerJob] = useState('');   // 직무
     const [card_worker_position, setCardWorkerPosition] = useState('');   // 직위
     const [card_worker_department, setCardWorkerDepartment] = useState('');   // 부서
     
+    const [card_fan_genre, setCardFanGenre] = useState('');  // 덕질 장르
+    const [card_fan_first, setCardFanFirst] = useState('');  // 최애
+    const [card_fan_second, setCardFanSecond] = useState('');  // 차애
+    const [card_fan_reason, setCardFanReason] = useState('');  // 입덕 계기
+
     const [isFull, setIsFull] = useState({
         name: true,
         introduction: true,
@@ -70,29 +78,33 @@ export default function TemplateFree ({navigation, card_template}) {
         reason: false,
     })
 
+    // school, grade, major 등 중 하나라도 true인 경우
+    const isClickTrue = Object.keys(isClick).some(key => 
+        ['school', 'grade', 'major', 'id', 'role', 'club', 'status', 'company', 'job', 'position', 'department', 'genre', 'first', 'second', 'reason'].includes(key) && isClick[key]
+    );
+
     // 유셩 선택지 버튼
     const studentItems = [
-        { key: 'school', btnName: '학교', isClick: isClick.school },
-        { key: 'grade', btnName: '학년', isClick: isClick.grade },
-        { key: 'major', btnName: '전공', isClick: isClick.major },
-        { key: 'id', btnName: '학생번호', isClick: isClick.id },
-        { key: 'club', btnName: '동아리', isClick: isClick.club },
-        { key: 'role', btnName: '역할', isClick: isClick.role },
-        { key: 'status', btnName: '재학상태', isClick: isClick.status },
+        { key: 'school', btnName: '학교', isClick: isClick.school, cardValue: card_student_school, setCardValue: setCardStudentSchool },
+        { key: 'grade', btnName: '학년', isClick: isClick.grade, cardValue: card_student_grade, setCardValue: setCardStudentGrade },
+        { key: 'major', btnName: '전공', isClick: isClick.major, cardValue: card_student_major, setCardValue: setCardStudentMajor },
+        { key: 'id', btnName: '학생번호', isClick: isClick.id, cardValue: card_student_id, setCardValue: setCardStudentId },
+        { key: 'club', btnName: '동아리', isClick: isClick.club, cardValue: card_student_club, setCardValue: setCardStudentClub },
+        { key: 'role', btnName: '역할', isClick: isClick.role, cardValue: card_student_role, setCardValue: setCardStudentRole },
+        { key: 'status', btnName: '재학상태', isClick: isClick.status, cardValue: card_student_status, setCardValue: setCardStudentStatus },
     ]
     const workerItems = [
-        { key: 'company', btnName: '회사', isClick: isClick.company },
-        { key: 'job', btnName: '직무', isClick: isClick.job },
-        { key: 'position', btnName: '직위', isClick: isClick.position },
-        { key: 'department', btnName: '부서', isClick: isClick.department },
+        { key: 'company', btnName: '회사', isClick: isClick.company, cardValue: card_worker_company, setCardValue: setCardWorkerCompany },
+        { key: 'job', btnName: '직무', isClick: isClick.job, cardValue: card_worker_job, setCardValue: setCardWorkerJob },
+        { key: 'position', btnName: '직위', isClick: isClick.position, cardValue: card_worker_position, setCardValue: setCardWorkerPosition },
+        { key: 'department', btnName: '부서', isClick: isClick.department, cardValue: card_worker_department, setCardValue: setCardWorkerDepartment },
     ]
     const fanItems = [
-        { key: 'genre', btnName: '덕질장르', isClick: isClick.genre },
-        { key: 'first', btnName: '최애', isClick: isClick.first },
-        { key: 'second', btnName: '차애', isClick: isClick.second },
-        { key: 'reason', btnName: '입덕계기', isClick: isClick.reason },
+        { key: 'genre', btnName: '덕질장르', isClick: isClick.genre, cardValue: card_fan_genre, setCardValue: setCardFanGenre },
+        { key: 'first', btnName: '최애', isClick: isClick.first, cardValue: card_fan_first, setCardValue: setCardFanFirst },
+        { key: 'second', btnName: '차애', isClick: isClick.second, cardValue: card_fan_second, setCardValue: setCardFanSecond },
+        { key: 'reason', btnName: '입덕계기', isClick: isClick.reason, cardValue: card_fan_reason, setCardValue: setCardFanReason },
     ]
-
 
     const [imageWidth, setImageWidth] = useState(0);
 
@@ -186,13 +198,7 @@ export default function TemplateFree ({navigation, card_template}) {
         } else if (step === 2 ) {
             setStep(3);
         } else if (step === 3 ) {
-            const isCompanyFull = card_worker_company !== '';
-            const isJobFull = card_worker_job !== '';
-            setIsFull((prev => ({ ...prev, company: isCompanyFull, job: isJobFull })));
-            
-            if (isCompanyFull && isJobFull) {
-                setStep(4);
-            }
+            setStep(4);
         } else if (step === 4 ) {
             setStep(5);
         } else if (step === 5 ) {
@@ -451,14 +457,14 @@ export default function TemplateFree ({navigation, card_template}) {
                     style={styles.container}
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-                        <SafeAreaView style={styles.viewContainer}>
+                        <SafeAreaView style={styles.selectViewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
                                 showsVerticalScrollIndicator={false}
                             >
-                                <Text style={styles.title}>나에 대해 알려주세요.</Text>
-                                <Text style={styles.subTitle}>카드 뒷면에 표시돼요.</Text>
-                                <View style={styles.selectContaienr}>
+                                <Text style={[styles.title, styles.paddingH16]}>나에 대해 알려주세요.</Text>
+                                <Text style={[styles.subTitle, styles.paddingH16]}>카드 뒷면에 표시돼요.</Text>
+                                <View style={[styles.selectContaienr, styles.paddingH16]}>
                                     <View style={[styles.selectBtnContainer, isClick.student ? styles.paddignB24 : styles.paddignB0]}>
                                         <TouchableOpacity 
                                             style={[styles.selectBtnTitleContainer, isClick.student ? styles.paddignB0 : styles.paddignB24]}
@@ -471,7 +477,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                                 <DownArrow transform="rotate(180 10 10)" /> : <DownArrow />
                                             }
                                         </TouchableOpacity>
-                                        {isClick.student ?
+                                        {isClick.student && (
                                             <View style={styles.selectBtns}>
                                                 {studentItems.map(item => (
                                                     <SelectBtn
@@ -482,8 +488,8 @@ export default function TemplateFree ({navigation, card_template}) {
                                                         setIsClick={setIsClick}
                                                     />
                                                 ))}
-                                            </View> : null
-                                        }
+                                            </View> 
+                                        )}
                                     </View>
                                     <View style={[styles.selectBtnContainer, isClick.worker ? styles.paddignB24 : styles.paddignB0]}>
                                         <TouchableOpacity 
@@ -497,7 +503,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                                 <DownArrow transform="rotate(180 10 10)" /> : <DownArrow />
                                             }
                                         </TouchableOpacity>
-                                        {isClick.worker ?
+                                        {isClick.worker && (
                                             <View style={styles.selectBtns}>
                                                 {workerItems.map(item => (
                                                     <SelectBtn
@@ -508,8 +514,8 @@ export default function TemplateFree ({navigation, card_template}) {
                                                         setIsClick={setIsClick}
                                                     />
                                                 ))}
-                                            </View> : null
-                                        }
+                                            </View>
+                                        )}
                                     </View>
                                     <View style={[styles.selectBtnContainer, isClick.fan ? styles.paddignB24 : styles.paddignB0]}>
                                         <TouchableOpacity 
@@ -523,7 +529,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                                 <DownArrow transform="rotate(180 10 10)" /> : <DownArrow />
                                             }
                                         </TouchableOpacity>
-                                        {isClick.fan ?
+                                        {isClick.fan && (
                                             <View style={styles.selectBtns}>
                                                 {fanItems.map(item => (
                                                     <SelectBtn
@@ -534,12 +540,52 @@ export default function TemplateFree ({navigation, card_template}) {
                                                         setIsClick={setIsClick}
                                                     />
                                                 ))}
-                                            </View> : null
-                                        }
+                                            </View>
+                                        )}
                                     </View>
                                 </View>
-                                <View>
-                                    <Text>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
+                                <View style={styles.spaceContainer}></View>
+                                <View style={styles.selectInputContainer}>
+                                    {isClickTrue ? 
+                                        <View style={styles.selectTextInputContainer}>
+                                            {studentItems.map(item => (
+                                                item.isClick && (
+                                                    <SelectTextInput
+                                                        key={item.key}
+                                                        btnName={item.btnName}
+                                                        cardValue={item.cardValue}
+                                                        setCardValue={item.setCardValue}
+                                                        isClick={item.isClick}
+                                                    />
+                                                )
+                                            ))}
+                                            {workerItems.map(item => (
+                                                item.isClick && (
+                                                    <SelectTextInput
+                                                        key={item.key}
+                                                        btnName={item.btnName}
+                                                        cardValue={item.cardValue}
+                                                        setCardValue={item.setCardValue}
+                                                        isClick={item.isClick}
+                                                    />
+                                                )
+                                            ))}
+                                            {fanItems.map(item => (
+                                                item.isClick && (
+                                                    <SelectTextInput
+                                                        key={item.key}
+                                                        btnName={item.btnName}
+                                                        cardValue={item.cardValue}
+                                                        setCardValue={item.setCardValue}
+                                                        isClick={item.isClick}
+                                                    />
+                                                )
+                                            ))}
+                                        </View>
+                                        : <Text style={styles.selectTitle}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
+                                    }
+                                    
+                                    
                                 </View>
                             </ScrollView>
                             <View style={styles.btnContainer}>

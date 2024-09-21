@@ -474,8 +474,17 @@ export const styles = StyleSheet.create({
     paddignB24: {
         paddingBottom: 24,
     },
+    paddingH16: {
+        paddingHorizontal: 16,
+    },
+    selectViewContainer: {
+        flex: 1,
+        paddingBottom: 48+16,   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
+        marginHorizontal: -16
+    }, 
     selectContaienr: {
         paddingTop: 31-8,
+        paddingBottom: 33,
     },
     selectBtnContainer: {
         backgroundColor: theme.white,
@@ -503,5 +512,28 @@ export const styles = StyleSheet.create({
         flexDirection:"row",
         flexWrap: 'wrap',
         marginTop: 16,
+    },
+    spaceContainer: {
+        backgroundColor: theme.gray95,
+        height: 12,
+        marginHorizontal: -16,
+    },
+
+    selectInputContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems:"center",
+    },
+    selectTextInputContainer: {
+        paddingTop: 32,
+        width: "100%",
+    }, 
+    selectTitle: {
+        color: theme.gray50,
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "400",
+        textAlign: "center",
     }
 })
