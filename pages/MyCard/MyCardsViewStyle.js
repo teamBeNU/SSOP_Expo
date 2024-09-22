@@ -19,7 +19,8 @@ export const styles = StyleSheet.create({
     fontSize: 26,
     fontWeight: '600',
     lineHeight: 31,
-    letterSpacing: -0.52
+    letterSpacing: -0.52,
+    marginBottom: 39
     },
     container2: {
     alignSelf: 'flex-end',
@@ -27,6 +28,7 @@ export const styles = StyleSheet.create({
     row2: {
     flexDirection: 'row',
     alignItems: 'center',
+    justifyContent: 'center',
     gap: 6,
     },
     range: { //최신순 정렬
@@ -51,10 +53,26 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingHorizontal: 16,
+    paddingVertical: 8,
     },
-    DownArrowIcon: {
-    backgroundColor: 'pink',
-    marginTop: 24,
-    marginBottom: 12,
+    newCardBtn: {
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: 4,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.skyblue,
+    position: 'absolute',
+    marginTop: 14,
+    bottom: 16
     },
+    newCardText: {
+    color: theme.skyblue,
+    fontFamily: 'PretendardRegular',
+    fontSize: 14,
+    fontWeight: '500',
+    lineHeight: 17,
+    letterSpacing: -0.14
+    }
 })
