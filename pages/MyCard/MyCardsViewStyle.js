@@ -56,6 +56,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
     },
     newCardBtn: {
+    backgroundColor: 'white',
     padding: 12,
     justifyContent: 'center',
     alignItems: 'center',
