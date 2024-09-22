@@ -22,6 +22,7 @@ export default function DropDown ({
             setValue={setDropDownValue}
             setItems={setItems}
             placeholder={placeholder}
+            listMode="SCROLLVIEW"   // FlatList -> ScrollView로 변경(ScrollView 에러 안나려면 작성해야함..)
             style={{
                 borderWidth: 1,
                 borderColor: isError ? theme.gray90 : theme.red,
@@ -36,7 +37,7 @@ export default function DropDown ({
                 // iOS 그림자
                 shadowColor: '#000',
                 shadowOffset: { width: 4, height: 4 },
-                shadowOpacity: 0.05,
+                shadowOpacity: 0.3,
                 shadowRadius: 12,
                 backgroundColor: '#fff', // 그림자가 보이게 하려면 배경색이 필요
             }}

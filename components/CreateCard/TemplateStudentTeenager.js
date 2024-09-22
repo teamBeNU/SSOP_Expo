@@ -420,44 +420,49 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                 >
                     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
-                            <Text style={styles.title}>학교 속 나에 대해 알려주세요.</Text>
-                            <Text style={styles.subTitle}>날 소개하기 위한 필수 정보들이에요.</Text>
-                            <View style={styles.informContainer}>
-                                <View style={[styles.inputContainer, !isFull.school && {marginBottom: 15}]}>
-                                    <Text style={styles.inputTextEssential}>학교*</Text>
-                                    <TextInput 
-                                        style={[styles.customInput, !isFull.school && styles.inputError]}
-                                        placeholder="학교명을 입력해 주세요."
-                                        placeholderTextColor={theme.gray60}
-                                        keyboardType="default"
-                                        value={card_student_school}
-                                        onChangeText={setCardStudentSchool}
-                                        returnKeyType="done"
-                                        blurOnSubmit={true}
-                                    />
-                                    {!isFull.school && (
-                                        <Text style={styles.inputErrorText}>학교명을 입력해 주세요.</Text>
-                                    )}
-                                </View>
-                                <View style={[styles.inputContainer, !isFull.grade && {marginBottom: 15}]}>
-                                    <Text style={[styles.inputTextEssential, styles.zIndex2]}>학년*</Text>
-                                    <View style={styles.dropDownContainerZIndex}>
-                                    <DropDown
-                                        dropDownOpen={dropDownOpen}
-                                        dropDownValue={card_student_grade}
-                                        setDropDownOpen={setDropDownOpen}
-                                        setDropDownValue={setCardStudentGrade}
-                                        items={teenGradeItems}
-                                        setItems={setTeenGradeItems}
-                                        placeholder={'학년'}
-                                        isError={isFull.grade}
-                                    />
+                            <ScrollView 
+                                contentContainerStyle={{ flexGrow: 1 }}
+                                showsVerticalScrollIndicator={false}
+                            >
+                                <Text style={styles.title}>학교 속 나에 대해 알려주세요.</Text>
+                                <Text style={styles.subTitle}>날 소개하기 위한 필수 정보들이에요.</Text>
+                                <View style={styles.informContainer}>
+                                    <View style={[styles.inputContainer, !isFull.school && {marginBottom: 15}]}>
+                                        <Text style={styles.inputTextEssential}>학교*</Text>
+                                        <TextInput 
+                                            style={[styles.customInput, !isFull.school && styles.inputError]}
+                                            placeholder="학교명을 입력해 주세요."
+                                            placeholderTextColor={theme.gray60}
+                                            keyboardType="default"
+                                            value={card_student_school}
+                                            onChangeText={setCardStudentSchool}
+                                            returnKeyType="done"
+                                            blurOnSubmit={true}
+                                        />
+                                        {!isFull.school && (
+                                            <Text style={styles.inputErrorText}>학교명을 입력해 주세요.</Text>
+                                        )}
                                     </View>
-                                    {!isFull.grade && (
-                                        <Text style={[styles.inputErrorText, styles.zIndex2]}>학년을 입력해 주세요.</Text>
-                                    )}
+                                    <View style={[styles.inputContainer, !isFull.grade && {marginBottom: 15}, dropDownOpen ? styles.paddingB250 : styles.paddingB0]}>
+                                        <Text style={[styles.inputTextEssential, styles.zIndex2]}>학년*</Text>
+                                        <View style={styles.dropDownContainer}>
+                                            <DropDown
+                                                dropDownOpen={dropDownOpen}
+                                                dropDownValue={card_student_grade}
+                                                setDropDownOpen={setDropDownOpen}
+                                                setDropDownValue={setCardStudentGrade}
+                                                items={teenGradeItems}
+                                                setItems={setTeenGradeItems}
+                                                placeholder={'학년'}
+                                                isError={isFull.grade}
+                                            />
+                                        </View>
+                                        {!isFull.grade && (
+                                            <Text style={[styles.inputErrorText, styles.zIndex2]}>학년을 입력해 주세요.</Text>
+                                        )}
+                                    </View>
                                 </View>
-                            </View>
+                            </ScrollView>
                             <View style={styles.btnContainer}>
                                 <TouchableOpacity 
                                     style={styles.btnNext}

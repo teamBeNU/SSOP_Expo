@@ -7,6 +7,15 @@ export const styles = StyleSheet.create({
     font16: {
         fontSize: 16,
     },
+    paddingB0: {
+        paddingBottom: 0,
+    },
+    paddingB25: {
+        paddingBottom: "25%",
+    },
+    paddingB250: {
+        paddingBottom: 250,
+    },
     marginB16: {
         marginBottom: 16,
     },
@@ -272,6 +281,10 @@ export const styles = StyleSheet.create({
         marginRight: "63%",
         zIndex: -1,
     },
+    dropDownContainerZIndex1: {
+        marginRight: "63%",
+        zIndex: 1,
+    }, 
     dropDownContainer: {
         marginRight: "63%",
         zIndex: 0,
