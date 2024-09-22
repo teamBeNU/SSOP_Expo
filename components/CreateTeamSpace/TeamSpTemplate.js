@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Clipboard, Alert, Modal } from "react-native";
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
@@ -15,7 +16,31 @@ import StudentTemplate from "./StudentTemplate";
 import WorkerTemplate from "./WorkerTemplate";
 import FanTemplate from "./FanTemplate";
 
-export default function TeamSpTemplate({ navigation, goToOriginal, teamName, teamComment, istemplate, card_template }) {
+export default function TeamSpTemplate({ navigation, goToOriginal, teamName, teamComment, card_template,
+    // 학생
+    showSchool,
+    showGrade,
+    showStudNum,
+    showMajor,
+    showClub,
+    // showRole,
+    // savedSelectedRoles, 
+    //직장인
+    showStatus,
+    showCompany,
+    showJob,
+    showPosition,
+    showPart,
+    // 팬
+    showGenre,
+    showFavorite,
+    showSecond,
+    showReason
+}) {
+    const baseUrl = 'http://43.202.52.64:8080/api'
+    const token = localStorage.getItem('token');
+    // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJleHAiOjE3MjcxMTAzMDYsInVzZXJJZCI6MywiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.mdd7wH8IdcXvu3sq3-N4DBFAvrXrhviT5vyPqD2DAlH7XZCie5ug9t5eYIagm8AAUXGc_OuWa9eFHeIKuc-8mw';
+
     const [step, setStep] = useState(1);
     const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
     // step1
@@ -32,7 +57,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const [showHobby, setShowHobby] = useState(false);
     const [showMusic, setShowMusic] = useState(false);
     const [showMovie, setShowMovie] = useState(false);
-    const [showLive, setShowLive] = useState(false);
+    const [showAddress, setShowAddress] = useState(false);
 
     const [cover, setCover] = useState("free");
 
@@ -40,7 +65,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const [plusList, setPlusList] = useState([]);
     const [plusLength, setPlusLength] = useState(0);
 
-    const inviteCode = '120432'; // step4
+    const [inviteCode, setInviteCode] = useState(null); // step4
 
     // progressBar
     const maxSteps = 7;
@@ -50,10 +75,71 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
         if (step === 1) {
             setStep(2);
         } else if (step === 2) {
-            setStep(3);
-            setIsModalVisible(false)
+            // 지금까지 작성한 팀스페이스 정보로 생성
+            const requestData = {
+                team_name: teamName,
+                team_comment: teamComment,
+                isTemplate: true,
+                template: card_template,
+                showAge: showAge,
+                showBirth: showBirth,
+                showMBTI: showMBTI,
+                showTel: showTel,
+                showEmail: showEmail,
+                showInsta: showInsta,
+                showX: showX,
+
+                // 학생 템플릿
+                studentOptional: {
+                    showSchool: showSchool,
+                    showGrade: showGrade,
+                    showStudNum: showStudNum,
+                    showMajor: showMajor,
+                    showClub: showClub,
+                    // showRole: savedSelectedRoles,
+                    showStatus: showStatus
+                },
+                // 직장인 템플릿
+                workerOptional: {
+                    showCompany: showCompany,
+                    showJob: showJob,
+                    showPosition: showPosition,
+                    showPart: showPart
+                },
+                // 팬 템플릿
+                fanOptional: {
+                    showGenre: showGenre,
+                    showFavorite: showFavorite,
+                    showSecond: showSecond,
+                    showReason: showReason
+                },
+                showHobby: showHobby,
+                showMusic: showMusic,
+                showMovie: showMovie,
+                showAddress: showAddress,
+                plus: plusList.filter(item => item.selected).map(item => item.free),
+                cardCover: cover
+
+            };
+
+            // 팀스페이스 생성 API 호출
+            const apiUrl = `${baseUrl}/teamsp/create`;
+            axios
+                .post(apiUrl, requestData, {
+                    headers: { Authorization: `Bearer ${token}` },
+                })
+                .then((response) => {
+                    setInviteCode(response.data.inviteCode); // 초대코드 저장
+                    console.log('생성된 초대코드:', response.data.inviteCode);
+                    setStep(3); // 초대코드 생성
+                    console.log(requestData)
+                })
+                .catch((error) => {
+                    console.error('팀스페이스 생성 API 요청 에러:', error);
+                });
         }
-    };
+        setIsModalVisible(false)
+    }
 
     const handleCheck = () => {
         setIsModalVisible(true);
@@ -119,8 +205,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
             case 'showMovie':
                 setShowMovie((prevState) => !prevState);
                 break;
-            case 'showLive':
-                setShowLive((prevState) => !prevState);
+            case 'showAddress':
+                setShowAddress((prevState) => !prevState);
                 break;
             default:
                 break;
@@ -176,21 +262,6 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const handleShareButtonPress = () => {
         setIsModalVisible(true);
     };
-
-    // 입력/선택한 값 출력
-    // useEffect(() => {
-    //   if (step === 2) {
-    //     Alert.alert(
-    //       "Variable Values",
-    //       `teamName: ${teamName}
-    //       teamComment: ${teamComment}
-    //       istemplate: ${istemplate}
-    //       template: ${card_template}
-    //       plus: ${JSON.stringify(plusList)}
-    //       `
-    //     );
-    //   };
-    // }, [step]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -308,21 +379,39 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 
                                 {(card_template === 'student' || card_template === 'free') && (
                                     <>
-                                        <StudentTemplate />
+                                        <StudentTemplate
+                                            showSchool={showSchool}
+                                            showGrade={showGrade}
+                                            showStudNum={showStudNum}
+                                            showMajor={showMajor}
+                                            showClub={showClub}
+                                            // savedSelectedRoles={savedSelectedRoles}
+                                            showStatus={showStatus}
+                                        />
                                         <View style={styles.line} />
                                     </>
                                 )}
 
                                 {(card_template === 'worker' || card_template === 'free') && (
                                     <>
-                                        <WorkerTemplate />
+                                        <WorkerTemplate
+                                            showCompany={showCompany}
+                                            showJob={showJob}
+                                            showPosition={showPosition}
+                                            showPart={showPart}
+                                        />
                                         <View style={styles.line} />
                                     </>
                                 )}
 
                                 {(card_template === 'fan' || card_template === 'free') && (
                                     <>
-                                        <FanTemplate />
+                                        <FanTemplate
+                                            showGenre={showGenre}
+                                            showFavorite={showFavorite}
+                                            showSecond={showSecond}
+                                            showReason={showReason}
+                                        />
                                         <View style={styles.line} />
                                     </>
                                 )}
@@ -366,15 +455,15 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                     </TouchableOpacity>
 
                                     {/* 거주지 */}
-                                    <TouchableOpacity onPress={() => handleSelect('showLive')}
-                                        style={showLive ? styles.selectedElement : styles.element}>
-                                        {showLive && (
+                                    <TouchableOpacity onPress={() => handleSelect('showAddress')}
+                                        style={showAddress ? styles.selectedElement : styles.element}>
+                                        {showAddress && (
                                             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                 <Select />
                                                 <Text style={styles.selectedText}> 거주지 </Text>
                                             </View>
                                         )}
-                                        {!showLive && <Text> 거주지 </Text>}
+                                        {!showAddress && <Text> 거주지 </Text>}
                                     </TouchableOpacity>
                                 </View>
 
