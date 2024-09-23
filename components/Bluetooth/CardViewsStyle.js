@@ -92,16 +92,8 @@ export const styles = StyleSheet.create({
         marginTop: 12,
         // width: 158,
         width: '44%',
-        borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: "rgba(0, 0, 0, 0.03)",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 1,
-        shadowRadius: 2,
         elevation: 5,
         position: 'relative',
     },

@@ -179,7 +179,7 @@ export const styles = StyleSheet.create({
         width: 272,
         height: 176,
         backgroundColor: 'white',
-        borderRadius: 8,
+        borderRadius: 16,
     },
     ShareModalText: {
         fontFamily: 'PretendardSemiBold',
