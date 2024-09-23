@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
         right: 77, 
         fontFamily: "PretendardSemiBold",
         fontSize: 14,
-        color: theme.gray10,
+        color: theme.skyblue,
         letterSpacing: -1,
     },  
     refuseCard: { // 카드 거절
@@ -63,7 +63,7 @@ export const styles = StyleSheet.create({
         right: 24,
         fontFamily: "PretendardSemiBold",
         fontSize: 14,
-        color: theme.gray10,
+        color: theme.skyblue,
         letterSpacing: -1,
     },  
     // 알림이 없을 때

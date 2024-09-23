@@ -6,7 +6,11 @@ export const styles = StyleSheet.create({
         flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 16,
-        backgroundColor: theme.whit,
+        backgroundColor: theme.white,
+    },
+    shareContainer:{      
+        flex: 1,  
+        backgroundColor: theme.white,
     },
     title: { // 글씨 
         marginTop: 30,
@@ -92,7 +96,6 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 16,
         width: '100%',
-        paddingBottom: 16, // 하단 여백
         paddingHorizontal: 16, // 좌우 여백
     },
     container3: {
@@ -100,7 +103,6 @@ export const styles = StyleSheet.create({
         position: 'relative',
     },
     btnNext: {
-        marginBottom: 16,
         width: '100%',
         height: 48,
         justifyContent: 'center',
@@ -108,38 +110,36 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         backgroundColor: theme.gray10,
     },
+    btnNextWhite: {
+        width: '100%',
+        height: 48,
+        justifyContent: 'center',
+        borderRadius: 8,
+        fontFamily: 'PretendardRegular',
+        backgroundColor: theme.white,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: "rgba(202, 202, 202, 1.0)",
+        marginTop: 10,
+    },
     btnText:{
         textAlign: 'center',
         color: theme.white,
         fontSize: 16,
         fontFamily: 'PretendardSemiBold'
     },
+    btnTextWhite:{
+        textAlign: 'center',
+        color: theme.gray50,
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold'
+    },
     // 링크 공유하기 버튼, 사진
     linkShareContainer: {
-        flex: 0.7,
+        marginTop: 69,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    linkShareText: {
-        fontSize: 16,
-        marginLeft: 16,
-        fontFamily: 'PretendardSemiBold',
-        color: theme.skyblue,
-        letterSpacing: -1,
-    },
-    linkShareBox:{
-        alignSelf: 'center',
-        flexShrink: 1,
-        paddingVertical: 14.5,
-        marginTop: 33,
-        height: 48,
-        borderRadius: 8,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: theme.skyblue,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },    
     // 카드가 없을 때
     emptyContainer: {
         justifyContent: 'center',
@@ -179,7 +179,7 @@ export const styles = StyleSheet.create({
         width: 272,
         height: 176,
         backgroundColor: 'white',
-        borderRadius: 8,
+        borderRadius: 16,
     },
     ShareModalText: {
         fontFamily: 'PretendardSemiBold',

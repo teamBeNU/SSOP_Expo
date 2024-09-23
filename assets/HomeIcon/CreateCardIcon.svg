@@ -1,5 +1,5 @@
-<svg width="120" height="72" viewBox="0 0 120 72" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect opacity="0.4" x="44" y="32" width="67" height="95" rx="8" fill="#00C2ED"/>
-<rect opacity="0.7" x="26" y="22" width="67" height="95" rx="8" fill="#FF85CB"/>
-<path opacity="0.7" d="M4 20C4 15.5817 7.58172 12 12 12H63C67.4183 12 71 15.5817 71 20V99C71 103.418 67.4183 107 63 107H12C7.58172 107 4 103.418 4 99V20Z" fill="#ADFF37"/>
+<svg width="120" height="80" viewBox="0 0 120 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+<rect opacity="0.4" x="52" y="40" width="67" height="95" rx="8" fill="white"/>
+<rect opacity="0.7" x="34" y="30" width="67" height="95" rx="8" fill="#FF85CB"/>
+<path opacity="0.7" d="M12 28C12 23.5817 15.5817 20 20 20H71C75.4183 20 79 23.5817 79 28V107C79 111.418 75.4183 115 71 115H20C15.5817 115 12 111.418 12 107V28Z" fill="#00C2ED"/>
 </svg>
