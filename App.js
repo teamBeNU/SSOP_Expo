@@ -178,7 +178,7 @@ export default function App() {
             headerTitle: "카드 생성",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
-                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+                <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
            }} 

@@ -8,6 +8,8 @@ import { theme } from "../../theme";
 import DropDown from "./DropDown";
 import AvatarCustom from "./AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
+import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
+import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -186,21 +188,40 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
 
     // 상단바 타이틀 변경, 버튼 변경
     useEffect(() => {   
+        if (step !== 8) {
+            navigation.setOptions({
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => {
+                        if (step !== 1) {
+                            setStep(step - 1);  //  이전 단계로 이동
+                        } else {
+                            navigation.goBack();
+                        }
+                    }}>
+                        <LeftArrowIcon style={{ marginLeft: 8 }}/>
+                    </TouchableOpacity>
+                )
+            });
+        }
+    
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
-                // headerLeft: () => {
-                //     setStep(step - 1);
-                // }
+                headerRight: null,
             });
         } else if (step === 6) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
                 headerRight: null,
             });
-        } else if ( step === 8) {
+        } else if (step === 8) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <CloseIcon style={{ marginLeft: 8 }}/>
+                    </TouchableOpacity>
+                ),
                 headerRight: null,
             });
         } else if (step === 7) {
