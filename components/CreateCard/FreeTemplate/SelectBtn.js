@@ -4,12 +4,12 @@ import "react-native-gesture-handler";
 
 import { theme } from "../../../theme";
 
-export default function SelectBtn ({k, btnName, isClick, setIsClick}) {
+export default function SelectBtn ({itemKey, btnName, isClick, setIsClick}) {
     return (
         <TouchableOpacity 
             style={[styles.container, isClick ? styles.btnOn : styles.btnOff]}
             onPress={() => {
-                setIsClick(prev => ({ ...prev, [k]: !prev[k] }));
+                setIsClick(prev => ({ ...prev, [itemKey]: !prev[itemKey] }));
             }}
         >
             <Text style={isClick ? styles.textOn : styles.textOff}>{btnName}</Text>

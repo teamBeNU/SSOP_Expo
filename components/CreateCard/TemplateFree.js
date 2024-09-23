@@ -6,14 +6,18 @@ import "react-native-gesture-handler";
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
 import AvatarCustom from "./AvatarCustom";
+import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
+import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
+import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import DownArrow from "./FreeTemplate/DownArrow";
 import SelectBtn from "./FreeTemplate/SelectBtn";
 import SelectTextInput from "./FreeTemplate/SelectTextInput";
+import DropDown from "./DropDown";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 export default function TemplateFree ({navigation, card_template}) {
-    const [step, setStep] = useState(3);
+    const [step, setStep] = useState(1);
 
     const [card_name, setCardName] = useState('');
     const [card_introduction, setCardIntroduction] = useState('');
@@ -180,6 +184,13 @@ export default function TemplateFree ({navigation, card_template}) {
         });
     }
 
+    // 생년월일 비밀
+    const handleBSecret = () => {
+        if(card_birth !== '') {
+            setCardBSecret(!card_bSecret);
+        }
+    }
+    
     // 다음으로 버튼
     const handleNext = () => {
         if (step === 1) {
@@ -218,8 +229,43 @@ export default function TemplateFree ({navigation, card_template}) {
         else if (currentIndex == 1) {setCardCover('picture');}
     }
 
+    // 선택지 체크 해제하면 값 지워지도록(isClick이 false 면 값 ''로 변경)
+    useEffect(() => {
+        studentItems.forEach(item => {
+            if(!item.isClick) {
+                item.setCardValue('');
+            }
+        });
+        workerItems.forEach(item => {
+            if(!item.isClick) {
+                item.setCardValue('');
+            }
+        });
+        fanItems.forEach(item => {
+            if (!item.isClick) {
+                item.setCardValue('');
+            }
+        });
+    }, [isClick]);
+
     // 상단바 타이틀 변경, 버튼 변경
     useEffect(() => {   
+        if (step !== 7) {
+            navigation.setOptions({
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => {
+                        if (step !== 1) {
+                            setStep(step - 1);  //  이전 단계로 이동
+                        } else {
+                            navigation.goBack();
+                        }
+                    }}>
+                        <LeftArrowIcon style={{ marginLeft: 8 }}/>
+                    </TouchableOpacity>
+                )
+            });
+        }
+    
         if (step === 1 || step === 2 || step === 3 || step === 4) {
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
@@ -235,6 +281,11 @@ export default function TemplateFree ({navigation, card_template}) {
         } else if ( step === 7) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <CloseIcon style={{ marginLeft: 8 }}/>
+                    </TouchableOpacity>
+                ),
                 headerRight: null,
             });
         } else if (step === 6) {
@@ -347,6 +398,13 @@ export default function TemplateFree ({navigation, card_template}) {
                                         {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
                                             <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요.{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
                                         )}
+                                        <TouchableOpacity 
+                                            style={styles.birthSecret} 
+                                            onPress={handleBSecret}
+                                        >
+                                            <DoneIcon style={[styles.doneIcon, {color: card_bSecret ? theme.skyblue : theme.gray60}]} />
+                                            <Text style={card_bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 나이 계산에만 사용하고 공개 안 할래요</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </ScrollView>
@@ -482,7 +540,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                                 {studentItems.map(item => (
                                                     <SelectBtn
                                                         key={item.key}
-                                                        k={item.key}
+                                                        itemKey={item.key}
                                                         btnName={item.btnName}
                                                         isClick={item.isClick}
                                                         setIsClick={setIsClick}
@@ -508,7 +566,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                                 {workerItems.map(item => (
                                                     <SelectBtn
                                                         key={item.key}
-                                                        k={item.key}
+                                                        itemKey={item.key}
                                                         btnName={item.btnName}
                                                         isClick={item.isClick}
                                                         setIsClick={setIsClick}
@@ -534,7 +592,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                                 {fanItems.map(item => (
                                                     <SelectBtn
                                                         key={item.key}
-                                                        k={item.key}
+                                                        itemKey={item.key}
                                                         btnName={item.btnName}
                                                         isClick={item.isClick}
                                                         setIsClick={setIsClick}
@@ -550,23 +608,24 @@ export default function TemplateFree ({navigation, card_template}) {
                                         <View style={styles.selectTextInputContainer}>
                                             {studentItems.map(item => (
                                                 item.isClick && (
+                                                    (item.key === "grade" || item.key === "status") ? 
+                                                    null :
                                                     <SelectTextInput
                                                         key={item.key}
                                                         btnName={item.btnName}
                                                         cardValue={item.cardValue}
                                                         setCardValue={item.setCardValue}
-                                                        isClick={item.isClick}
                                                     />
                                                 )
                                             ))}
                                             {workerItems.map(item => (
                                                 item.isClick && (
+                                                    
                                                     <SelectTextInput
                                                         key={item.key}
                                                         btnName={item.btnName}
                                                         cardValue={item.cardValue}
                                                         setCardValue={item.setCardValue}
-                                                        isClick={item.isClick}
                                                     />
                                                 )
                                             ))}
@@ -577,7 +636,6 @@ export default function TemplateFree ({navigation, card_template}) {
                                                         btnName={item.btnName}
                                                         cardValue={item.cardValue}
                                                         setCardValue={item.setCardValue}
-                                                        isClick={item.isClick}
                                                     />
                                                 )
                                             ))}
@@ -585,7 +643,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                         : <Text style={styles.selectTitle}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                                     }
                                     
-                                    
+                                    <Text>{card_fan_first}</Text>
                                 </View>
                             </ScrollView>
                             <View style={styles.btnContainer}>
