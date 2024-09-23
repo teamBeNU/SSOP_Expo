@@ -202,19 +202,29 @@ export const styles = StyleSheet.create({
     
     // 탭 바 디자인
 containerTabBar: {
-    backgroundColor: theme.white
+    backgroundColor: theme.white,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 20,
   },
   tabContainer: {
+    zIndex: 10,
     flexDirection: 'row',
-    backgroundColor: theme.gray90,
-    marginHorizontal: 16,
-    marginTop: 16,
-    height: 40,
-    borderRadius: 8,
+    alignItems: 'center',
+    backgroundColor: theme.white,
+    borderRadius: 12,
+    shadowColor: "rgba(73, 81, 100, 0.07)",
+    shadowOffset: {
+        width: 0,
+        height: 2
+    },
+    shadowRadius: 12,
+    shadowOpacity: 1,
+    borderWidth: 1,
+    borderColor: "rgba(244, 244, 244, 1.0)"
   },
   tab: {
-    flex: 1,
-    paddingHorizontal: 45,
+    paddingHorizontal: 20,
     paddingVertical: 10,
     alignItems: 'center',
     borderRadius: 8,
@@ -223,20 +233,17 @@ containerTabBar: {
     backgroundColor: theme.white,
     marginHorizontal: 2,
     marginVertical: 2,
-    shadowColor: "rgba(0, 0, 0, 0.03)",
-    shadowOffset: {
-        width: 0,
-        height: 2
-    },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-    //android shadow
-    elevation: 1,
   },
   inactiveTab: {
-    backgroundColor: theme.gray90,
+    backgroundColor: theme.white,
     marginHorizontal: 2,
     marginVertical: 2,
+  },
+  divider: {
+    width: 1,
+    height: '33%', 
+    backgroundColor: theme.gray80, 
+    marginHorizontal: 0, 
   },
 
     // 카드가 없을 때
@@ -482,7 +489,7 @@ containerTabBar: {
     modalView: {
         height: 340,
         paddingHorizontal: 16,
-        backgroundColor: 'white',
+        backgroundColor: theme.white,
         borderTopLeftRadius: 8,
         borderTopRightRadius: 8,
         borderBottomLeftRadius: 0,
@@ -527,22 +534,24 @@ containerTabBar: {
     btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
         width: 158,
         height: 184,
-        borderRadius: 8,
-        backgroundColor: theme.white,
-        shadowColor: "rgba(0, 0, 0, 0.03)",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 2,
-        shadowOpacity: 1,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: "rgba(244, 244, 244, 1.0)",
         elevation: 5,
         marginHorizontal: 10,
         position: 'relative',
         marginTop: 35,
+        
+        borderRadius: 16,
+        backgroundColor: theme.white,
+        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 16,
+        shadowOpacity: 1,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
+        elevation: 5,
+        position: 'relative',
     },
     Text14: {
         marginLeft: 16,

@@ -118,11 +118,7 @@ function Step2Screen({ navigation }) {
           <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
           <View style={styles.linkShareContainer}>
           <LinkShareImage/>
-            <View style={styles.linkShareBox}>
-              <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={handleShareButtonPress}>
-                <Text style={styles.linkShareText}>링크 공유하기</Text>
-                <RightArrowBlueIcon style={styles.linkArrowIcon}/>
-              </TouchableOpacity >
+            <View>
               <Modal
               animationType="fade"
               transparent={true}
@@ -151,8 +147,11 @@ function Step2Screen({ navigation }) {
           </View>
         </View>
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.btnNext} onPress={() => navigation.navigate(' ')}>
-            <Text style={styles.btnText}> 홈 화면으로 </Text>
+          <TouchableOpacity style={styles.btnNext} onPress={handleShareButtonPress}>
+            <Text style={styles.btnText}>링크 공유하기</Text>
+          </TouchableOpacity >
+          <TouchableOpacity style={styles.btnNextWhite} onPress={() => navigation.navigate(' ')}>
+            <Text style={styles.btnTextWhite}> 홈 화면으로 </Text>
           </TouchableOpacity>
         </View>
       </View>

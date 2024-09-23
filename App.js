@@ -56,6 +56,8 @@ import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
 import KaKaoLogin from './components/Login/KaKaoLogin';
+import MySpace from './pages/Space/MySpace';
+import TeamSpace from './pages/Space/TeamSpace';
 
 export default function App() {
   // 폰트 로드
@@ -260,6 +262,32 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
+          <Stack.Screen name="마이 스페이스" component={MySpace}
+          options={{
+            title: " ",
+            headerShadowVisible: false,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.navigate('알림')}>
+                <NotiIcon style={{ marginLeft: 8 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity onPress={() => navigation.navigate('마이 스페이스 관리')}><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity>
+                  <Menu>
+                    <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
+                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
+                      <MenuOption style={{ marginBottom: 10.5 }} text='그룹 관리하기' />
+                      <MenuOption style={{ marginBottom: 10.5 }} text='카드 관리하기' />
+                      <MenuOption text='연락처 관리하기' />
+                    </MenuOptions>
+                  </Menu>
+                </TouchableOpacity>
+              </View>
+            ),
+          }}/>
+          <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
           <Stack.Screen name="마이 스페이스 관리" component={MySpaceManage}
@@ -276,17 +304,6 @@ export default function App() {
     <Toast config={customToast} />
     </MenuProvider>
   );
-};
-
-const StackNavigator1 = ({ navigation, route }) => {
-  React.useLayoutEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName === "Space") {
-      navigation.setOptions({ tabBarStyle: { display: 'flex' } });
-    } else {
-      navigation.setOptions({ tabBarStyle: { display: 'none' } });
-    }
-  }, [navigation, route]);
 };
 
 // 바텀 네비게이션
