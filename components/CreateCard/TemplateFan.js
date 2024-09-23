@@ -6,6 +6,7 @@ import "react-native-gesture-handler";
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
 import AvatarCustom from "./AvatarCustom";
+import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
@@ -114,6 +115,13 @@ export default function TemplateFan ({navigation, card_template}) {
         });
     }
 
+    // 생년월일 비밀
+    const handleBSecret = () => {
+        if(card_birth !== '') {
+            setCardBSecret(!card_bSecret);
+        }
+    }
+    
     // 다음으로 버튼
     const handleNext = () => {
         if (step === 1) {
@@ -289,6 +297,13 @@ export default function TemplateFan ({navigation, card_template}) {
                                         {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
                                             <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요.{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
                                         )}
+                                        <TouchableOpacity 
+                                            style={styles.birthSecret} 
+                                            onPress={handleBSecret}
+                                        >
+                                            <DoneIcon style={[styles.doneIcon, {color: card_bSecret ? theme.skyblue : theme.gray60}]} />
+                                            <Text style={card_bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 나이 계산에만 사용하고 공개 안 할래요</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </ScrollView>

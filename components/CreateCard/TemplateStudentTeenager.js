@@ -1,8 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { RadioButton } from 'react-native-paper';
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 
@@ -132,6 +129,13 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             month: isMonthValid,
             day: isDayValid,
         });
+    }
+
+    // 생년월일 비밀
+    const handleBSecret = () => {
+        if(card_birth !== '') {
+            setCardBSecret(!card_bSecret);
+        }
     }
 
     // 다음으로 버튼
@@ -309,6 +313,13 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
                                         {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
                                             <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요.{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
                                         )}
+                                        <TouchableOpacity 
+                                            style={styles.birthSecret} 
+                                            onPress={handleBSecret}
+                                        >
+                                            <DoneIcon style={[styles.doneIcon, {color: card_bSecret ? theme.skyblue : theme.gray60}]} />
+                                            <Text style={card_bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 나이 계산에만 사용하고 공개 안 할래요</Text>
+                                        </TouchableOpacity>
                                     </View>
                                 </View>
                             </ScrollView>

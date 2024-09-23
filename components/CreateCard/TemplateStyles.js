@@ -152,19 +152,22 @@ export const styles = StyleSheet.create({
     },
     birthSecret: {
         flexDirection: "row",
-        justifyContent: "flex-end",
         alignItems: "center",
-        marginTop: 12,
+        marginTop: 20,
     },
     birthSecretOn: {
+        color: theme.gray10,
+        fontFamily: 'PretendardRegular',
         fontSize: 14,
-        fontFamily: "PretendardRegular",
-        color: "black",
+        fontStyle: "normal",
+        fontWeight: "400",
     },
     birthSecretOff: {        
+        color: theme.gray40,
+        fontFamily: 'PretendardRegular',
         fontSize: 14,
-        fontFamily: "PretendardRegular",
-        color: theme.gray30,
+        fontStyle: "normal",
+        fontWeight: "400",
     },
 
     btnContainer: {
