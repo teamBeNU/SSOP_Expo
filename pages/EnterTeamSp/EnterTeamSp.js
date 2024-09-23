@@ -19,68 +19,58 @@ import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
+  const token = localStorage.getItem('token');
+  // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJleHAiOjE3MjcxOTI4ODIsInVzZXJJZCI6NSwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.PWVCTkADgj5j5bHDcTkPeub4sA8HtgnHJBad8_BOeYjv529O062T98lb8wd-QgtNC97WsojtWNBwppwm-SMAvQ';
+
   const [data, setData] = useState(null);
   const [step, setStep] = useState(1);
 
-  // const inviteCode = '123456';
-  const [inviteCode, setInviteCode] = useState(null);
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
-
-  const [hostTemplate, setHostStudTemplate] = useState(false); // 호스트 지정 템플릿 있:true, 없: false
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형')
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
-  
-  // 팀스페이스 팀스페이스 정보 테스트
-  useEffect(() => {
-    const apiUrl = `${baseUrl}/teamsp/total`;
-    axios
-    .get(apiUrl, {
-      // headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => {
-        const inviteCodeCheck = response.data[0]?.inviteCode;
-        setInviteCode(inviteCodeCheck)
-        setData(response.data[0]);
-        console.log('data: ',data)
-        console.log('inviteCode : ', inviteCodeCheck)
-      })
-      .catch((error) => {
-        console.error('팀스페이스 입장 API 요청 에러:', error);
-      });
-  }, []); 
 
   // 팀스페이스 입장 API 호출
   const handleEnterModal = () => {
     const apiUrl = `${baseUrl}/teamsp/enter`;
     axios
-      .post(apiUrl, null, {
-        // headers: { Authorization: `Bearer ${token}` }, // 필요 시 토큰 추가
+      .post(apiUrl, { inviteCode: inputcode }, {
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        if (hostTemplate) {
+        setData(response.data);
+        if (data.isTemplate) {
           setStep(4);
         } else {
           setStep(2);
         }
-        console.log('팀스페이스 입장 성공:', response.data);
         setIsModalVisible(false);
       })
       .catch((error) => {
         console.error('팀스페이스 입장 API 요청 에러:', error);
-        Alert.alert("팀스페이스 입장에 실패했습니다. 다시 시도해 주세요.");
+        Alert.alert("존재하지 않는 초대코드입니다.");
       });
   };
 
   const handleNext = () => {
     if (step === 1) {
-      if (inputcode === String(inviteCode)) {
-        setIsModalVisible(true);
-      } else {
-        Alert.alert("존재하지 않는 초대코드입니다.");
-      }
+      // 초대코드 확인
+      const apiUrl = `${baseUrl}/teamsp/search?inviteCode=${inputcode}`;
+      axios
+        .get(apiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          const team_name = response.data.team_name;
+          const team_comment = response.data.team_comment;
+          setIsModalVisible(true);
+        })
+        .catch((error) => {
+          console.error('초대코드 검색 API 요청 에러:', error);
+          Alert.alert("존재하지 않는 초대코드입니다.");
+        });
     } else if (step === 2) {
       setStep(3)
     } else if (step === 3) {
@@ -203,11 +193,10 @@ function EnterTeamSp({ navigation }) {
                     </View>
 
                     <View style={styles.modalContent}>
-                      <Text style={[styles.font18, { marginLeft: 0 }]}> {data.team_name} </Text>
-                      <Text style={styles.font16}> {data.team_comment} </Text>
+                      <Text style={[styles.font18, { marginLeft: 0 }]}> {team_name} </Text>
+                      <Text style={styles.font16}> {team_comment} </Text>
                       <Text style={styles.people}> <People />  8 / 150명 </Text>
                     </View>
-
 
                     <View style={[styles.btnContainer, { marginLeft: 16 }]}>
                       <TouchableOpacity style={[styles.btnNext, { marginBottom: 16 }]} onPress={handleEnterModal}>
@@ -234,7 +223,7 @@ function EnterTeamSp({ navigation }) {
                   cardData={cardData}
                   title={"팀스페이스에 보여질 카드를 선택하세요."}
                 />
-                
+
               ) : (
                 <NoCardsView
                   navigation={navigation}
