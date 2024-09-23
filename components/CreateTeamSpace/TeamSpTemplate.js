@@ -23,8 +23,6 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     showStudNum,
     showMajor,
     showClub,
-    // showRole,
-    // savedSelectedRoles, 
     //직장인
     showStatus,
     showCompany,
@@ -39,7 +37,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 }) {
     const baseUrl = 'http://43.202.52.64:8080/api'
     const token = localStorage.getItem('token');
-    // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJleHAiOjE3MjcxMTAzMDYsInVzZXJJZCI6MywiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.mdd7wH8IdcXvu3sq3-N4DBFAvrXrhviT5vyPqD2DAlH7XZCie5ug9t5eYIagm8AAUXGc_OuWa9eFHeIKuc-8mw';
+    // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJleHAiOjE3MjcxODYwNzMsInVzZXJJZCI6MywiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.qfPvb-ySBx2Ts3Dx_Tjpvo73bcE27nT7DtdvHucheq3ajQTZzcaKJ_5ZSAWSzIC-0aQWWerEldfh9bd1qGgzQQ';
 
     const [step, setStep] = useState(1);
     const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
@@ -65,11 +63,19 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const [plusList, setPlusList] = useState([]);
     const [plusLength, setPlusLength] = useState(0);
 
+    // 학생 템플릿 - 역할
+    const [selectedRoles, setSelectedRoles] = useState([]);
+
     const [inviteCode, setInviteCode] = useState(null); // step4
 
     // progressBar
     const maxSteps = 7;
     const initialProgress = 0.714;
+
+    // 학생템플릿 - 역할 선택된 리스트
+    const handleRoleUpdate = (roles) => {
+        setSelectedRoles(roles);
+    };
 
     const handleNext = () => {
         if (step === 1) {
@@ -88,7 +94,6 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                 showEmail: showEmail,
                 showInsta: showInsta,
                 showX: showX,
-
                 // 학생 템플릿
                 studentOptional: {
                     showSchool: showSchool,
@@ -96,7 +101,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                     showStudNum: showStudNum,
                     showMajor: showMajor,
                     showClub: showClub,
-                    // showRole: savedSelectedRoles,
+                    showRole: selectedRoles,
                     showStatus: showStatus
                 },
                 // 직장인 템플릿
@@ -119,7 +124,6 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                 showAddress: showAddress,
                 plus: plusList.filter(item => item.selected).map(item => item.free),
                 cardCover: cover
-
             };
 
             // 팀스페이스 생성 API 호출
@@ -385,7 +389,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                             showStudNum={showStudNum}
                                             showMajor={showMajor}
                                             showClub={showClub}
-                                            // savedSelectedRoles={savedSelectedRoles}
+                                            onRoleUpdate={handleRoleUpdate}
                                             showStatus={showStatus}
                                         />
                                         <View style={styles.line} />
