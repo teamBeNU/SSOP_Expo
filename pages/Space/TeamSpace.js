@@ -30,11 +30,47 @@ import NewFolderIcon from '../../assets/icons/ic_newFolder_regular.svg';
   
 function TeamSpace({ navigation }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
+  const [hasTeamSP, setHasTeamSP] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const handleNext = () => {
     navigation.navigate('상세 팀스페이스');
   };
+  
+  const handleButtonPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const TeamSPContent = ({ name, description, members, isHost }) => (
+    <TouchableOpacity style={styles.TeamSPContent} onPress={handleNext}>
+      <View style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+          {isHost && (
+            <View style={styles.host}>
+              <Text style={styles.hostText}>호스트</Text>
+            </View>
+          )}
+          <Text style={styles.font18}>{name}</Text>
+        </View>
+        <View>
+          <Menu>
+            <MenuTrigger>
+              <MoreGrayIcon/>
+            </MenuTrigger>
+            <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
+              <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스명 변경하기' />
+              <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스 삭제하기' />
+              <MenuOption text='팀스페이스 나가기' />
+            </MenuOptions>
+          </Menu>
+        </View>
+      </View>
+      <Text style={styles.font16}>{description}</Text>
+      <Text style={styles.people}>
+        <People /> {members} / 150명
+      </Text>
+    </TouchableOpacity>
+  );
 
   const teamData = [
     { id: 1, name: '김슈니의 팀스페이스', description: 'IT 소학회 SWUT 스페이스입니다.', members: 48, isHost: true },
@@ -42,33 +78,41 @@ function TeamSpace({ navigation }) {
     { id: 3, name: '여대 교류회', description: '여대 교류를 위한 스페이스입니다.', members: 80, isHost: false },
   ];
 
-  return (
-    <View style={styles.mainlayout}>
-      <View style={styles.container2}>
-        <View style={styles.row2}>
-          <Text style={styles.range}>{selectedOption}</Text>
-          <Menu>
-            <MenuTrigger>
-              <DownArrowIcon />
-            </MenuTrigger>
-            <MenuOptions
-              optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
-              <MenuOption style={{ marginBottom: 10.5 }} onSelect={() => setSelectedOption('최신순')} text='최신순' />
-              <MenuOption onSelect={() => setSelectedOption('오래된 순')} text='오래된 순' />
-            </MenuOptions>
-          </Menu>
+  const TeamSPContents = teamData.map((team) => (
+    <TeamSPContent
+      key={team.id}
+      name={team.name}
+      description={team.description}
+      members={team.members}
+      isHost={team.isHost}
+    />
+  ));
+  
+  return hasTeamSP ? (
+    <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
+        <View style={styles.container2}>
+          <Text style={styles.Text26}>팀스페이스</Text>
+          <Text style={styles.Text16gray}>팀별로 프로필 카드를 관리하세요.</Text>
+        </View>
+        <View showsVerticalScrollIndicator={false}>
+          {TeamSPContents}
+          <View style={styles.innerView}></View>
+        </View>
+      </ScrollView>
+    ) : (
+      <View style={styles.mainlayout}>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.noCard}>아직 입장한 팀스페이스가 없어요.</Text>
+          <Text style={styles.noCard}>인원이 많다면 팀스페이스를 활용해보세요.</Text>
+          <TouchableOpacity style={styles.margin10} onPress={() => navigation.navigate('팀스페이스 입장')}>
+            <View style={styles.newContainer}>
+              <Text style={styles.newCard}>팀스페이스 추가하기</Text>
+              <RightIcon />
+            </View>
+          </TouchableOpacity>
         </View>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {teamData.map((team) => (
-          <View key={team.id}>
-            <Text>{team.name}</Text>
-            {/* 추가 UI 코드 */}
-          </View>
-        ))}
-      </ScrollView>
-    </View>
-  );
+    );
 }
 
 export default TeamSpace;

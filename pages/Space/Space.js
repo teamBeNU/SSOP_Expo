@@ -166,7 +166,7 @@ function MySpaceStack({navigation}) {
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
-                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
+                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 , borderRadius: 16 }}>
                       <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' />
                       <MenuOption text='그룹 편집하기' />
                     </MenuOptions>
@@ -227,7 +227,7 @@ function TeamSpaceStack({navigation}) {
               <TouchableOpacity>
                 <Menu>
                   <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
-                  <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
+                  <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 , borderRadius: 16}}>
                     <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스 추가하기' />
                     <MenuOption text='팀스페이스 편집하기' />
                   </MenuOptions>
@@ -244,7 +244,7 @@ function TeamSpaceStack({navigation}) {
         onClose={() => setIsModalVisible(false)}
         onOption1Press={handleEnterTeamSpPress}
         onOption2Press={handleCreateTeamSpPress}
-        title="팀스페이스 교환하기"
+        title="팀스페이스 추가하기"
         option1Text="팀스페이스 입장"
         option1SubText="초대받았다면"
         option1Icon={EnterTeamSPIcon}
