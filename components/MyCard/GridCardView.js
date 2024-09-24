@@ -3,7 +3,7 @@ import { theme } from "../../theme";
 import { styles } from './CardViewStyle';
 import { useNavigation } from '@react-navigation/native';
 
-export const GridCardView = ({viewOption, cardData, showPlusCardButton}) => {
+export const GridCardView = ({viewOption, cardData}) => {
     const navigation = useNavigation(); 
 
     const handleNext = () => {
@@ -14,7 +14,6 @@ export const GridCardView = ({viewOption, cardData, showPlusCardButton}) => {
         <ScrollView showsVerticalScrollIndicator={false}>
         <View>
             <View style={[styles.row, styles.container]}>
-              {showPlusCardButton && <PlusCardButton navigation={navigation} />}
               {cardData.map((item) => (
                 <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
                   <item.Component
