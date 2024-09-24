@@ -58,6 +58,8 @@ import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import { theme } from './theme';
 import KaKaoLogin from './components/Login/KaKaoLogin';
+import MySpace from './pages/Space/MySpace';
+import TeamSpace from './pages/Space/TeamSpace';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
 
@@ -312,6 +314,32 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
+          <Stack.Screen name="마이 스페이스" component={MySpace}
+          options={{
+            title: " ",
+            headerShadowVisible: false,
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.navigate('알림')}>
+                <NotiIcon style={{ marginLeft: 8 }} />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity onPress={() => navigation.navigate('마이 스페이스 관리')}><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity>
+                  <Menu>
+                    <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
+                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
+                      <MenuOption style={{ marginBottom: 10.5 }} text='그룹 관리하기' />
+                      <MenuOption style={{ marginBottom: 10.5 }} text='카드 관리하기' />
+                      <MenuOption text='연락처 관리하기' />
+                    </MenuOptions>
+                  </Menu>
+                </TouchableOpacity>
+              </View>
+            ),
+          }}/>
+          <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
           <Stack.Screen name="마이 스페이스 관리" component={MySpaceManage}
@@ -329,17 +357,6 @@ export default function App() {
     </MenuProvider>
     </AuthProvider>
   );
-};
-
-const StackNavigator1 = ({ navigation, route }) => {
-  React.useLayoutEffect(() => {
-    const routeName = getFocusedRouteNameFromRoute(route);
-    if (routeName === "Space") {
-      navigation.setOptions({ tabBarStyle: { display: 'flex' } });
-    } else {
-      navigation.setOptions({ tabBarStyle: { display: 'none' } });
-    }
-  }, [navigation, route]);
 };
 
 // 바텀 네비게이션
@@ -366,6 +383,10 @@ const Tab = createBottomTabNavigator();
               iconSource = focused
                 ? require('./assets/Navigation/ic_myCard_regular_line.png')
                 : require('./assets/Navigation/ic_myCard_regular.png');
+            } else if (route.name === '알림') {
+              iconSource = focused
+                ? require('./assets/Navigation/ic_noti_regular_line.png')
+                : require('./assets/Navigation/ic_noti_regular.png');
             } else if (route.name === 'MY') {
               iconSource = focused
                 ? require('./assets/Navigation/ic_profile_regular_line.png')
@@ -391,13 +412,8 @@ const Tab = createBottomTabNavigator();
           tabBarLabel: '홈',
           headerTitle: ' ',
           headerStyle: {
-            backgroundColor: '#F5F8F8'
+            backgroundColor: theme.white
           },
-          headerLeft: () => (
-            <TouchableOpacity onPress={() => navigation.navigate('알림')}>
-            <NotiIcon style={{ marginLeft: 8 }} />
-           </TouchableOpacity>
-          ),
           headerRight: () => (
             <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
               <SearchIcon style={{ marginRight: 8 }} />
@@ -426,6 +442,7 @@ const Tab = createBottomTabNavigator();
             borderBottomColor: theme.gray90,
           },
           }} />
+          <Tab.Screen name="알림" component={Notify}/>
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
       </Tab.Navigator>
     );

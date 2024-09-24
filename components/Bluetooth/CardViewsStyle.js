@@ -10,24 +10,40 @@ export const styles = StyleSheet.create({
     },
     title: { // 글씨 
         marginTop: 30,
+        marginBottom: 20,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
         letterSpacing: -1,
     },
-    namebox: {
-    },
     range: { //최신순 정렬
-        marginTop: 24,
-        marginLeft: 8,
-        marginBottom: 12,
+        color: theme.gray50,
         fontFamily: "PretendardRegular",
-        fontSize: 14,
+        fontSize: 13,
         letterSpacing: -1,
     },
     DownArrowIcon: {
-        marginTop: 24,
-        marginBottom: 12,
+        marginLeft: 0,
     },
+    optionButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: theme.gray90, 
+        borderRadius: 50, 
+        paddingVertical: 8,
+        paddingRight: 10,
+        paddingLeft: 16,
+      },
+    iconContainer: {
+        borderWidth: 1,
+        borderColor: theme.gray90,
+        borderRadius: 50,
+        padding: 8,
+        marginRight: 6,
+        justifyContent: 'center',
+        alignItems: 'center',
+      },
     Text20: {
         marginTop: 16,
         marginLeft: 16,
@@ -56,7 +72,10 @@ export const styles = StyleSheet.create({
         flexWrap: 'wrap',
         justifyContent: 'space-between',
     },
-    container2: {
+    rowRange: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
     },
     row2: {
         flexDirection: 'row',
@@ -73,16 +92,8 @@ export const styles = StyleSheet.create({
         marginTop: 12,
         // width: 158,
         width: '44%',
-        borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: "rgba(0, 0, 0, 0.03)",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 1,
-        shadowRadius: 2,
         elevation: 5,
         position: 'relative',
     },
