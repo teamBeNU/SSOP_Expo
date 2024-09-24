@@ -10,8 +10,7 @@ import AvatarCustom from "./AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
-
-const { width:SCREEN_WIDTH } = Dimensions.get('window');
+import SelectCover from "./SelectCover";
 
 export default function TemplateStudentTeenager ({navigation, card_template}) {
     const [step, setStep] = useState(1);
@@ -59,7 +58,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
         grade: true,
         major: true,
     })
-    const [imageWidth, setImageWidth] = useState(0);
 
     const ref_input2 = useRef();
     const ref_input3 = useRef();
@@ -175,16 +173,6 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             setStep(8);
         }
     };
-
-    // 커버
-    const handleScroll = (event) => {
-        // const contentOffsetX = event.nativeEvent.contentOffset.x;
-        // const currentIndex = Math.floor(contentOffsetX / (SCREEN_WIDTH));
-        const contentOffsetX = event.nativeEvent.contentOffset.x;
-        const currentIndex = Math.round(contentOffsetX / (SCREEN_WIDTH));
-        if (currentIndex == 0) {setCardCover('avatar');}
-        else if (currentIndex == 1) {setCardCover('picture');}
-    }
 
     // 상단바 타이틀 변경, 버튼 변경
     useEffect(() => {   
@@ -683,60 +671,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             )}
 
             {step === 6 && (
-                <View style={{height: '100%', backgroundColor: theme.white}}>
-                    <Text style={styles.coverTitle}>카드 커버를 선택하세요.</Text>
-                    <Text style={styles.coverSubTitle}>카드 앞면에 커버가 보여요.</Text>   
-                    <View>
-                        <ScrollView
-                            pagingEnabled
-                            horizontal
-                            decelerationRate={0}
-                            snapToInterval={SCREEN_WIDTH}
-                            snapToAlignment={"center"}
-                            showsHorizontalScrollIndicator={false}
-                            contentContainerStyle={styles.coverScrollView}
-                            onScroll={handleScroll}
-                        >
-                            <TouchableOpacity  
-                                onPress={() => {handleNext(); setCardCover("avatar");}}    
-                            >
-                                <Image 
-                                    source={require("../../assets/images/cardCover-1.png")}
-                                    style={[styles.coverImg, {marginLeft: (SCREEN_WIDTH - imageWidth)/2, marginRight:16}]}
-                                    resizeMode="contain"
-                                    onLayout={(event) => {
-                                        const { width } = event.nativeEvent.layout;
-                                        setImageWidth(width);
-                                    }}
-                                />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                onPress={() => {handleNext(); setCardCover("picture");}}  
-                            >
-                                <Image 
-                                    source={require("../../assets/images/cardCover-2.png")}
-                                    style={[styles.coverImg, {marginRight: (SCREEN_WIDTH - imageWidth)/2}]}
-                                    resizeMode="contain"
-                                />
-                            </TouchableOpacity>
-                        </ScrollView>
-                    </View>
-                    <View style={styles.circles}>
-                        <View 
-                            style={[
-                                styles.circle,
-                                (card_cover === "avatar" || card_cover === '') ? styles.activeCircle : styles.inactiveCircle,
-                            ]}
-                        ></View>
-                        <View
-                            style={[
-                                styles.circle,
-                                card_cover === "picture" ? styles.activeCircle : styles.inactiveCircle,
-                            ]}
-                        ></View>
-                    </View>
-                </View> 
-
+                <SelectCover card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} />
             )}
 
             {step === 7 && (
