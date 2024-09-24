@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Clipboard, Alert, Modal } from "react-native";
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
@@ -15,12 +17,13 @@ import Worker from '../../assets/profile/worker.svg';
 import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
 
-import StudentTemplate from "../../components/CreateTeamSpace/StudentTemplate";
-import WorkerTemplate from "../../components/CreateTeamSpace/WorkerTemplate";
-import FanTemplate from "../../components/CreateTeamSpace/FanTemplate";
-import FreeTemplate from "../../components/CreateTeamSpace/FreeTemplate";
+import TeamSpTemplate from "../../components/CreateTeamSpace/TeamSpTemplate";
 
 function CreateTeamSp({ navigation }) {
+  const baseUrl = 'http://43.202.52.64:8080/api'
+  const [token, setToken] = useState(null); 
+  // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJleHAiOjE3MjcxMTAzMDYsInVzZXJJZCI6MywiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.mdd7wH8IdcXvu3sq3-N4DBFAvrXrhviT5vyPqD2DAlH7XZCie5ug9t5eYIagm8AAUXGc_OuWa9eFHeIKuc-8mw';
+
   const [step, setStep] = useState(1);
   const [isEmpty, setIsEmpty] = useState(false);
 
@@ -28,25 +31,24 @@ function CreateTeamSp({ navigation }) {
   const [nameLength, setNameLength] = useState(0);
   const [teamComment, setTeamComment] = useState(''); // step2
   const [cmtLength, setCmtLength] = useState(0);
-  const [istemplate, setIsTemplate] = useState("yes"); // step3 - 라디오버튼 선택
-  const [card_template, setTemplate] = useState(null); // step4
+  const [isTemplate, setIsTemplate] = useState("yes"); // step3 - 라디오버튼 선택
+  const [inviteCode, setInviteCode] = useState(null); // step4
 
-  const inviteCode = '120432'; // step6
+  const [card_template, setTemplate] = useState(null); // step5
 
-  // 테스트용 다음 step
-  // const handleNext = () => {
-  //   if (step === 1) {
-  //     setStep(2);
-  //   } else if (step === 2) {
-  //     setStep(3);
-  //   } else if (step === 3) {
-  //     if (istemplate === "yes") {
-  //       setStep(5);
-  //     } else if (istemplate === "no") {
-  //       setStep(4);
-  //     }
-  //   }
-  // };
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
 
   const handleNext = () => {
     if (step === 1) {
@@ -64,14 +66,35 @@ function CreateTeamSp({ navigation }) {
         setStep(3);
       }
     } else if (step === 3) {
-      if (istemplate === "yes") {
+      if (isTemplate === "yes") {
         setStep(5); // 템플릿 4가지 중 선택
-      } else if (istemplate === "no") {
-        setStep(4); // 초대코드 생성
+      } else if (isTemplate === "no") {
+
+        // 지금까지 작성한 팀스페이스 정보로 생성
+        const requestData = {
+          team_name: teamName,
+          team_comment: teamComment,
+          isTemplate: false
+        };
+    
+        // 팀스페이스 생성 API 호출
+        const apiUrl = `${baseUrl}/teamsp/create`;
+        axios
+          .post(apiUrl, requestData, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((response) => {
+            setInviteCode(response.data.inviteCode); // 초대코드 저장
+            console.log('생성된 초대코드:', response.data.inviteCode);
+            setStep(4); // 초대코드 생성
+          })
+          .catch((error) => {
+            console.error('팀스페이스 생성 API 요청 에러:', error);
+          });
       }
     }
   };
-
+  
   // 컴포넌트에서 페이지로 이동 함수
   const goToOriginal = () => {
     setStep(5);
@@ -157,20 +180,6 @@ function CreateTeamSp({ navigation }) {
     setIsModalVisible(true);
   };
 
-  // 입력/선택한 값 출력
-  // useEffect(() => {
-  //   if (step === 4) {
-  //     Alert.alert(
-  //       "Variable Values",
-  //       `teamName: ${teamName}
-  //        teamComment: ${teamComment}
-  //        istemplate: ${istemplate}
-  //        card_template: ${card_template}
-  //       `
-  //     );
-  //   };
-  // }, [step]);
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ backgroundColor: theme.white, flex: 1 }}>
@@ -216,8 +225,8 @@ function CreateTeamSp({ navigation }) {
 
               <View style={styles.flexSpacer} />
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 다음으로 </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -245,8 +254,8 @@ function CreateTeamSp({ navigation }) {
 
               <View style={styles.flexSpacer} />
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 다음으로 </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -257,9 +266,9 @@ function CreateTeamSp({ navigation }) {
               <View>
                 <Text style={[styles.title, { marginBottom: 32 }]}> 팀스페이스에 제출될 카드 템플릿을 {"\n"} 따로 지정하시겠어요? </Text>
 
-                <RadioButton.Group onValueChange={status => setIsTemplate(status)} value={istemplate}>
+                <RadioButton.Group onValueChange={status => setIsTemplate(status)} value={isTemplate}>
                   <TouchableOpacity onPress={() => setIsTemplate("yes")}>
-                    <View style={[styles.RadioBtn, istemplate !== "yes" && styles.nonSelect]} >
+                    <View style={[styles.RadioBtn, isTemplate !== "yes" && styles.nonSelect]} >
                       <RadioButton value="yes" color={theme.skyblue} />
                       <Text style={styles.font18}> 템플릿을 지정할래요 {"\n"}
                         <Text style={styles.name}> 제출 받아야 할 필수정보가 있다면 추천해요.</Text> </Text>
@@ -267,7 +276,7 @@ function CreateTeamSp({ navigation }) {
                   </TouchableOpacity>
 
                   <TouchableOpacity onPress={() => setIsTemplate("no")}>
-                    <View style={[styles.RadioBtn, istemplate !== "no" && styles.nonSelect]}>
+                    <View style={[styles.RadioBtn, isTemplate !== "no" && styles.nonSelect]}>
                       <RadioButton value="no" color={theme.skyblue} />
                       <Text style={styles.font18}>자유롭게 제출하게 할래요 {"\n"}
                         <Text style={styles.name}>구성원들이 자유롭게 카드를 작성하여 제출해요.</Text> </Text>
@@ -276,8 +285,8 @@ function CreateTeamSp({ navigation }) {
                 </RadioButton.Group>
               </View>
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 다음으로 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 다음으로 </Text>
               </TouchableOpacity>
             </View>
           )}
@@ -330,12 +339,12 @@ function CreateTeamSp({ navigation }) {
 
               </View>
 
-              <View style={[styles.btnContainer, { marginBottom: 20 }]}>
-                <TouchableOpacity style={styles.btnNext}>
-                  <Text onPress={() => navigation.navigate(' ')} style={styles.btnText}> 홈화면으로 </Text>
+              <View style={[styles.btnContainer, { marginBottom: 8 }]}>
+                <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
+                  <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btnWhite}>
-                  <Text onPress={() => navigation.navigate('스페이스')} style={styles.btnTextBlack}> 팀스페이스 확인 </Text>
+                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate(" ")}>
+                  <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                 </TouchableOpacity>
               </View>
 
@@ -370,22 +379,17 @@ function CreateTeamSp({ navigation }) {
         {/* 팀스페이스 성격에 맞는 컴포넌트 연동 */}
         {step === 6 && (
           <View>
-            {card_template === "student" &&
-              <StudentTemplate navigation={navigation}
-                goToOriginal={goToOriginal}
-                teamName={teamName}
-                nameLength={nameLength}
-                teamComment={teamComment}
-                istemplate={istemplate}
-                card_template={card_template}
-              />}
-            {card_template === "worker" && <WorkerTemplate navigation={navigation} />}
-            {card_template === "fan" && <FanTemplate navigation={navigation} />}
-            {card_template === "free" && <FreeTemplate navigation={navigation} />}
+            <TeamSpTemplate navigation={navigation}
+              goToOriginal={goToOriginal}
+              teamName={teamName}
+              nameLength={nameLength}
+              teamComment={teamComment}
+              isTemplate={isTemplate}
+              card_template={card_template} />
           </View>
         )}
       </View>
-    </TouchableWithoutFeedback>
+    </TouchableWithoutFeedback >
   );
 }
 

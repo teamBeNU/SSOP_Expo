@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from './EnterTeamSpStyle';
 import { theme } from "../../theme";
 import { View, Text, TextInput, Modal, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
@@ -12,30 +14,83 @@ import AvatarSample2 from '../../assets/icons/AbatarSample2';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard";
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
-import HostStudTemplate from '../../components/EnterTeamSp/HostStudTemplate.js';
+import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
 import CardSample from '../../assets/teamSp/bg_gradation';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation }) {
-  const [step, setStep] = useState(1);
+  const baseUrl = 'http://43.202.52.64:8080/api'
+  const [token, setToken] = useState(null);
+  // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJleHAiOjE3MjcxOTI4ODIsInVzZXJJZCI6NSwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.PWVCTkADgj5j5bHDcTkPeub4sA8HtgnHJBad8_BOeYjv529O062T98lb8wd-QgtNC97WsojtWNBwppwm-SMAvQ';
 
-  // const [inviteCode, setInviteCode] = useState(null);
-  const inviteCode = '123456';
+  const [data, setData] = useState(null);
+  const [team_name, setTeam_name] = useState('알 수 없음');
+  const [team_comment, setTeam_comment] = useState('알 수 없음');
+  const [isTemplate, setIsTemplate] = useState(true);
+  const [step, setStep] = useState(4); // 테스트용 - 호스트지정템플릿 페이지로 이동
+
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
 
-  const [hostTemplate, setHostStudTemplate] = useState(1); // 호스트 지정 템플릿 있:true, 없: false
-
   const [selectedOption, setSelectedOption] = useState('최신순');
+  const [viewOption, setViewOption] = useState('격자형')
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
+
+
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
+  // 팀스페이스 입장 API 호출
+  const handleEnterModal = () => {
+    const apiUrl = `${baseUrl}/teamsp/enter`;
+    axios
+      .post(apiUrl, { inviteCode: inputcode }, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setData(response.data);
+        setIsTemplate(response.data.isTemplate);
+        if (isTemplate) {
+          setStep(4);
+        } else {
+          setStep(2);
+        }
+        setIsModalVisible(false);
+      })
+      .catch((error) => {
+        console.error('팀스페이스 입장 API 요청 에러:', error);
+        Alert.alert("존재하지 않는 초대코드입니다.");
+      });
+  };
 
   const handleNext = () => {
     if (step === 1) {
-      if (inputcode === inviteCode) {
-        setIsModalVisible(true);
-      } else {
-        Alert.alert("존재하지 않는 초대코드입니다.");
-      }
+      // 초대코드 확인
+      const apiUrl = `${baseUrl}/teamsp/search?inviteCode=${inputcode}`;
+      axios
+        .get(apiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setTeam_name(response.data.team_name);
+          setTeam_comment(response.data.team_comment);
+          setIsModalVisible(true);
+        })
+        .catch((error) => {
+          console.error('초대코드 검색 API 요청 에러:', error);
+          Alert.alert("존재하지 않는 초대코드입니다.");
+        });
     } else if (step === 2) {
       setStep(3)
     } else if (step === 3) {
@@ -44,12 +99,12 @@ function EnterTeamSp({ navigation }) {
       setStep(5)
     }
   }
-  
+
   // 컴포넌트에서 페이지로 이동 함수
   const goToOriginal = () => {
     setStep(1);
   };
-  
+
   // step 단위로 뒤로가기
   useEffect(() => {
     navigation.setOptions({
@@ -81,15 +136,6 @@ function EnterTeamSp({ navigation }) {
     }
   };
 
-  const handleEnterModal = () => {
-    if (hostTemplate) {
-      setStep(4);
-    } else {
-      setStep(2);
-    }
-    setIsModalVisible(false); // 모달 닫기
-  }
-
   const cardData = [
     { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
     { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
@@ -101,7 +147,7 @@ function EnterTeamSp({ navigation }) {
       <View style={{ backgroundColor: theme.white, flex: 1 }}>
 
         {/* progressBar */}
-        {hostTemplate ? (
+        {isTemplate ? (
           step !== 5 && (
             <Progress.Bar
               progress={step === 4 ? 0.2857 : step / 7}
@@ -126,7 +172,7 @@ function EnterTeamSp({ navigation }) {
           </View>
         )}
 
-        <View style={styles.mainlayout}>
+        <View style={step === 2 ? styles.noPaddingMainlayout : styles.mainlayout}>
 
           {/* 초대코드 입력 */}
           {step === 1 && (
@@ -146,8 +192,8 @@ function EnterTeamSp({ navigation }) {
 
               <View style={styles.flexSpacer} />
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 입장하기 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 입장하기 </Text>
               </TouchableOpacity>
 
               <Modal
@@ -167,15 +213,14 @@ function EnterTeamSp({ navigation }) {
                     </View>
 
                     <View style={styles.modalContent}>
-                      <Text style={[styles.font18, { marginLeft: 0 }]}> 홍길동의 팀스페이스 </Text>
-                      <Text style={styles.font16}> 부가설명 </Text>
+                      <Text style={[styles.font18, { marginLeft: 0 }]}> {team_name} </Text>
+                      <Text style={styles.font16}> {team_comment} </Text>
                       <Text style={styles.people}> <People />  8 / 150명 </Text>
                     </View>
 
-
                     <View style={[styles.btnContainer, { marginLeft: 16 }]}>
-                      <TouchableOpacity style={[styles.btnNext, { marginBottom: 16 }]}>
-                        <Text onPress={handleEnterModal} style={styles.btnText}> 네, 입장할래요 </Text>
+                      <TouchableOpacity style={[styles.btnNext, { marginBottom: 16 }]} onPress={handleEnterModal}>
+                        <Text style={styles.btnText}> 네, 입장할래요 </Text>
                       </TouchableOpacity>
                     </View>
                   </View>
@@ -192,10 +237,13 @@ function EnterTeamSp({ navigation }) {
                   navigation={navigation}
                   selectedOption={selectedOption}
                   setSelectedOption={setSelectedOption}
+                  viewOption={viewOption}
+                  setViewOption={setViewOption}
                   handleNext={handleNext}
                   cardData={cardData}
                   title={"팀스페이스에 보여질 카드를 선택하세요."}
                 />
+
               ) : (
                 <NoCardsView
                   navigation={navigation}
@@ -218,11 +266,11 @@ function EnterTeamSp({ navigation }) {
               <View style={styles.flexSpacer} />
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, { marginBottom: 40 }]}>
-                  <Text onPress={() => navigation.navigate("스페이스")} style={styles.btnText}> 팀스페이스 확인 </Text>
+                <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
+                  <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.btnWhite}>
-                  <Text onPress={() => navigation.navigate(" ")} style={styles.btnTextBlack}> 홈 화면으로 </Text>
+                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate(" ")}>
+                  <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -242,15 +290,15 @@ function EnterTeamSp({ navigation }) {
 
               <View style={styles.flexSpacer} />
 
-              <TouchableOpacity style={styles.btnNext}>
-                <Text onPress={handleNext} style={styles.btnText}> 카드 만들기 </Text>
+              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                <Text style={styles.btnText}> 카드 만들기 </Text>
               </TouchableOpacity>
             </View>
           )}
         </View>
         {/* 호스트 지정 템플릿으로 이동 */}
         {step === 5 && (
-          <HostStudTemplate navigation={navigation} goToOriginal={goToOriginal} />
+          <HostTemplate navigation={navigation} goToOriginal={goToOriginal} />
         )}
       </View>
     </TouchableWithoutFeedback>
