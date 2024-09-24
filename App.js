@@ -49,6 +49,7 @@ import UserPw from './pages/MyPage/UserPw';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import DetailGroup from './pages/Space/DetailGroup';
 import MySpaceManage from './pages/Space/MySpaceManage';
+import CardDetailView from './components/MyCard/CardDetailView';
 
 import { styles } from './components/MyCard/CardStyle';
 
@@ -170,8 +171,14 @@ export default function App() {
             ),
           }}
           />
-        {/* <Stack.Screen name="내 카드" component={MyCard} />
-        <Stack.Screen name="Space" component={Space} /> */}
+        <Stack.Screen 
+          name="카드 상세보기" 
+          component={CardDetailView}
+          options={{
+            headerTitle: "",
+          }}
+          />
+        {/* <Stack.Screen name="Space" component={Space} /> */}
         <Stack.Screen 
           name="팀스페이스 생성" 
           component={CreateTeamSp}

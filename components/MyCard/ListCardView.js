@@ -10,7 +10,7 @@ export const ListCardView = ({viewOption, cardData, showPlusCardButton}) => {
     const navigation = useNavigation(); 
 
     const handleNext = () => {
-        navigation.navigate('');
+        navigation.navigate('카드 상세보기');
     };
 
     return (

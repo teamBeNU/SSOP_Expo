@@ -12,6 +12,12 @@ import DoneIcon from '../../assets/icons/ic_done_small_line.svg'
 import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
 
 function EditCard() {
+    const cardData = [
+        { id: '1', name: 'Card 1', card_template: '대학생' },
+        { id: '2', name: 'Card 2' },
+        { id: '3', name: 'Card 3' },
+    ]
+
     const route = useRoute();
     const {card} = route.params;
 
@@ -44,7 +50,8 @@ function EditCard() {
         if (step === 1 ) {
             setStep(2);
         } else if (step === 2) {
-            if (cardData.card_template === '대학생') setStep(3);
+            setStep(3);
+           // if (cardData.card_template === '대학생') setStep(3);
             // else if (cardData.card_template === '초중고등학생') setStep(4);
             // else if (cardData.card_template === '직장인') setStep(5);
             // else if (cardData.card_template === '팬') setStep(6);
