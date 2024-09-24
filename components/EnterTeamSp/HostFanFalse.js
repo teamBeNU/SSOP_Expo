@@ -20,9 +20,9 @@ export default function HostFanFalse() {
     const secondRef = useRef(null);
     const reasonRef = useRef(null);
     return (
-        <View>
-            <Text style={styles.title}> 팬으로서의 나에 대해 더 알려주세요. </Text>
-            <Text style={styles.subtitle}> 호스트가 지정한 필수 정보예요. </Text>
+        <View style={{ paddingHorizontal: 16 }}>
+            <Text style={styles.title}> 더 자세히 알려주실래요? </Text>
+            <Text style={styles.subtitle}> 정보를 더 추가할 수 있어요. </Text>
 
             {/* 덕질 장르 */}
             {!showGenre && (
@@ -61,7 +61,7 @@ export default function HostFanFalse() {
                 <View style={styles.nameContainer}>
                     <Text style={styles.name}>차애</Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && emptySecond && styles.inputEmpty]}
+                        style={styles.nameInput}
                         placeholder="차애를 입력해 주세요."
                         keyboardType="default"
                         returnKeyType='next'

@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
-import Select from "../../assets/teamSp/select.svg";
 import "react-native-gesture-handler";
 
 export default function HostWorkerFalse() {
@@ -22,7 +21,7 @@ export default function HostWorkerFalse() {
     const partRef = useRef(null);
 
     return (
-        <View>
+        <View style={{ paddingHorizontal: 16 }}>
             <Text style={styles.title}> 더 자세히 알려주실래요? </Text>
             <Text style={styles.subtitle}> 정보를 더 추가할 수 있어요. </Text>
 

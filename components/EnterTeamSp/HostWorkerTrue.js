@@ -35,7 +35,7 @@ export default function HostWorkerTrue() {
             {/* 회사 */}
             {showCompany && (
                 <View style={styles.nameContainer}>
-                    <Text style={styles.name}>학교명</Text>
+                    <Text style={styles.name}>회사명</Text>
                     <TextInput
                         style={[styles.nameInput, isEmpty && emptyCompany && styles.inputEmpty]}
                         placeholder="회사명을 입력해 주세요."
@@ -47,7 +47,7 @@ export default function HostWorkerTrue() {
                     // onSubmitEditing={() => gradeRef.current.focus()}
                     />
                     {isEmpty && emptyCompany && (
-                        <Text style={styles.inputEmptyText}> 학교명을 입력해 주세요.</Text>
+                        <Text style={styles.inputEmptyText}> 회사명을 입력해 주세요.</Text>
                     )}
                 </View>
             )}
