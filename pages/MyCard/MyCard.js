@@ -1,7 +1,9 @@
 import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal } from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from './MyCardStyle';
-import React, { useState, useLayoutEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import MyCardsView from '../../pages/MyCard/MyCardsView.js';
 import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';

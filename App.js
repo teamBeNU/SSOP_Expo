@@ -138,7 +138,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
       {isLoggedIn ? (
-          <Stack.Screen name="" component={MyTabs} options={{ headerShown: false }}/>
+          <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }}/>
         ) : (
           <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }}/>
         )}

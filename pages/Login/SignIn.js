@@ -1,11 +1,10 @@
 import React, { useState, useRef } from "react";
-import { View, Text, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
+import { View, Text, TextInput, Alert, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './LoginStyle.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import GoogleIcon from "../../assets/Login/ic_google.svg";
 import KakaoIcon from "../../assets/Login/ic_kakao.svg";
-import NaverIcon from "../../assets/Login/ic_naver.svg";
 import VerticalLine from "../../assets/Login/ic_vertical_line.svg";
 import VisibilityIcon from '../../assets/Login/ic_visibility.svg';
 import VisibilityOffIcon from '../../assets/Login/ic_visibility_off.svg';
@@ -22,7 +21,42 @@ function SignIn() {
     const togglePwVisibility = () => {
         setShowPw(!showPw);
       };
-  
+      
+      const handleLogin = async () => {
+        try {
+          const response = await fetch('http://43.202.52.64:8080/api/user/login', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              email: email,
+              password: password,
+            }),
+          });
+    
+          const data = await response.json();
+          console.log('API Response:', data);
+
+          if (response.ok) {
+            if (data.token) {
+              await AsyncStorage.setItem('token', data.token);
+              navigation.navigate('MyTabs'); 
+            } else {
+                if (data.message === '로그인 실패 - 사용자 없음') {
+                    Alert.alert('로그인 실패', '가입하지 않은 이메일입니다.'); 
+                  } else if (data.message === '로그인 실패 - 비밀번호 불일치') {
+                    Alert.alert('로그인 실패', '비밀번호가 일치하지 않습니다.'); 
+                  } else {
+                    Alert.alert('로그인 실패', 'An unknown error occurred. Please try again.');
+                }
+            }
+          }
+        } catch (error) {
+          console.error('Error logging in:', error);
+          Alert.alert('Login Error', 'Something went wrong. Please try again later.');
+        }
+        };
 
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -46,13 +80,18 @@ function SignIn() {
                 placeholder="영문과 숫자 포함, 6-20자 이내의 문자"
                 maxLength={20}
                 secureTextEntry = {showPw ? false : true}
-                onChange={(e) => {setPassword(e.target.value)}}
+                onChangeText={setPassword}
                 value={password}
                 returnKeyType="next"
-                // onSubmitEditing={handleNext}
+                onSubmitEditing={handleLogin}
                 />
                 {showPw ? <VisibilityIcon onPress={togglePwVisibility} style={styles.visibility}/> : <VisibilityOffIcon onPress={togglePwVisibility} style={styles.visibility}/>}
             </View> 
+            <View style={{marginTop: 32}}>
+                <TouchableOpacity style={styles.email} onPress={handleLogin}>
+                  <Text style={styles.emailText}>이메일로 시작하기</Text>
+                </TouchableOpacity>
+            </View>
            </View>
 
            <View style={styles.lineContainer}>
