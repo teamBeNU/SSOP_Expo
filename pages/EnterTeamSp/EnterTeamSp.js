@@ -13,7 +13,7 @@ import AvatarSample2 from '../../assets/icons/AbatarSample2';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard";
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
-import HostStudTemplate from '../../components/EnterTeamSp/HostStudTemplate.js';
+import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
 import CardSample from '../../assets/teamSp/bg_gradation';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
@@ -23,7 +23,10 @@ function EnterTeamSp({ navigation }) {
   // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJleHAiOjE3MjcxOTI4ODIsInVzZXJJZCI6NSwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.PWVCTkADgj5j5bHDcTkPeub4sA8HtgnHJBad8_BOeYjv529O062T98lb8wd-QgtNC97WsojtWNBwppwm-SMAvQ';
 
   const [data, setData] = useState(null);
-  const [step, setStep] = useState(1);
+  const [team_name, setTeam_name] = useState('알 수 없음');
+  const [team_comment, setTeam_comment] = useState('알 수 없음');
+  const [isTemplate, setIsTemplate] = useState(true);
+  const [step, setStep] = useState(5);
 
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
@@ -41,7 +44,8 @@ function EnterTeamSp({ navigation }) {
       })
       .then((response) => {
         setData(response.data);
-        if (data.isTemplate) {
+        setIsTemplate(response.data.isTemplate);
+        if (isTemplate) {
           setStep(4);
         } else {
           setStep(2);
@@ -63,8 +67,8 @@ function EnterTeamSp({ navigation }) {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          const team_name = response.data.team_name;
-          const team_comment = response.data.team_comment;
+          setTeam_name(response.data.team_name);
+          setTeam_comment(response.data.team_comment);
           setIsModalVisible(true);
         })
         .catch((error) => {
@@ -127,7 +131,7 @@ function EnterTeamSp({ navigation }) {
       <View style={{ backgroundColor: theme.white, flex: 1 }}>
 
         {/* progressBar */}
-        {hostTemplate ? (
+        {isTemplate ? (
           step !== 5 && (
             <Progress.Bar
               progress={step === 4 ? 0.2857 : step / 7}
@@ -278,7 +282,7 @@ function EnterTeamSp({ navigation }) {
         </View>
         {/* 호스트 지정 템플릿으로 이동 */}
         {step === 5 && (
-          <HostStudTemplate navigation={navigation} goToOriginal={goToOriginal} />
+          <HostTemplate navigation={navigation} goToOriginal={goToOriginal} />
         )}
       </View>
     </TouchableWithoutFeedback>
