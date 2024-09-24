@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Clipboard, Alert, Modal } from "react-native";
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
@@ -20,7 +21,7 @@ import TeamSpTemplate from "../../components/CreateTeamSpace/TeamSpTemplate";
 
 function CreateTeamSp({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
-  const token = localStorage.getItem('token');
+  const [token, setToken] = useState(null); 
   // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJleHAiOjE3MjcxMTAzMDYsInVzZXJJZCI6MywiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.mdd7wH8IdcXvu3sq3-N4DBFAvrXrhviT5vyPqD2DAlH7XZCie5ug9t5eYIagm8AAUXGc_OuWa9eFHeIKuc-8mw';
 
   const [step, setStep] = useState(1);
@@ -34,6 +35,20 @@ function CreateTeamSp({ navigation }) {
   const [inviteCode, setInviteCode] = useState(null); // step4
 
   const [card_template, setTemplate] = useState(null); // step5
+
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
 
   const handleNext = () => {
     if (step === 1) {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Clipboard, Alert, Modal } from "react-native";
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
@@ -36,7 +37,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     showReason
 }) {
     const baseUrl = 'http://43.202.52.64:8080/api'
-    const token = localStorage.getItem('token');
+    const [token, setToken] = useState(null);
     // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJleHAiOjE3MjcxODYwNzMsInVzZXJJZCI6MywiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.qfPvb-ySBx2Ts3Dx_Tjpvo73bcE27nT7DtdvHucheq3ajQTZzcaKJ_5ZSAWSzIC-0aQWWerEldfh9bd1qGgzQQ';
 
     const [step, setStep] = useState(1);
@@ -71,6 +72,20 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     // progressBar
     const maxSteps = 7;
     const initialProgress = 0.714;
+
+    // AsyncStorage에서 토큰 가져오기
+    useEffect(() => {
+        const fetchToken = async () => {
+            try {
+                const storedToken = await AsyncStorage.getItem('token');
+                setToken(storedToken);
+            } catch (error) {
+                console.error('토큰 가져오기 실패:', error);
+            }
+        };
+
+        fetchToken();
+    }, []);
 
     // 학생템플릿 - 역할 선택된 리스트
     const handleRoleUpdate = (roles) => {

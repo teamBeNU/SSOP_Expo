@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from './EnterTeamSpStyle';
 import { theme } from "../../theme";
 import { View, Text, TextInput, Modal, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
@@ -19,8 +20,8 @@ import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
-  // const token = localStorage.getItem('token');
-  const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJleHAiOjE3MjcxOTI4ODIsInVzZXJJZCI6NSwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.PWVCTkADgj5j5bHDcTkPeub4sA8HtgnHJBad8_BOeYjv529O062T98lb8wd-QgtNC97WsojtWNBwppwm-SMAvQ';
+  const [token, setToken] = useState(null);
+  // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJleHAiOjE3MjcxOTI4ODIsInVzZXJJZCI6NSwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.PWVCTkADgj5j5bHDcTkPeub4sA8HtgnHJBad8_BOeYjv529O062T98lb8wd-QgtNC97WsojtWNBwppwm-SMAvQ';
 
   const [data, setData] = useState(null);
   const [team_name, setTeam_name] = useState('알 수 없음');
@@ -34,6 +35,21 @@ function EnterTeamSp({ navigation }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형')
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
+
+
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
 
   // 팀스페이스 입장 API 호출
   const handleEnterModal = () => {
@@ -59,6 +75,12 @@ function EnterTeamSp({ navigation }) {
   };
 
   const handleNext = () => {
+    if (!token) {
+      Alert.alert("로그인이 필요한 페이지입니다. 로그인 화면으로 이동합니다.");
+      navigation.navigate('로그인');
+      return; 
+    }
+
     if (step === 1) {
       // 초대코드 확인
       const apiUrl = `${baseUrl}/teamsp/search?inviteCode=${inputcode}`;
