@@ -40,7 +40,6 @@ export default function AvatarCustom({setProfileImageUrl}) {
     // 컴포넌트 -> 이미지
     useEffect(() => {
         // ref.current.capture().then(uri => {
-        //     console.log("do something with ", uri);
         //     if(Platform.OS === 'ios') {
         //         uri = `file://${uri}`;
         //     }
@@ -50,7 +49,6 @@ export default function AvatarCustom({setProfileImageUrl}) {
 
         // 이미지 확인용
         ref.current.capture().then(uri => {
-            console.log("do something with ", uri);
             if(Platform.OS === 'ios') {
                 uri = `file://${uri}`;
             }

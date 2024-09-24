@@ -420,11 +420,11 @@ export const styles = StyleSheet.create({
     },
 
     avatarNext: {
-        color: "black",
-        fontFamily: "PretendardSemiBold",
+        color: theme.skyblue,
+        fontFamily: "PretendardMedium",
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: "600",
+        fontWeight: "500",
     },
 
     cardDone: {

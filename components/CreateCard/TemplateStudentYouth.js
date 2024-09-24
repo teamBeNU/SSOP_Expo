@@ -227,7 +227,7 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
                         style={{marginRight: 20}}
                         onPress={handleNext}
                     >
-                        <Text style={styles.avatarNext}>다음</Text>
+                        <Text style={styles.avatarNext}>완료</Text>
                     </TouchableOpacity>
                 ),
             });

@@ -284,7 +284,7 @@ export default function TemplateFree ({navigation, card_template}) {
                         style={{marginRight: 20}}
                         onPress={handleNext}
                     >
-                        <Text style={styles.avatarNext}>다음</Text>
+                        <Text style={styles.avatarNext}>완료</Text>
                     </TouchableOpacity>
                 ),
             });
@@ -608,7 +608,6 @@ export default function TemplateFree ({navigation, card_template}) {
                                             ))}
                                             {workerItems.map(item => (
                                                 item.isClick && (
-                                                    
                                                     <SelectTextInput
                                                         key={item.key}
                                                         btnName={item.btnName}

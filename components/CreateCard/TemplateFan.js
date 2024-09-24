@@ -159,16 +159,6 @@ export default function TemplateFan ({navigation, card_template}) {
         }
     };
 
-    // 커버
-    const handleScroll = (event) => {
-        // const contentOffsetX = event.nativeEvent.contentOffset.x;
-        // const currentIndex = Math.floor(contentOffsetX / (SCREEN_WIDTH));
-        const contentOffsetX = event.nativeEvent.contentOffset.x;
-        const currentIndex = Math.round(contentOffsetX / (SCREEN_WIDTH));
-        if (currentIndex == 0) {setCardCover('avatar');}
-        else if (currentIndex == 1) {setCardCover('picture');}
-    }
-
     // 상단바 타이틀 변경, 버튼 변경
     useEffect(() => {   
         if (step !== 8) {
@@ -217,7 +207,7 @@ export default function TemplateFan ({navigation, card_template}) {
                         style={{marginRight: 20}}
                         onPress={handleNext}
                     >
-                        <Text style={styles.avatarNext}>다음</Text>
+                        <Text style={styles.avatarNext}>완료</Text>
                     </TouchableOpacity>
                 ),
             });
