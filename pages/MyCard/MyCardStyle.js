@@ -29,19 +29,30 @@ export const styles = StyleSheet.create({
         cardWrapper: {
         marginHorizontal: 8,
         },
+        verticalLine:{
+        width: 1, 
+        height: 20, 
+        backgroundColor: theme.gray95,
+        },
         btnContainer: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        width: 280,
-        height: 65,
-        gap: 28,
-        marginBottom: 44,
+        justifyContent: 'center',
+        alignItems:'center',
+        width: 304,
+        height: 77,
+        gap: 20,
+        marginHorizontal: 28,
+        marginTop: 32,
+        marginBottom: 24,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: theme.gray95
         },
         btnText: {
-        color: 'black',
+        color: theme.gray20,
         fontFamily: 'PretendardRegular',
         fontSize: 14,
-        fontWeight: '400',
+        fontWeight: '500',
         lineHeight: 17,
         letterSpacing: -0.14
         },
@@ -107,6 +118,7 @@ export const styles = StyleSheet.create({
         },
         cardScrollView: {
         height: 436,  
+        marginTop: 56,
         //ios shadow
         shadowColor: 'rgba(0, 0, 0, 0.08)',
         shadowOffset: { width: 0, height: 1 },
@@ -167,5 +179,46 @@ export const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: theme.gray90, 
         marginVertical: 8,
+        },
+        newCardBtn: {
+        flexDirection: 'row',
+        paddingLeft: 12,
+        paddingRight: 16,
+        paddingVertical: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.gray95,
+        borderRadius: 16,
+        marginBottom: 90
+        },
+        newCardText:{
+        color: theme.gray30,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 17,
+        letterSpacing: -0.14
+        },
+
+        dropdownMenu: {
+        position: 'absolute',
+        top: 0,
+        right: 8,
+        backgroundColor: '#fff',
+        borderRadius: 16,
+        shadowColor: '#000',
+        shadowOpacity: 0.05,
+        shadowOffset: { width: 0, height: 2 },
+        shadowRadius: 8,
+        paddingVertical: 16,
+        paddingHorizontal: 24
+        },
+        menuItem: {
+        color: theme.gray10,
+        fontFamily: 'PretendaredRegular',
+        fontSize: 16,
+        fontWeight: '400',
+        lineHeight: 19,
+        letterSpacing: -0.32,
         },
 });

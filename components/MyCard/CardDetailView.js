@@ -3,11 +3,11 @@ import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
 import React, { useState, useLayoutEffect } from 'react';
 import { useNavigation } from '@react-navigation/native';
-import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
-import DeleteIcon from '../../assets/icons/ic_delete.svg';
+import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
-import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
-import AddIcon from '../../assets/icons/ic_add_small_line.svg';
+import ShareIcon from '../../assets/icons/ic_contact_small_line.svg';
+import PlusIcon from '../../assets/icons/ic_add_small_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 
 function CardDetailView() {
     const { width:SCREEN_WIDTH } = Dimensions.get('window');
@@ -55,9 +55,28 @@ function CardDetailView() {
     }
     };
 
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity onPress={() => setMoreMenu(!moreMenu)}>
+                    <MoreIcon style={{ marginRight: 8 }} />
+                </TouchableOpacity>
+            ),
+        });
+        
+    }, [moreMenu, navigation]);
+
    return (
      <View style={styles.container}>
-            <Text style={styles.cardPage}>{cardPage} / {cardData.length}</Text>
+            {moreMenu && (
+                <View style={styles.dropdownMenu}>
+                    <TouchableOpacity onPress={() => ''}>
+                        <Text style={styles.menuItem}>프로필 삭제하기</Text>
+                    </TouchableOpacity>
+                   
+                </View>
+            )}
+
             <ScrollView 
                horizontal 
                pagingEnabled
@@ -78,7 +97,16 @@ function CardDetailView() {
             
             <View style={styles.btnContainer}>
                 <View style={styles.btn}>
-                    <TouchableOpacity style={styles.whiteBtn} onPress={() => setIsModalVisible(true)}>
+                    <TouchableOpacity onPress={onShare}>
+                        <ShareIcon />
+                    </TouchableOpacity>
+                    <Text style={styles.btnText}>공유하기</Text>
+                </View>
+
+                <View style={styles.verticalLine} />
+
+                <View style={styles.btn}>
+                    <TouchableOpacity onPress={() => setIsModalVisible(true)}>
                         <EditIcon />
                     </TouchableOpacity>
                     <Text style={styles.btnText}>수정하기</Text>
@@ -119,13 +147,8 @@ function CardDetailView() {
                         </TouchableWithoutFeedback>
                     </Modal>
                 </View>
-                <View style={styles.btn}>
-                    <TouchableOpacity style={styles.whiteBtn} onPress={onShare}>
-                        <ShareIcon />
-                    </TouchableOpacity>
-                    <Text style={styles.btnText}>공유하기</Text>
-                </View>
-                <View style={styles.btn}>
+               
+                {/* <View style={styles.btn}>
                     <TouchableOpacity style={styles.whiteBtn}>
                         <DeleteIcon />
                     </TouchableOpacity>
@@ -136,8 +159,13 @@ function CardDetailView() {
                         <AddIcon/>
                     </TouchableOpacity>
                     <Text style={styles.btnText}>새 카드 </Text>
-                </View>
+                </View> */}
             </View>
+            
+            <TouchableOpacity style={styles.newCardBtn}>
+                    <PlusIcon />
+                    <Text style={styles.newCardText}>새 카드 추가</Text>
+            </TouchableOpacity>
         </View> 
     );
   }

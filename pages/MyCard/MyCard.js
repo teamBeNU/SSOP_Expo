@@ -81,17 +81,26 @@ function MyCard() {
 
     return (
         <View style={{flex: 1}}> 
-            {hasCard ?
-            <MyCardsView />
-        : 
-        <View style={styles.emptyContainer}>
-            <Text style={styles.noCard}>만든 카드가 없어요.</Text>
-            <View style={styles.newContainer}>
-                <Text style={styles.newCard}>새 카드 만들기</Text>
-                <RightIcon />
+            {hasCard ? (
+            <View style={{flex: 1}} >
+                <MyCardsView />
+                {moreMenu && (
+                    <View style={styles.dropdownMenu}>
+                        <TouchableOpacity onPress={() => ''}>
+                            <Text style={styles.menuItem}>프로필 삭제하기</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
             </View>
-        </View>
-        }
+        ) : (
+            <View style={styles.emptyContainer}>
+                <Text style={styles.noCard}>만든 카드가 없어요.</Text>
+                <View style={styles.newContainer}>
+                    <Text style={styles.newCard}>새 카드 만들기</Text>
+                    <RightIcon />
+                </View>
+            </View>
+        )}
         </View>
     );
   }

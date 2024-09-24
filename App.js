@@ -176,6 +176,11 @@ export default function App() {
           component={CardDetailView}
           options={{
             headerTitle: "",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
           }}
           />
         {/* <Stack.Screen name="Space" component={Space} /> */}
