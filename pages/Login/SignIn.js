@@ -52,18 +52,23 @@ function SignIn() {
                 // onSubmitEditing={handleNext}
                 />
                 {showPw ? <VisibilityIcon onPress={togglePwVisibility} style={styles.visibility}/> : <VisibilityOffIcon onPress={togglePwVisibility} style={styles.visibility}/>}
-            </View>
-            {/* <TextInput 
-            secureTextEntry 
-            style={styles.input} 
-            placeholder="영문과 숫자 포함, 6-20자 이내의 문자"
-            value={password}
-            onChangeText={setPassword}
-            ref={ref_input}
-            /> */}
+            </View> 
            </View>
 
-           <View style={styles.textContainer}> 
+           <View style={styles.lineContainer}>
+            <View style={styles.line} />
+            <Text style={styles.text}>또는</Text>
+            <View style={styles.line} />
+           </View>
+
+            <View style={{marginTop: 32}}>
+                <TouchableOpacity style={styles.kakao} onPress={() => navigation.navigate('')}>
+                <KakaoIcon />
+                  <Text style={styles.kakaoText}>카카오로 시작하기</Text>
+                </TouchableOpacity>
+            </View>
+
+            <View style={styles.textContainer}> 
             <TouchableOpacity  onPress={() => navigation.navigate('비밀번호 변경')}> 
                 <Text style={styles.pwChange}>비밀번호 변경</Text>
             </TouchableOpacity>
@@ -73,19 +78,6 @@ function SignIn() {
             </TouchableOpacity>
             </View>
 
-           <View style={{...styles.socialContainer, justifyContent: 'center', marginTop: 24,}}>
-                <TouchableOpacity>
-                <GoogleIcon />
-                </TouchableOpacity>
-
-                <TouchableOpacity onPress={()=> navigation.navigate("KaKaoLogin", {screen: "KaKaoLogin"})}>
-                <KakaoIcon />
-                </TouchableOpacity>
-
-                <TouchableOpacity>
-                <NaverIcon />
-                </TouchableOpacity>
-            </View>
         </View>
         </TouchableWithoutFeedback>
     )

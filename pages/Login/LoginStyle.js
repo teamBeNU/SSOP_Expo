@@ -45,6 +45,8 @@ export const styles = StyleSheet.create({
     height: 48,
     paddingVertical: 8,
     paddingHorizontal: 16,
+    flexDirection: 'row',
+    gap: 8,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
@@ -52,7 +54,27 @@ export const styles = StyleSheet.create({
     },
     emailText: {
     color: 'white',
-    fontFamily: 'PretendardSemiBold',
+    fontFamily: 'PretendardRegular',
+    fontSize: 16,
+    fontWeight: '600',
+    lineHeight: 19,
+    letterSpacing: -0.32,
+    },
+    kakao: {
+    height: 48,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FDDC3F',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#FDDC3F',
+    },
+    kakaoText: {
+    color: theme.gray10,
+    fontFamily: 'PretendardRegular',
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 19,
@@ -62,19 +84,22 @@ export const styles = StyleSheet.create({
     height: 48,
     paddingVertical: 8,
     paddingHorizontal: 16,
+    flexDirection: 'row',
+    gap: 8,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: theme.gray80,
     },
-    LoginText: {
-    color: theme.gray50,
-    fontFamily: 'PretendardSemiBold',
+    loginText: {
+    color: theme.gray60,
+    fontFamily: 'PretendardRegular',
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 19,
     letterSpacing: -0.32,
+    textDecorationLine: 'underline',
+    textDecorationColor: theme.gray60,
+    //text-decoration: underline solid #888888;
     },
 
     //Email Login
@@ -104,7 +129,10 @@ export const styles = StyleSheet.create({
     placeholderTextColo: theme.gray60,
     },
     textContainer: {
-    marginTop: 56,
+    position: 'absolute',
+    bottom: 40,
+    left: 0,
+    right: 0,
     height: 40,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -132,5 +160,24 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 17,
     letterSpacing: -0.14,
+    },
+    lineContainer:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 56
+    },
+    line:{
+    flex: 1,
+    height: 1,
+    backgroundColor: theme.gray90
+    },
+    text:{
+    fontFamily: 'PretendardRegular',
+    color: theme.gray60,
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 18,
+    letterSpacing: -0.15,
+    marginHorizontal: 16,
     }
 });
