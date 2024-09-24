@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { styles } from './MyCardsViewStyle';
+import { useNavigation } from '@react-navigation/native';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import PlusCardIcon from '../../assets/icons/ic_add_medium_line.svg';
 import SampleIcon from '../../assets/icons/iconSample.svg';
@@ -17,7 +18,7 @@ import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 const CardsView = ({ }) => {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형');
-
+  const navigation = useNavigation();
 
   const toggleViewOption = () => {
     if (viewOption === '그리드형') {
@@ -65,7 +66,7 @@ const CardsView = ({ }) => {
 
       {viewOption === '그리드형' ? <GridCardView viewOption={viewOption} cardData={cardData}/> : <ListCardView viewOption={viewOption} cardData={cardData}/>}
 
-      <TouchableOpacity style={styles.newCardBtn}>
+      <TouchableOpacity style={styles.newCardBtn} onPress={() => {navigation.navigate('카드 만들기');}}>
         <Text style={styles.newCardText}>새 카드 추가하기</Text>
       </TouchableOpacity>
       
