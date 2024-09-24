@@ -1,6 +1,7 @@
-import { View, ScrollView, Text, TouchableOpacity, Image, Dimensions } from "react-native";
-import React, { useState } from 'react';
+import { View, ScrollView, Text, TouchableOpacity, Image, Dimensions, Platform } from "react-native";
+import React, { useState, useEffect, useRef } from 'react';
 import "react-native-gesture-handler";
+import ViewShot from "react-native-view-shot";
 
 import { styles } from "./AvatarCustomStyles";
 import AutoAvatarIcon from "../../assets/icons/ic_autoAvatar_small_line.svg";
@@ -9,10 +10,10 @@ import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
 import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
 
-const { width:SCREEN_WIDTH } = Dimensions.get('window');
-
 export default function AvatarCustom({step: initalStep, onStepChange}) {
-    // const [step, setStep] = useState(initalStep);
+    const ref = useRef();
+    const [a, setA] = useState('');
+
     const [avaIndex, setAvaIndex] = useState(1);
     const [avatar, setAvatar] = useState({
         face: 1,
@@ -36,11 +37,26 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
         setAvatar((prev => ({...prev, bgColor: id})));
     }
 
-    // const handleNext = () => {
-    //     const nextStep = step + 1;
-    //     setStep(nextStep);
-    //     onStepChange(nextStep);
-    // }
+    // 컴포넌트 -> 이미지
+    useEffect(() => {
+        // on mount
+        // ref.current.capture().then(uri => {
+        //     console.log("do something with ", uri);
+        //     if(Platform.OS === 'ios') {
+        //         uri = `file://${uri}`;
+        //     }
+        //     });
+        // }, []);
+
+        // 이미지 확인용
+        ref.current.capture().then(uri => {
+            console.log("do something with ", uri);
+            if(Platform.OS === 'ios') {
+                uri = `file://${uri}`;
+            }
+            setA(uri);
+            });
+        }, [setA, a]);
 
     return (
         <View style={styles.container}>
@@ -64,14 +80,19 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                         <RestartIcon />
                     </TouchableOpacity>
                 </View>
-                <View style={styles.avatarView}>
-                    <Image
-                        source={require("../../assets/images/sample-avatar-1.png")} 
-                        resizeMode="contain"
-                        style={styles.avatarImg}
-                    />
-                    <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === avatar.bgColor).color}]}></View>
-                </View>
+                <ViewShot 
+                    ref={ref} 
+                    options={{ fileName: "card", format: "png", quality: 0.9 }}
+                >
+                    <View style={styles.avatarView}>
+                        <Image
+                            source={require("../../assets/images/sample-avatar-1.png")} 
+                            resizeMode="contain"
+                            style={styles.avatarImg}
+                        />
+                        <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === avatar.bgColor).color}]}></View>
+                    </View>
+                </ViewShot>
                 
             </View>
             <View style={styles.avatarItemContainer}>
@@ -148,7 +169,15 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
                         </View>
                     )}
                     {avaIndex === 3 && (
-                        <Text>옷</Text>
+                        // <Text>옷</Text>
+                        // 이미지 확인용
+                        <>
+                            <Image 
+                                source={{ uri: a }} 
+                                style={{ width: 200, height: 200 }} 
+                                onError={(e) => console.log('Error loading image: ', e)}
+                            />
+                        </>
                     )}
                     {avaIndex === 4 && (
                         <View>
