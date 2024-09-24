@@ -1,12 +1,12 @@
 
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity} from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { theme } from "../../theme";
 import "react-native-gesture-handler";
 import Select from "../../assets/teamSp/select.svg";
 
-export default function StudentTemplate({ navigation, goToOriginal, teamName, teamComment, istemplate, template }) {
+export default function StudentTemplate({ onRoleUpdate }) {
   // 학생정보
   const [showSchool, setShowSchool] = useState(false);
   const [showGrade, setShowGrade] = useState(false);
@@ -63,6 +63,11 @@ export default function StudentTemplate({ navigation, goToOriginal, teamName, te
     setRoleList(prevList => {
       const updatedList = [...prevList];
       updatedList[index].selected = !updatedList[index].selected;
+
+      // 선택된 역할 목록 -> TeamSpTemplate으로 전달
+      const selectedRoles = updatedList.filter(item => item.selected).map(item => item.role);
+      onRoleUpdate(selectedRoles);
+
       return updatedList;
     });
   };
