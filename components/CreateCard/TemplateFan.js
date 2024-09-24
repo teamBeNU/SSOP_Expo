@@ -17,6 +17,7 @@ export default function TemplateFan ({navigation, card_template}) {
     const [card_name, setCardName] = useState('');
     const [card_introduction, setCardIntroduction] = useState('');
     const [card_cover, setCardCover] = useState('');
+    const [profile_image_url, SetProfileImageUrl] = useState('');
 
     const [card_birth, setCardBirth] = useState('');
     const [card_bSecret, setCardBSecret] = useState(false);
@@ -528,7 +529,7 @@ export default function TemplateFan ({navigation, card_template}) {
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={card_fan_reason}
-                                            onChangeText={setCardFanSecond}
+                                            onChangeText={setCardFanReason}
                                             returnKeyType="done"
                                             ref={ref_input2}
                                             blurOnSubmit={true}
@@ -637,7 +638,7 @@ export default function TemplateFan ({navigation, card_template}) {
             )}
 
             {step === 6 && (
-                <SelectCover card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} />
+                <SelectCover card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} setProfileImageUrl={setProfileImageUrl} />
             )}
 
             {step === 7 && (

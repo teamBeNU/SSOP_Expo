@@ -17,6 +17,7 @@ export default function TemplateWorker ({navigation, card_template}) {
     const [card_name, setCardName] = useState('');
     const [card_introduction, setCardIntroduction] = useState('');
     const [card_cover, setCardCover] = useState('');
+    const [profile_image_url, setProfileImageUrl] = useState('');
 
     const [card_birth, setCardBirth] = useState('');
     const [card_bSecret, setCardBSecret] = useState(false);
@@ -624,7 +625,7 @@ export default function TemplateWorker ({navigation, card_template}) {
             )}
 
             {step === 6 && (
-                <SelectCover card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} />
+                <SelectCover card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} setProfileImageUrl={setProfileImageUrl} />
             )}
 
             {step === 7 && (

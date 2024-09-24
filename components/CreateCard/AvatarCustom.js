@@ -10,7 +10,7 @@ import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
 import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
 
-export default function AvatarCustom({step: initalStep, onStepChange}) {
+export default function AvatarCustom({step: initalStep, onStepChange, setProfileImageUrl}) {
     const ref = useRef();
     const [a, setA] = useState('');
 
@@ -39,14 +39,14 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
 
     // 컴포넌트 -> 이미지
     useEffect(() => {
-        // on mount
         // ref.current.capture().then(uri => {
         //     console.log("do something with ", uri);
         //     if(Platform.OS === 'ios') {
         //         uri = `file://${uri}`;
         //     }
+        //     setProfileImageUrl(uri);
         //     });
-        // }, []);
+        // }, [setProfileImageUrl]);
 
         // 이미지 확인용
         ref.current.capture().then(uri => {
@@ -54,9 +54,10 @@ export default function AvatarCustom({step: initalStep, onStepChange}) {
             if(Platform.OS === 'ios') {
                 uri = `file://${uri}`;
             }
+            setProfileImageUrl(uri);
             setA(uri);
-            });
-        }, [setA, a]);
+        });
+    }, [setA, a]);
 
     return (
         <View style={styles.container}>
