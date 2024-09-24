@@ -75,12 +75,6 @@ function EnterTeamSp({ navigation }) {
   };
 
   const handleNext = () => {
-    if (!token) {
-      Alert.alert("로그인이 필요한 페이지입니다. 로그인 화면으로 이동합니다.");
-      navigation.navigate('로그인');
-      return; 
-    }
-
     if (step === 1) {
       // 초대코드 확인
       const apiUrl = `${baseUrl}/teamsp/search?inviteCode=${inputcode}`;
