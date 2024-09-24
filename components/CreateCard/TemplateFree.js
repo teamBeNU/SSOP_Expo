@@ -735,17 +735,13 @@ export default function TemplateFree ({navigation, card_template}) {
             )}
 
             {step === 5 && (
-                <SelectCover card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} setProfileImageUrl={setProfileImageUrl} />
+                <SelectCover step={step} setStep={setStep} card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} setProfileImageUrl={setProfileImageUrl} />
             )}
 
             {step === 6 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} />
-                    )}
-                    {card_cover === "picture" && (
-                        <></>
-                        // <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} />
+                        <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
                     )}
                 </View>
             )}  

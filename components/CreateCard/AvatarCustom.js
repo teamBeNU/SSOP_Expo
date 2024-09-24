@@ -10,7 +10,7 @@ import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
 import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
 
-export default function AvatarCustom({step: initalStep, onStepChange, setProfileImageUrl}) {
+export default function AvatarCustom({setProfileImageUrl}) {
     const ref = useRef();
     const [a, setA] = useState('');
 

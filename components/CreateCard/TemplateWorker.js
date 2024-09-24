@@ -180,6 +180,7 @@ export default function TemplateWorker ({navigation, card_template}) {
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
+                headerRight: null,
             });
         } else if (step === 6) {
             navigation.setOptions({
@@ -625,20 +626,16 @@ export default function TemplateWorker ({navigation, card_template}) {
             )}
 
             {step === 6 && (
-                <SelectCover card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} setProfileImageUrl={setProfileImageUrl} />
+                <SelectCover step={step} setStep={setStep} card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} setProfileImageUrl={setProfileImageUrl} />
             )}
 
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} />
-                    )}
-                    {card_cover === "picture" && (
-                        <></>
-                        // <AvatarCustom step={7} onStepChange={(newStep) => setStep(newStep)} />
+                        <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
                     )}
                 </View>
-            )}  
+            )}
 
             {step === 8 && (
                 <View style={styles.container}>

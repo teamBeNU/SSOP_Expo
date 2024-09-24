@@ -1,15 +1,19 @@
-import { View, Text, TextInput, TouchableOpacity, Platform, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, SafeAreaView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Platform, Dimensions, ScrollView, Image, Linking, Alert } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import "react-native-gesture-handler";
+import * as ImagePicker from 'expo-image-picker';
 
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
-export default function SelectCover({card_cover, handleNext, setCardCover}) {
-    
+export default function SelectCover({step, setStep, card_cover, handleNext, setCardCover, setProfileImageUrl}) {
+
     const [imageWidth, setImageWidth] = useState(0);
+
+    // 이미지 권한 요청을 위한 hooks
+    const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
     // 커버
     const handleScroll = (event) => {
@@ -19,6 +23,46 @@ export default function SelectCover({card_cover, handleNext, setCardCover}) {
         const currentIndex = Math.round(contentOffsetX / (SCREEN_WIDTH));
         if (currentIndex == 0) {setCardCover('avatar');}
         else if (currentIndex == 1) {setCardCover('picture');}
+    }
+
+    // 갤러리 열기
+    const handleImagePicker = async () => {
+        // 권한 확인: 권한 없으면 물어보고, 승인하지 않으면 함수 종료
+        if(!status?.granted) {
+            const permission = await requestPermission();   // 파일 및 미디어 액세스 권한 요청
+            if(!permission.granted) {   // 권한 거부
+                Alert.alert(
+                    "권한 필요", // 제목
+                    "이미지를 선택하려면 설정에서 권한을 허용해 주세요.",   // 메시지
+                    [
+                      {
+                        text: "취소",
+                        onPress: () => console.log("취소됨"),
+                        style: "cancel"
+                      },
+                      { text: "설정으로 가기", onPress: () => Linking.openSettings() }  // 설정으로 이동
+                    ]
+                  );
+                return null
+            }
+        }
+
+        // 이미지 업로드
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,    // 어떤 타입의 파일 업로드할지 (이미지만 받기 위해 Images로 설정)
+            allowsEditing: true,    // 이미지 업로드 전에 자르기 등의 편집 가능 여부 설정
+            quality: 1,     // 이미지 압축 여부(1: 가장 높은 품질)
+            // aspect: [1, 1]    // 이미지 비율
+        });
+
+        if (!result.canceled) {     // 이미지 업로드
+            console.log(result);
+            console.log(result.assets[0].uri);
+            setProfileImageUrl(result.assets[0].uri);
+            setStep(step + 2);
+        } else {        // 이미지 업로드 취소
+            setStep(step);
+        }
     }
 
     return (
@@ -37,7 +81,9 @@ export default function SelectCover({card_cover, handleNext, setCardCover}) {
                     onScroll={handleScroll}
                 >
                     <TouchableOpacity  
-                        onPress={() => {handleNext(); setCardCover("avatar");}}    
+                        onPress={() => {
+                            handleNext(); 
+                            setCardCover("avatar");}}    
                     >
                         <Image 
                             source={require("../../assets/images/cardCover-1.png")}
@@ -51,9 +97,9 @@ export default function SelectCover({card_cover, handleNext, setCardCover}) {
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            handleNext(); 
+                            //handleNext(); 
                             setCardCover("picture");
-                            // handleImagePicker();
+                            handleImagePicker();
                         }}  
                     >
                         <Image 
