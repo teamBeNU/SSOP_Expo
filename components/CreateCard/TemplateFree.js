@@ -630,8 +630,6 @@ export default function TemplateFree ({navigation, card_template}) {
                                         </View>
                                         : <Text style={styles.selectTitle}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
                                     }
-                                    
-                                    <Text>{card_fan_first}</Text>
                                 </View>
                             </ScrollView>
                             <View style={styles.btnContainer}>
