@@ -19,6 +19,7 @@ import {
   MenuProvider,
 } from 'react-native-popup-menu';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthProvider } from './AuthContext';
 
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
@@ -73,31 +74,16 @@ export default function App() {
   }  
 
   // 로그인 유무 확인
-  const [isLoggedIn, setIsLoggedIn] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  // const [isLoggedIn, setIsLoggedIn] = useState(null);
 
-  useEffect(() => {
-    const checkLoginStatus = async () => {
-      try {
-        const token = await AsyncStorage.getItem('token');
-        setIsLoggedIn(!!token);
-      } catch (error) {
-        console.error('Error reading token from AsyncStorage', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    checkLoginStatus();
-  }, []);
+  // const checkLoginStatus = async () => {
+  //   const token = await AsyncStorage.getItem('token');
+  //   setIsLoggedIn(!!token);
+  // };
 
-  if (isLoading) {
-    return (
-      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Text>Loading...</Text>
-      </View>
-    );
-  }
+  // useEffect(() => {
+  //   checkLoginStatus(); 
+  // }, []);
 
   // 스택 네비게이터
   const Stack = createStackNavigator();
@@ -134,14 +120,12 @@ export default function App() {
 };
 
   return (
+  <AuthProvider>
     <MenuProvider>
     <NavigationContainer>
       <Stack.Navigator>
-      {isLoggedIn ? (
-          <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }}/>
-        ) : (
-          <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }}/>
-        )}
+        <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }}/>
+        <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }}/>
         <Stack.Screen 
         name="이메일로그인" 
         component={SignIn}
@@ -343,6 +327,7 @@ export default function App() {
     </NavigationContainer>
     <Toast config={customToast} />
     </MenuProvider>
+    </AuthProvider>
   );
 };
 

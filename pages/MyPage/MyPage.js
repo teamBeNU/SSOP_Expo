@@ -1,17 +1,32 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
-import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, Alert, TouchableOpacity, StyleSheet, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import React, { useState, useEffect, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import "react-native-gesture-handler";
-
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import { AuthContext } from "../../AuthContext";
 import RightArrow from "../../assets/icons/ic_RightArrow_small_line.svg";
-
 import { styles } from "./MyPageStyle";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 function MyPage({navigation}) {
+    const { setIsLoggedIn } = useContext(AuthContext);
+
     const [name, setName] = useState('김슈니');
+
+    const handleLogout = async () => {
+        try {
+          await AsyncStorage.removeItem('token');
+          setIsLoggedIn(false); // Update login state
+          Alert.alert('로그아웃 성공');
+          navigation.navigate('로그인');
+        } catch (error) {
+          console.error('Error during logout:', error);
+          Alert.alert('Error', 'Failed to log out.');
+        }
+      };
 
     return (
         <View style={styles.MyPageMain}>
@@ -40,7 +55,7 @@ function MyPage({navigation}) {
             </View>
 
             <View style={styles.logoutContainer}>
-                <TouchableOpacity>
+                <TouchableOpacity onPress={handleLogout}>
                     <Text style={styles.logoutText}>로그아웃</Text>
                 </TouchableOpacity>
             </View>
