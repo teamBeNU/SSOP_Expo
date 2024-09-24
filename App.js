@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
-import React, { useEffect } from 'react';
+import { Button, StyleSheet, Text, TextInput, View, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import { useFonts } from 'expo-font';
-import MoreIcon from './assets/icons/ic_more_small_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import NotiIcon from './assets/AppBar/ic_noti_regular_line.svg';
@@ -19,6 +18,7 @@ import {
   MenuTrigger,
   MenuProvider,
 } from 'react-native-popup-menu';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
@@ -72,6 +72,33 @@ export default function App() {
     return null; // 폰트 로딩이 완료되지 않으면 null을 반환하여 렌더링을 중지
   }  
 
+  // 로그인 유무 확인
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+        setIsLoggedIn(!!token);
+      } catch (error) {
+        console.error('Error reading token from AsyncStorage', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    checkLoginStatus();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
+
   // 스택 네비게이터
   const Stack = createStackNavigator();
 
@@ -110,8 +137,11 @@ export default function App() {
     <MenuProvider>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
-        <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }}/>
+      {isLoggedIn ? (
+          <Stack.Screen name="" component={MyTabs} options={{ headerShown: false }}/>
+        ) : (
+          <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }}/>
+        )}
         <Stack.Screen 
         name="이메일로그인" 
         component={SignIn}
