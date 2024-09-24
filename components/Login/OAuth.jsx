@@ -1,6 +1,5 @@
-export const KAKO_REST_API = `c8ac3f66aae5b63e91ee1f66cc53bfa8`;
-export const KAKAO_REDIRECT_URI = "http://192.168.35.202:19006";
-// export const KAKAO_REDIRECT_URI = "http://localhost:3000/kakao/callback";
+export const KAKO_REST_API = process.env.KAKO_REST_API;
+export const KAKAO_REDIRECT_URI = `http://localhost:8080/login/kakao`;
 export const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKO_REST_API}&redirect_uri=${KAKAO_REDIRECT_URI}&response_type=code`;
 export const KAKAO_INJECTED_JAVASCRIPT = `window.ReactNativeWebView.postMessage('message from webView')`; 
 

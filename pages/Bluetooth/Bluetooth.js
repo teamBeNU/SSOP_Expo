@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, Image, ScrollView } from "react-native";
+import { View, Text, Image, ScrollView, Dimensions } from "react-native";
 import { styles } from './BluetoothStyle';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -28,7 +28,7 @@ function Step1Screen() {
     { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬', card_introduce: '서울여자대학교 디지털미디어학과 20학번' },
   ];
 
-  const title = '블루투스로 보낼 카드를 선택하세요.'
+  const title = '블루투스로 보낼 프로필을 선택하세요.'
   const sub = '공유할 수 있는 카드가 없어요.'
 
   const handleNext = () => {
@@ -44,6 +44,7 @@ function Step1Screen() {
         color={theme.green}
         borderWidth={0}
       />
+      <View style={styles.shareContainer}>
       {hasCards ? (
         <CardsView
           navigation={navigation}
@@ -62,6 +63,8 @@ function Step1Screen() {
           sub={sub}
         />
       )}
+      </View>
+
     </View>
   );
 }
@@ -75,7 +78,7 @@ function Step2Screen() {
   if (!hasRecipients) {
     return (
       <View style={styles.mainlayout}>
-        <Text style={styles.title}>보낼 사람을 선택하여 카드를 공유하세요.</Text>
+        <Text style={styles.title}>보낼 사람을 선택하여 프로필을 공유하세요.</Text>
         <View style={styles.emptyContainer}>
               <Text style={styles.noCard}>주변에 공유할 사람이 없어요.</Text>
           </View>
@@ -120,7 +123,7 @@ function Step2Screen() {
         borderWidth={0}
       />
       <View style={styles.mainlayout}>
-        <Text style={[styles.title, {marginBottom: 46}]}>보낼 사람을 선택하여 카드를 공유하세요.</Text>
+        <Text style={[styles.title, {marginBottom: 46}]}>보낼 사람을 선택하여 프로필을 공유하세요.</Text>
         <ScrollView showsVerticalScrollIndicator={false}>
           {recipients.map((recipient) => (
             <React.Fragment key={recipient.id}>
