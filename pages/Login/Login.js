@@ -23,7 +23,7 @@ function Login() {
             </View>
 
             <View style={styles.emailContainer}>
-                <TouchableOpacity style={styles.kakao} onPress={() => navigation.navigate('')}>
+                <TouchableOpacity style={styles.kakao} onPress={() => navigation.navigate('카카오 로그인')}>
                 <KakaoIcon />
                   <Text style={styles.kakaoText}>카카오로 시작하기</Text>
                 </TouchableOpacity>

@@ -136,7 +136,7 @@ export default function App() {
           ),
         }}
          />
-         <Stack.Screen name="KaKaoLogin" component={KaKaoLogin} 
+         <Stack.Screen name="카카오 로그인" component={KaKaoLogin} 
          options={{headerTitle: "카카오 로그인",
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
