@@ -180,7 +180,6 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     inputBirthText: {
-        textAlign: "right",
         fontFamily: "PretendardRegular",
         fontSize: 16,
     },

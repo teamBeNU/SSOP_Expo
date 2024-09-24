@@ -1,13 +1,12 @@
 import { StatusBar } from 'expo-status-bar';
-import { Button, StyleSheet, Text, TextInput, View, TouchableOpacity, Image } from 'react-native';
-import React, { useEffect } from 'react';
+import { Button, StyleSheet, Text, TextInput, View, TouchableOpacity, Image, ActivityIndicator } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import "react-native-gesture-handler";
 import Toast, { BaseToast, ErrorToast } from 'react-native-toast-message';
 import { useFonts } from 'expo-font';
-import MoreIcon from './assets/icons/ic_more_small_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import NotiIcon from './assets/AppBar/ic_noti_regular_line.svg';
@@ -19,6 +18,8 @@ import {
   MenuTrigger,
   MenuProvider,
 } from 'react-native-popup-menu';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { AuthProvider } from './AuthContext';
 
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
@@ -49,6 +50,7 @@ import UserPw from './pages/MyPage/UserPw';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import DetailGroup from './pages/Space/DetailGroup';
 import MySpaceManage from './pages/Space/MySpaceManage';
+import CardDetailView from './components/MyCard/CardDetailView';
 
 import { styles } from './components/MyCard/CardStyle';
 
@@ -58,6 +60,8 @@ import { theme } from './theme';
 import KaKaoLogin from './components/Login/KaKaoLogin';
 import MySpace from './pages/Space/MySpace';
 import TeamSpace from './pages/Space/TeamSpace';
+import EditCard from './pages/MyCard/EditCard';
+import EditCardCover from './pages/MyCard/EditCardCover';
 
 export default function App() {
   // 폰트 로드
@@ -70,6 +74,18 @@ export default function App() {
   if (!fontsLoaded) {
     return null; // 폰트 로딩이 완료되지 않으면 null을 반환하여 렌더링을 중지
   }  
+
+  // 로그인 유무 확인
+  // const [isLoggedIn, setIsLoggedIn] = useState(null);
+
+  // const checkLoginStatus = async () => {
+  //   const token = await AsyncStorage.getItem('token');
+  //   setIsLoggedIn(!!token);
+  // };
+
+  // useEffect(() => {
+  //   checkLoginStatus(); 
+  // }, []);
 
   // 스택 네비게이터
   const Stack = createStackNavigator();
@@ -106,10 +122,11 @@ export default function App() {
 };
 
   return (
+  <AuthProvider>
     <MenuProvider>
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name=" "  component={MyTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }}/>
         <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }}/>
         <Stack.Screen 
         name="이메일로그인" 
@@ -135,7 +152,7 @@ export default function App() {
           ),
         }}
          />
-         <Stack.Screen name="KaKaoLogin" component={KaKaoLogin} 
+         <Stack.Screen name="카카오 로그인" component={KaKaoLogin} 
          options={{headerTitle: "카카오 로그인",
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
@@ -170,8 +187,19 @@ export default function App() {
             ),
           }}
           />
-        {/* <Stack.Screen name="내 카드" component={MyCard} />
-        <Stack.Screen name="Space" component={Space} /> */}
+        <Stack.Screen 
+          name="카드 상세보기" 
+          component={CardDetailView}
+          options={{
+            headerTitle: "",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+          />
+        {/* <Stack.Screen name="Space" component={Space} /> */}
         <Stack.Screen 
           name="팀스페이스 생성" 
           component={CreateTeamSp}
@@ -180,6 +208,30 @@ export default function App() {
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            )
+          }}
+        />
+        <Stack.Screen 
+          name="카드 정보 수정"
+          component={EditCard}
+          options={{
+            headerTitle: "카드 정보 수정",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            )
+          }}
+        />
+        <Stack.Screen 
+          name="카드 커버 수정"
+          component={EditCardCover}
+          options={{
+            headerTitle: "카드 커버 수정",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
           }}
@@ -303,6 +355,7 @@ export default function App() {
     </NavigationContainer>
     <Toast config={customToast} />
     </MenuProvider>
+    </AuthProvider>
   );
 };
 
@@ -374,7 +427,7 @@ const Tab = createBottomTabNavigator();
           headerShown: false
           }} />
         <Tab.Screen name="내 카드" component={MyCard} options={{ 
-          tabBarLabel: '내 카드', headerTitle: "내 카드",
+          tabBarLabel: '내 카드', headerTitle: "",
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontFamily: 'PretendardRegular',

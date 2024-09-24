@@ -55,35 +55,28 @@ export const CardBack = () => {
       setModalTop(y + height + 260);
       setModalLeft(x + width + 60);
     };
+
+    const cardData = CardSample_student[0]; // 첫 번째 카드 데이터 가져오기
+    const { card_student_role, card_student_club, card_phone, card_SNS_insta, card_SNS_X, card_email, card_MBTI, card_music } = cardData;
     
     return (
         <View style={styles.card}>
             <View style={styles.textArea}>
                 <View style={styles.info}>
                     <Text style={styles.topic}>직무</Text>
-                    <Text style={styles.content}>{CardSample_student[0].card_student_role}</Text>
+                    <Text style={styles.content}>{cardData.student.card_student_role}</Text>
                 </View>
 
                 <View style={styles.info}>
                     <Text style={styles.topic}>동아리</Text>
-                    <Text style={styles.content}>{CardSample_student[0].card_student_club}</Text>
-                </View>
-
-                <View style={styles.info}>
-                    <Text style={styles.topic}>동아리</Text>
-                    <Text style={styles.content}>{CardSample_student[0].card_student_club}</Text>
-                </View>
-
-                <View style={styles.info}>
-                    <Text style={styles.topic}>동아리</Text>
-                    <Text style={styles.content}>{CardSample_student[0].card_student_club}</Text>
+                    <Text style={styles.content}>{cardData.student.card_student_club}</Text>
                 </View>
 
                 <View style={styles.line} />
 
                 <View style={styles.info}>
                     <Text style={styles.topic}>연락처</Text>
-                    <AddContact phoneNumber={CardSample_student[0].card_phone} firstName = {CardSample_student[0].card_name} style={styles.content}/>
+                    <AddContact phoneNumber={cardData.cardOptional.card_tel} firstName={cardData.cardEssential.card_name} style={{...styles.content, ...styles.graybox}}/>
                 </View>
 
                 <View>
@@ -91,45 +84,45 @@ export const CardBack = () => {
                         <View style={styles.info}>
                             <Text style={styles.topic} onLayout={handleLayout} ref={textRef}>SNS</Text>
                             <Modal
-                            animationType="none"
-                            transparent={true}
-                            visible={showDetails}
-                            onRequestClose={handleCloseModal}
+                                animationType="none"
+                                transparent={true}
+                                visible={showDetails}
+                                onRequestClose={handleCloseModal}
                             >
-                            <TouchableWithoutFeedback onPress={handleCloseModal}>
-                                <View style={{...styles.modalContainer, bottom: modalTop, left: modalLeft}}>
-                                <View style={styles.detailsContainer}>
-                                    <View style={{ ...styles.SNScontainer, height: 40 }}>
-                                    <InstaLogo />
-                                    <OpenURLButton url={instaURL}>{CardSample_student[0].card_SNS_insta}</OpenURLButton>
+                                <TouchableWithoutFeedback onPress={handleCloseModal}>
+                                    <View style={{...styles.modalContainer, bottom: modalTop, left: modalLeft}}>
+                                        <View style={styles.detailsContainer}>
+                                            <View style={{ ...styles.SNScontainer, height: 40 }}>
+                                                <InstaLogo />
+                                                <OpenURLButton url={instaURL}>{cardData.cardOptional.card_sns_insta}</OpenURLButton>
+                                            </View>
+                                            <View style={{ ...styles.SNScontainer, height: 40 }}>
+                                                <XLogo />
+                                                <OpenURLButton url={xURL}>{cardData.cardOptional.card_sns_X}</OpenURLButton>
+                                            </View>
+                                            <View style={{ ...styles.SNScontainer, height: 40 }}>
+                                                <EmailLogo />
+                                                <TouchableOpacity style={styles.content} onPress={() => Linking.openURL(`mailto:${card_email}`)}>
+                                                    <Text>{card_email}</Text>
+                                                </TouchableOpacity>
+                                            </View>
+                                        </View>
                                     </View>
-                                    <View style={{ ...styles.SNScontainer, height: 40 }}>
-                                    <XLogo />
-                                    <OpenURLButton url={xURL}>{CardSample_student[0].card_SNS_X}</OpenURLButton>
-                                    </View>
-                                    <View style={{ ...styles.SNScontainer, height: 40 }}>
-                                    <EmailLogo />
-                                    <TouchableOpacity style={styles.content} onPress={() => Linking.openURL(`mailto:${CardSample_student[0].card_email}`)}>
-                                        <Text>{CardSample_student[0].card_email}</Text>
-                                    </TouchableOpacity >
-                                    </View>
-                                </View>
-                                </View>
-                            </TouchableWithoutFeedback>
+                                </TouchableWithoutFeedback>
                             </Modal>
                         </View>
                         : 
                         <View style={styles.info}>
                             <Text style={styles.topic}>SNS</Text>
                             <View style={styles.SNScontainer}>
-                             <InstaLogo />
-                             <Text style={styles.content}>{CardSample_student[0].card_SNS_insta}</Text>
+                                <InstaLogo />
+                                <Text style={styles.content}>{cardData.cardOptional.card_sns_insta}</Text>
                             </View>
                             <Pressable onPress={(event) => {
-                                                    event.stopPropagation(); // 이벤트 전파 막기
-                                                    handleDetailsToggle();
-                                                }}>
-                            <DownIcon />
+                                event.stopPropagation(); // 이벤트 전파 막기
+                                handleDetailsToggle();
+                            }}>
+                                <DownIcon />
                             </Pressable>
                         </View>
                     }
@@ -139,15 +132,14 @@ export const CardBack = () => {
 
                 <View style={styles.info}>
                     <Text style={styles.topic}>MBTI</Text>
-                    <Text style={styles.content}>{CardSample_student[0].card_MBTI}</Text>
+                    <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>
                 </View>
 
                 <View style={styles.info}>
-                    <Text style={styles.topic}>인생 음악</Text>
-                    <Text style={styles.content}>{CardSample_student[0].card_music.title} - {CardSample_student[0].card_music.singer}</Text>
+                    <Text style={styles.topic}>음악</Text>
+                    <Text style={styles.content}>{cardData.cardOptional.card_music}</Text>
                 </View>
-
             </View>
         </View>
-    )
+    );
 }
