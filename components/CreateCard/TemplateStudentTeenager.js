@@ -685,7 +685,7 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             )}  
 
             {step === 8 && (
-                <View style={[styles.container, {backgroundColor:"red"}]}>
+                <View style={styles.container}>
                     <Text style={styles.title}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
                     <View style={styles.cardDone} >
                         <Image
