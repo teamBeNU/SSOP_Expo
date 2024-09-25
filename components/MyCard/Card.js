@@ -15,7 +15,7 @@ export const Card = () => {
             flipVertical={false}
             flip={false}
             clickable
-            onFlipEnd={(isFlipped) => console.log('isFlipped', isFlipped)}
+            // onFlipEnd={(isFlipped) => console.log('isFlipped', isFlipped)}
         >
         {/* Front of the card */}
         <CardFront />

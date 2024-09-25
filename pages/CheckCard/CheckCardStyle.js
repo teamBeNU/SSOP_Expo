@@ -1,6 +1,10 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
+const cardWidth = WIDTH * 0.8;
+const cardHeight = WIDTH * 1.2;
+
 export const styles = StyleSheet.create({
         container:{
         alignItems: 'center',
@@ -10,34 +14,32 @@ export const styles = StyleSheet.create({
         },
 	cardPage: {
         color: theme.gray50,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14, 
         fontWeight: '400',
         lineHeight: 17,
         letterSpacing: -0.14,    
         marginTop: 40,
-        marginBottom: 16,       
+        marginBottom: 6,       
 	},
         cardContainer: {
-        height: 368,
+        height: cardHeight,
         flexDirection: 'row',
         },
         cardWrapper: {
-        marginHorizontal: 16,
+        marginHorizontal: 8,
         },
-
         btnContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         width: 224,
         height: 65,
         gap: 28,
-        position: 'absolute',
-        top: 545,
+        marginBottom: HEIGHT * 0.1,
         },
         btnText: {
         color: 'black',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 17,
@@ -72,7 +74,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         },
         memoTitle:{
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 20,
         fontWeight: '600',
         lineHeight: 30,
@@ -90,13 +92,13 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray10,
-        fontFamily: 'Pretendard'
+        fontFamily: 'PretendardRegular'
         },
         memoLeng: {
         fontSize: 14,
         color: theme.gray60,
         alignSelf: 'flex-end',
-        fontFamily: 'Pretendard'
+        fontFamily: 'PretendardRegular'
         },
         memoBtn: {
         width: '100%',
@@ -113,7 +115,7 @@ export const styles = StyleSheet.create({
         },
         memoBtnText:{
         color: 'white',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize:16,
         fontWeight: '600',
         lineHeight: 19,
@@ -126,7 +128,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         width: '100%',
         justifyContent: 'flex-end',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         letterSpacing: -0.32,
         fontWeight: 400,
@@ -165,9 +167,20 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray10,
         },
         modalFont: {
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: 400,
         letterSpacing: -0.32,
         },
+        cardScrollView: {
+        height: cardHeight + 20,  
+        paddingVertical: 10,
+        //ios shadow
+        shadowColor: 'rgba(0, 0, 0, 0.08)',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 4,
+        shadowRadius: 4,
+        //android shadow
+        elevation: 4,
+        }
 });

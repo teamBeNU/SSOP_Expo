@@ -24,12 +24,12 @@ import GroupIcon from '../../assets/icons/ic_group_regular.svg';
 const Stack = createStackNavigator();
 
     const cardData = [
-      { id: '1', Component: RadioCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      { id: '2', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 style={{ marginLeft: -10 }} />, card_name: '이사나', age: '23세', dot: '·', card_template: '학생' },
-      { id: '3', Component: RadioCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
-      { id: '4', Component: RadioCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{ marginLeft: -10 }} />, card_name: '임지니', age: '22세', dot: '·', card_template: '팬' },
-      { id: '5', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      { id: '6', Component: RadioCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+      { id: '1', Component: RadioCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+      { id: '2', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 />, card_name: '이사나', age: '23세', dot: '·', card_template: '학생' },
+      { id: '3', Component: RadioCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
+      { id: '4', Component: RadioCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 />, card_name: '임지니', age: '22세', dot: '·', card_template: '팬' },
+      { id: '5', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+      { id: '6', Component: RadioCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
     ];
 
 // 그룹 상세
@@ -47,17 +47,18 @@ function DetailSpaceGroup({ navigation }) {
     };
   
     const DetailcardData = [
-      { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생' },
-      { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
-      { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬' },
-      { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+      { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+      { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생' },
+      { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
+      { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬' },
+      { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
+      { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
   
     ];
   
     return (
       <View style={styles.backgroundColor}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <Text style={[styles.title, {marginBottom: 32}]}>24학번 후배</Text>
           <View style={[styles.btnContainer, {marginBottom: 28}]}>
                   <View style={styles.btn}>
@@ -95,7 +96,7 @@ function DetailSpaceGroup({ navigation }) {
                 </View>
           </View>
           <View style={styles.cardLayout}>
-            <ScrollView showsVerticalScrollIndicator={false}>
+          
               <View style={styles.container}>
                 <View style={styles.row}>
                     {DetailcardData.map((item) => (
@@ -115,7 +116,6 @@ function DetailSpaceGroup({ navigation }) {
                 </View>
               </View>
               <View style={styles.innerView}></View>
-            </ScrollView>
           </View>
           <SpaceModal
             isVisible={isSpaceModalVisible}
@@ -132,6 +132,7 @@ function DetailSpaceGroup({ navigation }) {
             btn1={'취소하기'}
             btn2={'수정하기'}
           />
+          </ScrollView>
         </View>
     );
   }

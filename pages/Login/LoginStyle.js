@@ -1,6 +1,8 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
+const { height:HEIGHT } = Dimensions.get('window');
+
 export const styles = StyleSheet.create({
     container:{
     backgroundColor: 'white',
@@ -8,33 +10,43 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     },
 	title: {
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardRegular',
     textAlign: 'center',
     fontSize: 28,
     fontWeight: '500',
     lineHeight: 42,
     letterSpacing: -0.56,
     color: theme.gray30, 
+    height: 84,
     },
     ssop: {
+    fontFamily: 'PretendardSemiBold',
     color: theme.gray10,
     fontWeight: '700',
+    },
+    cardicon:{
+    height: 278,
+    backgroundColor: 'white',
+    justifyContent: 'center',
+    alignItems: 'center',
     },
     socialContainer: {
     flexDirection: 'row',
     gap: 20,
-    marginTop: 102,
     },
     emailContainer: {
-    marginTop: 32,
     gap: 8,
     flex: 0,
     width: '100%',
+    position: 'absolute',
+    bottom: 32
     },
     email: {
     height: 48,
     paddingVertical: 8,
     paddingHorizontal: 16,
+    flexDirection: 'row',
+    gap: 8,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
@@ -42,7 +54,27 @@ export const styles = StyleSheet.create({
     },
     emailText: {
     color: 'white',
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardRegular',
+    fontSize: 16,
+    fontWeight: '600',
+    lineHeight: 19,
+    letterSpacing: -0.32,
+    },
+    kakao: {
+    height: 48,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#FDDC3F',
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: '#FDDC3F',
+    },
+    kakaoText: {
+    color: theme.gray10,
+    fontFamily: 'PretendardRegular',
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 19,
@@ -52,19 +84,22 @@ export const styles = StyleSheet.create({
     height: 48,
     paddingVertical: 8,
     paddingHorizontal: 16,
+    flexDirection: 'row',
+    gap: 8,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
-    borderWidth: 1,
-    borderColor: theme.gray80,
     },
-    LoginText: {
-    color: theme.gray50,
-    fontFamily: 'Pretendard',
+    loginText: {
+    color: theme.gray60,
+    fontFamily: 'PretendardRegular',
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 19,
     letterSpacing: -0.32,
+    textDecorationLine: 'underline',
+    textDecorationColor: theme.gray60,
+    //text-decoration: underline solid #888888;
     },
 
     //Email Login
@@ -76,7 +111,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardRegular',
     color: theme.gray40,
     fontSize: 14,
     fontWeight: '400',
@@ -94,7 +129,10 @@ export const styles = StyleSheet.create({
     placeholderTextColo: theme.gray60,
     },
     textContainer: {
-    marginTop: 56,
+    position: 'absolute',
+    bottom: 40,
+    left: 0,
+    right: 0,
     height: 40,
     flexDirection: 'row',
     justifyContent: 'center',
@@ -108,7 +146,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     },
     pwChange: {
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     color: theme.gray60,
     fontSize: 14,
     fontWeight: '600',
@@ -116,11 +154,30 @@ export const styles = StyleSheet.create({
     letterSpacing: -0.14,
     },
     join:{
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     color: theme.gray40,
     fontSize: 14,
     fontWeight: '600',
     lineHeight: 17,
     letterSpacing: -0.14,
+    },
+    lineContainer:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginTop: 56
+    },
+    line:{
+    flex: 1,
+    height: 1,
+    backgroundColor: theme.gray90
+    },
+    text:{
+    fontFamily: 'PretendardRegular',
+    color: theme.gray60,
+    fontSize: 15,
+    fontWeight: '400',
+    lineHeight: 18,
+    letterSpacing: -0.15,
+    marginHorizontal: 16,
     }
 });

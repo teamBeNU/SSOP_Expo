@@ -420,11 +420,11 @@ export const styles = StyleSheet.create({
     },
 
     avatarNext: {
-        color: theme.skyblue,
-        fontFamily: "PretendardMedium",
+        color: "black",
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: "500",
+        fontWeight: "600",
     },
 
     cardDone: {
@@ -437,7 +437,7 @@ export const styles = StyleSheet.create({
     },
     btnDone: {
         position: 'absolute',
-        bottom: 60+16,
+        bottom: 16,
         width: '100%',
         marginHorizontal: 16,
     },

@@ -11,17 +11,18 @@ import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
 
 function UserInfo({navigation}) {
-    const [name, setName] = useState('김슈니');
-    const [birth, setBirth] = useState({
+    const [user_name, setName] = useState('김슈니');
+    const [user_birth, setBirth] = useState({
         year: '2001',
         month: '1',
         day: '2',
     });
-    const [inputName, setInputName] = useState(name);
+    
+    const [inputName, setInputName] = useState(user_name);
     const [inputBirth, setInputBirth] = useState({
-        year: birth.year,
-        month: birth.month,
-        day: birth.day,
+        year: user_birth.year,
+        month: user_birth.month,
+        day: user_birth.day,
     });
     const [isFull, setIsFull] = useState({
         name: true,
@@ -93,11 +94,11 @@ function UserInfo({navigation}) {
 
     useEffect(() => {   // 페이지 나가기, 저장
         const isNameFull = inputName !== '';
-        const isBirthFull = birth.year !== '' && birth.month !== '' && birth.day !== '';
+        const isBirthFull = inputBirth.year !== '' && inputBirth.month !== '' && inputBirth.day !== '';
         setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull})));
 
-        const isNameCorrect = name === inputName;
-        const isBirthCorrect = birth.year === inputBirth.year && birth.month === inputBirth.month && birth.day === inputBirth.day;
+        const isNameCorrect = user_name === inputName;
+        const isBirthCorrect = user_birth.year === inputBirth.year && user_birth.month === inputBirth.month && user_birth.day === inputBirth.day;
         setIsCorrect((prev => ({...prev, name: isNameCorrect, birth: isBirthCorrect})));
 
         const isYearValid = isBirthValid.year;
@@ -133,7 +134,7 @@ function UserInfo({navigation}) {
                 </TouchableOpacity>
             ),
         });
-    }, [name, birth, inputName, inputBirth, isBirthValid, navigation]);
+    }, [user_name, user_birth, inputName, inputBirth, isBirthValid, navigation]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

@@ -1,15 +1,16 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
-const WIDTH = Dimensions.get('window').width;
-const HEIGHT = Dimensions.get('window').height;
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
+const cardWidth = WIDTH * 0.8;
+const cardHeight = WIDTH * 1.2;
 
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-		width: 288,
-        height: 436,
-        borderRadius: 8,
+        width: 304,
+        height: 432,
+        borderRadius: 32,
         borderWidth: 1,
         borderColor: theme.gray90,
         backgroundColor: 'white',
@@ -20,15 +21,16 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
 	},
 	cardImgArea: {
-        height: 300,
+        height: 293,
         backgroundColor: '#B6E96C',
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     cardTextArea: {
-        height: 136,
         backgroundColor: "white",
-        paddingTop: 16,
-        paddingLeft: 24,
-        paddingBottom: 32,
+        height: 139,
+        padding: 24,
+        borderRadius: 20,
         gap: 12,
     },
     basicInfo: {
@@ -36,7 +38,7 @@ export const styles = StyleSheet.create({
         alignItems: 'flex-end',
     },
     name: {
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 22,
         fontWeight: "600",
         letterSpacing: -0.44,
@@ -46,21 +48,21 @@ export const styles = StyleSheet.create({
     age: {
         gap: 4,
         flexDirection: "row",
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16, 
         fontWeight: "400",
         letterSpacing: -0.32,
         lineHeight: 19,
     },
     sub: {
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         fontWeight: "600",
         letterSpacing: -0.32,
         lineHeight: 19,
     },
     sub2: {
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: "400",
         letterSpacing: -0.32,
@@ -69,8 +71,8 @@ export const styles = StyleSheet.create({
 
     // CardBack
     textArea: {
-        height: 368,
-        marginVertical: 32,
+        height: 352,
+        marginVertical: 40,
         marginHorizontal: 24,
         alignItems: 'flex-start',
         gap: 24,
@@ -81,16 +83,16 @@ export const styles = StyleSheet.create({
     },
     topic: {
         width: 52,
-        color: theme.gray20,
-        fontFamily: 'Pretendard',
-        fontSize: 14,
+        color: theme.gray50,
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
         fontWeight: '400',
         lineHeight: 19,
-        letterSpacing: -0.14,
+        letterSpacing: -0.32,
     },
     content: {
-        color: 'black',
-        fontFamily: 'Pretendard',
+        color: theme.gray10,
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
         lineHeight: 19,
@@ -112,7 +114,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0)',
         width: '100%',
         justifyContent: 'flex-end',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         letterSpacing: -0.32,
         fontWeight: 400,
@@ -134,5 +136,13 @@ export const styles = StyleSheet.create({
         shadowRadius: 12,
         elevation: 3,
     },
+    graybox: {
+        backgroundColor: theme.gray95,
+        borderRadius: 20,
+        paddingVertical: 8,
+        paddingHorizontal: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
     
 });

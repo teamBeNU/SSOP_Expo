@@ -4,37 +4,39 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-		width: 158,
-        borderRadius: 8,
+        borderRadius: 16,
         backgroundColor: 'white',
         overflow: 'hidden',
-        shadowColor: 'rgba(0, 0, 0, 0.04)',
-        shadowOffset: { width: 2, height: 2 },
-        shadowOpacity: 0.4,
-        shadowRadius: 4,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: "rgba(232, 232, 232, 1.0)",
-	},
-    btn1: { // 새 카드 만들기
-        width: 158,
-        height: 200,
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: theme.white,
-        shadowColor: "rgba(0, 0, 0, 0.03)",
+        shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
             height: 2
         },
+        shadowRadius: 16,
+        shadowOpacity: 1,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)"
+	},
+    btn1: { // 새 카드 만들기
+        width: 158,
+        height: 200,
+        borderRadius: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: theme.white,
+        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 16,
         shadowOpacity: 1,
         shadowRadius: 2,
         elevation: 5,
         position: 'relative',
         borderStyle: 'solid',
-        borderWidth: 2,
-        borderColor: theme.gray90,
+        borderWidth: 1.5,
+        borderColor: theme.gray95,
     },
     
     avatar: {
@@ -42,9 +44,12 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
 	cardImgArea: {
-        height: 148,
+        height: 150,
+        alignItems: 'center',
+        marginRight: 15
     },
     cardTextArea: {
+        borderRadius: 15,
         backgroundColor: "white",
         gap: 12,
         paddingHorizontal: 12,
@@ -68,13 +73,13 @@ export const styles = StyleSheet.create({
     },
     ageText: {
         fontFamily: "PretendardRegular",
-        color: theme.gray20,
+        color: theme.gray60,
         letterSpacing: -0.44,
     },
     Text14: {
         marginBottom: 21,
         fontFamily: "PretendardSemiBold",
-        color: theme.gray50,
+        color: theme.gray60,
         fontSize: 14,
         letterSpacing: -1,
     },

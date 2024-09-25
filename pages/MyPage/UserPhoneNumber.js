@@ -11,11 +11,13 @@ import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 
 function UserPhoneNumber({navigation}) {
     const [step, setStep] = useState(1);
-    const [tel, setTel] = useState('');
+    const [user_tel, setTel] = useState('');
     const [isTelFull, setIsTelFull] = useState(true);
+    
     const [testPhoneCode, setTestPhoneCode] = useState('123');
     const [phoneCode, setPhoneCode] = useState('');
     const [phoneCodeIsCorrect, setPhoneCodeIsCorrect] = useState(true);
+
     const [isResend, setIsResend] = useState(false);
     const [seconds, setSeconds] = useState(180);
     const [isRunning, setIsRunning] = useState(false);
@@ -55,7 +57,7 @@ function UserPhoneNumber({navigation}) {
 
     const handleNext = () => {
         if (step === 1) {
-            const isTF = tel !== '';
+            const isTF = user_tel !== '';
             setIsTelFull(isTF);
 
             if (isTF) {
@@ -148,7 +150,7 @@ function UserPhoneNumber({navigation}) {
                                 placeholder="연락처를 입력하세요."
                                 placeholderTextColor={theme.gray60}
                                 keyboardType="phone-pad"
-                                value={tel}
+                                value={user_tel}
                                 onChangeText={handlePhoneNumChange}
                                 returnKeyType="done"
                             />

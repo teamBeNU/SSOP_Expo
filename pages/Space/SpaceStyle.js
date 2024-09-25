@@ -15,8 +15,8 @@ export const styles = StyleSheet.create({
 
     // 정렬
     container2: {
-        alignItems: 'flex-end',
-        marginRight: 8,
+        alignItems: 'center',
+        marginTop: 48,
     },
     row2: {
         flexDirection: 'row',
@@ -44,43 +44,61 @@ export const styles = StyleSheet.create({
         marginRight: 24,
         marginTop: 17.5
     },
+    Text26: {
+        color: theme.gray10,
+        fontSize: 26,
+        fontFamily: 'PretendardSemiBold',
+        textAlign: 'center',
+        letterSpacing: -1,
+        marginBottom: 12,
+    },
+    Text16gray: {
+        color: theme.gray60,
+        fontSize: 16,
+        fontFamily: 'PretendardRegular',
+        textAlign: 'center',
+        letterSpacing: -1,
+        marginBottom: 56
+        
+    },
 
     // 마이스페이스 그룹
     fontGroup: {
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
         letterSpacing: -1,
+        paddingLeft: 8,
     },
     peopleGroup: {
         fontSize: 12,
         fontFamily: 'PretendardRegular',
         letterSpacing: -1,
         justifyContent: 'center',
-        marginLeft: 8,
+        marginLeft: 6,
     },
     groupContent: {
-        borderRadius: 8,
+        borderRadius: 16,
         backgroundColor: theme.white,
         borderWidth: 1,
-        borderColor: theme.gray90,
-        padding: 16,
+        borderColor: theme.gray95,
+        paddingVertical: 18.5,
+        paddingHorizontal: 16,
         width: '100%',
         // Android - Shadow
         elevation: 5,
         // IOS - Shadow
-        shadowColor: '#000',
+        shadowColor: "rgba(73, 81, 100, 0.07)",
         shadowOffset: {
-            width: 4,
-            height: 4,
+            width: 0,
+            height: 2
         },
-        shadowOpacity: 0.05,
         shadowRadius: 12,
+        shadowOpacity: 1,
         marginBottom: 12,
     },
 
     // 마이스페이스 카드
     container: {
-        paddingHorizontal: 16,
     },
     row: {
         flexDirection: 'row',
@@ -108,114 +126,95 @@ export const styles = StyleSheet.create({
 
     // 팀스페이스 카드
     host: {
-        width: 43,
-        height: 22,
+        width: 38,
+        height: 18,
         borderRadius: 8,
         marginRight: 8,
-        borderRadius: 8,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: theme.gray60,
+        backgroundColor: '#00C2ED33',
         fontFamily: 'PretendardRegular',
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: 4,
+        paddingHorizontal: 6,
+        paddingVertical: 3,
     },
     hostText: {
-        color: theme.gray60,
-        fontSize: 12,
-        fontFamily: 'PretendardSemiBold',
+        color: theme.gray20,
+        fontSize: 10,
+        fontFamily: 'PretendardRegular',
         textAlign: 'center',
         letterSpacing: -1,
     },
     font16: {
-        fontSize: 16,
-        fontFamily: 'Pretendard',
+        fontSize: 14,
+        fontFamily: 'PretendardRegular',
         marginTop: 8,
         letterSpacing: -1,
+        color: theme.gray30,
     },
     font18: {
-        fontSize: 18,
+        fontSize: 16,
         fontFamily: 'PretendardSemiBold',
         letterSpacing: -1,
+        color: theme.gray10,
     },
     people: {
+        color: theme.gray50,
         marginTop: 12,
         fontSize: 12,
         fontFamily: 'PretendardRegular',
         letterSpacing: -1,
     },
     TeamSPContent: {
-        borderRadius: 8,
+        borderRadius: 16,
         backgroundColor: theme.white,
         borderWidth: 1,
         borderColor: theme.gray90,
-        padding: 16,
+        paddingLeft: 20,
+        paddingRight: 8,
+        paddingBottom: 20,
+        paddingTop: 14,
         width: '100%',
         // Android - Shadow
         elevation: 5,
         // IOS - Shadow
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 4,
-            height: 4,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 12,
-        marginBottom: 12,
-    },
-
-    // 플로팅 버튼
-    
-    floatingButton: {
-        position: 'absolute',
-        bottom: 16,
-        right: 16,
-        backgroundColor: theme.gray10,
-        width: 100,
-        height: 36,
-        borderRadius: 25,
-
-        shadowColor: "rgba(0, 0, 0, 0.03)",
+        shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
             height: 2
         },
-        shadowRadius: 2,
+        shadowRadius: 16,
         shadowOpacity: 1,
-
-        justifyContent: 'center',
-        alignItems: 'center',
-        zIndex: 9999,
-    },
-    floatingButtonText: {
-        color: theme.white,
-        fontSize: 14,
-        fontFamily: 'PretendardSemiBold',
-    },
-    floatingButtonContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-    },
-    floatingButtonIcon: {
-        marginRight: 4.5,
+        marginBottom: 12,
     },
     
     // 탭 바 디자인
-containerTabBar: {
-    backgroundColor: theme.white
+  containerTabBar: {
+    position: 'absolute',
+    bottom: 20, 
+    left: 0,
+    right: 0,
+    backgroundColor:  'rgba(0, 0, 0, 0)',
+    alignItems: 'center',
+    justifyContent: 'center',
   },
   tabContainer: {
+    zIndex: 10,
     flexDirection: 'row',
-    backgroundColor: theme.gray90,
-    marginHorizontal: 16,
-    marginTop: 16,
-    height: 40,
-    borderRadius: 8,
+    alignItems: 'center',
+    backgroundColor: theme.white,
+    borderRadius: 12,
+    shadowColor: "rgba(73, 81, 100, 0.07)",
+    shadowOffset: {
+        width: 0,
+        height: 2
+    },
+    shadowRadius: 12,
+    shadowOpacity: 1,
+    borderWidth: 1,
+    borderColor: "rgba(244, 244, 244, 1.0)"
   },
   tab: {
-    flex: 1,
-    paddingHorizontal: 45,
+    paddingHorizontal: 20,
     paddingVertical: 10,
     alignItems: 'center',
     borderRadius: 8,
@@ -224,20 +223,17 @@ containerTabBar: {
     backgroundColor: theme.white,
     marginHorizontal: 2,
     marginVertical: 2,
-    shadowColor: "rgba(0, 0, 0, 0.03)",
-    shadowOffset: {
-        width: 0,
-        height: 2
-    },
-    shadowRadius: 2,
-    shadowOpacity: 1,
-    //android shadow
-    elevation: 1,
   },
   inactiveTab: {
-    backgroundColor: theme.gray90,
+    backgroundColor: theme.white,
     marginHorizontal: 2,
     marginVertical: 2,
+  },
+  divider: {
+    width: 1,
+    height: '33%', 
+    backgroundColor: theme.gray80, 
+    marginHorizontal: 0, 
   },
 
     // 카드가 없을 때
@@ -245,13 +241,13 @@ containerTabBar: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 16,
      },
     noCard: {
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         letterSpacing: -0.2,
+        marginBottom: 3
     },
     newContainer: {
         flexDirection: 'row',
@@ -265,6 +261,9 @@ containerTabBar: {
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         letterSpacing: -0.2,
+    },
+    margin10: {
+        marginTop: 10,
     },
 
     // 상세 팀스페이스
@@ -481,42 +480,18 @@ containerTabBar: {
         justifyContent: 'flex-end',
     },
     modalView: {
-        height: 340,
+        height: 304,
         paddingHorizontal: 16,
-        backgroundColor: 'white',
-        borderTopLeftRadius: 8,
-        borderTopRightRadius: 8,
-        borderBottomLeftRadius: 0,
-        borderBottomRightRadius: 0,
+        backgroundColor: theme.white,
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
     },
     closeIcon: {
         marginTop: 19,
         justifyContent: 'flex-end',
         alignItems: 'flex-end'
     },
-    modalContent: {
-        borderRadius: 8,
-        backgroundColor: theme.white,
-        borderWidth: 1,
-        borderColor: theme.gray90,
-        marginTop: 24,
-        padding: 16,
-        width: '100%',
-        // display: 'flex',
-        // justifyContent:'center',
-        // alignItems: 'center',
 
-        // Android - Shadow
-        elevation: 5,
-        // IOS - Shadow
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 4,
-            height: 4,
-        },
-        shadowOpacity: 0.05,
-        shadowRadius: 12,
-    },
     modalText: {
         marginTop: 18,
         textAlign: 'center',
@@ -526,24 +501,26 @@ containerTabBar: {
     },
 
     btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
-        width: 158,
-        height: 184,
-        borderRadius: 8,
-        backgroundColor: theme.white,
-        shadowColor: "rgba(0, 0, 0, 0.03)",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 2,
-        shadowOpacity: 1,
-        borderStyle: 'solid',
-        borderWidth: 1,
-        borderColor: "rgba(244, 244, 244, 1.0)",
+        width: 160,
+        height: 180,
         elevation: 5,
         marginHorizontal: 10,
         position: 'relative',
         marginTop: 35,
+        
+        borderRadius: 16,
+        backgroundColor: theme.white,
+        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 16,
+        shadowOpacity: 1,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
+        elevation: 5,
+        position: 'relative',
     },
     Text14: {
         marginLeft: 16,

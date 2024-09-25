@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
     },
     title: {
     height: 60,
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     fontSize: 20,
     fontWeight: '600',
     lineHeight: 30,
@@ -26,7 +26,7 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardRegular',
     color: theme.gray40,
     fontSize: 14,
     fontWeight: '400',
@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
     },
     nextText: {
     color: 'white',
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     fontSize: 16,
     fontWeight: '600',
     lineHeight: 19,
@@ -67,7 +67,7 @@ export const styles = StyleSheet.create({
     request: {
     color: theme.skyblue,
     textAlign: 'right',
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     fontSize: 14,
     fontWeight: '600',
     lineHeight: 17,
@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
     },
     uncorrect: {
     color: theme.gray40,
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardSemiBold',
     fontSize: 14,
     fontWeight: '600',
     lineHeight: 17,
@@ -86,7 +86,7 @@ export const styles = StyleSheet.create({
     },
     resend: {
     color: theme.gray40,
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardRegular',
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 21,
@@ -119,7 +119,7 @@ export const styles = StyleSheet.create({
     marginTop: 8,
     paddingHorizontal: 8,
     color: theme.red,
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardRegular',
     fontSize: 14,
     fontWeight: '400',
     lineHeight: 17,
@@ -150,7 +150,7 @@ export const styles = StyleSheet.create({
     birthText: {
     color: theme.gray60,
     textAlign: 'right',
-    fontFamily: 'Pretendard',
+    fontFamily: 'PretendardRegular',
     fontSize: 16,
     fontWeight: '400',
     lineHeight: 19,
@@ -180,7 +180,6 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     inputBirthText: {
-        textAlign: "right",
         fontFamily: "PretendardRegular",
         fontSize: 16,
     },
@@ -203,7 +202,7 @@ export const styles = StyleSheet.create({
     },
     agreeAllText:{
         color: 'black',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 18,
         fontWeight: '600',
         lineHeight: 21,
@@ -219,7 +218,7 @@ export const styles = StyleSheet.create({
         textAlign: 'left',
         width: SCREEN_WIDTH - 108,
         color: 'black',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 17,
@@ -227,7 +226,7 @@ export const styles = StyleSheet.create({
     },
     agreeContent: {
         color: 'black',
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 14,
         fontWeight: '400',
         lineHeight: 21, 

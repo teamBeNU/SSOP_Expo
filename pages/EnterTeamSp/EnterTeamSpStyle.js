@@ -2,11 +2,15 @@ import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
-    mainlayout:{
+    mainlayout: {
         backgroundColor: theme.white,
         flex: 1, // 디바이스 세로 100%
         paddingVertical: 8,
         paddingHorizontal: 16,
+    },
+    noPaddingMainlayout: {
+        backgroundColor: theme.white,
+        flex: 1, // 디바이스 세로 100%
     },
     stepContainer: {
         flex: 1,
@@ -14,20 +18,32 @@ export const styles = StyleSheet.create({
     },
     flexSpacer: {
         flex: 1,
-      },
-	title: {
+    },
+    title: {
         marginTop: 30,
-		fontSize: 20,
+        fontSize: 20,
         lineHeight: 33,
         fontFamily: 'PretendardSemiBold'
-	},
+    },
+    midtitle: {
+        fontSize: 18,
+        lineHeight: 27,
+        fontFamily: 'PretendardSemiBold',
+        color: theme.gray10,
+    },
+    subtitle: {
+        marginTop: 12,
+        fontSize: 16,
+        fontFamily: 'PretendardRegular',
+        color: theme.gray30,
+    },
     font14: {
         marginBottom: 21,
         fontFamily: "PretendardSemiBold",
         color: theme.gray50,
         fontSize: 14,
         letterSpacing: -1,
-    },    
+    },
     font16: {
         fontSize: 16,
         fontFamily: 'Pretendard',
@@ -40,15 +56,15 @@ export const styles = StyleSheet.create({
     },
     font22: {
         marginTop: 30,
-		fontSize: 22,
+        fontSize: 22,
         lineHeight: 33,
         fontFamily: 'PretendardSemiBold'
-	},
+    },
     nameContainer: {
         marginTop: 32,
         display: 'inline-flex',
         flexDirection: 'column',
-        alignItems: 'flex-start',        
+        alignItems: 'flex-start',
         gap: 8,
     },
     name: {
@@ -56,7 +72,12 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         marginLeft: 8
     },
-    nameInput:{
+    nameBold: {
+        fontSize: 14,
+        fontFamily: 'PretendardSemiBold',
+        marginLeft: 8
+    },
+    nameInput: {
         width: '100%',
         height: 48,
         paddingVertical: 8,
@@ -69,16 +90,16 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray95,
         fontFamily: 'PretendardRegular'
     },
-    nameLeng:{
+    nameLeng: {
+        marginTop: 8,
         fontSize: 14,
         color: theme.gray60,
-        alignSelf: 'flex-end',
         fontFamily: 'PretendardRegular',
     },
     // 버튼들
     btnNext: {
         marginTop: 16,
-        marginBottom: 16,
+        marginBottom: 8,
         width: '100%',
         height: 48,
         justifyContent: 'center',
@@ -86,7 +107,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         backgroundColor: theme.gray10,
     },
-    btnText:{
+    btnText: {
         textAlign: 'center',
         color: theme.white,
         fontSize: 16,
@@ -99,17 +120,24 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         fontFamily: 'PretendardRegular',
         borderWidth: 1,
-        borderColor: theme.gray80, 
+        borderColor: theme.gray80,
         backgroundColor: theme.white
     },
-    btnTextBlack:{
+    btnBlue: {
+        height: 48,
+        justifyContent: 'center',
+        borderRadius: 8,
+        fontFamily: 'PretendardRegular',
+        backgroundColor: theme.skyblue
+    },
+    btnTextBlack: {
         textAlign: 'center',
         color: theme.gray50,
         fontSize: 16,
         fontFamily: 'PretendardSemiBold'
     },
-    btnContainer:{
-        position:'absolute',
+    btnContainer: {
+        position: 'absolute',
         flex: 1,
         justifyContent: 'flex-end',
         width: '100%',
@@ -200,9 +228,9 @@ export const styles = StyleSheet.create({
         width: '30%',
         height: 48,
         borderRadius: 8,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.gray60,
+        borderWidth: 0,
+        color: theme.gray10,
+        backgroundColor: theme.gray95,
         paddingVertical: 8,
         paddingHorizontal: 16,
     },
@@ -226,33 +254,33 @@ export const styles = StyleSheet.create({
         width: '49%',
         height: 48,
         borderRadius: 8,
-        borderWidth: 1,
-        borderStyle: "solid",
-        borderColor: theme.gray60,
+        borderWidth: 0,
+        color: theme.gray10,
+        backgroundColor: theme.gray95,
         paddingVertical: 8,
         paddingHorizontal: 16,
         margin: 0,
     },
-    elementContainer:{
-        display:'flex',        
-        alignItems: 'flex-start', 
+    elementContainer: {
+        display: 'flex',
+        alignItems: 'flex-start',
         marginTop: 16,
         flexDirection: 'row',
         flexWrap: 'wrap', // 줄바꿈
         gap: 8,
     },
-    element:{    
-        display:'flex',   
+    element: {
+        display: 'flex',
         paddingVertical: 8,
         paddingHorizontal: 12,
         fontFamily: 'PretendardRegular',
         borderRadius: 8,
         borderWidth: 1,
-        borderColor: theme.gray90, 
+        borderColor: theme.gray90,
         color: theme.gray20,
         backgroundColor: theme.white,
     },
-    selectedElement:{ 
+    selectedElement: {
         paddingVertical: 8,
         paddingHorizontal: 12,
         borderRadius: 8,
@@ -261,10 +289,97 @@ export const styles = StyleSheet.create({
         color: theme.skyblue,
         fontFamily: 'PretendardSemiBold'
     },
-    selectedText:{
+    selectedText: {
         color: theme.skyblue,
         fontFamily: 'PretendardSemiBold'
     },
 
-    
+    // 입력 안 한 텍스트 박스
+    inputEmpty: {
+        borderWidth: 1,
+        borderStyle: "solid",
+        borderColor: theme.red,
+    },
+    inputEmptyText: {
+        color: theme.red,
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontWeight: "400",
+        marginHorizontal: 8,
+        marginTop: 8
+    },
+    line: {
+        borderBottomWidth: 1,
+        borderBottomColor: theme.gray90,
+        marginTop: 40,
+        marginBottom: 40
+    },
+
+    // 자유 템플릿
+    paddignB0: {
+        paddingBottom: 0,
+    },
+    paddignB24: {
+        paddingBottom: 24,
+    },
+    paddingH16: {
+        paddingHorizontal: 16,
+    },
+    selectContaienr: {
+        paddingTop: 31-8,
+        paddingBottom: 33,
+    },
+    selectBtnContainer: {
+        backgroundColor: theme.white,
+        paddingHorizontal: 16,
+        borderRadius: 16,
+        borderWidth: 1,
+        borderColor: theme.gray90,
+        marginTop: 8,
+    },
+    selectBtnTitleContainer: {
+        flexDirection:"row",
+        justifyContent: "space-between",
+        alignItems:"center",
+        paddingTop: 24,
+    },
+    selectBtnTitle: {
+        color: theme.gray10,
+        fontFamily: 'PretendardMedium',
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "500",
+        textAlign: "center",
+    },
+    selectBtns: {
+        flexDirection:"row",
+        flexWrap: 'wrap',
+        marginTop: 16,
+    },
+    spaceContainer: {
+        backgroundColor: theme.gray95,
+        height: 12,
+        marginHorizontal: -16,
+    },
+
+    selectInputContainer: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems:"center",
+        marginBottom: 60
+    },
+    selectTextInputContainer: {
+        paddingTop: 32,
+        width: "100%",
+    }, 
+    selectTitle: {
+        marginTop: 60,
+        color: theme.gray50,
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "400",
+        textAlign: "center",
+    }
+
 })

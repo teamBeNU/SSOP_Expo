@@ -377,6 +377,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                             placeholder="YYYY/MM/DD"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="numeric"
+                                            maxLength={10}
                                             value={card_birth}
                                             onChangeText={setCardBirth}
                                             returnKeyType="done"

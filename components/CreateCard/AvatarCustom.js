@@ -40,6 +40,7 @@ export default function AvatarCustom({setProfileImageUrl}) {
     // 컴포넌트 -> 이미지
     useEffect(() => {
         // ref.current.capture().then(uri => {
+        //     console.log("do something with ", uri);
         //     if(Platform.OS === 'ios') {
         //         uri = `file://${uri}`;
         //     }
@@ -49,13 +50,14 @@ export default function AvatarCustom({setProfileImageUrl}) {
 
         // 이미지 확인용
         ref.current.capture().then(uri => {
+            //     console.log("do something with ", uri);
             if(Platform.OS === 'ios') {
                 uri = `file://${uri}`;
             }
             setProfileImageUrl(uri);
             setA(uri);
         });
-    }, [setA, a]);
+    }, [setProfileImageUrl, setA, a, avatar]);
 
     return (
         <View style={styles.container}>
@@ -134,7 +136,9 @@ export default function AvatarCustom({setProfileImageUrl}) {
                                         avatar.face === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                     ]}
                                 >
-                                    <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                    <View style={styles.avatarItem}>
+                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                    </View>    
                                 </TouchableOpacity>
                             ))}
                         </View>
@@ -161,7 +165,9 @@ export default function AvatarCustom({setProfileImageUrl}) {
                                             avatar.hair === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                         ]}
                                     >
-                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                        <View style={styles.avatarItem}>
+                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                        </View>    
                                     </TouchableOpacity>
                                 ))}
                             </View>
@@ -191,7 +197,9 @@ export default function AvatarCustom({setProfileImageUrl}) {
                                             avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                         ]}
                                     >
-                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                        <View style={styles.avatarItem}>
+                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                        </View>    
                                     </TouchableOpacity>
                                 ))}
                             </View>
@@ -221,7 +229,9 @@ export default function AvatarCustom({setProfileImageUrl}) {
                                         avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                     ]}
                                 >
-                                    <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                    <View style={styles.avatarItem}>
+                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                    </View>    
                                 </TouchableOpacity>
                             ))}
                         </View>
