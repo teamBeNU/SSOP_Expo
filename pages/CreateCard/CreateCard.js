@@ -97,15 +97,15 @@ function CreateCard({navigation}) {
                     )} 
                     {card_template === "worker" && (
                         // 직장인
-                        <TemplateWorker navigation={navigation} />
+                        <TemplateWorker navigation={navigation} card_template={card_template} />
                     )}
                     {card_template === "fan" && (
                         // 팬
-                        <TemplateFan navigation={navigation} />
+                        <TemplateFan navigation={navigation} card_template={card_template} />
                     )}
                     {card_template === "free" && (
                         // 자유 생성
-                        <TemplateFree navigation={navigation} />
+                        <TemplateFree navigation={navigation} card_template={card_template} />
                     )}
                 </View>
             )}

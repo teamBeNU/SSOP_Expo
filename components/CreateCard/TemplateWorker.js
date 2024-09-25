@@ -2,6 +2,7 @@ import { View, Text, TextInput, TouchableOpacity, Platform, ScrollView, Image, K
 import React, { useState, useEffect, useRef } from 'react';
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
+import axios from 'axios';
 
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
@@ -47,7 +48,87 @@ export default function TemplateWorker ({navigation, card_template}) {
     const ref_input2 = useRef();
     const ref_input3 = useRef();
     const ref_input4 = useRef();
+
+    const [isComplete, setIsComplete] = useState(false);
     
+    // post 요청
+    const handleSubmit = async () => {
+        const formData = new FormData();
+
+        // 카드 데이터
+        const cardData = {
+            cardEssential: {
+                card_name,
+                card_introduction,
+                card_template,
+                card_cover,
+            },
+            cardOptional: {
+                card_birth,
+                card_bSecret,
+                card_tel,
+                card_email,
+                card_sns_insta,
+                card_sns_x,
+                card_MBTI: card_mbti,
+                card_music,
+                card_movie,
+                card_hobby,
+                card_address,
+            },
+            worker: {
+                card_worker_company,
+                card_worker_job,
+                card_worker_position,
+                card_worker_department,
+            },
+        };
+
+        // card
+        formData.append('card', {
+            name: 'card',
+            string: JSON.stringify(cardData),
+            type: 'application/json',
+        });
+
+        // image URI
+        if (profile_image_url) {
+            const localUri = profile_image_url;
+            const filename = localUri.split('/').pop();
+            const fileMatch = /\.(\w+)$/.exec(filename);
+            const type = fileMatch ? `image/${fileMatch[1]}` : 'image';
+
+            formData.append('image', {
+                uri: localUri,
+                name: filename,
+                type: type
+            });
+        }
+
+        try {
+            // const token = await AsyncStorage.getItem('authToken');
+            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAZ21haWwuY29tIiwiZXhwIjoxNzI3MjkxMTU0LCJ1c2VySWQiOjEsImVtYWlsIjoiYWFhQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoi6rmA7JeQ7J20In0.9pOh9tnGjcQr1mly5NO1fpFeyeK7RLpZob5zC0DGH5WuDS2MyGdriQPB0y8IxVhoTKC6myMh3d_lgL2RDIZqrg';
+
+            const response = await axios.post(
+                'http://172.19.13.198:8080/api/card/create',
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`,
+                    }
+                }
+            );
+            if (response.data.code === 200) {
+                console.log('카드 생성 완료');
+            } else {
+                console.log('카드 생성 실패');
+            }
+        } catch (error) {
+            console.error('카드 생성 API 에러 발생: ', error);
+        }
+    }
+
     // mbti
     const handleMBTI = (input) => {
         // 영어만 입력되도록 정규식 필터 적용
@@ -155,6 +236,7 @@ export default function TemplateWorker ({navigation, card_template}) {
         } else if (step === 6 ) {
             setStep(7);
         } else if (step === 7 ) {
+            handleSubmit();
             setStep(8);
         }
     };
@@ -203,7 +285,9 @@ export default function TemplateWorker ({navigation, card_template}) {
                 headerRight: () => (
                     <TouchableOpacity
                         style={{marginRight: 20}}
-                        onPress={handleNext}
+                        onPress={() => {
+                            setIsComplete(true);
+                        }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>
                     </TouchableOpacity>
@@ -211,6 +295,13 @@ export default function TemplateWorker ({navigation, card_template}) {
             });
         }
     }, [step]);
+
+    useEffect(() => {
+        if(isComplete && profile_image_url) {
+            handleNext();
+            setIsComplete(false);
+        }
+    });
 
     return (
         <View style={{flex:1}}>
