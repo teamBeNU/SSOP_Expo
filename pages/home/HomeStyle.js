@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
-    mainlayout:{ //메인 레이아웃   
+    mainlayout:{ // 메인 레이아웃   
         flex: 1, 
         paddingVertical: 16,
         paddingHorizontal: 16,
@@ -28,7 +28,8 @@ export const styles = StyleSheet.create({
             height: 2
         },
         shadowRadius: 16,
-        shadowOpacity: 1
+        shadowOpacity: 1,
+        elevation: 8, // Android 전용 그림자 설정
     },
     btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
         borderRadius: 16,
@@ -42,7 +43,7 @@ export const styles = StyleSheet.create({
         shadowOpacity: 1,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 5,
+        elevation: 5, // Android 전용 그림자 설정
         position: 'relative',
     },
     btn3: { // 내가 받은 카드 보기
@@ -59,7 +60,8 @@ export const styles = StyleSheet.create({
         shadowRadius: 16,
         shadowOpacity: 1,
         borderWidth: 1,
-        borderColor: "rgba(244, 244, 244, 1.0)"
+        borderColor: "rgba(244, 244, 244, 1.0)",
+        elevation: 5, // Android 전용 그림자 설정
     },
     container: {
         flex: 1,
@@ -97,7 +99,6 @@ export const styles = StyleSheet.create({
         letterSpacing: -1,
         marginBottom: 8,
     },
-    
     Text20: {
         marginTop: 20,
         marginLeft: 20,
