@@ -13,6 +13,9 @@ import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import SelectCover from "./SelectCover";
 
 export default function TemplateWorker ({navigation, card_template}) {
+    const baseUrl = 'http://172.19.13.198:8080/api';
+    const [token, setToken] = useState(null);
+
     const [step, setStep] = useState(1);
 
     const [card_name, setCardName] = useState('');
@@ -49,7 +52,8 @@ export default function TemplateWorker ({navigation, card_template}) {
     const ref_input3 = useRef();
     const ref_input4 = useRef();
 
-    const [isComplete, setIsComplete] = useState(false);
+    const [isAvatarComplete, setIsAvatarComplete] = useState(false);
+    const [isPictureComplete, setIsPictureComplete] = useState(false);
     
     // post 요청
     const handleSubmit = async () => {
@@ -108,9 +112,13 @@ export default function TemplateWorker ({navigation, card_template}) {
         try {
             // const token = await AsyncStorage.getItem('authToken');
             const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAZ21haWwuY29tIiwiZXhwIjoxNzI3MjkxMTU0LCJ1c2VySWQiOjEsImVtYWlsIjoiYWFhQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoi6rmA7JeQ7J20In0.9pOh9tnGjcQr1mly5NO1fpFeyeK7RLpZob5zC0DGH5WuDS2MyGdriQPB0y8IxVhoTKC6myMh3d_lgL2RDIZqrg';
+            // const storedToken = await AsyncStorage.getItem('token');
+            // setToken(storedToken);
+            // console.log('token', token);
+            // console.log('storedToken', storedToken);
 
             const response = await axios.post(
-                'http://172.19.13.198:8080/api/card/create',
+                `${baseUrl}/card/create`,
                 formData,
                 {
                     headers: {
@@ -234,7 +242,12 @@ export default function TemplateWorker ({navigation, card_template}) {
         } else if (step === 5 ) {
             setStep(6);
         } else if (step === 6 ) {
-            setStep(7);
+            if(card_cover === "avatar") {   // card cover가 avatar인 경우
+                setStep(7);
+            } else if (card_cover === "picture" && profile_image_url) { // card cover가 picture 인 경우(step 7이 없음)
+                handleSubmit();
+                setStep(8);
+            }
         } else if (step === 7 ) {
             handleSubmit();
             setStep(8);
@@ -286,7 +299,7 @@ export default function TemplateWorker ({navigation, card_template}) {
                     <TouchableOpacity
                         style={{marginRight: 20}}
                         onPress={() => {
-                            setIsComplete(true);
+                            setIsAvatarComplete(true);
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>
@@ -297,9 +310,13 @@ export default function TemplateWorker ({navigation, card_template}) {
     }, [step]);
 
     useEffect(() => {
-        if(isComplete && profile_image_url) {
+        if(isAvatarComplete && profile_image_url) {
             handleNext();
-            setIsComplete(false);
+            setIsAvatarComplete(false);
+        }
+        if(isPictureComplete && profile_image_url) {
+            handleNext();
+            setIsPictureComplete(false);
         }
     });
 
@@ -718,7 +735,15 @@ export default function TemplateWorker ({navigation, card_template}) {
             )}
 
             {step === 6 && (
-                <SelectCover step={step} setStep={setStep} card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} setProfileImageUrl={setProfileImageUrl} />
+                <SelectCover 
+                    step={step} 
+                    setStep={setStep} 
+                    card_cover={card_cover} 
+                    handleNext={handleNext} 
+                    setCardCover={setCardCover} 
+                    setProfileImageUrl={setProfileImageUrl} 
+                    setIsPictureComplete={setIsPictureComplete}
+                />
             )}
 
             {step === 7 && (

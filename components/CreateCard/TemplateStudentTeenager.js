@@ -673,7 +673,15 @@ export default function TemplateStudentTeenager ({navigation, card_template}) {
             )}
 
             {step === 6 && (
-                <SelectCover step={step} setStep={setStep} card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} setProfileImageUrl={setProfileImageUrl} />
+                <SelectCover 
+                    step={step} 
+                    setStep={setStep} 
+                    card_cover={card_cover} 
+                    handleNext={handleNext} 
+                    setCardCover={setCardCover} 
+                    setProfileImageUrl={setProfileImageUrl} 
+                    setIsPictureComplete={setIsPictureComplete}
+                />
             )}
 
             {step === 7 && (

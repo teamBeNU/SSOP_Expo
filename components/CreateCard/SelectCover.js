@@ -8,7 +8,7 @@ import { theme } from "../../theme";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
-export default function SelectCover({step, setStep, card_cover, handleNext, setCardCover, setProfileImageUrl}) {
+export default function SelectCover({step, setStep, card_cover, handleNext, setCardCover, setProfileImageUrl, setIsPictureComplete}) {
 
     const [imageWidth, setImageWidth] = useState(0);
 
@@ -56,10 +56,10 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
         });
 
         if (!result.canceled) {     // 이미지 업로드
-            console.log(result);
-            console.log(result.assets[0].uri);
+            // console.log(result);
+            // console.log(result.assets[0].uri);
             setProfileImageUrl(result.assets[0].uri);
-            setStep(step + 2);
+            setIsPictureComplete(true);
         } else {        // 이미지 업로드 취소
             setStep(step);
         }
