@@ -125,6 +125,7 @@ export const styles = StyleSheet.create({
 
     // 리스트형 카드 스타일
     ListContainer: {
+        width: Dimensions.get('window').width - 32,
         paddingVertical: 12,
         paddingHorizontal: 20,
         marginBottom: 12,

@@ -1,7 +1,7 @@
 import { Dimensions, View, Text, Alert, TouchableOpacity, TouchableWithoutFeedback, Share, Modal } from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from './MyCardStyle';
-import React, { useState, useLayoutEffect, useEffect } from 'react';
+import React, { useState, useLayoutEffect, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import MyCardsView from '../../pages/MyCard/MyCardsView.js';
@@ -14,22 +14,20 @@ import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import SwapIcon from '../../assets/icons/ic_swap_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
   
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Colors } from "react-native/Libraries/NewAppScreen";
 import { theme } from "../../theme";
 
 function MyCard() {
-    const [cards, setCards] = useState([]);
-
     const [hasCard, setHasCard] = useState(false);
+    const [cardData, setCardData] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [moreMenu, setMoreMenu] = useState(false);
 
     const navigation = useNavigation();
 
-    const [data, setData] = useState([]);
-
-    useEffect(() => {
+    useFocusEffect(
+        useCallback(() => {
         const fetchData = async () => {
           try {
             const token = await AsyncStorage.getItem('token');
@@ -46,9 +44,9 @@ function MyCard() {
             });
     
             const result = await response.json();
-    
-            setData(result); 
-    
+            setCardData(result);
+            console.log('cardData: ', cardData);
+
             if (result.length === 0) {
               setHasCard(false);
             } else {
@@ -60,7 +58,9 @@ function MyCard() {
         };
     
         fetchData();
-      }, []);
+        
+        return () => {};
+      }, []));
 
 
     const onShare = async () => {
@@ -105,7 +105,7 @@ function MyCard() {
         <View style={{flex: 1}}> 
             {hasCard ? (
             <View style={{flex: 1}} >
-                <MyCardsView />
+                <MyCardsView cardData={cardData}/>
                 {moreMenu && (
                     <View style={styles.dropdownMenu}>
                         <TouchableOpacity onPress={() => ''}>

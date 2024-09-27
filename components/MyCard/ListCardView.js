@@ -1,12 +1,12 @@
-import { View, Text, ScrollView, StyleSheet } from 'react-native';
+import { View, Text, ScrollView, Image } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './CardViewStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
-import PlusCardIcon from '../../assets/icons/ic_add_medium_line.svg';
+import { calculateAge } from '../../utils/calculateAge';
+import { colorMapping, getColor } from '../../utils/bgColorMapping';
 
-
-export const ListCardView = ({viewOption, cardData, showPlusCardButton}) => {
+export const ListCardView = ({cardData}) => {
     const navigation = useNavigation(); 
 
     const handleNext = () => {
@@ -18,18 +18,29 @@ export const ListCardView = ({viewOption, cardData, showPlusCardButton}) => {
         <View>
             <View>
               {cardData.map((item) => (
-                <View key={item.id} style={styles.ListContainer}>
+                <View key={item.cardId} style={styles.ListContainer}>
                   <TouchableOpacity onPress={handleNext}>
                     <View style={styles.row2}>
-                      <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                        <Text> {'\n'}   아바타{'\n'}   이미지</Text>
-                      </View>
+                      {item.card_cover === 'avatar' ? 
+                        <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor)}]}>
+                        {/* <Text> {'\n'}   아바타{'\n'}   이미지</Text> */}
+                        {/* <Image 
+                          source={{ uri: item.profile_image_url }} 
+                          resizeMode="cover"
+                        /> */}
+                        </View>
+                        :
+                        <View style={[styles.gray]}>
+
+                        </View>                 
+                      }
+                      
                       <View style={styles.infoContainer}>
                         <View style={styles.rowName}>
-                          <Text style={styles.Text16gray10}>{item.card_name}</Text>
-                          <Text style={styles.Text16gray50}>{item.age}</Text>
+                          <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
+                          <Text style={styles.Text16gray50}>{calculateAge(item.cardOptional.card_birth)}</Text>
                         </View>
-                        <Text style={styles.Text14gray30}>{item.card_introduce}</Text>
+                        <Text style={styles.Text14gray30}>{item.cardEssential.card_introduction}</Text>
                       </View>
                     </View>
                   </TouchableOpacity>

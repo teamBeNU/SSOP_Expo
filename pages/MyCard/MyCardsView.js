@@ -14,8 +14,7 @@ import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard.
 import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 
-// navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton
-const CardsView = ({ }) => {
+const CardsView = ({ cardData }) => {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형');
   const navigation = useNavigation();
@@ -27,15 +26,6 @@ const CardsView = ({ }) => {
       setViewOption('그리드형');
     }
   };
-
-  const cardData = [
-    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
-    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬', card_introduce: '서울여자대학교 디지털미디어학과 20학번' },
-    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
-    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬', card_introduce: '서울여자대학교 디지털미디어학과 20학번' },
-    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
-    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬', card_introduce: '서울여자대학교 디지털미디어학과 20학번' },
-  ];
 
   return (
     <View style={styles.container}>
@@ -64,7 +54,7 @@ const CardsView = ({ }) => {
        </View>
       </View>
 
-      {viewOption === '그리드형' ? <GridCardView viewOption={viewOption} cardData={cardData}/> : <ListCardView viewOption={viewOption} cardData={cardData}/>}
+      {viewOption === '그리드형' ? <GridCardView viewOption={viewOption} cardData={cardData}/> : <ListCardView cardData={cardData}/>}
 
       <TouchableOpacity style={styles.newCardBtn} onPress={() => {navigation.navigate('카드 만들기');}}>
         <Text style={styles.newCardText}>새 카드 추가하기</Text>
