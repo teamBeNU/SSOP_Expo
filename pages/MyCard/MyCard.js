@@ -45,8 +45,7 @@ function MyCard() {
     
             const result = await response.json();
             setCardData(result);
-            console.log('cardData: ', cardData);
-
+            
             if (result.length === 0) {
               setHasCard(false);
             } else {

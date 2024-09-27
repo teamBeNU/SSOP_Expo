@@ -38,7 +38,9 @@ export const ListCardView = ({cardData}) => {
                       <View style={styles.infoContainer}>
                         <View style={styles.rowName}>
                           <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
+                          {item.cardOptional.card_birth ? (
                           <Text style={styles.Text16gray50}>{calculateAge(item.cardOptional.card_birth)}</Text>
+                           ) : null}                        
                         </View>
                         <Text style={styles.Text14gray30}>{item.cardEssential.card_introduction}</Text>
                       </View>
