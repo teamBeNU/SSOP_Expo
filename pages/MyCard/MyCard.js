@@ -1,4 +1,4 @@
-import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal } from "react-native";
+import { Dimensions, View, Text, Alert, TouchableOpacity, TouchableWithoutFeedback, Share, Modal } from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from './MyCardStyle';
 import React, { useState, useLayoutEffect, useEffect } from 'react';
@@ -19,29 +19,49 @@ import { Colors } from "react-native/Libraries/NewAppScreen";
 import { theme } from "../../theme";
 
 function MyCard() {
-    const { width:SCREEN_WIDTH } = Dimensions.get('window');
-    const CARD_WIDTH = SCREEN_WIDTH * 0.8;
-    const SPACING_FOR_CARD_INSET = SCREEN_WIDTH * 0.1 - 10;
-
     const [cards, setCards] = useState([]);
 
-    const cardData = [
-        { id: '1', name: 'Card 1' },
-        { id: '2', name: 'Card 2' },
-        { id: '3', name: 'Card 3' },
-    ]
-    const [cardPage, setCardPage] = useState(1);
-    const [hasCard, setHasCard] = useState(true);
+    const [hasCard, setHasCard] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [moreMenu, setMoreMenu] = useState(false);
 
     const navigation = useNavigation();
 
-    const handleScroll = (event) => {
-        const { contentOffset, layoutMeasurement } = event.nativeEvent;
-        const currentIndex = Math.floor(contentOffset.x / CARD_WIDTH);
-        setCardPage(currentIndex + 1);
-      };
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const token = await AsyncStorage.getItem('token');
+            if (!token) {
+              Alert.alert('유효하지 않은 토큰입니다.');
+              return;
+            }
+    
+            const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+    
+            const result = await response.json();
+    
+            setData(result); 
+    
+            if (result.length === 0) {
+              setHasCard(false);
+            } else {
+              setHasCard(true);
+            }
+          } catch (error) {
+            console.error('Error fetching card data:', error);
+          } 
+        };
+    
+        fetchData();
+      }, []);
+
 
     const onShare = async () => {
     try {

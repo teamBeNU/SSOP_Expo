@@ -24,39 +24,39 @@ function SignIn() {
         setShowPw(!showPw);
       };
       
-      const handleLogin = async () => {
-        try {
-          const response = await fetch('http://43.202.52.64:8080/api/user/login', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ email, password }),
-          });
-    
-          const data = await response.json();
-          console.log('API Response:', data);
-    
-          if (response.ok) {
-            if (data.token) {
-              await AsyncStorage.setItem('token', data.token);
-              setIsLoggedIn(true); // Update login state
-              navigation.navigate('MyTabs');
+    const handleLogin = async () => {
+      try {
+        const response = await fetch('http://43.202.52.64:8080/api/user/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+  
+        const data = await response.json();
+        console.log('API Response:', data);
+  
+        if (response.ok) {
+          if (data.token) {
+            await AsyncStorage.setItem('token', data.token);
+            setIsLoggedIn(true); // Update login state
+            navigation.navigate('MyTabs');
+          } else {
+            if (data.message === '로그인 실패 - 사용자 없음') {
+              Alert.alert('로그인 실패', '가입하지 않은 이메일입니다.');
+            } else if (data.message === '로그인 실패 - 비밀번호 불일치') {
+              Alert.alert('로그인 실패', '비밀번호가 일치하지 않습니다.');
             } else {
-              if (data.message === '로그인 실패 - 사용자 없음') {
-                Alert.alert('로그인 실패', '가입하지 않은 이메일입니다.');
-              } else if (data.message === '로그인 실패 - 비밀번호 불일치') {
-                Alert.alert('로그인 실패', '비밀번호가 일치하지 않습니다.');
-              } else {
-                Alert.alert('로그인 실패', 'An unknown error occurred. Please try again.');
-              }
+              Alert.alert('로그인 실패', 'An unknown error occurred. Please try again.');
             }
           }
-        } catch (error) {
-          console.error('Error logging in:', error);
-          Alert.alert('Login Error', 'Something went wrong. Please try again later.');
         }
-      };
+      } catch (error) {
+        console.error('Error logging in:', error);
+        Alert.alert('Login Error', 'Something went wrong. Please try again later.');
+      }
+    };
 
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
