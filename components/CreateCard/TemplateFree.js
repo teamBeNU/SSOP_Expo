@@ -89,26 +89,46 @@ export default function TemplateFree ({navigation, card_template}) {
 
     // 유셩 선택지 버튼
     const studentItems = [
-        { key: 'school', btnName: '학교', isClick: isClick.school, cardValue: card_student_school, setCardValue: setCardStudentSchool },
-        { key: 'grade', btnName: '학년', isClick: isClick.grade, cardValue: card_student_grade, setCardValue: setCardStudentGrade },
-        { key: 'major', btnName: '전공', isClick: isClick.major, cardValue: card_student_major, setCardValue: setCardStudentMajor },
-        { key: 'id', btnName: '학생번호', isClick: isClick.id, cardValue: card_student_id, setCardValue: setCardStudentId },
-        { key: 'club', btnName: '동아리', isClick: isClick.club, cardValue: card_student_club, setCardValue: setCardStudentClub },
-        { key: 'role', btnName: '역할', isClick: isClick.role, cardValue: card_student_role, setCardValue: setCardStudentRole },
-        { key: 'status', btnName: '재학상태', isClick: isClick.status, cardValue: card_student_status, setCardValue: setCardStudentStatus },
+        { key: 'school', name: '학교', isClick: isClick.school, cardValue: card_student_school, setCardValue: setCardStudentSchool },
+        { key: 'grade', name: '학년', isClick: isClick.grade, cardValue: card_student_grade, setCardValue: setCardStudentGrade },
+        { key: 'major', name: '전공', isClick: isClick.major, cardValue: card_student_major, setCardValue: setCardStudentMajor },
+        { key: 'id', name: '학생번호', isClick: isClick.id, cardValue: card_student_id, setCardValue: setCardStudentId },
+        { key: 'club', name: '동아리', isClick: isClick.club, cardValue: card_student_club, setCardValue: setCardStudentClub },
+        { key: 'role', name: '역할', isClick: isClick.role, cardValue: card_student_role, setCardValue: setCardStudentRole },
+        { key: 'status', name: '재학상태', isClick: isClick.status, cardValue: card_student_status, setCardValue: setCardStudentStatus },
     ]
     const workerItems = [
-        { key: 'company', btnName: '회사', isClick: isClick.company, cardValue: card_worker_company, setCardValue: setCardWorkerCompany },
-        { key: 'job', btnName: '직무', isClick: isClick.job, cardValue: card_worker_job, setCardValue: setCardWorkerJob },
-        { key: 'position', btnName: '직위', isClick: isClick.position, cardValue: card_worker_position, setCardValue: setCardWorkerPosition },
-        { key: 'department', btnName: '부서', isClick: isClick.department, cardValue: card_worker_department, setCardValue: setCardWorkerDepartment },
+        { key: 'company', name: '회사', isClick: isClick.company, cardValue: card_worker_company, setCardValue: setCardWorkerCompany },
+        { key: 'job', name: '직무', isClick: isClick.job, cardValue: card_worker_job, setCardValue: setCardWorkerJob },
+        { key: 'position', name: '직위', isClick: isClick.position, cardValue: card_worker_position, setCardValue: setCardWorkerPosition },
+        { key: 'department', name: '부서', isClick: isClick.department, cardValue: card_worker_department, setCardValue: setCardWorkerDepartment },
     ]
     const fanItems = [
-        { key: 'genre', btnName: '덕질장르', isClick: isClick.genre, cardValue: card_fan_genre, setCardValue: setCardFanGenre },
-        { key: 'first', btnName: '최애', isClick: isClick.first, cardValue: card_fan_first, setCardValue: setCardFanFirst },
-        { key: 'second', btnName: '차애', isClick: isClick.second, cardValue: card_fan_second, setCardValue: setCardFanSecond },
-        { key: 'reason', btnName: '입덕계기', isClick: isClick.reason, cardValue: card_fan_reason, setCardValue: setCardFanReason },
+        { key: 'genre', name: '덕질장르', isClick: isClick.genre, cardValue: card_fan_genre, setCardValue: setCardFanGenre },
+        { key: 'first', name: '최애', isClick: isClick.first, cardValue: card_fan_first, setCardValue: setCardFanFirst },
+        { key: 'second', name: '차애', isClick: isClick.second, cardValue: card_fan_second, setCardValue: setCardFanSecond },
+        { key: 'reason', name: '입덕계기', isClick: isClick.reason, cardValue: card_fan_reason, setCardValue: setCardFanReason },
     ]
+
+    // 드롭다운
+    const [dropDownGradeOpen, setDropDownGradeOpen] = useState(false);
+    const [dropDownStatusOpen, setDropDownStatusOpen] = useState(false);
+    const [gradeItems, setGradeItems] = useState([
+        { label: '1학년', value: '1학년' },
+        { label: '2학년', value: '2학년' },
+        { label: '3학년', value: '3학년' },
+        { label: '4학년', value: '4학년' },
+        { label: '5학년', value: '5학년' },
+        { label: '6학년', value: '6학년' },
+        { label: '추가학기', value: '추가학기' },
+        { label: '그 외', value: '그 외' },
+    ]);
+    const [statusItems, setStatusItems] = useState([
+        { label: '재학', value: '재학' },
+        { label: '휴학', value: '휴학' },
+        { label: '졸업 예정', value: '졸업 예정' },
+        { label: '졸업', value: '졸업' },
+    ]);
 
     const ref_input2 = useRef();
     const ref_input3 = useRef();
@@ -530,7 +550,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                                     <SelectBtn
                                                         key={item.key}
                                                         itemKey={item.key}
-                                                        btnName={item.btnName}
+                                                        name={item.name}
                                                         isClick={item.isClick}
                                                         setIsClick={setIsClick}
                                                     />
@@ -556,7 +576,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                                     <SelectBtn
                                                         key={item.key}
                                                         itemKey={item.key}
-                                                        btnName={item.btnName}
+                                                        name={item.name}
                                                         isClick={item.isClick}
                                                         setIsClick={setIsClick}
                                                     />
@@ -582,7 +602,7 @@ export default function TemplateFree ({navigation, card_template}) {
                                                     <SelectBtn
                                                         key={item.key}
                                                         itemKey={item.key}
-                                                        btnName={item.btnName}
+                                                        name={item.name}
                                                         isClick={item.isClick}
                                                         setIsClick={setIsClick}
                                                     />
@@ -595,37 +615,69 @@ export default function TemplateFree ({navigation, card_template}) {
                                 <View style={styles.selectInputContainer}>
                                     {isClickTrue ? 
                                         <View style={styles.selectTextInputContainer}>
-                                            {studentItems.map(item => (
-                                                item.isClick && (
-                                                    (item.key === "grade" || item.key === "status") ? 
-                                                    null :
-                                                    <SelectTextInput
-                                                        key={item.key}
-                                                        btnName={item.btnName}
-                                                        cardValue={item.cardValue}
-                                                        setCardValue={item.setCardValue}
-                                                    />
-                                                )
+                                            {studentItems.filter(item => item.isClick).map(item => {
+                                                if(item.key === "grade") {
+                                                    return (
+                                                        <View key={item.key} style={[styles.inputContainer, styles.marginH16]}>
+                                                            <Text style={[styles.inputText, styles.zIndex2]}>{item.name}</Text>
+                                                            <View style={dropDownGradeOpen ? styles.dropDownContainerZIndex1 : styles.dropDownContainer}>
+                                                                <DropDown
+                                                                    dropDownOpen={dropDownGradeOpen}
+                                                                    dropDownValue={card_student_grade}
+                                                                    setDropDownOpen={setDropDownGradeOpen}
+                                                                    setDropDownValue={setCardStudentGrade}
+                                                                    items={gradeItems}
+                                                                    setItems={setGradeItems}
+                                                                    placeholder={'학년'}
+                                                                    isError={true}
+                                                                />
+                                                            </View>
+                                                        </View>
+                                                    );
+                                                } else if(item.key === "status") {
+                                                    return (
+                                                        <View key={item.key} style={[styles.inputContainer, styles.marginH16]}>
+                                                            <Text style={[styles.inputText, styles.zIndex2]}>{item.name}</Text>
+                                                            <View style={dropDownStatusOpen ? styles.dropDownContainerZIndex1 : styles.dropDownContainer}>
+                                                                <DropDown
+                                                                    dropDownOpen={dropDownStatusOpen}
+                                                                    dropDownValue={card_student_status}
+                                                                    setDropDownOpen={setDropDownStatusOpen}
+                                                                    setDropDownValue={setCardStudentStatus}
+                                                                    items={statusItems}
+                                                                    setItems={setStatusItems}
+                                                                    placeholder={'재학상태'}
+                                                                    isError={true}
+                                                                /> 
+                                                            </View>
+                                                        </View>
+                                                    );
+                                                } else {
+                                                    return (
+                                                        <SelectTextInput
+                                                            key={item.key}
+                                                            name={item.name}
+                                                            cardValue={item.cardValue}
+                                                            setCardValue={item.setCardValue}
+                                                        />
+                                                    );
+                                                }
+                                            })}
+                                            {workerItems.filter(item => item.isClick).map(item => (
+                                                <SelectTextInput
+                                                    key={item.key}
+                                                    name={item.name}
+                                                    cardValue={item.cardValue}
+                                                    setCardValue={item.setCardValue}
+                                                />
                                             ))}
-                                            {workerItems.map(item => (
-                                                item.isClick && (
-                                                    <SelectTextInput
-                                                        key={item.key}
-                                                        btnName={item.btnName}
-                                                        cardValue={item.cardValue}
-                                                        setCardValue={item.setCardValue}
-                                                    />
-                                                )
-                                            ))}
-                                            {fanItems.map(item => (
-                                                item.isClick && (
-                                                    <SelectTextInput
-                                                        key={item.key}
-                                                        btnName={item.btnName}
-                                                        cardValue={item.cardValue}
-                                                        setCardValue={item.setCardValue}
-                                                    />
-                                                )
+                                            {fanItems.filter(item => item.isClick).map(item => (
+                                                <SelectTextInput
+                                                    key={item.key}
+                                                    name={item.name}
+                                                    cardValue={item.cardValue}
+                                                    setCardValue={item.setCardValue}
+                                                />
                                             ))}
                                         </View>
                                         : <Text style={styles.selectTitle}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>
@@ -733,7 +785,15 @@ export default function TemplateFree ({navigation, card_template}) {
             )}
 
             {step === 5 && (
-                <SelectCover step={step} setStep={setStep} card_cover={card_cover} handleNext={handleNext} setCardCover={setCardCover} setProfileImageUrl={setProfileImageUrl} />
+                <SelectCover 
+                    step={step} 
+                    setStep={setStep} 
+                    card_cover={card_cover} 
+                    handleNext={handleNext} 
+                    setCardCover={setCardCover} 
+                    setProfileImageUrl={setProfileImageUrl} 
+                    setIsPictureComplete={setIsPictureComplete}
+                />
             )}
 
             {step === 6 && (

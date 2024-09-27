@@ -40,6 +40,9 @@ export const styles = StyleSheet.create({
     marginR8: {
         marginRight: 8,
     },
+    marginH16: {
+        marginHorizontal: 16,
+    }, 
     flexDirectionRow: {
         flexDirection: "row",
     },
