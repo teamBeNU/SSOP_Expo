@@ -8,8 +8,10 @@ const cardHeight = WIDTH * 1.2;
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-        width: 304,
-        height: 432,
+        //width: 304,
+        width: WIDTH * 0.84,
+        height: WIDTH * 1.2,
+        //height: 432,
         borderRadius: 32,
         borderWidth: 1,
         borderColor: theme.gray90,
@@ -21,13 +23,15 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
 	},
 	cardImgArea: {
-        height: 311,
+        //height: 311,
+        height: WIDTH * 0.86,
         alignItems: 'center',
         justifyContent: 'center',
     },
     cardTextArea: {
         backgroundColor: "white",
-        height: 139,
+        //height: 139,
+        height: WIDTH * 0.38,
         padding: 24,
         borderRadius: 20,
         gap: 12,

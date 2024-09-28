@@ -1,7 +1,7 @@
-import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal } from "react-native";
+import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal, Animated } from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
-import React, { useState, useLayoutEffect, useCallback } from 'react';
+import React, { useState, useLayoutEffect, useCallback, useRef } from 'react';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
@@ -10,21 +10,18 @@ import ShareIcon from '../../assets/icons/ic_contact_small_line.svg';
 import PlusIcon from '../../assets/icons/ic_add_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 
-function CardDetailView() {
-    const { width:SCREEN_WIDTH } = Dimensions.get('window');
-    const CARD_WIDTH = SCREEN_WIDTH * 0.8;
-    const SPACING_FOR_CARD_INSET = SCREEN_WIDTH * 0.1 - 10;
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
+const SPACING = -20;
+
+function CardDetailView() {;
+    const scrollX = useRef(new Animated.Value(0)).current;
 
     const [cardData, setCardData] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [moreMenu, setMoreMenu] = useState(false);
 
     const navigation = useNavigation();
-
-    const handleScroll = (event) => {
-        const { contentOffset, layoutMeasurement } = event.nativeEvent;
-        const currentIndex = Math.floor(contentOffset.x / CARD_WIDTH);
-      };
 
     const onShare = async () => {
     try {
@@ -99,22 +96,37 @@ function CardDetailView() {
                 </View>
             )}
 
-            <ScrollView 
-               horizontal 
-               pagingEnabled
-               showsHorizontalScrollIndicator={false}
-               decelerationRate={0} 
-               snapToInterval={SCREEN_WIDTH * 0.89}
-               snapToAlignment='center'
-               contentContainerStyle={{ ...styles.cardScrollView, paddingHorizontal: SPACING_FOR_CARD_INSET, }}
-               onScroll={handleScroll}
-               scrollEventThrottle={16} 
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                snapToInterval={CARD_WIDTH + SPACING} 
+                decelerationRate="fast"
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                    { useNativeDriver: false }
+                )}
+                scrollEventThrottle={16} 
+                contentContainerStyle={styles.cardScrollView }
             >
-                {cardData.map((item, index) => (
-                <View key={index} style={styles.cardWrapper}>
-                    <Card cardData={item} />
-                </View>
-                ))}
+                {cardData.map((item, index) => {
+                    const inputRange = [
+                        (CARD_WIDTH + SPACING) * (index - 1),
+                        (CARD_WIDTH + SPACING) * index,
+                        (CARD_WIDTH + SPACING) * (index + 1),
+                    ];
+
+                    const scale = scrollX.interpolate({
+                        inputRange,
+                        outputRange: [0.8, 1, 0.8],
+                        extrapolate: 'clamp',
+                    });
+
+                    return (
+                        <Animated.View key={index} style={[styles.cardWrapper, { transform: [{ scale }] }]}>
+                            <Card cardData={item} />
+                        </Animated.View>
+                    );
+                })}
             </ScrollView>
             
             <View style={styles.btnContainer}>

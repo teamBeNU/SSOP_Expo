@@ -26,9 +26,6 @@ export const styles = StyleSheet.create({
         height: cardHeight,
         flexDirection: 'row',
         },
-        cardWrapper: {
-        marginHorizontal: 8,
-        },
         verticalLine:{
         width: 1, 
         height: 20, 
@@ -38,12 +35,12 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems:'center',
-        width: 304,
+        width: WIDTH * 0.84,
         height: 77,
         gap: 20,
         marginHorizontal: 28,
-        marginTop: 32,
-        marginBottom: 24,
+        //marginTop: 32,
+        marginBottom: 16,
         borderRadius: 16,
         borderWidth: 1,
         borderColor: theme.gray95
@@ -117,8 +114,11 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.32,
         },
         cardScrollView: {
-        height: 436,  
+        height: WIDTH * 1.2,  
         marginTop: 56,
+        paddingHorizontal: 42,
+        alignItems: 'center',
+        marginBottom: 32,
         //ios shadow
         shadowColor: 'rgba(0, 0, 0, 0.08)',
         shadowOffset: { width: 0, height: 1 },
@@ -127,7 +127,10 @@ export const styles = StyleSheet.create({
         //android shadow
         elevation: 4,
         },
-
+        cardWrapper: {
+        width: WIDTH * 0.84,
+        marginHorizontal: -10
+        },
         //modal style
         modalContainer: {
         flex: 1,
@@ -189,7 +192,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: theme.gray95,
         borderRadius: 16,
-        marginBottom: 90
+        marginBottom: 34
         },
         newCardText:{
         color: theme.gray30,
