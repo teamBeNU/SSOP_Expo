@@ -35,9 +35,11 @@ function MySpace({ navigation }) {
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
 
-  const handleDeleteGroup = () => {
-    setIsSpaceModalVisible(true);
-  };
+  const handleDeleteGroup = (id) => {
+    setTeamData(prevData => prevData.filter(group => group.id !== id));
+    setIsSpaceModalVisible(false); 
+    showCustomToast('그룹이 성공적으로 삭제되었습니다.');
+};
 
   const handleChangeGroupName = () => {
     setIsGroupNameChangeModalVisible(true);
@@ -65,7 +67,7 @@ function MySpace({ navigation }) {
     });
   };
 
-  const MySpaceGroup = ({ name, members }) => (
+  const MySpaceGroup = ({ id, name, members }) => (
     <TouchableOpacity style={styles.groupContent} onPress={handleNext} >
         <View style={{ flexDirection: 'row', alignItems: 'center' }}>
             <GroupIcon/>
@@ -78,18 +80,18 @@ function MySpace({ navigation }) {
                   <MenuTrigger><MoreGrayIcon style={{ marginRight: 8  }}/></MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16}}>
                     <MenuOption style={{ marginBottom: 10.5}} text='그룹 이름 바꾸기' onSelect={handleChangeGroupName}/>
-                    <MenuOption text='그룹 삭제하기' onSelect={handleDeleteGroup}/>
+                    <MenuOption text='그룹 삭제하기' onSelect={() => handleDeleteGroup(id)}/>
                   </MenuOptions>
                 </Menu>
             </View>
         </View>
     </TouchableOpacity>
-  );
+);
 
-  const teamData = [
+  const [teamData, setTeamData] = useState([
     { id: 1, name: '24학번 후배', members: 8 },
     { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
-  ];
+]);
 
   const cardData = [
     { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
@@ -118,17 +120,16 @@ const MySpData = { id: '1', members: 4 };
                 </Text>
             </View>
          </TouchableOpacity>
-            <View style={styles.row}>
-                {teamData.map((team) => (
-                    <MySpaceGroup
-                    key={team.id}s
-                    name={team.name}
-                    description={team.description}
-                    members={team.members}
-                    isHost={team.isHost}
-                    />
-                ))}
-            </View>
+          <View style={styles.row}>
+              {teamData.map((team) => (
+                  <MySpaceGroup
+                      key={team.id}
+                      id={team.id}
+                      name={team.name}
+                      members={team.members}
+                  />
+              ))}
+          </View>
           </View>
           <View style={styles.innerView}></View>
       <SpaceModal
