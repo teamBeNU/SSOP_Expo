@@ -7,8 +7,8 @@ import { styles } from './CardViewStyle';
 export const GridCardView = ({cardData}) => {
     const navigation = useNavigation(); 
 
-    const handleNext = () => {
-        navigation.navigate('카드 상세보기');
+    const handleNext = (cardId) => {
+      navigation.navigate('카드 상세보기', { cardId });
     };
 
     return (
@@ -16,7 +16,7 @@ export const GridCardView = ({cardData}) => {
         <View>
             <View style={[styles.row]}>
               {cardData.map((item) => (
-                <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
+                <TouchableOpacity key={item.id} style={styles.btn1} onPress={() => handleNext(item.cardId)}>
                    {item.card_cover === 'avatar' ? 
                       (<View style={{...styles.cardImgArea, backgroundColor: getColor(item.avatar.bgColor)}}>
                       

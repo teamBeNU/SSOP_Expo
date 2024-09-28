@@ -1,9 +1,10 @@
 import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal, Animated } from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
-import React, { useState, useLayoutEffect, useCallback, useRef } from 'react';
+import React, { useState, useLayoutEffect, useCallback, useRef, useEffect } from 'react';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRoute } from '@react-navigation/native';
 import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import ShareIcon from '../../assets/icons/ic_contact_small_line.svg';
@@ -14,8 +15,11 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
 const SPACING = -20;
 
-function CardDetailView() {;
+const CardDetailView = ({card_id}) => {
     const scrollX = useRef(new Animated.Value(0)).current;
+    const scrollViewRef = useRef(null);
+    const route = useRoute();
+    const { cardId } = route.params;
 
     const [cardData, setCardData] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
@@ -55,35 +59,45 @@ function CardDetailView() {;
         
     }, [moreMenu, navigation]);
 
-    useFocusEffect(
-        useCallback(() => {
-        const fetchData = async () => {
-          try {
+const fetchData = async () => {
+        try {
             const token = await AsyncStorage.getItem('token');
             if (!token) {
-              Alert.alert('유효하지 않은 토큰입니다.');
-              return;
+                Alert.alert('유효하지 않은 토큰입니다.');
+                return;
             }
-    
+
             const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
-              method: 'GET',
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
             });
-    
+
             const result = await response.json();
             setCardData(result);
-            
-          } catch (error) {
+        } catch (error) {
             console.error('Error fetching card data:', error);
-          } 
-        };
-    
-        fetchData();
-        
-        return () => {};
-      }, []));
+        }
+    };
+
+      useFocusEffect(
+        useCallback(() => {
+            // Fetch data when the screen is focused
+            fetchData();
+
+            // Find the index of the clicked card based on cardId
+            const cardIndex = cardData.findIndex(card => card.cardId === cardId);
+
+            if (cardIndex !== -1 && scrollViewRef.current) {
+                // Scroll to the correct card to center it
+                scrollViewRef.current.scrollTo({
+                    x: (CARD_WIDTH + SPACING) * cardIndex,
+                    animated: true,
+                });
+            }
+        }, [cardId, cardData])
+    );
 
    return (
      <View style={styles.container}>
@@ -97,6 +111,7 @@ function CardDetailView() {;
             )}
 
             <ScrollView
+                ref={scrollViewRef}
                 horizontal
                 showsHorizontalScrollIndicator={false}
                 snapToInterval={CARD_WIDTH + SPACING} 

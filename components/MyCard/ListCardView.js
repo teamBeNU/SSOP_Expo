@@ -8,8 +8,8 @@ import { styles } from './CardViewStyle';
 export const ListCardView = ({cardData}) => {
     const navigation = useNavigation(); 
 
-    const handleNext = () => {
-        navigation.navigate('카드 상세보기');
+    const handleNext = (cardId) => {
+        navigation.navigate('카드 상세보기', { cardId });
     };
 
     return (
@@ -18,7 +18,7 @@ export const ListCardView = ({cardData}) => {
             <View>
               {cardData.map((item) => (
                 <View key={item.cardId} style={styles.ListContainer}>
-                  <TouchableOpacity onPress={handleNext}>
+                  <TouchableOpacity onPress={() => handleNext(item.cardId)}>
                     <View style={styles.row2}>
                       {item.card_cover === 'avatar' ? 
                         <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor)}]}>
