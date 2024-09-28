@@ -1,12 +1,9 @@
-import { View, Text, StyleSheet } from 'react-native';
-import { theme } from "../../theme";
-import { styles } from './CardStyle';
 import FlipCard from 'react-native-flip-card';
-import { CardFront } from './CardFront';
 import { CardBack } from './CardBack';
+import { CardFront } from './CardFront';
 
 
-export const Card = () => {
+export const Card = ({cardData}) => {
     return (
         <FlipCard
             friction={6}
@@ -17,10 +14,8 @@ export const Card = () => {
             clickable
             // onFlipEnd={(isFlipped) => console.log('isFlipped', isFlipped)}
         >
-        {/* Front of the card */}
-        <CardFront />
-        {/* Back of the card */}
-        <CardBack /> 
+        <CardFront cardData={cardData} />
+        <CardBack cardData={cardData} /> 
         </FlipCard>
     );
 };

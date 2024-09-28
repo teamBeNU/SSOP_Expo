@@ -1,22 +1,14 @@
-import { Dimensions, View, Text, Alert, TouchableOpacity, TouchableWithoutFeedback, Share, Modal } from "react-native";
-import { Card } from "../../components/MyCard/Card";
-import { styles } from './MyCardStyle';
-import React, { useState, useLayoutEffect, useEffect, useCallback } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
+import { Alert, Share, Text, TouchableOpacity, View } from "react-native";
+import { styles } from './MyCardStyle';
 
-import MyCardsView from '../../pages/MyCard/MyCardsView.js';
-import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
-import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
-import AddIcon from '../../assets/icons/ic_add_small_line.svg';
-import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
-import DeleteIcon from '../../assets/icons/ic_delete.svg';
-import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
-import SwapIcon from '../../assets/icons/ic_swap_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
+import SwapIcon from '../../assets/icons/ic_swap_regular_line.svg';
+import MyCardsView from '../../pages/MyCard/MyCardsView.js';
   
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { theme } from "../../theme";
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 function MyCard() {
     const [hasCard, setHasCard] = useState(false);

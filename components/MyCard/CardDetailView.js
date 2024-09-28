@@ -1,8 +1,9 @@
 import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal } from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
-import React, { useState, useLayoutEffect } from 'react';
-import { useNavigation } from '@react-navigation/native';
+import React, { useState, useLayoutEffect, useCallback } from 'react';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import ShareIcon from '../../assets/icons/ic_contact_small_line.svg';
@@ -14,15 +15,7 @@ function CardDetailView() {
     const CARD_WIDTH = SCREEN_WIDTH * 0.8;
     const SPACING_FOR_CARD_INSET = SCREEN_WIDTH * 0.1 - 10;
 
-    const [cards, setCards] = useState([]);
-
-    const cardData = [
-        { id: '1', name: 'Card 1', card_template: '대학생' },
-        { id: '2', name: 'Card 2' },
-        { id: '3', name: 'Card 3' },
-    ]
-    const [cardPage, setCardPage] = useState(1);
-    const [hasCard, setHasCard] = useState(true);
+    const [cardData, setCardData] = useState([]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [moreMenu, setMoreMenu] = useState(false);
 
@@ -31,7 +24,6 @@ function CardDetailView() {
     const handleScroll = (event) => {
         const { contentOffset, layoutMeasurement } = event.nativeEvent;
         const currentIndex = Math.floor(contentOffset.x / CARD_WIDTH);
-        setCardPage(currentIndex + 1);
       };
 
     const onShare = async () => {
@@ -66,6 +58,36 @@ function CardDetailView() {
         
     }, [moreMenu, navigation]);
 
+    useFocusEffect(
+        useCallback(() => {
+        const fetchData = async () => {
+          try {
+            const token = await AsyncStorage.getItem('token');
+            if (!token) {
+              Alert.alert('유효하지 않은 토큰입니다.');
+              return;
+            }
+    
+            const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+    
+            const result = await response.json();
+            setCardData(result);
+            
+          } catch (error) {
+            console.error('Error fetching card data:', error);
+          } 
+        };
+    
+        fetchData();
+        
+        return () => {};
+      }, []));
+
    return (
      <View style={styles.container}>
             {moreMenu && (
@@ -90,7 +112,7 @@ function CardDetailView() {
             >
                 {cardData.map((item, index) => (
                 <View key={index} style={styles.cardWrapper}>
-                    <Card />
+                    <Card cardData={item} />
                 </View>
                 ))}
             </ScrollView>
