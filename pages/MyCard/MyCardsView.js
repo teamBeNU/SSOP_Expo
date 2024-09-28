@@ -45,7 +45,7 @@ const CardsView = ({ cardData }) => {
           <Text style={styles.range}>{selectedOption}</Text>
           <Menu>
               <MenuTrigger><DownArrowIcon /></MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
+              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
                 <MenuOption style={{ marginBottom: 10.5 }} onSelect={() => setSelectedOption('최신순')} text='최신순' />
                 <MenuOption onSelect={() => setSelectedOption('오래된 순')} text='오래된 순' />
               </MenuOptions>
@@ -54,7 +54,7 @@ const CardsView = ({ cardData }) => {
        </View>
       </View>
 
-      {viewOption === '그리드형' ? <GridCardView viewOption={viewOption} cardData={cardData}/> : <ListCardView cardData={cardData}/>}
+      {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData}/>}
 
       <TouchableOpacity style={styles.newCardBtn} onPress={() => {navigation.navigate('카드 만들기');}}>
         <Text style={styles.newCardText}>새 카드 추가하기</Text>

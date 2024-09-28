@@ -1,6 +1,8 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
+
 export const styles = StyleSheet.create({
     // container: {
     //     width: '100%',
@@ -76,23 +78,6 @@ export const styles = StyleSheet.create({
         marginBottom: 8,
     },
 
-    btn1: {
-        marginTop: 12,
-        // width: 158,
-        width: '44%',
-        borderRadius: 8,
-        alignItems: 'center',
-        justifyContent: 'center',
-        shadowColor: "rgba(0, 0, 0, 0.03)",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 5,
-        position: 'relative',
-    },
     innerView: {
         marginTop: 120,
     },
@@ -184,5 +169,70 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 4
-    }
+    },
+
+    // 그리드형
+    btn1: {
+        marginTop: 12,
+        height: WIDTH * 0.55,
+        width: WIDTH * 0.45,
+        borderRadius: 16,
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        shadowColor: "rgba(0, 0, 0, 0.03)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 1,
+        shadowRadius: 2,
+        elevation: 5,
+        position: 'relative',
+        backgroundColor: 'pink'
+    },
+    cardImgArea: {
+        width:'100%',
+        height: '100%',
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 16,
+    },
+    cardTextArea: {
+        width: '100%',
+        height: 51,
+        borderRadius: 15,
+        backgroundColor: theme.white,
+        gap: 12,
+        paddingHorizontal: 16,
+        paddingVertical: 16,
+        position: 'absolute',
+        bottom: 0,
+        justifyContent: 'center'
+    },
+    Info: {
+        flexDirection: "row",
+        alignItems: 'flex-end',
+    },
+    name: {
+        color: theme.gray10,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        fontWeight: '600',
+        letterSpacing: -0.32,
+        lineHeight: 19,
+        marginRight: 4,
+    },
+    age: {
+        gap: 2,
+        flexDirection: "row",
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+    },
+    ageText: {
+        fontFamily: "PretendardRegular",
+        color: theme.gray60,
+        letterSpacing: -0.44,
+        marginRight: 4,
+    },
 })

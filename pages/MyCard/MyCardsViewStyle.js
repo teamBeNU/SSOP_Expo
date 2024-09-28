@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
     },
     container2: {
     alignSelf: 'flex-end',
+    marginBottom: 16
     },
     row2: {
     flexDirection: 'row',

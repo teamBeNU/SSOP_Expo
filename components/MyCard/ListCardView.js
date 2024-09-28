@@ -1,10 +1,9 @@
-import { View, Text, ScrollView, Image } from 'react-native';
-import { theme } from "../../theme";
-import { styles } from './CardViewStyle';
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
+import { Image, ScrollView, Text, View } from 'react-native';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { getColor } from '../../utils/bgColorMapping';
 import { calculateAge } from '../../utils/calculateAge';
-import { colorMapping, getColor } from '../../utils/bgColorMapping';
+import { styles } from './CardViewStyle';
 
 export const ListCardView = ({cardData}) => {
     const navigation = useNavigation(); 
