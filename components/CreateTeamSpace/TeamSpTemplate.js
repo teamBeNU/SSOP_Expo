@@ -65,6 +65,15 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const [plusLength, setPlusLength] = useState(0);
 
     // 학생 템플릿 - 역할
+    const [student, setStudent] = useState({
+        showSchool: false,
+        showGrade: false,
+        showStudNum: false,
+        showMajor: false,
+        showClub: false,
+        showRole: false,
+        showStatus: false,
+    });
     const [selectedRoles, setSelectedRoles] = useState([]);
 
     const [inviteCode, setInviteCode] = useState(null); // step4
@@ -86,6 +95,11 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 
         fetchToken();
     }, []);
+
+    // 학생템플릿 - 선택된 항목
+    const handleVisibilityUpdate = (visibility) => {
+        setStudent(visibility);
+    };
 
     // 학생템플릿 - 역할 선택된 리스트
     const handleRoleUpdate = (roles) => {
@@ -111,13 +125,13 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                 showX: showX,
                 // 학생 템플릿
                 studentOptional: {
-                    showSchool: showSchool,
-                    showGrade: showGrade,
-                    showStudNum: showStudNum,
-                    showMajor: showMajor,
-                    showClub: showClub,
+                    showSchool: student.showSchool,
+                    showGrade: student.showGrade,
+                    showStudNum: student.showStudNum,
+                    showMajor: student.showMajor,
+                    showClub: student.showClub,
                     showRole: selectedRoles,
-                    showStatus: showStatus
+                    showStatus: student.showStatus
                 },
                 // 직장인 템플릿
                 workerOptional: {
@@ -411,8 +425,9 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                             showStudNum={showStudNum}
                                             showMajor={showMajor}
                                             showClub={showClub}
-                                            onRoleUpdate={handleRoleUpdate}
                                             showStatus={showStatus}
+                                            onRoleUpdate={handleRoleUpdate}
+                                            onVisibilityUpdate={handleVisibilityUpdate}
                                         />
                                         <View style={styles.line} />
                                     </>
