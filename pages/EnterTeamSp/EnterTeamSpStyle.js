@@ -380,6 +380,18 @@ export const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: "400",
         textAlign: "center",
-    }
-
+    },
+    // 드롭다운
+    dropDownContainerZIndex: {
+        marginRight: "63%",
+        zIndex: -1,
+    },
+    dropDownContainerZIndex1: {
+        marginRight: "63%",
+        zIndex: 1,
+    }, 
+    dropDownContainer: {
+        marginRight: "63%",
+        zIndex: 0,
+    }, 
 })

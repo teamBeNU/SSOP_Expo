@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
@@ -16,7 +18,11 @@ import HostFanFalse from "./HostFanFalse";
 import HostFreeTrue from "./HostFreeTrue";
 import HostFreeFalse from "./HostFreeFalse";
 
-export default function HostTemplate({ navigation, goToOriginal }) {
+export default function HostTemplate({ navigation, goToOriginal, data }) {
+  const baseUrl = 'http://43.202.52.64:8080/api'
+  const [token, setToken] = useState(null);
+
+  const [templateData, setTemplateData] = useState(null);
   const [step, setStep] = useState(1);
   const [isEmpty, setIsEmpty] = useState(false);
 
@@ -34,18 +40,22 @@ export default function HostTemplate({ navigation, goToOriginal }) {
   const [card_movie, setMovie] = useState('');
   const [card_address, setAddress] = useState('');
 
-  const [showBirth, setShowBirth] = useState(1);
-  const [showMBTI, setShowMBTI] = useState(1);
-  const [showTel, setShowTel] = useState(1);
-  const [showEmail, setShowEmail] = useState(1);
-  const [showInsta, setShowInsta] = useState(1);
-  const [showX, setShowX] = useState(1);
+  const [showBirth, setShowBirth] = useState(null);
+  const [showMBTI, setShowMBTI] = useState(null);
+  const [showTel, setShowTel] = useState(null);
+  const [showEmail, setShowEmail] = useState(null);
+  const [showInsta, setShowInsta] = useState(null);
+  const [showX, setShowX] = useState(null);
 
-  const [showHobby, setShowHobby] = useState(1);
-  const [showMusic, setShowMusic] = useState(1);
-  const [showMovie, setShowMovie] = useState(1);
-  const [showAddress, setShowAddress] = useState(1);
+  const [showHobby, setShowHobby] = useState(null);
+  const [showMusic, setShowMusic] = useState(null);
+  const [showMovie, setShowMovie] = useState(null);
+  const [showAddress, setShowAddress] = useState(null);
   const [cover, setCover] = useState(1);
+
+  const [studentOptional, setStudentOptional] = useState([]);
+  const [workerOptional, setWorkerOptional] = useState([]);
+  const [fanOptional, setFanOptional] = useState([]);
 
   const emptyName = card_name.trim() === '';
   const emptyIntroduction = card_introduction.trim() === '';
@@ -56,17 +66,71 @@ export default function HostTemplate({ navigation, goToOriginal }) {
   const emptyInsta = card_Insta.trim() === '';
   const emptyX = card_X.trim() === '';
 
-  // 학생
-  // const emptySchool = card_school.trim() === '';
-  // const emptyGrade = card_grade.trim() === '';
-  // const emptyStudNum = card_studNum.trim() === '';
-  // const emptyMajor = card_major.trim() === '';
-  // const emptyClub = card_club.trim() === '';
-
   const emptyHobby = card_hobby.trim() === '';
   const emptyMusic = card_music.trim() === '';
   const emptyMovie = card_movie.trim() === '';
   const emptyAddress = card_address.trim() === '';
+
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
+  useEffect(() => {
+    // 데이터가 준비되면 API 호출
+    // if (data && data.teamId) {
+    templateView();
+    // }
+  }, [data]);
+
+  // 지정 템플릿 목록 API 호출
+  const templateView = () => {
+    // const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
+    const apiUrl = `${baseUrl}/teamsp?teamId=67`;
+    // console.log(data.teamId);
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        console.log("템플릿 질문 목록 조회 : ", response.data);
+
+        setShowBirth(response.data.showAge || response.data.showBirth ? true : 0);
+        setShowMBTI(response.data.showMBTI ? true : false);
+        setShowTel(response.data.showTel ? true : false);
+        setShowEmail(response.data.showEmail ? true : false);
+        setShowInsta(response.data.showInsta ? true : false);
+        setShowX(response.data.showX ? true : false);
+
+        setStudentOptional(response.data.studentOptional || []);
+        setWorkerOptional(response.data.workerOptional || []);
+        setFanOptional(response.data.fanOptional || []);
+
+        setShowHobby(response.data.showHobby ? true : false);
+        setShowMusic(response.data.showMusic ? true : false);
+        setShowMovie(response.data.showMovie ? true : false);
+        setShowAddress(response.data.showAddress ? true : false);
+
+        setTemplateData(response.data);
+
+      })
+      .catch((error) => {
+        console.error('팀스페이스를 찾을 수 없습니다. :', error)
+      });
+  };
+
+  const hasStudentOptional = !!studentOptional;
+  const hasWorkerOptional = !!workerOptional;
+  const hasFanOptional = !!fanOptional;
+
+  const optionsCount = [hasStudentOptional, hasWorkerOptional, hasFanOptional].filter(Boolean).length;
 
   const handleNext = () => {
     if (step === 1) {
@@ -97,12 +161,12 @@ export default function HostTemplate({ navigation, goToOriginal }) {
       setStep(5);
     }
     else if (step === 5) {
-      // if (emptyHobby || emptyMusic || emptyMovie || emptyAddress) {
-      //   setIsEmpty(true);
-      // } else {
-      //   setIsEmpty(false);
-        setStep(6);
-    //   }
+      if (emptyHobby || emptyMusic || emptyMovie || emptyAddress) {
+        setIsEmpty(true);
+      } else {
+        setIsEmpty(false);
+      setStep(6);
+        }
     }
   };
 
@@ -133,24 +197,6 @@ export default function HostTemplate({ navigation, goToOriginal }) {
         break;
     }
   };
-
-  // 호스트가 지정해서 보이는 항목 설정 -> 호스트가 한페이지의 모든 항목을 선택하지 않았다면 skip
-  useEffect(() => {
-    const checkAndSkipStep = () => {
-      if (step === 1 && !showBirth && !showMBTI) {
-        setStep(2);
-      } else if (step === 2 && !showTel && !showEmail && !showInsta && !showX) {
-        setStep(3);
-        // } else if (step === 3 && !showSchool && !showGrade && !showStudNum && !showMajor && !showClub && !showRole) {
-        //   setStep(4);
-      } else if (step === 4 && !showHobby && !showMusic && !showMovie && !showAddress) {
-        setStep(5);
-      }
-    };
-
-    checkAndSkipStep()
-  }, [step, showBirth, showMBTI, showTel, showEmail, showInsta, showX, showHobby, showMusic, showMovie, showAddress]);
-
 
   const nameRef = useRef(null);
   const introductionRef = useRef(null);
@@ -230,17 +276,20 @@ export default function HostTemplate({ navigation, goToOriginal }) {
                 </View>
 
                 {/* MBTI */}
+
                 <View style={styles.nameContainer}>
-                  <Text style={styles.name}>MBTI</Text>
+                  {showMBTI ?
+                    <Text style={styles.nameBold}>MBTI <Text style={styles.nameBold}> *</Text></Text>
+                    : <Text style={styles.name}>MBTI</Text>}
                   <TextInput
-                    style={[styles.nameInput, isEmpty && emptyMbti && styles.inputEmpty]}
+                    style={[styles.nameInput, showMBTI && isEmpty && emptyMbti && styles.inputEmpty]}
                     placeholder="MBTI를 입력하세요."
                     keyboardType="default"
                     value={card_MBTI}
                     onChangeText={text => setMBTI(text.toUpperCase())}  // 입력 값을 대문자
                     ref={MBTIRef}
                   />
-                  {isEmpty && emptyMbti && (
+                  {showMBTI && isEmpty && emptyMbti && (
                     <Text style={styles.inputEmptyText}> MBTI를 입력해 주세요.</Text>
                   )}
                 </View>
@@ -250,24 +299,24 @@ export default function HostTemplate({ navigation, goToOriginal }) {
                 <Text style={styles.midtitle}>나이를 표시하고 싶다면{'\n'}생년월일을 입력하세요. </Text>
 
                 {/* 생년월일 */}
-                {showBirth && (
-                  <View style={styles.nameContainer}>
+                <View style={styles.nameContainer}>
+                  {showBirth ?
                     <Text style={styles.nameBold}>생년월일 8자리 <Text style={styles.nameBold}> *</Text></Text>
-                    <TextInput
-                      style={[styles.nameInput, isEmpty && emptyBirth && styles.inputEmpty]}
-                      placeholder="YYYY/MM/DD"
-                      keyboardType="numeric"
-                      returnKeyType='next'
-                      maxLength={8}
-                      value={card_birth}
-                      onChangeText={setBirth}
-                      ref={birthRef}
-                    />
-                    {(isEmpty && emptyBirth) && (
-                      <Text style={styles.inputEmptyText}> 생년월일 8자리를 올바르게 입력해 주세요. </Text>
-                    )}
-                  </View>
-                )}
+                    : <Text style={styles.name}>생년월일 8자리</Text>}
+                  <TextInput
+                    style={[styles.nameInput, showBirth && isEmpty && emptyBirth && styles.inputEmpty]}
+                    placeholder="YYYY/MM/DD"
+                    keyboardType="numeric"
+                    returnKeyType='next'
+                    maxLength={8}
+                    value={card_birth}
+                    onChangeText={setBirth}
+                    ref={birthRef}
+                  />
+                  {(showBirth && isEmpty && emptyBirth) && (
+                    <Text style={styles.inputEmptyText}> 생년월일 8자리를 올바르게 입력해 주세요. </Text>
+                  )}
+                </View>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
                 <View style={{ marginBottom: 300 }} />
@@ -291,82 +340,82 @@ export default function HostTemplate({ navigation, goToOriginal }) {
                 <Text style={styles.subtitle}>자세하게 작성할수록 좋아요.</Text>
 
                 {/* 전화번호 */}
-                {showTel && (
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.name}>전화번호</Text>
-                    <TextInput
-                      style={[styles.nameInput, isEmpty && emptyTel && styles.inputEmpty]}
-                      placeholder="전화번호를 입력해 주세요."
-                      keyboardType="numeric"
-                      returnKeyType='done'
-                      value={card_tel}
-                      onChangeText={setTel}
-                      ref={telRef}
-                      onSubmitEditing={() => emailRef.current.focus()}
-                    />
-                    {isEmpty && emptyTel && (
-                      <Text style={styles.inputEmptyText}> 전화번호를 입력해 주세요.</Text>
-                    )}
-                  </View>
-                )}
+                <View style={styles.nameContainer}>
+                  {showTel ?
+                    <Text style={styles.nameBold}>전화번호 <Text style={styles.nameBold}> *</Text></Text>
+                    : <Text style={styles.name}>전화번호</Text>}
+                  <TextInput
+                    style={[styles.nameInput, showTel && isEmpty && emptyTel && styles.inputEmpty]}
+                    placeholder="전화번호를 입력해 주세요."
+                    keyboardType="numeric"
+                    returnKeyType='done'
+                    value={card_tel}
+                    onChangeText={setTel}
+                    ref={telRef}
+                    onSubmitEditing={() => emailRef.current.focus()}
+                  />
+                  {showTel && isEmpty && emptyTel && (
+                    <Text style={styles.inputEmptyText}> 전화번호를 입력해 주세요.</Text>
+                  )}
+                </View>
 
                 {/* 이메일 */}
-                {showEmail && (
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.name}>이메일</Text>
-                    <TextInput
-                      style={[styles.nameInput, isEmpty && emptyEmail && styles.inputEmpty]}
-                      placeholder="이메일 주소를 입력해 주세요."
-                      keyboardType="email"
-                      value={card_email}
-                      onChangeText={setEmail}
-                      ref={emailRef}
-                      onSubmitEditing={() => instaRef.current.focus()}
-                    />
-                    {isEmpty && emptyEmail && (
-                      <Text style={styles.inputEmptyText}> 이메일을 입력해 주세요.</Text>
-                    )}
-                  </View>
-                )}
+                <View style={styles.nameContainer}>
+                  {showEmail ?
+                    <Text style={styles.nameBold}>이메일 <Text style={styles.nameBold}> *</Text></Text>
+                    : <Text style={styles.name}>이메일</Text>}
+                  <TextInput
+                    style={[styles.nameInput, showEmail && isEmpty && emptyEmail && styles.inputEmpty]}
+                    placeholder="이메일 주소를 입력해 주세요."
+                    keyboardType="email"
+                    value={card_email}
+                    onChangeText={setEmail}
+                    ref={emailRef}
+                    onSubmitEditing={() => instaRef.current.focus()}
+                  />
+                  {showEmail && isEmpty && emptyEmail && (
+                    <Text style={styles.inputEmptyText}> 이메일을 입력해 주세요.</Text>
+                  )}
+                </View>
 
                 <View style={styles.line} />
 
                 {/* 인스타 */}
-                {showInsta && (
-                  <View style={[styles.nameContainer, { marginTop: 0 }]}>
-                    <Text style={styles.name}>Instargram</Text>
-                    <TextInput
-                      style={[styles.nameInput, isEmpty && emptyInsta && styles.inputEmpty]}
-                      placeholder="인스타그램 계정을 입력해주세요."
-                      keyboardType="default"
-                      value={card_Insta}
-                      onChangeText={setInsta}
-                      ref={instaRef}
-                      onSubmitEditing={() => xRef.current.focus()}
-                    />
-                    {isEmpty && emptyInsta && (
-                      <Text style={styles.inputEmptyText}> 인스타그램 계정을 입력해 주세요.</Text>
-                    )}
-                  </View>
-                )}
+                <View style={[styles.nameContainer, { marginTop: 0 }]}>
+                  {showInsta ?
+                    <Text style={styles.nameBold}>Instagram <Text style={styles.nameBold}> *</Text></Text>
+                    : <Text style={styles.name}>Instagram</Text>}
+                  <TextInput
+                    style={[styles.nameInput, showInsta && isEmpty && emptyInsta && styles.inputEmpty]}
+                    placeholder="인스타그램 계정을 입력해주세요."
+                    keyboardType="default"
+                    value={card_Insta}
+                    onChangeText={setInsta}
+                    ref={instaRef}
+                    onSubmitEditing={() => xRef.current.focus()}
+                  />
+                  {showInsta && isEmpty && emptyInsta && (
+                    <Text style={styles.inputEmptyText}> 인스타그램 계정을 입력해 주세요.</Text>
+                  )}
+                </View>
 
                 {/* 트위터 */}
-                {showX && (
-                  < View style={styles.nameContainer}>
-                    <Text style={styles.name}>X(트위터)</Text>
-                    <TextInput
-                      style={[styles.nameInput, isEmpty && emptyX && styles.inputEmpty]}
-                      placeholder="X 계정을 입력해 주세요."
-                      keyboardType="default"
-                      value={card_X}
-                      onChangeText={setX}
-                      ref={xRef}
-                    />
-                    {isEmpty && emptyX && (
-                      <Text style={styles.inputEmptyText}> X 계정을 입력해 주세요.</Text>
-                    )}
-                  </View>
-                )}
+                <View style={styles.nameContainer}>
+                  {showX ?
+                    <Text style={styles.nameBold}>X(트위터) <Text style={styles.nameBold}> *</Text></Text>
+                    : <Text style={styles.name}>X(트위터)</Text>}
+                  <TextInput
+                    style={[styles.nameInput, showX && isEmpty && emptyX && styles.inputEmpty]}
+                    placeholder="X 계정을 입력해 주세요."
+                    keyboardType="default"
+                    value={card_X}
+                    onChangeText={setX}
+                    ref={xRef}
+                  />
+                  {showX && isEmpty && emptyX && (
+                    <Text style={styles.inputEmptyText}> X 계정을 입력해 주세요.</Text>
+                  )}
+                </View>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
                 <View style={{ marginBottom: 300 }} />
@@ -383,13 +432,18 @@ export default function HostTemplate({ navigation, goToOriginal }) {
 
           {/* 템플릿 정보 - 필수 */}
           {step === 3 && (
-
             <View style={{ height: '100%' }}>
               <ScrollView showsVerticalScrollIndicator={false}>
-                {/* <HostStudentTrue /> */}
-                {/* <HostWorkerTrue /> */}
-                {/* <HostFanTrue /> */}
-                <HostFreeTrue />
+                {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} />}
+                {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} />}
+                {hasFanOptional && <HostFanTrue fanOptional={fanOptional} />}
+
+                {optionsCount >= 2 && <HostFreeTrue
+                  studentOptional={studentOptional}
+                  workerOptional={workerOptional}
+                  fanOptional={fanOptional}
+                />}
+
               </ScrollView>
 
               <View style={styles.btnContainer}>
@@ -399,15 +453,20 @@ export default function HostTemplate({ navigation, goToOriginal }) {
               </View>
             </View>
           )}
+
           {/* 템플릿 정보 - 선택 */}
           {step === 4 && (
-
             <View style={{ height: '100%' }}>
               <ScrollView showsVerticalScrollIndicator={false}>
-                {/* <HostStudentFalse /> */}
-                {/* <HostWorkerFalse /> */}
-                {/* <HostFanFalse /> */}
-                <HostFreeFalse />
+                {studentOptional && <HostStudentFalse studentOptional={studentOptional} />}
+                {workerOptional && <HostWorkerFalse workerOptional={workerOptional} />}
+                {fanOptional && <HostFanFalse fanOptional={fanOptional} />}
+
+                {optionsCount >= 2 && <HostFreeFalse
+                  studentOptional={studentOptional}
+                  workerOptional={workerOptional}
+                  fanOptional={fanOptional}
+                />}
               </ScrollView>
 
               <View style={[styles.btnContainer, { paddingHorizontal: 16 }]}>
@@ -427,79 +486,79 @@ export default function HostTemplate({ navigation, goToOriginal }) {
                 <Text style={styles.subtitle}>자세하게 작성할수록 좋아요.</Text>
 
                 {/* 취미 */}
-                {showHobby && (
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.name}>취미</Text>
-                    <TextInput
-                      style={[styles.nameInput, isEmpty && emptyHobby && styles.inputEmpty]}
-                      placeholder="취미를 입력해 주세요."
-                      keyboardType="default"
-                      value={card_hobby}
-                      onChangeText={setHobby}
-                      ref={hobbyRef}
-                      onSubmitEditing={() => musicRef.current.focus()}
-                    />
-                    {isEmpty && emptyHobby && (
-                      <Text style={styles.inputEmptyText}> 취미를 입력해 주세요.</Text>
-                    )}
-                  </View>
-                )}
+                <View style={styles.nameContainer}>
+                  {showHobby ?
+                    <Text style={styles.nameBold}>취미<Text style={styles.nameBold}> *</Text></Text>
+                    : <Text style={styles.name}>취미</Text>}
+                  <TextInput
+                    style={[styles.nameInput, showHobby && isEmpty && emptyHobby && styles.inputEmpty]}
+                    placeholder="취미를 입력해 주세요."
+                    keyboardType="default"
+                    value={card_hobby}
+                    onChangeText={setHobby}
+                    ref={hobbyRef}
+                    onSubmitEditing={() => musicRef.current.focus()}
+                  />
+                  {showHobby && isEmpty && emptyHobby && (
+                    <Text style={styles.inputEmptyText}> 취미를 입력해 주세요.</Text>
+                  )}
+                </View>
 
                 {/* 인생 음악 */}
-                {showMusic && (
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.name}>인생 음악</Text>
-                    <TextInput
-                      style={[styles.nameInput, isEmpty && emptyMusic && styles.inputEmpty]}
-                      placeholder="노래 제목을 입력해 주세요."
-                      keyboardType="default"
-                      value={card_music}
-                      onChangeText={setMusic}
-                      ref={musicRef}
-                      onSubmitEditing={() => movieRef.current.focus()}
-                    />
-                    {isEmpty && emptyMusic && (
-                      <Text style={styles.inputEmptyText}> 노래 제목을 입력해 주세요.</Text>
-                    )}
-                  </View>
-                )}
+                <View style={styles.nameContainer}>
+                  {showMusic ?
+                    <Text style={styles.nameBold}>인생 음악<Text style={styles.nameBold}> *</Text></Text>
+                    : <Text style={styles.name}>인생 음악</Text>}
+                  <TextInput
+                    style={[styles.nameInput, showMusic && isEmpty && emptyMusic && styles.inputEmpty]}
+                    placeholder="노래 제목을 입력해 주세요."
+                    keyboardType="default"
+                    value={card_music}
+                    onChangeText={setMusic}
+                    ref={musicRef}
+                    onSubmitEditing={() => movieRef.current.focus()}
+                  />
+                  {showMusic && isEmpty && emptyMusic && (
+                    <Text style={styles.inputEmptyText}> 노래 제목을 입력해 주세요.</Text>
+                  )}
+                </View>
 
                 {/* 인생 영화 */}
-                {showMovie && (
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.name}>인생 영화</Text>
-                    <TextInput
-                      style={[styles.nameInput, isEmpty && emptyMovie && styles.inputEmpty]}
-                      placeholder="영화 제목을 입력해 주세요."
-                      keyboardType="default"
-                      value={card_movie}
-                      onChangeText={setMovie}
-                      ref={movieRef}
-                      onSubmitEditing={() => addressRef.current.focus()}
-                    />
-                    {isEmpty && emptyMovie && (
-                      <Text style={styles.inputEmptyText}> 영화 제목을 입력해 주세요.</Text>
-                    )}
-                  </View>
-                )}
+                <View style={styles.nameContainer}>
+                  {showMovie ?
+                    <Text style={styles.nameBold}>인생 영화 <Text style={styles.nameBold}> *</Text></Text>
+                    : <Text style={styles.name}>인생 영화</Text>}
+                  <TextInput
+                    style={[styles.nameInput, showMovie && isEmpty && emptyMovie && styles.inputEmpty]}
+                    placeholder="영화 제목을 입력해 주세요."
+                    keyboardType="default"
+                    value={card_movie}
+                    onChangeText={setMovie}
+                    ref={movieRef}
+                    onSubmitEditing={() => addressRef.current.focus()}
+                  />
+                  {showMovie && isEmpty && emptyMovie && (
+                    <Text style={styles.inputEmptyText}> 영화 제목을 입력해 주세요.</Text>
+                  )}
+                </View>
 
                 {/* 거주지 */}
-                {showAddress && (
-                  <View style={styles.nameContainer}>
-                    <Text style={styles.name}>거주지</Text>
-                    <TextInput
-                      style={[styles.nameInput, isEmpty && emptyAddress && styles.inputEmpty]}
-                      placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구"
-                      keyboardType="default"
-                      value={card_address}
-                      onChangeText={setAddress}
-                      ref={addressRef}
-                    />
-                    {isEmpty && emptyAddress && (
-                      <Text style={styles.inputEmptyText}> 거주지를 입력해 주세요.</Text>
-                    )}
-                  </View>
-                )}
+                <View style={styles.nameContainer}>
+                  {showAddress ?
+                    <Text style={styles.nameBold}>거주지 <Text style={styles.nameBold}> *</Text></Text>
+                    : <Text style={styles.name}>거주지</Text>}
+                  <TextInput
+                    style={[styles.nameInput, showAddress && isEmpty && emptyAddress && styles.inputEmpty]}
+                    placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구"
+                    keyboardType="default"
+                    value={card_address}
+                    onChangeText={setAddress}
+                    ref={addressRef}
+                  />
+                  {showAddress && isEmpty && emptyAddress && (
+                    <Text style={styles.inputEmptyText}> 거주지를 입력해 주세요.</Text>
+                  )}
+                </View>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
                 <View style={{ marginBottom: 300 }} />
@@ -527,7 +586,7 @@ export default function HostTemplate({ navigation, goToOriginal }) {
                 <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
                   <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate(" ")}>
+                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
                   <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                 </TouchableOpacity>
               </View>

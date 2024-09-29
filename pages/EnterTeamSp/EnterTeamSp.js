@@ -327,7 +327,7 @@ function EnterTeamSp({ navigation }) {
         </View>
         {/* 호스트 지정 템플릿으로 이동 */}
         {step === 5 && (
-          <HostTemplate navigation={navigation} goToOriginal={goToOriginal} />
+          <HostTemplate navigation={navigation} goToOriginal={goToOriginal} data={data} />
         )}
       </View>
     </TouchableWithoutFeedback>
