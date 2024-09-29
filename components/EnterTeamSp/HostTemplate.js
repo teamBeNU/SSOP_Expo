@@ -95,12 +95,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   // 지정 템플릿 목록 API 호출
   const templateView = () => {
     // const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
-    const apiUrl = `${baseUrl}/teamsp?teamId=67`;
-    // console.log(data.teamId);
+    const apiUrl = `${baseUrl}/teamsp?teamId=56`;
     axios
       .get(apiUrl)
       .then((response) => {
         console.log("템플릿 질문 목록 조회 : ", response.data);
+        console.log("학생 템플릿 : ", response.data.studentOptional);
 
         setShowBirth(response.data.showAge || response.data.showBirth ? true : 0);
         setShowMBTI(response.data.showMBTI ? true : false);
@@ -109,9 +109,9 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
         setShowInsta(response.data.showInsta ? true : false);
         setShowX(response.data.showX ? true : false);
 
-        setStudentOptional(response.data.studentOptional || []);
-        setWorkerOptional(response.data.workerOptional || []);
-        setFanOptional(response.data.fanOptional || []);
+        setStudentOptional(response.data.studentOptional);
+        setWorkerOptional(response.data.workerOptional);
+        setFanOptional(response.data.fanOptional);
 
         setShowHobby(response.data.showHobby ? true : false);
         setShowMusic(response.data.showMusic ? true : false);
@@ -125,10 +125,10 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
         console.error('팀스페이스를 찾을 수 없습니다. :', error)
       });
   };
-
-  const hasStudentOptional = !!studentOptional;
-  const hasWorkerOptional = !!workerOptional;
-  const hasFanOptional = !!fanOptional;
+  
+  const hasStudentOptional = studentOptional !== undefined;
+  const hasWorkerOptional = workerOptional !== undefined;
+  const hasFanOptional = fanOptional !== undefined;
 
   const optionsCount = [hasStudentOptional, hasWorkerOptional, hasFanOptional].filter(Boolean).length;
 
@@ -165,8 +165,8 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
         setIsEmpty(true);
       } else {
         setIsEmpty(false);
-      setStep(6);
-        }
+        setStep(6);
+      }
     }
   };
 
@@ -438,11 +438,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
                 {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} />}
                 {hasFanOptional && <HostFanTrue fanOptional={fanOptional} />}
 
-                {optionsCount >= 2 && <HostFreeTrue
-                  studentOptional={studentOptional}
-                  workerOptional={workerOptional}
-                  fanOptional={fanOptional}
-                />}
+                {optionsCount >= 2 &&
+                  <HostFreeTrue
+                    studentOptional={studentOptional}
+                    workerOptional={workerOptional}
+                    fanOptional={fanOptional}
+                  />}
 
               </ScrollView>
 
