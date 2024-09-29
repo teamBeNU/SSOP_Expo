@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Clipboard, Alert, Modal } from "react-native";
+import * as Clipboard from 'expo-clipboard';
+import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Modal } from "react-native";
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
@@ -38,7 +39,6 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 }) {
     const baseUrl = 'http://43.202.52.64:8080/api'
     const [token, setToken] = useState(null);
-    // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJleHAiOjE3MjcxODYwNzMsInVzZXJJZCI6MywiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.qfPvb-ySBx2Ts3Dx_Tjpvo73bcE27nT7DtdvHucheq3ajQTZzcaKJ_5ZSAWSzIC-0aQWWerEldfh9bd1qGgzQQ';
 
     const [step, setStep] = useState(1);
     const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
@@ -256,10 +256,15 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     };
 
     // step7 - 초대 코드 복사
-    const copyInviteCode = () => {
-        const textToCopy = inviteCode;
-        Clipboard.setString(textToCopy);
-        Alert.alert("클립보드에 복사되었습니다.");
+    const copyInviteCode = async () => {
+        try {
+            const stringInviteCode = String(inviteCode);
+            await Clipboard.setStringAsync(stringInviteCode);
+            Alert.alert("클립보드에 복사되었습니다.");
+        } catch (error) {
+            console.error("클립보드 복사 실패:", error);
+            Alert.alert("클립보드 복사 중 오류가 발생했습니다.");
+        }
     };
 
     const shareInviteCode = async () => {
@@ -645,7 +650,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                 <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
                                     <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate(" ")}>
+                                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
                                     <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                                 </TouchableOpacity>
                             </View>

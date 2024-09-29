@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Clipboard, Alert, Modal } from "react-native";
+import * as Clipboard from 'expo-clipboard';
+import { View, Text, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert, Modal } from "react-native";
 import { styles } from './CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
@@ -21,8 +22,7 @@ import TeamSpTemplate from "../../components/CreateTeamSpace/TeamSpTemplate";
 
 function CreateTeamSp({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
-  const [token, setToken] = useState(null); 
-  // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJleHAiOjE3MjcxMTAzMDYsInVzZXJJZCI6MywiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.mdd7wH8IdcXvu3sq3-N4DBFAvrXrhviT5vyPqD2DAlH7XZCie5ug9t5eYIagm8AAUXGc_OuWa9eFHeIKuc-8mw';
+  const [token, setToken] = useState(null);
 
   const [step, setStep] = useState(1);
   const [isEmpty, setIsEmpty] = useState(false);
@@ -76,7 +76,7 @@ function CreateTeamSp({ navigation }) {
           team_comment: teamComment,
           isTemplate: false
         };
-    
+
         // 팀스페이스 생성 API 호출
         const apiUrl = `${baseUrl}/teamsp/create`;
         axios
@@ -94,7 +94,7 @@ function CreateTeamSp({ navigation }) {
       }
     }
   };
-  
+
   // 컴포넌트에서 페이지로 이동 함수
   const goToOriginal = () => {
     setStep(5);
@@ -152,10 +152,15 @@ function CreateTeamSp({ navigation }) {
   };
 
   // step6 - 초대 코드 복사
-  const copyInviteCode = () => {
-    const textToCopy = inviteCode;
-    Clipboard.setString(textToCopy);
-    Alert.alert("클립보드에 복사되었습니다.");
+  const copyInviteCode = async () => {
+    try {
+      const stringInviteCode = String(inviteCode);
+      await Clipboard.setStringAsync(stringInviteCode);
+      Alert.alert("클립보드에 복사되었습니다.");
+    } catch (error) {
+      console.error("클립보드 복사 실패:", error);
+      Alert.alert("클립보드 복사 중 오류가 발생했습니다.");
+    }
   };
 
   const shareInviteCode = async () => {
@@ -343,7 +348,7 @@ function CreateTeamSp({ navigation }) {
                 <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
                   <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate(" ")}>
+                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
                   <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                 </TouchableOpacity>
               </View>
