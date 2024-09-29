@@ -186,6 +186,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
             case 1:
                 goToOriginal(); // CreateTeamSp.js로 이동
                 break;
+            case 3: // 생성 완료하면 뒤로가기 불가
+                break;
             default:
                 setStep(step - 1);
                 setIsModalVisible(false)

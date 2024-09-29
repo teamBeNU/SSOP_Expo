@@ -122,6 +122,8 @@ function CreateTeamSp({ navigation }) {
       case 1:
         navigation.goBack();
         break;
+      case 4: // 생성 완료하면 뒤로가기 불가
+        break;
       case 5:
         setStep(3);
         break;
