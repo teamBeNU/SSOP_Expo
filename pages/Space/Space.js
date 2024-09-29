@@ -30,6 +30,7 @@ import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
 import GroupIcon from '../../assets/icons/ic_group_regular.svg';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import NewFolderIcon from '../../assets/icons/ic_newFolder_regular.svg';
+import EditGroupPage from "./EditGroupPage.js";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -146,6 +147,12 @@ function MySpaceStack({navigation}) {
     setIsModalVisible(false);
     navigation.navigate('링크 복사');
   };
+
+  const [teamData, setTeamData] = useState([
+    { id: 1, name: '24학번 후배', members: 8 },
+    { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
+  ]);
+  
   return (
     <>
       <Stack.Navigator>
@@ -168,7 +175,7 @@ function MySpaceStack({navigation}) {
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
                     <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 , borderRadius: 16 }}>
                       <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' />
-                      <MenuOption text='그룹 편집하기' />
+                      <MenuOption text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })}/>
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>

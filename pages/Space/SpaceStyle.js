@@ -8,6 +8,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         backgroundColor: theme.white
     },
+    editgrouplayout:{      
+        flex: 1,  
+        paddingTop: 24,
+        paddingHorizontal: 16,
+        backgroundColor: theme.white
+    },
     backgroundColor:{
         flex: 1, 
         backgroundColor: theme.white
@@ -69,6 +75,10 @@ export const styles = StyleSheet.create({
         letterSpacing: -1,
         paddingLeft: 8,
     },
+    groupWrapper: {
+        flexDirection: 'row', 
+        width: '100%', 
+      },
     peopleGroup: {
         fontSize: 12,
         fontFamily: 'PretendardRegular',
@@ -77,13 +87,13 @@ export const styles = StyleSheet.create({
         marginLeft: 6,
     },
     groupContent: {
+        flex: 1,
         borderRadius: 16,
         backgroundColor: theme.white,
         borderWidth: 1,
         borderColor: theme.gray95,
         paddingVertical: 18.5,
         paddingHorizontal: 16,
-        width: '100%',
         // Android - Shadow
         elevation: 5,
         // IOS - Shadow
@@ -583,18 +593,16 @@ export const styles = StyleSheet.create({
     radioContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginBottom: 12,
       },
       radio: {
-        height: 20,
-        width: 20,
+        height: 16,
+        width: 16,
         borderRadius: 12,
-        borderWidth: 2,
+        borderWidth: 1.5,
         borderColor: theme.gray80,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: 8,
-        marginLeft: 28,
-        marginTop: 20,
       },
       radioSelected: {
         borderColor: '#7F7F7F',

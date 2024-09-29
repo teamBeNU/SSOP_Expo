@@ -58,6 +58,7 @@ import { theme } from './theme';
 import KaKaoLogin from './components/Login/KaKaoLogin';
 import MySpace from './pages/Space/MySpace';
 import TeamSpace from './pages/Space/TeamSpace';
+import EditGroupPage from './pages/Space/EditGroupPage';
 
 export default function App() {
   // 폰트 로드
@@ -299,6 +300,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
+          <Stack.Screen name="그룹 관리" component={EditGroupPage}/>
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />

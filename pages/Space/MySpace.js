@@ -9,6 +9,7 @@ import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceMo
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 import Toast from 'react-native-toast-message';
+import { MySpaceGroup } from "../../components/Space/SpaceList.js";
 
 import NotiIcon from '../../assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
@@ -67,27 +68,6 @@ function MySpace({ navigation }) {
     });
   };
 
-  const MySpaceGroup = ({ id, name, members }) => (
-    <TouchableOpacity style={styles.groupContent} onPress={handleNext} >
-        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <GroupIcon/>
-            <Text style={styles.fontGroup}>{name}</Text>
-            <Text style={styles.peopleGroup}>
-                <People /> {members}
-            </Text>
-            <View style={{ marginLeft: 'auto' }}>
-                 <Menu>
-                  <MenuTrigger><MoreGrayIcon style={{ marginRight: 8  }}/></MenuTrigger>
-                  <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16}}>
-                    <MenuOption style={{ marginBottom: 10.5}} text='그룹 이름 바꾸기' onSelect={handleChangeGroupName}/>
-                    <MenuOption text='그룹 삭제하기' onSelect={() => handleDeleteGroup(id)}/>
-                  </MenuOptions>
-                </Menu>
-            </View>
-        </View>
-    </TouchableOpacity>
-);
-
   const [teamData, setTeamData] = useState([
     { id: 1, name: '24학번 후배', members: 8 },
     { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
@@ -111,15 +91,12 @@ const MySpData = { id: '1', members: 4 };
           <Text style={styles.Text16gray}>주고받은 프로필 카드를 여기서 확인하세요.</Text>
         </View>
           <View style={styles.container}>
-          <TouchableOpacity style={styles.groupContent} onPress={handleNext} >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <GroupIcon/>
-                <Text style={styles.fontGroup}>받은 프로필 카드</Text>
-                <Text style={styles.peopleGroup}>
-                    <People /> {MySpData.members}
-                </Text>
-            </View>
-         </TouchableOpacity>
+          <MySpaceGroup
+                      name={'받은 프로필 카드'}
+                      members={'8'}
+                      onGroupPress={handleNext}
+                      showMenu={false}
+          />
           <View style={styles.row}>
               {teamData.map((team) => (
                   <MySpaceGroup
@@ -127,6 +104,10 @@ const MySpData = { id: '1', members: 4 };
                       id={team.id}
                       name={team.name}
                       members={team.members}
+                      onGroupPress={handleNext} // 그룹을 클릭했을 때 이동
+                      onDeleteGroup={handleDeleteGroup} // 그룹 삭제
+                      onChangeGroupName={handleChangeGroupName} // 그룹 이름 변경
+                      showMenu={true}
                   />
               ))}
           </View>
