@@ -3,15 +3,43 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { styles } from './SpaceStyle';
 import { MySpaceGroup } from "../../components/Space/SpaceList.js";
-
+import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
+import Toast from 'react-native-toast-message';
 import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 
 function EditGroupPage({ route, navigation }) {
-    const { teamData } = route.params;  // 전달된 그룹 데이터
+    const { teamData: initialTeamData } = route.params;  // 전달된 그룹 데이터
+    const [teamData, setTeamData] = useState(initialTeamData);  // 팀 데이터 상태로 관리
     const [selectedGroups, setSelectedGroups] = useState([]);  // 선택된 그룹 ID 배열 상태
+    const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false); // 삭제 모달 상태
+    const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false); // 그룹 수정, 추가 모달 상태
+      
+      const showCustomToast = (text) => {
+        Toast.show({
+          text1: text,
+          type: 'selectedToast',
+          position: 'bottom',
+          visibilityTime: 2000,
+        });
+      };
+
+    // 선택된 그룹 삭제
+    const handleDeleteGroups = () => {
+        // received-card는 삭제하지 않기 위해 필터링
+        const updatedGroups = teamData.filter((team) => !selectedGroups.includes(team.id));
+        setTeamData(updatedGroups);  // 삭제된 그룹 리스트로 상태 업데이트
+        setSelectedGroups([]);  // 선택 초기화
+        setIsSpaceModalVisible(false);  // 모달 닫기
+        showCustomToast('그룹이 성공적으로 삭제되었습니다.');
+    };
+
+    // 그룹 추가
+    const handleChangeGroupName = () => {
+        setIsGroupNameChangeModalVisible(true);
+    };
   
     // 특정 그룹이 선택되었는지 확인하는 함수
     const isGroupSelected = (id) => selectedGroups.includes(id);
@@ -96,14 +124,31 @@ function EditGroupPage({ route, navigation }) {
   
         {/* 하단 버튼 영역 */}
         <View style={styles.bottomContainer}>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsGroupNameChangeModalVisible(true)}>
             <Text style={styles.bottomText}>새 그룹 추가</Text>
           </TouchableOpacity>
           <BottomLineIcon style={styles.bottomLine} />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => setIsSpaceModalVisible(true)}>
             <Text style={styles.bottomText}>그룹 삭제</Text>
           </TouchableOpacity>
         </View>
+
+        <SpaceModal
+        isVisible={isSpaceModalVisible}
+        onClose={() => setIsSpaceModalVisible(false)}
+        title={'그룹을 삭제하시겠습니까?'}
+        sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
+        btn1={'취소할래요'}
+        btn2={'네, 삭제할래요'}
+        onConfirm={handleDeleteGroups}
+      />
+      <SpaceNameChangeModal
+        isVisible={isGroupNameChangeModalVisible}
+        onClose={() => setIsGroupNameChangeModalVisible(false)}
+        groupName={'그룹 이름을 작성하세요.'}
+        btn1={'취소하기'}
+        btn2={'추가하기'}
+      />
       </View>
     );
   }

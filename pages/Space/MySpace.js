@@ -32,31 +32,34 @@ import NewFolderIcon from '../../assets/icons/ic_newFolder_regular.svg';
 function MySpace({ navigation }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasCards, setHasCards] = useState(true);
-  const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
+  const [groupToDelete, setGroupToDelete] = useState(null);  // 삭제할 그룹 ID 상태 변수
 
   const handleDeleteGroup = (id) => {
-    setTeamData(prevData => prevData.filter(group => group.id !== id));
-    setIsSpaceModalVisible(false); 
-    showCustomToast('그룹이 성공적으로 삭제되었습니다.');
+    setGroupToDelete(id);
+    setIsSpaceModalVisible(true);
 };
+
+  const handleConfirmDelete = () => {
+    // groupToDelete에 해당하는 그룹 삭제
+    setTeamData((prevData) => prevData.filter((group) => group.id !== groupToDelete));
+    setGroupToDelete(null);  // 삭제할 그룹 ID 초기화
+    setIsSpaceModalVisible(false);  // 모달 닫기
+    showCustomToast('그룹이 성공적으로 삭제되었어요.');
+  };
 
   const handleChangeGroupName = () => {
     setIsGroupNameChangeModalVisible(true);
   };
 
+  // 그룹 상세로 이동
   const handleNext = () => {
     navigation.navigate('그룹');
   };
 
-  const handleButtonPress = () => {
-    setIsModalVisible(true);
-  };
-
   const handleDelete = () => {
-    //setNotiData(notiData.filter(card => card.id !== id));
-    showCustomToast('카드가 성공적으로 삭제되었습니다.');
+    showCustomToast('그룹이 성공적으로 삭제되었어요.');
   };
   
   const showCustomToast = (text) => {
@@ -71,6 +74,8 @@ function MySpace({ navigation }) {
   const [teamData, setTeamData] = useState([
     { id: 1, name: '24학번 후배', members: 8 },
     { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
+    { id: 3, name: '그룹 3', members: 10 },
+    { id: 4, name: '그룹 4', members: 15 },
 ]);
 
   const cardData = [
@@ -120,7 +125,7 @@ const MySpData = { id: '1', members: 4 };
         sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
         btn1={'취소할래요'}
         btn2={'네, 삭제할래요'}
-        toast={handleDelete} 
+        onConfirm={handleConfirmDelete}
       />
       <SpaceNameChangeModal
         isVisible={isGroupNameChangeModalVisible}

@@ -151,7 +151,9 @@ function MySpaceStack({navigation}) {
   const [teamData, setTeamData] = useState([
     { id: 1, name: '24학번 후배', members: 8 },
     { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
-  ]);
+    { id: 3, name: '그룹 3', members: 10 },
+    { id: 4, name: '그룹 4', members: 15 },
+]);
   
   return (
     <>
