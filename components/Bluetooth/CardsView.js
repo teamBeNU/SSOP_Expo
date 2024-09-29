@@ -8,7 +8,7 @@ import ListIcon from '../../assets/icons/ic_lists.svg';
 import AllListIcon from'../../assets/icons/ic_border_all.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
-const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, title, showPlusCardButton }) => {
+const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, setViewOption, onCardSelect, cardData, title, showPlusCardButton }) => {
   return (
     <View style={styles.mainlayout}>
       <Text style={styles.title}>{title}</Text>
@@ -50,7 +50,7 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, 
             <View style={[styles.row, styles.container]}>
               {showPlusCardButton && <PlusCardButton navigation={navigation} />}
               {cardData.map((item) => (
-                <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
+                <TouchableOpacity key={item.id} style={styles.btn1} onPress={() => onCardSelect(item.id)}>
                   <item.Component
                     backgroundColor={item.backgroundColor}
                     avatar={item.avatar}
@@ -67,7 +67,7 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, 
             <View>
               {cardData.map((item) => (
                 <View key={item.id} style={styles.ListContainer}>
-                  <TouchableOpacity onPress={handleNext}>
+                  <TouchableOpacity onPress={() => onCardSelect(card.id)}>
                     <View style={styles.row2}>
                       <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
                         <Text> {'\n'}   아바타{'\n'}   이미지</Text>

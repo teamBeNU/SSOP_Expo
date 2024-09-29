@@ -21,13 +21,12 @@ import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 function EnterTeamSp({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
-  // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMkBuYXZlci5jb20iLCJleHAiOjE3MjcxOTI4ODIsInVzZXJJZCI6NSwiZW1haWwiOiJ1c2VyMkBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.PWVCTkADgj5j5bHDcTkPeub4sA8HtgnHJBad8_BOeYjv529O062T98lb8wd-QgtNC97WsojtWNBwppwm-SMAvQ';
 
   const [data, setData] = useState(null);
   const [team_name, setTeam_name] = useState('알 수 없음');
   const [team_comment, setTeam_comment] = useState('알 수 없음');
   const [isTemplate, setIsTemplate] = useState(true);
-  const [step, setStep] = useState(4); // 테스트용 - 호스트지정템플릿 페이지로 이동
+  const [step, setStep] = useState(1);
 
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
@@ -51,6 +50,17 @@ function EnterTeamSp({ navigation }) {
     fetchToken();
   }, []);
 
+  useEffect(() => {
+    if (data) {
+      setIsTemplate(data.isTemplate);
+      if (data.isTemplate) {
+        setStep(4);
+      } else {
+        setStep(2);
+      }
+    }
+  }, [data]);
+
   // 팀스페이스 입장 API 호출
   const handleEnterModal = () => {
     const apiUrl = `${baseUrl}/teamsp/enter`;
@@ -60,17 +70,11 @@ function EnterTeamSp({ navigation }) {
       })
       .then((response) => {
         setData(response.data);
-        setIsTemplate(response.data.isTemplate);
-        if (isTemplate) {
-          setStep(4);
-        } else {
-          setStep(2);
-        }
         setIsModalVisible(false);
       })
       .catch((error) => {
-        console.error('팀스페이스 입장 API 요청 에러:', error);
-        Alert.alert("존재하지 않는 초대코드입니다.");
+        // console.error('팀스페이스 입장 API 요청 에러:', error);
+        Alert.alert("이미 입장한 팀스페이스입니다.");
       });
   };
 
@@ -83,6 +87,7 @@ function EnterTeamSp({ navigation }) {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
+          console.log(response.data);
           setTeam_name(response.data.team_name);
           setTeam_comment(response.data.team_comment);
           setIsModalVisible(true);
@@ -99,6 +104,29 @@ function EnterTeamSp({ navigation }) {
       setStep(5)
     }
   }
+
+  // 카드 제출 API 호출
+  const handleCardSelect = (cardId) => {
+    console.log("선택된 CardId :", cardId);
+    handleSubmitCard(cardId); // 카드 선택 시 바로 제출
+  };
+
+  const handleSubmitCard = (cardId) => {
+    const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
+
+    axios
+      .post(apiUrl, { CardId: cardId }, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {      
+        console.log("Response:", response.data); // Log the response data
+        console.log("제출한 카드 ID : ", cardId);
+        setStep(3);
+      })
+      .catch((error) => {
+        Alert.alert("카드 제출 중 오류가 발생했습니다.", error);
+      });
+  };
 
   // 컴포넌트에서 페이지로 이동 함수
   const goToOriginal = () => {
@@ -242,6 +270,7 @@ function EnterTeamSp({ navigation }) {
                   handleNext={handleNext}
                   cardData={cardData}
                   title={"팀스페이스에 보여질 카드를 선택하세요."}
+                  onCardSelect={handleCardSelect} // 제출 카드 선택
                 />
 
               ) : (
