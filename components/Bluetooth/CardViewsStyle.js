@@ -34,6 +34,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingRight: 10,
         paddingLeft: 16,
+        backgroundColor: theme.white
       },
     iconContainer: {
         borderWidth: 1,
@@ -43,6 +44,7 @@ export const styles = StyleSheet.create({
         marginRight: 6,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: theme.white
       },
     Text20: {
         marginTop: 16,
@@ -187,5 +189,34 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 4
-    }
+    },
+
+    // 마이 스페이스 상세
+    backgroundColor:{
+        flex: 1, 
+        backgroundColor: theme.white
+    },
+    backgroundColor2:{
+        paddingTop: 40, 
+        paddingBottom: 16,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray95
+    },
+    detailtitle: {
+        letterSpacing: -1,
+        textAlign: 'center',
+        fontSize: 22,
+        fontFamily: 'PretendardSemiBold',
+    },
+    leftContainer: {
+        alignItems: 'center',
+    },
+    detailPeople: {
+        fontSize: 12,
+        fontFamily: 'PretendardRegular',
+        alignItems: 'center',
+        justifyContent: 'center',
+        letterSpacing: -1,
+        paddingBottom: 16,
+    },
 })

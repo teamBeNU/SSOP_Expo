@@ -18,6 +18,12 @@ export const styles = StyleSheet.create({
         flex: 1, 
         backgroundColor: theme.white
     },
+    backgroundColor2:{
+        paddingTop: 40, 
+        paddingBottom: 16,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray95
+    },
 
     // 정렬
     container2: {
@@ -278,7 +284,6 @@ export const styles = StyleSheet.create({
 
     // 상세 팀스페이스
     title: {
-        marginTop: 32,
         letterSpacing: -1,
         textAlign: 'center',
         fontSize: 22,
@@ -345,7 +350,6 @@ export const styles = StyleSheet.create({
         marginBottom: 12,
     },
     leftContainer: {
-        flexDirection: 'row',
         alignItems: 'center',
     },
     personRow: {
@@ -374,8 +378,6 @@ export const styles = StyleSheet.create({
         letterSpacing: -1,
     },
     detailPeople: {
-        marginLeft: 8,
-        marginTop: 24,
         fontSize: 12,
         fontFamily: 'PretendardRegular',
         alignItems: 'center',
@@ -628,8 +630,10 @@ export const styles = StyleSheet.create({
         right: 0,
         padding: 20,
         borderTopWidth: 1,
-        borderColor: theme.gray90,
-        backgroundColor: theme.white
+        borderColor: theme.gray95,
+        backgroundColor: theme.white,
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
     },
     bottomText: {
         fontSize: 14,
@@ -639,10 +643,10 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignContent: 'center'
     },
-    bottomTextRed: {
+    bottomTextBlue: {
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
-        color: '#CC4646',
+        color: theme.skyblue,
         letterSpacing: -1,
         justifyContent: 'center',
         alignContent: 'center'
@@ -651,5 +655,27 @@ export const styles = StyleSheet.create({
     bottomLine: {
         marginLeft: 20,
         marginRight: 20,
+    },
+
+    bottomDetailContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 16,
+        left: 16,
+        right: 16,
+        padding: 16,
+        borderRadius: 12,
+        backgroundColor: "#FFFFFF",
+        shadowColor: "rgba(73, 81, 100, 0.07)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 12,
+        shadowOpacity: 1,
+        elevation: 1,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)"
     },
 })
