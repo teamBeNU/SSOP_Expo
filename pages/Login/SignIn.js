@@ -40,7 +40,11 @@ function SignIn() {
         if (response.ok) {
           if (data.token) {
             await AsyncStorage.setItem('token', data.token);
-            setIsLoggedIn(true); // Update login state
+            
+            const issuedAt = new Date().toISOString(); 
+            await AsyncStorage.setItem('tokenIssuedAt', issuedAt);
+
+            setIsLoggedIn(true); 
             navigation.navigate('MyTabs');
           } else {
             if (data.message === '로그인 실패 - 사용자 없음') {
@@ -69,6 +73,7 @@ function SignIn() {
             keyboardType= "email-address"
             value={email}
             onChangeText={setEmail}
+            returnKeyType="next"
             onSubmitEditing={() => ref_input.current.focus()}
             />
            </View>
@@ -76,13 +81,14 @@ function SignIn() {
             <Text style={styles.inputTitle}>비밀번호</Text>
             <View style={{...styles.input, ...styles.pwInput}}>
                 <TextInput
+                ref={ref_input}
                 style={{width:  Dimensions.get('window').width - 96}} 
                 placeholder="영문과 숫자 포함, 6-20자 이내의 문자"
                 maxLength={20}
                 secureTextEntry = {showPw ? false : true}
                 onChangeText={setPassword}
                 value={password}
-                returnKeyType="next"
+                returnKeyType="done"
                 onSubmitEditing={handleLogin}
                 />
                 {showPw ? <VisibilityIcon onPress={togglePwVisibility} style={styles.visibility}/> : <VisibilityOffIcon onPress={togglePwVisibility} style={styles.visibility}/>}

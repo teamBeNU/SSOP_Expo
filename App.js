@@ -111,8 +111,8 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
          <Stack.Screen name="AppContent" component={AppContent} options={{ headerShown: false }} />
-        {/* <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} />
-        <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }} /> */}
+        <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} />
+        <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }} />
         <Stack.Screen 
         name="이메일로그인" 
         component={SignIn}

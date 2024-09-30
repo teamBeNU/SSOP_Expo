@@ -13,26 +13,22 @@ export const AuthProvider = ({ children }) => {
     const issuedAtString = await AsyncStorage.getItem('tokenIssuedAt');
 
     if (token && issuedAtString) {
-      const issuedAt = parseInt(issuedAtString, 10);
-      const now = new Date().getTime();
-      const expirationTime = 24 * 60 * 60 * 1000; // 토큰 유효시간 24시간
+      const issuedAt = new Date(issuedAtString);
+      const now = new Date();
+      const isTokenExpired = now - issuedAt > 24 * 60 * 60 * 1000; 
 
-      if (now - issuedAt < expirationTime) {
-        setIsLoggedIn(true);
+      if (!isTokenExpired) {
+          setIsLoggedIn(true); 
       } else {
-        await AsyncStorage.removeItem('token');
-        await AsyncStorage.removeItem('tokenIssuedAt');
-        setIsLoggedIn(false);
+          await AsyncStorage.removeItem('token');
+          await AsyncStorage.removeItem('tokenIssuedAt');
       }
-    } else {
-      setIsLoggedIn(false);
-    }
-    setIsLoading(false);
+  } else {
+      setIsLoggedIn(false); 
+  }
 
-    console.log('Token:', token);
-    console.log('Issued At:', issuedAtString);
-    console.log('Is Logged In:', isLoggedIn);
-  };
+  setIsLoading(false);
+};
 
   useEffect(() => {
     checkLoginStatus();
