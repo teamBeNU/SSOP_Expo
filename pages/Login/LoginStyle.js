@@ -164,7 +164,7 @@ export const styles = StyleSheet.create({
     lineContainer:{
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 56
+    marginTop: 64
     },
     line:{
     flex: 1,

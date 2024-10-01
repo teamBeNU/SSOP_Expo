@@ -95,6 +95,12 @@ function SignIn() {
             </View> 
            </View>
 
+           <View style={{marginTop: 40}}>
+                <TouchableOpacity style={styles.email} onPress={() => navigation.navigate('카카오 로그인')}>
+                  <Text style={styles.emailText}>로그인</Text>
+                </TouchableOpacity>
+            </View>
+
            <View style={styles.lineContainer}>
             <View style={styles.line} />
             <Text style={styles.text}>또는</Text>
