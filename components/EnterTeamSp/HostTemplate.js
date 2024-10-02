@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
@@ -22,7 +22,6 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
 
-  const [templateData, setTemplateData] = useState(null);
   const [step, setStep] = useState(1);
   const [isEmpty, setIsEmpty] = useState(false);
 
@@ -51,6 +50,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   const [showMusic, setShowMusic] = useState(null);
   const [showMovie, setShowMovie] = useState(null);
   const [showAddress, setShowAddress] = useState(null);
+  const [plus, setPlus] = useState([]);
+  const [card_free_A1, setFreeA1] = ('');
+  const [card_free_A2, setFreeA2] = ('');
+  const [card_free_A3, setFreeA3] = ('');
+  const [card_free_A4, setFreeA4] = ('');
+  const [card_free_A5, setFreeA5] = ('');
   const [cover, setCover] = useState(1);
 
   const [studentOptional, setStudentOptional] = useState([]);
@@ -95,12 +100,14 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   // 지정 템플릿 목록 API 호출
   const templateView = () => {
     // const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
-    const apiUrl = `${baseUrl}/teamsp?teamId=56`;
+    const apiUrl = `${baseUrl}/teamsp?teamId=74`;
     axios
       .get(apiUrl)
       .then((response) => {
         console.log("템플릿 질문 목록 조회 : ", response.data);
         console.log("학생 템플릿 : ", response.data.studentOptional);
+        console.log("직장인 템플릿 : ", response.data.workerOptional);
+        console.log("팬 템플릿 : ", response.data.fanOptional);
 
         setShowBirth(response.data.showAge || response.data.showBirth ? true : 0);
         setShowMBTI(response.data.showMBTI ? true : false);
@@ -108,6 +115,8 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
         setShowEmail(response.data.showEmail ? true : false);
         setShowInsta(response.data.showInsta ? true : false);
         setShowX(response.data.showX ? true : false);
+        setPlus(response.data.plus);
+        console.log(plus);
 
         setStudentOptional(response.data.studentOptional);
         setWorkerOptional(response.data.workerOptional);
@@ -117,15 +126,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
         setShowMusic(response.data.showMusic ? true : false);
         setShowMovie(response.data.showMovie ? true : false);
         setShowAddress(response.data.showAddress ? true : false);
-
-        setTemplateData(response.data);
-
       })
       .catch((error) => {
-        console.error('팀스페이스를 찾을 수 없습니다. :', error)
+        console.error("팀스페이스를 찾을 수 없습니다. :", error)
       });
   };
-  
+
   const hasStudentOptional = studentOptional !== undefined;
   const hasWorkerOptional = workerOptional !== undefined;
   const hasFanOptional = fanOptional !== undefined;
@@ -133,40 +139,75 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   const optionsCount = [hasStudentOptional, hasWorkerOptional, hasFanOptional].filter(Boolean).length;
 
   const handleNext = () => {
-    if (step === 1) {
-      // if (emptyName || emptyIntroduction || emptyBirth || emptyMbti) {
-      //   setIsEmpty(true);
-      // } else {
-      //   setIsEmpty(false);
-      setStep(2);
-      // }
-    }
-    else if (step === 2) {
-      // if (emptyTel || emptyEmail) {
-      //   setIsEmpty(true);
-      // } else {
-      //   setIsEmpty(false);
-      setStep(3);
-      // }
-    }
-    else if (step === 3) {
-      // if (emptySchool || emptyGrade || emptyStudNum || emptyMajor || emptyClub) {
-      //   setIsEmpty(true);
-      // } else {
-      //   setIsEmpty(false);
-      setStep(4);
-      // }
-    }
-    else if (step === 4) {
-      setStep(5);
-    }
-    else if (step === 5) {
-      if (emptyHobby || emptyMusic || emptyMovie || emptyAddress) {
-        setIsEmpty(true);
-      } else {
-        setIsEmpty(false);
+    switch (step) {
+      case 5:
+        const requestData = {
+          memberEssential: {
+            card_name: card_name,
+            card_introduction: card_introduction,
+            card_template: data.template,
+            card_cover: cover
+          },
+          memberOptional: {
+            card_birth: card_birth,
+            card_MBTI: card_MBTI,
+            card_tel: card_tel,
+            card_email: card_email,
+            card_insta: card_Insta,
+            card_x: card_X,
+            card_hobby: card_hobby,
+            card_music: card_music,
+            card_movie: card_movie,
+            ard_address: card_address,
+            card_free_A1: card_free_A1,
+            card_free_A2: card_free_A2,
+            card_free_A3: card_free_A3,
+            ard_free_A4: card_free_A4,
+            card_free_A5: card_free_A5
+          },
+          memberStudent: {
+            card_student_school: studentOptional?.card_school || null,
+            card_student_grade: studentOptional?.card_grade || null,
+            card_student_id: studentOptional?.card_studNum || null,
+            card_student_major: studentOptional?.card_major || null,
+            card_student_club: studentOptional?.card_club || null,
+            card_student_role: studentOptional?.card_role || null,
+            card_student_status: studentOptional?.card_status || null,
+          },
+          memberWorker: {
+            card_worker_company: workerOptional?.card_company || null,
+            card_worker_job: workerOptional?.card_job || null,
+            card_worker_position: workerOptional?.card_position || null,
+            card_worker_department: workerOptional?.card_part || null
+          },
+          memberFan: {
+            card_fan_genre: fanOptional?.card_genre || null,
+            card_fan_first: fanOptional?.card_favorite || null,
+            card_fan_second: fanOptional?.card_second || null,
+            card_fan_reason: fanOptional?.card_reason || null
+          }
+        }
+        // const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
+        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=56`;
+
+        axios
+          .post(apiUrl, { member: requestData }, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+          .then((response) => {
+            console.log("작성한 카드:", requestData);
+            setStep(3);
+          })
+          .catch((error) => {
+            Alert.alert("카드 제출 중 오류가 발생했습니다.", error);
+            console.log("작성한 카드:", requestData);
+          });
         setStep(6);
-      }
+        break;
+
+      default:
+        setStep(step + 1);
+        break;
     }
   };
 
@@ -212,6 +253,11 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   const musicRef = useRef(null);
   const movieRef = useRef(null);
   const addressRef = useRef(null);
+  const freeA1Ref = useRef(null);
+  const freeA2Ref = useRef(null);
+  const freeA3Ref = useRef(null);
+  const freeA4Ref = useRef(null);
+  const freeA5Ref = useRef(null);
 
   // progressBar
   const maxSteps = 7;
@@ -276,7 +322,6 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
                 </View>
 
                 {/* MBTI */}
-
                 <View style={styles.nameContainer}>
                   {showMBTI ?
                     <Text style={styles.nameBold}>MBTI <Text style={styles.nameBold}> *</Text></Text>
@@ -560,6 +605,38 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
                     <Text style={styles.inputEmptyText}> 거주지를 입력해 주세요.</Text>
                   )}
                 </View>
+
+                <>
+                  {plus.map((item, index) => {
+                    // 각 index에 맞는 card_free_A 값과 setter, ref를 매핑
+                    const cardValues = [
+                      card_free_A1, card_free_A2, card_free_A3, card_free_A4, card_free_A5
+                    ];
+                    const setCardValues = [
+                      setFreeA1, setFreeA2, setFreeA3, setFreeA4, setFreeA5
+                    ];
+                    const refs = [
+                      freeA1Ref, freeA2Ref, freeA3Ref, freeA4Ref, freeA5Ref
+                    ];
+
+                    return (
+                      <View key={index} style={styles.nameContainer}>
+                        <Text style={styles.nameBold}>{item} <Text style={styles.nameBold}> *</Text></Text>
+                        <TextInput
+                          style={styles.nameInput}
+                          placeholder={`${item}을 입력해주세요`}
+                          keyboardType="default"
+                          value={cardValues[index]}  // 각각의 card_free_A 값 설정
+                          onChangeText={setCardValues[index]}  // 해당하는 setter 함수 사용
+                          ref={refs[index]}  // 각각의 ref 사용
+                        />
+                        {/* {showAddress && isEmpty && emptyAddress && (
+                          <Text style={styles.inputEmptyText}> {key}를 입력해 주세요.</Text>
+                        )} */}
+                      </View>
+                    );
+                  })}
+                </>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
                 <View style={{ marginBottom: 300 }} />
