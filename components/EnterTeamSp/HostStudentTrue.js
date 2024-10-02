@@ -89,9 +89,6 @@ export default function HostStudentTrue({ studentOptional }) {
 
     return (
         <View>
-            <Text style={styles.title}> 학교 속 나에 대해 더 알려주세요. </Text>
-            <Text style={styles.subtitle}> 호스트가 지정한 필수 정보예요. </Text>
-
             {/* 학교 */}
             {showSchool && (
                 <View style={styles.nameContainer}>
@@ -119,7 +116,7 @@ export default function HostStudentTrue({ studentOptional }) {
                     <TextInput
                         style={[styles.nameInput, isEmpty && emptyMajor && styles.inputEmpty]}
                         placeholder="전공을 입력해 주세요."
-                        keyboardType="numeric"
+                        keyboardType="default"
                         returnKeyType='done'
                         value={card_major}
                         onChangeText={setMajor}
@@ -233,7 +230,7 @@ export default function HostStudentTrue({ studentOptional }) {
                 </View>
             )}
             {/* 키보드에 가려진 부분 스크롤 */}
-            <View style={{ marginBottom: 150 }} />
+            {/* <View style={{ marginBottom: 150 }} /> */}
 
         </View>
     )

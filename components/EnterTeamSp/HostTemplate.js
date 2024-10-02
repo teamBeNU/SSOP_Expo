@@ -15,7 +15,6 @@ import HostWorkerTrue from "./HostWorkerTrue";
 import HostWorkerFalse from "./HostWorkerFalse";
 import HostFanTrue from "./HostFanTrue";
 import HostFanFalse from "./HostFanFalse";
-import HostFreeTrue from "./HostFreeTrue";
 import HostFreeFalse from "./HostFreeFalse";
 
 export default function HostTemplate({ navigation, goToOriginal, data }) {
@@ -99,8 +98,8 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
 
   // 지정 템플릿 목록 API 호출
   const templateView = () => {
-    const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
-    // const apiUrl = `${baseUrl}/teamsp?teamId=73`;
+    // const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
+    const apiUrl = `${baseUrl}/teamsp?teamId=78`;
     axios
       .get(apiUrl)
       .then((response) => {
@@ -187,8 +186,8 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
             card_fan_reason: fanOptional?.card_reason || null
           }
         }
-        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
-        // const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=73`;
+        // const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
+        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=78`;
 
         axios
           .post(apiUrl, { member: requestData }, {
@@ -478,16 +477,13 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           {step === 3 && (
             <View style={{ height: '100%' }}>
               <ScrollView showsVerticalScrollIndicator={false}>
+
+                <Text style={styles.title}>호스트가 지정한 정보를 입력해 주세요.</Text>
+                <Text style={styles.subtitle}>필수로 입력해야 하는 정보예요. </Text>
+
                 {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} />}
                 {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} />}
                 {hasFanOptional && <HostFanTrue fanOptional={fanOptional} />}
-
-                {optionsCount >= 2 &&
-                  <HostFreeTrue
-                    studentOptional={studentOptional}
-                    workerOptional={workerOptional}
-                    fanOptional={fanOptional}
-                  />}
 
               </ScrollView>
 
@@ -503,15 +499,24 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           {step === 4 && (
             <View style={{ height: '100%' }}>
               <ScrollView showsVerticalScrollIndicator={false}>
-                {studentOptional && <HostStudentFalse studentOptional={studentOptional} />}
-                {workerOptional && <HostWorkerFalse workerOptional={workerOptional} />}
-                {fanOptional && <HostFanFalse fanOptional={fanOptional} />}
 
-                {optionsCount >= 2 && <HostFreeFalse
-                  studentOptional={studentOptional}
-                  workerOptional={workerOptional}
-                  fanOptional={fanOptional}
-                />}
+                <Text style={[styles.title, {marginLeft: 16}]}>정보를 더 추가할 수 있어요.</Text>
+                <Text style={[styles.subtitle, {marginLeft: 16}]}>더 보여주고 싶은 정보만 선택하여 입력하세요. </Text>
+
+                {optionsCount >= 2 ? (
+                  <HostFreeFalse
+                    studentOptional={studentOptional}
+                    workerOptional={workerOptional}
+                    fanOptional={fanOptional}
+                  />
+                ) : (
+                  <>
+                    {hasStudentOptional && <HostStudentFalse studentOptional={studentOptional} />}
+                    {hasWorkerOptional && <HostWorkerFalse workerOptional={workerOptional} />}
+                    {hasFanOptional && <HostFanFalse fanOptional={fanOptional} />}
+                  </>
+                )}
+
               </ScrollView>
 
               <View style={[styles.btnContainer, { paddingHorizontal: 16 }]}>
@@ -657,7 +662,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
+                <TouchableOpacity style={[styles.btnNext, {marginBottom: 0}]} onPress={() => navigation.navigate('스페이스')}>
                   <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>

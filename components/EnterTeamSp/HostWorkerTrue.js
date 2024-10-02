@@ -33,9 +33,6 @@ export default function HostWorkerTrue({ workerOptional }) {
     
     return (
         <View>
-            <Text style={styles.title}> 학교 속 나에 대해 더 알려주세요. </Text>
-            <Text style={styles.subtitle}> 호스트가 지정한 필수 정보예요. </Text>
-
             {/* 회사 */}
             {showCompany && (
                 <View style={styles.nameContainer}>

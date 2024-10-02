@@ -33,9 +33,6 @@ export default function HostFanTrue({ fanOptional }) {
 
     return (
         <View>
-            <Text style={styles.title}> 팬으로서의 나에 대해 더 알려주세요. </Text>
-            <Text style={styles.subtitle}> 호스트가 지정한 필수 정보예요. </Text>
-
             {/* 덕질 장르 */}
             {showGenre && (
                 <View style={styles.nameContainer}>
