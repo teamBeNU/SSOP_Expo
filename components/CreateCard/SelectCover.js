@@ -65,6 +65,12 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
         }
     }
 
+    useEffect(() => {
+        if (card_cover === "avatar") {
+            handleNext();
+        }
+    }, [card_cover]);
+
     return (
         <View style={{height: '100%', backgroundColor: theme.white}}>
             <Text style={styles.coverTitle}>카드 커버를 선택하세요.</Text>
@@ -82,8 +88,9 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                 >
                     <TouchableOpacity  
                         onPress={() => {
-                            handleNext(); 
-                            setCardCover("avatar");}}    
+                            setCardCover("avatar");
+                            // handleNext(); 
+                        }}    
                     >
                         <Image 
                             source={require("../../assets/images/cardCover-1.png")}
@@ -97,7 +104,6 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            //handleNext(); 
                             setCardCover("picture");
                             handleImagePicker();
                         }}  
