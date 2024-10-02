@@ -55,7 +55,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar, setAvatar}) {
         //     }
         //     setProfileImageUrl(uri);
         //     });
-        // }, [setProfileImageUrl]);
+        // }, [avatar]);
 
         // 이미지 확인용
         ref.current.capture().then(uri => {
@@ -66,7 +66,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar, setAvatar}) {
             setProfileImageUrl(uri);
             setA(uri);
         });
-    }, [setProfileImageUrl, setA, a, avatar]);
+    }, [avatar]);
 
     return (
         <View style={styles.container}>
@@ -80,7 +80,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar, setAvatar}) {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarAuto}>
-                    <TouchableOpacity style={styles.flexDirectionRow}>
+                    <TouchableOpacity style={[styles.flexDirectionRow, {justifyContent: 'center', alignItems: 'center'}]}>
                         <AutoAvatarIcon style={styles.autoAvatarIcon} />
                         <Text style={styles.avatarAutoText}>자동생성</Text>
                     </TouchableOpacity>
