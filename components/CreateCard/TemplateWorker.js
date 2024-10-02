@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
@@ -13,32 +14,32 @@ import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import SelectCover from "./SelectCover";
 
 export default function TemplateWorker ({navigation, card_template}) {
-    const baseUrl = 'http://172.19.13.198:8080/api';
+    const baseUrl = 'http://43.202.52.64:8080/api';
     const [token, setToken] = useState(null);
 
     const [step, setStep] = useState(1);
 
-    const [card_name, setCardName] = useState('');
-    const [card_introduction, setCardIntroduction] = useState('');
-    const [card_cover, setCardCover] = useState('');
-    const [profile_image_url, setProfileImageUrl] = useState('');
+    const [card_name, setCardName] = useState(null)
+    const [card_introduction, setCardIntroduction] = useState(null)
+    const [card_cover, setCardCover] = useState(null)
+    const [profile_image_url, setProfileImageUrl] = useState(null)
 
-    const [card_birth, setCardBirth] = useState('');
+    const [card_birth, setCardBirth] = useState('')
     const [card_bSecret, setCardBSecret] = useState(false);
-    const [card_tel, setCardTel] = useState('');
-    const [card_email, setCardEmail] = useState('');
-    const [card_sns_insta, setCardSnsInsta] = useState('');
-    const [card_sns_x, setCardSnsX] = useState('');
-    const [card_mbti, setCardMbti] = useState('');
-    const [card_music, setCardMusic] = useState('');
-    const [card_movie, setCardMovie] = useState('');
-    const [card_hobby, setCardHobby] = useState('');
-    const [card_address, setCardAddress] = useState('');
+    const [card_tel, setCardTel] = useState(null)
+    const [card_email, setCardEmail] = useState(null)
+    const [card_sns_insta, setCardSnsInsta] = useState(null)
+    const [card_sns_x, setCardSnsX] = useState(null)
+    const [card_mbti, setCardMbti] = useState('')
+    const [card_music, setCardMusic] = useState(null)
+    const [card_movie, setCardMovie] = useState(null)
+    const [card_hobby, setCardHobby] = useState(null)
+    const [card_address, setCardAddress] = useState(null)
 
-    const [card_worker_company, setCardWorkerCompany] = useState('');   // 회사
-    const [card_worker_job, setCardWorkerJob] = useState('');   // 직무
-    const [card_worker_position, setCardWorkerPosition] = useState('');   // 직위
-    const [card_worker_department, setCardWorkerDepartment] = useState('');   // 부서
+    const [card_worker_company, setCardWorkerCompany] = useState(null);   // 회사
+    const [card_worker_job, setCardWorkerJob] = useState(null);   // 직무
+    const [card_worker_position, setCardWorkerPosition] = useState(null)   // 직위
+    const [card_worker_department, setCardWorkerDepartment] = useState(null);   // 부서
     
     const [isFull, setIsFull] = useState({
         name: true,
@@ -54,7 +55,32 @@ export default function TemplateWorker ({navigation, card_template}) {
 
     const [isAvatarComplete, setIsAvatarComplete] = useState(false);
     const [isPictureComplete, setIsPictureComplete] = useState(false);
+
+    // 아바타
+    const [avatar, setAvatar] = useState({
+        face: null,
+        hair: null,
+        hairColor: null,
+        clothes: null,
+        acc: null,
+        bg: null,
+        bgColor: null,
+    })
     
+    // AsyncStorage에서 토큰 가져오기
+    useEffect(() => {
+        const fetchToken = async () => {
+        try {
+            const storedToken = await AsyncStorage.getItem('token');
+            setToken(storedToken);
+        } catch (error) {
+            console.error('토큰 가져오기 실패:', error);
+        }
+        };
+
+        fetchToken();
+    }, [token]);
+
     // post 요청
     const handleSubmit = async () => {
         const formData = new FormData();
@@ -88,6 +114,19 @@ export default function TemplateWorker ({navigation, card_template}) {
             },
         };
 
+        // card_cover가 'avatar'일 때만 avatar 데이터를 추가
+        if (card_cover === 'avatar') {
+            cardData.avatar = {
+                face: avatar.face,
+                hair: avatar.hair,
+                hairColor: avatar.hairColor,
+                clothes: avatar.clothes,
+                acc: avatar.acc,
+                bg: avatar.bg,
+                bgColor: avatar.bgColor,
+            };
+        }
+
         // card
         formData.append('card', {
             name: 'card',
@@ -110,13 +149,6 @@ export default function TemplateWorker ({navigation, card_template}) {
         }
 
         try {
-            // const token = await AsyncStorage.getItem('authToken');
-            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAZ21haWwuY29tIiwiZXhwIjoxNzI3MjkxMTU0LCJ1c2VySWQiOjEsImVtYWlsIjoiYWFhQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoi6rmA7JeQ7J20In0.9pOh9tnGjcQr1mly5NO1fpFeyeK7RLpZob5zC0DGH5WuDS2MyGdriQPB0y8IxVhoTKC6myMh3d_lgL2RDIZqrg';
-            // const storedToken = await AsyncStorage.getItem('token');
-            // setToken(storedToken);
-            // console.log('token', token);
-            // console.log('storedToken', storedToken);
-
             const response = await axios.post(
                 `${baseUrl}/card/create`,
                 formData,
@@ -207,7 +239,7 @@ export default function TemplateWorker ({navigation, card_template}) {
 
     // 생년월일 비밀
     const handleBSecret = () => {
-        if(card_birth !== '') {
+        if(card_birth != null && card_birth !== '') {
             setCardBSecret(!card_bSecret);
         }
     }
@@ -215,9 +247,9 @@ export default function TemplateWorker ({navigation, card_template}) {
     // 다음으로 버튼
     const handleNext = () => {
         if (step === 1) {
-            const isNameFull = card_name !== '';
-            const isIntroductionFull = card_introduction !== '';
-            const isBirthFull = card_birth !== '';
+            const isNameFull = card_name != null && card_name !== '';
+            const isIntroductionFull = card_introduction != null && card_introduction !== '';
+            const isBirthFull = card_birth != null && card_birth !== '';
 
             setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull, birth: isBirthFull })));
             isBirthCorrect(card_birth);
@@ -230,8 +262,8 @@ export default function TemplateWorker ({navigation, card_template}) {
         } else if (step === 2 ) {
             setStep(3);
         } else if (step === 3 ) {
-            const isCompanyFull = card_worker_company !== '';
-            const isJobFull = card_worker_job !== '';
+            const isCompanyFull = card_worker_company != null && card_worker_company !== '';
+            const isJobFull = card_worker_job != null && card_worker_job !== '';
             setIsFull((prev => ({ ...prev, company: isCompanyFull, job: isJobFull })));
             
             if (isCompanyFull && isJobFull) {
@@ -390,12 +422,12 @@ export default function TemplateWorker ({navigation, card_template}) {
                                             keyboardType="default"
                                             value={card_mbti}
                                             onChangeText={handleMBTI}
-                                            maxLength={4}
                                             returnKeyType="next"
                                             onSubmitEditing={() => ref_input4.current.focus()}
                                             ref={ref_input3}
                                             blurOnSubmit={false}
                                         />
+                                        <Text>{card_mbti}</Text>
                                     </View>
                                     <View style={styles.line}></View>
                                     <Text style={styles.birthTitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
@@ -749,7 +781,11 @@ export default function TemplateWorker ({navigation, card_template}) {
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
+                        <AvatarCustom 
+                            setProfileImageUrl={setProfileImageUrl} 
+                            avatar={avatar}
+                            setAvatar={setAvatar}
+                        />
                     )}
                 </View>
             )}
