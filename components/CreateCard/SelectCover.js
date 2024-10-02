@@ -65,11 +65,11 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
         }
     }
 
-    useEffect(() => {
-        if (card_cover === "avatar") {
-            handleNext();
-        }
-    }, [card_cover]);
+    // useEffect(() => {
+    //     if (card_cover === "avatar") {
+    //         handleNext();
+    //     }
+    // }, [avatarStep]);
 
     return (
         <View style={{height: '100%', backgroundColor: theme.white}}>
@@ -89,8 +89,8 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                     <TouchableOpacity  
                         onPress={() => {
                             setCardCover("avatar");
-                            // handleNext(); 
-                        }}    
+                            handleNext(); 
+                        }}
                     >
                         <Image 
                             source={require("../../assets/images/cardCover-1.png")}
