@@ -78,7 +78,7 @@ export default function HostStudentFalse({ studentOptional }) {
                     <TextInput
                         style={styles.nameInput}
                         placeholder="전공을 입력해 주세요."
-                        keyboardType="numeric"
+                        keyboardType="default"
                         returnKeyType='done'
                         value={card_major}
                         onChangeText={setMajor}
