@@ -20,30 +20,30 @@ export default function TemplateStudentYouth ({navigation, card_template}) {
 
     const [step, setStep] = useState(1);
 
-    const [card_name, setCardName] = useState(null)
-    const [card_introduction, setCardIntroduction] = useState(null)
-    const [card_cover, setCardCover] = useState(null)
-    const [profile_image_url, setProfileImageUrl] = useState(null)
+    const [card_name, setCardName] = useState(null);
+    const [card_introduction, setCardIntroduction] = useState(null);
+    const [card_cover, setCardCover] = useState(null);
+    const [profile_image_url, setProfileImageUrl] = useState(null);
 
-    const [card_birth, setCardBirth] = useState('')
+    const [card_birth, setCardBirth] = useState('');
     const [card_bSecret, setCardBSecret] = useState(false);
-    const [card_tel, setCardTel] = useState(null)
-    const [card_email, setCardEmail] = useState(null)
-    const [card_sns_insta, setCardSnsInsta] = useState(null)
-    const [card_sns_x, setCardSnsX] = useState(null)
-    const [card_mbti, setCardMbti] = useState('')
-    const [card_music, setCardMusic] = useState(null)
-    const [card_movie, setCardMovie] = useState(null)
-    const [card_hobby, setCardHobby] = useState(null)
-    const [card_address, setCardAddress] = useState(null)
+    const [card_tel, setCardTel] = useState(null);
+    const [card_email, setCardEmail] = useState(null);
+    const [card_sns_insta, setCardSnsInsta] = useState(null);
+    const [card_sns_x, setCardSnsX] = useState(null);
+    const [card_mbti, setCardMbti] = useState('');
+    const [card_music, setCardMusic] = useState(null);
+    const [card_movie, setCardMovie] = useState(null);
+    const [card_hobby, setCardHobby] = useState(null);
+    const [card_address, setCardAddress] = useState(null);
 
-    const [card_student_school, setCardStudentSchool] = useState('');
-    const [card_student_grade, setCardStudentGrade] = useState('');
-    const [card_student_major, setCardStudentMajor] = useState('');
-    const [card_student_id, setCardStudentId] = useState('');
-    const [card_student_club, setCardStudentClub] = useState('');
-    const [card_student_role, setCardStudentRole] = useState('');
-    const [card_student_status, setCardStudentStatus] = useState('');
+    const [card_student_school, setCardStudentSchool] = useState(null);     // 학교
+    const [card_student_grade, setCardStudentGrade] = useState(null);       // 학년
+    const [card_student_major, setCardStudentMajor] = useState(null);       // 전공
+    const [card_student_id, setCardStudentId] = useState(null);     // 학번
+    const [card_student_club, setCardStudentClub] = useState(null);     // 동아리
+    const [card_student_role, setCardStudentRole] = useState(null);     // 역할
+    const [card_student_status, setCardStudentStatus] = useState(null);     // 재학상태
 
     // 드롭다운
     const [dropDownOpen, setDropDownOpen] = useState(false);

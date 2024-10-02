@@ -19,27 +19,27 @@ export default function TemplateFan ({navigation, card_template}) {
 
     const [step, setStep] = useState(1);
 
-    const [card_name, setCardName] = useState(null)
-    const [card_introduction, setCardIntroduction] = useState(null)
-    const [card_cover, setCardCover] = useState(null)
-    const [profile_image_url, setProfileImageUrl] = useState(null)
+    const [card_name, setCardName] = useState(null);
+    const [card_introduction, setCardIntroduction] = useState(null);
+    const [card_cover, setCardCover] = useState(null);
+    const [profile_image_url, setProfileImageUrl] = useState(null);
 
-    const [card_birth, setCardBirth] = useState('')
+    const [card_birth, setCardBirth] = useState('');
     const [card_bSecret, setCardBSecret] = useState(false);
-    const [card_tel, setCardTel] = useState(null)
-    const [card_email, setCardEmail] = useState(null)
-    const [card_sns_insta, setCardSnsInsta] = useState(null)
-    const [card_sns_x, setCardSnsX] = useState(null)
-    const [card_mbti, setCardMbti] = useState('')
-    const [card_music, setCardMusic] = useState(null)
-    const [card_movie, setCardMovie] = useState(null)
-    const [card_hobby, setCardHobby] = useState(null)
-    const [card_address, setCardAddress] = useState(null)
+    const [card_tel, setCardTel] = useState(null);
+    const [card_email, setCardEmail] = useState(null);
+    const [card_sns_insta, setCardSnsInsta] = useState(null);
+    const [card_sns_x, setCardSnsX] = useState(null);
+    const [card_mbti, setCardMbti] = useState('');
+    const [card_music, setCardMusic] = useState(null);
+    const [card_movie, setCardMovie] = useState(null);
+    const [card_hobby, setCardHobby] = useState(null);
+    const [card_address, setCardAddress] = useState(null);
 
-    const [card_fan_genre, setCardFanGenre] = useState(null)  // 덕질 장르
-    const [card_fan_first, setCardFanFirst] = useState(null)  // 최애
-    const [card_fan_second, setCardFanSecond] = useState(null)  // 차애
-    const [card_fan_reason, setCardFanReason] = useState(null)  // 입덕 계기
+    const [card_fan_genre, setCardFanGenre] = useState(null);  // 덕질 장르
+    const [card_fan_first, setCardFanFirst] = useState(null);  // 최애
+    const [card_fan_second, setCardFanSecond] = useState(null);  // 차애
+    const [card_fan_reason, setCardFanReason] = useState(null);  // 입덕 계기
     
     const [isFull, setIsFull] = useState({
         name: true,

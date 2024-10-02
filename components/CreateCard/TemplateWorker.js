@@ -79,7 +79,7 @@ export default function TemplateWorker ({navigation, card_template}) {
         };
 
         fetchToken();
-    }, [token]);
+    }, []);
 
     // post 요청
     const handleSubmit = async () => {
@@ -422,12 +422,12 @@ export default function TemplateWorker ({navigation, card_template}) {
                                             keyboardType="default"
                                             value={card_mbti}
                                             onChangeText={handleMBTI}
+                                            maxLength={4}
                                             returnKeyType="next"
                                             onSubmitEditing={() => ref_input4.current.focus()}
                                             ref={ref_input3}
                                             blurOnSubmit={false}
                                         />
-                                        <Text>{card_mbti}</Text>
                                     </View>
                                     <View style={styles.line}></View>
                                     <Text style={styles.birthTitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
