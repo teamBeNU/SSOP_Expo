@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostFanTrue() {
+export default function HostFanTrue({ fanOptional }) {
 
     const [isEmpty, setIsEmpty] = useState(false);
 
@@ -17,15 +17,20 @@ export default function HostFanTrue() {
     const [showSecond, setShowSecond] = useState(1);
     const [showReason, setShowReason] = useState(1);
 
-    const emptyGenre = card_genre.trim() === '';
-    const emptyFavorite = card_favorite.trim() === '';
-    const emptySecond = card_second.trim() === '';
-    const emptyReason = card_reason.trim() === '';
-
     const genreRef = useRef(null);
     const favoriteRef = useRef(null);
     const secondRef = useRef(null);
     const reasonRef = useRef(null);
+
+    useEffect(() => {
+        if (fanOptional) {
+            setShowGenre(fanOptional.showGenre);
+            setShowFavorite(fanOptional.showFavorite);
+            setShowSecond(fanOptional.showSecond);
+            setShowReason(fanOptional.showReason);
+        }
+    }, [fanOptional]);
+
     return (
         <View>
             <Text style={styles.title}> 팬으로서의 나에 대해 더 알려주세요. </Text>
@@ -34,18 +39,17 @@ export default function HostFanTrue() {
             {/* 덕질 장르 */}
             {showGenre && (
                 <View style={styles.nameContainer}>
-                    <Text style={styles.name}>덕질 장르</Text>
+                    <Text style={styles.nameBold}>덕질 장르<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && emptyGenre && styles.inputEmpty]}
+                        style={[styles.nameInput, isEmpty && styles.inputEmpty]}
                         placeholder="덕질 장르를 입력해 주세요. 예)아이돌, 야구 등"
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_genre}
                         onChangeText={setGenre}
                         ref={genreRef}
-                    // onSubmitEditing={() => gradeRef.current.focus()}
                     />
-                    {isEmpty && emptyGenre && (
+                    {isEmpty && (
                         <Text style={styles.inputEmptyText}> 덕질 장르를 입력해 주세요.</Text>
                     )}
                 </View>
@@ -54,18 +58,17 @@ export default function HostFanTrue() {
             {/* 최애 */}
             {showFavorite && (
                 <View style={styles.nameContainer}>
-                    <Text style={styles.name}>최애</Text>
+                    <Text style={styles.nameBold}>최애<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && emptyFavorite && styles.inputEmpty]}
+                        style={[styles.nameInput, isEmpty && styles.inputEmpty]}
                         placeholder="최애를 입력해 주세요. ex)차은우, 뉴진스 하니"
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_favorite}
                         onChangeText={setFavorite}
                         ref={favoriteRef}
-                    // onSubmitEditing={() => gradeRef.current.focus()}
                     />
-                    {isEmpty && emptyFavorite && (
+                    {isEmpty && (
                         <Text style={styles.inputEmptyText}> 최애를 입력해 주세요.</Text>
                     )}
                 </View>
@@ -74,18 +77,17 @@ export default function HostFanTrue() {
             {/* 차애 */}
             {showSecond && (
                 <View style={styles.nameContainer}>
-                    <Text style={styles.name}>차애</Text>
+                    <Text style={styles.nameBold}>차애<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && emptySecond && styles.inputEmpty]}
+                        style={[styles.nameInput, isEmpty && styles.inputEmpty]}
                         placeholder="차애를 입력해 주세요."
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_second}
                         onChangeText={setSecond}
                         ref={secondRef}
-                    // onSubmitEditing={() => gradeRef.current.focus()}
                     />
-                    {isEmpty && emptySecond && (
+                    {isEmpty && (
                         <Text style={styles.inputEmptyText}> 차애를 입력해 주세요.</Text>
                     )}
                 </View>
@@ -94,22 +96,21 @@ export default function HostFanTrue() {
             {/* 입덕 계기 */}
             {showReason && (
                 <View style={styles.nameContainer}>
-                    <Text style={styles.name}>입덕 계기</Text>
+                    <Text style={styles.nameBold}>입덕 계기<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && emptyReason && styles.inputEmpty]}
+                        style={[styles.nameInput, isEmpty && styles.inputEmpty]}
                         placeholder="입덕 계기를 입력해 주세요."
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_reason}
                         onChangeText={setReason}
                         ref={reasonRef}
-                    // onSubmitEditing={() => gradeRef.current.focus()}
                     />
-                    {isEmpty && emptyReason && (
+                    {isEmpty && (
                         <Text style={styles.inputEmptyText}> 입덕 계기를 입력해 주세요.</Text>
                     )}
                 </View>
             )}
-        </View>
+        </View >
     )
 }

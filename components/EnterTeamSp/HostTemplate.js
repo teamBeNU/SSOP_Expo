@@ -99,24 +99,23 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
 
   // 지정 템플릿 목록 API 호출
   const templateView = () => {
-    // const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
-    const apiUrl = `${baseUrl}/teamsp?teamId=74`;
+    const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
+    // const apiUrl = `${baseUrl}/teamsp?teamId=73`;
     axios
       .get(apiUrl)
       .then((response) => {
-        console.log("템플릿 질문 목록 조회 : ", response.data);
-        console.log("학생 템플릿 : ", response.data.studentOptional);
-        console.log("직장인 템플릿 : ", response.data.workerOptional);
-        console.log("팬 템플릿 : ", response.data.fanOptional);
+        // console.log("템플릿 질문 목록 조회 : ", response.data);
+        // console.log("학생 템플릿 : ", response.data.studentOptional);
+        // console.log("직장인 템플릿 : ", response.data.workerOptional);
+        // console.log("팬 템플릿 : ", response.data.fanOptional);
 
-        setShowBirth(response.data.showAge || response.data.showBirth ? true : 0);
+        setShowBirth(response.data.showAge || response.data.showBirth ? true : false);
         setShowMBTI(response.data.showMBTI ? true : false);
         setShowTel(response.data.showTel ? true : false);
         setShowEmail(response.data.showEmail ? true : false);
         setShowInsta(response.data.showInsta ? true : false);
         setShowX(response.data.showX ? true : false);
         setPlus(response.data.plus);
-        console.log(plus);
 
         setStudentOptional(response.data.studentOptional);
         setWorkerOptional(response.data.workerOptional);
@@ -145,7 +144,8 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           memberEssential: {
             card_name: card_name,
             card_introduction: card_introduction,
-            card_template: data.template,
+            // card_template: data.template,
+            card_template: 'student',
             card_cover: cover
           },
           memberOptional: {
@@ -187,8 +187,8 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
             card_fan_reason: fanOptional?.card_reason || null
           }
         }
-        // const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
-        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=56`;
+        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
+        // const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=73`;
 
         axios
           .post(apiUrl, { member: requestData }, {
@@ -203,7 +203,6 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
             console.log("작성한 카드:", requestData);
           });
         setStep(6);
-        break;
 
       default:
         setStep(step + 1);
@@ -606,9 +605,9 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
                   )}
                 </View>
 
+                {/* 자유 질문 */}
                 <>
                   {plus.map((item, index) => {
-                    // 각 index에 맞는 card_free_A 값과 setter, ref를 매핑
                     const cardValues = [
                       card_free_A1, card_free_A2, card_free_A3, card_free_A4, card_free_A5
                     ];
@@ -624,15 +623,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
                         <Text style={styles.nameBold}>{item} <Text style={styles.nameBold}> *</Text></Text>
                         <TextInput
                           style={styles.nameInput}
-                          placeholder={`${item}을 입력해주세요`}
+                          placeholder={`${item}을(를) 입력해주세요`}
                           keyboardType="default"
-                          value={cardValues[index]}  // 각각의 card_free_A 값 설정
-                          onChangeText={setCardValues[index]}  // 해당하는 setter 함수 사용
-                          ref={refs[index]}  // 각각의 ref 사용
+                          value={cardValues[index]}
+                          onChangeText={setCardValues[index]}
+                          ref={refs[index]}
                         />
-                        {/* {showAddress && isEmpty && emptyAddress && (
-                          <Text style={styles.inputEmptyText}> {key}를 입력해 주세요.</Text>
-                        )} */}
                       </View>
                     );
                   })}

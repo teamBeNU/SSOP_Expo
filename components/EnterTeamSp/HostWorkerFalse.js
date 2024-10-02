@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostWorkerFalse() {
+export default function HostWorkerFalse({ workerOptional }) {
 
     const [card_company, setCompany] = useState('');
     const [card_job, setJob] = useState('');
@@ -19,6 +19,15 @@ export default function HostWorkerFalse() {
     const jobRef = useRef(null);
     const positionRef = useRef(null);
     const partRef = useRef(null);
+
+    useEffect(() => {
+        if (workerOptional) {
+            setShowCompany(workerOptional.showCompany);
+            setShowJob(workerOptional.showJob);
+            setShowPosition(workerOptional.showPosition);
+            setShowPart(workerOptional.showPart);
+        }
+    }, [workerOptional]);
 
     return (
         <View style={{ paddingHorizontal: 16 }}>
