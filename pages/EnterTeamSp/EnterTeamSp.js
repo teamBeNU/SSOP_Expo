@@ -26,7 +26,7 @@ function EnterTeamSp({ navigation }) {
   const [team_name, setTeam_name] = useState('알 수 없음');
   const [team_comment, setTeam_comment] = useState('알 수 없음');
   const [isTemplate, setIsTemplate] = useState(true);
-  const [step, setStep] = useState(1);
+  const [step, setStep] = useState(3);
 
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
@@ -295,10 +295,10 @@ function EnterTeamSp({ navigation }) {
               <View style={styles.flexSpacer} />
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
+                <TouchableOpacity style={[styles.btnNext, {marginBottom: 0}]} onPress={() => navigation.navigate('스페이스')}>
                   <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate(" ")}>
+                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
                   <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                 </TouchableOpacity>
               </View>
