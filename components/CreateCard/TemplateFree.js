@@ -340,10 +340,16 @@ export default function TemplateFree ({navigation, card_template}) {
 
     // 생년월일 비밀
     const handleBSecret = () => {
-        if(card_birth !== '') {
+        if(card_birth != null && card_birth !== '') {
             setCardBSecret(!card_bSecret);
         }
     }
+
+    useEffect(() => {
+        if(card_birth == null || card_birth === '') {
+            setCardBSecret(false);
+        }
+    }, [card_birth])
     
     // 다음으로 버튼
     const handleNext = () => {

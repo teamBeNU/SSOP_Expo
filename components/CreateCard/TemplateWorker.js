@@ -244,16 +244,27 @@ export default function TemplateWorker ({navigation, card_template}) {
         }
     }
 
+    useEffect(() => {
+        if(card_birth == null || card_birth === '') {
+            setCardBSecret(false);
+        }
+    }, [card_birth])
+
     // 다음으로 버튼
     const handleNext = () => {
         if (step === 1) {
             const isNameFull = card_name != null && card_name !== '';
             const isIntroductionFull = card_introduction != null && card_introduction !== '';
             const isBirthFull = card_birth != null && card_birth !== '';
-
+            
             setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull, birth: isBirthFull })));
             isBirthCorrect(card_birth);
 
+            console.log('isNameFull', isNameFull);
+            console.log('isIntroductionFull', isIntroductionFull);
+            console.log('isBirthFull', isBirthFull);
+            console.log('isBirthValid', isBirthValid);
+            
             if (isNameFull && isIntroductionFull) {
                 if(!isBirthFull || (isBirthFull && isBirthValid.year && isBirthValid.month && isBirthValid.day)) {
                     setStep(2);
