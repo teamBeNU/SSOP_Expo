@@ -12,6 +12,8 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
 
     const [imageWidth, setImageWidth] = useState(0);
 
+    const [isAvatar, setIsAvatar] = useState(false);    // 아바타 커버 선택했는지
+
     // 이미지 권한 요청을 위한 hooks
     const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
@@ -65,11 +67,12 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
         }
     }
 
-    // useEffect(() => {
-    //     if (card_cover === "avatar") {
-    //         handleNext();
-    //     }
-    // }, [avatarStep]);
+    useEffect(() => {
+        if (isAvatar) {
+            handleNext();
+            setIsAvatar(false);
+        }
+    }, [isAvatar]);
 
     return (
         <View style={{height: '100%', backgroundColor: theme.white}}>
@@ -89,7 +92,8 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                     <TouchableOpacity  
                         onPress={() => {
                             setCardCover("avatar");
-                            handleNext(); 
+                            setIsAvatar(true);
+                            // handleNext(); 
                         }}
                     >
                         <Image 
