@@ -76,5 +76,19 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     lineHeight: 17,
     letterSpacing: -0.14
-    }
+    },
+    //라디오 버튼 스타일
+    radioButtonContainer: {
+    marginRight: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    },
+    totalText: {
+    color: theme.gray10,
+    fontFamily: 'PretendardRegular',
+    fontSize: 12,
+    fontWeight: '400',
+    lineHeight: 14,
+    letterSpacing: -0.12
+    },
 })

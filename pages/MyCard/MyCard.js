@@ -13,10 +13,13 @@ import { useFocusEffect, useNavigation } from '@react-navigation/native';
 function MyCard() {
     const [hasCard, setHasCard] = useState(false);
     const [cardData, setCardData] = useState([]);
-    const [isModalVisible, setIsModalVisible] = useState(false);
     const [moreMenu, setMoreMenu] = useState(false);
-
     const navigation = useNavigation();
+
+    const handleDelete = () => {
+        navigation.navigate('내 카드 삭제', {cardData});
+    };
+
 
     useFocusEffect(
         useCallback(() => {
@@ -99,8 +102,8 @@ function MyCard() {
                 <MyCardsView cardData={cardData}/>
                 {moreMenu && (
                     <View style={styles.dropdownMenu}>
-                        <TouchableOpacity onPress={() => ''}>
-                            <Text style={styles.menuItem}>프로필 삭제하기</Text>
+                        <TouchableOpacity onPress={handleDelete}>
+                            <Text style={styles.menuItem}>프로필 편집하기</Text>
                         </TouchableOpacity>
                     </View>
                 )}

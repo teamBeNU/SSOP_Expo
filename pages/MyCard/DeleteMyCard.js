@@ -1,19 +1,22 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState } from "react";
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
+import React, { useLayoutEffect, useState } from "react";
 import { Text, TouchableOpacity, View } from 'react-native';
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import GridIcon from '../../assets/icons/ic_border_all.svg';
 import ListIcon from '../../assets/icons/ic_list.svg';
-import SampleIcon from '../../assets/icons/iconSample.svg';
 import { GridCardView } from "../../components/MyCard/GridCardView";
 import { ListCardView } from "../../components/MyCard/ListCardView";
 import { styles } from './MyCardsViewStyle';
+import NotSelectedIcon from '../../assets/icons/ic_radioBtn_notSelect.svg';
+import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
 
-const CardsView = ({ cardData }) => {
+const DeleteMyCard = ({ route, navigation }) => {
+  const { cardData } = route.params;
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형');
-  const navigation = useNavigation();
+
+  const [selectedCards, setSelectedCards] = useState([]);
 
   const toggleViewOption = () => {
     if (viewOption === '그리드형') {
@@ -23,12 +26,28 @@ const CardsView = ({ cardData }) => {
     }
   };
 
+  const handleSelectAllToggle = () => {
+    if (selectedCards.length === cardData.length) {
+      setSelectedCards([]);
+    } else {
+      setSelectedCards(cardData.map(cardData => cardId));
+    }
+  };
+
+  useLayoutEffect(() => {
+    navigation.setOptions({
+        headerTitle: `${selectedCards.length}개 선택됨`,
+        headerRight: () => (
+            <RadioButton 
+                selected={selectedCards.length === cardData.length} 
+                onPress={handleSelectAllToggle} 
+            />
+        ),
+    });
+}, [selectedCards, navigation]);
+
   return (
-    <View style={styles.container}>
-      <View style={styles.titleContainer}>
-        <SampleIcon />
-        <Text style={styles.title}>내 카드</Text>
-      </View>
+    <View style={[styles.container, {paddingTop: 16}]}>
 
       <View style={styles.container2}>
         <View style={styles.row2}>
@@ -51,14 +70,18 @@ const CardsView = ({ cardData }) => {
       </View>
 
       {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData}/>}
-
-      <TouchableOpacity style={styles.newCardBtn} onPress={() => {navigation.navigate('카드 만들기');}}>
-        <Text style={styles.newCardText}>새 카드 추가하기</Text>
-      </TouchableOpacity>
       
     </View>
   );
 };
 
-export default CardsView;
+export default DeleteMyCard;
 
+const RadioButton = ({ selected, onPress }) => {
+    return (
+      <TouchableOpacity onPress={onPress} style={styles.radioButtonContainer}>
+          {selected ? <SelectedIcon /> : <NotSelectedIcon />}
+        <Text style={styles.totalText}>전체</Text>
+      </TouchableOpacity>
+    );
+  };

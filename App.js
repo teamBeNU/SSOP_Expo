@@ -49,6 +49,7 @@ import DetailGroup from './pages/Space/DetailGroup';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import MySpaceManage from './pages/Space/MySpaceManage';
 import Space from './pages/Space/Space';
+import DeleteMyCard from './pages/MyCard/DeleteMyCard';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
@@ -180,6 +181,18 @@ export default function App() {
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+          />
+          <Stack.Screen 
+          name="내 카드 삭제" 
+          component={DeleteMyCard}
+          options={{
+            headerTitle: "",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
           }}

@@ -16,7 +16,7 @@ export const GridCardView = ({cardData}) => {
         <View>
             <View style={[styles.row]}>
               {cardData.map((item) => (
-                <TouchableOpacity key={item.id} style={styles.btn1} onPress={() => handleNext(item.cardId)}>
+                <TouchableOpacity key={item.cardId} style={styles.btn1} onPress={() => handleNext(item.cardId)}>
                    {item.card_cover === 'avatar' ? 
                       (<View style={{...styles.cardImgArea, backgroundColor: getColor(item.avatar.bgColor)}}>
                       
@@ -24,7 +24,7 @@ export const GridCardView = ({cardData}) => {
                       :
                       (<Image
                             source={{ uri: item.profile_image_url }}
-                            resizeMode="cover"  // Image will cover the available area
+                            resizeMode="cover"
                             style={styles.cardImgArea}
                         />)
                    }
