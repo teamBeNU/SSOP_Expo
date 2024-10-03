@@ -91,4 +91,30 @@ export const styles = StyleSheet.create({
     lineHeight: 14,
     letterSpacing: -0.12
     },
+    //삭제 버튼
+    delteBtn: {
+    width: '100%',
+    height: 56,
+    padding: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderTopColor: theme.gray95,
+    shadowColor: 'rgba(73, 81, 100, 0.09)',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 1,
+        shadowRadius: 16,
+        elevation: 5,
+    },
+    delteBtnText: {
+    color: theme.gray10,
+    fontFamily: 'PretendaredRegular',
+    fontSize: 16,
+    fontWeight: '500',
+    lineHeight: 19,
+    letterSpacing: -0.32
+    },
 })

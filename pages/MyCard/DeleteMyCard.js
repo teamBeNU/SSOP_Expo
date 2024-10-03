@@ -26,6 +26,7 @@ const DeleteMyCard = ({ route, navigation }) => {
     }
   };
 
+
   const handleSelectAllToggle = () => {
     if (selectedCards.length === cardData.length) {
       setSelectedCards([]);
@@ -71,6 +72,10 @@ const DeleteMyCard = ({ route, navigation }) => {
       </View>
 
       {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />}
+
+      <TouchableOpacity style={styles.delteBtn} onPress={handleDelete}>
+        <Text style={styles.delteBtnText}>삭제</Text>
+      </TouchableOpacity>
       
     </View>
   );
