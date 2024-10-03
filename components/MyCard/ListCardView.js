@@ -20,7 +20,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
           {deleteMode ? (
           <View>
           {cardData.map((item) => (
-            <View style={styles.deleteContainer}>
+            <View  key={item.cardId} style={styles.deleteContainer}>
               <TouchableOpacity
                   onPress={() => {
                       setSelectedCards((prev) => {
