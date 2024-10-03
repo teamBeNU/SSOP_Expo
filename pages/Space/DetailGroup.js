@@ -134,6 +134,7 @@ function DetailSpaceGroup({ navigation }) {
 
     const [selectedCards, setSelectedCards] = useState([]);
     const [selectedOption, setSelectedOption] = useState('최신순');
+    const [viewOption, setViewOption] = useState('격자형');
   
     const handlePress = (cardId) => {
       setSelectedCards(prevSelectedCards => 
@@ -141,6 +142,10 @@ function DetailSpaceGroup({ navigation }) {
           ? prevSelectedCards.filter(id => id !== cardId)
           : [...prevSelectedCards, cardId]
       );
+    };
+
+    const handleNext = () => {
+      navigation.navigate('카드 조회');
     };
   
     const handleSelectAll = () => {
@@ -159,33 +164,19 @@ function DetailSpaceGroup({ navigation }) {
   
     return (
       <View style={styles.backgroundColor}>
-        <SpaceManage
-          selectedCards={selectedCards}
-          handleSelectAll={handleSelectAll}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-          cardDataLength={cardData.length}
-        />
-        <View style={styles.cardLayout}>
+        <View>
           <ScrollView showsVerticalScrollIndicator={false}>
             <View style={styles.container}>
               <View style={styles.row}>
-                {cardData.map((item) => (
-                  <View key={item.id} style={styles.card}>
-                    <item.Component
-                      backgroundColor={item.backgroundColor}
-                      avatar={item.avatar}
-                      card_name={item.card_name}
-                      age={item.age}
-                      dot={item.dot}
-                      card_template={item.card_template}
-                      host={item.host}
-                      filter={item.filter}
-                      selected={selectedCards.includes(item.id)} 
-                      onPress={() => handlePress(item.id)}
-                    />
-                  </View>
-                ))}
+              <CardsView
+                  navigation={navigation}
+                  selectedOption={selectedOption}
+                  setSelectedOption={setSelectedOption}
+                  viewOption={viewOption}
+                  setViewOption={setViewOption}
+                  handleNext={handleNext}
+                  cardData={cardData}
+              />
               </View>
             </View>
             <View style={styles.innerView}></View>
@@ -217,6 +208,7 @@ function DetailSpaceGroup({ navigation }) {
   
       const [selectedCards, setSelectedCards] = useState([]);
       const [selectedOption, setSelectedOption] = useState('최신순');
+      const [viewOption, setViewOption] = useState('격자형');
     
       const handlePress = (cardId) => {
         setSelectedCards(prevSelectedCards => 
@@ -224,6 +216,10 @@ function DetailSpaceGroup({ navigation }) {
             ? prevSelectedCards.filter(id => id !== cardId)
             : [...prevSelectedCards, cardId]
         );
+      };
+
+      const handleNext = () => {
+        navigation.navigate('카드 조회');
       };
     
       const handleSelectAll = () => {
@@ -242,33 +238,19 @@ function DetailSpaceGroup({ navigation }) {
   
       return (
         <View style={styles.backgroundColor}>
-          <SpaceManage
-            selectedCards={selectedCards}
-            handleSelectAll={handleSelectAll}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-            cardDataLength={cardData.length}
-          />
-          <View style={styles.cardLayout}>
+          <View >
             <ScrollView showsVerticalScrollIndicator={false}>
               <View style={styles.container}>
                 <View style={styles.row}>
-                  {cardData.map((item) => (
-                    <View key={item.id} style={styles.card}>
-                      <item.Component
-                        backgroundColor={item.backgroundColor}
-                        avatar={item.avatar}
-                        card_name={item.card_name}
-                        age={item.age}
-                        dot={item.dot}
-                        card_template={item.card_template}
-                        host={item.host}
-                        filter={item.filter}
-                        selected={selectedCards.includes(item.id)} 
-                        onPress={() => handlePress(item.id)}
-                      />
-                    </View>
-                  ))}
+                  <CardsView
+                    navigation={navigation}
+                    selectedOption={selectedOption}
+                    setSelectedOption={setSelectedOption}
+                    viewOption={viewOption}
+                    setViewOption={setViewOption}
+                    handleNext={handleNext}
+                    cardData={cardData}
+                />
                 </View>
               </View>
               <View style={styles.innerView}></View>

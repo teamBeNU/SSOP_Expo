@@ -6,9 +6,11 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { styles } from './SpaceStyle';
 import { ShareCard, RadioCard } from "../../components/Bluetooth/ShareCard.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import { theme } from "../../theme";
+import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import SpaceManage from "../../components/Space/SpaceManage.js";
+import CardsView from '../../components/Bluetooth/CardsView.js';
+import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
@@ -18,8 +20,10 @@ import People from '../../assets/icons/ic_person_small_fill.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import SaveIcon from '../../assets/icons/ic_save_small_line.svg';
 import ContactIcon from '../../assets/icons/ic_contact_small_line.svg';
+import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import SelectIcon from '../../assets/icons/ic_done_small_line_blue.svg';
 import CloseIcon from '../../assets/icons/close.svg';
+import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -38,12 +42,38 @@ const cardData = [
 function DetailTeamSpaceScreen({ navigation }) {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedOption, setSelectedOption] = useState('최신순');
+  const [viewOption, setViewOption] = useState('격자형');
+  const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
+  const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
+  const [hasCards, setHasCards] = useState(true);
   const handleNext = () => {
     navigation.navigate('필터');
   };
 
   const handleShareButtonPress = () => {
     setIsModalVisible(true);
+    <Modal
+    animationType="fade"
+    transparent={true}
+    visible={isModalVisible}
+    onRequestClose={() => {
+      setIsModalVisible(!isModalVisible);
+    }}>
+    <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+      <View style={styles.shareModalContainer}>
+        <View style={styles.ShareModalView}>
+          <TouchableOpacity onPress={() => { copyinviteCode(); setIsModalVisible(false); }}>
+            <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>                   
+          </TouchableOpacity>
+          <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
+          <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+            <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>                   
+          </TouchableOpacity>
+        </View>
+      </View>
+    </TouchableWithoutFeedback>
+  </Modal>
   };
 
   const DetailcardData = [
@@ -65,94 +95,136 @@ function DetailTeamSpaceScreen({ navigation }) {
     Alert.alert("클립보드에 복사되었습니다.");
   };    
 
-  return (
-    <View style={styles.backgroundColor}>
-       <ScrollView showsVerticalScrollIndicator={false}>
-        <Text style={styles.title}>김슈니의 팀스페이스</Text>
-        <Text style={styles.sub}>IT 소학회 SWUT 스페이스입니다.</Text>
-        <View style={styles.btnContainer}>
-                <View style={styles.btn}>
-                    <TouchableOpacity style={styles.whiteBtn} onPress={handleShareButtonPress}>
-                        <ShareIcon />
-                        <Modal
-                          animationType="fade"
-                          transparent={true}
-                          visible={isModalVisible}
-                          onRequestClose={() => {
-                            setIsModalVisible(!isModalVisible);
-                          }}>
-                          <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
-                            <View style={styles.shareModalContainer}>
-                              <View style={styles.ShareModalView}>
-                                <TouchableOpacity onPress={() => { copyinviteCode(); setIsModalVisible(false); }}>
-                                  <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>                   
-                                </TouchableOpacity>
-                                <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
-                                <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                                  <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>                   
-                                </TouchableOpacity>
-                              </View>
-                            </View>
-                          </TouchableWithoutFeedback>
 
-                        </Modal>
-                    </TouchableOpacity>
-                    <Text style={styles.btnText}>공유하기</Text>
-                </View>
-                <View style={styles.btn}>
-                    <TouchableOpacity style={styles.whiteBtn} onPress={() => navigation.navigate('마이스페이스로 카드 저장')}>
-                        <SaveIcon />
-                    </TouchableOpacity>
-                    <Text style={styles.btnText}>마이스페이스로{'\n'}카드 저장</Text>
-                </View>
-                <View style={styles.btn}>
-                    <TouchableOpacity style={styles.whiteBtn} onPress={() => navigation.navigate('연락처 저장')}>
-                        <ContactIcon style={{color: 'white'}} />
-                    </TouchableOpacity>
-                    <Text style={styles.btnText}>연락처 저장 </Text>
-                </View>
-        </View>
+
+  return (
+    // <View style={styles.backgroundColor}>
+    //    <ScrollView showsVerticalScrollIndicator={false}>
+    //     <Text style={styles.title}>김슈니의 팀스페이스</Text>
+    //     <Text style={styles.sub}>IT 소학회 SWUT 스페이스입니다.</Text>
+    //     <View style={styles.btnContainer}>
+    //             <View style={styles.btn}>
+    //                 <TouchableOpacity style={styles.whiteBtn} onPress={handleShareButtonPress}>
+    //                     <ShareIcon />
+    //                     <Modal
+    //                       animationType="fade"
+    //                       transparent={true}
+    //                       visible={isModalVisible}
+    //                       onRequestClose={() => {
+    //                         setIsModalVisible(!isModalVisible);
+    //                       }}>
+    //                       <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+    //                         <View style={styles.shareModalContainer}>
+    //                           <View style={styles.ShareModalView}>
+    //                             <TouchableOpacity onPress={() => { copyinviteCode(); setIsModalVisible(false); }}>
+    //                               <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>                   
+    //                             </TouchableOpacity>
+    //                             <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
+    //                             <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+    //                               <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>                   
+    //                             </TouchableOpacity>
+    //                           </View>
+    //                         </View>
+    //                       </TouchableWithoutFeedback>
+
+    //                     </Modal>
+    //                 </TouchableOpacity>
+    //                 <Text style={styles.btnText}>공유하기</Text>
+    //             </View>
+    //             <View style={styles.btn}>
+    //                 <TouchableOpacity style={styles.whiteBtn} onPress={() => navigation.navigate('마이스페이스로 카드 저장')}>
+    //                     <SaveIcon />
+    //                 </TouchableOpacity>
+    //                 <Text style={styles.btnText}>마이스페이스로{'\n'}카드 저장</Text>
+    //             </View>
+    //             <View style={styles.btn}>
+    //                 <TouchableOpacity style={styles.whiteBtn} onPress={() => navigation.navigate('연락처 저장')}>
+    //                     <ContactIcon style={{color: 'white'}} />
+    //                 </TouchableOpacity>
+    //                 <Text style={styles.btnText}>연락처 저장 </Text>
+    //             </View>
+    //     </View>
     
       
-        <View style={styles.line} />
+    //     <View style={styles.line} />
         
-        <View style={styles.personContainer}>
-          <View style={styles.personRow}>
-            <View style={styles.leftContainer}>
-              <Text style={styles.personText}>구성원</Text>
-              <Text style={styles.detailPeople}>
-                <People />  48 / 150명
-              </Text>
-            </View>
-            <TouchableOpacity style={styles.positionFilter} onPress={handleNext}>
-              <Text style={styles.positionFilterText}>필터</Text>
+    //     <View style={styles.personContainer}>
+    //       <View style={styles.personRow}>
+    //         <View style={styles.leftContainer}>
+    //           <Text style={styles.personText}>구성원</Text>
+    //           <Text style={styles.detailPeople}>
+    //             <People />  48 / 150명
+    //           </Text>
+    //         </View>
+    //         <TouchableOpacity style={styles.positionFilter} onPress={handleNext}>
+    //           <Text style={styles.positionFilterText}>필터</Text>
+    //         </TouchableOpacity>
+    //       </View>
+    //     </View>
+    //     <View style={styles.cardLayout}>
+         
+    //         <View style={styles.container}>
+    //           <View style={styles.row}>
+    //               {DetailcardData.map((item) => (
+    //                   <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigation.navigate('카드 조회')}>
+    //                   <item.Component 
+    //                       backgroundColor={item.backgroundColor} 
+    //                       avatar={item.avatar} 
+    //                       card_name={item.card_name} 
+    //                       age={item.age} 
+    //                       dot={item.dot}
+    //                       card_template={item.card_template} 
+    //                       host={item.host}
+    //                       filter={item.filter}
+    //                   />
+    //                   </TouchableOpacity>
+    //               ))}
+    //           </View>
+    //         </View>
+    //         <View style={styles.innerView}></View>
+    //     </View>
+    //     </ScrollView>
+    //   </View>
+    <View style={styles.backgroundColor}>
+          <MySpaceDetailView
+            title="김슈니의 팀스페이스"
+            members='8 / 150'
+            sub={'IT 소학회 SWUT 스페이스입니다.'}
+            navigation={navigation}
+            hasCards={hasCards}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+            viewOption={viewOption}
+            setViewOption={setViewOption}
+            handleNext={handleNext}
+            cardData={DetailcardData}
+          />
+          <SpaceModal
+            isVisible={isSpaceModalVisible}
+            onClose={() => setIsSpaceModalVisible(false)}
+            title={'그룹을 삭제하시겠습니까?'}
+            sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
+            btn1={'취소할래요'}
+            btn2={'네, 삭제할래요'}
+          />
+          <SpaceNameChangeModal
+            isVisible={isGroupNameChangeModalVisible}
+            onClose={() => setIsGroupNameChangeModalVisible(false)}
+            groupName={'그룹 이름을 작성하세요.'}
+            btn1={'취소하기'}
+            btn2={'수정하기'}
+          />
+          {/* 하단 버튼 영역 */}
+          <View style={styles.bottomDetailContainer}>
+            <TouchableOpacity >
+              <Text style={styles.bottomTextBlue} onPress={handleShareButtonPress}>공유</Text>
+            </TouchableOpacity>
+            <BottomLineIcon style={styles.bottomLine} />
+            <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
+              <Text style={styles.bottomText}>연락처 저장</Text>
             </TouchableOpacity>
           </View>
         </View>
-        <View style={styles.cardLayout}>
-         
-            <View style={styles.container}>
-              <View style={styles.row}>
-                  {DetailcardData.map((item) => (
-                      <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigation.navigate('카드 조회')}>
-                      <item.Component 
-                          backgroundColor={item.backgroundColor} 
-                          avatar={item.avatar} 
-                          card_name={item.card_name} 
-                          age={item.age} 
-                          dot={item.dot}
-                          card_template={item.card_template} 
-                          host={item.host}
-                          filter={item.filter}
-                      />
-                      </TouchableOpacity>
-                  ))}
-              </View>
-            </View>
-            <View style={styles.innerView}></View>
-        </View>
-        </ScrollView>
-      </View>
   );
 }
 
@@ -320,88 +392,6 @@ function Filter() {
   );
 }
 
- // 마이스페이스로 카드 저장
- function SaveMySpaceScreen({navigation}) {
-  const showCustomToast = (text) => {
-    Toast.show({
-      text1: text,
-      type: 'selectedToast',
-      position: 'bottom',
-      visibilityTime: 2000,
-    });
-  };
-  
-  const handleSaveTel = () => {
-    showCustomToast('마이스페이스로 카드가 저장되었습니다.');
-  };
-
-  const [selectedCards, setSelectedCards] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('최신순');
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: `${selectedCards.length}개 선택됨`,
-    });
-  }, [selectedCards]);
-
-  const handlePress = (cardId) => {
-    setSelectedCards(prevSelectedCards => 
-      prevSelectedCards.includes(cardId)
-        ? prevSelectedCards.filter(id => id !== cardId)
-        : [...prevSelectedCards, cardId]
-    );
-  };
-
-  const handleSelectAll = () => {
-    if (selectedCards.length === cardData.length) {
-      setSelectedCards([]);
-    } else {
-      setSelectedCards(cardData.map(card => card.id));
-    }
-  };
-
-  return (
-    <View style={styles.backgroundColor}>
-      <SpaceManage
-        selectedCards={selectedCards}
-        handleSelectAll={handleSelectAll}
-        selectedOption={selectedOption}
-        setSelectedOption={setSelectedOption}
-        cardDataLength={cardData.length}
-      />
-      <View style={styles.cardLayout}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            <View style={styles.row}>
-              {cardData.map((item) => (
-                <View key={item.id} style={styles.card}>
-                  <item.Component
-                    backgroundColor={item.backgroundColor}
-                    avatar={item.avatar}
-                    card_name={item.card_name}
-                    age={item.age}
-                    dot={item.dot}
-                    card_template={item.card_template}
-                    host={item.host}
-                    filter={item.filter}
-                    selected={selectedCards.includes(item.id)} 
-                    onPress={() => handlePress(item.id)}
-                  />
-                </View>
-              ))}
-            </View>
-          </View>
-          <View style={styles.innerView}></View>
-        </ScrollView>
-      </View>
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity onPress={handleSaveTel}>
-          <Text style={styles.bottomText}>마이스페이스로 카드 저장</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
 
  // 연락처 저장
  function SaveTellScreen({navigation}) {
@@ -501,13 +491,17 @@ function DetailTeamSpace() {
             </TouchableOpacity>
           ),
           headerRight: () => (
-            <Menu>
-              <MenuTrigger><MoreIcon style={{ marginRight: 8  }}/></MenuTrigger>
-              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, }}>
-                <MenuOption style={{ marginBottom: 10.5}} text='팀스페이스 수정'/>
-                <MenuOption text='팀스페이스 삭제'/>
-              </MenuOptions>
-            </Menu>
+            <View style={{ flexDirection: 'row' }}>
+            <TouchableOpacity><SearchIcon /></TouchableOpacity>
+            <TouchableOpacity>
+              <Menu>
+                <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
+                <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 , borderRadius: 16 }}>
+                  <MenuOption text='팀스페이스 나가기' />
+                </MenuOptions>
+              </Menu>
+            </TouchableOpacity>
+          </View>
           ),
         }}/>
       <Stack.Screen name="필터" component={Filter} 
@@ -520,15 +514,6 @@ function DetailTeamSpace() {
             </TouchableOpacity>
           ),
         }}/>
-        <Stack.Screen name="마이스페이스로 카드 저장" component={SaveMySpaceScreen}
-          options={{
-            headerTitle: " ",
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <CloseIcon style={{ marginLeft: 23 }}/>
-              </TouchableOpacity>
-            ),
-          }}/>
           <Stack.Screen name="연락처 저장" component={SaveTellScreen}
           options={{
             headerTitle: " ",

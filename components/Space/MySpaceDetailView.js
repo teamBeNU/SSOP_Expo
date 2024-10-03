@@ -8,11 +8,12 @@ import ListIcon from '../../assets/icons/ic_lists.svg';
 import AllListIcon from'../../assets/icons/ic_border_all.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
-const MySpaceDetailView = ({ title, members, navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton }) => {
+const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton }) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
           <View style={styles.backgroundColor2}>
             <Text style={[styles.detailtitle, {marginBottom: 8}]}>{title}</Text>
+            <Text style={[styles.detailtitle, {marginBottom: 8}]}>{sub}</Text>
             <View style={styles.leftContainer}>
                   <Text style={styles.detailPeople}>
                     <People /> {members}
