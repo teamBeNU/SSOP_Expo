@@ -30,7 +30,8 @@ const DeleteMyCard = ({ route, navigation }) => {
     if (selectedCards.length === cardData.length) {
       setSelectedCards([]);
     } else {
-      setSelectedCards(cardData.map(cardData => cardId));
+      const allCardIds = cardData.map(card => card.cardId); 
+      setSelectedCards(allCardIds);
     }
   };
 
@@ -44,7 +45,7 @@ const DeleteMyCard = ({ route, navigation }) => {
             />
         ),
     });
-}, [selectedCards, navigation]);
+}, [selectedCards, cardData.length, navigation]);
 
   return (
     <View style={[styles.container, {paddingTop: 16}]}>
@@ -69,7 +70,7 @@ const DeleteMyCard = ({ route, navigation }) => {
        </View>
       </View>
 
-      {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData}/>}
+      {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />}
       
     </View>
   );

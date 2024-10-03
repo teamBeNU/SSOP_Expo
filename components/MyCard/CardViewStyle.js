@@ -235,4 +235,11 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.44,
         marginRight: 4,
     },
+
+    //삭제모드
+    deleteContainer: {
+    flexDirection: 'row',
+    gap: 8,
+    alignItems: 'center',
+    }
 })
