@@ -23,6 +23,7 @@ import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
+import { theme } from "../../theme.js";
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -459,8 +460,12 @@ function DetailTeamSpace() {
     <Stack.Navigator>
       <Stack.Screen name="DetailTeamSpace" component={DetailTeamSpaceScreen}
         options={{
-          title: "상세 팀스페이스",
+          title: "",
           tabBarStyle: { display: 'none' },
+          headerStyle: {
+            backgroundColor: theme.gray95,  // 헤더 배경 색상 설정
+          },
+          headerShadowVisible: false, 
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <LeftArrowIcon style={{ marginLeft: 8  }}/>

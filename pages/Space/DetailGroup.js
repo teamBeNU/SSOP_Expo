@@ -476,6 +476,10 @@ function DetailGroup() {
           options={{
             title: "",
             tabBarStyle: { display: 'none' } ,
+            headerStyle: {
+              backgroundColor: theme.gray95, 
+            },
+            headerShadowVisible: false, 
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>

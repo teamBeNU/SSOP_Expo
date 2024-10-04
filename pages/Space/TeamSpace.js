@@ -9,14 +9,12 @@ import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceMo
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 import Toast from 'react-native-toast-message';
-import * as Clipboard from 'expo-clipboard';
 import { TeamSpaceList } from "../../components/Space/SpaceList.js";
 
 import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 
   
 function TeamSpace({ navigation }) {
-  const [selectedOption, setSelectedOption] = useState('최신순');
   const [hasTeamSP, setHasTeamSP] = useState(true);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
@@ -33,7 +31,7 @@ function TeamSpace({ navigation }) {
   const showCustomToast = (text) => {
     Toast.show({
       text1: text,
-      type: 'success',
+      type: 'selectedToast',
       position: 'bottom',
       visibilityTime: 2000,
     });
@@ -47,9 +45,16 @@ function TeamSpace({ navigation }) {
 
   // 팀스페이스 삭제 확인
   const handleConfirmDelete = () => {
-    setTeamData((prevData) => prevData.filter((group) => group.id !== groupToDelete));
+    const updatedTeamData = teamData.filter((group) => group.id !== groupToDelete);
+    setTeamData(updatedTeamData);
     setGroupToDelete(null);
     setIsSpaceModalVisible(false);
+
+    // 삭제 후 팀스페이스 데이터가 비어있다면 hasTeamSP를 false로 설정
+    if (updatedTeamData.length === 0) {
+      setHasTeamSP(false);
+    }
+
     showCustomToast('팀스페이스에서 퇴장했어요.');
   };
 

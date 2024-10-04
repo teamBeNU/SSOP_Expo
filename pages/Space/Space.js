@@ -12,25 +12,14 @@ import Toast from 'react-native-toast-message';
 import MySpace from "./MySpace.js";
 import TeamSpace from "./TeamSpace.js";
 
-import NotiIcon from '../../assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import SwapIcon from '../../assets/icons/ic_swap_regular.svg';
-import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
-import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
-import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
-import People from '../../assets/icons/ic_person_small_fill.svg';
-import Swap from '../../assets/icons/ic_swap_regular_line.svg';
-import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import EnterTeamSPIcon from '../../assets/HomeIcon/EnterTeamSPIcon.svg';
 import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
-import GroupIcon from '../../assets/icons/ic_group_regular.svg';
-import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
-import NewFolderIcon from '../../assets/icons/ic_newFolder_regular.svg';
-import EditGroupPage from "./EditGroupPage.js";
 
 
 const Tab = createMaterialTopTabNavigator();
@@ -216,6 +205,13 @@ function TeamSpaceStack({navigation}) {
     setIsModalVisible(false);
     navigation.navigate('팀스페이스 생성');
   };
+
+  const [teamData, setTeamData] = useState([
+    { id: 1, name: '김슈니의 팀스페이스', description: 'IT 소학회 SWUT 스페이스입니다.', members: 48, isHost: true },
+    { id: 2, name: '영어 교양 스페이스', description: '24-1학기 영어 교양 스페이스입니다.', members: 50, isHost: false },
+    { id: 3, name: '여대 교류회', description: '여대 교류를 위한 스페이스입니다.', members: 80, isHost: false },
+  ]);
+  
   return (
     <>
     <Stack.Navigator>
@@ -237,8 +233,8 @@ function TeamSpaceStack({navigation}) {
                 <Menu>
                   <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
                   <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 , borderRadius: 16}}>
-                    <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스 추가하기' />
-                    <MenuOption text='팀스페이스 편집하기' />
+                    <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스 추가하기'/>
+                    <MenuOption text='팀스페이스 편집하기' onSelect={() => navigation.navigate('팀스페이스 관리', { teamData })}/>
                   </MenuOptions>
                 </Menu>
               </TouchableOpacity>

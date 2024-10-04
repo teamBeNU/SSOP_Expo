@@ -16,7 +16,7 @@ export const styles = StyleSheet.create({
     },
     backgroundColor:{
         flex: 1, 
-        backgroundColor: theme.white
+        backgroundColor: theme.gray95
     },
     backgroundColor2:{
         paddingTop: 40, 

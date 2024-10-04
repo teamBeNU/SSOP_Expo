@@ -11,7 +11,7 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-m
 
 const MySpaceDetailView = ({ title, sub, members, isHost=false, navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton, showFilter=false, handleFilterNext, showMenu=true, onChangeGroupName, onDeleteGroup,}) => {
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor} >
           <View style={styles.backgroundColor2}>
             <Text style={[styles.detailtitle, {marginBottom: 8}]}>{title}</Text>
             { sub ? (
