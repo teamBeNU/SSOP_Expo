@@ -9,6 +9,7 @@ import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceMo
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 import Toast from 'react-native-toast-message';
+import { TeamSpaceList } from "../../components/Space/SpaceList.js";
 
 import NotiIcon from '../../assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
@@ -94,8 +95,23 @@ function TeamSpace({ navigation }) {
           <Text style={styles.Text26}>팀스페이스</Text>
           <Text style={styles.Text16gray}>팀별로 프로필 카드를 관리하세요.</Text>
         </View>
-        <View showsVerticalScrollIndicator={false}>
-          {TeamSPContents}
+        <View style={styles.container}> 
+          <View style={styles.row}>
+                {teamData.map((team) => (
+                    <TeamSpaceList
+                        key={team.id}
+                        id={team.id}
+                        name={team.name}
+                        description={team.description}
+                        members={team.members}
+                        isHost={team.isHost}
+                        // onGroupPress={handleNext} // 그룹을 클릭했을 때 이동
+                        // onDeleteGroup={handleDeleteGroup} // 그룹 삭제
+                        // onChangeGroupName={handleChangeGroupName} // 그룹 이름 변경
+                        showMenu={true}
+                    />
+                ))}
+            </View>
           <View style={styles.innerView}></View>
         </View>
       </ScrollView>
