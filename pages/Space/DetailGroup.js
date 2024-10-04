@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Modal, StyleSheet} from "react-native";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { styles } from './SpaceStyle';
@@ -15,21 +15,60 @@ import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
-import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 import People from '../../assets/icons/ic_person_small_fill.svg';
-import ContactIcon from '../../assets/icons/ic_contact_small_line.svg';
-import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import GroupIcon from '../../assets/icons/ic_group_regular.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
+import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
+import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
+
 import { theme } from "../../theme.js";
 
 const Stack = createStackNavigator();
+
+// 스왑 모달
+function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, title, option1Text, option1SubText, option1Icon: Option1Icon, option2Text, option2SubText, option2Icon: Option2Icon }) {
+  return (
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={isVisible}
+      onRequestClose={onClose}
+    >
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.modalContainer}>
+          <TouchableWithoutFeedback>
+            <View style={styles.modalView}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>{title}</Text>
+                <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
+                  <CloseIcon />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.row}>
+                <TouchableOpacity style={styles.btn2} onPress={onOption1Press}>
+                  <Text style={styles.Text18}>{option1Text}</Text>
+                  <Text style={styles.Text14}>{option1SubText}</Text>
+                  <Option1Icon style={styles.icon2} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btn2} onPress={onOption2Press}>
+                  <Text style={styles.Text18}>{option2Text}</Text>
+                  <Text style={styles.Text14}>{option2SubText}</Text>
+                  <Option2Icon style={styles.icon2} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
+}
 
     const cardData = [
       { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
@@ -47,7 +86,17 @@ function DetailSpaceGroup({ navigation }) {
     const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
     const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
     const [hasCards, setHasCards] = useState(true);
-    
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
+    const handleBluetoothPress = () => {
+      setIsModalVisible(false);
+      navigation.navigate('내 카드 보내기');
+    };
+  
+    const handleLinkSharePress = () => {
+      setIsModalVisible(false);
+      navigation.navigate('링크 복사');
+    };
     const handleDeleteGroup = () => {
       setIsSpaceModalVisible(true);
     };
@@ -99,10 +148,24 @@ function DetailSpaceGroup({ navigation }) {
               <Text style={styles.bottomTextBlue}>연락처 저장</Text>
             </TouchableOpacity>
             <BottomLineIcon style={styles.bottomLine} />
-            <TouchableOpacity>
+            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
               <Text style={styles.bottomText}>카드 교환</Text>
             </TouchableOpacity>
           </View>
+
+          <ExchangeModal
+            isVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            onOption1Press={handleBluetoothPress}
+            onOption2Press={handleLinkSharePress}
+            title="카드 교환하기"
+            option1Text="블루투스 송신"
+            option1SubText="주변에 있다면 바로"
+            option2Text="링크 복사"
+            option2SubText="연락처가 있다면"
+            option1Icon={BluetoothIcon}
+            option2Icon={LinkIcon}
+          />
         </View>
         
     );
