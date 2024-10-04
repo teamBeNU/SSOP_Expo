@@ -60,16 +60,6 @@ function DetailSpaceGroup({ navigation }) {
       navigation.navigate('카드 조회');
     };
   
-    const DetailcardData = [
-      { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생' },
-      { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
-      { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬' },
-      { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-  
-    ];
-  
     return (
       <View style={styles.backgroundColor}>
           <MySpaceDetailView
@@ -82,7 +72,7 @@ function DetailSpaceGroup({ navigation }) {
             viewOption={viewOption}
             setViewOption={setViewOption}
             handleNext={handleNext}
-            cardData={DetailcardData}
+            cardData={cardData}
           />
           <SpaceModal
             isVisible={isSpaceModalVisible}
@@ -150,19 +140,49 @@ function DetailSpaceGroup({ navigation }) {
       navigation.navigate('카드 조회');
     };
   
-    const handleSelectAll = () => {
-      if (selectedCards.length === cardData.length) {
-        setSelectedCards([]);
-      } else {
-        setSelectedCards(cardData.map(card => card.id));
-      }
-    };
+      // 카드 선택/해제 처리 함수
+      const handleRadioSelect = (cardId) => {
+        setSelectedCards((prevSelectedCards) =>
+          prevSelectedCards.includes(cardId)
+            ? prevSelectedCards.filter((id) => id !== cardId) // 이미 선택된 카드 해제
+            : [...prevSelectedCards, cardId] // 새 카드 선택
+        );
+      };
 
-    useLayoutEffect(() => {
-      navigation.setOptions({
-        headerTitle: `${selectedCards.length}개 선택됨`,
-      });
-    }, [selectedCards]);
+      // 모든 카드를 선택하거나 선택 해제하는 함수
+      const handleSelectAll = () => {
+        if (selectedCards.length === cardData.length) {
+          setSelectedCards([]); // 모든 선택 해제
+        } else {
+          setSelectedCards(cardData.map((card) => card.id)); // 모든 카드 선택
+        }
+      };
+
+        // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
+        React.useLayoutEffect(() => {
+          navigation.setOptions({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <CloseIcon style={{ marginLeft: 16 }} />
+              </TouchableOpacity>
+            ),
+            headerTitle: () => (
+              <Text style={{ fontSize: 16, fontWeight: '500' }}>
+                {selectedCards.length}개 선택됨
+              </Text>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={handleSelectAll}>
+                {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
+                {selectedCards.length === cardData.length ? (
+                  <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
+                ) : (
+                  <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
+                )}
+              </TouchableOpacity>
+            ),
+          });
+        }, [navigation, selectedCards]);  // 선택된 그룹 상태가 변경될 때마다 헤더 업데이트
   
     return (
       <View style={styles.backgroundColor}>
@@ -179,6 +199,8 @@ function DetailSpaceGroup({ navigation }) {
                   handleNext={handleNext}
                   cardData={cardData}
                   showRadio={true}
+                  selectedCards={selectedCards} // 선택된 카드 목록 전달
+                  handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달
               />
               </View>
             </View>
@@ -212,15 +234,9 @@ function DetailSpaceGroup({ navigation }) {
       const [selectedCards, setSelectedCards] = useState([]);
       const [selectedOption, setSelectedOption] = useState('최신순');
       const [viewOption, setViewOption] = useState('격자형');
-    
-      const handlePress = (cardId) => {
-        setSelectedCards(prevSelectedCards => 
-          prevSelectedCards.includes(cardId)
-            ? prevSelectedCards.filter(id => id !== cardId)
-            : [...prevSelectedCards, cardId]
-        );
-      };
-        // 라디오 버튼 선택 처리 함수
+
+
+      // 카드 선택/해제 처리 함수
       const handleRadioSelect = (cardId) => {
         setSelectedCards((prevSelectedCards) =>
           prevSelectedCards.includes(cardId)
@@ -242,31 +258,31 @@ function DetailSpaceGroup({ navigation }) {
         navigation.navigate('카드 조회');
       };
 
-          // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
-    React.useLayoutEffect(() => {
-      navigation.setOptions({
-        headerLeft: () => (
-          <TouchableOpacity onPress={() => navigation.goBack()}>
-            <CloseIcon style={{ marginLeft: 16 }} />
-          </TouchableOpacity>
-        ),
-        headerTitle: () => (
-          <Text style={{ fontSize: 16, fontWeight: '500' }}>
-            {selectedCards.length}개 선택됨
-          </Text>
-        ),
-        headerRight: () => (
-          <TouchableOpacity onPress={handleSelectAll}>
-            {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-            {selectedCards.length === cardData.length + 1 ? (
-              <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
-            ) : (
-              <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
-            )}
-          </TouchableOpacity>
-        ),
-      });
-    }, [navigation, selectedCards]);  // 선택된 그룹 상태가 변경될 때마다 헤더 업데이트
+        // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
+        React.useLayoutEffect(() => {
+          navigation.setOptions({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <CloseIcon style={{ marginLeft: 16 }} />
+              </TouchableOpacity>
+            ),
+            headerTitle: () => (
+              <Text style={{ fontSize: 16, fontWeight: '500' }}>
+                {selectedCards.length}개 선택됨
+              </Text>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={handleSelectAll}>
+                {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
+                {selectedCards.length === cardData.length ? (
+                  <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
+                ) : (
+                  <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
+                )}
+              </TouchableOpacity>
+            ),
+          });
+        }, [navigation, selectedCards]);  // 선택된 그룹 상태가 변경될 때마다 헤더 업데이트
   
       return (
         <View style={styles.backgroundColor}>
@@ -283,6 +299,8 @@ function DetailSpaceGroup({ navigation }) {
                     handleNext={handleNext}
                     cardData={cardData}
                     showRadio={true}
+                    selectedCards={selectedCards} // 선택된 카드 목록 전달
+                    handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달
                 />
                 </View>
               </View>
@@ -303,7 +321,15 @@ function DetailSpaceGroup({ navigation }) {
     }
 
     // 그룹 이동
-    function MoveGroupScreen() {
+    function MoveGroupScreen({route, navigation}) {
+
+    const [teamData, setTeamData] = useState([
+      { id: 1, name: '24학번 후배', members: 8 },
+      { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
+      { id: 3, name: '그룹 3', members: 10 },
+      { id: 4, name: '그룹 4', members: 15 },
+  ]);
+
       const showCustomToast = (text) => {
         Toast.show({
           text1: text,
@@ -325,12 +351,6 @@ function DetailSpaceGroup({ navigation }) {
 
       const [selectedOption, setSelectedOption] = useState('최신순');
 
-      const teamData = [
-        { id: 1, name: '마이스페이스', members: 6 },
-        { id: 2, name: '24학번 동기', members: 8 },
-        { id: 3, name: '24-1학기 영어 교양 팀원', members: 4 },
-      ];
-
       const MySpaceGroup = ({ name, members }) => (
         <TouchableOpacity style={styles.groupContent} onPress={handleMoveCard} >
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -347,18 +367,27 @@ function DetailSpaceGroup({ navigation }) {
         <View style={styles.backgroundColor}>
           <View style={styles.cardLayout}>
             <ScrollView showsVerticalScrollIndicator={false}>
-            <View>
-                {teamData.map((team) => (
-                    <MySpaceGroup
-                    key={team.id}
-                    name={team.name}
-                    description={team.description}
-                    members={team.members}
-                    isHost={team.isHost}
-                    />
-                ))}
-            </View>
-              <View style={styles.innerView}></View>
+            <MySpaceGroup
+            id={'received-card'}  // 고유 ID 설정
+            name={'받은 프로필 카드'}
+            members={'8'}
+            showRadio={true}  // 라디오 버튼 활성화
+            showMenu={false}  // 메뉴 비활성화
+          />
+  
+          {/* 그룹 리스트 */}
+          <View>
+            {teamData.map((team) => (
+              <MySpaceGroup
+                key={team.id}
+                id={team.id}
+                name={team.name}
+                members={team.members}
+                showRadio={false}  // 라디오 버튼 활성화
+                showMenu={false}  // 메뉴 비활성화
+              />
+            ))}
+          </View>
             </ScrollView>
           </View>
           <View style={styles.bottomContainer}>

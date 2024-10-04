@@ -31,16 +31,22 @@ const CustomCardRadioButton2 = ({ selected, onPress }) => {
   );
 };
 
-const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, title, showPlusCardButton, showTitle = true, showRadio=false, showNewCardButton=false}) => {
-  
-    // 선택된 카드의 ID를 관리하는 상태
-    const [selectedCardId, setSelectedCardId] = useState(null);
-
-    // 라디오 버튼 선택 처리 함수
-    const handleRadioSelect = (id) => {
-      setSelectedCardId(id);
-    };
-  
+const CardsView = ({
+  navigation,
+  selectedOption,
+  setSelectedOption,
+  viewOption,
+  setViewOption,
+  handleNext,
+  cardData,
+  title,
+  showPlusCardButton,
+  showTitle = true,
+  showRadio = false,
+  showNewCardButton = false,
+  selectedCards = [], // 선택된 카드 목록 상태
+  handleRadioSelect, // 카드 선택 상태 변경 함수
+}) => {
   return (
     <View style={styles.mainlayout}>
       {showTitle && title && (
@@ -80,41 +86,41 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, 
       
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-        {viewOption === '격자형' && (
-          <View style={styles.gridContainer}>
-            {/* 플러스 카드 버튼이 활성화된 경우 */}
-            {showPlusCardButton && <PlusCardButton navigation={navigation} />}
+          {viewOption === '격자형' && (
+            <View style={styles.gridContainer}>
+              {/* 플러스 카드 버튼이 활성화된 경우 */}
+              {showPlusCardButton && <PlusCardButton navigation={navigation} />}
 
-            {/* 카드 데이터 목록 렌더링 */}
-            {cardData.map((item) => (
-              <View key={item.id} style={styles.cardWrapper}>
-                {showRadio && (
-                  <View style={styles.radioButtonContainer}>
-                    <CustomCardRadioButton2
-                      selected={selectedCardId === item.id}
-                      onPress={() => handleRadioSelect(item.id)}
+              {/* 카드 데이터 목록 렌더링 */}
+              {cardData.map((item) => (
+                <View key={item.id} style={styles.cardWrapper}>
+                  {showRadio && (
+                    <View style={styles.radioButtonContainer}>
+                      <CustomCardRadioButton2
+                        selected={selectedCards.includes(item.id)} // 선택 여부를 확인하여 표시
+                        onPress={() => handleRadioSelect(item.id)} // 개별 카드 선택/해제 처리
+                      />
+                    </View>
+                  )}
+
+                  {/* 카드 본문 */}
+                  <TouchableOpacity
+                    style={styles.btn2}
+                    onPress={showRadio ? () => handleRadioSelect(item.id) : handleNext}
+                  >
+                    <item.Component
+                      backgroundColor={item.backgroundColor}
+                      avatar={item.avatar}
+                      card_name={item.card_name}
+                      age={item.age}
+                      dot={item.dot}
+                      card_template={item.card_template}
                     />
-                  </View>
-                )}
-
-                {/* 카드 본문 */}
-                <TouchableOpacity
-                  style={styles.btn2}
-                  onPress={showRadio ? () => handleRadioSelect(item.id) : handleNext}
-                >
-                  <item.Component
-                    backgroundColor={item.backgroundColor}
-                    avatar={item.avatar}
-                    card_name={item.card_name}
-                    age={item.age}
-                    dot={item.dot}
-                    card_template={item.card_template}
-                  />
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
-        )}
+                  </TouchableOpacity>
+                </View>
+              ))}
+            </View>
+          )}
 
           {viewOption === '리스트형' && (
             <View>
@@ -122,13 +128,13 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, 
                 <TouchableOpacity
                   key={item.id}
                   style={styles.radioCardWrapper}
-                  onPress={() => handleRadioSelect(item.id)} 
+                  onPress={() => handleRadioSelect(item.id)} // 카드 클릭 시 선택 처리
                 >
                   {/* showRadio가 true일 때만 라디오 버튼을 왼쪽에 표시 */}
                   {showRadio && (
                     <View style={styles.radioButtonWrapper}>
                       <CustomCardRadioButton
-                        selected={selectedCardId === item.id}
+                        selected={selectedCards.includes(item.id)} // 선택 여부 확인
                         onPress={() => handleRadioSelect(item.id)} // 라디오 버튼 클릭 시 선택 처리
                       />
                     </View>
@@ -138,7 +144,7 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, 
                   <View style={styles.ListContainer}>
                     <View style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}>
                       <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                        <Text> {'\n'}   아바타{'\n'}   이미지</Text>
+                        <Text> {'\n'} 아바타{'\n'} 이미지</Text>
                       </View>
                       <View style={styles.infoContainer}>
                         <View style={styles.rowName}>

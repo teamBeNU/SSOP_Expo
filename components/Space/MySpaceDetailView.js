@@ -9,7 +9,7 @@ import AllListIcon from'../../assets/icons/ic_border_all.svg';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
-const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton, showFilter=false, handleFilterNext, showMenu=true, onChangeGroupName, onDeleteGroup,}) => {
+const MySpaceDetailView = ({ title, sub, members, isHost=false, navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton, showFilter=false, handleFilterNext, showMenu=true, onChangeGroupName, onDeleteGroup,}) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
           <View style={styles.backgroundColor2}>
@@ -113,6 +113,11 @@ const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, se
                       </View>
                       <View style={styles.infoContainer}>
                         <View style={styles.rowName}>
+                          {item.isHost && (
+                              <View style={styles.host}>
+                              <Text style={styles.hostText}>호스트</Text>
+                              </View>
+                          )}
                           <Text style={styles.Text16gray10}>{item.card_name}</Text>
                           <Text style={styles.Text16gray50}>{item.age}</Text>
                         </View>

@@ -78,18 +78,26 @@ export const TeamSpaceList = ({ id, name, members, isHost, description, onGroupP
                 )}
                 <Text style={styles.font18}>{name}</Text>
             </View>
-                <View style={{ marginLeft: 'auto' }}>
+            {/* 메뉴 버튼 */}
+            <View style={{ marginLeft: 'auto' }}>
                 {showMenu && (
-                    <Menu>
-                        <MenuTrigger>
-                            <MoreGrayIcon/>
-                        </MenuTrigger>
-                        <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                            <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스명 변경하기' />
-                            <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스 삭제하기' />
-                            <MenuOption text='팀스페이스 나가기' />
-                        </MenuOptions>
-                    </Menu>
+                <Menu>
+                    <MenuTrigger>
+                    <MoreGrayIcon />
+                    </MenuTrigger>
+                    {/* isHost에 따라 메뉴 옵션을 다르게 설정 */}
+                    <MenuOptions
+                    optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
+                    >
+                    {isHost ? (
+                        <>
+                        <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스명 변경하기' onSelect={onChangeGroupName} />
+                        <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스 삭제하기' onSelect={() => onDeleteGroup(id)} />
+                        </>
+                    ) : null}
+                    <MenuOption text='팀스페이스 나가기' onSelect={() => onDeleteGroup(id)} />
+                    </MenuOptions>
+                </Menu>
                 )}
                 </View>
             </View>

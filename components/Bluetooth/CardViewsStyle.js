@@ -232,6 +232,25 @@ export const styles = StyleSheet.create({
         gap: 4
     },
 
+    host: {
+        width: 38,
+        height: 18,
+        borderRadius: 8,
+        backgroundColor: '#00C2ED33',
+        fontFamily: 'PretendardRegular',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 6,
+        paddingVertical: 3,
+    },
+    hostText: {
+        color: theme.gray20,
+        fontSize: 10,
+        fontFamily: 'PretendardRegular',
+        textAlign: 'center',
+        letterSpacing: -1,
+    },
+
     // 마이 스페이스 상세
     backgroundColor:{
         flex: 1, 

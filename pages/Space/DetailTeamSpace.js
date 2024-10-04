@@ -1,5 +1,5 @@
 import React, { useState, useLayoutEffect, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert, TouchableWithoutFeedback } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Alert, TouchableWithoutFeedback } from "react-native";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
@@ -9,7 +9,7 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-m
 import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import * as Sharing from 'expo-sharing';
-import SpaceManage from "../../components/Space/SpaceManage.js";
+import * as Clipboard from 'expo-clipboard';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
 
@@ -17,14 +17,12 @@ import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
-import People from '../../assets/icons/ic_person_small_fill.svg';
-import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
-import SaveIcon from '../../assets/icons/ic_save_small_line.svg';
-import ContactIcon from '../../assets/icons/ic_contact_small_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import SelectIcon from '../../assets/icons/ic_done_small_line_blue.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
+import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
+import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -57,22 +55,39 @@ function DetailTeamSpaceScreen({ navigation }) {
     setIsModalVisible(true);
   };
 
+  const handleDeleteGroup = (id) => {
+    setGroupToDelete(id);
+    setIsSpaceModalVisible(true);
+};
+
+  const handleConfirmDelete = () => {
+    // groupToDelete에 해당하는 그룹 삭제
+    setTeamData((prevData) => prevData.filter((group) => group.id !== groupToDelete));
+    setGroupToDelete(null);  // 삭제할 그룹 ID 초기화
+    setIsSpaceModalVisible(false);  // 모달 닫기
+    showCustomToast('그룹이 성공적으로 삭제되었어요.');
+  };
+
+  const handleChangeGroupName = () => {
+    setIsGroupNameChangeModalVisible(true);
+  };
+
   const DetailcardData = [
-    { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', host: true, filter: '#기획' },
-    { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생', filter: '#디자이너'},
-    { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인', filter: '#프런트엔드' },
-    { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬', filter: '#백엔드' },
-    { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', filter: '#디자이너' },
-    { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', filter: '#프런트엔드' },
+    { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', isHost: true, filter: '#기획' },
+    { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생', isHost: false, filter: '#디자이너'},
+    { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인', isHost: false, filter: '#프런트엔드' },
+    { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬', isHost: false, filter: '#백엔드' },
+    { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', isHost: false, filter: '#디자이너' },
+    { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 />, card_name: '홍길동', age: '23세', dot: '·', card_template: '직장인', isHost: false, filter: '#프런트엔드' },
 
   ];
 
   const inviteCode = '123456'; // 초대코드
 
   // 복사
-  const copyinviteCode = () => {
+  const copyinviteCode = async() => {
     const textToCopy = inviteCode;
-    Clipboard.setString(textToCopy);
+    await Clipboard.setStringAsync(textToCopy);
     Alert.alert("클립보드에 복사되었습니다.");
   };    
 
@@ -139,8 +154,8 @@ function DetailTeamSpaceScreen({ navigation }) {
           <SpaceModal
             isVisible={isSpaceModalVisible}
             onClose={() => setIsSpaceModalVisible(false)}
-            title={'그룹을 삭제하시겠습니까?'}
-            sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
+            title={'선택한 팀스페이스를 삭제하시겠습니까?'}
+            sub={'모든 정보가 삭제되며 되돌릴 수 없습니다.'}
             btn1={'취소할래요'}
             btn2={'네, 삭제할래요'}
           />
@@ -361,19 +376,49 @@ function Filter() {
       navigation.navigate('카드 조회');
     };
   
-    const handleSelectAll = () => {
-      if (selectedCards.length === cardData.length) {
-        setSelectedCards([]);
-      } else {
-        setSelectedCards(cardData.map(card => card.id));
-      }
-    };
+      // 카드 선택/해제 처리 함수
+      const handleRadioSelect = (cardId) => {
+        setSelectedCards((prevSelectedCards) =>
+          prevSelectedCards.includes(cardId)
+            ? prevSelectedCards.filter((id) => id !== cardId) // 이미 선택된 카드 해제
+            : [...prevSelectedCards, cardId] // 새 카드 선택
+        );
+      };
 
-    useLayoutEffect(() => {
-      navigation.setOptions({
-        headerTitle: `${selectedCards.length}개 선택됨`,
-      });
-    }, [selectedCards]);
+      // 모든 카드를 선택하거나 선택 해제하는 함수
+      const handleSelectAll = () => {
+        if (selectedCards.length === cardData.length) {
+          setSelectedCards([]); // 모든 선택 해제
+        } else {
+          setSelectedCards(cardData.map((card) => card.id)); // 모든 카드 선택
+        }
+      };
+
+        // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
+        React.useLayoutEffect(() => {
+          navigation.setOptions({
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <CloseIcon style={{ marginLeft: 16 }} />
+              </TouchableOpacity>
+            ),
+            headerTitle: () => (
+              <Text style={{ fontSize: 16, fontWeight: '500' }}>
+                {selectedCards.length}개 선택됨
+              </Text>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={handleSelectAll}>
+                {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
+                {selectedCards.length === cardData.length ? (
+                  <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
+                ) : (
+                  <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
+                )}
+              </TouchableOpacity>
+            ),
+          });
+        }, [navigation, selectedCards]);  // 선택된 그룹 상태가 변경될 때마다 헤더 업데이트
   
     return (
       <View style={styles.backgroundColor}>
@@ -390,6 +435,8 @@ function Filter() {
                   handleNext={handleNext}
                   cardData={cardData}
                   showRadio={true}
+                  selectedCards={selectedCards} // 선택된 카드 목록 전달
+                  handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달
               />
               </View>
             </View>

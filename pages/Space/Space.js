@@ -171,7 +171,7 @@ function MySpaceStack({navigation}) {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => navigation.navigate('마이 스페이스 관리')}><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity><SearchIcon /></TouchableOpacity>
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
@@ -232,7 +232,7 @@ function TeamSpaceStack({navigation}) {
           ),
           headerRight: () => (
             <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity onPress={() => navigation.navigate('마이 스페이스 관리')}><SearchIcon /></TouchableOpacity>
+              <TouchableOpacity ><SearchIcon /></TouchableOpacity>
               <TouchableOpacity>
                 <Menu>
                   <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>

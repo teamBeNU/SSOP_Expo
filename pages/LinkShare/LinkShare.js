@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Clipboard, Alert, Modal, TouchableWithoutFeedback } from "react-native";
+import { View, Text, ScrollView, Alert, Modal, TouchableWithoutFeedback } from "react-native";
 import { styles } from './LinkShareStyle';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -8,6 +8,7 @@ import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import * as Progress from 'react-native-progress';
 import * as Sharing from 'expo-sharing';
+import * as Clipboard from 'expo-clipboard';
 import { theme } from "../../theme";
 
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -76,9 +77,9 @@ function Step2Screen({ navigation }) {
   const LinkShare = 'digitalmedia.com'; // 링크 
 
   // 링크 복사
-  const copyLinkShare = () => {
+  const copyLinkShare = async () => {
     const textToCopy = LinkShare;
-    Clipboard.setString(textToCopy);
+    await Clipboard.setStringAsync(textToCopy);
     Alert.alert("클립보드에 복사되었습니다.");
   };
   
