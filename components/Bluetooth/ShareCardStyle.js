@@ -140,26 +140,25 @@ export const styles = StyleSheet.create({
 
     radioButtonContainer: {
         position: 'absolute',
-        top: 10,
-        left: 10,
+        top: 12,
+        left: 12,
     },
 
     radioContainer: {    
         position: 'relative',
       },
       radio: {
-        height: 20,
-        width: 20,
+        height: 16,
+        width: 16,
         borderRadius: 12,
-        borderWidth: 2,
+        borderWidth: 1.5,
         borderColor: theme.white,
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: "rgba(0, 0, 0, 0.5)",
 
       },
       radioSelected: {
-        borderColor: theme.white,
-        backgroundColor: theme.white,
+        borderColor: '#757575',
+        backgroundColor: '#757575',
       },
 });

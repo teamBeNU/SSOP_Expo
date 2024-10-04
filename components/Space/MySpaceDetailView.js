@@ -8,12 +8,14 @@ import ListIcon from '../../assets/icons/ic_lists.svg';
 import AllListIcon from'../../assets/icons/ic_border_all.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
-const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton }) => {
+const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton, showFilter=false, handleFilterNext}) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
           <View style={styles.backgroundColor2}>
             <Text style={[styles.detailtitle, {marginBottom: 8}]}>{title}</Text>
-            <Text style={[styles.detailtitle, {marginBottom: 8}]}>{sub}</Text>
+            { sub ? (
+              <Text style={[styles.subteamsp, { marginBottom: 8 }]}>{sub}</Text>
+            ) : null }
             <View style={styles.leftContainer}>
                   <Text style={styles.detailPeople}>
                     <People /> {members}
@@ -21,19 +23,34 @@ const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, se
             </View>
 
             <View>
-              <View style={styles.rowRange}>
-                {/* 격자형, 리스트형 */}
+            <View style={styles.rowRange2}>
+              {/* "필터" 버튼 표시 (showFilterButton이 true일 때만) */}
+              {showFilter && (
+                <TouchableOpacity 
+                  style={styles.filterButton} 
+                  onPress={handleFilterNext}
+                >
+                  <Text style={styles.filterButtonText}>필터</Text>
+                </TouchableOpacity>
+              )}
+
+              {/* 필터 버튼이 없을 때도 공간을 차지할 빈 뷰 */}
+              {!showFilter && <View style={{ flex: 1 }} />}
+
+              <View style={styles.rightButtonGroup}>
+                {/* 격자형, 리스트형 버튼 */}
                 <TouchableOpacity
                   onPress={() => setViewOption(viewOption === '격자형' ? '리스트형' : '격자형')}
-                  style={styles.iconContainer}>
+                  style={styles.iconContainer}
+                >
                   {viewOption === '격자형' ? (
-                    <AllListIcon/>
+                    <AllListIcon />
                   ) : (
-                    <ListIcon/>
+                    <ListIcon />
                   )}
                 </TouchableOpacity>
 
-                {/* 최신순, 오래된순 */}
+                {/* 최신순, 오래된순 메뉴 */}
                 <Menu>
                   <MenuTrigger>
                     <View style={styles.optionButton}>
@@ -42,12 +59,25 @@ const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, se
                     </View>
                   </MenuTrigger>
                   <MenuOptions
-                    optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                    <MenuOption style={{ marginBottom: 10.5 }} onSelect={() => setSelectedOption('최신순')} text='최신순' />
-                    <MenuOption onSelect={() => setSelectedOption('오래된 순')} text='오래된 순' />
+                    optionsContainerStyle={{
+                      width: 'auto',
+                      paddingVertical: 16,
+                      paddingHorizontal: 24,
+                      borderRadius: 16,
+                    }}
+                  >
+                    <MenuOption
+                      style={{ marginBottom: 10.5 }}
+                      onSelect={() => setSelectedOption('최신순')}
+                      text='최신순'
+                    />
+                    <MenuOption
+                      onSelect={() => setSelectedOption('오래된 순')}
+                      text='오래된 순'
+                    />
                   </MenuOptions>
                 </Menu>
-
+                </View>
               </View>
             </View>
           </View>   

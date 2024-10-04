@@ -29,12 +29,12 @@ const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 const cardData = [
-  { id: '1', Component: RadioCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', filter: '#기획' },
-  { id: '2', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생', filter: '#디자이너'},
-  { id: '3', Component: RadioCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인', filter: '#프런트엔드' },
-  { id: '4', Component: RadioCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬', filter: '#백엔드' },
-  { id: '5', Component: RadioCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', filter: '#디자이너' },
-  { id: '6', Component: RadioCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', filter: '#프런트엔드' },
+  { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', filter: '#기획' },
+  { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 />, card_name: '이사나', age: '23세', dot: '·',card_template: '학생', filter: '#디자이너'},
+  { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인', filter: '#프런트엔드' },
+  { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 />, card_name: '임지니', age: '22세', dot: '·',card_template: '팬', filter: '#백엔드' },
+  { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', filter: '#디자이너' },
+  { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인', filter: '#프런트엔드' },
 
 ];
 
@@ -47,7 +47,8 @@ function DetailTeamSpaceScreen({ navigation }) {
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const [hasCards, setHasCards] = useState(true);
-  const handleNext = () => {
+
+  const handleFilterNext = () => {
     navigation.navigate('필터');
   };
 
@@ -190,13 +191,14 @@ function DetailTeamSpaceScreen({ navigation }) {
             title="김슈니의 팀스페이스"
             members='8 / 150'
             sub={'IT 소학회 SWUT 스페이스입니다.'}
+            showFilter={true}
             navigation={navigation}
             hasCards={hasCards}
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
             viewOption={viewOption}
             setViewOption={setViewOption}
-            handleNext={handleNext}
+            handleFilterNext={handleFilterNext}
             cardData={DetailcardData}
           />
           <SpaceModal
@@ -278,40 +280,40 @@ function Filter() {
                 {filter.promoter && (
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <SelectIcon />
-                    <Text style={styles.selectedText}> #기획자 </Text>
+                    <Text style={styles.selectedText}> 기획 </Text>
                   </View>
                 )}
-                {!filter.promoter && <Text> #기획자 </Text>}
+                {!filter.promoter && <Text> 기획 </Text>}
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleSelect('designer')}
                  style={filter.designer ? styles.selectedElement : styles.element}>
                  {filter.designer && (
                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                      <SelectIcon />
-                     <Text style={styles.selectedText}> #디자이너 </Text>
+                     <Text style={styles.selectedText}> 디자이너 </Text>
                    </View>
                )}
-                 {!filter.designer && <Text> #디자이너 </Text>}
+                 {!filter.designer && <Text> 디자이너 </Text>}
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleSelect('frontend')}
                  style={filter.frontend ? styles.selectedElement : styles.element}>
                  {filter.frontend && (
                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                      <SelectIcon />
-                     <Text style={styles.selectedText}> #프런트엔드 </Text>
+                     <Text style={styles.selectedText}> 프런트엔드 </Text>
                    </View>
                )}
-                 {!filter.frontend && <Text> #프런트엔드 </Text>}
+                 {!filter.frontend && <Text> 프런트엔드 </Text>}
               </TouchableOpacity>
               <TouchableOpacity onPress={() => handleSelect('backend')}
                  style={filter.backend ? styles.selectedElement : styles.element}>
                  {filter.backend && (
                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                      <SelectIcon />
-                     <Text style={styles.selectedText}> #백엔드 </Text>
+                     <Text style={styles.selectedText}> 백엔드 </Text>
                    </View>
                )}
-                 {!filter.backend && <Text> #백엔드 </Text>}
+                 {!filter.backend && <Text> 백엔드 </Text>}
               </TouchableOpacity>
         </View>
         <Text style={styles.filterText}>전공</Text>
@@ -393,88 +395,80 @@ function Filter() {
 }
 
 
- // 연락처 저장
- function SaveTellScreen({navigation}) {
-  const showCustomToast = (text) => {
-    Toast.show({
-      text1: text,
-      type: 'selectedToast',
-      position: 'bottom',
-      visibilityTime: 2000,
-    });
-  };
+  // 연락처 저장
+  function SaveTellScreen({navigation}) {
+    const showCustomToast = (text) => {
+      Toast.show({
+        text1: text,
+        type: 'selectedToast',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
+    };
+    
+    const handleSaveTel = () => {
+      showCustomToast('연락처가 저장되었습니다.');
+    };
+
+    const [selectedCards, setSelectedCards] = useState([]);
+    const [selectedOption, setSelectedOption] = useState('최신순');
+    const [viewOption, setViewOption] = useState('격자형');
   
-  const handleSaveTel = () => {
-    showCustomToast('연락처가 저장되었습니다.');
-  };
+    const handlePress = (cardId) => {
+      setSelectedCards(prevSelectedCards => 
+        prevSelectedCards.includes(cardId)
+          ? prevSelectedCards.filter(id => id !== cardId)
+          : [...prevSelectedCards, cardId]
+      );
+    };
 
-  const [selectedCards, setSelectedCards] = useState([]);
-  const [selectedOption, setSelectedOption] = useState('최신순');
+    const handleNext = () => {
+      navigation.navigate('카드 조회');
+    };
+  
+    const handleSelectAll = () => {
+      if (selectedCards.length === cardData.length) {
+        setSelectedCards([]);
+      } else {
+        setSelectedCards(cardData.map(card => card.id));
+      }
+    };
 
-  const handlePress = (cardId) => {
-    setSelectedCards(prevSelectedCards => 
-      prevSelectedCards.includes(cardId)
-        ? prevSelectedCards.filter(id => id !== cardId)
-        : [...prevSelectedCards, cardId]
-    );
-  };
-
-  const handleSelectAll = () => {
-    if (selectedCards.length === cardData.length) {
-      setSelectedCards([]);
-    } else {
-      setSelectedCards(cardData.map(card => card.id));
-    }
-  };
-
-  useLayoutEffect(() => {
-    navigation.setOptions({
-      headerTitle: `${selectedCards.length}개 선택됨`,
-    });
-  }, [selectedCards]);
-
-  return (
-    <View style={styles.backgroundColor}>
-      <SpaceManage
-        selectedCards={selectedCards}
-        handleSelectAll={handleSelectAll}
-        selectedOption={selectedOption}
-        setSelectedOption={setSelectedOption}
-        cardDataLength={cardData.length}
-      />
-      <View style={styles.cardLayout}>
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={styles.container}>
-            <View style={styles.row}>
-              {cardData.map((item) => (
-                <View key={item.id} style={styles.card}>
-                  <item.Component
-                    backgroundColor={item.backgroundColor}
-                    avatar={item.avatar}
-                    card_name={item.card_name}
-                    age={item.age}
-                    dot={item.dot}
-                    card_template={item.card_template}
-                    host={item.host}
-                    filter={item.filter}
-                    selected={selectedCards.includes(item.id)} 
-                    onPress={() => handlePress(item.id)}
-                  />
-                </View>
-              ))}
+    useLayoutEffect(() => {
+      navigation.setOptions({
+        headerTitle: `${selectedCards.length}개 선택됨`,
+      });
+    }, [selectedCards]);
+  
+    return (
+      <View style={styles.backgroundColor}>
+        <View>
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <View style={styles.container}>
+              <View style={styles.row}>
+              <CardsView
+                  navigation={navigation}
+                  selectedOption={selectedOption}
+                  setSelectedOption={setSelectedOption}
+                  viewOption={viewOption}
+                  setViewOption={setViewOption}
+                  handleNext={handleNext}
+                  cardData={cardData}
+                  showRadio={true}
+              />
+              </View>
             </View>
-          </View>
-          <View style={styles.innerView}></View>
-        </ScrollView>
+            <View style={styles.innerView}></View>
+          </ScrollView>
+        </View>
+        <View style={styles.bottomContainer}>
+          <TouchableOpacity onPress={handleSaveTel}>
+            <Text style={styles.bottomText}>핸드폰에 연락처 저장</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity onPress={handleSaveTel}>
-          <Text style={styles.bottomText}>연락처 저장</Text>
-        </TouchableOpacity>
-      </View>
-    </View>
-  );
-}
+    );
+  }
 
 
 function DetailTeamSpace() {

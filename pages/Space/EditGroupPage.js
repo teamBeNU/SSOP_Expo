@@ -94,7 +94,7 @@ function EditGroupPage({ route, navigation }) {
     return (
       <View style={styles.editgrouplayout}>
         <ScrollView>
-          {/* 받은 프로필 카드 항목 */}
+          {/* (디폴트) 받은 프로필 카드 항목 */}
           <MySpaceGroup
             id={'received-card'}  // 고유 ID 설정
             name={'받은 프로필 카드'}
@@ -105,7 +105,7 @@ function EditGroupPage({ route, navigation }) {
             onPress={() => handleGroupSelect('received-card')}  // 라디오 버튼 및 카드 클릭 핸들러
           />
   
-          {/* 팀 그룹 리스트 */}
+          {/* 그룹 리스트 */}
           <View style={styles.row}>
             {teamData.map((team) => (
               <MySpaceGroup
