@@ -25,6 +25,8 @@ import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import GroupIcon from '../../assets/icons/ic_group_regular.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
+import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
+import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 import { theme } from "../../theme.js";
 
 const Stack = createStackNavigator();
@@ -218,24 +220,53 @@ function DetailSpaceGroup({ navigation }) {
             : [...prevSelectedCards, cardId]
         );
       };
+        // 라디오 버튼 선택 처리 함수
+      const handleRadioSelect = (cardId) => {
+        setSelectedCards((prevSelectedCards) =>
+          prevSelectedCards.includes(cardId)
+            ? prevSelectedCards.filter((id) => id !== cardId) // 이미 선택된 카드 해제
+            : [...prevSelectedCards, cardId] // 새 카드 선택
+        );
+      };
+
+      // 모든 카드를 선택하거나 선택 해제하는 함수
+      const handleSelectAll = () => {
+        if (selectedCards.length === cardData.length) {
+          setSelectedCards([]); // 모든 선택 해제
+        } else {
+          setSelectedCards(cardData.map((card) => card.id)); // 모든 카드 선택
+        }
+      };
 
       const handleNext = () => {
         navigation.navigate('카드 조회');
       };
-    
-      const handleSelectAll = () => {
-        if (selectedCards.length === cardData.length) {
-          setSelectedCards([]);
-        } else {
-          setSelectedCards(cardData.map(card => card.id));
-        }
-      };
 
-      useLayoutEffect(() => {
-        navigation.setOptions({
-          headerTitle: `${selectedCards.length}개 선택됨`,
-        });
-      }, [selectedCards]);
+          // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
+    React.useLayoutEffect(() => {
+      navigation.setOptions({
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <CloseIcon style={{ marginLeft: 16 }} />
+          </TouchableOpacity>
+        ),
+        headerTitle: () => (
+          <Text style={{ fontSize: 16, fontWeight: '500' }}>
+            {selectedCards.length}개 선택됨
+          </Text>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={handleSelectAll}>
+            {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
+            {selectedCards.length === cardData.length + 1 ? (
+              <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
+            ) : (
+              <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
+            )}
+          </TouchableOpacity>
+        ),
+      });
+    }, [navigation, selectedCards]);  // 선택된 그룹 상태가 변경될 때마다 헤더 업데이트
   
       return (
         <View style={styles.backgroundColor}>

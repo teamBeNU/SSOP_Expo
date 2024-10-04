@@ -57,6 +57,7 @@ function Step1Screen({ navigation }) {
           handleNext={handleNext}
           cardData={cardData}
           title={title}
+          showNewCardButton={true}
         />
       ) : (
         <NoCardsView 

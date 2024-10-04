@@ -8,6 +8,7 @@ import { ShareCard, RadioCard } from "../../components/Bluetooth/ShareCard.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
+import * as Sharing from 'expo-sharing';
 import SpaceManage from "../../components/Space/SpaceManage.js";
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
@@ -54,27 +55,6 @@ function DetailTeamSpaceScreen({ navigation }) {
 
   const handleShareButtonPress = () => {
     setIsModalVisible(true);
-    <Modal
-    animationType="fade"
-    transparent={true}
-    visible={isModalVisible}
-    onRequestClose={() => {
-      setIsModalVisible(!isModalVisible);
-    }}>
-    <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
-      <View style={styles.shareModalContainer}>
-        <View style={styles.ShareModalView}>
-          <TouchableOpacity onPress={() => { copyinviteCode(); setIsModalVisible(false); }}>
-            <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>                   
-          </TouchableOpacity>
-          <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
-          <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-            <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>                   
-          </TouchableOpacity>
-        </View>
-      </View>
-    </TouchableWithoutFeedback>
-  </Modal>
   };
 
   const DetailcardData = [
@@ -96,97 +76,52 @@ function DetailTeamSpaceScreen({ navigation }) {
     Alert.alert("클립보드에 복사되었습니다.");
   };    
 
+  const shareLinkCode = async () => {
+    try {
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (!isAvailable) {
+        Alert.alert('Sharing is not available on this device');
+        return;
+      }
+
+      await Sharing.shareAsync('https://naver.com', {
+        dialogTitle: 'SSOP Share TEST',
+      });
+    } catch (error) {
+      Alert.alert('Error sharing', error.message);
+    }
+  };
 
 
   return (
-    // <View style={styles.backgroundColor}>
-    //    <ScrollView showsVerticalScrollIndicator={false}>
-    //     <Text style={styles.title}>김슈니의 팀스페이스</Text>
-    //     <Text style={styles.sub}>IT 소학회 SWUT 스페이스입니다.</Text>
-    //     <View style={styles.btnContainer}>
-    //             <View style={styles.btn}>
-    //                 <TouchableOpacity style={styles.whiteBtn} onPress={handleShareButtonPress}>
-    //                     <ShareIcon />
-    //                     <Modal
-    //                       animationType="fade"
-    //                       transparent={true}
-    //                       visible={isModalVisible}
-    //                       onRequestClose={() => {
-    //                         setIsModalVisible(!isModalVisible);
-    //                       }}>
-    //                       <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
-    //                         <View style={styles.shareModalContainer}>
-    //                           <View style={styles.ShareModalView}>
-    //                             <TouchableOpacity onPress={() => { copyinviteCode(); setIsModalVisible(false); }}>
-    //                               <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>                   
-    //                             </TouchableOpacity>
-    //                             <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
-    //                             <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-    //                               <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>                   
-    //                             </TouchableOpacity>
-    //                           </View>
-    //                         </View>
-    //                       </TouchableWithoutFeedback>
-
-    //                     </Modal>
-    //                 </TouchableOpacity>
-    //                 <Text style={styles.btnText}>공유하기</Text>
-    //             </View>
-    //             <View style={styles.btn}>
-    //                 <TouchableOpacity style={styles.whiteBtn} onPress={() => navigation.navigate('마이스페이스로 카드 저장')}>
-    //                     <SaveIcon />
-    //                 </TouchableOpacity>
-    //                 <Text style={styles.btnText}>마이스페이스로{'\n'}카드 저장</Text>
-    //             </View>
-    //             <View style={styles.btn}>
-    //                 <TouchableOpacity style={styles.whiteBtn} onPress={() => navigation.navigate('연락처 저장')}>
-    //                     <ContactIcon style={{color: 'white'}} />
-    //                 </TouchableOpacity>
-    //                 <Text style={styles.btnText}>연락처 저장 </Text>
-    //             </View>
-    //     </View>
-    
-      
-    //     <View style={styles.line} />
-        
-    //     <View style={styles.personContainer}>
-    //       <View style={styles.personRow}>
-    //         <View style={styles.leftContainer}>
-    //           <Text style={styles.personText}>구성원</Text>
-    //           <Text style={styles.detailPeople}>
-    //             <People />  48 / 150명
-    //           </Text>
-    //         </View>
-    //         <TouchableOpacity style={styles.positionFilter} onPress={handleNext}>
-    //           <Text style={styles.positionFilterText}>필터</Text>
-    //         </TouchableOpacity>
-    //       </View>
-    //     </View>
-    //     <View style={styles.cardLayout}>
-         
-    //         <View style={styles.container}>
-    //           <View style={styles.row}>
-    //               {DetailcardData.map((item) => (
-    //                   <TouchableOpacity key={item.id} style={styles.card} onPress={() => navigation.navigate('카드 조회')}>
-    //                   <item.Component 
-    //                       backgroundColor={item.backgroundColor} 
-    //                       avatar={item.avatar} 
-    //                       card_name={item.card_name} 
-    //                       age={item.age} 
-    //                       dot={item.dot}
-    //                       card_template={item.card_template} 
-    //                       host={item.host}
-    //                       filter={item.filter}
-    //                   />
-    //                   </TouchableOpacity>
-    //               ))}
-    //           </View>
-    //         </View>
-    //         <View style={styles.innerView}></View>
-    //     </View>
-    //     </ScrollView>
-    //   </View>
     <View style={styles.backgroundColor}>
+            {/* 공유 버튼을 눌렀을 때 표시되는 모달 */}
+            <Modal
+              animationType="fade"
+              transparent={true}
+              visible={isModalVisible}
+              onRequestClose={() => setIsModalVisible(false)}
+            >
+              <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+                <View style={styles.shareModalContainer}>
+                  <View style={styles.ShareModalView}>
+                    <TouchableOpacity
+                      onPress={() => {
+                        copyinviteCode();
+                        setIsModalVisible(false);
+                      }}
+                    >
+                      <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>
+                    </TouchableOpacity>
+                    <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
+                    <View style={styles.line} />
+                    <TouchableOpacity onPress={() => { shareLinkCode(); setIsModalVisible(false)}}>
+                      <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </Modal>
           <MySpaceDetailView
             title="김슈니의 팀스페이스"
             members='8 / 150'

@@ -570,12 +570,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     ShareModalView: {
-        paddingVertical: 32,
+        paddingVertical: 29,
         paddingHorizontal: 24,
         width: 272,
-        height: 180,
         backgroundColor: 'white',
-        borderRadius: 8,
+        borderRadius: 16,
     },
     ShareModalText: {
         fontFamily: 'PretendardSemiBold',
@@ -584,11 +583,16 @@ export const styles = StyleSheet.create({
     },
     ShareModalsmallText: {
         marginTop: 12,
-        marginBottom: 35,
+        marginBottom: 13,
         fontFamily: 'PretendardRegular',
         fontSize: 14,
         letterSpacing: -1,
         color: theme.gray60,
+    },
+    line: {
+        borderBottomWidth:1,
+        borderBottomColor: theme.gray90,
+        marginBottom: 27,
     },
 
     // 라디오

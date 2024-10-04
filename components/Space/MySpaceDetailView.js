@@ -6,9 +6,10 @@ import PlusCardIcon from '../../assets/icons/ic_add_medium_line.svg';
 import People from '../../assets/icons/ic_person_small_fill.svg';
 import ListIcon from '../../assets/icons/ic_lists.svg';
 import AllListIcon from'../../assets/icons/ic_border_all.svg';
+import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 
-const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton, showFilter=false, handleFilterNext}) => {
+const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton, showFilter=false, handleFilterNext, showMenu=true, onChangeGroupName, onDeleteGroup,}) => {
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
           <View style={styles.backgroundColor2}>
@@ -118,6 +119,19 @@ const MySpaceDetailView = ({ title, sub, members, navigation, selectedOption, se
                         <Text style={styles.Text14gray30}>{item.card_introduce}</Text>
                       </View>
                     </View>
+                    <View style={styles.menuContainer}>
+                                {showMenu && (
+                                    <Menu>
+                                    <MenuTrigger>
+                                        <MoreGrayIcon style={{ marginRight: 8 }} />
+                                    </MenuTrigger>
+                                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
+                                        <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
+                                        <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(id)} />
+                                    </MenuOptions>
+                                    </Menu>
+                                )}
+                        </View>
                   </TouchableOpacity>
                 </View>
               ))}

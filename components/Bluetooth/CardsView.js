@@ -31,7 +31,7 @@ const CustomCardRadioButton2 = ({ selected, onPress }) => {
   );
 };
 
-const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, title, showPlusCardButton, showTitle = true, showRadio=false, }) => {
+const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, title, showPlusCardButton, showTitle = true, showRadio=false, showNewCardButton=false}) => {
   
     // 선택된 카드의 ID를 관리하는 상태
     const [selectedCardId, setSelectedCardId] = useState(null);
@@ -116,16 +116,14 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, 
           </View>
         )}
 
-        {viewOption === '리스트형' && (
-          <View>
-            {cardData.map((item) => (
-              <TouchableOpacity
-                key={item.id}
-                style={styles.ListContainer}
-                onPress={() => handleRadioSelect(item.id)} // 카드 전체 클릭 시 라디오 버튼 선택 처리
-              >
-                {/* 라디오 버튼과 카드 본문을 감싸는 View */}
-                <View style={styles.radioCardContainer}>
+          {viewOption === '리스트형' && (
+            <View>
+              {cardData.map((item) => (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.radioCardWrapper}
+                  onPress={() => handleRadioSelect(item.id)} 
+                >
                   {/* showRadio가 true일 때만 라디오 버튼을 왼쪽에 표시 */}
                   {showRadio && (
                     <View style={styles.radioButtonWrapper}>
@@ -137,25 +135,28 @@ const CardsView = ({ navigation, selectedOption, setSelectedOption, viewOption, 
                   )}
 
                   {/* 카드 본문 */}
-                  <View style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}>
-                    <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                      <Text> {'\n'}   아바타{'\n'}   이미지</Text>
-                    </View>
-                    <View style={styles.infoContainer}>
-                      <View style={styles.rowName}>
-                        <Text style={styles.Text16gray10}>{item.card_name}</Text>
-                        <Text style={styles.Text16gray50}>{item.age}</Text>
+                  <View style={styles.ListContainer}>
+                    <View style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}>
+                      <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
+                        <Text> {'\n'}   아바타{'\n'}   이미지</Text>
                       </View>
-                      <Text style={styles.Text14gray30}>{item.card_introduce}</Text>
+                      <View style={styles.infoContainer}>
+                        <View style={styles.rowName}>
+                          <Text style={styles.Text16gray10}>{item.card_name}</Text>
+                          <Text style={styles.Text16gray50}>{item.age}</Text>
+                        </View>
+                        <Text style={styles.Text14gray30}>{item.card_introduce}</Text>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </TouchableOpacity>
-            ))}
-              <TouchableOpacity style={styles.newCardBtn} onPress={() => navigation.navigate('카드 만들기')}>
-                <PlusCardIcon />
-                <Text style={styles.Text14gray50}>새 카드 만들기</Text>
-              </TouchableOpacity>
+                </TouchableOpacity>
+              ))}
+              {showNewCardButton && (
+                <TouchableOpacity style={styles.newCardBtn} onPress={() => navigation.navigate('카드 만들기')}>
+                  <PlusCardIcon />
+                  <Text style={styles.Text14gray50}>새 카드 만들기</Text>
+                </TouchableOpacity>
+              )}
             </View>
           )}
         </View>

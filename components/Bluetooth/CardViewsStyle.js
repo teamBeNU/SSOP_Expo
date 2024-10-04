@@ -163,6 +163,8 @@ export const styles = StyleSheet.create({
 
     // 리스트형 카드 스타일
     ListContainer: {
+        flex: 1,
+        flexDirection: 'column',
         paddingVertical: 12,
         paddingHorizontal: 20,
         marginTop: 12,
@@ -188,6 +190,12 @@ export const styles = StyleSheet.create({
     infoContainer: {
         marginLeft: 12
     },
+    menuContainer: {
+        position: 'absolute',
+        zIndex: 10,
+        top: 5,
+        right: -15
+      },
     rowName: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -331,10 +339,14 @@ export const styles = StyleSheet.create({
       },
       
       radioButtonWrapper: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginRight: 12, // 라디오 버튼과 카드 본문 간의 간격 설정
+        marginRight: 12,
+        marginTop: 12,
+        justifyContent: 'center'
       },
       
+        radioCardWrapper: {
+            flexDirection: 'row',
+            alignItems: 'center',
+        },
       
 })
