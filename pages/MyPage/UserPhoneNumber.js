@@ -1,13 +1,9 @@
-import { View, Text, TextInput, TouchableOpacity, Pressable, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
-import React, { useState, useEffect, useRef } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { View, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
+import React, { useState } from 'react';
 import "react-native-gesture-handler";
 
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
-import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
-import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 
 function UserPhoneNumber({navigation}) {
     const [user_tel, setTel] = useState('');
@@ -22,7 +18,8 @@ function UserPhoneNumber({navigation}) {
         }
     }
 
-    const handleNext = () => {
+    // 변경사항 저장
+    const handleSave = () => {
         const isTF = user_tel !== '';
         setIsTelFull(isTF);
         if (isTF) {
@@ -54,7 +51,7 @@ function UserPhoneNumber({navigation}) {
                     <View style={styles.btnFlex} />
                     <TouchableOpacity 
                         style={styles.btnNext}
-                        onPress={handleNext}
+                        onPress={handleSave}
                     >
                         <Text style={styles.btnNextText}>변경사항 저장하기</Text>
                     </TouchableOpacity>

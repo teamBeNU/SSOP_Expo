@@ -11,52 +11,59 @@ import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
 
 function UserInfo({navigation}) {
-    const [user_name, setName] = useState('김슈니');
-    const [user_birth, setBirth] = useState({
-        year: '2001',
-        month: '1',
-        day: '2',
-    });
-    
+    const [user_name, setUserName] = useState('김슈니');
+    const [user_birth, setUserBirth] = useState('2020/03/03');
+
     const [inputName, setInputName] = useState(user_name);
-    const [inputBirth, setInputBirth] = useState({
-        year: user_birth.year,
-        month: user_birth.month,
-        day: user_birth.day,
-    });
+    const [inputBirth, setInputBirth] = useState(user_birth);
+
     const [isFull, setIsFull] = useState({
         name: true,
         birth: true,
     })
-    const [isCorrect, setIsCorrect] = useState({
-        name: true,
-        birth: true,
-    })
-    const [isBirthValid, setIsBirthValid] = useState({
-        year: true,
-        month: true,
-        day: true,
-    });
+    const [isNameCorrect, setIsNameCorrect] = useState(true);
+    const [isBirthCorrect, setIsBirthCorrect] = useState(true);
+
     const [modalVisible, setModalVisible] = useState(false);
-    const [dayInMonth, setDayInMonth] = useState(0);
 
     const ref_input2 = useRef();
-    const ref_input3 = useRef();
-    const ref_input4 = useRef();
 
-    const currentYear = new Date().getFullYear();
-
+    // 모달 - 취소 버튼 눌렀을 때
     const handleConfirm = () => {
         setModalVisible(false);
         navigation.goBack();
     };
-    
+
+    // 생년월일 '/' 자동 추가
+    useEffect(() => {
+        const formatBirth = (input) => {
+            const cleaned = input.replace(/\D/g, ''); // 숫자 이외의 문자 제거
+            const match = cleaned.match(/^(\d{0,4})(\d{0,2})(\d{0,2})$/);
+            if (match) {
+                return [match[1], match[2], match[3]].filter(Boolean).join('/');
+            }
+            return input;
+        };
+
+        const formattedBirth = formatBirth(inputBirth);
+        setInputBirth(formattedBirth);
+    }, [inputBirth]);
+
+    // 생년월일 올바른지 확인
+    const [isBirthValid, setIsBirthValid] = useState({
+        year: false,
+        month: false,
+        day: false,
+    });
+
+    const currentYear = new Date().getFullYear();
+
     const isLeapYear = (year) => {    // 윤년 구하기
         return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0));
     }
 
     const getDayInMonth = (year, month) => {    // 윤달 구하기
-        month = parseInt(month);
+        month = parseInt(month, 10) || 0;
         switch (month) {
             case 1: case 3: case 5: case 7: case 8: case 10: case 12:   // 31일
                 return 31;
@@ -69,78 +76,77 @@ function UserInfo({navigation}) {
         }
     }
 
-    useEffect(() => {   // 생년월일 올바른지 구하기         
-        const days = getDayInMonth(inputBirth.year, inputBirth.month);
-        setDayInMonth(days);
+    const handleBirth = (b) => {    // 생년월일 올바른지 확인
+        const birth = b.split('/');
+
+        const year = birth[0];
+        const month = birth[1];
+        const day = birth[2];
+
+        const days = getDayInMonth(year, month);
+        const isYearValid = year > currentYear - 150 && year <= currentYear;
+        const isMonthValid = month >= 1 && month <= 12;
+        const isDayValid = day >= 1 && day <= days;
     
-        if (inputBirth.year > currentYear - 110 && inputBirth.year <= currentYear) {    // 년
-            setIsBirthValid((prev) => ({ ...prev, year: true }));   // 현재 년도-110년 ~ 현재년도 까지 가능
-        } else {
-            setIsBirthValid((prev) => ({ ...prev, year: false }));
-        }
-        
-        if (inputBirth.month >= 1 && inputBirth.month <= 12) {  // 월
-            setIsBirthValid((prev) => ({ ...prev, month: true }));
-        } else {
-            setIsBirthValid((prev) => ({ ...prev, month: false }));
-        }
+        setIsBirthValid({
+            year: isYearValid,
+            month: isMonthValid,
+            day: isDayValid,
+        });
+    }
 
-        if (inputBirth.day >= 1 && inputBirth.day <= days) {    // 일
-            setIsBirthValid((prev) => ({ ...prev, day: true }));
-        } else {
-            setIsBirthValid((prev) => ({ ...prev, day: false }));
-        }
-    }, [inputBirth, currentYear])
-
-    useEffect(() => {   // 페이지 나가기, 저장
+    useEffect(() => {
+        // 입력한 값이 있는지 확인
         const isNameFull = inputName !== '';
-        const isBirthFull = inputBirth.year !== '' && inputBirth.month !== '' && inputBirth.day !== '';
+        const isBirthFull =  inputBirth !== '';
         setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull})));
 
-        const isNameCorrect = user_name === inputName;
-        const isBirthCorrect = user_birth.year === inputBirth.year && user_birth.month === inputBirth.month && user_birth.day === inputBirth.day;
-        setIsCorrect((prev => ({...prev, name: isNameCorrect, birth: isBirthCorrect})));
+        handleBirth(inputBirth);     // 입력한 생일이 올바른지 구하는 함수 호출
 
-        const isYearValid = isBirthValid.year;
-        const isMonthValid = isBirthValid.month;
-        const isDayValid = isBirthValid.day;
+        // 기존 유저 정보와 입력한 값이 일치하는지 확인
+        const isNCorrect = user_name === inputName;
+        const isBCorrect = user_birth === inputBirth;
+        setIsNameCorrect(isNCorrect);
+        setIsBirthCorrect(isBCorrect);
 
+    }, [inputName, inputBirth, user_name, user_birth]);
+    
+    // 나가기
+    const handleClose = () => {
+        if (isFull.name && isFull.birth && isNameCorrect && isBirthCorrect) {
+            navigation.goBack();
+        } else {
+            setModalVisible(true);
+        }
+    }
+
+    // 헤더 바
+    useEffect(() => {
         navigation.setOptions({
             headerLeft: () => (
                 <TouchableOpacity
-                    onPress={() => {
-                        if (isNameFull && isBirthFull && isNameCorrect && isBirthCorrect) {
-                            navigation.goBack();
-                        } else {
-                            setModalVisible(true);
-                        }
-                    }}
+                    onPress={() => { handleClose(); }}   // 나가기
                 >
                     <CloseIcon style={{ marginLeft: 8 }} />
                 </TouchableOpacity>
             ),
-            headerRight: () => (
-                <TouchableOpacity
-                    style={{marginRight: 20}}
-                    onPress={() => {
-                        if (isNameFull && isYearValid && isMonthValid && isDayValid) {
-                            setName(inputName);
-                            setBirth((prev => ({...prev, year: inputBirth.year, month: inputBirth.month, day: inputBirth.day})));
-                            navigation.navigate('MY');
-                        }
-                    }}
-                >
-                    <Text style={styles.saveBtn}>저장</Text>
-                </TouchableOpacity>
-            ),
         });
-    }, [user_name, user_birth, inputName, inputBirth, isBirthValid, navigation]);
+    }, [inputName, inputBirth]);
+
+    // 변경사항 저장
+    const handleSave = () => {
+        if (isFull.name && isFull.birth && isBirthValid.year && isBirthValid.month && isBirthValid.day) {
+            setUserName(inputName);
+            setUserBirth(inputBirth);
+            navigation.navigate('MY');
+        }
+    };
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.userInfoMain}>
                 <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>이름*</Text>
+                    <Text style={styles.inputText}>이름</Text>
                     <TextInput 
                         style={styles.customInput}
                         placeholder="이름을 입력하세요."
@@ -155,44 +161,19 @@ function UserInfo({navigation}) {
                 </View>
 
                 <View style={styles.inputContainer}>
-                    <Text style={styles.inputText}>생년월일*</Text>
-                    <View style={styles.inputBirthContainer}>
-                        <TextInput
-                            style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
-                            placeholder="년"
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.inputText}>생년월일 8자리</Text>
+                        <TextInput 
+                            style={styles.customInput}
+                            placeholder="YYYY/MM/DD"
                             placeholderTextColor={theme.gray60}
                             keyboardType="numeric"
-                            value={inputBirth.year}
-                            onChangeText={(newYear) => {setInputBirth((prevBirth => ({...prevBirth, year: newYear})));}}
-                            maxLength={4}
-                            returnKeyType="next"
-                            onSubmitEditing={() => ref_input3.current.focus()}
-                            ref={ref_input2}
-                            blurOnSubmit={false}
-                        />
-                        <TextInput
-                            style={[styles.inputBirth, styles.inputBirthText, styles.marginR8]}
-                            placeholder="월"
-                            placeholderTextColor={theme.gray60}
-                            keyboardType="numeric"
-                            value={inputBirth.month}
-                            onChangeText={(newMonth) => {setInputBirth((prevBirth => ({...prevBirth, month: newMonth})));}}
-                            maxLength={2}
-                            returnKeyType="next"
-                            onSubmitEditing={() => ref_input4.current.focus()}
-                            ref={ref_input3}
-                            blurOnSubmit={false}
-                        />
-                        <TextInput
-                            style={[styles.inputBirth, styles.inputBirthText]}
-                            placeholder="일"
-                            placeholderTextColor={theme.gray60}
-                            keyboardType="numeric"
-                            value={inputBirth.day}
-                            onChangeText={(newDay) => {setInputBirth((prevBirth => ({...prevBirth, day: newDay})));}}
-                            maxLength={2}
+                            maxLength={10}
+                            value={inputBirth}
+                            onChangeText={setInputBirth}
                             returnKeyType="done"
-                            ref={ref_input4}
+                            ref={ref_input2}
+                            blurOnSubmit={true}
                         />
                     </View>
                 </View>
@@ -204,6 +185,14 @@ function UserInfo({navigation}) {
                         onConfirm={handleConfirm}
                     />
                 )}
+
+                <View style={styles.btnFlex} />
+                <TouchableOpacity 
+                    style={styles.btnNext}
+                    onPress={handleSave}
+                >
+                    <Text style={styles.btnNextText}>변경사항 저장하기</Text>
+                </TouchableOpacity>
             </View>
         </TouchableWithoutFeedback>
     );
