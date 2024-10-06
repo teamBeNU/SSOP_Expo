@@ -26,7 +26,7 @@ function EnterTeamSp({ navigation }) {
   const [team_name, setTeam_name] = useState('알 수 없음');
   const [team_comment, setTeam_comment] = useState('알 수 없음');
   const [isTemplate, setIsTemplate] = useState(true);
-  const [step, setStep] = useState(3);
+  const [step, setStep] = useState(1);
 
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
