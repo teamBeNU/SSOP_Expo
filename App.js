@@ -12,7 +12,6 @@ import {
   MenuProvider,
   MenuTrigger,
 } from 'react-native-popup-menu';
-import FlashMessage from "react-native-flash-message";
 import Toast from 'react-native-toast-message';
 import NotiIcon from './assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
@@ -400,30 +399,6 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />
-    <FlashMessage 
-      position="bottom"
-      style= {{
-        width: '80%',
-        height: 40,
-        marginBottom: 20,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderRadius: 8,
-        backgroundColor: 'pink',
-        //backgroundColor: 'rgba(0, 0, 0, 0.70)',
-        alignSelf: 'center',
-      }}
-      textStyle= {{
-        color: 'white',
-        fontFamily: 'PretendardRegular',
-        fontSize: 14,
-        fontWeight: '600',
-        letterSpacing: -0.14,
-        textAlign: 'center',
-      }}    
-    />
     </MenuProvider>
     </AuthProvider>
   );

@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useLayoutEffect, useState } from "react";
 import { Text, TouchableOpacity, View, Alert, Modal } from 'react-native';
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
-import { showMessage } from 'react-native-flash-message';
 import Toast from 'react-native-toast-message';
 
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
