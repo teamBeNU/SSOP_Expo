@@ -1,13 +1,8 @@
-import { View, Text, TextInput, TouchableOpacity, Dimensions, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, SafeAreaView } from "react-native";
-import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import React, { useState } from 'react';
 import "react-native-gesture-handler";
 
 import { styles } from "./ServiceStyles";
-// import { theme } from "../../theme";
-// import AvatarCustom from "./AvatarCustom";
-// import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
-// import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-// import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import DownArrow from "./DownArrow";
 import { questionsCollection } from "./QuestionsCollection";
 
@@ -22,7 +17,7 @@ export default function FAQ () {
 
     return(
         <ScrollView 
-            style={styles.main}
+            style={styles.FAQMainContainer}
             showsVerticalScrollIndicator={false}
         >
             {questions.map(qc => (

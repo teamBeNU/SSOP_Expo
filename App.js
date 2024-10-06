@@ -64,6 +64,7 @@ import MySpace from './pages/Space/MySpace';
 import TeamSpace from './pages/Space/TeamSpace';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
+import ServiceAgree from './pages/MyPage/Service/ServiceAgree';
 
 export default function App() {
   // 폰트 로드
@@ -281,7 +282,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-       <Stack.Screen name="MY 계정관리" component={UserAccount} 
+        <Stack.Screen name="MY 계정관리" component={UserAccount} 
           options={{
             headerTitle: "계정관리",
             headerLeft: ({onPress}) => (
@@ -290,7 +291,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
+        <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
           options={{
             headerTitle: "이름 및 생년월일 변경",
             headerLeft: ({onPress}) => (
@@ -299,7 +300,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
+        <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
           options={{
             headerTitle: "연락처 변경",
             headerLeft: ({onPress}) => (
@@ -308,7 +309,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
+        <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
           options={{
             headerTitle: "비밀번호 변경",
             headerLeft: ({onPress}) => (
@@ -317,7 +318,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="MY 자주 묻는 질문" component={FAQ} 
+        <Stack.Screen name="MY 자주 묻는 질문" component={FAQ} 
           options={{
             headerTitle: "자주 묻는 질문",
             headerLeft: ({onPress}) => (
@@ -326,7 +327,16 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="마이 스페이스" component={MySpace}
+        <Stack.Screen name="MY 서비스 방침 이용약관" component={ServiceAgree} 
+          options={{
+            headerTitle: "서비스 방침 이용약관",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+        <Stack.Screen name="마이 스페이스" component={MySpace}
           options={{
             title: " ",
             headerShadowVisible: false,
@@ -351,18 +361,18 @@ export default function App() {
               </View>
             ),
           }}/>
-          <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
-          <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
-          <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
-          <Stack.Screen name="마이 스페이스 관리" component={MySpaceManage}
-          options={{
-            headerTitle: "관리",
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <CloseIcon style={{ marginLeft: 8  }}/>
-              </TouchableOpacity>
-            ),
-          }}/>
+        <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
+        <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
+        <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
+        <Stack.Screen name="마이 스페이스 관리" component={MySpaceManage}
+        options={{
+          headerTitle: "관리",
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <CloseIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),
+        }}/>
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />

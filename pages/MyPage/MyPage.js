@@ -47,12 +47,18 @@ function MyPage({navigation}) {
                     <Text style={styles.infoText}>자주 묻는 질문</Text>
                     <RightArrow />
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}>
+                <TouchableOpacity 
+                    style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
+                    onPress={() => navigation.navigate('MY 서비스 방침 이용약관', {id: 'privacyPolicy'})}
+                >
                     <Text style={styles.infoText}>개인정보 처리방침</Text>
                     <RightArrow />
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.flexDirectionRow, styles.infoBtn]}>
-                    <Text style={styles.infoText}>이용약관</Text>
+                <TouchableOpacity 
+                    style={[styles.flexDirectionRow, styles.infoBtn]}
+                    onPress={() => navigation.navigate('MY 서비스 방침 이용약관', {id: 'termsOfService'})}
+                >
+                    <Text style={styles.infoText}>서비스 이용약관</Text>
                     <RightArrow />
                 </TouchableOpacity>
             </View>

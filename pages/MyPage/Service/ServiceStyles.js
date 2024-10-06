@@ -4,7 +4,7 @@ import { theme } from "../../../theme"
 const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
-    main: {
+    FAQMainContainer: {
         flex: 1,
         backgroundColor: theme.white,
         paddingHorizontal: 16,
@@ -50,5 +50,22 @@ export const styles = StyleSheet.create({
     line: {
         borderBottomWidth: 1,
         borderBottomColor: theme.gray90,
+    },
+
+    AgreeMainContainer: {
+        flex: 1,
+        backgroundColor: theme.white,
+        paddingTop: 24,
+        paddingHorizontal: 16,
+    },
+    agreeContent: {
+        fontFamily: 'Pretendard',
+        fontSize: 14,
+        color: theme.gray10,
+        fontStyle: "normal",
+        fontWeight: "400",
+        lineHeight: 21, 
+        letterSpacing: -0.14,
+        paddingBottom: 100
     }
 })
