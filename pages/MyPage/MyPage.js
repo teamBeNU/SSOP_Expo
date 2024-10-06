@@ -40,7 +40,10 @@ function MyPage({navigation}) {
             </View>
 
             <View style={styles.infoContainer}>
-                <TouchableOpacity style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}>
+                <TouchableOpacity 
+                    style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
+                    onPress={() => navigation.navigate('MY 자주 묻는 질문')}
+                >
                     <Text style={styles.infoText}>자주 묻는 질문</Text>
                     <RightArrow />
                 </TouchableOpacity>

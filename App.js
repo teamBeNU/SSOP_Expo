@@ -47,6 +47,7 @@ import UserAccount from './pages/MyPage/UserAccount';
 import UserInfo from './pages/MyPage/UserInfo';
 import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
 import UserPw from './pages/MyPage/UserPw';
+import FAQ from './pages/MyPage/Service/FAQ';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import DetailGroup from './pages/Space/DetailGroup';
 import MySpaceManage from './pages/Space/MySpaceManage';
@@ -310,6 +311,15 @@ export default function App() {
           <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
           options={{
             headerTitle: "비밀번호 변경",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+          <Stack.Screen name="MY 자주 묻는 질문" component={FAQ} 
+          options={{
+            headerTitle: "자주 묻는 질문",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
