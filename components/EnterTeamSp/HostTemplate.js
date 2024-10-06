@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Dimensions, Linking } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
+import * as ImagePicker from 'expo-image-picker';
 
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 import HostStudentTrue from "./HostStudentTrue";
@@ -17,12 +18,19 @@ import HostFanTrue from "./HostFanTrue";
 import HostFanFalse from "./HostFanFalse";
 import HostFreeFalse from "./HostFreeFalse";
 
-export default function HostTemplate({ navigation, goToOriginal, data }) {
+import CoverAvatar from "../../assets/createCard/coverAvatar.svg";
+import CoverPicture from "../../assets/createCard/coverPicture.svg";
+import AvatarCustom from "../CreateCard/AvatarCustom";
+import SelectCover from "../CreateCard/SelectCover";
+
+export default function HostTemplate({ navigation, goToOriginal, data, setProfileImageUrl, setIsPictureComplete }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
 
   const [step, setStep] = useState(1);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [imageWidth, setImageWidth] = useState(0);
+  const SCREEN_WIDTH = Dimensions.get('window').width;
 
   const [card_name, setName] = useState('');
   const [card_introduction, setIntroduction] = useState('');
@@ -55,7 +63,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   const [card_free_A3, setFreeA3] = ('');
   const [card_free_A4, setFreeA4] = ('');
   const [card_free_A5, setFreeA5] = ('');
-  const [cover, setCover] = useState(1);
+  const [card_cover, setCover] = useState("free");
 
   const [studentOptional, setStudentOptional] = useState([]);
   const [workerOptional, setWorkerOptional] = useState([]);
@@ -99,11 +107,11 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   // 지정 템플릿 목록 API 호출
   const templateView = () => {
     // const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
-    const apiUrl = `${baseUrl}/teamsp?teamId=78`;
+    const apiUrl = `${baseUrl}/teamsp?teamId=81`;
     axios
       .get(apiUrl)
       .then((response) => {
-        // console.log("템플릿 질문 목록 조회 : ", response.data);
+        console.log("템플릿 질문 목록 조회 : ", response.data);
         // console.log("학생 템플릿 : ", response.data.studentOptional);
         // console.log("직장인 템플릿 : ", response.data.workerOptional);
         // console.log("팬 템플릿 : ", response.data.fanOptional);
@@ -139,13 +147,25 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   const handleNext = () => {
     switch (step) {
       case 5:
+        if (card_cover === "free") {
+          setCover("avatar"); // 하단 순서알림를 위한 일시 적용
+          setStep(8)
+          break;
+        }
+        else { setStep(7); break; }
+
+      case 6:
+        setStep(9);
+        break;
+
+      case 8:
         const requestData = {
           memberEssential: {
             card_name: card_name,
             card_introduction: card_introduction,
             // card_template: data.template,
             card_template: 'student',
-            card_cover: cover
+            card_cover: card_cover
           },
           memberOptional: {
             card_birth: card_birth,
@@ -187,7 +207,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           }
         }
         // const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
-        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=78`;
+        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=81`;
 
         axios
           .post(apiUrl, { member: requestData }, {
@@ -195,13 +215,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           })
           .then((response) => {
             console.log("작성한 카드:", requestData);
-            setStep(3);
+            setStep(9);
           })
           .catch((error) => {
             Alert.alert("카드 제출 중 오류가 발생했습니다.", error);
             console.log("작성한 카드:", requestData);
           });
-        setStep(6);
 
       default:
         setStep(step + 1);
@@ -212,12 +231,14 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   // step 단위로 뒤로가기
   useEffect(() => {
     navigation.setOptions({
+      headerTitle: '카드 생성',
       headerLeft: handleHeaderLeft
     });
   }, [navigation, step]);
 
+
   const handleHeaderLeft = (onPress) => {
-    if (step < 6) {
+    if (step < 9) {
       return (
         <TouchableOpacity onPress={handleBack}>
           <LeftArrowIcon style={{ marginLeft: 8 }} />
@@ -257,8 +278,60 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   const freeA4Ref = useRef(null);
   const freeA5Ref = useRef(null);
 
+  // 이미지 권한 요청을 위한 hooks
+  const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+
+  // 커버
+  const handleScroll = (event) => {
+    const contentOffsetX = event.nativeEvent.contentOffset.x;
+    const currentIndex = Math.round(contentOffsetX / (SCREEN_WIDTH));
+    if (currentIndex == 0) { setCover('avatar'); }
+    else if (currentIndex == 1) { setCover('picture'); }
+  }
+
+  // 갤러리 열기
+  const handleImagePicker = async () => {
+    // 권한 확인: 권한 없으면 물어보고, 승인하지 않으면 함수 종료
+    if (!status?.granted) {
+      const permission = await requestPermission();   // 파일 및 미디어 액세스 권한 요청
+      if (!permission.granted) {   // 권한 거부
+        Alert.alert(
+          "권한 필요", // 제목
+          "이미지를 선택하려면 설정에서 권한을 허용해 주세요.",   // 메시지
+          [
+            {
+              text: "취소",
+              onPress: () => console.log("취소됨"),
+              style: "cancel"
+            },
+            { text: "설정으로 가기", onPress: () => Linking.openSettings() }  // 설정으로 이동
+          ]
+        );
+        return null
+      }
+    }
+
+    // 이미지 업로드
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,    // 어떤 타입의 파일 업로드할지 (이미지만 받기 위해 Images로 설정)
+      allowsEditing: true,    // 이미지 업로드 전에 자르기 등의 편집 가능 여부 설정
+      quality: 1,     // 이미지 압축 여부(1: 가장 높은 품질)
+      // aspect: [1, 1]    // 이미지 비율
+    });
+
+    if (!result.canceled) {     // 이미지 업로드
+      // console.log(result);
+      // console.log(result.assets[0].uri);
+      setProfileImageUrl(result.assets[0].uri);
+      setIsPictureComplete(true);
+      setStep(9); // 완료 페이지로 이동
+    } else {        // 이미지 업로드 취소
+      setStep(step);
+    }
+  }
+
   // progressBar
-  const maxSteps = 7;
+  const maxSteps = 9;
   const initialProgress = 0.4285;
 
   return (
@@ -500,8 +573,8 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
             <View style={{ height: '100%' }}>
               <ScrollView showsVerticalScrollIndicator={false}>
 
-                <Text style={[styles.title, {marginLeft: 16}]}>정보를 더 추가할 수 있어요.</Text>
-                <Text style={[styles.subtitle, {marginLeft: 16}]}>더 보여주고 싶은 정보만 선택하여 입력하세요. </Text>
+                <Text style={[styles.title, { marginLeft: 16 }]}>정보를 더 추가할 수 있어요.</Text>
+                <Text style={[styles.subtitle, { marginLeft: 16 }]}>더 보여주고 싶은 정보만 선택하여 입력하세요. </Text>
 
                 {optionsCount >= 2 ? (
                   <HostFreeFalse
@@ -646,14 +719,85 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
 
               <View style={styles.btnContainer}>
                 <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
-                  <Text style={styles.btnText}> 카드 생성 완료할래요 </Text>
+                  <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
             </View>
           )}
 
-          {/* 팀스페이스 입장 완료 */}
+          {/* 카드 커버 선택 */}
           {step === 6 && (
+            <View style={{ height: '100%', backgroundColor: theme.white }}>
+              <SelectCover
+                step={step}
+                setStep={setStep}
+                card_cover={card_cover}
+                handleNext={handleNext}
+                setCardCover={setCover}
+                setProfileImageUrl={setProfileImageUrl}
+                setIsPictureComplete={setIsPictureComplete}
+              />
+            </View>
+          )}
+
+          {/* 커버 아바타 안내 / 사진선택 */}
+          {step === 7 && (
+            <View style={{ height: '100%' }}>
+              {card_cover === "avatar" && (
+                <View>
+                  <Text style={styles.coverTitle}>호스트가 카드 커버를{'\n'}아바타로 지정했어요.</Text>
+                  <View
+                    style={[styles.coverImg, { marginLeft: (SCREEN_WIDTH - imageWidth) / 3, marginTop: 34 }]}
+                    onLayout={(event) => {
+                      const { width } = event.nativeEvent.layout;
+                      setImageWidth(width);
+                    }}
+                  >
+                    <CoverAvatar width="130%" height="130%" />
+                  </View>
+                </View>
+              )}
+
+              {card_cover === "picture" && (
+                <>
+                  <Text style={styles.coverTitle}>호스트가 카드 커버를{'\n'}사진으로 지정했어요.</Text>
+                  <View
+                    style={[styles.coverImg, { marginLeft: (SCREEN_WIDTH - imageWidth) / 3, marginTop: 34 }]}
+                    onLayout={(event) => {
+                      const { width } = event.nativeEvent.layout;
+                      setImageWidth(width);
+                    }}
+                  >
+                    <CoverPicture width="130%" height="130%" />
+                  </View>
+                </>
+
+              )}
+              <View style={styles.btnContainer}>
+                {card_cover === "avatar" && (
+                  <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                    <Text style={styles.btnText}> 아바타 커스터마이징하러 가기 </Text>
+                  </TouchableOpacity>
+                )}
+                {card_cover === "picture" && (
+                  <TouchableOpacity style={styles.btnNext} onPress={()=> handleImagePicker()}>
+                    <Text style={styles.btnText}> 사진 선택하기 </Text>
+                  </TouchableOpacity>
+                )}
+              </View>
+            </View>
+          )}
+
+          {step === 8 && (
+              <View style={{marginLeft: -16, marginTop: -16}}>
+                  {card_cover === "avatar" && (
+                      <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
+                  )}
+              </View>
+          )}
+
+          {/* 팀스페이스 입장 완료 */}
+          {step === 9 && (
             <View style={{ height: '100%' }}>
               <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
 
@@ -662,7 +806,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, {marginBottom: 0}]} onPress={() => navigation.navigate('스페이스')}>
+                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('스페이스')}>
                   <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
