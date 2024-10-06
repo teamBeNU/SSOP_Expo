@@ -21,8 +21,8 @@ export default function FAQ () {
             showsVerticalScrollIndicator={false}
         >
             {questions.map(qc => (
-                <>
-                <View key={qc.id} style={styles.FAQContainer}>
+                <View key={qc.id} >
+                <View style={styles.FAQContainer}>
                     <TouchableOpacity 
                         style={styles.questionContainer}
                         onPress={() => toggleClick(qc.id)}
@@ -44,7 +44,7 @@ export default function FAQ () {
                 {questionsCollection.length !== qc.id &&
                     <View style={styles.line}></View>
                 }
-                </>
+                </View>
             ))}
         </ScrollView>
     );
