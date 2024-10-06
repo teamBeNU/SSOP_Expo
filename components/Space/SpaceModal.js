@@ -5,13 +5,7 @@ import { theme } from "../../theme";
 
 import { styles } from "./SpaceModalStyle"
 
-export const SpaceModal = ({isVisible, onClose, title, sub, btn1, btn2, toast}) => {
-    
-    const handleBtn2Press = () => {
-        if (typeof toast === 'function') {
-            toast();
-        }
-    };
+export const SpaceModal = ({isVisible, onClose, onConfirm, title, sub, btn1, btn2, toast}) => {
 
     return (
         <View>
@@ -30,7 +24,7 @@ export const SpaceModal = ({isVisible, onClose, title, sub, btn1, btn2, toast}) 
                                 <Text style={styles.yesText}>{btn1}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.noBtn} onPress={() => {handleBtn2Press(); onClose();}}>
+                                style={styles.noBtn} onPress={() => { onConfirm(); onClose(); }}>
                                 <Text style={styles.noText}>{btn2}</Text>
                             </TouchableOpacity>
                         </View>

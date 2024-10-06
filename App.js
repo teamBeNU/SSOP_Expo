@@ -49,8 +49,6 @@ import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
 import UserPw from './pages/MyPage/UserPw';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import DetailGroup from './pages/Space/DetailGroup';
-import MySpaceManage from './pages/Space/MySpaceManage';
-import CardDetailView from './components/MyCard/CardDetailView';
 
 import { styles } from './components/MyCard/CardStyle';
 
@@ -61,8 +59,8 @@ import { theme } from './theme';
 import KaKaoLogin from './components/Login/KaKaoLogin';
 import MySpace from './pages/Space/MySpace';
 import TeamSpace from './pages/Space/TeamSpace';
-import EditCard from './pages/MyCard/EditCard';
-import EditCardCover from './pages/MyCard/EditCardCover';
+import EditGroupPage from './pages/Space/EditGroupPage';
+import EditTeamSpace from './pages/Space/EditTeamSpace';
 
 export default function App() {
   // 폰트 로드
@@ -344,15 +342,8 @@ export default function App() {
           <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
-          <Stack.Screen name="마이 스페이스 관리" component={MySpaceManage}
-          options={{
-            headerTitle: "관리",
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <CloseIcon style={{ marginLeft: 8  }}/>
-              </TouchableOpacity>
-            ),
-          }}/>
+          <Stack.Screen name="그룹 관리" component={EditGroupPage}/>
+          <Stack.Screen name="팀스페이스 관리" component={EditTeamSpace}/>
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />
