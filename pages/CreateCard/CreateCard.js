@@ -17,7 +17,6 @@ import TemplateFree from "../../components/CreateCard/TemplateFree";
 
 function CreateCard({navigation}) {
     const [card_template, setCardTemplate] = useState();
-    const [selectStudent, setSelectStudent] = useState("");     // 초,중,고등학생: teenager, 대학(원)생: youth
     const [step, setStep] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -80,8 +79,8 @@ function CreateCard({navigation}) {
                         <BottomSheet                 
                             modalVisible={modalVisible}
                             setModalVisible={setModalVisible}
-                            setSelectStudent={setSelectStudent}
                             setStep={setStep}
+                            setCardTemplate={setCardTemplate}
                         />
                     )}
                 </View>
@@ -89,10 +88,12 @@ function CreateCard({navigation}) {
 
             {step === 2 && (
                 <View style={{flex:1}}>
-                    {card_template === "student" && selectStudent === "teenager" && (
+                    {card_template === "studentSchool" && (
+                        // 학생 - 초중고
                         <TemplateStudentTeenager navigation={navigation} card_template={card_template} />
                     )} 
-                    {card_template === "student" && selectStudent === "youth" && (
+                    {card_template === "studentUniv" && (
+                        // 학생 - 대학(원)
                         <TemplateStudentYouth navigation={navigation} card_template={card_template} />
                     )} 
                     {card_template === "worker" && (

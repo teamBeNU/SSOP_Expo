@@ -5,7 +5,7 @@ import "react-native-gesture-handler";
 import { styles } from "./BottomSheetStyle";
 import CloseBtn from '../../assets/icons/close.svg';
 
-export default function BottomSheet({modalVisible, setModalVisible, setSelectStudent, setStep}) {
+export default function BottomSheet({modalVisible, setModalVisible, setStep, setCardTemplate}) {
     const screenHeight = Dimensions.get("screen").height;
     const panY = useRef(new Animated.Value(screenHeight)).current;    // 애니메이션 초기 상태
     const translateY = panY.interpolate({ // panY에 따라 BottomSheet의 y축 위치를 결정
@@ -46,7 +46,6 @@ export default function BottomSheet({modalVisible, setModalVisible, setSelectStu
             transparent={true}      // 뒷 배경 투명으로 만드는 효과
             statusBarTranslucent    // 안드로이드 statusBar에 효과 적용
             onRequestClose={() => {
-                
                 setModalVisible(!modalVisible);
             }}
         >
@@ -70,7 +69,7 @@ export default function BottomSheet({modalVisible, setModalVisible, setSelectStu
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
-                                setSelectStudent("teenager");
+                                setCardTemplate("studentSchool");
                                 setStep(2);
                             }}
                         >
@@ -80,7 +79,7 @@ export default function BottomSheet({modalVisible, setModalVisible, setSelectStu
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
-                                setSelectStudent("youth");
+                                setCardTemplate("studentUniv");
                                 setStep(2);
                             }}
                         >
