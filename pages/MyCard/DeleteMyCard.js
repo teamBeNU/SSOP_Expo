@@ -1,7 +1,7 @@
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useLayoutEffect, useState } from "react";
-import { Text, TouchableOpacity, View, Alert } from 'react-native';
+import { Text, TouchableOpacity, View, Alert, Modal } from 'react-native';
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import GridIcon from '../../assets/icons/ic_border_all.svg';
@@ -16,43 +16,46 @@ const DeleteMyCard = ({ route, navigation }) => {
   const { cardData } = route.params;
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형');
-
   const [selectedCards, setSelectedCards] = useState([]);
+  const [modalVisible, setModalVisible] = useState(false);
 
   const toggleViewOption = () => {
-    if (viewOption === '그리드형') {
-      setViewOption('리스트형');
-    } else {
-      setViewOption('그리드형');
-    }
+    setViewOption(viewOption === '그리드형' ? '리스트형' : '그리드형');
   };
 
   const handleDelete  = async () => {
     if (selectedCards.length === 0) {
-        Alert.alert("삭제 오류", "삭제할 카드가 선택되지 않았습니다.");
+        //Alert.alert("삭제 오류", "삭제할 카드가 선택되지 않았습니다.");
+        setModalVisible(true);
         return;
     }
 
-    const lastSelectedCardId = selectedCards[selectedCards.length - 1];
+    setModalVisible(true);
 
-    Alert.alert('프로필을 삭제하시겠어요?', '이 작업은 실행 취소할 수 없습니다.', [
-        {
-            text: '수정할래요',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel',
-        },
-        {text: '삭제할래요', onPress:  async () => await deleteMyCard(lastSelectedCardId) },
-        ],
-        { cancelable: false }
-    )
+    // const lastSelectedCardId = selectedCards[selectedCards.length - 1];
+
+    // Alert.alert('프로필을 삭제하시겠어요?', '이 작업은 실행 취소할 수 없습니다.', [
+    //     {
+    //         text: '수정할래요',
+    //         onPress: () => console.log('Cancel Pressed'),
+    //         style: 'cancel',
+    //     },
+    //     {text: '삭제할래요', onPress:  async () => await deleteMyCard(lastSelectedCardId) },
+    //     ],
+    //     { cancelable: false }
+    // )
 };
+
+const confirmDelete = async () => {
+  const lastSelectedCardId = selectedCards[selectedCards.length - 1];
+  await deleteMyCard(lastSelectedCardId);
+  setModalVisible(false);
+}
 
 
 const deleteMyCard  = async (cardId) => {
     try {   
         const token = await AsyncStorage.getItem('token');
-
-         // const cardIdsParam = selectedCards.join(',');
         
         const response = await fetch(`http://43.202.52.64:8080/api/card/delete?cardId=${cardId}`,
         {
@@ -76,13 +79,14 @@ const deleteMyCard  = async (cardId) => {
 };
 
   const handleSelectAllToggle = () => {
-    if (selectedCards.length === cardData.length) {
-      setSelectedCards([]);
-    } else {
-      const allCardIds = cardData.map(card => card.cardId); 
-      setSelectedCards(allCardIds);
-      console.log('선택카드: ', selectedCards);
-    }
+    setSelectedCards(selectedCards.length === cardData.length ? [] : cardData.map(card => card.cardId));
+    // if (selectedCards.length === cardData.length) {
+    //   setSelectedCards([]);
+    // } else {
+    //   const allCardIds = cardData.map(card => card.cardId); 
+    //   setSelectedCards(allCardIds);
+    //   console.log('선택카드: ', selectedCards);
+    // }
   };
 
   useLayoutEffect(() => {
@@ -125,6 +129,22 @@ const deleteMyCard  = async (cardId) => {
       <TouchableOpacity style={styles.delteBtn} onPress={handleDelete}>
         <Text style={styles.delteBtnText}>삭제</Text>
       </TouchableOpacity>
+
+      <Modal transparent={true} visible={modalVisible} animationType="slide">
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalTitle}>프로필을 삭제하시겠어요?</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
+                <Text style={styles.cancelText}>수정할래요</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.deleteButton} onPress={confirmDelete}>
+                <Text style={styles.deleteText}>삭제할래요</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
       
     </View>
   );
