@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Clipboard, Alert, Modal } from "react-native";
+import * as Clipboard from 'expo-clipboard';
+import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Modal } from "react-native";
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
@@ -38,25 +39,30 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 }) {
     const baseUrl = 'http://43.202.52.64:8080/api'
     const [token, setToken] = useState(null);
-    // const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJ1c2VyMUBuYXZlci5jb20iLCJleHAiOjE3MjcxODYwNzMsInVzZXJJZCI6MywiZW1haWwiOiJ1c2VyMUBuYXZlci5jb20iLCJ1c2VybmFtZSI6InVzZXIxIn0.qfPvb-ySBx2Ts3Dx_Tjpvo73bcE27nT7DtdvHucheq3ajQTZzcaKJ_5ZSAWSzIC-0aQWWerEldfh9bd1qGgzQQ';
 
     const [step, setStep] = useState(1);
     const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
     // step1
-    // 기본 정보
-    const [showAge, setShowAge] = useState(false);
-    const [showBirth, setShowBirth] = useState(false);
-    const [showMBTI, setShowMBTI] = useState(false);
-    // 연락처, SNS
-    const [showTel, setShowTel] = useState(false);
-    const [showEmail, setShowEmail] = useState(false);
-    const [showInsta, setShowInsta] = useState(false);
-    const [showX, setShowX] = useState(false);
-    // 기타
-    const [showHobby, setShowHobby] = useState(false);
-    const [showMusic, setShowMusic] = useState(false);
-    const [showMovie, setShowMovie] = useState(false);
-    const [showAddress, setShowAddress] = useState(false);
+    const [defaultText, setDefaultText] = useState({
+        // 기본 정보
+        showAge: false,
+        showBirth: false,
+        showMBTI: false,
+    });
+    const [connectText, setConnectText] = useState({
+        // 연락처, SNS
+        showTel: false,
+        showEmail: false,
+        showInsta: false,
+        showX: false,
+    });
+    const [extraText, setExtraText] = useState({
+        // 기타
+        showHobby: false,
+        showMusic: false,
+        showMovie: false,
+        showAddress: false
+    });
 
     const [cover, setCover] = useState("free");
 
@@ -64,8 +70,33 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const [plusList, setPlusList] = useState([]);
     const [plusLength, setPlusLength] = useState(0);
 
-    // 학생 템플릿 - 역할
+    // 학생 템플릿
+    const [student, setStudent] = useState({
+        showSchool: false,
+        showGrade: false,
+        showStudNum: false,
+        showMajor: false,
+        showClub: false,
+        showRole: false,
+        showStatus: false
+    });
     const [selectedRoles, setSelectedRoles] = useState([]);
+
+    // 직장인 템플릿
+    const [worker, setWorker] = useState({
+        showCompany: false,
+        showJob: false,
+        showPosition: false,
+        showPart: false
+    });
+
+    // 팬 템플릿
+    const [fan, setFan] = useState({
+        showGenre: false,
+        showFavorite: false,
+        showSecond: false,
+        showReason: false
+    });
 
     const [inviteCode, setInviteCode] = useState(null); // step4
 
@@ -87,6 +118,19 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
         fetchToken();
     }, []);
 
+    // 학생템플릿 - 선택된 항목
+    const handleVisibilityStud = (visibility) => {
+        setStudent(visibility);
+    };
+
+    const handleVisibilityWorker = (visibility) => {
+        setWorker(visibility);
+    };
+
+    const handleVisibilityFan = (visibility) => {
+        setFan(visibility);
+    };
+
     // 학생템플릿 - 역할 선택된 리스트
     const handleRoleUpdate = (roles) => {
         setSelectedRoles(roles);
@@ -102,41 +146,41 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                 team_comment: teamComment,
                 isTemplate: true,
                 template: card_template,
-                showAge: showAge,
-                showBirth: showBirth,
-                showMBTI: showMBTI,
-                showTel: showTel,
-                showEmail: showEmail,
-                showInsta: showInsta,
-                showX: showX,
+                showAge: defaultText.showAge,
+                showBirth: defaultText.showBirth,
+                showMBTI: defaultText.showMBTI,
+                showTel: connectText.showTel,
+                showEmail: connectText.showEmail,
+                showInsta: connectText.showInsta,
+                showX: connectText.showX,
                 // 학생 템플릿
                 studentOptional: {
-                    showSchool: showSchool,
-                    showGrade: showGrade,
-                    showStudNum: showStudNum,
-                    showMajor: showMajor,
-                    showClub: showClub,
+                    showSchool: student.showSchool,
+                    showGrade: student.showGrade,
+                    showStudNum: student.showStudNum,
+                    showMajor: student.showMajor,
+                    showClub: student.showClub,
                     showRole: selectedRoles,
-                    showStatus: showStatus
+                    showStatus: student.showStatus
                 },
                 // 직장인 템플릿
                 workerOptional: {
-                    showCompany: showCompany,
-                    showJob: showJob,
-                    showPosition: showPosition,
-                    showPart: showPart
+                    showCompany: worker.showCompany,
+                    showJob: worker.showJob,
+                    showPosition: worker.showPosition,
+                    showPart: worker.showPart
                 },
                 // 팬 템플릿
                 fanOptional: {
-                    showGenre: showGenre,
-                    showFavorite: showFavorite,
-                    showSecond: showSecond,
-                    showReason: showReason
+                    showGenre: fan.showGenre,
+                    showFavorite: fan.showFavorite,
+                    showSecond: fan.showSecond,
+                    showReason: fan.showReason
                 },
-                showHobby: showHobby,
-                showMusic: showMusic,
-                showMovie: showMovie,
-                showAddress: showAddress,
+                showHobby: extraText.showHobby,
+                showMusic: extraText.showMusic,
+                showMovie: extraText.showMovie,
+                showAddress: extraText.showAddress,
                 plus: plusList.filter(item => item.selected).map(item => item.free),
                 cardCover: cover
             };
@@ -155,6 +199,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                 })
                 .catch((error) => {
                     console.error('팀스페이스 생성 API 요청 에러:', error);
+                    console.log(requestData)
                 });
         }
         setIsModalVisible(false)
@@ -186,53 +231,34 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
             case 1:
                 goToOriginal(); // CreateTeamSp.js로 이동
                 break;
+            case 3: // 생성 완료하면 뒤로가기 불가
+                break;
             default:
                 setStep(step - 1);
                 setIsModalVisible(false)
                 break;
         }
     };
-    const handleSelect = (id) => {
-        switch (id) {
-            case 'showAge':
-                setShowAge((prevState) => !prevState);
-                break;
-            case 'showBirth':
-                setShowBirth((prevState) => !prevState);
-                break;
-            case 'showMBTI':
-                setShowMBTI((prevState) => !prevState);
-                break;
-            case 'showTel':
-                setShowTel((prevState) => !prevState);
-                break;
-            case 'showEmail':
-                setShowEmail((prevState) => !prevState);
-                break;
-            case 'showInsta':
-                setShowInsta((prevState) => !prevState);
-                break;
-            case 'showX':
-                setShowX((prevState) => !prevState);
-                break;
-            case 'showHobby':
-                setShowHobby((prevState) => !prevState);
-                break;
-            case 'showMusic':
-                setShowMusic((prevState) => !prevState);
-                break;
-            case 'showMovie':
-                setShowMovie((prevState) => !prevState);
-                break;
-            case 'showAddress':
-                setShowAddress((prevState) => !prevState);
-                break;
-            default:
-                break;
-        }
-        console.log(id);
-    };
 
+    // 보여줄 항목 선택
+    const handleSelect = (key) => {
+        if (key in defaultText) {
+            setDefaultText((prevState) => {
+                const newDefault = { ...prevState, [key]: !prevState[key] };
+                return newDefault;
+            });
+        } else if (key in connectText) {
+            setConnectText((prevState) => {
+                const newConnect = { ...prevState, [key]: !prevState[key] };
+                return newConnect;
+            });
+        } else if (key in extraText) {
+            setExtraText((prevState) => {
+                const newExtra = { ...prevState, [key]: !prevState[key] };
+                return newExtra;
+            });
+        }
+    };
 
     // 텍스트 길이 검사
     useEffect(() => {
@@ -256,10 +282,15 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     };
 
     // step7 - 초대 코드 복사
-    const copyInviteCode = () => {
-        const textToCopy = inviteCode;
-        Clipboard.setString(textToCopy);
-        Alert.alert("클립보드에 복사되었습니다.");
+    const copyInviteCode = async () => {
+        try {
+            const stringInviteCode = String(inviteCode);
+            await Clipboard.setStringAsync(stringInviteCode);
+            Alert.alert("클립보드에 복사되었습니다.");
+        } catch (error) {
+            console.error("클립보드 복사 실패:", error);
+            Alert.alert("클립보드 복사 중 오류가 발생했습니다.");
+        }
     };
 
     const shareInviteCode = async () => {
@@ -305,93 +336,55 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                 <Text style={[styles.font16, { marginTop: 28 }]}>기본 정보</Text>
                                 <Text style={styles.subtitle}> 이름과 한줄소개는 필수입니다. </Text>
                                 <View style={styles.elementContainer}>
-                                    {/* 나이 */}
-                                    <TouchableOpacity onPress={() => handleSelect('showAge')}
-                                        style={showAge ? styles.selectedElement : styles.element}>
-                                        {showAge && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> 나이 </Text>
-                                            </View>
-                                        )}
-                                        {!showAge && <Text> 나이 </Text>}
-                                    </TouchableOpacity>
 
-                                    {/* 생년월일 */}
-                                    <TouchableOpacity onPress={() => handleSelect('showBirth')}
-                                        style={showBirth ? styles.selectedElement : styles.element}>
-                                        {showBirth && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> 생년월일 </Text>
-                                            </View>
-                                        )}
-                                        {!showBirth && <Text> 생년월일 </Text>}
-                                    </TouchableOpacity>
+                                    {Object.keys(defaultText || {}).map((key, index) => {
+                                        const defaultText = {
+                                            // 기본 정보
+                                            showAge: ' 나이 ',
+                                            showBirth: ' 생년월일 ',
+                                            showMBTI: ' MBTI '
+                                        }[key];
 
-                                    {/* MBTI */}
-                                    <TouchableOpacity onPress={() => handleSelect('showMBTI')}
-                                        style={showMBTI ? styles.selectedElement : styles.element}>
-                                        {showMBTI && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> MBTI </Text>
-                                            </View>
-                                        )}
-                                        {!showMBTI && <Text> MBTI </Text>}
-                                    </TouchableOpacity>
+                                        return (
+                                            <TouchableOpacity
+                                                key={index}
+                                                onPress={() => handleSelect(key)}
+                                                style={defaultText[key] ? styles.selectedElement : styles.element}
+                                            >
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    {defaultText[key] && <Select />}
+                                                    <Text style={defaultText[key] ? styles.selectedText : styles.defaultText}>{defaultText}</Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        );
+                                    })}
                                 </View>
 
                                 <Text style={[styles.font16, { marginTop: 28 }]}>연락처 · SNS</Text>
                                 <View style={styles.elementContainer}>
 
-                                    {/* 연락처 */}
-                                    <TouchableOpacity onPress={() => handleSelect('showTel')}
-                                        style={showTel ? styles.selectedElement : styles.element}>
-                                        {showTel && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> 연락처 </Text>
-                                            </View>
-                                        )}
-                                        {!showTel && <Text> 연락처 </Text>}
-                                    </TouchableOpacity>
+                                    {Object.keys(connectText || {}).map((key, index) => {
+                                        const connectText = {
+                                            // 연락처, SNS
+                                            showTel: ' 연락처 ',
+                                            showEmail: ' 이메일 ',
+                                            showInsta: ' 인스타그램 ',
+                                            showX: ' X(트위터) '
+                                        }[key];
 
-                                    {/* 이메일 */}
-                                    <TouchableOpacity onPress={() => handleSelect('showEmail')}
-                                        style={showEmail ? styles.selectedElement : styles.element}>
-                                        {showEmail && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> 이메일 </Text>
-                                            </View>
-                                        )}
-                                        {!showEmail && <Text> 이메일 </Text>}
-                                    </TouchableOpacity>
-
-                                    {/* Insta */}
-                                    <TouchableOpacity onPress={() => handleSelect('showInsta')}
-                                        style={showInsta ? styles.selectedElement : styles.element}>
-                                        {showInsta && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> 인스타그램 </Text>
-                                            </View>
-                                        )}
-                                        {!showInsta && <Text> 인스타그램 </Text>}
-                                    </TouchableOpacity>
-
-                                    {/* X */}
-                                    <TouchableOpacity onPress={() => handleSelect('showX')}
-                                        style={showX ? styles.selectedElement : styles.element}>
-                                        {showX && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> X(트위터) </Text>
-                                            </View>
-                                        )}
-                                        {!showX && <Text> X(트위터) </Text>}
-                                    </TouchableOpacity>
+                                        return (
+                                            <TouchableOpacity
+                                                key={index}
+                                                onPress={() => handleSelect(key)}
+                                                style={connectText[key] ? styles.selectedElement : styles.element}
+                                            >
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    {connectText[key] && <Select />}
+                                                    <Text style={connectText[key] ? styles.selectedText : styles.defaultText}>{connectText}</Text>
+                                                </View>
+                                            </TouchableOpacity>
+                                        );
+                                    })}
                                 </View>
 
                                 <View style={styles.line} />
@@ -404,8 +397,9 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                             showStudNum={showStudNum}
                                             showMajor={showMajor}
                                             showClub={showClub}
-                                            onRoleUpdate={handleRoleUpdate}
                                             showStatus={showStatus}
+                                            onRoleUpdate={handleRoleUpdate}
+                                            onVisibilityUpdate={handleVisibilityStud}
                                         />
                                         <View style={styles.line} />
                                     </>
@@ -418,6 +412,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                             showJob={showJob}
                                             showPosition={showPosition}
                                             showPart={showPart}
+                                            onVisibilityUpdate={handleVisibilityWorker}
                                         />
                                         <View style={styles.line} />
                                     </>
@@ -430,6 +425,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                             showFavorite={showFavorite}
                                             showSecond={showSecond}
                                             showReason={showReason}
+                                            onVisibilityUpdate={handleVisibilityFan}
                                         />
                                         <View style={styles.line} />
                                     </>
@@ -437,53 +433,31 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 
                                 <Text style={styles.font16}>기타</Text>
                                 <View style={styles.elementContainer}>
-                                    {/* 취미 */}
-                                    <TouchableOpacity onPress={() => handleSelect('showHobby')}
-                                        style={showHobby ? styles.selectedElement : styles.element}>
-                                        {showHobby && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> 취미 </Text>
-                                            </View>
-                                        )}
-                                        {!showHobby && <Text> 취미 </Text>}
-                                    </TouchableOpacity>
+                                    {Object.keys(extraText || {}).map((key, index) => {
+                                        const extraText = {
+                                            // 기타
+                                            showHobby: ' 취미 ',
+                                            showMusic: ' 인생음악 ',
+                                            showMovie: ' 인생영화 ',
+                                            showAddress: ' 거주지 ',
+                                        }[key];
 
-                                    {/* 인생음악 */}
-                                    <TouchableOpacity onPress={() => handleSelect('showMusic')}
-                                        style={showMusic ? styles.selectedElement : styles.element}>
-                                        {showMusic && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> 인생 음악 </Text>
-                                            </View>
-                                        )}
-                                        {!showMusic && <Text> 인생 음악 </Text>}
-                                    </TouchableOpacity>
-
-                                    {/* 인생영화 */}
-                                    <TouchableOpacity onPress={() => handleSelect('showMovie')}
-                                        style={showMovie ? styles.selectedElement : styles.element}>
-                                        {showMovie && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> 인생 영화 </Text>
-                                            </View>
-                                        )}
-                                        {!showMovie && <Text> 인생 영화 </Text>}
-                                    </TouchableOpacity>
-
-                                    {/* 거주지 */}
-                                    <TouchableOpacity onPress={() => handleSelect('showAddress')}
-                                        style={showAddress ? styles.selectedElement : styles.element}>
-                                        {showAddress && (
-                                            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                <Select />
-                                                <Text style={styles.selectedText}> 거주지 </Text>
-                                            </View>
-                                        )}
-                                        {!showAddress && <Text> 거주지 </Text>}
-                                    </TouchableOpacity>
+                                        return (
+                                            <TouchableOpacity
+                                                key={index}
+                                                onPress={() => handleSelect(key)}
+                                                style={extraText[key] ? styles.selectedElement : styles.element}
+                                            >
+                                                {extraText[key] && (
+                                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                        <Select />
+                                                        <Text style={styles.selectedText}>{extraText}</Text>
+                                                    </View>
+                                                )}
+                                                {!extraText[key] && <Text>{extraText}</Text>}
+                                            </TouchableOpacity>
+                                        );
+                                    })}
                                 </View>
 
                                 <Text style={[styles.font16, { marginTop: 28 }]}>자유 선택지</Text>
@@ -642,10 +616,10 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             </View>
 
                             <View style={[styles.btnContainer, { marginBottom: -16 }]}>
-                                <TouchableOpacity style={styles.btnBlue} onPress={() => navigation.navigate('스페이스')}>
+                                <TouchableOpacity style={[styles.btnNext, {marginBottom: 0}]} onPress={() => navigation.navigate('스페이스')}>
                                     <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                                 </TouchableOpacity>
-                                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate(" ")}>
+                                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
                                     <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                                 </TouchableOpacity>
                             </View>

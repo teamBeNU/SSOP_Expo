@@ -5,88 +5,56 @@ import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import "react-native-gesture-handler";
 import Select from "../../assets/teamSp/select.svg";
 
-export default function FanTemplate() {
+export default function FanTemplate({ onVisibilityUpdate }) {
   // 팬 정보
-  const [showGenre, setShowGenre] = useState(false);
-  const [showFavorite, setShowFavorite] = useState(false);
-  const [showSecond, setShowSecond] = useState(false);
-  const [showReason, setShowReason] = useState(false);
+  const [visibility, setVisibility] = useState({
+    showGenre: false,
+    showFavorite: false,
+    showSecond: false,
+    showReason: false
+  });
 
-  const handleSelect = (id) => {
-    switch (id) {
-      case 'showGenre':
-        setShowGenre((prevState) => !prevState);
-        break;
-      case 'showFavorite':
-        setShowFavorite((prevState) => !prevState);
-        break;
-      case 'showSecond':
-        setShowSecond((prevState) => !prevState);
-        break;
-      case 'showReason':
-        setShowReason((prevState) => !prevState);
-        break;
-      default:
-        break;
-    }
-    console.log(id);
+  // 보여줄 항목 선택
+  const handleSelect = (key) => {
+    setVisibility((prevState) => {
+      const newVisibility = { ...prevState, [key]: !prevState[key] };
+
+      // visibility 값 -> TeamSpTemplate으로 전달
+      onVisibilityUpdate(newVisibility);
+      return newVisibility;
+    });
   };
-
 
   return (
     <View>
       <Text style={styles.font16}>팬 정보</Text>
       <View style={styles.elementContainer}>
-        {/* 덕질장르 */}
-        <TouchableOpacity onPress={() => handleSelect('showGenre')}
-          style={showGenre ? styles.selectedElement : styles.element}>
-          {showGenre && (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Select />
-              <Text style={styles.selectedText}> 덕질장르 </Text>
-            </View>
-          )}
-          {!showGenre && <Text> 덕질장르 </Text>}
-        </TouchableOpacity>
+        {Object.keys(visibility).map((key, index) => {
+          const displayText = {
+            showGenre: ' 덕질장르 ',
+            showFavorite: ' 최애 ',
+            showSecond: ' 차애 ',
+            showReason: ' 입덕계기 '
+          }[key];
 
-        {/* 최애 */}
-        <TouchableOpacity onPress={() => handleSelect('showFavorite')}
-          style={showFavorite ? styles.selectedElement : styles.element}>
-          {showFavorite && (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Select />
-              <Text style={styles.selectedText}> 최애 </Text>
-            </View>
-          )}
-          {!showFavorite && <Text> 최애 </Text>}
-        </TouchableOpacity>
-
-        {/* 차애 */}
-        <TouchableOpacity onPress={() => handleSelect('showSecond')}
-          style={showSecond ? styles.selectedElement : styles.element}>
-          {showSecond && (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Select />
-              <Text style={styles.selectedText}> 차애 </Text>
-            </View>
-          )}
-          {!showSecond && <Text> 차애 </Text>}
-        </TouchableOpacity>
-
-        {/* 입덕계기 */}
-        <TouchableOpacity onPress={() => handleSelect('showReason')}
-          style={showReason ? styles.selectedElement : styles.element}>
-          {showReason && (
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-              <Select />
-              <Text style={styles.selectedText}> 입덕계기 </Text>
-            </View>
-          )}
-          {!showReason && <Text> 입덕계기 </Text>}
-        </TouchableOpacity>
+          return (
+            <TouchableOpacity
+              key={index}
+              onPress={() => handleSelect(key)}
+              style={visibility[key] ? styles.selectedElement : styles.element}
+            >
+              {visibility[key] && (
+                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                  <Select />
+                  <Text style={styles.selectedText}>{displayText}</Text>
+                </View>
+              )}
+              {!visibility[key] && <Text>{displayText}</Text>}
+            </TouchableOpacity>
+          );
+        })}
 
       </View>
-
     </View>
   )
 }
