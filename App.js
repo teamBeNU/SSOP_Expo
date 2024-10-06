@@ -106,6 +106,52 @@ export default function App() {
       </Text>
     </View>
   ),
+  success: ({ text1 }) => (
+    <View style={{
+      width: '80%',
+      height: 40,
+      marginBottom: 20,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 8,
+      backgroundColor: 'rgba(0, 0, 0, 0.70)',
+      alignSelf: 'center',
+    }}>
+      <Text style={{
+        color: 'white',
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '600',
+        letterSpacing: -0.14,
+        textAlign: 'center',
+      }}>{text1}</Text>
+    </View>
+  ),
+  fail: ({ text1 }) => (
+    <View style={{
+      width: '80%',
+      height: 40,
+      marginBottom: 20,
+      paddingVertical: 8,
+      paddingHorizontal: 16,
+      justifyContent: 'center',
+      alignItems: 'center',
+      borderRadius: 8,
+      backgroundColor: 'rgba(0, 0, 0, 0.70)',
+      alignSelf: 'center',
+    }}>
+      <Text style={{
+        color: 'white',
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '600',
+        letterSpacing: -0.14,
+        textAlign: 'center',
+      }}>{text1}</Text>
+    </View>
+  )
 };
 
   return (
@@ -365,18 +411,17 @@ export default function App() {
         justifyContent: 'center',
         alignItems: 'center',
         borderRadius: 8,
-        backgroundColor: 'rgba(0, 0, 0, 0.70)',
+        backgroundColor: 'pink',
+        //backgroundColor: 'rgba(0, 0, 0, 0.70)',
         alignSelf: 'center',
       }}
       textStyle= {{
-        color: 'pink',
+        color: 'white',
         fontFamily: 'PretendardRegular',
         fontSize: 14,
         fontWeight: '600',
         letterSpacing: -0.14,
         textAlign: 'center',
-        height: 24,
-        bottom: 10
       }}    
     />
     </MenuProvider>

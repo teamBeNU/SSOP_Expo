@@ -4,6 +4,8 @@ import React, { useLayoutEffect, useState } from "react";
 import { Text, TouchableOpacity, View, Alert, Modal } from 'react-native';
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import { showMessage } from 'react-native-flash-message';
+import Toast from 'react-native-toast-message';
+
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import GridIcon from '../../assets/icons/ic_border_all.svg';
 import ListIcon from '../../assets/icons/ic_list.svg';
@@ -52,51 +54,31 @@ const deleteMyCard  = async (cardId) => {
             setSelectedCards([]); 
             navigation.goBack();
 
-            showMessage({
-              message: "프로필 카드가 삭제되었어요.",
-              type: "success",
-              duration: 3000, //보여줄 시간 : 3초
+            Toast.show({
+              text1: "프로필 카드가 삭제되었어요.",
+              type: 'success',
               position: 'bottom',
-              style: {
-                width: '80%',
-                height: 40,
-                marginBottom: 20,
-                paddingVertical: 8,
-                paddingHorizontal: 16,
-                justifyContent: 'center',
-                alignItems: 'center',
-                borderRadius: 8,
-                backgroundColor: 'rgba(0, 0, 0, 0.70)',
-                alignSelf: 'center',
-              },
-              textStyle: {
-                color: 'pink',
-                fontFamily: 'PretendardRegular',
-                fontSize: 14,
-                fontWeight: '600',
-                letterSpacing: -0.14,
-                textAlign: 'center',
-                height: 24,
-                bottom: 10
-              }
-            })
+              visibilityTime: 3000,
+              autoHide: true,
+            });
         } else {
-            Alert.alert("삭제 실패", "카드 삭제 중 오류가 발생했습니다1.");
-            // showMessage({
-            //   message: "카드 삭제 중 오류가 발생했습니다",
-            //   type: "error",
-            //   duration: 3000 //보여줄 시간 ms
-            // })
+          Toast.show({
+            text1: "삭제에 실패하였습니다.",
+            type: 'fail',
+            position: 'bottom',
+            visibilityTime: 3000,
+            autoHide: true,
+          });
         }
 
     } catch (error) {
-        console.error("Error deleting cards:", error);
-        Alert.alert("삭제 실패", "카드 삭제 중 오류가 발생했습니다.");
-        // showMessage({
-        //   message: "카드 삭제 중 오류가 발생했습니다",
-        //   type: "error",
-        //   duration: 3000 //보여줄 시간 ms
-        // })
+        Toast.show({
+          text1: "카드 삭제 중 오류가 발생했습니다.",
+          type: 'fail',
+          position: 'bottom',
+          visibilityTime: 3000,
+          autoHide: true,
+        });
     }
 };
 

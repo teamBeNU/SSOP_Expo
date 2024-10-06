@@ -17,6 +17,7 @@ function MyCard() {
     const navigation = useNavigation();
 
     const handleDelete = () => {
+        setMoreMenu(false);
         navigation.navigate('내 카드 삭제', {cardData});
     };
 
