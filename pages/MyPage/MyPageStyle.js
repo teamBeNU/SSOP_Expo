@@ -1,7 +1,5 @@
-import { StyleSheet, Dimensions } from "react-native"
+import { StyleSheet } from "react-native"
 import { theme } from "../../theme"
-
-const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
     flexDirectionRow: {
@@ -83,10 +81,19 @@ export const styles = StyleSheet.create({
         paddingVertical: 20,
     },
     logoutText: {
-        fontFamily: "PretendardSemiBold",
+        fontFamily: "PretendardRegular",
         fontSize: 14,
         fontStyle: "normal",
         fontWeight: "600",
+        color: theme.gray40,
+        letterSpacing: -0.14,
+    },
+    deleteText: {
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
         color: theme.gray60,
+        letterSpacing: -0.14,
     },
 })

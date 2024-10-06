@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
 
     userMain: {
         flex: 1,
-        backgroundColor: "yellow"
     },
     // UserInfo
     userInfoMain: {
@@ -65,6 +64,9 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardRegular",
         fontSize: 14,
         color: theme.gray40,
+        fontStyle: "normal",
+        fontWeight: "600",
+        letterSpacing: -0.4,
         marginBottom: 8,
     },
     customInput: {
@@ -217,9 +219,10 @@ export const styles = StyleSheet.create({
     },
     btnNextText: {
         color: theme.white,
-        fontFamily: "PretendardSemiBold",
+        fontFamily: "PretendardMedium",
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: "600",
+        fontWeight: "500",
+        letterSpacing: -0.32,
     },
 })

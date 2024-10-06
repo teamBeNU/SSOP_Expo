@@ -41,19 +41,21 @@ function MyPage({navigation}) {
 
             <View style={styles.infoContainer}>
                 <TouchableOpacity 
-                    style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
+                    style={[styles.flexDirectionRow, styles.infoBtn]}
                     onPress={() => navigation.navigate('MY 자주 묻는 질문')}
                 >
                     <Text style={styles.infoText}>자주 묻는 질문</Text>
                     <RightArrow />
                 </TouchableOpacity>
+                <View style={styles.borderBottom}></View>
                 <TouchableOpacity 
-                    style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
+                    style={[styles.flexDirectionRow, styles.infoBtn]}
                     onPress={() => navigation.navigate('MY 서비스 방침 이용약관', {id: 'privacyPolicy'})}
                 >
                     <Text style={styles.infoText}>개인정보 처리방침</Text>
                     <RightArrow />
                 </TouchableOpacity>
+                <View style={styles.borderBottom}></View>
                 <TouchableOpacity 
                     style={[styles.flexDirectionRow, styles.infoBtn]}
                     onPress={() => navigation.navigate('MY 서비스 방침 이용약관', {id: 'termsOfService'})}

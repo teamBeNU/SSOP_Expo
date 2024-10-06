@@ -14,19 +14,21 @@ function UserAccount({navigation}) {
     return (
         <View style={styles.UserAccountMain}>
             <TouchableOpacity 
-                style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
+                style={[styles.flexDirectionRow, styles.infoBtn]}
                 onPress={() => navigation.navigate('MY 이름 및 생년월일 변경')}
             >
                 <Text style={styles.infoText}>이름 및 생년월일 변경</Text>
                 <RightArrow />
             </TouchableOpacity>
+            <View style={styles.borderBottom}></View>
             <TouchableOpacity 
-                style={[styles.flexDirectionRow, styles.infoBtn, styles.borderBottom]}
+                style={[styles.flexDirectionRow, styles.infoBtn]}
                 onPress={() => navigation.navigate('MY 연락처 변경')}
             >
                 <Text style={styles.infoText}>연락처 변경</Text>
                 <RightArrow />
             </TouchableOpacity>
+            <View style={styles.borderBottom}></View>
             <TouchableOpacity 
                 style={[styles.flexDirectionRow, styles.infoBtn]}
                 onPress={() => navigation.navigate('MY 비밀번호 변경')}
@@ -37,7 +39,7 @@ function UserAccount({navigation}) {
 
             <View style={[styles.logoutContainer, {marginLeft: 0}]}>
                 <TouchableOpacity>
-                    <Text style={styles.logoutText}>탈퇴하기</Text>
+                    <Text style={styles.deleteText}>탈퇴하기</Text>
                 </TouchableOpacity>
             </View>
         </View>
