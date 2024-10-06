@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import { Image, ScrollView, Text, View } from 'react-native';
+import { Image, ScrollView, Text, View, Dimensions } from 'react-native';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { getColor } from '../../utils/bgColorMapping';
 import { calculateAge } from '../../utils/calculateAge';
@@ -15,7 +15,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
     };
 
     return (
-        <ScrollView showsVerticalScrollIndicator={false}>
+        <ScrollView horizontal={false} contentContainerStyle={{ width: '100%' }}showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <View>
           {deleteMode ? (
           <View>
@@ -38,7 +38,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                       <NotSelectedIcon />
                   )}
               </TouchableOpacity>
-            <View key={item.cardId} style={styles.ListContainer}>
+            <View key={item.cardId} style={{...styles.ListContainer, width: Dimensions.get('window').width - 64}}>
               <TouchableOpacity onPress={() => handleNext(item.cardId)}>
                 <View style={styles.row2}>
 

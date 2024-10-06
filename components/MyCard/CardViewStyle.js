@@ -241,5 +241,7 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     gap: 8,
     alignItems: 'center',
+    width: '100%',
+    overflow: 'hidden'
     }
 })

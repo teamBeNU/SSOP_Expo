@@ -131,6 +131,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         backgroundColor: 'white',
         borderRadius: 16,
+        justifyContent: 'center',
         alignItems: 'center',
         gap: 24,
       },

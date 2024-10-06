@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useLayoutEffect, useState } from "react";
 import { Text, TouchableOpacity, View, Alert, Modal } from 'react-native';
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
+import { showMessage } from 'react-native-flash-message';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import GridIcon from '../../assets/icons/ic_border_all.svg';
 import ListIcon from '../../assets/icons/ic_list.svg';
@@ -25,39 +26,22 @@ const DeleteMyCard = ({ route, navigation }) => {
 
   const handleDelete  = async () => {
     if (selectedCards.length === 0) {
-        //Alert.alert("삭제 오류", "삭제할 카드가 선택되지 않았습니다.");
         setModalVisible(true);
         return;
     }
-
     setModalVisible(true);
-
-    // const lastSelectedCardId = selectedCards[selectedCards.length - 1];
-
-    // Alert.alert('프로필을 삭제하시겠어요?', '이 작업은 실행 취소할 수 없습니다.', [
-    //     {
-    //         text: '수정할래요',
-    //         onPress: () => console.log('Cancel Pressed'),
-    //         style: 'cancel',
-    //     },
-    //     {text: '삭제할래요', onPress:  async () => await deleteMyCard(lastSelectedCardId) },
-    //     ],
-    //     { cancelable: false }
-    // )
 };
 
 const confirmDelete = async () => {
-  const lastSelectedCardId = selectedCards[selectedCards.length - 1];
-  await deleteMyCard(lastSelectedCardId);
+  await deleteMyCard(selectedCards);
   setModalVisible(false);
 }
-
 
 const deleteMyCard  = async (cardId) => {
     try {   
         const token = await AsyncStorage.getItem('token');
         
-        const response = await fetch(`http://43.202.52.64:8080/api/card/delete?cardId=${cardId}`,
+        const response = await fetch(`http://43.202.52.64:8080/api/card/delete?cardIds=${cardId.join(',')}`,
         {
         method: 'DELETE',
         headers: {
@@ -65,28 +49,59 @@ const deleteMyCard  = async (cardId) => {
         },
         });
         if (response.status === 200) {
-            Alert.alert("삭제 완료", "선택된 카드가 삭제되었습니다.");
-            setSelectedCards([]); // Clear selected cards
-            navigation.goBack(); // Navigate back or refresh card data as needed
+            setSelectedCards([]); 
+            navigation.goBack();
+
+            showMessage({
+              message: "프로필 카드가 삭제되었어요.",
+              type: "success",
+              duration: 3000, //보여줄 시간 : 3초
+              position: 'bottom',
+              style: {
+                width: '80%',
+                height: 40,
+                marginBottom: 20,
+                paddingVertical: 8,
+                paddingHorizontal: 16,
+                justifyContent: 'center',
+                alignItems: 'center',
+                borderRadius: 8,
+                backgroundColor: 'rgba(0, 0, 0, 0.70)',
+                alignSelf: 'center',
+              },
+              textStyle: {
+                color: 'pink',
+                fontFamily: 'PretendardRegular',
+                fontSize: 14,
+                fontWeight: '600',
+                letterSpacing: -0.14,
+                textAlign: 'center',
+                height: 24,
+                bottom: 10
+              }
+            })
         } else {
             Alert.alert("삭제 실패", "카드 삭제 중 오류가 발생했습니다1.");
+            // showMessage({
+            //   message: "카드 삭제 중 오류가 발생했습니다",
+            //   type: "error",
+            //   duration: 3000 //보여줄 시간 ms
+            // })
         }
 
     } catch (error) {
         console.error("Error deleting cards:", error);
         Alert.alert("삭제 실패", "카드 삭제 중 오류가 발생했습니다.");
+        // showMessage({
+        //   message: "카드 삭제 중 오류가 발생했습니다",
+        //   type: "error",
+        //   duration: 3000 //보여줄 시간 ms
+        // })
     }
 };
 
   const handleSelectAllToggle = () => {
     setSelectedCards(selectedCards.length === cardData.length ? [] : cardData.map(card => card.cardId));
-    // if (selectedCards.length === cardData.length) {
-    //   setSelectedCards([]);
-    // } else {
-    //   const allCardIds = cardData.map(card => card.cardId); 
-    //   setSelectedCards(allCardIds);
-    //   console.log('선택카드: ', selectedCards);
-    // }
   };
 
   useLayoutEffect(() => {

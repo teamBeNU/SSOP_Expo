@@ -12,6 +12,7 @@ import {
   MenuProvider,
   MenuTrigger,
 } from 'react-native-popup-menu';
+import FlashMessage from "react-native-flash-message";
 import Toast from 'react-native-toast-message';
 import NotiIcon from './assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
@@ -59,6 +60,7 @@ import EditCardCover from './pages/MyCard/EditCardCover';
 import MySpace from './pages/Space/MySpace';
 import TeamSpace from './pages/Space/TeamSpace';
 import { theme } from './theme';
+import { styles } from './pages/MyCard/MyCardStyle';
 
 export default function App() {
   // 폰트 로드
@@ -352,6 +354,31 @@ export default function App() {
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />
+    <FlashMessage 
+      position="bottom"
+      style= {{
+        width: '80%',
+        height: 40,
+        marginBottom: 20,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+        backgroundColor: 'rgba(0, 0, 0, 0.70)',
+        alignSelf: 'center',
+      }}
+      textStyle= {{
+        color: 'pink',
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '600',
+        letterSpacing: -0.14,
+        textAlign: 'center',
+        height: 24,
+        bottom: 10
+      }}    
+    />
     </MenuProvider>
     </AuthProvider>
   );
