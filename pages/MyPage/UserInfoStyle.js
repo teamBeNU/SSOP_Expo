@@ -93,60 +93,6 @@ export const styles = StyleSheet.create({
         marginTop: 8,
     },
 
-    // USerInfo: 생일
-    inputBirthContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    inputBirth: {
-        flex: 1,
-        height: 48,
-        borderRadius: 8,
-        backgroundColor: theme.gray95,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-    },
-    inputBirthText: {
-        textAlign: "right",
-        fontFamily: "PretendardRegular",
-        fontSize: 16,
-    },
-
-    // UserPhoneNumber: 연락처 변경
-    unCorrect: {
-        fontFamily: "PretendardSemiBold",
-        fontSize: 14,
-        fontStyle: "normal",
-        fontWeight: "600",
-        color: theme.gray40,
-    },
-    requestNum: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginVertical: 16,
-    },
-    remainTime: {
-        fontFamily: "PretendardSemiBold",
-        fontSize: 14,
-        fontStyle: "normal",
-        fontWeight: "600",
-        color: theme.gray40,
-    },
-    resendBtn: {
-        fontFamily: "PretendardSemiBold",
-        fontSize: 14,
-        fontStyle: "normal",
-        fontWeight: "600",
-        color: theme.skyblue,
-    },
-    resendText: {
-        fontFamily: "PretendardRegular",
-        fontSize: 14,
-        fontStyle: "normal",
-        fontWeight: "400",
-        color: theme.gray40,
-    },
-
     // UserPw: 비밀번호 변경
     pwContainer: {
         flexDirection: "row",
