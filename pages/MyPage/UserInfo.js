@@ -1,7 +1,5 @@
-import { View, Text, TextInput, TouchableOpacity, Modal, Dimensions, Pressable, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import "react-native-gesture-handler";
 
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";

@@ -31,11 +31,19 @@ function MyPage({navigation}) {
     return (
         <View style={styles.MyPageMain}>
             <View style={[styles.flexDirectionRow, styles.accountManageContainer]}>
-                <Text style={styles.userName}>{name} 님</Text>
+                {/* <Text style={styles.userName}>{name} 님</Text>
                 <TouchableOpacity
                     onPress={() => navigation.navigate('MY 계정관리')}
                 >
                     <Text style={styles.accountManageText}>계정관리</Text>
+                </TouchableOpacity> */}
+
+                <TouchableOpacity style={styles.loginBtn}>
+                    <View>
+                        <Text style={styles.loginText}>로그인 및 회원가입</Text>
+                        <Text style={styles.loginSubText}>쉬운 자기소개를 경험하세요.</Text>
+                    </View>
+                    <RightArrow />
                 </TouchableOpacity>
             </View>
 
