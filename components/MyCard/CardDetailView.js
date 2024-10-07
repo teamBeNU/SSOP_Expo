@@ -15,13 +15,14 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
 const SPACING = -20;
 
-const CardDetailView = ({card_id}) => {
+const CardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef(null);
     const route = useRoute();
     const { cardId } = route.params;
 
     const [cardData, setCardData] = useState([]);
+    const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [moreMenu, setMoreMenu] = useState(false);
 
@@ -76,28 +77,46 @@ const fetchData = async () => {
 
             const result = await response.json();
             setCardData(result);
-        } catch (error) {
-            console.error('Error fetching card data:', error);
-        }
-    };
 
-      useFocusEffect(
-        useCallback(() => {
-            // Fetch data when the screen is focused
-            fetchData();
-
-            // Find the index of the clicked card based on cardId
-            const cardIndex = cardData.findIndex(card => card.cardId === cardId);
-
-            if (cardIndex !== -1 && scrollViewRef.current) {
-                // Scroll to the correct card to center it
+            const cardIndex = result.findIndex(card => card.cardId === cardId);
+            if (cardIndex !== -1) {
+                setCurrentCardIndex(cardIndex);
                 scrollViewRef.current.scrollTo({
                     x: (CARD_WIDTH + SPACING) * cardIndex,
                     animated: true,
                 });
             }
-        }, [cardId, cardData])
+
+        } catch (error) {
+            console.error('Error fetching card data:', error);
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchData();
+        }, [])
     );
+
+    useEffect(() => {
+        if (cardData.length > 0 && scrollViewRef.current) {
+            const cardIndex = cardData.findIndex(card => card.cardId === cardId);
+
+            if (cardIndex !== -1) {
+                setTimeout(() => {
+                    scrollViewRef.current.scrollTo({
+                        x: (CARD_WIDTH + SPACING) * cardIndex,
+                        animated: true,
+                    });
+                }, 300); 
+            }
+        }
+    }, [cardData, cardId]);
+
+    const onScrollEnd = (event) => {
+        const newCardIndex = Math.round(event.nativeEvent.contentOffset.x / (CARD_WIDTH + SPACING));
+        setCurrentCardIndex(newCardIndex);
+    };
 
    return (
      <View style={styles.container}>
@@ -120,6 +139,7 @@ const fetchData = async () => {
                     [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                     { useNativeDriver: false }
                 )}
+                onMomentumScrollEnd={onScrollEnd}
                 scrollEventThrottle={16} 
                 contentContainerStyle={styles.cardScrollView }
             >

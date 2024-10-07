@@ -15,19 +15,15 @@ const xURL = `https://x.com/${CardSample_student[0].card_SNS_X}`;
 
 const OpenURLButton = ({url, children}) => {
     const handlePress = useCallback(async () => {
-      // Checking if the link is supported for links with custom URL scheme.
       const supported = await Linking.canOpenURL(url);
   
       if (supported) {
-        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-        // by some browser in the mobile
         await Linking.openURL(url);
       } else {
         Alert.alert(`Don't know how to open this URL: ${url}`);
       }
     }, [url]);
   
-    // return <Button title={children} onPress={handlePress} style={styles.content}/>;
     return (
         <TouchableOpacity onPress={handlePress}>
           <Text style={styles.content}>{children}</Text>
@@ -35,7 +31,7 @@ const OpenURLButton = ({url, children}) => {
       );
   };
 
-export const CardBack = () => {
+export const CardBack = ({cardData}) => {
     const [showDetails, setShowDetails] = useState(false);
     const textRef = useRef();
     
@@ -55,14 +51,11 @@ export const CardBack = () => {
       setModalTop(y + height + 260);
       setModalLeft(x + width + 60);
     };
-
-    const cardData = CardSample_student[0]; // 첫 번째 카드 데이터 가져오기
-    const { card_student_role, card_student_club, card_phone, card_SNS_insta, card_SNS_X, card_email, card_MBTI, card_music } = cardData;
     
     return (
         <View style={styles.card}>
             <View style={styles.textArea}>
-                <View style={styles.info}>
+                {/* <View style={styles.info}>
                     <Text style={styles.topic}>직무</Text>
                     <Text style={styles.content}>{cardData.student.card_student_role}</Text>
                 </View>
@@ -138,7 +131,7 @@ export const CardBack = () => {
                 <View style={styles.info}>
                     <Text style={styles.topic}>음악</Text>
                     <Text style={styles.content}>{cardData.cardOptional.card_music}</Text>
-                </View>
+                </View> */}
             </View>
         </View>
     );
