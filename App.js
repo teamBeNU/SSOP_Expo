@@ -49,6 +49,9 @@ import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
 import UserPw from './pages/MyPage/UserPw';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import DetailGroup from './pages/Space/DetailGroup';
+import CardDetailView from './components/MyCard/CardDetailView';
+import EditCard from './pages/MyCard/EditCard';
+import EditCardCover from './pages/MyCard/EditCardCover';
 
 import { styles } from './components/MyCard/CardStyle';
 
