@@ -3938,11 +3938,6 @@ expo-asset@~10.0.10:
     invariant "^2.2.4"
     md5-file "^3.2.3"
 
-expo-clipboard@^6.0.3:
-  version "6.0.3"
-  resolved "https://registry.yarnpkg.com/expo-clipboard/-/expo-clipboard-6.0.3.tgz#dfea74d4a004dce59ecefd063d6fb9f1c356a03f"
-  integrity sha512-RIKDsuHkYfaspifbFpVC8sBVFKR05L7Pj7mU2/XkbrW9m01OBNvdpGraXEMsTFCx97xMGsZpEw9pPquL4j4xVg==
-
 expo-auth-session@~5.5.2:
   version "5.5.2"
   resolved "https://registry.yarnpkg.com/expo-auth-session/-/expo-auth-session-5.5.2.tgz#c5be5daf347dcaf7f56034da7dddd62c33f86a2e"
@@ -5233,6 +5228,11 @@ jsonfile@^6.0.1:
     universalify "^2.0.0"
   optionalDependencies:
     graceful-fs "^4.1.6"
+
+jwt-decode@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/jwt-decode/-/jwt-decode-4.0.0.tgz#2270352425fd413785b2faf11f6e755c5151bd4b"
+  integrity sha512-+KJGIyHgkGuIq3IEBNftfhW/LfWhXUIY6OmyVWjliu5KH1y0fw7VQ8YndE2O4qZdMSd9SqbnC8GOcZEy0Om7sA==
 
 keyv@^4.0.0:
   version "4.5.4"
