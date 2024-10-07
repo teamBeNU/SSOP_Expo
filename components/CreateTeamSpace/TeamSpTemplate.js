@@ -64,7 +64,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
         showAddress: false
     });
 
-    const [cover, setCover] = useState("free");
+    const [cardCover, setCardCover] = useState("free");
 
     const [plus, setPlus] = useState("");
     const [plusList, setPlusList] = useState([]);
@@ -182,7 +182,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                 showMovie: extraText.showMovie,
                 showAddress: extraText.showAddress,
                 plus: plusList.filter(item => item.selected).map(item => item.free),
-                cardCover: cover
+                cardCover: cardCover
             };
 
             // 팀스페이스 생성 API 호출
@@ -492,8 +492,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 
                                 <Text style={styles.font16}> 카드 커버 설정 </Text>
                                 <RadioButton.Group
-                                    onValueChange={(value) => setCover(value)}
-                                    value={cover}>
+                                    onValueChange={(value) => setCardCover(value)}
+                                    value={cardCover}>
                                     <View style={styles.coverContainer}>
 
                                         <View style={styles.coverRadioBtn}>
