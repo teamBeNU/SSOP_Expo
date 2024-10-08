@@ -105,13 +105,17 @@ function TeamSpace({ navigation }) {
   // 팀스페이스 이름 변경 모달 열기
   const handleChangeGroupName = (newName, teamId) => {
     const group = data.find((team) => team.teamId === teamId);
-    setSelectedGroup(group);
-    setIsGroupNameChangeModalVisible(true);
+    if (group) {
+      setSelectedGroup(group);
+      setNewTeamName(group.team_name); 
+      setIsGroupNameChangeModalVisible(true);
+    } else {
+      console.error('선택된 그룹이 없습니다:', teamId);
+    }
   };
 
   useEffect(() => {
     if (isGroupNameChangeModalVisible && selectedGroup) {
-      console.log('선택된 그룹:', selectedGroup);
     }
   }, [isGroupNameChangeModalVisible, selectedGroup]);
 
