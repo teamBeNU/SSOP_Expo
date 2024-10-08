@@ -27,6 +27,7 @@ function TeamSpace({ navigation }) {
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const [groupToDelete, setGroupToDelete] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);
+  const [newTeamName, setNewTeamName] = useState('');
 
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
@@ -90,6 +91,7 @@ function TeamSpace({ navigation }) {
     const updatedTeamData = data.filter((group) => group.id !== groupToDelete);
     setData(updatedTeamData);
     setGroupToDelete(null);
+    setNewTeamName(group.team_name); // 선택한 그룹의 이름으로 설정
     setIsSpaceModalVisible(false);
 
     // 삭제 후 팀스페이스 데이터가 비어있다면 hasTeamSP를 false로 설정
@@ -101,22 +103,41 @@ function TeamSpace({ navigation }) {
   };
 
   // 팀스페이스 이름 변경 모달 열기
-  const handleChangeGroupName = (id) => {
-    const group = teamData.find((team) => team.id === id);
+  const handleChangeGroupName = (newName, teamId) => {
+    const group = data.find((team) => team.teamId === teamId);
     setSelectedGroup(group);
     setIsGroupNameChangeModalVisible(true);
   };
 
-  // 팀스페이스 이름 변경 반영
+  useEffect(() => {
+    if (isGroupNameChangeModalVisible && selectedGroup) {
+      console.log('선택된 그룹:', selectedGroup);
+    }
+  }, [isGroupNameChangeModalVisible, selectedGroup]);
+
+
   const handleUpdateGroupName = (newName) => {
-    setTeamData((prevData) =>
-      prevData.map((group) =>
-        group.id === selectedGroup.id ? { ...group, name: newName } : group
-      )
-    );
-    setSelectedGroup(null); // 선택된 팀스페이스 초기화
-    setIsGroupNameChangeModalVisible(false);
-    showCustomToast('팀스페이스 이름이 수정되었어요.');
+
+    const requestData = { team_name: newName };
+
+    // 내가 참여한 팀스페이스 목록 API 호출
+    const apiUrl = `${baseUrl}/teamsp?teamId=${selectedGroup.teamId}`;
+    axios
+      .patch(apiUrl, requestData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setData((prevData) =>
+          prevData.map((group) =>
+            group.teamId === selectedGroup.teamId ? { ...group, team_name: newName } : group
+          )
+        );
+        setIsGroupNameChangeModalVisible(false);
+        showCustomToast('팀스페이스 이름이 수정되었어요.');
+      })
+      .catch((error) => {
+        console.error('팀스페이스 이름 수정 API 요청 에러:', error.response.data);
+      });
   };
 
   // 팀스페이스 상세 화면으로 이동
@@ -142,7 +163,7 @@ function TeamSpace({ navigation }) {
               isHost={team.hostId === userId}
               onGroupPress={handleNext} // 팀스페이스 클릭했을 때 이동
               onDeleteGroup={handleDeleteGroup} // 그룹 삭제
-              onChangeGroupName={handleChangeGroupName} // 이름 변경
+              onChangeGroupName={(newName) => handleChangeGroupName(newName, team.teamId)}  // 이름 변경
               showMenu={true}
             />
           ))}
@@ -169,7 +190,7 @@ function TeamSpace({ navigation }) {
       <SpaceNameChangeModal
         isVisible={isGroupNameChangeModalVisible}
         onClose={() => setIsGroupNameChangeModalVisible(false)}
-        groupName={selectedGroup ? selectedGroup.name : ''} // 선택된 그룹 이름 전달
+        groupName={newTeamName} // 선택된 그룹 이름 전달
         btn1={'취소하기'}
         btn2={'수정하기'}
         onConfirm={handleUpdateGroupName} // 새로운 이름 반영
