@@ -463,7 +463,7 @@ function DetailTeamSpace() {
           title: "",
           tabBarStyle: { display: 'none' },
           headerStyle: {
-            backgroundColor: theme.gray95,  // 헤더 배경 색상 설정
+            backgroundColor: theme.gray95, 
           },
           headerShadowVisible: false, 
           headerLeft: ({onPress}) => (

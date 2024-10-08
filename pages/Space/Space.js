@@ -127,6 +127,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 // MySpace 스택 네비게이션
 function MySpaceStack({navigation}) {
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const handleBluetoothPress = () => {
     setIsModalVisible(false);
     navigation.navigate('내 카드 보내기');
@@ -135,6 +136,10 @@ function MySpaceStack({navigation}) {
   const handleLinkSharePress = () => {
     setIsModalVisible(false);
     navigation.navigate('링크 복사');
+  };
+
+  const handlePlusGroup = () => {
+    setIsGroupNameChangeModalVisible(true);
   };
 
   const [teamData, setTeamData] = useState([
@@ -165,7 +170,7 @@ function MySpaceStack({navigation}) {
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
                     <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 , borderRadius: 16 }}>
-                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' />
+                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' onPress={handlePlusGroup}/>
                       <MenuOption text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })}/>
                     </MenuOptions>
                   </Menu>
@@ -176,6 +181,14 @@ function MySpaceStack({navigation}) {
         />
       </Stack.Navigator>
 
+
+      <SpaceNameChangeModal
+        isVisible={isGroupNameChangeModalVisible}
+        onClose={() => setIsGroupNameChangeModalVisible(false)}
+        groupName={'그룹 이름을 작성하세요.'}
+        btn1={'취소하기'}
+        btn2={'추가하기'}
+      />
       <ExchangeModal
         isVisible={isModalVisible}
         onClose={() => setIsModalVisible(false)}
