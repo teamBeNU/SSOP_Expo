@@ -3,48 +3,100 @@ import React, { useState, useEffect, useContext } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import "react-native-gesture-handler";
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from '@react-navigation/native';
 import { AuthContext } from "../../AuthContext";
+
+
 import RightArrow from "../../assets/icons/ic_RightArrow_small_line.svg";
 import { styles } from "./MyPageStyle";
 
 const { width:SCREEN_WIDTH } = Dimensions.get('window');
 
 function MyPage({navigation}) {
-    const { setIsLoggedIn } = useContext(AuthContext);
+    const baseUrl = 'http://43.202.52.64:8080/api';
+    const [token, setToken] = useState(null);
+    const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
-    const [name, setName] = useState('김슈니');
+    const [userName, setUserName] = useState('');
 
+    // AsyncStorage에서 토큰 가져오기
+    useEffect(() => {
+        const fetchToken = async () => {
+        try {
+            const storedToken = await AsyncStorage.getItem('token');
+            setToken(storedToken);
+        } catch (error) {
+            console.error('토큰 가져오기 실패:', error);
+        }
+        };
+
+        fetchToken();
+    }, [isLoggedIn]);
+
+    // 사용자 정보
+    useEffect(() => {
+        if(isLoggedIn && token) {
+            async function getUser() {
+                try {
+                    const response = await axios.get(`${baseUrl}/user`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                        withCredentials: true,
+                    });
+    
+                    setUserName(response.data.user_name);
+                } catch (error) {
+                  console.error('에러: ',error);
+                }
+            }
+
+            getUser();
+        }
+    }, [token, isLoggedIn]);
+
+    // 로그아웃
     const handleLogout = async () => {
         try {
           await AsyncStorage.removeItem('token');
           setIsLoggedIn(false); // Update login state
-          Alert.alert('로그아웃 성공');
+          setUserName('');
+          // Alert.alert('로그아웃 성공');
           navigation.navigate('로그인');
         } catch (error) {
           console.error('Error during logout:', error);
-          Alert.alert('Error', 'Failed to log out.');
+          // Alert.alert('Error', 'Failed to log out.');
         }
-      };
+    };
 
     return (
         <View style={styles.MyPageMain}>
             <View style={[styles.flexDirectionRow, styles.accountManageContainer]}>
-                {/* <Text style={styles.userName}>{name} 님</Text>
-                <TouchableOpacity
-                    onPress={() => navigation.navigate('MY 계정관리')}
-                >
-                    <Text style={styles.accountManageText}>계정관리</Text>
-                </TouchableOpacity> */}
-
-                <TouchableOpacity style={styles.loginBtn}>
-                    <View>
-                        <Text style={styles.loginText}>로그인 및 회원가입</Text>
-                        <Text style={styles.loginSubText}>쉬운 자기소개를 경험하세요.</Text>
-                    </View>
-                    <RightArrow />
-                </TouchableOpacity>
+                {
+                    (userName !== null && userName !== '') ?
+                    <>
+                    <Text style={styles.userName}>{userName} 님</Text>
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('MY 계정관리')}
+                    >
+                        <Text style={styles.accountManageText}>계정관리</Text>
+                    </TouchableOpacity>
+                    </> :
+                    <>
+                    <TouchableOpacity 
+                        style={styles.loginBtn}
+                        onPress={() => navigation.navigate('로그인')}
+                    >
+                        <View>
+                            <Text style={styles.loginText}>로그인 및 회원가입</Text>
+                            <Text style={styles.loginSubText}>쉬운 자기소개를 경험하세요.</Text>
+                        </View>
+                        <RightArrow />
+                    </TouchableOpacity>
+                    </>
+                }
             </View>
 
             <View style={styles.infoContainer}>
@@ -72,12 +124,15 @@ function MyPage({navigation}) {
                     <RightArrow />
                 </TouchableOpacity>
             </View>
-
-            <View style={styles.logoutContainer}>
-                <TouchableOpacity onPress={handleLogout}>
-                    <Text style={styles.logoutText}>로그아웃</Text>
-                </TouchableOpacity>
-            </View>
+            {
+                (userName !== null && userName !== '')  ?
+                    <View style={styles.logoutContainer}>
+                        <TouchableOpacity onPress={handleLogout}>
+                            <Text style={styles.logoutText}>로그아웃</Text>
+                        </TouchableOpacity>
+                    </View> : 
+                    <></>
+            }
         </View>
     );
 }
