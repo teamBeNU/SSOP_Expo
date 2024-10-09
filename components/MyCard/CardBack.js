@@ -39,13 +39,9 @@ export const CardBack = ({cardData}) => {
             case 'studentUniv': 
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
-                        
                         <CardOptional1 cardData={cardData}/>
-
                         <StudentOptional cardData={cardData}/>
-
                         <CardOptional2 cardData={cardData}/>    
-
                         <CardOptional3 cardData={cardData}/>
                     </ScrollView>
                 );
@@ -69,7 +65,14 @@ export const CardBack = ({cardData}) => {
                 );
                 case 'free': 
                     return(
-                        <View></View>
+                        <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
+                        <CardOptional1 cardData={cardData}/>
+                        <StudentOptional cardData={cardData}/>
+                        <WorkerOptional cardData={cardData} />
+                        <FanOptional cardData={cardData} />
+                        <CardOptional2 cardData={cardData}/>    
+                        <CardOptional3 cardData={cardData}/>   
+                    </ScrollView>
                     );
                 default:
                 return null;
