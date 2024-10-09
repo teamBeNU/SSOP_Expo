@@ -98,13 +98,14 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.32,
     },
     content: {
-        width: '80%',
+        maxWidth: '80%',
         color: theme.gray10,
         fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
         lineHeight: 19,
         letterSpacing: -0.32,
+        flexWrap: 'wrap',
     },
     grayBox: {  
         maxWidth: '80%',

@@ -45,7 +45,7 @@ export const CardBack = ({cardData}) => {
                         <StudentOptional cardData={cardData}/>
 
                         <CardOptional2 cardData={cardData}/>    
-                        
+
                         <CardOptional3 cardData={cardData}/>
                     </ScrollView>
                 );
@@ -53,23 +53,8 @@ export const CardBack = ({cardData}) => {
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData} />
-                         {cardData.worker.card_worker_position ? (
-                            <View style={styles.info}>                             
-                                <Text style={styles.topic}>직위</Text>                             
-                                <Text style={styles.content}>{cardData.worker.card_worker_position}</Text>                         
-                            </View>
-                        ) : null}
-                        {cardData.worker.card_worker_department ? (
-                            <View>
-                            <View style={styles.info}>                             
-                                <Text style={styles.topic}>부서</Text>                             
-                                <Text style={styles.content}>{cardData.worker.card_worker_department}</Text>                         
-                            </View>
-                            <View style={styles.line} />
-                            </View>
-                        ) : null}
+                        <WorkerOptional cardData={cardData} />
                         <CardOptional2 cardData={cardData}/>    
-                        <View style={{...styles.line, marginTop: 0}} />
                         <CardOptional3 cardData={cardData}/>      
                     </ScrollView>
                 );
@@ -77,24 +62,8 @@ export const CardBack = ({cardData}) => {
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData}/>
-
-                         {cardData.fan.card_fan_second ? (
-                            <View style={styles.info}>                             
-                                <Text style={styles.topic}>차애</Text>                             
-                                <Text style={styles.content}>{cardData.fan.card_fan_second}</Text>                         
-                            </View>
-                        ) : null}
-                        {cardData.fan.card_fan_reason ? (
-                            <View>
-                            <View style={styles.info}>                             
-                                <Text style={styles.topic}>입덕계기</Text>                             
-                                <Text style={styles.content}>{cardData.fan.card_fan_reason}</Text>                         
-                            </View>
-                            <View style={styles.line} />
-                            </View>
-                        ) : <View style={{...styles.line, marginTop: 0}} />}
+                        <FanOptional cardData={cardData} />
                         <CardOptional2 cardData={cardData}/>    
-                        <View style={{...styles.line, marginTop: 0}} />
                         <CardOptional3 cardData={cardData}/>   
                     </ScrollView>
                 );
@@ -116,7 +85,7 @@ export const CardBack = ({cardData}) => {
 
 const CardOptional1 = ({cardData}) => {
     return (
-        <View style={{gap: 24}}>
+        <View style={{gap: 24, width: '100%'}}>
         {cardData.cardOptional.card_birth ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>생년월일</Text>                             
@@ -138,7 +107,7 @@ const CardOptional1 = ({cardData}) => {
 
 const CardOptional2 = ({cardData}) => {
     return (
-        <View style={{gap: 24}}>
+        <View style={{gap: 24, width: '100%'}}>
             {(cardData.cardOptional.card_tel || cardData.cardOptional.card_email || cardData.cardOptional.card_sns_insta || cardData.cardOptional.card_SNS_X) && (
             <View style={{...styles.line, marginTop: 0}} />
             )}
@@ -183,7 +152,7 @@ const CardOptional2 = ({cardData}) => {
 
 const CardOptional3 = ({cardData}) => {
     return (
-        <View style={{gap: 24}}>
+        <View style={{gap: 24, width: '100%'}}>
             {(cardData.cardOptional.card_hobby || cardData.cardOptional.card_music || cardData.cardOptional.card_movie || cardData.cardOptional.card_address) && (
             <View style={{...styles.line, marginTop: 0}} />
             )}
@@ -206,8 +175,8 @@ const CardOptional3 = ({cardData}) => {
                 </View>
             ) : null } 
             {cardData.cardOptional.card_address ? (
-                <View style={styles.info}>                             
-                <Text style={styles.topic}>거주지</Text>                             
+                 <View style={{...styles.info, alignItems: 'flex-start'}}>                             
+                <Text style={styles.topic}>거주지</Text>                                
                 <Text style={styles.content}>{cardData.cardOptional.card_address}</Text> 
                 </View>
             ) : null }    
@@ -245,6 +214,48 @@ const StudentOptional = ({cardData}) => {
                 </View>
                 </View>
             ) : null }
+        </View>
+    );
+}
+
+const WorkerOptional = ({cardData}) => {
+    return (
+    <View style={(cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24} : {gap: 24}}>
+        {cardData.worker.card_worker_position ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>직위</Text>                             
+                <Text style={styles.content}>{cardData.worker.card_worker_position}</Text>                         
+            </View>
+        ) : null}
+        {cardData.worker.card_worker_department ? (
+            <View>
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>부서</Text>                             
+                <Text style={styles.content}>{cardData.worker.card_worker_department}</Text>                         
+            </View>            
+            </View>
+        ) : null}
+        </View>
+    );
+}
+
+const FanOptional = ({cardData}) => {
+    return (
+    <View style={(cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24} : {gap: 24}}>
+        {cardData.fan.card_fan_second ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>차애</Text>                             
+                <Text style={styles.content}>{cardData.fan.card_fan_second}</Text>                         
+            </View>
+        ) : null}
+        {cardData.fan.card_fan_reason ? (
+            <View>
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>입덕계기</Text>                             
+                <Text style={styles.content}>{cardData.fan.card_fan_reason}</Text>                         
+            </View>
+            </View>
+        ) : null}
         </View>
     );
 }
