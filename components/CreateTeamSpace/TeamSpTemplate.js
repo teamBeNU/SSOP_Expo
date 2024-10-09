@@ -338,7 +338,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                 <View style={styles.elementContainer}>
 
                                     {Object.keys(defaultText || {}).map((key, index) => {
-                                        const defaultText = {
+                                        const localText = {
                                             // 기본 정보
                                             showAge: ' 나이 ',
                                             showBirth: ' 생년월일 ',
@@ -353,7 +353,9 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                             >
                                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                     {defaultText[key] && <Select />}
-                                                    <Text style={defaultText[key] ? styles.selectedText : styles.defaultText}>{defaultText}</Text>
+                                                    <Text style={defaultText[key] ? styles.selectedText : styles.defaultText}>
+                                                        {localText}
+                                                    </Text>
                                                 </View>
                                             </TouchableOpacity>
                                         );
@@ -364,7 +366,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                 <View style={styles.elementContainer}>
 
                                     {Object.keys(connectText || {}).map((key, index) => {
-                                        const connectText = {
+                                        const localText2 = {
                                             // 연락처, SNS
                                             showTel: ' 연락처 ',
                                             showEmail: ' 이메일 ',
@@ -380,7 +382,9 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                             >
                                                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                                                     {connectText[key] && <Select />}
-                                                    <Text style={connectText[key] ? styles.selectedText : styles.defaultText}>{connectText}</Text>
+                                                    <Text style={connectText[key] ? styles.selectedText : styles.defaultText}>
+                                                        {localText2}
+                                                    </Text>
                                                 </View>
                                             </TouchableOpacity>
                                         );
@@ -434,7 +438,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                 <Text style={styles.font16}>기타</Text>
                                 <View style={styles.elementContainer}>
                                     {Object.keys(extraText || {}).map((key, index) => {
-                                        const extraText = {
+                                        const localText3 = {
                                             // 기타
                                             showHobby: ' 취미 ',
                                             showMusic: ' 인생음악 ',
@@ -448,13 +452,12 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                                 onPress={() => handleSelect(key)}
                                                 style={extraText[key] ? styles.selectedElement : styles.element}
                                             >
-                                                {extraText[key] && (
-                                                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                                                        <Select />
-                                                        <Text style={styles.selectedText}>{extraText}</Text>
-                                                    </View>
-                                                )}
-                                                {!extraText[key] && <Text>{extraText}</Text>}
+                                                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                                                    {extraText[key] && <Select />}
+                                                    <Text style={extraText[key] ? styles.selectedText : styles.defaultText}>
+                                                        {localText3}
+                                                    </Text>
+                                                </View>
                                             </TouchableOpacity>
                                         );
                                     })}
@@ -616,7 +619,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             </View>
 
                             <View style={[styles.btnContainer, { marginBottom: -16 }]}>
-                                <TouchableOpacity style={[styles.btnNext, {marginBottom: 0}]} onPress={() => navigation.navigate('스페이스')}>
+                                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('스페이스')}>
                                     <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
