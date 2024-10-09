@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRoute } from '@react-navigation/native'; 
+import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
@@ -12,15 +12,21 @@ import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 
 // 상세 팀스페이스
-export default function DetailTeamSpaceScreen({ navigation, name, description }) {
+export default function DetailTeamSpaceScreen({ navigation }) {
   const route = useRoute();
-  const { teamId } = route.params || {};
-  console.log("받아온 teamId:", teamId);
+  const params = route.params || {};
+
+  // 각각의 값 가져오기
+  const teamId = params.teamId;
+  const selectedFilters = params.selectedFilters;
+
+  // console.log("받아온 teamId:", teamId);
 
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState([]);
+  const [inviteCode, setInviteCode] = useState(null);
   const [cardData, setCardData] = useState([]);
   const [filter, setFilter] = useState([]);
 
@@ -58,7 +64,7 @@ export default function DetailTeamSpaceScreen({ navigation, name, description })
 
     if (!teamId) {
       console.error("팀 ID가 전달되지 않았습니다.");
-      return null; // 또는 에러 처리 UI
+      return null;
     }
 
     if (userId) {
@@ -73,8 +79,8 @@ export default function DetailTeamSpaceScreen({ navigation, name, description })
           setFilter(response.data.filter);
           setCardData(response.data.members);
           console.log("필터목록: ", response.data.filter);
-          console.log('참여 멤버 목록:', response.data.members);
-          console.log("전체 데이터: ", response.data);
+          // console.log('참여 멤버 목록:', response.data.members);
+          // console.log("전체 데이터: ", response.data);
         })
         .catch((error) => {
           console.error('참여 멤버 목록 API 요청 에러:', error);
@@ -82,8 +88,21 @@ export default function DetailTeamSpaceScreen({ navigation, name, description })
     }
   }, [userId, token]);
 
+  useEffect(() => {
+    // 특정 팀스페이스 조회 API 호출 for 초대코드
+    const apiUrl = `${baseUrl}/teamsp?teamId=${teamId}`;
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        setInviteCode(response.data.inviteCode);
+      })
+      .catch((error) => {
+        console.error('초대코드 조회 요청 에러:', error);
+      });
+  });
+
   const handleFilterNext = () => {
-    navigation.navigate('필터', { filter });
+    navigation.navigate('필터', { filter, selectedFilters });
   };
 
   const handleShareButtonPress = () => {
@@ -107,8 +126,6 @@ export default function DetailTeamSpaceScreen({ navigation, name, description })
     setIsGroupNameChangeModalVisible(true);
   };
 
-  const inviteCode = '123456'; // 초대코드
-
   // 복사
   const copyinviteCode = async () => {
     const textToCopy = inviteCode;
@@ -131,7 +148,7 @@ export default function DetailTeamSpaceScreen({ navigation, name, description })
       Alert.alert('Error sharing', error.message);
     }
   };
-  
+
   return (
     <View style={styles.backgroundColor}>
 
@@ -162,12 +179,10 @@ export default function DetailTeamSpaceScreen({ navigation, name, description })
           </View>
         </TouchableWithoutFeedback>
       </Modal>
-
       <MySpaceDetailView
         title={data.team_name}
         members='8 / 150'
         sub={data.team_comment}
-        showFilter={true}
         navigation={navigation}
         hasCards={hasCards}
         selectedOption={selectedOption}
@@ -176,8 +191,8 @@ export default function DetailTeamSpaceScreen({ navigation, name, description })
         setViewOption={setViewOption}
         handleFilterNext={handleFilterNext}
         cardData={cardData}
+        selectedFilters={selectedFilters}
       />
-
       <SpaceModal
         isVisible={isSpaceModalVisible}
         onClose={() => setIsSpaceModalVisible(false)}

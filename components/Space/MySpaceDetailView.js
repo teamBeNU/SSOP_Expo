@@ -3,13 +3,27 @@ import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import People from '../../assets/icons/ic_person_small_fill.svg';
-import ListIcon from '../../assets/icons/ic_lists.svg';
+import CloseIcon from '../../assets/icons/ic_close_small_line.svg';
 import AllListIcon from '../../assets/icons/ic_border_all.svg';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { ShareCard } from '../Bluetooth/ShareCard.js';
 
-const MySpaceDetailView = ({ title, sub, members, selectedOption, setSelectedOption, viewOption, setViewOption, handleNext, cardData, showPlusCardButton, showFilter = false, handleFilterNext, showMenu = true, onChangeGroupName, onDeleteGroup, }) => {
+const MySpaceDetailView = ({
+  title,
+  sub,
+  members,
+  selectedOption,
+  setSelectedOption,
+  viewOption,
+  setViewOption,
+  handleNext,
+  cardData,
+  selectedFilters = {},
+  handleFilterNext,
+  showMenu = true,
+  onChangeGroupName,
+  onDeleteGroup }) => {
 
   // 생년월일 -> 나이 계산
   const calculateAge = (birthDate) => {
@@ -22,7 +36,16 @@ const MySpaceDetailView = ({ title, sub, members, selectedOption, setSelectedOpt
     }
     return age;
   };
-  
+
+  // 선택된 필터 값이 모두 null인지 확인
+  const hasSelectedFilters = selectedFilters && Object.values(selectedFilters).some(filterArray => filterArray.length > 0);
+
+  const templateTextMapping = {
+    student: '학생',
+    worker: '직장인',
+    fan: '팬',
+    free: '자유',
+  };
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor} >
@@ -39,8 +62,14 @@ const MySpaceDetailView = ({ title, sub, members, selectedOption, setSelectedOpt
 
         <View>
           <View style={styles.rowRange2}>
-            {/* "필터" 버튼 표시 (showFilterButton이 true일 때만) */}
-            {showFilter && (
+            {hasSelectedFilters ? (
+              <TouchableOpacity
+                style={styles.selectedFilterButton}
+                onPress={handleFilterNext}
+              >
+                <Text style={styles.selectFilterButtonText}>필터  </Text><CloseIcon />
+              </TouchableOpacity>
+            ) : (
               <TouchableOpacity
                 style={styles.filterButton}
                 onPress={handleFilterNext}
@@ -48,9 +77,6 @@ const MySpaceDetailView = ({ title, sub, members, selectedOption, setSelectedOpt
                 <Text style={styles.filterButtonText}>필터</Text>
               </TouchableOpacity>
             )}
-
-            {/* 필터 버튼이 없을 때도 공간을 차지할 빈 뷰 */}
-            {!showFilter && <View style={{ flex: 1 }} />}
 
             <View style={styles.rightButtonGroup}>
               {/* 격자형, 리스트형 버튼 */}
@@ -85,6 +111,7 @@ const MySpaceDetailView = ({ title, sub, members, selectedOption, setSelectedOpt
                     style={{ marginBottom: 10.5 }}
                     onSelect={() => setSelectedOption('최신순')}
                     text='최신순'
+
                   />
                   <MenuOption
                     onSelect={() => setSelectedOption('오래된 순')}
@@ -97,29 +124,53 @@ const MySpaceDetailView = ({ title, sub, members, selectedOption, setSelectedOpt
         </View>
       </View>
 
-
       <View style={styles.mainlayout}>
+
+        {/* 선택한 필터 목록 */}
+        {hasSelectedFilters ? (
+          <View style={styles.elementContainer}>
+            {Object.entries(selectedFilters).map(([key, values]) => (
+              values.map((value, index) => (
+                <TouchableOpacity
+                  key={`${key}-${index}`}
+                  style={styles.selectedElement}
+                >
+                  <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                    <Text style={styles.selectedText}>
+                      {/* card_template인 경우 변환된 텍스트 사용 */}
+                      {key === 'card_template' ? templateTextMapping[value] || value : value}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              ))
+            ))}
+
+          </View>
+        ) : (
+          <></>
+        )}
+
         <View>
           {/* {viewOption === '격자형' && ( */}
-            <View style={[styles.row, styles.container]}>
-              {cardData.map((item) => (
-                <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
-                  <ShareCard
-                    backgroundColor={item.backgroundColor}
-                    avatar={item.avatar}
-                    card_name={item.memberEssential.card_name} // 카F드 이름
-                    age={item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : '정보 없음'} // 나이
-                    dot=' · '
-                    card_template={
-                      item.memberEssential.card_template === 'student' ? '학생' :
+          <View style={[styles.row, styles.container]}>
+            {cardData.map((item) => (
+              <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
+                <ShareCard
+                  backgroundColor={item.backgroundColor}
+                  avatar={item.avatar}
+                  card_name={item.memberEssential.card_name} // 카F드 이름
+                  age={item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : '정보 없음'} // 나이
+                  dot=' · '
+                  card_template={
+                    item.memberEssential.card_template === 'student' ? '학생' :
                       item.memberEssential.card_template === 'worker' ? '직장인' :
-                      item.memberEssential.card_template === 'fan' ? '팬' :
-                      item.memberEssential.card_template === 'free' ? '자유' :
-                      '기타' // 기본값
-                    }/>
-                </TouchableOpacity>
-              ))}
-            </View>
+                        item.memberEssential.card_template === 'fan' ? '팬' :
+                          item.memberEssential.card_template === 'free' ? '자유' :
+                            '기타' // 기본값
+                  } />
+              </TouchableOpacity>
+            ))}
+          </View>
           {/* )} */}
 
           {viewOption === '리스트형' && (

@@ -85,18 +85,20 @@ export default function DetailTeamSpace() {
 
 // 필터
 function Filter() {
-
   const baseUrl = 'http://43.202.52.64:8080/api'
   const navigation = useNavigation();
   const route = useRoute();
-  const { filter } = route.params;
 
-  const [currentFilter, setCurrentFilter] = useState(filter || {
+  const params = route.params || {};
+  const filter = params.filter || {
     card_role: [],
     card_major: [],
     card_mbti: [],
     card_template: [],
-  });
+  };
+  const selectedFilters = params.selectedFilters || {};
+
+  const [currentFilter, setCurrentFilter] = useState(filter);
 
   const cardTemplates = {
     student: '학생',
@@ -112,13 +114,11 @@ function Filter() {
     card_template: {},
   });
 
-
   useEffect(() => {
     initializeSelection(currentFilter);
   }, [currentFilter]);
 
-
-  // 필터 목록을 받아올 때 selected 상태 초기화
+  // 필터 초기화 및 선택된 값 설정
   const initializeSelection = (receivedFilter) => {
     const initialSelection = {
       card_role: {},
@@ -127,15 +127,14 @@ function Filter() {
       card_template: {},
     };
 
-    // 필터 초기화
     ['card_role', 'card_major', 'card_mbti', 'card_template'].forEach(key => {
       if (receivedFilter[key]) {
         receivedFilter[key].forEach(item => {
-          initialSelection[key][item] = false;
+          // selectedFilters에서 선택된 값이 있으면 true로 설정
+          initialSelection[key][item] = selectedFilters[key] ? selectedFilters[key].includes(item) : false;
         });
       }
     });
-
     setSelected(initialSelection);
   };
 
@@ -170,7 +169,7 @@ function Filter() {
     };
 
     // 이전 화면으로 돌아가면서 필터값 전달
-    navigation.goBack({ currentFilter: selectedFilters });
+    navigation.navigate('DetailTeamSpace', { selectedFilters });
     console.log("선택한 필터: ", selectedFilters);
   };
 
