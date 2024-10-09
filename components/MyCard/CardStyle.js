@@ -86,9 +86,10 @@ export const styles = StyleSheet.create({
     info: {
         flexDirection: "row",
         gap: 8,
+        alignItems: 'center'
     },
     topic: {
-        width: 52,
+        width: 55,
         color: theme.gray50,
         fontFamily: 'PretendardRegular',
         fontSize: 16,
@@ -97,7 +98,24 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.32,
     },
     content: {
+        width: '80%',
         color: theme.gray10,
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontWeight: '400',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+    },
+    grayBox: {  
+        height: 35,
+        borderRadius: 20,
+        backgroundColor: theme.gray95,
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },  
+    grayBoxText: {
         fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
@@ -109,6 +127,7 @@ export const styles = StyleSheet.create({
         alignSelf: 'stretch',
         borderTopWidth: 1,
         borderColor: theme.gray90,
+        marginTop: 24
     },
     SNScontainer: {
         flexDirection: "row",
@@ -142,13 +161,5 @@ export const styles = StyleSheet.create({
         shadowRadius: 12,
         elevation: 3,
     },
-    graybox: {
-        backgroundColor: theme.gray95,
-        borderRadius: 20,
-        paddingVertical: 8,
-        paddingHorizontal: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
-    }
     
 });

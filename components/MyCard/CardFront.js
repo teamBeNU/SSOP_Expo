@@ -11,6 +11,8 @@ export const CardFront = ({cardData}) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
+            case 'studentSchool':
+            case 'studentUniv': 
                 return (
                     <Text style={styles.sub}>
                         {cardData.student.card_student_school} {cardData.student.card_student_grade} {cardData.student.card_student_major ? cardData.student.card_student_major : null}

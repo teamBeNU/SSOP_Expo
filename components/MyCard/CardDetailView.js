@@ -108,7 +108,7 @@ const fetchData = async () => {
                         x: (CARD_WIDTH + SPACING) * cardIndex,
                         animated: true,
                     });
-                }, 300); 
+                }, 300);
             }
         }
     }, [cardData, cardId]);
