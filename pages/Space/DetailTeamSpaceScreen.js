@@ -82,8 +82,8 @@ export default function DetailTeamSpaceScreen({ navigation, name, description })
     }
   }, [userId, token]);
 
-  const handleFilterNext = ({filter}) => {
-    (navigation.navigate('필터'), {filter});
+  const handleFilterNext = () => {
+    navigation.navigate('필터', { filter });
   };
 
   const handleShareButtonPress = () => {

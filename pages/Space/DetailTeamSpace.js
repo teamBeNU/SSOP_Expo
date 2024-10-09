@@ -89,34 +89,14 @@ function Filter() {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const navigation = useNavigation();
   const route = useRoute();
-  const { teamId } = route.params;
+  const { filter } = route.params;
 
-  const [filter, setFilter] = useState({
+  const [currentFilter, setCurrentFilter] = useState(filter || {
     card_role: [],
     card_major: [],
     card_mbti: [],
     card_template: [],
   });
-
-  useEffect(() => {
-    if (!teamId) {
-      console.error("팀 ID가 전달되지 않았습니다.");
-      return null;
-    }
-
-    // 팀스페이스 참여 정보 API 호출
-    const apiUrl = `${baseUrl}/teamsp/member?teamId=${teamId}`;
-    axios
-      .get(apiUrl)
-      .then((response) => {
-        const receivedFilter = response.data.filter || {};
-        setFilter(receivedFilter);
-        initializeSelection(receivedFilter);
-      })
-      .catch((error) => {
-        console.error('참여 멤버 목록 - 필터 API 요청 에러:', error);
-      });
-  }, [teamId]);
 
   const cardTemplates = {
     student: '학생',
@@ -132,6 +112,12 @@ function Filter() {
     card_template: {},
   });
 
+
+  useEffect(() => {
+    initializeSelection(currentFilter);
+  }, [currentFilter]);
+
+
   // 필터 목록을 받아올 때 selected 상태 초기화
   const initializeSelection = (receivedFilter) => {
     const initialSelection = {
@@ -141,33 +127,15 @@ function Filter() {
       card_template: {},
     };
 
-    // 역할 필터 초기화
-    if (receivedFilter.card_role) {
-      receivedFilter.card_role.forEach((item) => {
-        initialSelection.card_role[item] = false;
-      });
-    }
+    // 필터 초기화
+    ['card_role', 'card_major', 'card_mbti', 'card_template'].forEach(key => {
+      if (receivedFilter[key]) {
+        receivedFilter[key].forEach(item => {
+          initialSelection[key][item] = false;
+        });
+      }
+    });
 
-    // 전공 필터 초기화
-    if (receivedFilter.card_major) {
-      receivedFilter.card_major.forEach((item) => {
-        initialSelection.card_major[item] = false;
-      });
-    }
-
-    // MBTI 필터 초기화
-    if (receivedFilter.card_mbti) {
-      receivedFilter.card_mbti.forEach((item) => {
-        initialSelection.card_mbti[item] = false;
-      });
-    }
-
-    // 신분 필터 초기화
-    if (receivedFilter.card_template) {
-      receivedFilter.card_template.forEach((item) => {
-        initialSelection.card_template[item] = false;
-      });
-    }
     setSelected(initialSelection);
   };
 
@@ -202,17 +170,18 @@ function Filter() {
     };
 
     // 이전 화면으로 돌아가면서 필터값 전달
-    navigation.goBack({ filter: selectedFilters });
+    navigation.goBack({ currentFilter: selectedFilters });
+    console.log("선택한 필터: ", selectedFilters);
   };
 
   return (
     <View style={styles.backgroundColor}>
       {/* 역할 필터 */}
-      {filter.card_role && filter.card_role.length > 0 && (
+      {currentFilter.card_role && currentFilter.card_role.length > 0 && (
         <>
           <Text style={styles.filterText}>역할</Text>
           <View style={styles.elementContainer}>
-            {filter.card_role && filter.card_role.map((role, index) => (
+            {currentFilter.card_role && currentFilter.card_role.map((role, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => handleSelect('card_role', role)}
@@ -231,11 +200,11 @@ function Filter() {
       )}
 
       {/* 전공 필터 */}
-      {filter.card_major && filter.card_major.length > 0 && (
+      {currentFilter.card_major && currentFilter.card_major.length > 0 && (
         <>
           <Text style={styles.filterText}>전공</Text>
           <View style={styles.elementContainer}>
-            {filter.card_major && filter.card_major.map((major, index) => (
+            {currentFilter.card_major && currentFilter.card_major.map((major, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => handleSelect('card_major', major)}
@@ -254,11 +223,11 @@ function Filter() {
       )}
 
       {/* MBTI 필터 */}
-      {filter.card_mbti && filter.card_mbti.length > 0 && (
+      {currentFilter.card_mbti && currentFilter.card_mbti.length > 0 && (
         <>
           <Text style={styles.filterText}>MBTI</Text>
           <View style={styles.elementContainer}>
-            {filter.card_mbti && filter.card_mbti.map((mbti, index) => (
+            {currentFilter.card_mbti && currentFilter.card_mbti.map((mbti, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => handleSelect('card_mbti', mbti)}
@@ -279,11 +248,11 @@ function Filter() {
       )}
 
       {/* 신분 필터 */}
-      {filter.card_template && filter.card_template.length > 0 && (
+      {currentFilter.card_template && currentFilter.card_template.length > 0 && (
         <>
           <Text style={styles.filterText}>신분</Text>
           <View style={styles.elementContainer}>
-            {filter.card_template.map((template, index) => (
+            {currentFilter.card_template.map((template, index) => (
               <TouchableOpacity
                 key={index}
                 onPress={() => handleSelect('card_template', template)}
@@ -336,7 +305,7 @@ function SaveTellScreen({ navigation }) {
   const handlePress = (cardId) => {
     setSelectedCards(prevSelectedCards =>
       prevSelectedCards.includes(cardId)
-        ? prevSelectedCards.filter(id => id !== cardId)
+        ? prevSelectedCards.currentFilter(id => id !== cardId)
         : [...prevSelectedCards, cardId]
     );
   };
@@ -349,7 +318,7 @@ function SaveTellScreen({ navigation }) {
   const handleRadioSelect = (cardId) => {
     setSelectedCards((prevSelectedCards) =>
       prevSelectedCards.includes(cardId)
-        ? prevSelectedCards.filter((id) => id !== cardId) // 이미 선택된 카드 해제
+        ? prevSelectedCards.currentFilter((id) => id !== cardId) // 이미 선택된 카드 해제
         : [...prevSelectedCards, cardId] // 새 카드 선택
     );
   };
