@@ -77,16 +77,16 @@ export const styles = StyleSheet.create({
 
     // CardBack
     textArea: {
-        height: 352,
         marginVertical: 40,
         marginHorizontal: 24,
         alignItems: 'flex-start',
         gap: 24,
+        paddingBottom: 80
     },
     info: {
         flexDirection: "row",
         gap: 8,
-        alignItems: 'center'
+        alignItems: 'center',
     },
     topic: {
         width: 55,
@@ -107,7 +107,9 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.32,
     },
     grayBox: {  
-        height: 35,
+        maxWidth: '80%',
+        flexDirection: "row",
+        gap: 4,
         borderRadius: 20,
         backgroundColor: theme.gray95,
         paddingVertical: 8,
@@ -122,6 +124,7 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: 19,
         letterSpacing: -0.32,
+        flexWrap: 'wrap',
     },
     line: {
         height: 0,
@@ -131,8 +134,10 @@ export const styles = StyleSheet.create({
         marginTop: 24
     },
     SNScontainer: {
+        width: '80%',
         flexDirection: "row",
         gap: 4,
+        flexWrap: 'wrap', 
         alignItems: 'center',
     },
     modalContainer: {

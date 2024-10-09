@@ -2,7 +2,6 @@ import FlipCard from 'react-native-flip-card';
 import { CardBack } from './CardBack';
 import { CardFront } from './CardFront';
 
-
 export const Card = ({cardData}) => {
     return (
         <FlipCard
