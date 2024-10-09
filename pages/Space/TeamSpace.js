@@ -38,7 +38,6 @@ function TeamSpace({ navigation }) {
     if (token) {
       // JWT에서 userId 추출
       const decodedToken = jwtDecode(token);
-      console.log(decodedToken);
       setUserId(decodedToken.userId);
     }
   }, [token]);
@@ -87,7 +86,6 @@ function TeamSpace({ navigation }) {
       .then((response) => {
         // 삭제된 후 업데이트된 데이터 저장
         const updatedTeamData = data.filter((group) => group.teamId !== groupToDelete);
-        console.log(updatedTeamData);
         setData(updatedTeamData);
         setIsSpaceModalVisible(false);
 
@@ -148,8 +146,8 @@ function TeamSpace({ navigation }) {
   };
 
   // 팀스페이스 상세 화면으로 이동
-  const handleNext = () => {
-    navigation.navigate('상세 팀스페이스');
+  const handleNext = (teamId) => {
+    navigation.navigate('상세 팀스페이스', { teamId });
   };
 
   return data.length > 0 ? (
@@ -166,9 +164,9 @@ function TeamSpace({ navigation }) {
               id={team.teamId}
               name={team.team_name}
               description={team.team_comment}
-              members={team.members}
               isHost={team.hostId === userId}
-              onGroupPress={handleNext} // 팀스페이스 클릭했을 때 이동
+              members={team.members || []}
+              onGroupPress={() => handleNext(team.teamId)}
               onDeleteGroup={handleDeleteGroup} // 그룹 삭제
               onChangeGroupName={(newName) => handleChangeGroupName(newName, team.teamId)}  // 이름 변경
               showMenu={true}
