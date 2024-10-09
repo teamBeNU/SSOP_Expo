@@ -189,11 +189,71 @@ export const CardBack = ({cardData}) => {
                 );
             case 'fan': //덕질 장르, 최애
                 return (
-                    <Text style={styles.sub}>
-                        {cardData.fan.card_fan_genre} 좋아하는 {cardData.fan.card_fan_first} 팬
-                    </Text>
+                    <ScrollView contentContainerStyle={styles.textArea} >
+                        {cardData.cardOptional.card_birth ? (
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>생년월일</Text>                             
+                                <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>                         
+                            </View>
+                        ) : null}
+                        {cardData.cardOptional.card_MBTI ? (
+                            <View>
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>MBTI</Text>                             
+                                <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>                         
+                            </View>
+                            <View style={styles.line} />
+                            </View>
+                        ) : null}
+                         {cardData.fan.card_fan_second ? (
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>차애</Text>                             
+                                <Text style={styles.content}>{cardData.fan.card_fan_second}</Text>                         
+                            </View>
+                        ) : null}
+                        {cardData.fan.card_fan_reason ? (
+                            <View>
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>입덕계기</Text>                             
+                                <Text style={styles.content}>{cardData.fan.card_fan_reason}</Text>                         
+                            </View>
+                            <View style={styles.line} />
+                            </View>
+                        ) : <View style={{...styles.line, marginTop: 0}} />}
+                        {cardData.cardOptional.card_tel ? (
+                            <View style={styles.info}>                             
+                            <Text style={styles.topic}>번호</Text>                             
+                            <View style={styles.grayBox}>
+                                <Text style={styles.grayBoxText}>{cardData.cardOptional.card_tel}</Text> 
+                            </View>                           
+                            </View>
+                        ) : null }
+                         {cardData.cardOptional.card_sns_insta ? (
+                            <View style={{width: '100%'}}>
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>SNS</Text>                             
+                                <View style={styles.grayBox}>
+                                <Text style={styles.grayBoxText}>{cardData.cardOptional.card_sns_insta}</Text> 
+                                </View>                    
+                            </View>
+                            {hasOptionalData ? <View style={styles.line} /> : null}
+                            </View>
+                        ) : null }
+                         {cardData.cardOptional.card_hobby ? (
+                            <View style={styles.info}>                             
+                            <Text style={styles.topic}>취미</Text>                             
+                            <View style={styles.grayBox}>
+                                <Text style={styles.grayBoxText}>{cardData.cardOptional.card_hobby}</Text> 
+                            </View>                           
+                            </View>
+                        ) : null }                        
+                    </ScrollView>
                 );
-            default:
+                case 'free': 
+                    return(
+                        <View></View>
+                    );
+                default:
                 return null;
         }
     };
