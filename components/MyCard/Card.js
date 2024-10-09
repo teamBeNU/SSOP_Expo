@@ -11,7 +11,7 @@ export const Card = ({cardData}) => {
             flipHorizontal
             flipVertical={false}
             flip={false}
-            clickable
+            clickable={true}
             // onFlipEnd={(isFlipped) => console.log('isFlipped', isFlipped)}
         >
         <CardFront cardData={cardData} />

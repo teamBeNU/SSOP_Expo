@@ -7,7 +7,7 @@ import AvatarSample from '../../assets/AvatarSample.svg'
 import { calculateAge } from '../../utils/calculateAge';
 import { getColor } from '../../utils/bgColorMapping';
 
-export const CardFront = ({cardData}) => {
+export const CardFront = ({cardData, onFlip}) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공

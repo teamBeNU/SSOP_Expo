@@ -8,6 +8,8 @@ import InstaLogo from '../../assets/Card/logo_insta.svg';
 import XLogo from '../../assets/Card/logo_x.svg';
 import EmailLogo from '../../assets/Card/logo_email.svg';
 import AddContact from './AddTel';
+import { ScrollView } from 'react-native-gesture-handler';
+import FlipCard from 'react-native-flip-card';
 // import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const instaURL = `https://www.instagram.com/${CardSample_student[0].card_SNS_insta}/`;
@@ -125,9 +127,65 @@ export const CardBack = ({cardData}) => {
                 );
             case 'worker': //회사 직무
                 return (
-                    <Text style={styles.sub}>
-                        {cardData.worker.card_worker_company} {cardData.worker.card_worker_job}
-                    </Text>
+                    <ScrollView contentContainerStyle={styles.textArea} >
+                        {cardData.cardOptional.card_birth ? (
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>생년월일</Text>                             
+                                <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>                         
+                            </View>
+                        ) : null}
+                        {cardData.cardOptional.card_MBTI ? (
+                            <View>
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>MBTI</Text>                             
+                                <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>                         
+                            </View>
+                            <View style={styles.line} />
+                            </View>
+                        ) : null}
+                         {cardData.worker.card_worker_position ? (
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>직위</Text>                             
+                                <Text style={styles.content}>{cardData.worker.card_worker_position}</Text>                         
+                            </View>
+                        ) : null}
+                        {cardData.worker.card_worker_department ? (
+                            <View>
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>부서</Text>                             
+                                <Text style={styles.content}>{cardData.worker.card_worker_department}</Text>                         
+                            </View>
+                            <View style={styles.line} />
+                            </View>
+                        ) : null}
+                        {cardData.cardOptional.card_tel ? (
+                            <View style={styles.info}>                             
+                            <Text style={styles.topic}>번호</Text>                             
+                            <View style={styles.grayBox}>
+                                <Text style={styles.grayBoxText}>{cardData.cardOptional.card_tel}</Text> 
+                            </View>                           
+                            </View>
+                        ) : null }
+                         {cardData.cardOptional.card_sns_insta ? (
+                            <View style={{width: '100%'}}>
+                            <View style={styles.info}>                             
+                                <Text style={styles.topic}>전공</Text>                             
+                                <View style={styles.grayBox}>
+                                <Text style={styles.grayBoxText}>{cardData.cardOptional.card_sns_insta}</Text> 
+                                </View>                    
+                            </View>
+                            {hasOptionalData ? <View style={styles.line} /> : null}
+                            </View>
+                        ) : null }
+                         {cardData.cardOptional.card_hobby ? (
+                            <View style={styles.info}>                             
+                            <Text style={styles.topic}>취미</Text>                             
+                            <View style={styles.grayBox}>
+                                <Text style={styles.grayBoxText}>{cardData.cardOptional.card_hobby}</Text> 
+                            </View>                           
+                            </View>
+                        ) : null }                        
+                    </ScrollView>
                 );
             case 'fan': //덕질 장르, 최애
                 return (
@@ -143,7 +201,7 @@ export const CardBack = ({cardData}) => {
     return (
         <View style={styles.card}>
             {/* <View style={styles.textArea}> */}
-             {renderTemplateSpecificInfo()}  
+                {renderTemplateSpecificInfo()}
                 {/* <View style={styles.info}>
                     <Text style={styles.topic}>직무</Text>
                     <Text style={styles.content}>{cardData.student.card_student_role}</Text>

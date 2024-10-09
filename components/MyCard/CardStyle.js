@@ -116,6 +116,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },  
     grayBoxText: {
+        color: theme.gray10,
         fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
