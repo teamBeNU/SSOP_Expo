@@ -26,6 +26,7 @@ Text.defaultProps.allowFontScaling = false;
 TextInput.defaultProps = TextInput.defaultProps || {};
 TextInput.defaultProps.allowFontScaling = false;
 
+import CheckCardDetail from './pages/CheckCard/CheckCardDetail';
 import CardDetailView from './components/MyCard/CardDetailView';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
 import CheckCard from './pages/CheckCard/CheckCard';
@@ -227,6 +228,18 @@ export default function App() {
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8, }}/>
+              </TouchableOpacity>
+            ),
+          }}
+          />
+          <Stack.Screen 
+          name="상대카드 상세보기" 
+          component={CheckCardDetail}
+          options={{
+            headerTitle: "",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
           }}

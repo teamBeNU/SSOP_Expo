@@ -290,7 +290,14 @@ export const styles = StyleSheet.create({
         paddingVertical: 16,
         paddingHorizontal: 24,
         borderWidth: 1,
-        borderColor: theme.gray95
+        borderColor: theme.gray95,
+        backgroundColor: 'white',
+        zIndex: 1
+        },
+        dropdownMenuDetail:{
+        height: 48,
+        justifyContent: 'center',
+        alignItems:'center'
         },
         menuItem: {
         color: theme.gray10,
@@ -300,4 +307,13 @@ export const styles = StyleSheet.create({
         lineHeight: 19,
         letterSpacing: -0.32,
         },
+        updateText: {
+        color: theme.gray40,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 17,
+        letterSpacing: -0.14,
+        marginTop: 27
+        }
 });
