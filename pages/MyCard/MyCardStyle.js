@@ -1,14 +1,17 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, Platform, StatusBar } from 'react-native';
 import { theme } from "../../theme";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
-const cardWidth = WIDTH * 0.8;
-const cardHeight = WIDTH * 1.2;
+const MAX_CARD_HEIGHT = HEIGHT * 0.6;
+const cardWidth = WIDTH * 0.84;
+//const cardHeight = WIDTH * 1.2;
+const cardHeight =  Math.min(WIDTH * 1.2, MAX_CARD_HEIGHT);
+
 
 export const styles = StyleSheet.create({
         container:{
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         backgroundColor: 'white',
         flex: 1,
         },
@@ -20,7 +23,7 @@ export const styles = StyleSheet.create({
         lineHeight: 17,
         letterSpacing: -0.14,    
         marginTop: 24,
-        marginBottom: 16,       
+        marginBottom: 16,    
 	},
         cardContainer: {
         height: cardHeight,
@@ -28,22 +31,22 @@ export const styles = StyleSheet.create({
         },
         verticalLine:{
         width: 1, 
-        height: 20, 
-        backgroundColor: theme.gray95,
+        height: 28, 
+        backgroundColor: theme.gray80,
         },
         btnContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems:'center',
         width: WIDTH * 0.84,
-        height: 77,
-        gap: 20,
+        height: 79,
+        gap: 52,
+        bottom: Platform.OS === 'android' ? HEIGHT-StatusBar.currentHeight-cardHeight-220 : HEIGHT-cardHeight-260,
         marginHorizontal: 28,
-        //marginTop: 32,
-        marginBottom: 16,
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: theme.gray95
+        paddingVertical: 16,
+        paddingHorizontal: 12,
+        borderRadius: 20,
+        backgroundColor: theme.gray95
         },
         btnText: {
         color: theme.gray20,
@@ -54,7 +57,7 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.14
         },
         btn: {
-        gap: 8,
+        gap: 6,
         justifyContent:'center',
         alignItems: 'center',
         },
@@ -115,10 +118,9 @@ export const styles = StyleSheet.create({
         },
         cardScrollView: {
         height: WIDTH * 1.2,  
-        marginTop: 56,
+        marginTop: 60,
         paddingHorizontal: 42,
         alignItems: 'center',
-        marginBottom: 32,
         //ios shadow
         shadowColor: 'rgba(0, 0, 0, 0.08)',
         shadowOffset: { width: 0, height: 1 },
@@ -129,7 +131,7 @@ export const styles = StyleSheet.create({
         },
         cardWrapper: {
         width: WIDTH * 0.84,
-        marginHorizontal: -10
+        marginHorizontal: -10,
         },
         //modal style
         modalContainer: {
@@ -172,9 +174,10 @@ export const styles = StyleSheet.create({
         },
         modalFont: {
         fontFamily: 'PretendardRegular',
-        fontSize: 16,
+        color: theme.gray40,
+        fontSize: 14,
         fontWeight: 500,
-        letterSpacing: -0.32,
+        letterSpacing: -0.14,
         textAlign: 'center',
         flex: 1,
         },
@@ -207,7 +210,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         top: 0,
         right: 8,
-        backgroundColor: '#fff',
+        backgroundColor: 'pink',
         borderRadius: 16,
         shadowColor: '#000',
         shadowOpacity: 0.05,

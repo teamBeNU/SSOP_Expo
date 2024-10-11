@@ -7,13 +7,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute } from '@react-navigation/native';
 import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
-import ShareIcon from '../../assets/icons/ic_contact_small_line.svg';
+import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import PlusIcon from '../../assets/icons/ic_add_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
-const SPACING = -20;
+const SPACING = -18;
 
 const CardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
@@ -117,7 +117,7 @@ const fetchData = async () => {
         const newCardIndex = Math.round(event.nativeEvent.contentOffset.x / (CARD_WIDTH + SPACING));
         setCurrentCardIndex(newCardIndex);
     };
-
+    
    return (
      <View style={styles.container}>
             {moreMenu && (
@@ -128,10 +128,10 @@ const fetchData = async () => {
                    
                 </View>
             )}
-
             <ScrollView
                 ref={scrollViewRef}
-                horizontal
+                horizontal={true}
+                vertical={false}
                 showsHorizontalScrollIndicator={false}
                 snapToInterval={CARD_WIDTH + SPACING} 
                 decelerationRate="fast"
@@ -163,7 +163,6 @@ const fetchData = async () => {
                     );
                 })}
             </ScrollView>
-            
             <View style={styles.btnContainer}>
                 <View style={styles.btn}>
                     <TouchableOpacity onPress={onShare}>
@@ -176,7 +175,7 @@ const fetchData = async () => {
 
                 <View style={styles.btn}>
                     <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-                        <EditIcon />
+                        <EditIcon style={{paddingTop: 5, paddingLeft: 4, paddingBottom: 3, paddingRight: 1.1714}} />
                     </TouchableOpacity>
                     <Text style={styles.btnText}>수정하기</Text>
                     <Modal
@@ -216,25 +215,7 @@ const fetchData = async () => {
                         </TouchableWithoutFeedback>
                     </Modal>
                 </View>
-               
-                {/* <View style={styles.btn}>
-                    <TouchableOpacity style={styles.whiteBtn}>
-                        <DeleteIcon />
-                    </TouchableOpacity>
-                    <Text style={styles.btnText}>삭제하기</Text>
-                </View>
-                <View style={styles.btn}>
-                    <TouchableOpacity style={styles.blackBtn}>
-                        <AddIcon/>
-                    </TouchableOpacity>
-                    <Text style={styles.btnText}>새 카드 </Text>
-                </View> */}
             </View>
-            
-            <TouchableOpacity style={styles.newCardBtn}>
-                    <PlusIcon />
-                    <Text style={styles.newCardText}>새 카드 추가</Text>
-            </TouchableOpacity>
         </View> 
     );
   }

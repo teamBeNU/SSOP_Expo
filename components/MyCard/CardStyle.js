@@ -2,16 +2,17 @@ import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
-const cardWidth = WIDTH * 0.8;
-const cardHeight = WIDTH * 1.2;
+const MAX_CARD_HEIGHT = HEIGHT * 0.6;
+const cardWidth = WIDTH * 0.84;
+//const cardHeight = WIDTH * 1.2;
+const cardHeight =  Math.min(WIDTH * 1.2, MAX_CARD_HEIGHT);
+
 
 export const styles = StyleSheet.create({
     // CardFront
 	card: {
-        //width: 304,
-        width: WIDTH * 0.84,
-        height: WIDTH * 1.2,
-        //height: 432,
+        width: cardWidth,
+        height: cardHeight,
         borderRadius: 32,
         borderWidth: 1,
         borderColor: theme.gray90,
@@ -23,15 +24,13 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
 	},
 	cardImgArea: {
-        //height: 311,
         height: WIDTH * 0.86,
         alignItems: 'center',
         justifyContent: 'center',
     },
     cardTextArea: {
         backgroundColor: "white",
-        //height: 139,
-        height: WIDTH * 0.38,
+        height: cardHeight * 0.32,
         padding: 24,
         borderRadius: 20,
         gap: 12,
@@ -43,22 +42,24 @@ export const styles = StyleSheet.create({
     basicInfo: {
         flexDirection: "row",
         alignItems: 'flex-end',
+        gap: 8
     },
     name: {
+        color: theme.gray10,
         fontFamily: 'PretendardSemiBold',
         fontSize: 24,
         fontWeight: "600",
         letterSpacing: -0.48,
-        marginRight: 8,
         lineHeight: 26,
     },
     age: {
-        color: 'black',
+        color: 'rgba(0, 0, 0, 0.50)',
         opacity: 0.5,
         fontFamily: 'PretendardRegular',
         fontSize: 24, 
         fontWeight: "300",
         letterSpacing: -0.48,
+        lineHeight: 29
     },
     sub: {
         color: theme.gray10,
@@ -66,6 +67,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "500",
         letterSpacing: -0.32,
+        lineHeight: 19,
     },
     sub2: {
         color: theme.gray30,
@@ -73,6 +75,8 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: "400",
         letterSpacing: -0.32,
+        lineHeight: 19,
+        marginTop: -4
     },
 
     // CardBack
