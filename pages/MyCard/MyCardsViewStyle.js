@@ -58,6 +58,7 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
     },
     newCardBtn: {
+    flexDirection: 'row',
     backgroundColor: 'white',
     padding: 12,
     justifyContent: 'center',

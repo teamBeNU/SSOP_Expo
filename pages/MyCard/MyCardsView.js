@@ -5,10 +5,12 @@ import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-m
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import GridIcon from '../../assets/icons/ic_border_all.svg';
 import ListIcon from '../../assets/icons/ic_list.svg';
-import SampleIcon from '../../assets/icons/iconSample.svg';
+import MyCardIcon from '../../assets/icons/ic_space.svg';
+import AddIcon from '../../assets/icons/ic_add_small_line.svg';
 import { GridCardView } from "../../components/MyCard/GridCardView";
 import { ListCardView } from "../../components/MyCard/ListCardView";
 import { styles } from './MyCardsViewStyle';
+import { theme } from '../../theme';
 
 const CardsView = ({ cardData }) => {
   const [selectedOption, setSelectedOption] = useState('최신순');
@@ -26,7 +28,7 @@ const CardsView = ({ cardData }) => {
   return (
     <View style={styles.container}>
       <View style={styles.titleContainer}>
-        <SampleIcon />
+        <MyCardIcon />
         <Text style={styles.title}>내 카드</Text>
       </View>
 
@@ -53,6 +55,7 @@ const CardsView = ({ cardData }) => {
       {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData}/>}
 
       <TouchableOpacity style={styles.newCardBtn} onPress={() => {navigation.navigate('카드 만들기');}}>
+        <AddIcon />
         <Text style={styles.newCardText}>새 카드 추가하기</Text>
       </TouchableOpacity>
       

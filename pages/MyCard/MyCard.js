@@ -84,7 +84,7 @@ function MyCard() {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity>
-                        <SwapIcon style={{ marginLeft: 8 }} />
+                        <SwapIcon style={{ marginHorizontal: 23, marginVertical: 14}} />
                     </TouchableOpacity>
                 ),
                 headerRight: () => (
