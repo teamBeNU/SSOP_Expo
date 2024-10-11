@@ -18,6 +18,7 @@ import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import { AuthProvider, AuthContext } from './AuthContext';
+import * as Linking from 'expo-linking';
 
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
@@ -60,6 +61,16 @@ import MySpace from './pages/Space/MySpace';
 import TeamSpace from './pages/Space/TeamSpace';
 import { theme } from './theme';
 import { styles } from './pages/MyCard/MyCardStyle';
+
+const linking = {
+  prefixes: ['ssop://', 'https://ssop.com'],
+  config: {
+    screens: {
+      CardDetails: 'card/:cardId',
+    },
+  },
+
+};
 
 export default function App() {
   // 폰트 로드
@@ -156,7 +167,7 @@ export default function App() {
   return (
   <AuthProvider>
     <MenuProvider>
-      <NavigationContainer>
+      <NavigationContainer linking={linking}>
         <Stack.Navigator>
          <Stack.Screen name="AppContent" component={AppContent} options={{ headerShown: false }} />
         <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} />

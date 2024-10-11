@@ -1,15 +1,16 @@
-import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal, Animated } from "react-native";
+import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal, Animated, Alert } from "react-native";
 import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
 import React, { useState, useLayoutEffect, useCallback, useRef, useEffect } from 'react';
-import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useFocusEffect, Link } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
 import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
-import PlusIcon from '../../assets/icons/ic_add_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
+import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
@@ -24,30 +25,73 @@ const CardDetailView = () => {
     const [cardData, setCardData] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isShareModalVisible, setIsShareModalVisible] = useState(false);
     const [moreMenu, setMoreMenu] = useState(false);
 
     const navigation = useNavigation();
 
-    const onShare = async () => {
-    try {
-        const result = await Share.share({
-        title: `SSOP`,
-        message:
-            'SSOP : Share SOcial Profile card TEST MESSAGE',
-        });
-        if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-            // shared with activity type of result.activityType
-        } else {
-            // shared
+    const handleBluetoothPress = () => {
+        setIsShareModalVisible(false);
+        navigation.navigate('내 카드 보내기');
+      };
+    
+      const createLink = async () => {
+        try {
+          const token = await AsyncStorage.getItem('token');
+          const currentCardId = cardData[currentCardIndex].cardId;
+      
+          const response = await fetch('http://43.202.52.64:8080/api/link/create', {
+            method: 'POST',
+            headers: {
+              Authorization: `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              cardId: currentCardId,
+              expiryTime: 600,
+            }),
+          });
+      
+          if (!response.ok) {
+            throw new Error('Failed to create link');
+          }
+      
+          const linkData = await response.json();
+          return linkData.link; // Return only the link data
+        } catch (error) {
+          Alert.alert(error.message);
+          return null; // Return null in case of error
         }
-        } else if (result.action === Share.dismissedAction) {
-        // dismissed
+      };
+      
+      // Function to handle the link sharing
+      const handleLinkSharePress = async () => {
+        setIsShareModalVisible(false);
+      
+        // Call the createLink function to get the link data
+        const link = await createLink();
+      
+        if (link) {
+          const result = await Share.share({
+            title: `SSOP`, // android 단독
+            message: `SSOP: Share SOcial Profile card`,
+          });
+      
+          if (result.action === Share.sharedAction) {
+            if (result.activityType) {
+              // shared with activity type of result.activityType
+            } else {
+              // shared
+            }
+          } else if (result.action === Share.dismissedAction) {
+            // dismissed
+          }
         }
-    } catch (error) {
-        Alert.alert(error.message);
-    }
-    };
+      };
+
+      const handleShare = () => {
+        setIsShareModalVisible(true);
+      }
 
     useLayoutEffect(() => {
         navigation.setOptions({
@@ -162,13 +206,52 @@ const fetchData = async () => {
                         </Animated.View>
                     );
                 })}
+
+                
             </ScrollView>
+            
             <View style={styles.btnContainer}>
                 <View style={styles.btn}>
-                    <TouchableOpacity onPress={onShare}>
+                    <TouchableOpacity onPress={handleShare}>
                         <ShareIcon />
                     </TouchableOpacity>
                     <Text style={styles.btnText}>공유하기</Text>
+
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={isShareModalVisible}
+                        onRequestClose={() => {
+                            setIsShareModalVisible(false); 
+                        }}
+                    >
+                        <TouchableWithoutFeedback onPress={() => setIsShareModalVisible(false)}>
+                            <View style={styles.shareModalContainer}>
+                                    <View style={styles.shareModalView}>
+                                        <View style={styles.modalTitle}>
+                                            <Text style={styles.modalFont}>카드 교환하기</Text>
+                                            <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                                                <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={styles.row}>
+                                            <TouchableOpacity style={styles.btn2} onPress={handleBluetoothPress}>
+                                            <Text style={styles.Text18}>블루투스 송신</Text>
+                                            <Text style={styles.Text14}>주변에 있다면 바로</Text>
+                                            <BluetoothIcon style={styles.icon2} />
+                                            </TouchableOpacity>
+                                            <TouchableOpacity style={styles.btn2} onPress={handleLinkSharePress}>
+                                            <Text style={styles.Text18}>링크 공유</Text>
+                                            <Text style={styles.Text14}>연락처가 있다면</Text>
+                                            <LinkIcon style={styles.icon2} />
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                
+                            </View>
+                        </TouchableWithoutFeedback>
+
+                    </Modal>
                 </View>
 
                 <View style={styles.verticalLine} />
@@ -188,7 +271,6 @@ const fetchData = async () => {
                     >
                         <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
                             <View style={styles.modalContainer}>
-                                <TouchableWithoutFeedback>
                                     <View style={styles.modalView}>
                                         <View style={styles.modalTitle}>
                                             <Text style={styles.modalFont}>프로필 카드 수정하기</Text>
@@ -200,7 +282,7 @@ const fetchData = async () => {
                                             <TouchableOpacity onPress={() => {
                                                 setIsModalVisible(false);
                                                 navigation.navigate('카드 정보 수정', {card: cardData});}}>
-                                             <Text style={styles.modalTitle}>정보 수정할래요</Text>
+                                            <Text style={styles.modalTitle}>정보 수정할래요</Text>
                                             </TouchableOpacity>
                                             <View style={styles.line} />
                                             <TouchableOpacity onPress={() => {
@@ -210,12 +292,13 @@ const fetchData = async () => {
                                             </TouchableOpacity>
                                         </View>
                                     </View>
-                                </TouchableWithoutFeedback>
+                                
                             </View>
                         </TouchableWithoutFeedback>
                     </Modal>
                 </View>
             </View>
+
         </View> 
     );
   }
