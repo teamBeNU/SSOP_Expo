@@ -218,7 +218,7 @@ export const styles = StyleSheet.create({
         },
         menuItem: {
         color: theme.gray10,
-        fontFamily: 'PretendaredRegular',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
         lineHeight: 19,

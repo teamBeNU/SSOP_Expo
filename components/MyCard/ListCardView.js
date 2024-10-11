@@ -35,7 +35,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                   {selectedCards.includes(item.cardId) ? (
                       <SelectedIcon />
                   ) : (
-                      <NotSelectedIcon />
+                      <NotSelectedIcon style={{marginTop: -10}}/>
                   )}
               </TouchableOpacity>
             <View key={item.cardId} style={{...styles.ListContainer, width: Dimensions.get('window').width - 64}}>

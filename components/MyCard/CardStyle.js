@@ -81,7 +81,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: 24,
         alignItems: 'flex-start',
         gap: 24,
-        paddingBottom: 80
+        paddingBottom: 80,
     },
     info: {
         flexDirection: "row",

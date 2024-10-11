@@ -6,6 +6,7 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     paddingHorizontal: 16,
+    overflow: 'visible',
     paddingTop: 47,
     alignItems: 'center'
     },
@@ -111,7 +112,7 @@ export const styles = StyleSheet.create({
     },
     delteBtnText: {
     color: theme.gray10,
-    fontFamily: 'PretendaredRegular',
+    fontFamily: 'PretendardRegular',
     fontSize: 16,
     fontWeight: '500',
     lineHeight: 19,

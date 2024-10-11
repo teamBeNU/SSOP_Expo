@@ -1,4 +1,4 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, Platform } from 'react-native';
 import { theme } from "../../theme";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
@@ -116,15 +116,19 @@ export const styles = StyleSheet.create({
         marginBottom: 12,
         backgroundColor: theme.white,
         borderColor: theme.gray95,
+        borderWidth: 1,
         borderRadius: 16,
+        //ios
         shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
-            width: 2,
-            height: 2
+        width: 0,
+        height: 2,
         },
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 5,
+        shadowOpacity: 1, 
+        shadowRadius: 5,
+        // android 
+        elevation: 5, 
+        overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
     },
     gray: {
         width: 64,
@@ -177,6 +181,8 @@ export const styles = StyleSheet.create({
         height: WIDTH * 0.55,
         width: WIDTH * 0.45,
         borderRadius: 16,
+        borderWidth:1,
+        borderColor: theme.gray95,
         alignItems: 'center',
         justifyContent: 'flex-start',
         shadowColor: "rgba(0, 0, 0, 0.03)",
@@ -186,7 +192,7 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 1,
         shadowRadius: 2,
-        elevation: 5,
+        elevation: 10,
         position: 'relative',
         backgroundColor: 'pink'
     },
@@ -242,6 +248,6 @@ export const styles = StyleSheet.create({
     gap: 8,
     alignItems: 'center',
     width: '100%',
-    overflow: 'hidden'
+    overflow: 'hidden',
     }
 })

@@ -1,9 +1,7 @@
-import React, { useCallback } from 'react';
-import { Alert, Linking, Text, TouchableOpacity, View } from 'react-native';
-import { ScrollView } from 'react-native-gesture-handler';
+import React, { useCallback,useState } from 'react';
+import { Alert, Linking, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import InstaLogo from '../../assets/Card/logo_insta.svg';
 import XLogo from '../../assets/Card/logo_x.svg';
-import { CardSample_student } from './CardSample';
 import { styles } from './CardStyle';
 
 const instaURL = `https://www.instagram.com/`;
@@ -29,9 +27,6 @@ const OpenURLButton = ({url, children}) => {
   };
 
 export const CardBack = ({cardData}) => {
-    const hasOptionalData = cardData.cardOptional && 
-    Object.values(cardData.cardOptional).some(value => value !== null);
-
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
@@ -80,9 +75,9 @@ export const CardBack = ({cardData}) => {
     };
     
     return (
-        <View style={styles.card}>
-                {renderTemplateSpecificInfo()}
-        </View>
+      <View style={styles.card}>
+        {renderTemplateSpecificInfo()}
+      </View>
     );
 }
 
