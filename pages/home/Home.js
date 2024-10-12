@@ -8,6 +8,7 @@ import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import EnterTeamSPIcon from '../../assets/HomeIcon/EnterTeamSPIcon.svg';
 import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
+import FolderIcon from'../../assets/icons/ic_group_small.svg';
 import { theme } from "../../theme";
 
 const screenWidth = Dimensions.get('window').width;
@@ -28,6 +29,7 @@ function Home({navigation}) {
                 <Text style={styles.title}>누구더라?</Text>
                 <View>
                     <TouchableOpacity style={styles.btn3} onPress={() => navigation.navigate('카드 조회')}>
+                        <FolderIcon style={{marginRight: 6}}/>
                         <Text style={styles.Text16}>내가 받은 카드 보러가기</Text>
                     </TouchableOpacity>
                 </View>
