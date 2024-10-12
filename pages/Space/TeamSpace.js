@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message';
 import { TeamSpaceList } from "../../components/Space/SpaceList.js";
 
 import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
+import TeamSpaceIcon from '../../assets/icons/ic_teamspace.svg'
 
   
 function TeamSpace({ navigation }) {
@@ -85,7 +86,11 @@ function TeamSpace({ navigation }) {
   return hasTeamSP ? (
     <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
       <View style={styles.container2}>
-        <Text style={styles.Text26}>팀스페이스</Text>
+        <View style={styles.container3}>
+          <TeamSpaceIcon style={{marginRight: 10}}/>
+          <Text style={styles.Text26}>팀스페이스</Text>
+        </View>
+        
         <Text style={styles.Text16gray}>팀별로 프로필 카드를 관리하세요.</Text>
       </View>
       <View style={styles.container}>

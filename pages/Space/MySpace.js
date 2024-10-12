@@ -13,6 +13,7 @@ import { MySpaceGroup } from "../../components/Space/SpaceList.js";
 
 import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
+import MySpaceIcon from '../../assets/icons/ic_myspace.svg'
   
 function MySpace({ navigation }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
@@ -77,7 +78,10 @@ const MySpData = { id: '1', members: 4 };
   return (
     <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
         <View style={styles.container2}>
-          <Text style={styles.Text26}>마이스페이스</Text>
+          <View style={styles.container3}>
+            <MySpaceIcon style={{marginRight: 10}}/>
+            <Text style={styles.Text26}>마이스페이스</Text>
+          </View>
           <Text style={styles.Text16gray}>주고받은 프로필 카드를 여기서 확인하세요.</Text>
         </View>
           <View style={styles.container}>

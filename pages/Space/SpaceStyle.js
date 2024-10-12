@@ -30,6 +30,9 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 48,
     },
+    container3: {
+        flexDirection: 'row'
+    },
     row2: {
         flexDirection: 'row',
         alignItems: 'center',
