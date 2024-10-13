@@ -1,4 +1,4 @@
-import { View, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback, Modal } from "react-native";
 import React, { useState, useEffect, useRef, useContext } from 'react';
 import "react-native-gesture-handler";
 import axios from 'axios';
@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../AuthContext";
 
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
-import CancelModal from "../../components/MyPage/CancelModal";
+import MyPageModal from "../../components/MyPage/MyPageModal";
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
 
@@ -233,10 +233,15 @@ function UserInfo({navigation}) {
                 </View>
 
                 {modalVisible && (
-                    <CancelModal 
+                    <MyPageModal 
                         modalVisible={modalVisible}
                         setModalVisible={setModalVisible}
                         onConfirm={handleConfirm}
+                        modalTitle={'정보 변경을 취소하시겠습니까?'}
+                        modalText={null}
+                        btn1={'네, 취소할래요'}
+                        btn2={'마저 변경할래요'}
+                        btnMargin={26.5}
                     />
                 )}
 
