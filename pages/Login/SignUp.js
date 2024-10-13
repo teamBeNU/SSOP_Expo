@@ -1,11 +1,13 @@
-import React, {useState, useEffect, useRef} from "react";
+import React, {useState, useEffect, useRef, useContext} from "react";
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
+import { AuthContext } from "../../AuthContext.js";
 import { theme } from "../../theme";
 import { styles } from "./SignUpStyle.js";
 import { useNavigation, useRoute } from '@react-navigation/native';
 import * as Progress from 'react-native-progress';
 import { ScrollView } from "react-native-gesture-handler";
 import { serviceAgreeText, infoAgreeText } from "./AgreeContent.js";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -19,27 +21,12 @@ import SignUpDone from '../../assets/Login/graphic_signUpDone.svg';
 function SignUp() {
     const navigation = useNavigation();
     const route = useRoute();
+    const { setIsLoggedIn } = useContext(AuthContext);
 
     // 1. email 입력
     const [email, setEmail] = useState('');
 
-    // 2. email 인증번호 입력
-    const [emailCode, setEmailCode] = useState('');
-    const [testEmailCode, setTestEmailCode] = useState('123');
-    const [testPhoneCode, setTestPhoneCode] = useState('123');
-    const [emailCodeIsCorrect, setEmailCodeIsCorrect] = useState(true);
-    const [isResend, setIsResend] = useState(false);
-    const handleEmailCodeChange = (text) => {
-      setEmailCode(text);
-      if(emailCode === testEmailCode) setEmailCodeIsCorrect(true);
-    };
-    
-    const handleEmailCode = () => {
-      if(emailCode !== testEmailCode) setEmailCodeIsCorrect(false);
-      else if((emailCode === testEmailCode)) setEmailCodeIsCorrect(false);
-    };
-
-    // 3. pw 입력
+    // 2. pw 입력
     const [password, setPassword] = useState("");
     const [showPw, setShowPw] = useState(false);
     const [hasEnglish, setHasEnglish] = useState(false);
@@ -49,12 +36,13 @@ function SignUp() {
       setHasEnglish(/[a-zA-Z]/.test(password));
       setHasNum(/[0-9]/.test(password));
       setHasLeng(/^.{6,20}$/.test(password));
+      setPassword(password);
     };
     const togglePwVisibility = () => {
       setShowPw(!showPw);
     };
 
-    // 4. 이름, 생년월일 입력
+    // 3. 이름, 생년월일 입력
     const [name, setName] = useState("");
     const [birth, setBirth] = useState("");
     const [isFull, setIsFull] = useState({
@@ -66,52 +54,10 @@ function SignUp() {
     const currentYear = new Date().getFullYear();
     const ref_input2 = useRef();
 
-    // 5. 연락처 입력
+    // 4. 연락처 입력
     const [phoneNumber, setPhoneNumber] = useState('');
 
-    // 6. 연락처 인증번호 입력
-    const [phoneCode, setPhoneCode] = useState('');
-    const [phoneCodeIsCorrect, setPhoneCodeIsCorrect] = useState(true);
-    const handlePhoneCodeChange = (text) => {
-      setPhoneCode(text);
-      if(phoneCode === testPhoneCode) setPhoneCodeIsCorrect(true);
-    };
-    
-    const handlePhoneCode = () => {
-      if(phoneCode !== testPhoneCode) setPhoneCodeIsCorrect(false);
-      else if((phoneCode === testPhoneCode)) setPhoneCodeIsCorrect(false);
-    };
-
-    const handleRequest = () => {
-      setIsResend(true);
-      setSeconds(180);
-    };
-
-      // 카운트다운
-    const [seconds, setSeconds] = useState(180);
-    const [timerActive, setTimerActive] = useState(true);
-
-    useEffect(() => {
-      let timer;
-  
-      if (timerActive && seconds > 0) {
-        timer = setInterval(() => {
-          setSeconds((prevTime) => prevTime - 1);
-        }, 1000);
-      } else if (seconds === 0) {
-        clearInterval(timer);
-      }
-  
-      return () => clearInterval(timer);
-    }, [timerActive, seconds]);
-
-    const formatTime = (time) => {
-      const min = Math.floor(time / 60);
-      const sec = time % 60;
-      return `${String(min).padStart(2, '0')}:${String(sec).padStart(2, '0')}`;
-    };
-
-    // 7. 약관 동의
+    // 5. 약관 동의
     const [isAgree, setIsAgree] = useState({
       serviceAgree: false,
       informationAgree: false,
@@ -165,8 +111,6 @@ function SignUp() {
         }
       };
       
-
-      // 테스트용 다음 step
       const handleNext = () => {
         if (step === 1 ) {
           if(email !== '')
@@ -224,14 +168,18 @@ function SignUp() {
           if(phoneNumber !== '')
           setStep(5);
         } else if (step === 5 ) {
-          if(Object.values(isAgree).every(value => value === true)) setStep(8);
+          if(Object.values(isAgree).every(value => value === true)) {
+            handleSignUp();
+            //setStep(8);
+          }
           else null;
         } else if (step === 6 ) {
           setStep(5);
         } else if (step === 7 ) {
           setStep(5);
         } else if (step === 8 ) {
-          navigation.navigate('홈');
+          handleLogin();
+          navigation.navigate('AppContent');
         }
       };
 
@@ -280,6 +228,73 @@ function SignUp() {
           headerTitle: handleHeaderTitle,
         });
       }, [navigation, step]);
+
+    const handleSignUp = async () => {
+      try {
+        const token = await AsyncStorage.getItem('token');
+
+        const response = await fetch('http://43.202.52.64:8080/api/user/join', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            email: email,
+            password: password,
+            user_name: name,
+            user_birth: birth,
+            user_phone: phoneNumber,
+          }),
+        });
+
+        if (response.status === 200) {
+          console.log('회원가입 성공');
+          setStep(8);
+        }
+      } catch (error) {
+        Alert.alert(error.message);
+        return null;
+      }
+    };
+
+    const handleLogin = async () => {
+      try {
+        const response = await fetch('http://43.202.52.64:8080/api/user/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ email, password }),
+        });
+  
+        const data = await response.json();
+        console.log('API Response:', data);
+  
+        if (response.ok) {
+          if (data.token) {
+            await AsyncStorage.setItem('token', data.token);
+            
+            const issuedAt = new Date().toISOString(); 
+            await AsyncStorage.setItem('tokenIssuedAt', issuedAt);
+
+            setIsLoggedIn(true); 
+            navigation.navigate('MyTabs');
+          } else {
+            if (data.message === '로그인 실패 - 사용자 없음') {
+              Alert.alert('로그인 실패', '가입하지 않은 이메일입니다.');
+            } else if (data.message === '로그인 실패 - 비밀번호 불일치') {
+              Alert.alert('로그인 실패', '비밀번호가 일치하지 않습니다.');
+            } else {
+              Alert.alert('로그인 실패', 'An unknown error occurred. Please try again.');
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Error logging in:', error);
+        Alert.alert('Login Error', 'Something went wrong. Please try again later.');
+      }
+    };
   
     return(
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -326,7 +341,10 @@ function SignUp() {
                     maxLength={20}
                     secureTextEntry = {showPw ? false : true}
                     onChange={(e) => {setPassword(e.target.value)}}
-                    onChangeText={passwordCheck}
+                    onChangeText={(text) => {
+                      setPassword(text);
+                      passwordCheck(text); 
+                    }}
                     value={password}
                     returnKeyType="next"
                     onSubmitEditing={handleNext}
