@@ -91,6 +91,7 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     },
     loginText: {
+    width: 120,
     color: theme.gray60,
     fontFamily: 'PretendardRegular',
     fontSize: 16,
@@ -99,7 +100,6 @@ export const styles = StyleSheet.create({
     letterSpacing: -0.32,
     textDecorationLine: 'underline',
     textDecorationColor: theme.gray60,
-    //text-decoration: underline solid #888888;
     },
 
     //Email Login
@@ -164,7 +164,7 @@ export const styles = StyleSheet.create({
     lineContainer:{
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 56
+    marginTop: 64
     },
     line:{
     flex: 1,
