@@ -73,8 +73,6 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         borderRadius: 8,
-        borderWidth: 1,
-        borderColor: theme.gray80,
     },
     btn2Text: {
         fontFamily: "PretendardSemiBold",

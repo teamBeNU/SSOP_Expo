@@ -5,12 +5,23 @@ import { styles } from './LoginStyle.js';
 import CardsIcon from "../../assets/Login/ic_cards.svg";
 import KakaoIcon from "../../assets/Login/ic_kakao.svg";
 import MainIcon from '../../assets/Login/ic_mail.svg';
+import MyPageModal from "../../components/MyPage/MyPageModal.js";
 
 const { height:HEIGHT } = Dimensions.get('window');
 
-function Login() {
+function Login({ route }) {
     const navigation = useNavigation();
 
+    // 탈퇴: 로그인 페이지로 이동 후 모달 띄우기
+    const [modalVisible, setModalVisible] = useState(false);
+    const { showModal } = route.params || {}; // 파라미터에서 showModal 값 추출
+
+    useEffect(() => {
+        if (showModal) {
+          setModalVisible(true);
+        }
+    }, [showModal]);
+  
     return(
         <View style={{...styles.container, alignItems: 'center'}}>
             <View style={{position: 'absolute', top: (HEIGHT / 7)}}>
@@ -35,6 +46,20 @@ function Login() {
                     <Text style={styles.loginText}>이미 계정이 있어요</Text>
                 </TouchableOpacity>             
             </View>
+
+            {modalVisible && (
+                <MyPageModal 
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    handleBtn1={null}
+                    handleBtn2={() => setModalVisible(false)}
+                    modalTitle={'회원탈퇴가 완료되었어요.'}
+                    modalText={'언제든지 다시 돌아오세요!'}
+                    btn1={null}
+                    btn2={'확인'}
+                    btnMargin={123.5}
+                />
+            )}
         </View>
     )
  }

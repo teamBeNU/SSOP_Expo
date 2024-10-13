@@ -25,11 +25,13 @@ export default function MyPageModal({modalVisible, setModalVisible, handleBtn1, 
                                 }
                             </View>
                             <View style={styles.Btn}>
-                                <TouchableOpacity
-                                    style={styles.btn1}
-                                    onPress={handleBtn1}>
-                                    <Text style={[styles.btn1Text, {marginHorizontal: btnMargin-16}]}>{btn1}</Text>
-                                </TouchableOpacity>
+                                {btn1 && (
+                                    <TouchableOpacity
+                                        style={styles.btn1}
+                                        onPress={handleBtn1}>
+                                        <Text style={[styles.btn1Text, {marginHorizontal: btnMargin-16}]}>{btn1}</Text>
+                                    </TouchableOpacity>
+                                )}
                                 <TouchableOpacity
                                     style={styles.btn2}
                                     onPress={handleBtn2}>

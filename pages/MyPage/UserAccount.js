@@ -51,7 +51,10 @@ function UserAccount({navigation}) {
             );
             if(response.status === 200) {
                 setIsLoggedIn(false); // Update login state
-                navigation.reset({routes: [{name: '로그인'}]});
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: '로그인', params: { showModal: true } }],
+                })
             }
         } catch (error) {
             console.error('이름 및 생년월일 변경 API 에러 발생: ', error);
