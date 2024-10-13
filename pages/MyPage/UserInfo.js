@@ -1,16 +1,22 @@
 import { View, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useContext } from 'react';
 import "react-native-gesture-handler";
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../AuthContext";
 
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import CancelModal from "../../components/MyPage/CancelModal";
-
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
 
 function UserInfo({navigation}) {
-    const [user_name, setUserName] = useState('김슈니');
-    const [user_birth, setUserBirth] = useState('2020/03/03');
+    const baseUrl = 'http://43.202.52.64:8080/api';
+    const [token, setToken] = useState(null);
+    const { isLoggedIn } = useContext(AuthContext);
+
+    const [user_name, setUserName] = useState('');
+    const [user_birth, setUserBirth] = useState('');
 
     const [inputName, setInputName] = useState(user_name);
     const [inputBirth, setInputBirth] = useState(user_birth);
@@ -19,12 +25,75 @@ function UserInfo({navigation}) {
         name: true,
         birth: true,
     })
-    const [isNameCorrect, setIsNameCorrect] = useState(true);
-    const [isBirthCorrect, setIsBirthCorrect] = useState(true);
 
     const [modalVisible, setModalVisible] = useState(false);
 
     const ref_input2 = useRef();
+
+    // AsyncStorage에서 토큰 가져오기
+    useEffect(() => {
+        const fetchToken = async () => {
+        try {
+            const storedToken = await AsyncStorage.getItem('token');
+            setToken(storedToken);
+        } catch (error) {
+            console.error('토큰 가져오기 실패:', error);
+        }
+        };
+
+        fetchToken();
+    }, [isLoggedIn]);
+
+    // 사용자 정보
+    useEffect(() => {
+        if(isLoggedIn && token) {
+            async function getUser() {
+                try {
+                    const response = await axios.get(`${baseUrl}/user`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                        withCredentials: true,
+                    });
+    
+                    setInputName(response.data.user_name);
+                    setUserName(response.data.user_name);
+                    setInputBirth(response.data.user_birth);
+                    setUserBirth(response.data.user_birth);
+                } catch (error) {
+                  console.error('에러: ',error);
+                }
+            }
+
+            getUser();
+        }
+    }, [token, isLoggedIn]);
+
+    // 변경사항 저장
+    const handleSave = async () => {
+        if (isFull.name && isFull.birth && isBirthValid.year && isBirthValid.month && isBirthValid.day) {
+            setUserName(inputName);
+            setUserBirth(inputBirth);
+           
+            try {
+                await axios.patch(
+                    `${baseUrl}/user/namebirth`,
+                    {
+                        user_name: inputName,
+                        user_birth: inputBirth,
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        }
+                    }
+                );
+                navigation.navigate('MY');
+            } catch (error) {
+                console.error('이름 및 생년월일 변경 API 에러 발생: ', error);
+            }
+        }
+    }
 
     // 모달 - 취소 버튼 눌렀을 때
     const handleConfirm = () => {
@@ -94,24 +163,20 @@ function UserInfo({navigation}) {
     }
 
     useEffect(() => {
-        // 입력한 값이 있는지 확인
-        const isNameFull = inputName !== '';
-        const isBirthFull =  inputBirth !== '';
-        setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull})));
-
         handleBirth(inputBirth);     // 입력한 생일이 올바른지 구하는 함수 호출
-
-        // 기존 유저 정보와 입력한 값이 일치하는지 확인
-        const isNCorrect = user_name === inputName;
-        const isBCorrect = user_birth === inputBirth;
-        setIsNameCorrect(isNCorrect);
-        setIsBirthCorrect(isBCorrect);
-
-    }, [inputName, inputBirth, user_name, user_birth]);
+    }, [inputBirth]);
     
     // 나가기
     const handleClose = () => {
-        if (isFull.name && isFull.birth && isNameCorrect && isBirthCorrect) {
+        // 입력한 값이 있는지 확인
+        const isNameFull = inputName !== '';
+        const isBirthFull =  inputBirth !== '';
+        
+        // 기존 유저 정보와 입력한 값이 일치하는지 확인
+        const isNCorrect = user_name === inputName;
+        const isBCorrect = user_birth === inputBirth;
+
+        if (isNameFull && isBirthFull && isNCorrect && isBCorrect) {
             navigation.goBack();
         } else {
             setModalVisible(true);
@@ -129,16 +194,7 @@ function UserInfo({navigation}) {
                 </TouchableOpacity>
             ),
         });
-    }, [inputName, inputBirth]);
-
-    // 변경사항 저장
-    const handleSave = () => {
-        if (isFull.name && isFull.birth && isBirthValid.year && isBirthValid.month && isBirthValid.day) {
-            setUserName(inputName);
-            setUserBirth(inputBirth);
-            navigation.navigate('MY');
-        }
-    };
+    }, [inputName, inputBirth, user_name, user_birth]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
