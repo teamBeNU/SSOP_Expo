@@ -5,6 +5,7 @@ import React, { useState, useLayoutEffect, useCallback, useRef, useEffect } from
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation, useFocusEffect, Link } from '@react-navigation/native';
 import { useRoute } from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
@@ -161,12 +162,59 @@ const fetchData = async () => {
         const newCardIndex = Math.round(event.nativeEvent.contentOffset.x / (CARD_WIDTH + SPACING));
         setCurrentCardIndex(newCardIndex);
     };
+
+    const confirmDelete = async () => {
+        await deleteMyCard(cardData[currentCardIndex].cardId);
+        setMoreMenu(false);
+    };
+    
+    const deleteMyCard  = async (cardId) => {
+        try {   
+            const token = await AsyncStorage.getItem('token');
+            
+            const response = await fetch(`http://43.202.52.64:8080/api/card/delete?cardIds=${cardId}`,
+            {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+            });
+            if (response.status === 200) {
+                navigation.goBack();
+    
+                Toast.show({
+                  text1: "프로필 카드가 삭제되었어요.",
+                  type: 'success',
+                  position: 'bottom',
+                  visibilityTime: 3000,
+                  autoHide: true,
+                });
+            } else {
+              Toast.show({
+                text1: "삭제에 실패하였습니다.",
+                type: 'fail',
+                position: 'bottom',
+                visibilityTime: 3000,
+                autoHide: true,
+              });
+            }
+    
+        } catch (error) {
+            Toast.show({
+              text1: "카드 삭제 중 오류가 발생했습니다.",
+              type: 'fail',
+              position: 'bottom',
+              visibilityTime: 3000,
+              autoHide: true,
+            });
+        }
+    };
     
    return (
      <View style={styles.container}>
             {moreMenu && (
                 <View style={styles.dropdownMenu}>
-                    <TouchableOpacity onPress={() => ''}>
+                    <TouchableOpacity onPress={confirmDelete}>
                         <Text style={styles.menuItem}>프로필 삭제하기</Text>
                     </TouchableOpacity>
                    
