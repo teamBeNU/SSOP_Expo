@@ -10,6 +10,8 @@ import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
 import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
+import Contact from '../../assets/icons/ic_contact_small_line.svg';
+import Share from '../../assets/icons/ic_share_small_line.svg';
 
 // 상세 팀스페이스
 export default function DetailTeamSpaceScreen({ navigation }) {
@@ -19,6 +21,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   // 각각의 값 가져오기
   const teamId = params.teamId;
   const selectedFilters = params.selectedFilters;
+  const onDataChange = params.onDataChange; 
 
   // console.log("받아온 teamId:", teamId);
 
@@ -82,6 +85,12 @@ export default function DetailTeamSpaceScreen({ navigation }) {
           console.log("필터목록: ", response.data.filter);
           // console.log('참여 멤버 목록:', response.data.members);
           // console.log("전체 데이터: ", response.data);
+
+          // DrtailTeamSpace.jsx로 데이터 전달
+          if (onDataChange) {
+            onDataChange(response.data.hostId);
+          }
+
         })
         .catch((error) => {
           console.error('참여 멤버 목록 API 요청 에러:', error);
@@ -131,9 +140,54 @@ export default function DetailTeamSpaceScreen({ navigation }) {
       const filtered = response.data;
       console.log("필터링된 데이터:", filtered);
       setFilteredData(filtered);
-            
+
     } catch (error) {
       console.error("필터링 요청 중 오류 발생:", error);
+    }
+  };
+
+
+  const handleShareButtonPress = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleDeleteGroup = (id) => {
+    setGroupToDelete(id);
+    setIsSpaceModalVisible(true);
+  };
+
+  const handleConfirmDelete = () => {
+    // groupToDelete에 해당하는 그룹 삭제
+    setTeamData((prevData) => prevData.filter((group) => group.id !== groupToDelete));
+    setGroupToDelete(null);  // 삭제할 그룹 ID 초기화
+    setIsSpaceModalVisible(false);  // 모달 닫기
+    showCustomToast('그룹이 성공적으로 삭제되었어요.');
+  };
+
+  const handleChangeGroupName = () => {
+    setIsGroupNameChangeModalVisible(true);
+  };
+
+  // 복사
+  const copyinviteCode = async () => {
+    const textToCopy = inviteCode;
+    await Clipboard.setStringAsync(textToCopy);
+    Alert.alert("클립보드에 복사되었습니다.");
+  };
+
+  const shareLinkCode = async () => {
+    try {
+      const isAvailable = await Sharing.isAvailableAsync();
+      if (!isAvailable) {
+        Alert.alert('링크를 공유할 수 없습니다.');
+        return;
+      }
+
+      await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=4', {
+        dialogTitle: '네 세계에 쏩 빠지다, SSOP 카드로 서로에게 스며들다',
+      });
+    } catch (error) {
+      Alert.alert('Error sharing', error.message);
     }
   };
 
@@ -203,60 +257,17 @@ export default function DetailTeamSpaceScreen({ navigation }) {
       />
 
       {/* 하단 버튼 영역 */}
-      {/* <View style={styles.bottomDetailContainer}>
-        <TouchableOpacity >
-          <Text style={styles.bottomTextBlue} onPress={handleShareButtonPress}>공유</Text>
+      <View style={styles.bottomDetailContainer}>
+        <Share/>
+        <TouchableOpacity style={{marginLeft: 6}}>
+          <Text style={styles.bottomText} onPress={handleShareButtonPress}>카드 공유</Text>          
         </TouchableOpacity>
         <BottomLineIcon style={styles.bottomLine} />
-        <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
+        <Contact/>
+        <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')} style={{marginLeft: 6}}>
           <Text style={styles.bottomText}>연락처 저장</Text>
         </TouchableOpacity>
-      </View> */}
+      </View>
     </View>
   );
 }
-
-
-// const handleShareButtonPress = () => {
-//   setIsModalVisible(true);
-// };
-
-// const handleDeleteGroup = (id) => {
-//   setGroupToDelete(id);
-//   setIsSpaceModalVisible(true);
-// };
-
-// const handleConfirmDelete = () => {
-//   // groupToDelete에 해당하는 그룹 삭제
-//   setTeamData((prevData) => prevData.filter((group) => group.id !== groupToDelete));
-//   setGroupToDelete(null);  // 삭제할 그룹 ID 초기화
-//   setIsSpaceModalVisible(false);  // 모달 닫기
-//   showCustomToast('그룹이 성공적으로 삭제되었어요.');
-// };
-
-// const handleChangeGroupName = () => {
-//   setIsGroupNameChangeModalVisible(true);
-// };
-
-// // 복사
-// const copyinviteCode = async () => {
-//   const textToCopy = inviteCode;
-//   await Clipboard.setStringAsync(textToCopy);
-//   Alert.alert("클립보드에 복사되었습니다.");
-// };
-
-// const shareLinkCode = async () => {
-//   try {
-//     const isAvailable = await Sharing.isAvailableAsync();
-//     if (!isAvailable) {
-//       Alert.alert('Sharing is not available on this device');
-//       return;
-//     }
-
-//     await Sharing.shareAsync('https://naver.com', {
-//       dialogTitle: 'SSOP Share TEST',
-//     });
-//   } catch (error) {
-//     Alert.alert('Error sharing', error.message);
-//   }
-// };
