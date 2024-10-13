@@ -222,7 +222,7 @@ const MySpaceDetailView = ({
                             </Text>
                           <Text style={styles.Text16gray50}>{item.card_birth ? calculateAge(item.card_birth) : item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : '정보 없음'}</Text>
                         </View>
-                        <Text style={styles.Text14gray30}>{item.memberEssential.card_introduction}</Text>
+                        <Text style={styles.Text14gray30}>{item.team_comment? item.team_comment : item.memberEssential.card_introduction}</Text>
                       </View>
                     </View>
                     <View style={styles.menuContainer}>
