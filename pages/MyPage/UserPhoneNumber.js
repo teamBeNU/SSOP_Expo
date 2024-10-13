@@ -1,13 +1,56 @@
 import { View, Text, TextInput, TouchableOpacity, Keyboard, TouchableWithoutFeedback } from "react-native";
-import React, { useState } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import "react-native-gesture-handler";
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../AuthContext";
 
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
 
 function UserPhoneNumber({navigation}) {
+    const baseUrl = 'http://43.202.52.64:8080/api';
+    const [token, setToken] = useState(null);
+    const { isLoggedIn } = useContext(AuthContext);
+    
     const [user_tel, setTel] = useState('');
     const [isTelFull, setIsTelFull] = useState(true);
+
+     // AsyncStorage에서 토큰 가져오기
+     useEffect(() => {
+        const fetchToken = async () => {
+        try {
+            const storedToken = await AsyncStorage.getItem('token');
+            setToken(storedToken);
+        } catch (error) {
+            console.error('토큰 가져오기 실패:', error);
+        }
+        };
+
+        fetchToken();
+    }, [isLoggedIn]);
+
+    // 사용자 정보
+    useEffect(() => {
+        if(isLoggedIn && token) {
+            async function getUser() {
+                try {
+                    const response = await axios.get(`${baseUrl}/user`, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        },
+                        withCredentials: true,
+                    });
+    
+                    setTel(response.data.user_phone);
+                } catch (error) {
+                  console.error('에러: ',error);
+                }
+            }
+
+            getUser();
+        }
+    }, [token, isLoggedIn]);
     
     const handlePhoneNumChange = (text) => {
         setTel(text);
@@ -19,12 +62,26 @@ function UserPhoneNumber({navigation}) {
     }
 
     // 변경사항 저장
-    const handleSave = () => {
+    const handleSave = async () => {
         const isTF = user_tel !== '';
         setIsTelFull(isTF);
         if (isTF) {
-            // setStep(2);
-            navigation.navigate('MY');
+            try {
+                await axios.patch(
+                    `${baseUrl}/user/phone`,
+                    {
+                        user_phone: user_tel
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        }
+                    }
+                );
+                navigation.navigate('MY');
+            } catch (error) {
+                console.error('이름 및 생년월일 변경 API 에러 발생: ', error);
+            }
         }
     };
 
