@@ -172,10 +172,13 @@ export default function DetailTeamSpaceScreen({ navigation }) {
         title={data.team_name}
         members={`${data.memberCount || 0} / 150`}
         sub={data.team_comment}
+        isHost={data.hostId === userId}
+        userId={userId}
         navigation={navigation}
         hasCards={hasCards}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
+        viewOption={viewOption}
         setViewOption={setViewOption}
         handleFilterNext={handleFilterNext}
         cardData={filteredData.length > 0 ? filteredData : cardData}

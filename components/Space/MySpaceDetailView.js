@@ -1,9 +1,10 @@
 import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import People from '../../assets/icons/ic_person_small_fill.svg';
 import CloseIcon from '../../assets/icons/ic_close_small_line.svg';
+import ListIcon from '../../assets/icons/ic_lists.svg';
 import AllListIcon from '../../assets/icons/ic_border_all.svg';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
@@ -13,6 +14,8 @@ const MySpaceDetailView = ({
   title,
   sub,
   members,
+  isHost,
+  userId,
   selectedOption,
   setSelectedOption,
   viewOption,
@@ -80,7 +83,7 @@ const MySpaceDetailView = ({
 
             <View style={styles.rightButtonGroup}>
               {/* 격자형, 리스트형 버튼 */}
-              {/* <TouchableOpacity
+              <TouchableOpacity
                 onPress={() => setViewOption(viewOption === '격자형' ? '리스트형' : '격자형')}
                 style={styles.iconContainer}
               >
@@ -89,7 +92,7 @@ const MySpaceDetailView = ({
                 ) : (
                   <ListIcon />
                 )}
-              </TouchableOpacity> */}
+              </TouchableOpacity>
 
               {/* 최신순, 오래된순 메뉴 */}
               <Menu>
@@ -151,65 +154,79 @@ const MySpaceDetailView = ({
         )}
 
         <View>
-          {/* {viewOption === '격자형' && ( */}
-          <View>
-            <View style={[styles.row, styles.container]}>
-              {Array.isArray(cardData) && cardData.length > 0 ? (
-                cardData.map((item) => (
-                  <TouchableOpacity key={item.cardId} style={styles.btn1} onPress={handleNext}>
-                    <ShareCard
-                      backgroundColor={item.backgroundColor}
-                      avatar={item.avatar}
-                      card_name={item.team_name ? item.team_name : item.memberEssential.card_name}
-                      age={item.card_birth ? calculateAge(item.card_birth) : item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : '정보 없음'}
-                      dot=' · '
-                      card_template={
-                        item.template === 'student' ? '학생' :
-                          item.template === 'worker' ? '직장인' :
-                            item.template === 'fan' ? '팬' :
-                              item.template === 'free' ? '자유' :
-                                item.memberEssential.card_template === 'student' ? '학생' :
-                                  item.memberEssential.card_template === 'worker' ? '직장인' :
-                                    item.memberEssential.card_template === 'fan' ? '팬' :
-                                      item.memberEssential.card_template === 'free' ? '자유' :
-                                        '기타' }
-                    />
-                  </TouchableOpacity>
-                ))
-              ) : (
-                <View style={styles.emptyContainer}>
-                  <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
-                </View>
-              )}
+          {viewOption === '격자형' && (
+            <View>
+              <View style={[styles.row, styles.container]}>
+                {Array.isArray(cardData) && cardData.length > 0 ? (
+                  cardData.map((item) => (
+                    <TouchableOpacity key={item.cardId} style={styles.btn1} onPress={handleNext}>
+                      <ShareCard
+                        backgroundColor={item.backgroundColor}
+                        // avatar={item.avatar}
+                        avatar={
+                          <Image
+                            source={{ uri: item.profile_image_url ? item.profile_image_url :item.memberEssential.profile_image_url }}
+                            style={styles.gridImage}
+                          />
+                        }
+                        isHost={isHost}
+                        card_name={item.team_name ? item.team_name : item.memberEssential.card_name}
+                        age={item.card_birth ? calculateAge(item.card_birth) : item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : ''}
+                        dot=' · '
+                        card_template={
+                          item.template === 'student' ? '학생' :
+                            item.template === 'worker' ? '직장인' :
+                              item.template === 'fan' ? '팬' :
+                                item.template === 'free' ? '자유' :
+                                  item.memberEssential.card_template === 'student' ? '학생' :
+                                    item.memberEssential.card_template === 'worker' ? '직장인' :
+                                      item.memberEssential.card_template === 'fan' ? '팬' :
+                                        item.memberEssential.card_template === 'free' ? '자유' :
+                                          '기타'}
+                      />
+                    </TouchableOpacity>
+                  ))
+                ) : (
+                  <View style={styles.emptyContainer}>
+                    <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
+                  </View>
+                )}
+              </View>
             </View>
-          </View>
 
-          {/* )} */}
+          )}
 
-          {/* {viewOption === '리스트형' && (
+          {viewOption === '리스트형' && (
             <View>
               {cardData.map((item) => (
                 <View key={item.id} style={styles.ListContainer}>
                   <TouchableOpacity onPress={handleNext}>
                     <View style={styles.row2}>
                       <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                        <Text> {'\n'}   아바타{'\n'}   이미지</Text>
+                        <Image
+                          source={{ uri: item.memberEssential.profile_image_url }}
+                          style={styles.listImage}
+                        />
                       </View>
+
                       <View style={styles.infoContainer}>
                         <View style={styles.rowName}>
-                          {item.isHost && (
+                          {isHost && (
                             <View style={styles.host}>
                               <Text style={styles.hostText}>호스트</Text>
                             </View>
                           )}
-                          <Text style={styles.Text16gray10}>{item.card_name}</Text>
-                          <Text style={styles.Text16gray50}>{item.age}</Text>
+                          <Text style={styles.Text16gray10}>
+                            {item.team_name ? item.team_name : item.memberEssential.card_name}
+                            {userId===item.userId && ( <Text> (나)</Text> )}
+                            </Text>
+                          <Text style={styles.Text16gray50}>{item.card_birth ? calculateAge(item.card_birth) : item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : '정보 없음'}</Text>
                         </View>
-                        <Text style={styles.Text14gray30}>{item.card_introduce}</Text>
+                        <Text style={styles.Text14gray30}>{item.memberEssential.card_introduction}</Text>
                       </View>
                     </View>
                     <View style={styles.menuContainer}>
-                      {showMenu && (
+                      {userId===item.userId && showMenu && (
                         <Menu>
                           <MenuTrigger>
                             <MoreGrayIcon style={{ marginRight: 8 }} />
@@ -225,7 +242,7 @@ const MySpaceDetailView = ({
                 </View>
               ))}
             </View>
-          )} */}
+          )}
         </View>
         <View style={styles.innerView}></View>
       </View>

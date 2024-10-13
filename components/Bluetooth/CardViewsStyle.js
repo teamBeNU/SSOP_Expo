@@ -228,7 +228,7 @@ export const styles = StyleSheet.create({
         gap: 6
     },
     Text16gray10: {
-        fontFamily: "PretendardSemibold",
+        fontFamily: "PretendardSemiBold",
         color: theme.gray10,
         fontSize: 16,
         letterSpacing: -0.32
@@ -438,4 +438,15 @@ export const styles = StyleSheet.create({
         color: theme.skyblue,
         fontFamily: 'PretendardSemiBold'
     },
+    // 프로필 이미지
+    gridImage: {        
+        width: '120%',
+        height: '120%',
+        borderRadius: 12,
+    },
+    listImage: {
+        width: 64,
+        height: 64,
+        borderRadius: 12
+    }
 })

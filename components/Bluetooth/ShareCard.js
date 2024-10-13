@@ -9,13 +9,13 @@ import RadioWhiteIcon from '../../assets/icons/ic_radio_check_white.svg';
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 16 * 2 - 12) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
 
-export const ShareCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter }) => {
+export const ShareCard = ({ backgroundColor, avatar, isHost, card_name, age, dot, card_template, filter }) => {
     return (
         <View style={[styles.card, { backgroundColor, width: cardWidth }]}>
             <View style={styles.cardImgArea}>
                 {avatar}
             </View>
-            {host && (
+            {isHost && (
                 <View style={styles.DetailcardHost}>
                     <Text style={styles.DetailcardFilterText}>호스트</Text>
                 </View>
