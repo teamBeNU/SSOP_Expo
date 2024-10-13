@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
 
     MyPageMain: {
         flex: 1,
-        backgroundColor: theme.bg,
+        backgroundColor: theme.gray99,
         paddingHorizontal: 16,
         paddingTop: 12,
     },

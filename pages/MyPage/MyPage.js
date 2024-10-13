@@ -1,6 +1,7 @@
-import { View, Text, Alert, TouchableOpacity } from "react-native";
+import { View, SafeAreaView, Text, Alert, TouchableOpacity } from "react-native";
 import React, { useState, useEffect, useContext } from 'react';
 import {  useFocusEffect  } from '@react-navigation/native';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import "react-native-gesture-handler";
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -16,6 +17,9 @@ function MyPage({navigation}) {
     const { isLoggedIn, setIsLoggedIn } = useContext(AuthContext);
 
     const [userName, setUserName] = useState('');
+
+    // StatusBar 높이 구하기
+    const { top } = useSafeAreaInsets();
 
     // AsyncStorage에서 토큰 가져오기
     useEffect(() => {
@@ -55,6 +59,13 @@ function MyPage({navigation}) {
         }, [token, isLoggedIn])
     );
 
+    // 헤더바
+    useEffect(() => {
+        navigation.setOptions({
+            headerShown: false,
+        });
+    }, [])
+
     // 로그아웃
     const handleLogout = async () => {
         try {
@@ -62,7 +73,8 @@ function MyPage({navigation}) {
           setIsLoggedIn(false); // Update login state
           setUserName('');
           // Alert.alert('로그아웃 성공');
-          navigation.navigate('로그인');
+          // navigation.navigate('로그인');
+          navigation.navigate('로그인', { showCloseBtn: true });
         } catch (error) {
           console.error('Error during logout:', error);
           // Alert.alert('Error', 'Failed to log out.');
@@ -70,7 +82,8 @@ function MyPage({navigation}) {
     };
 
     return (
-        <View style={styles.MyPageMain}>
+        <SafeAreaView style={styles.MyPageMain}>
+            <View style={{marginTop: top + 24}}></View>
             <View style={[styles.flexDirectionRow, styles.accountManageContainer]}>
                 {
                     (userName !== null && userName !== '') ?
@@ -85,7 +98,7 @@ function MyPage({navigation}) {
                     <>
                     <TouchableOpacity 
                         style={styles.loginBtn}
-                        onPress={() => navigation.navigate('로그인')}
+                        onPress={() => navigation.navigate('로그인', { showCloseBtn: true })}
                     >
                         <View>
                             <Text style={styles.loginText}>로그인 및 회원가입</Text>
@@ -131,7 +144,7 @@ function MyPage({navigation}) {
                     </View> : 
                     <></>
             }
-        </View>
+        </SafeAreaView>
     );
 }
 
