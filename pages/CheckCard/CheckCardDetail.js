@@ -11,6 +11,7 @@ import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import SaveIcon from '../../assets/icons/ic_contact_small_line.svg';
 import MemoViewIcon from '../../assets/icons/ic_notes_small_line.svg';
+import AddContact from '../../components/MyCard/AddTel.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
@@ -164,7 +165,7 @@ const CheckCardDetail = () => {
             <View style={styles.btnContainer}>
                 <View style={styles.btn}>
                     <TouchableOpacity>
-                        <SaveIcon />
+                        <AddContact phoneNumber={cardData.cardOptional.card_tel} firstName={cardData.cardEssential.card_name} type="icon"/>
                     </TouchableOpacity>
                     <Text style={styles.btnText}>연락처 저장</Text>                    
                 </View>

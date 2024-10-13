@@ -12,7 +12,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
 
     const handleNext = (cardId) => {
         //navigation.navigate('카드 상세보기', { cardId });
-        navigation.navigate('상대카드 상세보기', { cardId });
+        navigation.navigate('카드 상세보기', { cardId });
     };
 
     return (

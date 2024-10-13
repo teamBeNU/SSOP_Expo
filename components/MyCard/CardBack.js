@@ -3,6 +3,7 @@ import { Alert, Linking, Text, TouchableOpacity, View, ScrollView } from 'react-
 import InstaLogo from '../../assets/Card/logo_insta.svg';
 import XLogo from '../../assets/Card/logo_x.svg';
 import { styles } from './CardStyle';
+import AddContact from './AddTel';
 
 const instaURL = `https://www.instagram.com/`;
 const xURL = `https://x.com/`;
@@ -113,7 +114,7 @@ const CardOptional2 = ({cardData}) => {
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>번호</Text>                             
                 <View style={styles.grayBox}>
-                    <Text style={styles.grayBoxText}>{cardData.cardOptional.card_tel}</Text> 
+                    <AddContact phoneNumber={cardData.cardOptional.card_tel} firstName={cardData.cardEssential.card_name} type="phoneNumber" style={styles.grayBoxText}/>
                 </View>                           
                 </View>
             ) : null }
