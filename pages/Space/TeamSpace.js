@@ -7,6 +7,7 @@ import { styles } from './SpaceStyle';
 import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import { TeamSpaceList } from "../../components/Space/SpaceList.js";
+import TeamSp from "../../assets/icons/ic_teamsp.svg"
 
 function TeamSpace({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
@@ -147,13 +148,15 @@ function TeamSpace({ navigation }) {
 
   // 팀스페이스 상세 화면으로 이동
   const handleNext = (teamId) => {
-    navigation.navigate('상세 팀스페이스', { teamId });
+    navigation.navigate('상세 팀스페이스', { teamId, userId });
   };
 
   return data.length > 0 ? (
     <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
       <View style={styles.container2}>
-        <Text style={styles.Text26}>팀스페이스</Text>
+        <View style={{flexDirection: 'row', gap: 10}}>
+        <TeamSp/><Text style={styles.Text26}>팀스페이스</Text>
+        </View>
         <Text style={styles.Text16gray}>팀별로 프로필 카드를 관리하세요.</Text>
       </View>
       <View style={styles.container}>

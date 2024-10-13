@@ -642,7 +642,7 @@ export const styles = StyleSheet.create({
     bottomText: {
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
-        color: 'black',
+        color: theme.gray10,
         letterSpacing: -1,
         justifyContent: 'center',
         alignContent: 'center'
@@ -657,8 +657,8 @@ export const styles = StyleSheet.create({
     },
 
     bottomLine: {
-        marginLeft: 20,
-        marginRight: 20,
+        marginLeft: 44,
+        marginRight: 44,
     },
 
     bottomDetailContainer: {
