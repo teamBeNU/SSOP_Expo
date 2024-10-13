@@ -49,15 +49,8 @@ import UserPw from './pages/MyPage/UserPw';
 import Notify from './pages/Notify/Notify';
 import DetailGroup from './pages/Space/DetailGroup';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
-import MySpaceManage from './pages/Space/MySpaceManage';
 import Space from './pages/Space/Space';
 import DeleteMyCard from './pages/MyCard/DeleteMyCard';
-import DetailGroup from './pages/Space/DetailGroup';
-import CardDetailView from './components/MyCard/CardDetailView';
-import EditCard from './pages/MyCard/EditCard';
-import EditCardCover from './pages/MyCard/EditCardCover';
-
-import { styles } from './components/MyCard/CardStyle';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';
@@ -69,10 +62,7 @@ import EditGroupPage from './pages/Space/EditGroupPage';
 import EditTeamSpace from './pages/Space/EditTeamSpace';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
-import MySpace from './pages/Space/MySpace';
-import TeamSpace from './pages/Space/TeamSpace';
 import { theme } from './theme';
-import { styles } from './pages/MyCard/MyCardStyle';
 
 const linking = {
   prefixes: ['ssop://', 'https://ssop.com'],
