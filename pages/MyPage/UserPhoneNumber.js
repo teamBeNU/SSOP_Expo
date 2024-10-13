@@ -16,8 +16,8 @@ function UserPhoneNumber({navigation}) {
     const [user_tel, setTel] = useState('');
     const [isTelFull, setIsTelFull] = useState(true);
 
-     // AsyncStorage에서 토큰 가져오기
-     useEffect(() => {
+    // AsyncStorage에서 토큰 가져오기
+    useEffect(() => {
         const fetchToken = async () => {
         try {
             const storedToken = await AsyncStorage.getItem('token');
@@ -80,7 +80,7 @@ function UserPhoneNumber({navigation}) {
                 );
                 navigation.navigate('MY');
             } catch (error) {
-                console.error('이름 및 생년월일 변경 API 에러 발생: ', error);
+                console.error('연락처 변경 API 에러 발생: ', error);
             }
         }
     };
