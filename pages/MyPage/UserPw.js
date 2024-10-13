@@ -1,8 +1,9 @@
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Dimensions, Pressable, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, ViewComponent } from "react-native";
-import React, { useState, useEffect, useRef } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { View, Text, TextInput, TouchableOpacity, Pressable, Keyboard, TouchableWithoutFeedback } from "react-native";
+import React, { useState, useEffect, useContext } from 'react';
 import "react-native-gesture-handler";
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../../AuthContext";
 
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
@@ -14,12 +15,13 @@ import CheckIcon from "../../assets/Login/ic_done_small_line.svg";
 import BlueCheckIcon from "../../assets/Login/ic_done_small_line_blue.svg";
 import PasswordDone from "../../assets/images/passwordDone.svg";
 
-const { width:SCREEN_WIDTH } = Dimensions.get('window');
-
 function UserPw({navigation}) {
+    const baseUrl = 'http://43.202.52.64:8080/api';
+    const [token, setToken] = useState(null);
+    const { isLoggedIn } = useContext(AuthContext);
+
     const [step, setStep] = useState(1);
-    const [user_password, setPassword] = useState('qwerty12345');    // 사용자 비밀번호
-    const [inputPw, setInputPw] = useState('');     // 사용자가 입력한 비밀번호
+    const [userPassword, setuserPassword] = useState('');
     const [isPwVisible, setIsPwVisible] = useState(false);
     const [isPwFull, setIsPwFull] = useState(true);
     const [pwIsCorrect, setPwIsCorrect] = useState(true);
@@ -27,33 +29,87 @@ function UserPw({navigation}) {
     const [hasNum, setHasNum] = useState(false);
     const [hasLeng, setHasLeng] = useState(false);
 
+    
+    // AsyncStorage에서 토큰 가져오기
+    useEffect(() => {
+        const fetchToken = async () => {
+        try {
+            const storedToken = await AsyncStorage.getItem('token');
+            setToken(storedToken);
+        } catch (error) {
+            console.error('토큰 가져오기 실패:', error);
+        }
+        };
+
+        fetchToken();
+    }, [isLoggedIn]);
+
     const passwordCheck = (password) => {
+        setuserPassword(password); 
         setHasEnglish(/[a-zA-Z]/.test(password));
         setHasNum(/[0-9]/.test(password));
         setHasLeng(/^.{6,20}$/.test(password));
     };
 
-    const handleInputPW = (password) => {
-        setInputPw(password); 
+    const handleUserPassword = (password) => {
+        setuserPassword(password); 
         setPwIsCorrect(true);
     }
 
-    const handleNext = () => {
+    const handleNext = async () => {
         if (step === 1) {
-            const isFull = inputPw !== '';
+            const isFull = userPassword !== '';
             setIsPwFull(isFull);
+            console.log('userPassword: ',userPassword );
+            try {
+                const response = await axios.post(
+                    `${baseUrl}/user/validate-password`,
+                    {
+                        currentPassword: userPassword
+                    },
+                    {
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                        }
+                    }
+                );
 
-            const isCorrect = user_password === inputPw;
-            setPwIsCorrect(isCorrect);
+                if(response.status === 200) {
+                    setPwIsCorrect(true);
 
-            if (isFull && isCorrect) {
-                setIsPwFull('');
-                setInputPw('');
-                setStep(2);
+                    setIsPwVisible(false);
+                    setIsPwFull('');
+                    setuserPassword('');
+                    setStep(2);
+                } else {
+                    setPwIsCorrect(false);
+                }
+            } catch (error) {
+                setPwIsCorrect(false);
+                // console.error('비밀번호 검증 API 에러 발생: ', error);
             }
         } else if (step === 2 ) {
             if(hasEnglish && hasNum && hasLeng) {
-                setStep(3);
+                console.log('userPassword2: ',userPassword );
+                try {
+                    const response = await axios.patch(
+                        `${baseUrl}/user/update-password`,
+                        {
+                            newPassword: userPassword
+                        },
+                        {
+                            headers: {
+                                'Authorization': `Bearer ${token}`,
+                            }
+                        }
+                    );
+    
+                    if(response.status === 200) {   
+                        setStep(3);
+                    }
+                } catch (error) {
+                    console.error('비밀번호 변경 API 에러 발생: ', error);
+                }
             }
         }
     };
@@ -73,7 +129,7 @@ function UserPw({navigation}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity
-                        onPress={() => {setStep(1); setInputPw('');}}
+                        onPress={() => {setStep(1); setuserPassword('');}}
                     >
                         <LeftArrowIcon style={{ marginLeft: 8 }} />
                     </TouchableOpacity>
@@ -106,8 +162,8 @@ function UserPw({navigation}) {
                                     placeholder="영문과 숫자 포함, 6-20자 이내의 문자"
                                     placeholderTextColor={theme.gray60}
                                     keyboardType="default"
-                                    value={inputPw}
-                                    onChangeText={handleInputPW}
+                                    value={userPassword}
+                                    onChangeText={handleUserPassword}
                                     returnKeyType="done"
                                     maxLength={20}
                                     secureTextEntry = {isPwVisible ? false : true}
@@ -144,8 +200,8 @@ function UserPw({navigation}) {
                                     placeholder="영문과 숫자 포함, 6-20자 이내의 문자"
                                     placeholderTextColor={theme.gray60}
                                     keyboardType="default"
-                                    value={inputPw}
-                                    onChange={(e) => {setInputPw(e.target.value)}}
+                                    value={userPassword}
+                                    onChange={(e) => {setuserPassword(e.target.value)}}
                                     onChangeText={passwordCheck}
                                     returnKeyType="done"
                                     maxLength={20}
