@@ -1,5 +1,5 @@
-import { View, Text, TouchableOpacity, Image, StyleSheet } from "react-native";
-import React, { useState, useEffect } from 'react';
+import { View, Text, TouchableOpacity } from "react-native";
+import React, { useState } from 'react';
 import "react-native-gesture-handler";
 import { styles } from "./CreateCardStyle";
 
@@ -7,13 +7,19 @@ import Student from '../../assets/profile/student.svg';
 import Worker from '../../assets/profile/worker.svg';
 import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
-import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 
-import TemplateStudent from "../../components/CreateCard/TemplateStudent";
+import BottomSheet from "../../components/CreateCard/BottomSheet";
+import TemplateStudentTeenager from "../../components/CreateCard/TemplateStudentTeenager";
+import TemplateStudentYouth from "../../components/CreateCard/TemplateStudentYouth";
+import TemplateWorker from "../../components/CreateCard/TemplateWorker";
+import TemplateFan from "../../components/CreateCard/TemplateFan";
+import TemplateFree from "../../components/CreateCard/TemplateFree";
 
 function CreateCard({navigation}) {
-    const [card_template, setTemplate] = useState();
+    const [card_template, setCardTemplate] = useState();
+    const [selectStudent, setSelectStudent] = useState("");     // 초,중,고등학생: teenager, 대학(원)생: youth
     const [step, setStep] = useState(1);
+    const [modalVisible, setModalVisible] = useState(false);
 
     const items = [
         { id: 'student', label: '학생', description: '학교에 다닌다면',  icon: <Student /> },
@@ -22,32 +28,27 @@ function CreateCard({navigation}) {
         { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', icon: <Free /> },
     ]
 
-    const handleSelectTemp = (id) => {
+    const handleSelectTemplate = (id) => {
         if (step === 1) {
-            setTemplate(id);
-            setStep(2);
+            if (id === "student") {
+                openModal();
+            } else {
+                setStep(2);
+            }
+            setCardTemplate(id);
         }
     };
 
-    const goToStepOne = () => {
-        setStep(1);
-    };
+    // 학생 템플릿 - 바텀시트 열기
+    const openModal = () => {
+        setModalVisible(true);
+    }
 
-    useEffect(() => {   // 상단바 타이틀 변경
-        if (step === 1) {
-            navigation.setOptions({
-                headerTitle: '카드 생성',
-                headerLeft: () => (
-                    <TouchableOpacity
-                        onPress={() => {navigation.goBack();}}
-                    >
-                        <CloseIcon style={{ marginLeft: 8 }} />
-                    </TouchableOpacity>
-                ),
-                headerRight: null,
-            });
-        }
-    }, [step]);
+    // 템플릿 2*2 배치
+    const rows = [];
+    for (let i = 0; i < items.length; i += 2) {
+        rows.push(items.slice(i, i+2))
+    }
 
     return (
         <View style={styles.main}>
@@ -65,9 +66,8 @@ function CreateCard({navigation}) {
                                     key={item.id}
                                     style={[
                                         styles.cell,
-                                        
                                     ]}
-                                    onPress={() => handleSelectTemp(item.id)}
+                                    onPress={() => handleSelectTemplate(item.id)}
                                 >
                                     {item.icon}
                                     <Text style={styles.label}>{item.label}</Text>
@@ -76,25 +76,36 @@ function CreateCard({navigation}) {
                             ))}
                             </View>
                     </View>
+                    {card_template === "student" && (
+                        <BottomSheet                 
+                            modalVisible={modalVisible}
+                            setModalVisible={setModalVisible}
+                            setSelectStudent={setSelectStudent}
+                            setStep={setStep}
+                        />
+                    )}
                 </View>
             )}
 
             {step === 2 && (
-                <View>
-                    {card_template === "student" && (
-                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
-                    )}
+                <View style={{flex:1}}>
+                    {card_template === "student" && selectStudent === "teenager" && (
+                        <TemplateStudentTeenager navigation={navigation} card_template={card_template} />
+                    )} 
+                    {card_template === "student" && selectStudent === "youth" && (
+                        <TemplateStudentYouth navigation={navigation} card_template={card_template} />
+                    )} 
                     {card_template === "worker" && (
                         // 직장인
-                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
+                        <TemplateWorker navigation={navigation} card_template={card_template} />
                     )}
                     {card_template === "fan" && (
                         // 팬
-                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
+                        <TemplateFan navigation={navigation} card_template={card_template} />
                     )}
                     {card_template === "free" && (
                         // 자유 생성
-                        <TemplateStudent navigation={navigation} goToStepOne={goToStepOne} />
+                        <TemplateFree navigation={navigation} card_template={card_template} />
                     )}
                 </View>
             )}

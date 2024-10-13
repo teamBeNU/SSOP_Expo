@@ -54,6 +54,7 @@ import Space from './pages/Space/Space';
 import DeleteMyCard from './pages/MyCard/DeleteMyCard';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
+import PretendardMedium from './assets/fonts/pretendard-medium.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import KaKaoLogin from './components/Login/KaKaoLogin';
 import EditCard from './pages/MyCard/EditCard';
@@ -78,6 +79,7 @@ export default function App() {
   const [fontsLoaded] = useFonts({
     Pretendard : PretendardRegular,
     PretendardRegular : PretendardRegular,
+    PretendardMedium : PretendardMedium,
     PretendardSemiBold : PretendardSemiBold
   });
 
