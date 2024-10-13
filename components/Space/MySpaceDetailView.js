@@ -204,7 +204,7 @@ const MySpaceDetailView = ({
                     <View style={styles.row2}>
                       <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
                         <Image
-                          source={{ uri: item.memberEssential.profile_image_url }}
+                          source={{ uri: item.profile_image_url ? item.profile_image_url :item.memberEssential.profile_image_url }}
                           style={styles.listImage}
                         />
                       </View>
