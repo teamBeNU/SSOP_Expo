@@ -1,32 +1,64 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Alert } from "react-native";
-import { useNavigation, NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from 'jwt-decode';
+import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { styles } from './SpaceStyle';
-import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
 import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import { theme } from "../../theme";
 import Toast from 'react-native-toast-message';
 import { TeamSpaceList } from "../../components/Space/SpaceList.js";
 
-import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
-import TeamSpaceIcon from '../../assets/icons/ic_teamspace.svg'
-
-  
 function TeamSpace({ navigation }) {
-  const [hasTeamSP, setHasTeamSP] = useState(true);
-  const [isModalVisible, setIsModalVisible] = useState(false);
+  const baseUrl = 'http://43.202.52.64:8080/api'
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [data, setData] = useState([]);
+
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const [groupToDelete, setGroupToDelete] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);
-  const [teamData, setTeamData] = useState([
-    { id: 1, name: '김슈니의 팀스페이스', description: 'IT 소학회 SWUT 스페이스입니다.', members: 48, isHost: true },
-    { id: 2, name: '영어 교양 스페이스', description: '24-1학기 영어 교양 스페이스입니다.', members: 50, isHost: false },
-    { id: 3, name: '여대 교류회', description: '여대 교류를 위한 스페이스입니다.', members: 80, isHost: false },
-  ]);
+  const [newTeamName, setNewTeamName] = useState('');
+
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      // JWT에서 userId 추출
+      const decodedToken = jwtDecode(token);
+      setUserId(decodedToken.userId);
+    }
+  }, [token]);
+
+  useEffect(() => {
+    if (userId) {
+      // 내가 참여한 팀스페이스 목록 API 호출
+      const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
+      axios
+        .get(apiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          setData(response.data);
+          console.log('참여한 팀스페이스 목록:', response.data);
+        })
+        .catch((error) => {
+          console.error('내가 참여한 팀스페이스 목록 API 요청 에러:', error);
+        });
+    }
+  }, [userId, token]);
 
   // 토스트 메시지 표시 함수
   const showCustomToast = (text) => {
@@ -46,66 +78,97 @@ function TeamSpace({ navigation }) {
 
   // 팀스페이스 삭제 확인
   const handleConfirmDelete = () => {
-    const updatedTeamData = teamData.filter((group) => group.id !== groupToDelete);
-    setTeamData(updatedTeamData);
-    setGroupToDelete(null);
-    setIsSpaceModalVisible(false);
+    const apiUrl = `${baseUrl}/teamsp?teamId=${groupToDelete}`;
+    axios
+      .delete(apiUrl, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        // 삭제된 후 업데이트된 데이터 저장
+        const updatedTeamData = data.filter((group) => group.teamId !== groupToDelete);
+        setData(updatedTeamData);
+        setIsSpaceModalVisible(false);
 
-    // 삭제 후 팀스페이스 데이터가 비어있다면 hasTeamSP를 false로 설정
-    if (updatedTeamData.length === 0) {
-      setHasTeamSP(false);
-    }
-
-    showCustomToast('팀스페이스에서 퇴장했어요.');
+        // 삭제할 팀 호스트 찾기
+        const deletedGroupHostId = data.find(group => group.teamId === groupToDelete)?.hostId;
+        if (deletedGroupHostId === userId) {
+          showCustomToast('팀스페이스를 삭제했어요.');
+        }
+        else {
+          showCustomToast('팀스페이스에서 퇴장했어요.');
+        }
+      })
+      .catch((error) => {
+        console.error('팀스페이스 삭제 API 요청 에러:', error.response.data);
+      });
   };
 
   // 팀스페이스 이름 변경 모달 열기
-  const handleChangeGroupName = (id) => {
-    const group = teamData.find((team) => team.id === id);
-    setSelectedGroup(group);
-    setIsGroupNameChangeModalVisible(true);
+  const handleChangeGroupName = (newName, teamId) => {
+    const group = data.find((team) => team.teamId === teamId);
+    if (group) {
+      setSelectedGroup(group);
+      setNewTeamName(group.team_name);
+      setIsGroupNameChangeModalVisible(true);
+    } else {
+      console.error('선택된 그룹이 없습니다:', teamId);
+    }
   };
 
-  // 팀스페이스 이름 변경 반영
+  useEffect(() => {
+    if (isGroupNameChangeModalVisible && selectedGroup) {
+    }
+  }, [isGroupNameChangeModalVisible, selectedGroup]);
+
+
   const handleUpdateGroupName = (newName) => {
-    setTeamData((prevData) =>
-      prevData.map((group) =>
-        group.id === selectedGroup.id ? { ...group, name: newName } : group
-      )
-    );
-    setSelectedGroup(null); // 선택된 팀스페이스 초기화
-    setIsGroupNameChangeModalVisible(false);
-    showCustomToast('팀스페이스 이름이 수정되었어요.');
+
+    const requestData = { team_name: newName };
+
+    // 내가 참여한 팀스페이스 목록 API 호출
+    const apiUrl = `${baseUrl}/teamsp?teamId=${selectedGroup.teamId}`;
+    axios
+      .patch(apiUrl, requestData, {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        setData((prevData) =>
+          prevData.map((group) =>
+            group.teamId === selectedGroup.teamId ? { ...group, team_name: newName } : group
+          )
+        );
+        setIsGroupNameChangeModalVisible(false);
+        showCustomToast('팀스페이스 이름이 수정되었어요.');
+      })
+      .catch((error) => {
+        console.error('팀스페이스 이름 수정 API 요청 에러:', error.response.data);
+      });
   };
 
   // 팀스페이스 상세 화면으로 이동
-  const handleNext = () => {
-    navigation.navigate('상세 팀스페이스');
+  const handleNext = (teamId) => {
+    navigation.navigate('상세 팀스페이스', { teamId });
   };
 
-  return hasTeamSP ? (
+  return data.length > 0 ? (
     <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
       <View style={styles.container2}>
-        <View style={styles.container3}>
-          <TeamSpaceIcon style={{marginRight: 10}}/>
-          <Text style={styles.Text26}>팀스페이스</Text>
-        </View>
-        
+        <Text style={styles.Text26}>팀스페이스</Text>
         <Text style={styles.Text16gray}>팀별로 프로필 카드를 관리하세요.</Text>
       </View>
       <View style={styles.container}>
         <View style={styles.row}>
-          {teamData.map((team) => (
+          {data.map((team) => (
             <TeamSpaceList
-              key={team.id}
-              id={team.id}
-              name={team.name}
-              description={team.description}
-              members={team.members}
-              isHost={team.isHost}
-              onGroupPress={handleNext} // 팀스페이스 클릭했을 때 이동
+              key={team.teamId}
+              id={team.teamId}
+              name={team.team_name}
+              description={team.team_comment}
+              isHost={team.hostId === userId}
+              members={team.members || []}
+              onGroupPress={() => handleNext(team.teamId)}
               onDeleteGroup={handleDeleteGroup} // 그룹 삭제
-              onChangeGroupName={handleChangeGroupName} // 이름 변경
+              onChangeGroupName={(newName) => handleChangeGroupName(newName, team.teamId)}  // 이름 변경
               showMenu={true}
             />
           ))}
@@ -119,9 +182,14 @@ function TeamSpace({ navigation }) {
         onClose={() => setIsSpaceModalVisible(false)}
         title={'현재 팀스페이스를 나가시겠습니까?'}
         sub={
-          <Text style={{ textAlign: 'center' }}>
-            호스트가 나가면{'\n'}팀스페이스가 삭제됩니다
-          </Text>
+          // 호스트일 때만
+          groupToDelete ? (
+            data.find(group => group.teamId === groupToDelete)?.hostId === userId ? (
+              <Text style={{ textAlign: 'center' }}>
+                호스트가 나가면{'\n'}팀스페이스가 삭제됩니다
+              </Text>
+            ) : null
+          ) : null
         }
         btn1={'취소할래요'}
         btn2={'네, 삭제할래요'}
@@ -132,7 +200,7 @@ function TeamSpace({ navigation }) {
       <SpaceNameChangeModal
         isVisible={isGroupNameChangeModalVisible}
         onClose={() => setIsGroupNameChangeModalVisible(false)}
-        groupName={selectedGroup ? selectedGroup.name : ''} // 선택된 그룹 이름 전달
+        groupName={newTeamName} // 선택된 그룹 이름 전달
         btn1={'취소하기'}
         btn2={'수정하기'}
         onConfirm={handleUpdateGroupName} // 새로운 이름 반영

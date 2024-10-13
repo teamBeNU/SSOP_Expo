@@ -1,6 +1,7 @@
-import { View, ScrollView, Text, TouchableOpacity, Image, Dimensions } from "react-native";
-import React, { useState } from 'react';
+import { View, ScrollView, Text, TouchableOpacity, Image, Dimensions, Platform } from "react-native";
+import React, { useState, useEffect, useRef } from 'react';
 import "react-native-gesture-handler";
+import ViewShot from "react-native-view-shot";
 
 import { styles } from "./AvatarCustomStyles";
 import AutoAvatarIcon from "../../assets/icons/ic_autoAvatar_small_line.svg";
@@ -8,12 +9,21 @@ import UndoIcon from "../../assets/icons/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
 import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
-import SampleAvatarSvg from "../../assets/avatars/sample-avatar-1.svg";
 
-const { width:SCREEN_WIDTH } = Dimensions.get('window');
+export default function AvatarCustom({setProfileImageUrl}) {
+    const ref = useRef();
+    const [a, setA] = useState('');
 
-export default function AvatarCustom({step: initalStep, onStepChange, avatar, setAvatar}) {
     const [avaIndex, setAvaIndex] = useState(1);
+    const [avatar, setAvatar] = useState({
+        face: 1,
+        hair: 1,
+        hairColor: 1,
+        clothes: 1,
+        acc: 0,
+        bg: 1,
+        bgColor: 1,
+    })
 
     const handleCategory = (id) => {
         setAvaIndex(id);
@@ -27,6 +37,28 @@ export default function AvatarCustom({step: initalStep, onStepChange, avatar, se
         setAvatar((prev => ({...prev, bgColor: id})));
     }
 
+    // 컴포넌트 -> 이미지
+    useEffect(() => {
+        // ref.current.capture().then(uri => {
+        //     console.log("do something with ", uri);
+        //     if(Platform.OS === 'ios') {
+        //         uri = `file://${uri}`;
+        //     }
+        //     setProfileImageUrl(uri);
+        //     });
+        // }, [setProfileImageUrl]);
+
+        // 이미지 확인용
+        ref.current.capture().then(uri => {
+            //     console.log("do something with ", uri);
+            if(Platform.OS === 'ios') {
+                uri = `file://${uri}`;
+            }
+            setProfileImageUrl(uri);
+            setA(uri);
+        });
+    }, [setProfileImageUrl, setA, a, avatar]);
+
     return (
         <View style={styles.container}>
             <View style={styles.avatarContainer}>
@@ -39,7 +71,7 @@ export default function AvatarCustom({step: initalStep, onStepChange, avatar, se
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarAuto}>
-                    <TouchableOpacity style={styles.avatarAutoBtn}>
+                    <TouchableOpacity style={styles.flexDirectionRow}>
                         <AutoAvatarIcon style={styles.autoAvatarIcon} />
                         <Text style={styles.avatarAutoText}>자동생성</Text>
                     </TouchableOpacity>
@@ -49,17 +81,19 @@ export default function AvatarCustom({step: initalStep, onStepChange, avatar, se
                         <RestartIcon />
                     </TouchableOpacity>
                 </View>
-                <View style={styles.avatarView}>
-                    {/* <Image
-                        source={require("../../assets/images/sample-avatar-1.png")} 
-                        resizeMode="contain"
-                        style={styles.avatarImg}
-                    /> */}
-                    <View style={styles.avatarSvg}>
-                        <SampleAvatarSvg width="100%" height="100%" />
+                <ViewShot 
+                    ref={ref} 
+                    options={{ fileName: "card", format: "png", quality: 0.9 }}
+                >
+                    <View style={styles.avatarView}>
+                        <Image
+                            source={require("../../assets/images/sample-avatar-1.png")} 
+                            resizeMode="contain"
+                            style={styles.avatarImg}
+                        />
+                        <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === avatar.bgColor).color}]}></View>
                     </View>
-                    <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === avatar.bgColor).color}]}></View>
-                </View>
+                </ViewShot>
                 
             </View>
             <View style={styles.avatarItemContainer}>
@@ -90,33 +124,27 @@ export default function AvatarCustom({step: initalStep, onStepChange, avatar, se
                         <Text style={avaIndex === 5 ? styles.avatarItemCategoryTextOn : styles.avatarItemCategoryTextOff}>배경</Text>
                     </TouchableOpacity>
                 </View>
-                <View>
+                <ScrollView showsVerticalScrollIndicator={false}>
                     {avaIndex === 1 && (
-                        <ScrollView 
-                            showsVerticalScrollIndicator={true}
-                        >
-                            <View style={styles.avatarItemList}>
-                                {faceItems.map(item => (
-                                    <TouchableOpacity
-                                        key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, face: item.id}))))}
-                                        style={[
-                                            styles.avatarItems, 
-                                            avatar.face === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                        ]}
-                                    >
-                                        <View style={styles.avatarItem}>
-                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
-                                        </View>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                        </ScrollView>
-                    )}  
+                        <View style={styles.avatarItemList}>
+                            {faceItems.map(item => (
+                                <TouchableOpacity
+                                    key={item.id}
+                                    onPress={(() => setAvatar((prev => ({...prev, face: item.id}))))}
+                                    style={[
+                                        styles.avatarItems, 
+                                        avatar.face === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                    ]}
+                                >
+                                    <View style={styles.avatarItem}>
+                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                    </View>    
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    )}
                     {avaIndex === 2 && (
-                        <ScrollView
-                            showsVerticalScrollIndicator={true}
-                        >
+                        <View>
                             <View style={styles.colorChipContainer}>
                                 {hairColors.map(hc => (
                                     <TouchableOpacity 
@@ -139,19 +167,25 @@ export default function AvatarCustom({step: initalStep, onStepChange, avatar, se
                                     >
                                         <View style={styles.avatarItem}>
                                             {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
-                                        </View>
+                                        </View>    
                                     </TouchableOpacity>
                                 ))}
                             </View>
-                        </ScrollView>
+                        </View>
                     )}
                     {avaIndex === 3 && (
-                        <Text>옷</Text>
+                        // <Text>옷</Text>
+                        // 이미지 확인용
+                        <>
+                            <Image 
+                                source={{ uri: a }} 
+                                style={{ width: 200, height: 200 }} 
+                                onError={(e) => console.log('Error loading image: ', e)}
+                            />
+                        </>
                     )}
                     {avaIndex === 4 && (
-                        <ScrollView
-                            showsVerticalScrollIndicator={true}
-                        >
+                        <View>
                             <Text style={styles.avatarItemText}>귀걸이</Text>
                             <View style={styles.avatarItemList}>
                                 {accItems.map(item => (
@@ -165,47 +199,50 @@ export default function AvatarCustom({step: initalStep, onStepChange, avatar, se
                                     >
                                         <View style={styles.avatarItem}>
                                             {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
-                                        </View>
+                                        </View>    
                                     </TouchableOpacity>
                                 ))}
                             </View>
-                        </ScrollView>
+                        </View>
                     )}
                     {avaIndex === 5 && (
-                        <ScrollView
-                            showsVerticalScrollIndicator={true}
-                        >
-                            <Text style={styles.avatarItemText}>배경색</Text>
-                            <View style={styles.colorChipContainer}>
-                                {bgColors.map(bc => (
-                                    <TouchableOpacity 
-                                        key={bc.id}
-                                        onPress={(() => handleBgColor(bc.id))}
-                                        style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
-                                    ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                            <Text style={styles.avatarItemText}>오브젝트</Text>
-                            <View style={styles.avatarItemList}>
-                                {objectItems.map(item => (
-                                    <TouchableOpacity
-                                        key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
-                                        style={[
-                                            styles.avatarItems, 
-                                            avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                        ]}
-                                    >
-                                        <View style={styles.avatarItem}>
-                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
-                                        </View>
-                                    </TouchableOpacity>
-                                ))}
-                            </View>
-                        </ScrollView>
+                        <View>
+                        <Text style={styles.avatarItemText}>배경색</Text>
+                        <View style={styles.colorChipContainer}>
+                            {bgColors.map(bc => (
+                                <TouchableOpacity 
+                                    key={bc.id}
+                                    onPress={(() => handleBgColor(bc.id))}
+                                    style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                        <Text style={styles.avatarItemText}>오브젝트</Text>
+                        <View style={styles.avatarItemList}>
+                            {objectItems.map(item => (
+                                <TouchableOpacity
+                                    key={item.id}
+                                    onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
+                                    style={[
+                                        styles.avatarItems, 
+                                        avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                    ]}
+                                >
+                                    <View style={styles.avatarItem}>
+                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                    </View>    
+                                </TouchableOpacity>
+                            ))}
+                        </View>
+                    </View>
                     )}
-                </View>
+                </ScrollView>
+                {/* <TouchableOpacity onPress={handleNext}>
+                    <Text 
+                        style={[styles.btnNextText, {backgroundColor: "black"}, {padding: 10}, {width: 200}]}>임시 버튼: 다음으로 넘어가기
+                    </Text>
+                </TouchableOpacity> */}
             </View>
         </View>
     );

@@ -1,10 +1,10 @@
-<svg width="204" height="204" viewBox="0 0 204 204" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect opacity="0.3" x="46" y="49" width="112" height="74" rx="8" fill="#FF85CB"/>
-<mask id="mask0_2271_3026" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="46" y="49" width="112" height="74">
-<rect x="46" y="49" width="112" height="74" rx="8" fill="#00C2ED"/>
-</mask>
-<g mask="url(#mask0_2271_3026)">
-<path d="M108.071 94.2711C104.306 97.5542 98.6945 97.5542 94.9286 94.2711L43 49H160L108.071 94.2711Z" fill="#FF85CB"/>
-<path d="M107.086 81.8595C103.885 79.069 99.1153 79.069 95.9143 81.8595L47.0032 124.5H155.997L107.086 81.8595Z" stroke="#FF85CB" stroke-width="3"/>
-</g>
+<svg xmlns="http://www.w3.org/2000/svg" width="172" height="172" viewBox="0 0 172 172" fill="none">
+  <rect opacity="0.3" x="30" y="49" width="112" height="74" rx="8" fill="#FF85CB"/>
+  <mask id="mask0_2402_19339" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="30" y="49" width="112" height="74">
+    <rect x="30" y="49" width="112" height="74" rx="8" fill="#00C2ED"/>
+  </mask>
+  <g mask="url(#mask0_2402_19339)">
+    <path d="M92.0713 94.2711C88.3055 97.5542 82.6945 97.5542 78.9286 94.2711L27 49H144L92.0713 94.2711Z" fill="#FF85CB"/>
+    <path d="M91.0856 81.8595C87.8847 79.069 83.1153 79.069 79.9143 81.8595L31.0032 124.5H139.997L91.0856 81.8595Z" stroke="#FF85CB" stroke-width="3"/>
+  </g>
 </svg>

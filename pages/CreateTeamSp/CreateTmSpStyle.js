@@ -283,7 +283,7 @@ export const styles = StyleSheet.create({
     },
     // 공유하기 버튼, 사진
     shareContainer: {
-        marginTop: 150,
+        marginTop: 68,
         justifyContent: 'center',
         alignItems: 'center',
     },
@@ -299,7 +299,7 @@ export const styles = StyleSheet.create({
         alignSelf: 'center',
         flexShrink: 1,
         paddingVertical: 14.5,
-        marginTop: 33,
+        marginTop: -12,
         height: 48,
         borderRadius: 16,
         borderStyle: 'solid',
@@ -320,7 +320,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 4,
         paddingHorizontal: 24,
         width: 272,
-        height: 151,
+        // height: 151,
         backgroundColor: 'white',
         borderRadius: 8,
     },

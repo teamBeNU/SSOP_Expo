@@ -3,7 +3,7 @@ import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostFanFalse() {
+export default function HostFanFalse({ fanOptional }) {
 
     const [card_genre, setGenre] = useState('');
     const [card_favorite, setFavorite] = useState('');
@@ -19,6 +19,16 @@ export default function HostFanFalse() {
     const favoriteRef = useRef(null);
     const secondRef = useRef(null);
     const reasonRef = useRef(null);
+
+    useEffect(() => {
+        if (fanOptional) {
+            setShowGenre(fanOptional.showGenre);
+            setShowFavorite(fanOptional.showFavorite);
+            setShowSecond(fanOptional.showSecond);
+            setShowReason(fanOptional.showReason);
+        }
+    }, [fanOptional]);
+
     return (
         <View style={{ paddingHorizontal: 16 }}>
             <Text style={styles.title}> 더 자세히 알려주실래요? </Text>

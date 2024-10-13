@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
-import { theme } from "../../theme";
+import { StyleSheet, Dimensions } from "react-native"
+import { theme } from "../../theme"
+
+const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
     mainlayout: {
@@ -380,6 +382,75 @@ export const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: "400",
         textAlign: "center",
-    }
+    },
+    // 드롭다운
+    dropDownContainerZIndex: {
+        marginRight: "63%",
+        zIndex: -1,
+    },
+    dropDownContainerZIndex1: {
+        marginRight: "63%",
+        zIndex: 1,
+    }, 
+    dropDownContainer: {
+        marginRight: "63%",
+        zIndex: 0
+    }, 
+    // 아바타
+    coverTitle: {
+        fontFamily: "PretendardSemiBold",
+        fontSize: 24,
+        fontStyle: "normal",
+        fontWeight: "600",
+        marginTop: 70,
+        textAlign: "center",
+    }, 
+    coverSubTitle: {
+        fontFamily: "Pretendard",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "400",
+        marginTop: 12,
+        marginBottom: 32,
+        textAlign: "center",
+    },
+    coverScrollView: {
+        // justifyContent: 'center',
+        // alignItems: 'center',
+    },
+    coverImg: {
+        width: SCREEN_WIDTH*0.8,
+        height: SCREEN_WIDTH*0.8*1.2,
+        justifyContent: 'center',
+        alignItems: 'center',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
 
+        // 그림자가 안보여서 임시 border
+        borderWidth: 1,
+        borderColor: theme.gray90,
+        borderRadius: 10
+    },
+    circles: {
+        flexDirection: "row",
+        justifyContent: "center",
+        marginTop: 24,
+    },
+    circle: {
+        width: 10,
+        height: 10,
+        borderRadius: 20,
+        marginHorizontal: 5,
+    },
+    activeCircle: {
+        backgroundColor: theme.skyblue,
+    }, 
+    inactiveCircle: {
+        backgroundColor: theme.gray90,
+    },
 })
