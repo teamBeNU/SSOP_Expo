@@ -4,7 +4,7 @@ import "react-native-gesture-handler";
 
 import { styles } from "./MyPageModalStyle"
 
-export default function MyPageModal({modalVisible, setModalVisible, onConfirm, modalTitle, modalText, btn1, btn2, btnMargin}) {
+export default function MyPageModal({modalVisible, setModalVisible, handleBtn1, handleBtn2, modalTitle, modalText, btn1, btn2, btnMargin}) {
     return (
         <View>
             {/* <StatusBar backgroundColor="rgba(0,0,0,0.4)" translucent={true} /> */}
@@ -27,12 +27,12 @@ export default function MyPageModal({modalVisible, setModalVisible, onConfirm, m
                             <View style={styles.Btn}>
                                 <TouchableOpacity
                                     style={styles.btn1}
-                                    onPress={onConfirm}>
+                                    onPress={handleBtn1}>
                                     <Text style={[styles.btn1Text, {marginHorizontal: btnMargin-16}]}>{btn1}</Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                     style={styles.btn2}
-                                    onPress={() => setModalVisible(false)}>
+                                    onPress={handleBtn2}>
                                     <Text style={[styles.btn2Text, {marginHorizontal: btnMargin-16}]}>{btn2}</Text>
                                 </TouchableOpacity>
                             </View>

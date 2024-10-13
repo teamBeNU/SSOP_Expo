@@ -101,8 +101,8 @@ export const styles = StyleSheet.create({
     },
 
     logoutContainer: {
-        marginLeft: 16,
-        paddingVertical: 20,
+        marginVertical: 20,
+        width: '15%'
     },
     logoutText: {
         fontFamily: "PretendardRegular",

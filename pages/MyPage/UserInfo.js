@@ -95,10 +95,15 @@ function UserInfo({navigation}) {
         }
     }
 
-    // 모달 - 취소 버튼 눌렀을 때
-    const handleConfirm = () => {
+    // 모달 - '네, 취소할래요'
+    const handleBtn1 = () => {
         setModalVisible(false);
         navigation.goBack();
+    };
+
+    // 모달 - '마저 변경할래요'
+    const handleBtn2 = () => {
+        setModalVisible(false);
     };
 
     // 생년월일 '/' 자동 추가
@@ -236,7 +241,8 @@ function UserInfo({navigation}) {
                     <MyPageModal 
                         modalVisible={modalVisible}
                         setModalVisible={setModalVisible}
-                        onConfirm={handleConfirm}
+                        handleBtn1={handleBtn1}
+                        handleBtn2={handleBtn2}
                         modalTitle={'정보 변경을 취소하시겠습니까?'}
                         modalText={null}
                         btn1={'네, 취소할래요'}
