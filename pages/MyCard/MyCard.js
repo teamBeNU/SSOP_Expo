@@ -1,47 +1,62 @@
-import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal } from "react-native";
-import { Card } from "../../components/MyCard/Card";
-import { styles } from './MyCardStyle';
-import React, { useState, useLayoutEffect, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useCallback, useLayoutEffect, useState } from 'react';
+import { Alert, Share, Text, TouchableOpacity, View } from "react-native";
+import { styles } from './MyCardStyle';
 
-import MyCardsView from '../../pages/MyCard/MyCardsView.js';
-import EditIcon from '../../assets/icons/ic_edit_small_line.svg';
-import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
-import AddIcon from '../../assets/icons/ic_add_small_line.svg';
-import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
-import DeleteIcon from '../../assets/icons/ic_delete.svg';
-import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
-import SwapIcon from '../../assets/icons/ic_swap_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
+import SwapIcon from '../../assets/icons/ic_swap_regular_line.svg';
+import MyCardsView from '../../pages/MyCard/MyCardsView.js';
   
-import { useNavigation } from '@react-navigation/native';
-import { Colors } from "react-native/Libraries/NewAppScreen";
-import { theme } from "../../theme";
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
 function MyCard() {
-    const { width:SCREEN_WIDTH } = Dimensions.get('window');
-    const CARD_WIDTH = SCREEN_WIDTH * 0.8;
-    const SPACING_FOR_CARD_INSET = SCREEN_WIDTH * 0.1 - 10;
-
-    const [cards, setCards] = useState([]);
-
-    const cardData = [
-        { id: '1', name: 'Card 1' },
-        { id: '2', name: 'Card 2' },
-        { id: '3', name: 'Card 3' },
-    ]
-    const [cardPage, setCardPage] = useState(1);
-    const [hasCard, setHasCard] = useState(true);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [hasCard, setHasCard] = useState(false);
+    const [cardData, setCardData] = useState([]);
     const [moreMenu, setMoreMenu] = useState(false);
-
     const navigation = useNavigation();
 
-    const handleScroll = (event) => {
-        const { contentOffset, layoutMeasurement } = event.nativeEvent;
-        const currentIndex = Math.floor(contentOffset.x / CARD_WIDTH);
-        setCardPage(currentIndex + 1);
-      };
+    const handleDelete = () => {
+        setMoreMenu(false);
+        navigation.navigate('내 카드 삭제', {cardData});
+    };
+
+
+    useFocusEffect(
+        useCallback(() => {
+        const fetchData = async () => {
+          try {
+            const token = await AsyncStorage.getItem('token');
+            if (!token) {
+              Alert.alert('유효하지 않은 토큰입니다.');
+              return;
+            }
+    
+            const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
+    
+            const result = await response.json();
+            setCardData(result);
+            
+            if (result.length === 0) {
+              setHasCard(false);
+            } else {
+              setHasCard(true);
+            }
+          } catch (error) {
+            console.error('Error fetching card data:', error);
+          } 
+        };
+    
+        fetchData();
+        
+        return () => {};
+      }, []));
+
 
     const onShare = async () => {
     try {
@@ -69,7 +84,7 @@ function MyCard() {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity>
-                        <SwapIcon style={{ marginLeft: 8 }} />
+                        <SwapIcon style={{ marginHorizontal: 23, marginVertical: 14}} />
                     </TouchableOpacity>
                 ),
                 headerRight: () => (
@@ -85,11 +100,11 @@ function MyCard() {
         <View style={{flex: 1}}> 
             {hasCard ? (
             <View style={{flex: 1}} >
-                <MyCardsView />
+                <MyCardsView cardData={cardData}/>
                 {moreMenu && (
                     <View style={styles.dropdownMenu}>
-                        <TouchableOpacity onPress={() => ''}>
-                            <Text style={styles.menuItem}>프로필 삭제하기</Text>
+                        <TouchableOpacity onPress={handleDelete}>
+                            <Text style={styles.menuItem}>프로필 편집하기</Text>
                         </TouchableOpacity>
                     </View>
                 )}
