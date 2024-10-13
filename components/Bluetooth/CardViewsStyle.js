@@ -167,6 +167,13 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         letterSpacing: -0.2,
     },
+    noCardMarginTop: {
+        color: theme.gray60,
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -0.2,
+        marginTop: 55
+    },
     newContainer: {
         flexDirection: 'row',
         justifyContent: 'center',

@@ -29,6 +29,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   const [inviteCode, setInviteCode] = useState(null);
   const [cardData, setCardData] = useState([]);
   const [filter, setFilter] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('최신순');
@@ -105,47 +106,34 @@ export default function DetailTeamSpaceScreen({ navigation }) {
     navigation.navigate('필터', { filter, selectedFilters });
   };
 
-  const handleShareButtonPress = () => {
-    setIsModalVisible(true);
-  };
+  useEffect(() => {
+    if (selectedFilters) {
+      applyFilters(selectedFilters);
+    } else {
+      console.log("선택한 필터가 없습니다.");
+    }
+  }, [selectedFilters]);
 
-  const handleDeleteGroup = (id) => {
-    setGroupToDelete(id);
-    setIsSpaceModalVisible(true);
-  };
-
-  const handleConfirmDelete = () => {
-    // groupToDelete에 해당하는 그룹 삭제
-    setTeamData((prevData) => prevData.filter((group) => group.id !== groupToDelete));
-    setGroupToDelete(null);  // 삭제할 그룹 ID 초기화
-    setIsSpaceModalVisible(false);  // 모달 닫기
-    showCustomToast('그룹이 성공적으로 삭제되었어요.');
-  };
-
-  const handleChangeGroupName = () => {
-    setIsGroupNameChangeModalVisible(true);
-  };
-
-  // 복사
-  const copyinviteCode = async () => {
-    const textToCopy = inviteCode;
-    await Clipboard.setStringAsync(textToCopy);
-    Alert.alert("클립보드에 복사되었습니다.");
-  };
-
-  const shareLinkCode = async () => {
+  const applyFilters = async (filters) => {
     try {
-      const isAvailable = await Sharing.isAvailableAsync();
-      if (!isAvailable) {
-        Alert.alert('Sharing is not available on this device');
-        return;
-      }
+      const { card_student_role, card_mbti, card_student_major, card_template } = filters;
 
-      await Sharing.shareAsync('https://naver.com', {
-        dialogTitle: 'SSOP Share TEST',
+      const response = await axios.get(`${baseUrl}/filter/view`, {
+        params: {
+          teamId,
+          role: card_student_role.length > 0 ? card_student_role : undefined,
+          mbti: card_mbti.length > 0 ? card_mbti : undefined,
+          major: card_student_major.length > 0 ? card_student_major : undefined,
+          template: card_template.length > 0 ? card_template : undefined,
+        },
       });
+
+      const filtered = response.data;
+      console.log("필터링된 데이터:", filtered);
+      setFilteredData(filtered);
+            
     } catch (error) {
-      Alert.alert('Error sharing', error.message);
+      console.error("필터링 요청 중 오류 발생:", error);
     }
   };
 
@@ -179,20 +167,21 @@ export default function DetailTeamSpaceScreen({ navigation }) {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
+
       <MySpaceDetailView
         title={data.team_name}
-        members='8 / 150'
+        members={`${data.memberCount || 0} / 150`}
         sub={data.team_comment}
         navigation={navigation}
         hasCards={hasCards}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
-        // viewOption={viewOption}
         setViewOption={setViewOption}
         handleFilterNext={handleFilterNext}
-        cardData={cardData}
+        cardData={filteredData.length > 0 ? filteredData : cardData}
         selectedFilters={selectedFilters}
       />
+
       <SpaceModal
         isVisible={isSpaceModalVisible}
         onClose={() => setIsSpaceModalVisible(false)}
@@ -211,7 +200,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
       />
 
       {/* 하단 버튼 영역 */}
-      <View style={styles.bottomDetailContainer}>
+      {/* <View style={styles.bottomDetailContainer}>
         <TouchableOpacity >
           <Text style={styles.bottomTextBlue} onPress={handleShareButtonPress}>공유</Text>
         </TouchableOpacity>
@@ -219,7 +208,52 @@ export default function DetailTeamSpaceScreen({ navigation }) {
         <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
           <Text style={styles.bottomText}>연락처 저장</Text>
         </TouchableOpacity>
-      </View>
+      </View> */}
     </View>
   );
 }
+
+
+// const handleShareButtonPress = () => {
+//   setIsModalVisible(true);
+// };
+
+// const handleDeleteGroup = (id) => {
+//   setGroupToDelete(id);
+//   setIsSpaceModalVisible(true);
+// };
+
+// const handleConfirmDelete = () => {
+//   // groupToDelete에 해당하는 그룹 삭제
+//   setTeamData((prevData) => prevData.filter((group) => group.id !== groupToDelete));
+//   setGroupToDelete(null);  // 삭제할 그룹 ID 초기화
+//   setIsSpaceModalVisible(false);  // 모달 닫기
+//   showCustomToast('그룹이 성공적으로 삭제되었어요.');
+// };
+
+// const handleChangeGroupName = () => {
+//   setIsGroupNameChangeModalVisible(true);
+// };
+
+// // 복사
+// const copyinviteCode = async () => {
+//   const textToCopy = inviteCode;
+//   await Clipboard.setStringAsync(textToCopy);
+//   Alert.alert("클립보드에 복사되었습니다.");
+// };
+
+// const shareLinkCode = async () => {
+//   try {
+//     const isAvailable = await Sharing.isAvailableAsync();
+//     if (!isAvailable) {
+//       Alert.alert('Sharing is not available on this device');
+//       return;
+//     }
+
+//     await Sharing.shareAsync('https://naver.com', {
+//       dialogTitle: 'SSOP Share TEST',
+//     });
+//   } catch (error) {
+//     Alert.alert('Error sharing', error.message);
+//   }
+// };

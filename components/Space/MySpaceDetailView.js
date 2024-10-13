@@ -152,28 +152,41 @@ const MySpaceDetailView = ({
 
         <View>
           {/* {viewOption === '격자형' && ( */}
-          <View style={[styles.row, styles.container]}>
-            {cardData.map((item) => (
-              <TouchableOpacity key={item.id} style={styles.btn1} onPress={handleNext}>
-                <ShareCard
-                  backgroundColor={item.backgroundColor}
-                  avatar={item.avatar}
-                  card_name={item.memberEssential.card_name} // 카F드 이름
-                  age={item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : '정보 없음'} // 나이
-                  dot=' · '
-                  card_template={
-                    item.memberEssential.card_template === 'student' ? '학생' :
-                      item.memberEssential.card_template === 'worker' ? '직장인' :
-                        item.memberEssential.card_template === 'fan' ? '팬' :
-                          item.memberEssential.card_template === 'free' ? '자유' :
-                            '기타' // 기본값
-                  } />
-              </TouchableOpacity>
-            ))}
+          <View>
+            <View style={[styles.row, styles.container]}>
+              {Array.isArray(cardData) && cardData.length > 0 ? (
+                cardData.map((item) => (
+                  <TouchableOpacity key={item.cardId} style={styles.btn1} onPress={handleNext}>
+                    <ShareCard
+                      backgroundColor={item.backgroundColor}
+                      avatar={item.avatar}
+                      card_name={item.team_name ? item.team_name : item.memberEssential.card_name}
+                      age={item.card_birth ? calculateAge(item.card_birth) : item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : '정보 없음'}
+                      dot=' · '
+                      card_template={
+                        item.template === 'student' ? '학생' :
+                          item.template === 'worker' ? '직장인' :
+                            item.template === 'fan' ? '팬' :
+                              item.template === 'free' ? '자유' :
+                                item.memberEssential.card_template === 'student' ? '학생' :
+                                  item.memberEssential.card_template === 'worker' ? '직장인' :
+                                    item.memberEssential.card_template === 'fan' ? '팬' :
+                                      item.memberEssential.card_template === 'free' ? '자유' :
+                                        '기타' }
+                    />
+                  </TouchableOpacity>
+                ))
+              ) : (
+                <View style={styles.emptyContainer}>
+                  <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
+                </View>
+              )}
+            </View>
           </View>
+
           {/* )} */}
 
-          {viewOption === '리스트형' && (
+          {/* {viewOption === '리스트형' && (
             <View>
               {cardData.map((item) => (
                 <View key={item.id} style={styles.ListContainer}>
@@ -212,7 +225,7 @@ const MySpaceDetailView = ({
                 </View>
               ))}
             </View>
-          )}
+          )} */}
         </View>
         <View style={styles.innerView}></View>
       </View>

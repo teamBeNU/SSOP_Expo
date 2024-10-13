@@ -121,28 +121,28 @@ function TeamSpace({ navigation }) {
   }, [isGroupNameChangeModalVisible, selectedGroup]);
 
 
-  const handleUpdateGroupName = (newName) => {
+  const handleUpdateGroupName = async (newName) => {
 
     const requestData = { team_name: newName };
 
     // 내가 참여한 팀스페이스 목록 API 호출
     const apiUrl = `${baseUrl}/teamsp?teamId=${selectedGroup.teamId}`;
-    axios
-      .patch(apiUrl, requestData, {
+
+    try {
+      const response = await axios.patch(apiUrl, requestData, {
         headers: { Authorization: `Bearer ${token}` },
-      })
-      .then((response) => {
-        setData((prevData) =>
-          prevData.map((group) =>
-            group.teamId === selectedGroup.teamId ? { ...group, team_name: newName } : group
-          )
-        );
-        setIsGroupNameChangeModalVisible(false);
-        showCustomToast('팀스페이스 이름이 수정되었어요.');
-      })
-      .catch((error) => {
-        console.error('팀스페이스 이름 수정 API 요청 에러:', error.response.data);
       });
+
+      setData((prevData) =>
+        prevData.map((group) =>
+          group.teamId === selectedGroup.teamId ? { ...group, team_name: newName } : group
+        )
+      );
+      setIsGroupNameChangeModalVisible(false);
+      showCustomToast('팀스페이스 이름이 수정되었어요.');
+    } catch (error) {
+      console.error('팀스페이스 이름 수정 API 요청 에러:', error.response.data);
+    }
   };
 
   // 팀스페이스 상세 화면으로 이동
@@ -165,7 +165,7 @@ function TeamSpace({ navigation }) {
               name={team.team_name}
               description={team.team_comment}
               isHost={team.hostId === userId}
-              members={team.members || []}
+              members={team.memberCount}
               onGroupPress={() => handleNext(team.teamId)}
               onDeleteGroup={handleDeleteGroup} // 그룹 삭제
               onChangeGroupName={(newName) => handleChangeGroupName(newName, team.teamId)}  // 이름 변경
