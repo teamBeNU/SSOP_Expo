@@ -1,14 +1,15 @@
-import { Dimensions, StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet, Platform, StatusBar } from 'react-native';
 import { theme } from "../../theme";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
-const cardWidth = WIDTH * 0.8;
-const cardHeight = WIDTH * 1.2;
+const MAX_CARD_HEIGHT = HEIGHT * 0.6;
+const cardWidth = WIDTH * 0.84;
+const cardHeight =  Math.min(WIDTH * 1.2, MAX_CARD_HEIGHT);
 
 export const styles = StyleSheet.create({
         container:{
         alignItems: 'center',
-        justifyContent: 'center',
+        justifyContent: 'space-between',
         backgroundColor: 'white',
         flex: 1,
         },
@@ -20,33 +21,30 @@ export const styles = StyleSheet.create({
         lineHeight: 17,
         letterSpacing: -0.14,    
         marginTop: 24,
-        marginBottom: 16,       
+        marginBottom: 16,    
 	},
         cardContainer: {
         height: cardHeight,
         flexDirection: 'row',
         },
-        cardWrapper: {
-        marginHorizontal: 8,
-        },
         verticalLine:{
         width: 1, 
-        height: 20, 
-        backgroundColor: theme.gray95,
+        height: 28, 
+        backgroundColor: theme.gray80,
         },
         btnContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems:'center',
-        width: 304,
-        height: 77,
-        gap: 20,
+        width: WIDTH * 0.84,
+        height: 79,
+        gap: 52,
+        bottom: Platform.OS === 'android' ? HEIGHT-StatusBar.currentHeight-cardHeight-220 : HEIGHT-cardHeight-260,
         marginHorizontal: 28,
-        marginTop: 32,
-        marginBottom: 24,
-        borderRadius: 16,
-        borderWidth: 1,
-        borderColor: theme.gray95
+        paddingVertical: 16,
+        paddingHorizontal: 12,
+        borderRadius: 20,
+        backgroundColor: theme.gray95
         },
         btnText: {
         color: theme.gray20,
@@ -57,7 +55,7 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.14
         },
         btn: {
-        gap: 8,
+        gap: 6,
         justifyContent:'center',
         alignItems: 'center',
         },
@@ -117,8 +115,10 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.32,
         },
         cardScrollView: {
-        height: 436,  
-        marginTop: 56,
+        height: WIDTH * 1.2,  
+        marginTop: 60,
+        paddingHorizontal: 42,
+        alignItems: 'center',
         //ios shadow
         shadowColor: 'rgba(0, 0, 0, 0.08)',
         shadowOffset: { width: 0, height: 1 },
@@ -127,7 +127,12 @@ export const styles = StyleSheet.create({
         //android shadow
         elevation: 4,
         },
-
+        cardWrapper: {
+        width: WIDTH * 0.84,
+        marginHorizontal: -10,
+        justifyContent: 'center',
+        alignItems: 'center'
+        },
         //modal style
         modalContainer: {
         flex: 1,
@@ -150,7 +155,13 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 8,
         justifyContent: 'center',
         alignItems: 'center',
-        position: 'relative'
+        position: 'relative',
+        color: theme.gray10,
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontWeight: '500',
+        lineHeight: 19,
+        letterSpacing: -0.32
         },
         modalContent: {
         paddingVertical: 12,
@@ -169,6 +180,7 @@ export const styles = StyleSheet.create({
         },
         modalFont: {
         fontFamily: 'PretendardRegular',
+        color: theme.gray10,
         fontSize: 16,
         fontWeight: 500,
         letterSpacing: -0.32,
@@ -189,7 +201,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: theme.gray95,
         borderRadius: 16,
-        marginBottom: 90
+        marginBottom: 34
         },
         newCardText:{
         color: theme.gray30,
@@ -199,26 +211,109 @@ export const styles = StyleSheet.create({
         lineHeight: 17,
         letterSpacing: -0.14
         },
+        shareModalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        justifyContent: 'flex-end',
+        },
+        shareModalView: {
+        height: 304,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        },
+        row: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        paddingHorizontal: 16,
+        marginTop: 25,
+        gap: 8
+        },
+        btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
+        width: 160,
+        height: 180,
+        elevation: 5,
+        position: 'relative',
+        borderRadius: 16,
+        backgroundColor: theme.white,
+        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowOffset: {
+                width: 0,
+                height: 2
+        },
+        shadowRadius: 16,
+        shadowOpacity: 1,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
+        elevation: 5,
+        position: 'relative',
+        },
+        Text14: {
+        marginLeft: 16,
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        letterSpacing: -1,
+        },
+        Text16: {
+        fontFamily: "PretendardRegular",
+        fontSize: 16,
+        letterSpacing: -1,
+        },
+        Text18: {
+        marginTop: 20,
+        marginLeft: 16,
+        fontFamily: "PretendardSemiBold",
+        fontSize: 18,
+        letterSpacing: -1,
+        marginBottom: 8,
+        },
+        icon2: { // 블루투스, 링크, 팀스페이스 입장, 생성 아이콘
+        position: 'absolute',
+        bottom: 16,
+        right: 16,
+        width: 80,
+        height: 80,
+        },
 
         dropdownMenu: {
         position: 'absolute',
         top: 0,
         right: 8,
-        backgroundColor: '#fff',
         borderRadius: 16,
         shadowColor: '#000',
         shadowOpacity: 0.05,
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
         paddingVertical: 16,
-        paddingHorizontal: 24
+        paddingHorizontal: 24,
+        borderWidth: 1,
+        borderColor: theme.gray95,
+        backgroundColor: 'white',
+        zIndex: 1
+        },
+        dropdownMenuDetail:{
+        height: 48,
+        justifyContent: 'center',
+        alignItems:'center'
         },
         menuItem: {
         color: theme.gray10,
-        fontFamily: 'PretendaredRegular',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
         lineHeight: 19,
         letterSpacing: -0.32,
         },
+        updateText: {
+        color: theme.gray40,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 17,
+        letterSpacing: -0.14,
+        marginTop: 27
+        }
 });

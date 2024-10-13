@@ -1,0 +1,186 @@
+import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal, Animated, Alert } from "react-native";
+import { Card } from "../../components/MyCard/Card";
+import { styles } from '../../pages/MyCard/MyCardStyle.js';
+import React, { useState, useLayoutEffect, useCallback, useRef, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation, useFocusEffect, Link } from '@react-navigation/native';
+import { useRoute } from '@react-navigation/native';
+import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import SaveIcon from '../../assets/icons/ic_contact_small_line.svg';
+import MemoViewIcon from '../../assets/icons/ic_notes_small_line.svg';
+import AddContact from '../../components/MyCard/AddTel.js';
+
+const SCREEN_WIDTH = Dimensions.get('window').width;
+const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
+const SPACING = -18;
+
+const CheckCardDetail = () => {
+    const scrollX = useRef(new Animated.Value(0)).current;
+    const scrollViewRef = useRef(null);
+    const route = useRoute();
+    const { cardId } = route.params;
+
+    const [cardData, setCardData] = useState([]);
+    const [currentCardIndex, setCurrentCardIndex] = useState(0);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isShareModalVisible, setIsShareModalVisible] = useState(false);
+    const [isRecent, setIsRecent] = useState(false);
+    const [moreMenu, setMoreMenu] = useState(false);
+
+    const navigation = useNavigation();
+
+    const checkIfRecentlyUpdated = (responseTime) => {
+        const responseDate = new Date(responseTime);
+        const currentDate = new Date();
+        const timeDifference = currentDate - responseDate;
+        const differenceInDays = timeDifference / (1000 * 60 * 60 * 24);
+        
+        setIsRecent(differenceInDays <= 7);
+      };
+    
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity onPress={() => setMoreMenu(!moreMenu)}>
+                    <MoreIcon style={{ marginRight: 8 }} />
+                </TouchableOpacity>
+            ),
+        });
+        
+    }, [moreMenu, navigation]);
+
+    const fetchData = async () => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+            if (!token) {
+                Alert.alert('유효하지 않은 토큰입니다.');
+                return;
+            }
+
+            const response = await fetch('http://43.202.52.64:8080/api/card/view/saved', {
+                method: 'GET',
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const result = await response.json();
+            setCardData(result);
+            checkIfRecentlyUpdated(cardData[currentCardIndex].time);
+
+            const cardIndex = result.findIndex(card => card.cardId === cardId);
+            if (cardIndex !== -1) {
+                setCurrentCardIndex(cardIndex);
+                scrollViewRef.current.scrollTo({
+                    x: (CARD_WIDTH + SPACING) * cardIndex,
+                    animated: true,
+                });
+            }
+
+        } catch (error) {
+            console.error('Error fetching card data:', error);
+        }
+    };
+
+    useFocusEffect(
+        useCallback(() => {
+            fetchData();
+        }, [])
+    );
+
+    useEffect(() => {
+        if (cardData.length > 0 && scrollViewRef.current) {
+            const cardIndex = cardData.findIndex(card => card.cardId === cardId);
+
+            if (cardIndex !== -1) {
+                setTimeout(() => {
+                    scrollViewRef.current.scrollTo({
+                        x: (CARD_WIDTH + SPACING) * cardIndex,
+                        animated: true,
+                    });
+                }, 300);
+            }
+        }
+    }, [cardData, cardId]);
+
+    const onScrollEnd = (event) => {
+        const newCardIndex = Math.round(event.nativeEvent.contentOffset.x / (CARD_WIDTH + SPACING));
+        setCurrentCardIndex(newCardIndex);
+    };
+    
+   return (
+     <View style={styles.container}>
+            {moreMenu && (
+                <View style={styles.dropdownMenu}>
+                    <TouchableOpacity onPress={() => ''} style={styles.dropdownMenuDetail}>
+                        <Text style={styles.menuItem}>그룹 이동하기</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={() => ''} style={styles.dropdownMenuDetail}>
+                        <Text style={styles.menuItem}>카드 삭제하기</Text>
+                    </TouchableOpacity>
+                </View>
+            )}
+            {isRecent ? <Text style={styles.updateText}>최근 업데이트 되었어요</Text> : <Text style={styles.updateText}></Text>}
+            <ScrollView
+                ref={scrollViewRef}
+                horizontal={true}
+                vertical={false}
+                showsHorizontalScrollIndicator={false}
+                snapToInterval={CARD_WIDTH + SPACING} 
+                decelerationRate="fast"
+                onScroll={Animated.event(
+                    [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+                    { useNativeDriver: false }
+                )}
+                onMomentumScrollEnd={onScrollEnd}
+                scrollEventThrottle={16} 
+                contentContainerStyle={{...styles.cardScrollView, marginTop: 16} }
+            >
+                {cardData.map((item, index) => {
+                    const inputRange = [
+                        (CARD_WIDTH + SPACING) * (index - 1),
+                        (CARD_WIDTH + SPACING) * index,
+                        (CARD_WIDTH + SPACING) * (index + 1),
+                    ];
+
+                    const scale = scrollX.interpolate({
+                        inputRange,
+                        outputRange: [0.8, 1, 0.8],
+                        extrapolate: 'clamp',
+                    });
+
+                    return (
+                        <Animated.View key={index} style={[styles.cardWrapper, { transform: [{ scale }] }]}>
+                            <Card cardData={item} />
+                        </Animated.View>
+                    );
+                })}
+
+                
+            </ScrollView>
+            
+            <View style={styles.btnContainer}>
+                <View style={styles.btn}>
+                    <TouchableOpacity>
+                        <AddContact phoneNumber={cardData.cardOptional.card_tel} firstName={cardData.cardEssential.card_name} type="icon"/>
+                    </TouchableOpacity>
+                    <Text style={styles.btnText}>연락처 저장</Text>                    
+                </View>
+
+                <View style={styles.verticalLine} />
+
+                <View style={styles.btn}>
+                    <TouchableOpacity>
+                        <MemoViewIcon style={{paddingTop: 5, paddingLeft: 4, paddingBottom: 3, paddingRight: 1.1714}} />
+                    </TouchableOpacity>
+                    <Text style={styles.btnText}>메모하기</Text>
+                </View>
+            </View>
+
+        </View> 
+    );
+  }
+  export default CheckCardDetail;
