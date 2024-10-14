@@ -9,6 +9,7 @@ import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import * as Progress from 'react-native-progress';
 import { theme } from "../../theme";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -20,16 +21,44 @@ function Step1Screen() {
   const navigation = useNavigation(); 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형');
-  const [hasCards, setHasCards] = useState(true);
+  const [hasCards, setHasCards] = useState(true); 
+  const [cardData, setCardData] = useState([]);
 
-  const cardData = [
-    { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
-    { cardId: 1, Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
-    { cardId: 2, Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬', card_introduce: '서울여자대학교 디지털미디어학과 20학번' },
-  ];
+  const fetchCardData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) {
+        console.error('토큰이 없습니다.');
+        return;
+      }
 
-  const title = '블루투스로 보낼 프로필을 선택하세요.'
-  const sub = '공유할 수 있는 카드가 없어요.'
+      const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+      setCardData(result);
+
+      if (result.length > 0) {
+        setHasCards(true);
+      } else {
+        setHasCards(false);
+      }
+    } catch (error) {
+      console.error('카드 데이터를 불러오는 중 오류가 발생했습니다:', error);
+    }
+  };
+
+  // 컴포넌트가 처음 렌더링될 때 데이터 가져오기
+  useEffect(() => {
+    fetchCardData();
+  }, []);
+
+  const title = '블루투스로 보낼 프로필을 선택하세요.';
+  const sub = '공유할 수 있는 카드가 없어요.';
 
   const handleNext = () => {
     navigation.navigate('Step2');
@@ -45,27 +74,26 @@ function Step1Screen() {
         borderWidth={0}
       />
       <View style={styles.shareContainer}>
-      {hasCards ? (
-        <CardsView
-          navigation={navigation}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-          viewOption={viewOption}
-          setViewOption={setViewOption}
-          handleNext={handleNext}
-          cardData={cardData}
-          title={title}
-          showNewCardButton={true}
-        />
-      ) : (
-        <NoCardsView 
-          navigation={navigation}
-          title={title}
-          sub={sub}
-        />
-      )}
+        {hasCards ? (
+          <CardsView
+            navigation={navigation}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+            viewOption={viewOption}
+            setViewOption={setViewOption}
+            handleNext={handleNext}
+            cardData={cardData}
+            title={title}
+            showNewCardButton={true}
+          />
+        ) : (
+          <NoCardsView 
+            navigation={navigation}
+            title={title}
+            sub={sub}
+          />
+        )}
       </View>
-
     </View>
   );
 }
