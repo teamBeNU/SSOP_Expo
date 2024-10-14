@@ -3,6 +3,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Clipboard from 'expo-clipboard';
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Modal } from "react-native";
+import Toast from "react-native-toast-message";
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
@@ -65,6 +66,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     });
 
     const [cardCover, setCardCover] = useState("free");
+
+    const [visibility, setVisibility] = useState({});
 
     const [plus, setPlus] = useState("");
     const [plusList, setPlusList] = useState([]);
@@ -136,9 +139,29 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
         setSelectedRoles(roles);
     };
 
+    const showCustomToast = (text) => {
+        Toast.show({
+            text1: text,
+            type: 'selectedToast',
+            position: 'bottom',
+            visibilityTime: 2000,
+        });
+    };
+
     const handleNext = () => {
         if (step === 1) {
-            setStep(2);
+            const anyStudentVisible = Object.values(student).some(value => value === true);
+            const anyWorkerVisible = Object.values(worker).some(value => value === true);
+            const anyFanVisible = Object.values(fan).some(value => value === true);
+
+            // 하나라도 선택되었는지 확인
+            const anyRoleSelected = selectedRoles.some(role => role.selected);
+
+            if (!anyStudentVisible && !anyWorkerVisible && !anyFanVisible && !anyRoleSelected) {
+                showCustomToast('최소 하나의 질문은 선택해주세요.');
+            } else {
+                setStep(2);
+            }
         } else if (step === 2) {
             // 지금까지 작성한 팀스페이스 정보로 생성
             const requestData = {
