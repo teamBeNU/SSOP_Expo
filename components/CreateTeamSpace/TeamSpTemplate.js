@@ -17,6 +17,7 @@ import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line
 import StudentTemplate from "./StudentTemplate";
 import WorkerTemplate from "./WorkerTemplate";
 import FanTemplate from "./FanTemplate";
+import { cardSampleData,getSampleData } from "../../utils/cardSampleData";
 
 export default function TeamSpTemplate({ navigation, goToOriginal, teamName, teamComment, card_template,
     // 학생
@@ -136,8 +137,17 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
         setSelectedRoles(roles);
     };
 
+    const [sampleData, setSampleData]  = useState({});
+    
     const handleNext = () => {
         if (step === 1) {
+            const data = {
+                ...getSampleData(defaultText, connectText, extraText, student, worker, fan, cardCover, card_template),
+                plus: plusList.filter(item => item.selected).map(item => item.free),
+            };
+    
+            setSampleData(data);
+
             setStep(2);
         } else if (step === 2) {
             // 지금까지 작성한 팀스페이스 정보로 생성
@@ -531,7 +541,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                         <View style={{ height: '100%' }} >
                             <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
                             <View style={styles.cardShadow}>
-                                <Card />
+                                <Card cardData={sampleData}/>
                             </View>
                             <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 

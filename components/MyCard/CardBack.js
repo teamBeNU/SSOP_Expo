@@ -90,14 +90,14 @@ const CardOptional1 = ({cardData}) => {
                 <Text style={styles.topic}>생년월일</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>                         
             </View>
-        ) : (cardData.cardOptional.card_MBTI ? <View style={styles.line} /> : null)}
+        ) : (cardData.cardOptional.card_MBTI ? null : <View style={[styles.line, ]} />)}
         {cardData.cardOptional.card_MBTI ? (
             <View>
             <View style={styles.info}>                             
                 <Text style={styles.topic}>MBTI</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>                         
             </View>
-            <View style={styles.line} />
+            <View style={{...styles.line, marginTop: 24}} />
             </View>
         ) : null}
         </View>
@@ -186,7 +186,7 @@ const CardOptional3 = ({cardData}) => {
 
 const StudentOptional = ({cardData}) => {
     return (
-    <View style={(cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24} : {gap: 24}}>
+    <View style={(cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'}}>
             {cardData.student.card_student_grade ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학번</Text>                             
