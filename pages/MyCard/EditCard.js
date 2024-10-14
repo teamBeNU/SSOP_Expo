@@ -67,7 +67,6 @@ function EditCard() {
             // card_movie: movie,
             // card_hobby: hobby,
             // card_address: address,
-           
         };
     
         switch (card.card_template) {
@@ -140,7 +139,7 @@ function EditCard() {
             setStep(2);
         } else if (step === 2) {
            if (card.card_template === 'studentUniv') setStep(3);
-            // else if (card.card_template === 'studentSchool') setStep(4);
+           else if (card.card_template === 'studentSchool') setStep(4);
             // else if (card.card_template === 'worker') setStep(5);
             // else if (card.card_template === 'fan') setStep(6);
             // else if (card.card_template === 'free') setStep(7);
@@ -476,6 +475,109 @@ function EditCard() {
                 />
                 </View>
                 </View>
+                </ScrollView>
+
+                </View>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
+                <Text style={styles.memoBtnText}>수정완료</Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
+            )}
+
+        {step === 4 && ( // 초중고
+            <KeyboardAvoidingView 
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
+            >
+                <View style={{marginBottom: 120, marginTop: 33}}>
+
+                <Text style={styles.title}>학교 속 나에 대한 정보 수정하기</Text>
+
+                <ScrollView>
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>학교*</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={school}
+                    onChangeText={setSchool}
+                    placeholder= {school ? school : "학교명을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>학년*</Text>
+                <View style={styles.dropDown}>
+                <RNPickerSelect
+                    onValueChange={(value) => setGrade(value)}
+                    value={grade}
+                    items={[
+                    { label: '1학년', value: '1학년', key: '1' },
+                    { label: '2학년', value: '2학년', key: '2' },
+                    { label: '3학년', value: '3학년', key: '3' },
+                    { label: '4학년', value: '4학년', key: '4' },
+                    { label: '5학년', value: '5학년', key: '5' },
+                    { label: '6학년', value: '6학년', key: '6' },
+                    ]}
+                    placeholder={{ label: '학년', value: null }}
+                    useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
+                    style={{
+                        inputIOS: styles.dropDownInput, // iOS 스타일 적용
+                        inputAndroid: styles.dropDownInput, // Android 스타일 적용
+                        iconContainer: styles.dropDownIconContainer, // 아이콘 위치 조정
+                      }}
+                      Icon={() => <DownIcon />} // 드롭다운 화살표 아이콘
+                />
+                </View>
+                </View>
+
+                <View style={styles.line} />
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>학생번호</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={id}
+                    onChangeText={setId}
+                    placeholder={id ? id : "학생 번호를 입력해 주세요. 예) 17번"}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>역할</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={role}
+                    onChangeText={setRole}
+                    placeholder={role ? role : "학급 혹은 학교 내 역할을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>    
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>동아리</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={club}
+                    onChangeText={setClub}
+                    placeholder={club ? club :"소속된 동아리가 있다면 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>   
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>전공</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={major}
+                    onChangeText={setMajor}
+                    placeholder={major ? major : "전공을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+
                 </ScrollView>
 
                 </View>
