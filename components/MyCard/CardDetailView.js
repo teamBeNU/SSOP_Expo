@@ -34,61 +34,74 @@ const CardDetailView = () => {
     const handleBluetoothPress = () => {
         setIsShareModalVisible(false);
         navigation.navigate('내 카드 보내기');
-      };
+    };
     
-      const createLink = async () => {
-        try {
-          const token = await AsyncStorage.getItem('token');
-          const currentCardId = cardData[currentCardIndex].cardId;
-      
-          const response = await fetch('http://43.202.52.64:8080/api/link/create', {
-            method: 'POST',
-            headers: {
-              Authorization: `Bearer ${token}`,
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              cardId: currentCardId,
-              expiryTime: 600,
-            }),
-          });
-      
-          if (!response.ok) {
-            throw new Error('Failed to create link');
-          }
-      
-          const linkData = await response.json();
-          return linkData.link; // Return only the link data
-        } catch (error) {
-          Alert.alert(error.message);
-          return null; // Return null in case of error
+    const createLink = async () => {
+    try {
+        const token = await AsyncStorage.getItem('token');
+        const currentCardId = cardData[currentCardIndex].cardId;
+    
+        const response = await fetch('http://43.202.52.64:8080/api/link/create', {
+        method: 'POST',
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            cardId: currentCardId,
+            expiryTime: 600,
+        }),
+        });
+    
+        if (!response.ok) {
+        throw new Error('Failed to create link');
         }
-      };
+    
+        const linkData = await response.json();
+        return linkData.link; // Return only the link data
+    } catch (error) {
+        Alert.alert(error.message);
+        return null; // Return null in case of error
+    }
+    };
       
-      // Function to handle the link sharing
-      const handleLinkSharePress = async () => {
+    const handleLinkSharePress = async () => {
         setIsShareModalVisible(false);
-      
-        // Call the createLink function to get the link data
-        const link = await createLink();
-      
-        if (link) {
-          const result = await Share.share({
+
+        const result = await Share.share({
             title: `SSOP`, // android 단독
-            message: `SSOP: Share SOcial Profile card`,
-          });
-      
-          if (result.action === Share.sharedAction) {
+            message: `SSOP: Share SOcial Profile card\nhttp://ssop2024.notion.site`,
+        });
+
+        if (result.action === Share.sharedAction) {
             if (result.activityType) {
-              // shared with activity type of result.activityType
+            // shared with activity type of result.activityType
             } else {
-              // shared
+            // shared
             }
-          } else if (result.action === Share.dismissedAction) {
+        } else if (result.action === Share.dismissedAction) {
             // dismissed
-          }
         }
-      };
+
+        // const link = await createLink();
+
+        // if (link) {
+        // const result = await Share.share({
+        //     title: `SSOP`, // android 단독
+        //     message: `SSOP: Share SOcial Profile card`,
+        // });
+
+        // if (result.action === Share.sharedAction) {
+        //     if (result.activityType) {
+        //     // shared with activity type of result.activityType
+        //     } else {
+        //     // shared
+        //     }
+        // } else if (result.action === Share.dismissedAction) {
+        //     // dismissed
+        // }
+        // }
+    };
 
       const handleShare = () => {
         setIsShareModalVisible(true);

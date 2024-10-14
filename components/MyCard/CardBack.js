@@ -63,9 +63,13 @@ export const CardBack = ({cardData}) => {
                     return(
                         <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData}/>
-                        <StudentOptional cardData={cardData}/>
-                        <WorkerOptional cardData={cardData} />
-                        <FanOptional cardData={cardData} />
+
+                        {(cardData.student.card_student_grade === null && cardData.student.card_student_role === null && cardData.student.card_student_club === null && cardData.student.card_student_major === null) ? null : <StudentOptional cardData={cardData}/> }
+
+                        {(cardData.worker.card_worker_position === null && cardData.worker.card_worker_department === null) ? null : <WorkerOptional cardData={cardData} />}                        
+
+                        {(cardData.fan.card_fan_second === null && cardData.fan.card_fan_reason === null) ? null : <FanOptional cardData={cardData} />} 
+
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>   
                     </ScrollView>
@@ -90,7 +94,7 @@ const CardOptional1 = ({cardData}) => {
                 <Text style={styles.topic}>생년월일</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>                         
             </View>
-        ) : (cardData.cardOptional.card_MBTI ? null : <View style={[styles.line, ]} />)}
+        ) : (cardData.cardOptional.card_MBTI ? <View style={[styles.line]} /> : null)}
         {cardData.cardOptional.card_MBTI ? (
             <View>
             <View style={styles.info}>                             
@@ -186,7 +190,7 @@ const CardOptional3 = ({cardData}) => {
 
 const StudentOptional = ({cardData}) => {
     return (
-    <View style={(cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'}}>
+    <View style={((cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'})}>
             {cardData.student.card_student_grade ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학번</Text>                             
