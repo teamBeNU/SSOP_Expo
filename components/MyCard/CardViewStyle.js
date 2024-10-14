@@ -63,7 +63,8 @@ export const styles = StyleSheet.create({
     row: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        justifyContent: 'space-between',
+        //justifyContent: 'space-between',
+        justifyContent: 'flex-start',
     },
     container2: {
     },

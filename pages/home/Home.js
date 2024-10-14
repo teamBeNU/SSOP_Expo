@@ -68,7 +68,7 @@ function Home({navigation}) {
                     </View>
                 </View>
 
-                <TouchableOpacity 
+                {/* <TouchableOpacity 
                 onPress={() => navigation.navigate('로그인')}
                 style={{
                     marginVertical: 16,
@@ -78,7 +78,7 @@ function Home({navigation}) {
                 }}
                 >
                 <Text>로그인 테스트</Text>
-                </TouchableOpacity>  
+                </TouchableOpacity>   */}
                 </View>  
             </View>
         </ScrollView>

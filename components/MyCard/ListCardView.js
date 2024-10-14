@@ -16,7 +16,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
     };
 
     return (
-        <ScrollView horizontal={false} contentContainerStyle={{ width: '100%' }}showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+        <ScrollView horizontal={false} contentContainerStyle={{ width: '100%' }} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <View>
           {deleteMode ? (
           <View>
