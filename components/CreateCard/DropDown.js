@@ -27,6 +27,7 @@ export default function DropDown ({
                 borderWidth: 1,
                 borderColor: isError ? theme.gray90 : theme.red,
                 borderRadius: 16,
+
             }}
             dropDownContainerStyle={{
                 borderWidth: 0,
@@ -40,6 +41,14 @@ export default function DropDown ({
                 shadowOpacity: 0.3,
                 shadowRadius: 12,
                 backgroundColor: '#fff', // 그림자가 보이게 하려면 배경색이 필요
+
+                // 열렸을 때 테두리 색상 적용
+                ...(dropDownOpen && {
+                    marginTop: 4,
+                    borderColor: theme.gray90, 
+                    borderWidth: 1, 
+                    borderRadius: 16,
+                }),
             }}
             textStyle={{    // 선택 되기 전 아이템들
                 color: theme.gray10

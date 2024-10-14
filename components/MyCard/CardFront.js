@@ -1,42 +1,63 @@
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Image } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './CardStyle';
 import { CardSample_student } from './CardSample';
 import AvatarSample from '../../assets/AvatarSample.svg'
+import { calculateAge } from '../../utils/calculateAge';
+import { getColor } from '../../utils/bgColorMapping';
 
-export const CardFront = () => {
-    const cardData = CardSample_student[0];
-    const { card_name, card_birth, card_student_school, card_student_grade, card_introduction } = cardData;
-    
-    const formattedBirthDate = cardData.cardOptional
-    .card_birth 
-    ? `${cardData.cardOptional
-        .card_birth.slice(0, 4)}.${cardData.cardOptional
-        .card_birth.slice(5, 7)}.${cardData.cardOptional
-        .card_birth.slice(8, 10)}`
-    : 'Unknown Date';
+export const CardFront = ({cardData, onFlip}) => {
+    const renderTemplateSpecificInfo = () => {
+        switch (cardData.card_template) {
+            case 'student': //학교 학년 + 전공
+            case 'studentSchool':
+            case 'studentUniv': 
+                return (
+                    <Text style={styles.sub}>
+                        {cardData.student.card_student_school} {cardData.student.card_student_grade} {cardData.student.card_student_major ? cardData.student.card_student_major : null}
+                    </Text>
+                );
+            case 'worker': //회사 직무
+                return (
+                    <Text style={styles.sub}>
+                        {cardData.worker.card_worker_company} {cardData.worker.card_worker_job}
+                    </Text>
+                );
+            case 'fan': //덕질 장르, 최애
+                return (
+                    <Text style={styles.sub}>
+                        {cardData.fan.card_fan_genre} 좋아하는 {cardData.fan.card_fan_first} 팬
+                    </Text>
+                );
+            default:
+                return null;
+        }
+    };
 
-const currentAge = cardData.cardOptional.card_birth ? calculateAge(cardData.cardOptional.card_birth) : 'Unknown';
     return (
-        <View style={{...styles.card, backgroundColor: '#B6E96C'}}>
-            <View style={styles.cardImgArea}>
-                <AvatarSample style={{marginBottom: -36}} />
-            </View>
+        <View style={{...styles.card}}>
+                {cardData.card_cover === 'avatar' ? 
+                <View style={[styles.cardImgArea, { backgroundColor: getColor(cardData.avatar.bgColor)}]}>
+                        
+                </View>
+                :
+                <Image 
+                source={{ uri: cardData.profile_image_url }} 
+                resizeMode="cover"
+                style={styles.cardImgArea}
+                />
+                } 
             <View style={styles.cardTextArea}>
                 <View style={styles.basicInfo}> 
                     <Text style={styles.name}>{cardData.cardEssential.card_name}</Text>
-                    <View style={styles.age}>
-                        <Text style={{color: theme.grey20}}>{currentAge}세</Text>
-                        <Text style={{color: theme.grey50}}>•</Text>
-                        <Text style={{color: theme.grey20}}>
-                        {formattedBirthDate}
+                    {cardData.cardOptional.card_birth ? (
+                        <Text style={styles.age}>
+                            {calculateAge(cardData.cardOptional.card_birth)}
                         </Text>
-                    </View>
+                    ) : null}
                 </View>
-                <Text style={styles.sub}>
-                    {cardData.student.card_student_school} {cardData.student.card_student_grade}
-                </Text>
+                {renderTemplateSpecificInfo()}
                 <Text style={styles.sub2}>
                     {cardData.cardEssential.card_introduction}
                 </Text>
@@ -44,19 +65,3 @@ const currentAge = cardData.cardOptional.card_birth ? calculateAge(cardData.card
         </View>
     );
 };
-
-// 만나이 계산
-function calculateAge(birthDate) {
-    const today = new Date();
-    const [year, month, day] = birthDate.split('/').map(Number);
-
-    let age = today.getFullYear() - year;
-    const monthDiff = today.getMonth() + 1 - month;
-
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < day)) {
-        age--;
-    }
-
-    return age;
-  };
-

@@ -4,18 +4,18 @@ import { styles } from './ShareCardStyle';
 import { useNavigation } from '@react-navigation/native';
 import { RadioButton } from 'react-native-paper';
 import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
-import RadioGrayIcon from '../../assets/icons/ic_radio_check_gray.svg';
+import RadioWhiteIcon from '../../assets/icons/ic_radio_check_white.svg';
 
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 16 * 2 - 12) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
 
-export const ShareCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter }) => {
+export const ShareCard = ({ backgroundColor, avatar, isHost, card_name, age, dot, card_template, filter }) => {
     return (
         <View style={[styles.card, { backgroundColor, width: cardWidth }]}>
             <View style={styles.cardImgArea}>
                 {avatar}
             </View>
-            {host && (
+            {isHost && (
                 <View style={styles.DetailcardHost}>
                     <Text style={styles.DetailcardFilterText}>호스트</Text>
                 </View>
@@ -43,7 +43,7 @@ const CustomCardRadioButton = ({ selected, onPress }) => {
     return (
         <TouchableOpacity onPress={onPress} style={styles.radioContainer}>
             <View style={[styles.radio, selected && styles.radioSelected]}>
-                {selected && <RadioGrayIcon style={styles.radioInner} />}
+                {selected && <RadioWhiteIcon style={styles.radioInner} />}
             </View>
         </TouchableOpacity>
     );

@@ -9,8 +9,8 @@ import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
 
 import BottomSheet from "../../components/CreateCard/BottomSheet";
-import TemplateStudentTeenager from "../../components/CreateCard/TemplateStudentTeenager";
-import TemplateStudentYouth from "../../components/CreateCard/TemplateStudentYouth";
+import TemplateStudentSchool from "../../components/CreateCard/TemplateStudentSchool";
+import TemplateStudentUniv from "../../components/CreateCard/TemplateStudentUniv";
 import TemplateWorker from "../../components/CreateCard/TemplateWorker";
 import TemplateFan from "../../components/CreateCard/TemplateFan";
 import TemplateFree from "../../components/CreateCard/TemplateFree";
@@ -90,11 +90,11 @@ function CreateCard({navigation}) {
                 <View style={{flex:1}}>
                     {card_template === "studentSchool" && (
                         // 학생 - 초중고
-                        <TemplateStudentTeenager navigation={navigation} card_template={card_template} />
+                        <TemplateStudentSchool navigation={navigation} card_template={card_template} />
                     )} 
                     {card_template === "studentUniv" && (
                         // 학생 - 대학(원)
-                        <TemplateStudentYouth navigation={navigation} card_template={card_template} />
+                        <TemplateStudentUniv navigation={navigation} card_template={card_template} />
                     )} 
                     {card_template === "worker" && (
                         // 직장인

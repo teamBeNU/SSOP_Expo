@@ -11,10 +11,9 @@ import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 
 const { height:HEIGHT } = Dimensions.get('window');
 
-function Login({ route }) {
+function Login({ route = {} }) {
     const navigation = useNavigation();
 
-    
     // 로그아웃: 로그인 페이지로 이동 후 좌측 상단(헤더바)에 X 버튼 -> showCloseBtn 사용
     // 탈퇴: 로그인 페이지로 이동 후 모달 띄우기 -> showModal 사용
     const headerHeight = useHeaderHeight();     // 헤더 높이 구하기 (로그아웃 후 로그인 페이지로 올 경우 헤더가 생겨 컴포넌트들이 아래로 밀리는 것을 막기위해 헤더 높이만큼 marginTop을 빼줌)

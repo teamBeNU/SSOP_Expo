@@ -130,6 +130,24 @@ function Notify() {
     fetchNotifications();
   }, []);
 
+  // const fetchNotifications = async () => {
+  //   try {
+  //     const token = await AsyncStorage.getItem('token'); // JWT 토큰을 로컬 저장소에서 가져옴
+  
+  //     const response = await axios.get('http://43.202.52.64:8080/api/notifications', {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+  //       },
+  //     });
+  
+  //     setNotiData(response.data);
+  //     setHasNotify(response.data.length > 0);
+  //   } catch (error) {
+  //     console.error('Error fetching notifications:', error);
+  //     showCustomToast('알림 데이터를 불러오는 중 오류가 발생했습니다.');
+  //   }
+  // };
+
   // 알림 거절 함수
   const handleRefuse = async (notification_id) => {
     try {

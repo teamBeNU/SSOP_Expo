@@ -8,9 +8,21 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         backgroundColor: theme.white
     },
+    editgrouplayout:{      
+        flex: 1,  
+        paddingTop: 24,
+        paddingHorizontal: 16,
+        backgroundColor: theme.white
+    },
     backgroundColor:{
         flex: 1, 
-        backgroundColor: theme.white
+        backgroundColor: theme.gray95
+    },
+    backgroundColor2:{
+        paddingTop: 40, 
+        paddingBottom: 16,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray95
     },
 
     // 정렬
@@ -69,6 +81,10 @@ export const styles = StyleSheet.create({
         letterSpacing: -1,
         paddingLeft: 8,
     },
+    groupWrapper: {
+        flexDirection: 'row', 
+        width: '100%', 
+      },
     peopleGroup: {
         fontSize: 12,
         fontFamily: 'PretendardRegular',
@@ -77,13 +93,13 @@ export const styles = StyleSheet.create({
         marginLeft: 6,
     },
     groupContent: {
+        flex: 1,
         borderRadius: 16,
         backgroundColor: theme.white,
         borderWidth: 1,
         borderColor: theme.gray95,
         paddingVertical: 18.5,
         paddingHorizontal: 16,
-        width: '100%',
         // Android - Shadow
         elevation: 5,
         // IOS - Shadow
@@ -268,7 +284,6 @@ export const styles = StyleSheet.create({
 
     // 상세 팀스페이스
     title: {
-        marginTop: 32,
         letterSpacing: -1,
         textAlign: 'center',
         fontSize: 22,
@@ -335,7 +350,6 @@ export const styles = StyleSheet.create({
         marginBottom: 12,
     },
     leftContainer: {
-        flexDirection: 'row',
         alignItems: 'center',
     },
     personRow: {
@@ -364,8 +378,6 @@ export const styles = StyleSheet.create({
         letterSpacing: -1,
     },
     detailPeople: {
-        marginLeft: 8,
-        marginTop: 24,
         fontSize: 12,
         fontFamily: 'PretendardRegular',
         alignItems: 'center',
@@ -400,7 +412,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 12,
         fontFamily: 'PretendardRegular',
-        borderRadius: 8,
+        borderRadius: 16,
         borderWidth: 1,
         borderColor: theme.gray80, 
         color: theme.gray50,
@@ -411,7 +423,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 12,
         fontFamily: 'PretendardRegular',
-        borderRadius: 8,
+        borderRadius: 16,
         borderWidth: 1,
         borderColor: theme.gray90, 
         color: theme.gray20,
@@ -420,7 +432,7 @@ export const styles = StyleSheet.create({
     selectedElement:{ 
         paddingVertical: 8,
         paddingHorizontal: 12,
-        borderRadius: 8,
+        borderRadius: 16,
         borderWidth: 1,
         borderColor: theme.skyblue,
         color: theme.skyblue,
@@ -558,12 +570,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
     ShareModalView: {
-        paddingVertical: 32,
+        paddingVertical: 29,
         paddingHorizontal: 24,
         width: 272,
-        height: 180,
         backgroundColor: 'white',
-        borderRadius: 8,
+        borderRadius: 16,
     },
     ShareModalText: {
         fontFamily: 'PretendardSemiBold',
@@ -572,29 +583,32 @@ export const styles = StyleSheet.create({
     },
     ShareModalsmallText: {
         marginTop: 12,
-        marginBottom: 35,
+        marginBottom: 13,
         fontFamily: 'PretendardRegular',
         fontSize: 14,
         letterSpacing: -1,
         color: theme.gray60,
+    },
+    line: {
+        borderBottomWidth:1,
+        borderBottomColor: theme.gray90,
+        marginBottom: 27,
     },
 
     // 라디오
     radioContainer: {
         flexDirection: 'row',
         alignItems: 'center',
+        marginBottom: 12,
       },
       radio: {
-        height: 20,
-        width: 20,
+        height: 16,
+        width: 16,
         borderRadius: 12,
-        borderWidth: 2,
+        borderWidth: 1.5,
         borderColor: theme.gray80,
         alignItems: 'center',
         justifyContent: 'center',
-        marginRight: 8,
-        marginLeft: 28,
-        marginTop: 20,
       },
       radioSelected: {
         borderColor: '#7F7F7F',
@@ -620,28 +634,52 @@ export const styles = StyleSheet.create({
         right: 0,
         padding: 20,
         borderTopWidth: 1,
-        borderColor: theme.gray90,
-        backgroundColor: theme.white
+        borderColor: theme.gray95,
+        backgroundColor: theme.white,
+        borderTopRightRadius: 20,
+        borderTopLeftRadius: 20,
     },
     bottomText: {
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
-        color: 'black',
+        color: theme.gray10,
         letterSpacing: -1,
         justifyContent: 'center',
         alignContent: 'center'
     },
-    bottomTextRed: {
+    bottomTextBlue: {
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
-        color: '#CC4646',
+        color: theme.skyblue,
         letterSpacing: -1,
         justifyContent: 'center',
         alignContent: 'center'
     },
 
     bottomLine: {
-        marginLeft: 20,
-        marginRight: 20,
+        marginLeft: 44,
+        marginRight: 44,
+    },
+
+    bottomDetailContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        position: 'absolute',
+        bottom: 16,
+        left: 16,
+        right: 16,
+        padding: 16,
+        borderRadius: 12,
+        backgroundColor: "#FFFFFF",
+        shadowColor: "rgba(73, 81, 100, 0.07)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 12,
+        shadowOpacity: 1,
+        elevation: 1,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)"
     },
 })

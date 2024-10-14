@@ -1,32 +1,28 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, PermissionsAndroid, Platform } from 'react-native';
 import * as Contacts from 'expo-contacts';
+import SaveIcon from '../../assets/icons/ic_contact_small_line.svg';
 
-const AddContact = ({ phoneNumber, firstName }) => {
+const AddContact = ({ phoneNumber, firstName, type }) => {
   const [hasPermission, setHasPermission] = useState(null);
 
+  // 권한 확인 함수
   const checkPermissions = async () => {
     if (Platform.OS === 'android') {
       try {
-        console.log('Requesting READ_CONTACTS permission');
+        // READ_CONTACTS 권한 요청
         const readGranted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.READ_CONTACTS);
-        console.log('READ_CONTACTS granted:', readGranted);
-
-        // console.log('Requesting WRITE_CONTACTS permission');
-        // const writeGranted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_CONTACTS);
-        // console.log('WRITE_CONTACTS granted:', writeGranted);
-        return readGranted === PermissionsAndroid.RESULTS.GRANTED
-        //return readGranted === PermissionsAndroid.RESULTS.GRANTED && writeGranted === PermissionsAndroid.RESULTS.GRANTED;
+        // WRITE_CONTACTS 권한 요청
+        const writeGranted = await PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.WRITE_CONTACTS);
+        
+        return readGranted === PermissionsAndroid.RESULTS.GRANTED && writeGranted === PermissionsAndroid.RESULTS.GRANTED;
       } catch (err) {
         console.warn('Permission request error:', err);
         return false;
       }
     } else {
       try {
-        console.log('Requesting iOS contacts permission');
         const { status: readStatus } = await Contacts.requestPermissionsAsync();
-        console.log('iOS contacts permission status:', readStatus);
-
         return readStatus === 'granted';
       } catch (err) {
         console.warn('iOS permission request error:', err);
@@ -35,10 +31,9 @@ const AddContact = ({ phoneNumber, firstName }) => {
     }
   };
 
+  // 연락처 저장 핸들러
   const handlePress = async () => {
-    console.log('handlePress called');
     const permissionGranted = await checkPermissions();
-    console.log('Permission Granted:', permissionGranted);
     setHasPermission(permissionGranted);
 
     if (permissionGranted) {
@@ -55,30 +50,30 @@ const AddContact = ({ phoneNumber, firstName }) => {
     }
   };
 
+  // 연락처 저장 함수
   const saveContact = async (phoneNumber, firstName) => {
     const contact = {
       [Contacts.Fields.FirstName]: firstName,
-      [Contacts.Fields.LastName]: '',
-      [Contacts.Fields.PhoneNumbers]: [{
-        label: 'mobile',
-        number: phoneNumber,
-      }],
+      [Contacts.Fields.PhoneNumbers]: [{ label: 'mobile', number: phoneNumber }],
     };
 
     try {
-      const contactId = await Contacts.addContactAsync(contact);
+      await Contacts.addContactAsync(contact);
       Alert.alert('성공', '연락처가 성공적으로 추가되었습니다.');
-      console.log('Contact Added:', contact);
     } catch (error) {
       Alert.alert('오류', '연락처를 추가하는 중 오류가 발생했습니다.');
-      console.log('Error Adding Contact:', error);
+      console.error('Error Adding Contact:', error);
     }
   };
 
   return (
     <View>
       <TouchableOpacity onPress={handlePress}>
-        <Text>{phoneNumber}</Text>
+      {type === 'phoneNumber' ? (
+          <Text>{phoneNumber}</Text>
+        ) : (
+          <SaveIcon width={24} height={24} /> // Your icon component here
+        )}
       </TouchableOpacity>
     </View>
   );

@@ -5,13 +5,7 @@ import { theme } from "../../theme";
 
 import { styles } from "./SpaceModalStyle"
 
-export const SpaceModal = ({isVisible, onClose, title, sub, btn1, btn2, toast}) => {
-    
-    const handleBtn2Press = () => {
-        if (typeof toast === 'function') {
-            toast();
-        }
-    };
+export const SpaceModal = ({ isVisible, onClose, onConfirm, title, sub, btn1, btn2, toast }) => {
 
     return (
         <View>
@@ -30,7 +24,7 @@ export const SpaceModal = ({isVisible, onClose, title, sub, btn1, btn2, toast}) 
                                 <Text style={styles.yesText}>{btn1}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.noBtn} onPress={() => {handleBtn2Press(); onClose();}}>
+                                style={styles.noBtn} onPress={() => { onConfirm(); onClose(); }}>
                                 <Text style={styles.noText}>{btn2}</Text>
                             </TouchableOpacity>
                         </View>
@@ -41,9 +35,13 @@ export const SpaceModal = ({isVisible, onClose, title, sub, btn1, btn2, toast}) 
     )
 }
 
-export const SpaceNameChangeModal = ({isVisible, onClose, groupName, btn1, btn2, toast}) => {
-    
-    const [inputName, setInputName] = useState();
+export const SpaceNameChangeModal = ({ isVisible, onClose, groupName, btn1, btn2, onConfirm }) => {
+
+    const [inputName, setInputName] = useState(groupName);
+
+    useEffect(() => {
+        setInputName(groupName); // groupName이 변경될 때마다 inputName 업데이트
+    }, [groupName]);
 
     return (
         <View>
@@ -54,7 +52,7 @@ export const SpaceNameChangeModal = ({isVisible, onClose, groupName, btn1, btn2,
                 onRequestClose={onClose}>
                 <View style={styles.centeredView}>
                     <View style={styles.modalView}>
-                        <TextInput 
+                        <TextInput
                             style={styles.textInput}
                             placeholder={groupName}
                             placeholderTextColor={theme.gray60}
@@ -70,8 +68,14 @@ export const SpaceNameChangeModal = ({isVisible, onClose, groupName, btn1, btn2,
                                 <Text style={styles.yesText}>{btn1}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.noBtn} onPress={onClose}>
-                                <Text style={styles.noText}>{btn2}</Text>
+                                style={styles.noBtn} 
+                                onPress={() => {
+                                    onConfirm(inputName); // 새로운 이름 전달
+                                    onClose(); // 모달 닫기
+                                }}>
+                                <Text style={styles.noText}>
+                                    {btn2}
+                                </Text>
                             </TouchableOpacity>
                         </View>
                     </View>

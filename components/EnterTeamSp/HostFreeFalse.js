@@ -56,33 +56,30 @@ export default function HostFreeFalse() {
 
     // 유형 선택지 버튼
     const studentItems = [
-        { key: 'school', btnName: '학교', isClick: isClick.school, cardValue: card_student_school, setCardValue: setCardStudentSchool },
-        { key: 'grade', btnName: '학년', isClick: isClick.grade, cardValue: card_student_grade, setCardValue: setCardStudentGrade },
-        { key: 'major', btnName: '전공', isClick: isClick.major, cardValue: card_student_major, setCardValue: setCardStudentMajor },
-        { key: 'id', btnName: '학생번호', isClick: isClick.id, cardValue: card_student_id, setCardValue: setCardStudentId },
-        { key: 'club', btnName: '동아리', isClick: isClick.club, cardValue: card_student_club, setCardValue: setCardStudentClub },
-        { key: 'role', btnName: '역할', isClick: isClick.role, cardValue: card_student_role, setCardValue: setCardStudentRole },
-        { key: 'status', btnName: '재학상태', isClick: isClick.status, cardValue: card_student_status, setCardValue: setCardStudentStatus },
+        { key: 'school', name: '학교', isClick: isClick.school, cardValue: card_student_school, setCardValue: setCardStudentSchool },
+        { key: 'grade', name: '학년', isClick: isClick.grade, cardValue: card_student_grade, setCardValue: setCardStudentGrade },
+        { key: 'major', name: '전공', isClick: isClick.major, cardValue: card_student_major, setCardValue: setCardStudentMajor },
+        { key: 'id', name: '학생번호', isClick: isClick.id, cardValue: card_student_id, setCardValue: setCardStudentId },
+        { key: 'club', name: '동아리', isClick: isClick.club, cardValue: card_student_club, setCardValue: setCardStudentClub },
+        { key: 'role', name: '역할', isClick: isClick.role, cardValue: card_student_role, setCardValue: setCardStudentRole },
+        { key: 'status', name: '재학상태', isClick: isClick.status, cardValue: card_student_status, setCardValue: setCardStudentStatus },
     ]
     const workerItems = [
-        { key: 'company', btnName: '회사', isClick: isClick.company, cardValue: card_worker_company, setCardValue: setCardWorkerCompany },
-        { key: 'job', btnName: '직무', isClick: isClick.job, cardValue: card_worker_job, setCardValue: setCardWorkerJob },
-        { key: 'position', btnName: '직위', isClick: isClick.position, cardValue: card_worker_position, setCardValue: setCardWorkerPosition },
-        { key: 'department', btnName: '부서', isClick: isClick.department, cardValue: card_worker_department, setCardValue: setCardWorkerDepartment },
+        { key: 'company', name: '회사', isClick: isClick.company, cardValue: card_worker_company, setCardValue: setCardWorkerCompany },
+        { key: 'job', name: '직무', isClick: isClick.job, cardValue: card_worker_job, setCardValue: setCardWorkerJob },
+        { key: 'position', name: '직위', isClick: isClick.position, cardValue: card_worker_position, setCardValue: setCardWorkerPosition },
+        { key: 'department', name: '부서', isClick: isClick.department, cardValue: card_worker_department, setCardValue: setCardWorkerDepartment },
     ]
     const fanItems = [
-        { key: 'genre', btnName: '덕질장르', isClick: isClick.genre, cardValue: card_fan_genre, setCardValue: setCardFanGenre },
-        { key: 'first', btnName: '최애', isClick: isClick.first, cardValue: card_fan_first, setCardValue: setCardFanFirst },
-        { key: 'second', btnName: '차애', isClick: isClick.second, cardValue: card_fan_second, setCardValue: setCardFanSecond },
-        { key: 'reason', btnName: '입덕계기', isClick: isClick.reason, cardValue: card_fan_reason, setCardValue: setCardFanReason },
+        { key: 'genre', name: '덕질장르', isClick: isClick.genre, cardValue: card_fan_genre, setCardValue: setCardFanGenre },
+        { key: 'first', name: '최애', isClick: isClick.first, cardValue: card_fan_first, setCardValue: setCardFanFirst },
+        { key: 'second', name: '차애', isClick: isClick.second, cardValue: card_fan_second, setCardValue: setCardFanSecond },
+        { key: 'reason', name: '입덕계기', isClick: isClick.reason, cardValue: card_fan_reason, setCardValue: setCardFanReason },
     ]
 
     return (
         <View>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
-                <Text style={[styles.title, styles.paddingH16]}> 더 자세히 알려주실래요? </Text>
-                <Text style={[styles.subtitle, styles.paddingH16]}> 정보를 더 추가할 수 있어요. </Text>
-
                 <View style={[styles.selectContaienr, styles.paddingH16]}>
                     <View style={[styles.selectBtnContainer, isClick.student ? styles.paddignB24 : styles.paddignB0]}>
                         <TouchableOpacity
@@ -102,7 +99,7 @@ export default function HostFreeFalse() {
                                     <SelectBtn
                                         key={item.key}
                                         itemKey={item.key}
-                                        btnName={item.btnName}
+                                        name={item.name}
                                         isClick={item.isClick}
                                         setIsClick={setIsClick}
                                     />
@@ -128,7 +125,7 @@ export default function HostFreeFalse() {
                                     <SelectBtn
                                         key={item.key}
                                         itemKey={item.key}
-                                        btnName={item.btnName}
+                                        name={item.name}
                                         isClick={item.isClick}
                                         setIsClick={setIsClick}
                                     />
@@ -154,7 +151,7 @@ export default function HostFreeFalse() {
                                     <SelectBtn
                                         key={item.key}
                                         itemKey={item.key}
-                                        btnName={item.btnName}
+                                        name={item.name}
                                         isClick={item.isClick}
                                         setIsClick={setIsClick}
                                     />
@@ -173,7 +170,7 @@ export default function HostFreeFalse() {
                                         null :
                                         <SelectTextInput
                                             key={item.key}
-                                            btnName={item.btnName}
+                                            name={item.name}
                                             cardValue={item.cardValue}
                                             setCardValue={item.setCardValue}
                                         />
@@ -184,7 +181,7 @@ export default function HostFreeFalse() {
 
                                     <SelectTextInput
                                         key={item.key}
-                                        btnName={item.btnName}
+                                        name={item.name}
                                         cardValue={item.cardValue}
                                         setCardValue={item.setCardValue}
                                     />
@@ -194,7 +191,7 @@ export default function HostFreeFalse() {
                                 item.isClick && (
                                     <SelectTextInput
                                         key={item.key}
-                                        btnName={item.btnName}
+                                        name={item.name}
                                         cardValue={item.cardValue}
                                         setCardValue={item.setCardValue}
                                     />

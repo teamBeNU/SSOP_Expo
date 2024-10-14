@@ -280,7 +280,6 @@ export default function TemplateFan ({navigation, card_template}) {
         } else if (step === 5 ) {
             setStep(6);
         } else if (step === 6 ) {
-            console.log(card_cover);
             if(card_cover === "avatar") {   // card cover가 avatar인 경우
                 setStep(7);
             } else if (card_cover === "picture" && profile_image_url) { // card cover가 picture 인 경우(step 7이 없음)
