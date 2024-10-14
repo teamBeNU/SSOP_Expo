@@ -42,6 +42,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const [token, setToken] = useState(null);
 
     const [step, setStep] = useState(1);
+    const [requestData, setRequestData] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
     // step1
     const [defaultText, setDefaultText] = useState({
@@ -66,9 +67,6 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     });
 
     const [cardCover, setCardCover] = useState("free");
-
-    const [visibility, setVisibility] = useState({});
-
     const [plus, setPlus] = useState("");
     const [plusList, setPlusList] = useState([]);
     const [plusLength, setPlusLength] = useState(0);
@@ -160,54 +158,60 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
             if (!anyStudentVisible && !anyWorkerVisible && !anyFanVisible && !anyRoleSelected) {
                 showCustomToast('최소 하나의 질문은 선택해주세요.');
             } else {
-                setStep(2);
-            }
+                try {
+                    const newRequestData = {
+                        team_name: teamName,
+                        team_comment: teamComment,
+                        isTemplate: true,
+                        template: card_template,
+                        showAge: defaultText.showAge,
+                        showBirth: defaultText.showBirth,
+                        showMBTI: defaultText.showMBTI,
+                        showTel: connectText.showTel,
+                        showEmail: connectText.showEmail,
+                        showInsta: connectText.showInsta,
+                        showX: connectText.showX,
+                        // 학생 템플릿
+                        studentOptional: {
+                            showSchool: student.showSchool,
+                            showGrade: student.showGrade,
+                            showStudNum: student.showStudNum,
+                            showMajor: student.showMajor,
+                            showClub: student.showClub,
+                            showRole: selectedRoles,
+                            showStatus: student.showStatus
+                        },
+                        // 직장인 템플릿
+                        workerOptional: {
+                            showCompany: worker.showCompany,
+                            showJob: worker.showJob,
+                            showPosition: worker.showPosition,
+                            showPart: worker.showPart
+                        },
+                        // 팬 템플릿
+                        fanOptional: {
+                            showGenre: fan.showGenre,
+                            showFavorite: fan.showFavorite,
+                            showSecond: fan.showSecond,
+                            showReason: fan.showReason
+                        },
+                        showHobby: extraText.showHobby,
+                        showMusic: extraText.showMusic,
+                        showMovie: extraText.showMovie,
+                        showAddress: extraText.showAddress,
+                        plus: plusList.filter(item => item.selected).map(item => item.free),
+                        cardCover: cardCover
+                    };
+    
+                    console.log(newRequestData); // 콘솔 로그를 여기로 이동
+                    // 상태에 저장
+                    setRequestData(newRequestData);
+                    // setStep(2); // Step 2로 이동
+                } catch (error) {
+                    console.error('newRequestData 생성 중 에러:', error);
+                }
+            }    
         } else if (step === 2) {
-            // 지금까지 작성한 팀스페이스 정보로 생성
-            const requestData = {
-                team_name: teamName,
-                team_comment: teamComment,
-                isTemplate: true,
-                template: card_template,
-                showAge: defaultText.showAge,
-                showBirth: defaultText.showBirth,
-                showMBTI: defaultText.showMBTI,
-                showTel: connectText.showTel,
-                showEmail: connectText.showEmail,
-                showInsta: connectText.showInsta,
-                showX: connectText.showX,
-                // 학생 템플릿
-                studentOptional: {
-                    showSchool: student.showSchool,
-                    showGrade: student.showGrade,
-                    showStudNum: student.showStudNum,
-                    showMajor: student.showMajor,
-                    showClub: student.showClub,
-                    showRole: selectedRoles,
-                    showStatus: student.showStatus
-                },
-                // 직장인 템플릿
-                workerOptional: {
-                    showCompany: worker.showCompany,
-                    showJob: worker.showJob,
-                    showPosition: worker.showPosition,
-                    showPart: worker.showPart
-                },
-                // 팬 템플릿
-                fanOptional: {
-                    showGenre: fan.showGenre,
-                    showFavorite: fan.showFavorite,
-                    showSecond: fan.showSecond,
-                    showReason: fan.showReason
-                },
-                showHobby: extraText.showHobby,
-                showMusic: extraText.showMusic,
-                showMovie: extraText.showMovie,
-                showAddress: extraText.showAddress,
-                plus: plusList.filter(item => item.selected).map(item => item.free),
-                cardCover: cardCover
-            };
-
             // 팀스페이스 생성 API 호출
             const apiUrl = `${baseUrl}/teamsp/create`;
             axios
@@ -554,7 +558,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                         <View style={{ height: '100%' }} >
                             <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
                             <View style={styles.cardShadow}>
-                                <Card />
+                                <Card cardData={requestData} />
                             </View>
                             <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 
