@@ -251,4 +251,3 @@ const MySpaceDetailView = ({
 };
 
 export default MySpaceDetailView;
-

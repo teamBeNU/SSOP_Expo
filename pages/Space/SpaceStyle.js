@@ -663,15 +663,19 @@ export const styles = StyleSheet.create({
         marginLeft: 44,
         marginRight: 44,
     },
+    bottomLine2: {
+        marginLeft: 16,
+        marginRight: 16,
+    },
 
     bottomDetailContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 16,
-        left: 16,
-        right: 16,
-        padding: 16,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        paddingVertical: 21.5,
         borderRadius: 12,
         backgroundColor: "#FFFFFF",
         shadowColor: "rgba(73, 81, 100, 0.07)",

@@ -26,6 +26,12 @@ import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
+import Contact from '../../assets/icons/ic_contact_small_line.svg';
+import Edit from '../../assets/icons/ic_edit.svg';
+import FolderMove from '../../assets/icons/ic_folder-move.svg';
+import Swap from '../../assets/icons/ic_swap.svg';
+import Trash from '../../assets/icons/ic_trash.svg';
+
 
 import { theme } from "../../theme.js";
 
@@ -70,14 +76,9 @@ function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, tit
   );
 }
 
-    const cardData = [
-      { id: '1', Component: ShareCard, backgroundColor: '#CFEAA3', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      { id: '2', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample2 />, card_name: '이사나', age: '23세', dot: '·', card_template: '학생' },
-      { id: '3', Component: ShareCard, backgroundColor: '#FFD079', avatar: <AvatarSample1 />, card_name: '이호영', age: '21세', dot: '·', card_template: '직장인' },
-      { id: '4', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 />, card_name: '임지니', age: '22세', dot: '·', card_template: '팬' },
-      { id: '5', Component: ShareCard, backgroundColor: '#87A5F2', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-      { id: '6', Component: ShareCard, backgroundColor: '#78D7BE', avatar: <AvatarSample1 />, card_name: '김사라', age: '23세', dot: '·', card_template: '직장인' },
-    ];
+const cardData = [
+
+];
 
 // 그룹 상세
 function DetailSpaceGroup({ navigation }) {
@@ -140,14 +141,17 @@ function DetailSpaceGroup({ navigation }) {
           />
           {/* 하단 버튼 영역 */}
           <View style={styles.bottomDetailContainer}>
+            <Edit style={{marginRight: 6}}/>
             <TouchableOpacity onPress={() => navigation.navigate('카드 관리')}>
               <Text style={styles.bottomText}>카드 관리</Text>
             </TouchableOpacity>
-            <BottomLineIcon style={styles.bottomLine} />
+            <BottomLineIcon style={styles.bottomLine2} />
+            <Contact style={{marginRight: 6}}/>
             <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
               <Text style={styles.bottomTextBlue}>연락처 저장</Text>
             </TouchableOpacity>
-            <BottomLineIcon style={styles.bottomLine} />
+            <BottomLineIcon style={styles.bottomLine2} />
+            <Swap style={{marginRight: 6}}/>
             <TouchableOpacity onPress={() => setIsModalVisible(true)}>
               <Text style={styles.bottomText}>카드 교환</Text>
             </TouchableOpacity>
@@ -271,6 +275,7 @@ function DetailSpaceGroup({ navigation }) {
           </ScrollView>
         </View>
         <View style={styles.bottomContainer}>
+          <Contact style={{marginRight: 6}}/>
           <TouchableOpacity onPress={handleSaveTel}>
             <Text style={styles.bottomText}>연락처 저장</Text>
           </TouchableOpacity>
@@ -371,10 +376,12 @@ function DetailSpaceGroup({ navigation }) {
             </ScrollView>
           </View>
           <View style={styles.bottomContainer}>
+            <FolderMove style={{marginRight: 6}}/>
             <TouchableOpacity onPress={() => navigation.navigate('그룹 이동')}>
               <Text style={styles.bottomText}>그룹 이동</Text>
             </TouchableOpacity>
             <BottomLineIcon style={styles.bottomLine}/>
+            <Trash style={{marginRight: 6}}/>
             <TouchableOpacity onPress={handleDeleteCard}>
               <Text style={styles.bottomText}>삭제</Text>
             </TouchableOpacity>
