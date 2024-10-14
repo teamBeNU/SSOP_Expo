@@ -106,8 +106,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
 
   // 지정 템플릿 목록 API 호출
   const templateView = () => {
-    // const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
-    const apiUrl = `${baseUrl}/teamsp?teamId=81`;
+    const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
+    // const apiUrl = `${baseUrl}/teamsp?teamId=81`;
     axios
       .get(apiUrl)
       .then((response) => {
@@ -206,8 +206,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
             card_fan_reason: fanOptional?.card_reason || null
           }
         }
-        // const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
-        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=81`;
+        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
+        // const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=81`;
 
         axios
           .post(apiUrl, { member: requestData }, {
@@ -685,7 +685,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
 
                 {/* 자유 질문 */}
                 <>
-                  {plus.map((item, index) => {
+                  {plus?.map((item, index) => {
                     const cardValues = [
                       card_free_A1, card_free_A2, card_free_A3, card_free_A4, card_free_A5
                     ];
@@ -698,7 +698,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
 
                     return (
                       <View key={index} style={styles.nameContainer}>
-                        <Text style={styles.nameBold}>{item} <Text style={styles.nameBold}> *</Text></Text>
+                        <Text style={styles.nameBold}>
+                          {item} <Text style={styles.nameBold}> *</Text>
+                        </Text>
                         <TextInput
                           style={styles.nameInput}
                           placeholder={`${item}을(를) 입력해주세요`}
@@ -709,7 +711,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                         />
                       </View>
                     );
-                  })}
+                  }) || null}
                 </>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
@@ -780,7 +782,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                   </TouchableOpacity>
                 )}
                 {card_cover === "picture" && (
-                  <TouchableOpacity style={styles.btnNext} onPress={()=> handleImagePicker()}>
+                  <TouchableOpacity style={styles.btnNext} onPress={() => handleImagePicker()}>
                     <Text style={styles.btnText}> 사진 선택하기 </Text>
                   </TouchableOpacity>
                 )}
@@ -789,11 +791,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
           )}
 
           {step === 8 && (
-              <View style={{marginLeft: -16, marginTop: -16}}>
-                  {card_cover === "avatar" && (
-                      <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
-                  )}
-              </View>
+            <View style={{ marginLeft: -16, marginTop: -16 }}>
+              {card_cover === "avatar" && (
+                <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
+              )}
+            </View>
           )}
 
           {/* 팀스페이스 입장 완료 */}

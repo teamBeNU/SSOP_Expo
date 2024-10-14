@@ -31,8 +31,6 @@ export default function HostFanFalse({ fanOptional }) {
 
     return (
         <View style={{ paddingHorizontal: 16 }}>
-            <Text style={styles.title}> 더 자세히 알려주실래요? </Text>
-            <Text style={styles.subtitle}> 정보를 더 추가할 수 있어요. </Text>
 
             {/* 덕질 장르 */}
             {!showGenre && (
