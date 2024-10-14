@@ -119,7 +119,7 @@ function Step2Screen({ navigation }) {
         return;
       }
 
-      await Sharing.shareAsync('https://naver.com', {
+      await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=25', {
         dialogTitle: 'SSOP Share TEST',
       });
     } catch (error) {
