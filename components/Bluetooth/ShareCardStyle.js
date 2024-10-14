@@ -119,7 +119,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         top: 11, // Adjust as needed
         left: 11, // Adjust as needed
-        backgroundColor: 'white',
+        backgroundColor: 'rgba(33, 33, 33, 0.80)',
         paddingVertical: 4,
         paddingHorizontal: 6,
         alignSelf: 'flex-start',
@@ -129,11 +129,10 @@ export const styles = StyleSheet.create({
         marginRight: 8,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: theme.white,
     },
     DetailcardFilterText: {
         fontFamily: "PretendardRegular",
-        color: theme.gray10,
+        color: theme.white,
         fontSize: 12,
         letterSpacing: -0.5,
     },

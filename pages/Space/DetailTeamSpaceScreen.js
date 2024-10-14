@@ -10,6 +10,8 @@ import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
 import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
+import Contact from '../../assets/icons/ic_contact_small_line.svg';
+import Share from '../../assets/icons/ic_share_small_line.svg';
 
 // 상세 팀스페이스
 export default function DetailTeamSpaceScreen({ navigation }) {
@@ -19,6 +21,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   // 각각의 값 가져오기
   const teamId = params.teamId;
   const selectedFilters = params.selectedFilters;
+  const onDataChange = params.onDataChange; 
 
   // console.log("받아온 teamId:", teamId);
 
@@ -29,6 +32,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   const [inviteCode, setInviteCode] = useState(null);
   const [cardData, setCardData] = useState([]);
   const [filter, setFilter] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('최신순');
@@ -81,6 +85,12 @@ export default function DetailTeamSpaceScreen({ navigation }) {
           console.log("필터목록: ", response.data.filter);
           // console.log('참여 멤버 목록:', response.data.members);
           // console.log("전체 데이터: ", response.data);
+
+          // DrtailTeamSpace.jsx로 데이터 전달
+          if (onDataChange) {
+            onDataChange(response.data.hostId);
+          }
+
         })
         .catch((error) => {
           console.error('참여 멤버 목록 API 요청 에러:', error);
@@ -104,6 +114,38 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   const handleFilterNext = () => {
     navigation.navigate('필터', { filter, selectedFilters });
   };
+
+  useEffect(() => {
+    if (selectedFilters) {
+      applyFilters(selectedFilters);
+    } else {
+      console.log("선택한 필터가 없습니다.");
+    }
+  }, [selectedFilters]);
+
+  const applyFilters = async (filters) => {
+    try {
+      const { card_student_role, card_mbti, card_student_major, card_template } = filters;
+
+      const response = await axios.get(`${baseUrl}/filter/view`, {
+        params: {
+          teamId,
+          role: card_student_role.length > 0 ? card_student_role : undefined,
+          mbti: card_mbti.length > 0 ? card_mbti : undefined,
+          major: card_student_major.length > 0 ? card_student_major : undefined,
+          template: card_template.length > 0 ? card_template : undefined,
+        },
+      });
+
+      const filtered = response.data;
+      console.log("필터링된 데이터:", filtered);
+      setFilteredData(filtered);
+
+    } catch (error) {
+      console.error("필터링 요청 중 오류 발생:", error);
+    }
+  };
+
 
   const handleShareButtonPress = () => {
     setIsModalVisible(true);
@@ -137,12 +179,12 @@ export default function DetailTeamSpaceScreen({ navigation }) {
     try {
       const isAvailable = await Sharing.isAvailableAsync();
       if (!isAvailable) {
-        Alert.alert('Sharing is not available on this device');
+        Alert.alert('링크를 공유할 수 없습니다.');
         return;
       }
 
-      await Sharing.shareAsync('https://naver.com', {
-        dialogTitle: 'SSOP Share TEST',
+      await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=4', {
+        dialogTitle: '네 세계에 쏩 빠지다, SSOP 카드로 서로에게 스며들다',
       });
     } catch (error) {
       Alert.alert('Error sharing', error.message);
@@ -179,20 +221,24 @@ export default function DetailTeamSpaceScreen({ navigation }) {
           </View>
         </TouchableWithoutFeedback>
       </Modal>
+
       <MySpaceDetailView
         title={data.team_name}
-        members='8 / 150'
+        members={`${data.memberCount || 0} / 150`}
         sub={data.team_comment}
+        isHost={data.hostId === userId}
+        userId={userId}
         navigation={navigation}
         hasCards={hasCards}
         selectedOption={selectedOption}
         setSelectedOption={setSelectedOption}
-        // viewOption={viewOption}
+        viewOption={viewOption}
         setViewOption={setViewOption}
         handleFilterNext={handleFilterNext}
-        cardData={cardData}
+        cardData={filteredData.length > 0 ? filteredData : cardData}
         selectedFilters={selectedFilters}
       />
+
       <SpaceModal
         isVisible={isSpaceModalVisible}
         onClose={() => setIsSpaceModalVisible(false)}
@@ -212,11 +258,13 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
       {/* 하단 버튼 영역 */}
       <View style={styles.bottomDetailContainer}>
-        <TouchableOpacity >
-          <Text style={styles.bottomTextBlue} onPress={handleShareButtonPress}>공유</Text>
+        <Share/>
+        <TouchableOpacity style={{marginLeft: 6}}>
+          <Text style={styles.bottomText} onPress={handleShareButtonPress}>카드 공유</Text>          
         </TouchableOpacity>
         <BottomLineIcon style={styles.bottomLine} />
-        <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
+        <Contact/>
+        <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')} style={{marginLeft: 6}}>
           <Text style={styles.bottomText}>연락처 저장</Text>
         </TouchableOpacity>
       </View>

@@ -26,39 +26,64 @@ const Stack = createStackNavigator();
 export default function DetailTeamSpace() {
   const navigation = useNavigation();
   const route = useRoute();
-  const { teamId } = route.params
+  const params = route.params || {};
+
+  // 각각의 값 가져오기
+  const teamId = params.teamId;
+  const userId = params.userId;
+
+  const [hostId, setHostId] = useState(null);
+
+  const handleDataChange = (data) => {
+    setHostId(data);
+  };
 
   return (
     <Stack.Navigator>
-      <Stack.Screen name="DetailTeamSpace"
+      <Stack.Screen
+        name="DetailTeamSpace"
         component={DetailTeamSpaceScreen}
-        initialParams={{ teamId }}
-        options={{
-          title: "",
-          tabBarStyle: { display: 'none' },
-          headerStyle: {
-            backgroundColor: theme.gray95, 
-          },
-          headerShadowVisible: false,
-          headerLeft: ({ onPress }) => (
-            <TouchableOpacity onPress={onPress}>
-              <LeftArrowIcon style={{ marginLeft: 8 }} />
-            </TouchableOpacity>
-          ),
-          headerRight: () => (
-            <View style={{ flexDirection: 'row' }}>
-              <TouchableOpacity><SearchIcon /></TouchableOpacity>
-              <TouchableOpacity>
-                <Menu>
-                  <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
-                  <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                    <MenuOption text='팀스페이스 나가기' />
-                  </MenuOptions>
-                </Menu>
+        initialParams={{ teamId, onDataChange: handleDataChange }}
+        options={({ route }) => {
+          const isHost = hostId === userId;
+
+          return {
+            title: "",
+            tabBarStyle: { display: 'none' },
+            headerStyle: {
+              backgroundColor: theme.gray95,
+            },
+            headerShadowVisible: false,
+            headerLeft: ({ onPress }) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8 }} />
               </TouchableOpacity>
-            </View>
-          ),
-        }} />
+            ),
+            headerRight: () => (
+              <View style={{ flexDirection: 'row' }}>
+                <TouchableOpacity><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity>
+                  <Menu>
+                    <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
+                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
+                      {isHost && (
+                        <>
+                          <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스명 변경하기' />
+                          <MenuOption style={{ marginBottom: 10.5 }}  text='팀스페이스 삭제하기'/>
+                        </>
+                      )}
+                      {!isHost &&
+                        <MenuOption text='팀스페이스 나가기' />
+                      }
+                    </MenuOptions>
+                  </Menu>
+                </TouchableOpacity>
+              </View>
+            ),
+          };
+        }}
+      />
+
       <Stack.Screen name="필터" component={Filter}
         initialParams={{ teamId }}
         options={{
@@ -91,8 +116,8 @@ function Filter() {
 
   const params = route.params || {};
   const filter = params.filter || {
-    card_role: [],
-    card_major: [],
+    card_student_role: [],
+    card_student_major: [],
     card_mbti: [],
     card_template: [],
   };
@@ -108,8 +133,8 @@ function Filter() {
   };
 
   const [selected, setSelected] = useState({
-    card_role: {},
-    card_major: {},
+    card_student_role: {},
+    card_student_major: {},
     card_mbti: {},
     card_template: {},
   });
@@ -121,13 +146,13 @@ function Filter() {
   // 필터 초기화 및 선택된 값 설정
   const initializeSelection = (receivedFilter) => {
     const initialSelection = {
-      card_role: {},
-      card_major: {},
+      card_student_role: {},
+      card_student_major: {},
       card_mbti: {},
       card_template: {},
     };
 
-    ['card_role', 'card_major', 'card_mbti', 'card_template'].forEach(key => {
+    ['card_student_role', 'card_student_major', 'card_mbti', 'card_template'].forEach(key => {
       if (receivedFilter[key]) {
         receivedFilter[key].forEach(item => {
           // selectedFilters에서 선택된 값이 있으면 true로 설정
@@ -152,8 +177,8 @@ function Filter() {
   // 모든 항목 리셋 핸들러
   const handleReset = () => {
     setSelected({
-      card_role: {},
-      card_major: {},
+      card_student_role: {},
+      card_student_major: {},
       card_mbti: {},
       card_template: {},
     });
@@ -162,8 +187,8 @@ function Filter() {
   const handleFilterNext = () => {
     // 선택된 필터값 가져오기
     const selectedFilters = {
-      card_role: Object.keys(selected.card_role).filter((key) => selected.card_role[key]),
-      card_major: Object.keys(selected.card_major).filter((key) => selected.card_major[key]),
+      card_student_role: Object.keys(selected.card_student_role).filter((key) => selected.card_student_role[key]),
+      card_student_major: Object.keys(selected.card_student_major).filter((key) => selected.card_student_major[key]),
       card_mbti: Object.keys(selected.card_mbti).filter((key) => selected.card_mbti[key]),
       card_template: Object.keys(selected.card_template).filter((key) => selected.card_template[key]),
     };
@@ -176,19 +201,19 @@ function Filter() {
   return (
     <View style={styles.backgroundColor}>
       {/* 역할 필터 */}
-      {currentFilter.card_role && currentFilter.card_role.length > 0 && (
+      {currentFilter.card_student_role && currentFilter.card_student_role.length > 0 && (
         <>
           <Text style={styles.filterText}>역할</Text>
           <View style={styles.elementContainer}>
-            {currentFilter.card_role && currentFilter.card_role.map((role, index) => (
+            {currentFilter.card_student_role && currentFilter.card_student_role.map((role, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => handleSelect('card_role', role)}
-                style={selected.card_role[role] ? styles.selectedElement : styles.element}
+                onPress={() => handleSelect('card_student_role', role)}
+                style={selected.card_student_role[role] ? styles.selectedElement : styles.element}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  {selected.card_role[role] && <SelectIcon />}
-                  <Text style={selected.card_role[role] ? styles.selectedText : styles.defaultText}>
+                  {selected.card_student_role[role] && <SelectIcon />}
+                  <Text style={selected.card_student_role[role] ? styles.selectedText : styles.defaultText}>
                     {role}
                   </Text>
                 </View>
@@ -199,19 +224,19 @@ function Filter() {
       )}
 
       {/* 전공 필터 */}
-      {currentFilter.card_major && currentFilter.card_major.length > 0 && (
+      {currentFilter.card_student_major && currentFilter.card_student_major.length > 0 && (
         <>
           <Text style={styles.filterText}>전공</Text>
           <View style={styles.elementContainer}>
-            {currentFilter.card_major && currentFilter.card_major.map((major, index) => (
+            {currentFilter.card_student_major && currentFilter.card_student_major.map((major, index) => (
               <TouchableOpacity
                 key={index}
-                onPress={() => handleSelect('card_major', major)}
-                style={selected.card_major[major] ? styles.selectedElement : styles.element}
+                onPress={() => handleSelect('card_student_major', major)}
+                style={selected.card_student_major[major] ? styles.selectedElement : styles.element}
               >
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                  {selected.card_major[major] && <SelectIcon />}
-                  <Text style={selected.card_major[major] ? styles.selectedText : styles.defaultText}>
+                  {selected.card_student_major[major] && <SelectIcon />}
+                  <Text style={selected.card_student_major[major] ? styles.selectedText : styles.defaultText}>
                     {major}
                   </Text>
                 </View>

@@ -56,14 +56,13 @@ import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import KaKaoLogin from './components/Login/KaKaoLogin';
+import MySpace from './pages/Space/MySpace';
 import TeamSpace from './pages/Space/TeamSpace';
 import EditGroupPage from './pages/Space/EditGroupPage';
 import EditTeamSpace from './pages/Space/EditTeamSpace';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
-import MySpace from './pages/Space/MySpace';
 import { theme } from './theme';
-import { styles } from './pages/MyCard/MyCardStyle';
 
 const linking = {
   prefixes: ['ssop://', 'https://ssop.com'],
