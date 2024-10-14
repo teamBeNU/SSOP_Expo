@@ -320,12 +320,12 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
         try {
             const isAvailable = await Sharing.isAvailableAsync();
             if (!isAvailable) {
-                Alert.alert('Sharing is not available on this device');
+                Alert.alert('링크를 공유할 수 없습니다.');
                 return;
             }
 
-            await Sharing.shareAsync('https://naver.com', {
-                dialogTitle: 'SSOP Share TEST',
+            await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=4', {
+                dialogTitle: '네 세계에 쏩 빠지다, SSOP 카드로 서로에게 스며들다',
             });
         } catch (error) {
             Alert.alert('Error sharing', error.message);
