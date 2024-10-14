@@ -1,13 +1,18 @@
 import React, { useState }from 'react';
-import { View, Text, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js'
-import { PlusCardButton } from './ShareCard';
+import { PlusCardButton, ShareCard } from './ShareCard';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import PlusCardIcon from '../../assets/icons/ic_add_medium_line.svg';
 import ListIcon from '../../assets/icons/ic_lists.svg';
 import AllListIcon from'../../assets/icons/ic_border_all.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import RadioWhiteIcon from '../../assets/icons/ic_radio_check_white.svg';
+
+import { getColor } from '../../utils/bgColorMapping';
+import { calculateAge } from '../../utils/calculateAge';
+import { getTemplate } from '../../utils/templateMapping';
+
 
 // 리스트형 라디오
 const CustomCardRadioButton = ({ selected, onPress }) => {
@@ -40,7 +45,6 @@ const CardsView = ({
   handleNext,
   cardData,
   title,
-  showPlusCardButton,
   showTitle = true,
   showRadio = false,
   showNewCardButton = false,
@@ -80,17 +84,14 @@ const CardsView = ({
               <MenuOption onSelect={() => setSelectedOption('오래된 순')} text='오래된 순' />
             </MenuOptions>
           </Menu>
-
         </View>
       </View>
-      
+
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           {viewOption === '격자형' && (
             <View style={styles.gridContainer}>
-              {/* 플러스 카드 버튼이 활성화된 경우 */}
-              {showPlusCardButton && <PlusCardButton navigation={navigation} />}
-
+              <PlusCardButton navigation={navigation} />
               {/* 카드 데이터 목록 렌더링 */}
               {cardData.map((item) => (
                 <View key={item.id} style={styles.cardWrapper}>
@@ -108,14 +109,13 @@ const CardsView = ({
                     style={styles.btn2}
                     onPress={showRadio ? () => handleRadioSelect(item.id) : handleNext}
                   >
-                    <item.Component
-                      backgroundColor={item.backgroundColor}
-                      avatar={item.avatar}
-                      card_name={item.card_name}
-                      age={item.age}
-                      dot={item.dot}
-                      card_template={item.card_template}
-                    />
+                  <ShareCard
+                    avatar={item.avatar}
+                    card_name={item.cardEssential.card_name}
+                    card_birth={item.cardOptional.card_birth}
+                    card_template={item.card_template}
+                    card_cover={item.card_cover}
+                  />
                   </TouchableOpacity>
                 </View>
               ))}
@@ -144,14 +144,24 @@ const CardsView = ({
                   <View style={styles.ListContainer}>
                     <View style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}>
                       <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                        <Text> {'\n'} 아바타{'\n'} 이미지</Text>
+                        {item.card_cover === 'avatar' ? 
+                        (<View style={{...styles.cardImgArea, backgroundColor: getColor(item.avatar.bgColor)}}>
+                        
+                        </View>)
+                        :
+                        (<Image
+                              source={{ uri: item.profile_image_url }}
+                              resizeMode="cover"
+                              style={styles.cardImgArea}
+                          />)
+                      }
                       </View>
                       <View style={styles.infoContainer}>
                         <View style={styles.rowName}>
-                          <Text style={styles.Text16gray10}>{item.card_name}</Text>
-                          <Text style={styles.Text16gray50}>{item.age}</Text>
+                          <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
+                          <Text style={styles.Text16gray50}>{calculateAge(item.cardOptional.card_birth)}</Text>
                         </View>
-                        <Text style={styles.Text14gray30}>{item.card_introduce}</Text>
+                        <Text style={styles.Text14gray30}>{item.cardEssential.card_introduction}</Text>
                       </View>
                     </View>
                   </View>
@@ -173,4 +183,5 @@ const CardsView = ({
 };
 
 export default CardsView;
+
 
