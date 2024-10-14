@@ -191,10 +191,10 @@ const CardOptional3 = ({cardData}) => {
 const StudentOptional = ({cardData}) => {
     return (
     <View style={((cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'})}>
-            {cardData.student.card_student_grade ? (
+            {cardData.student.card_student_id ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학번</Text>                             
-                <Text style={styles.content}>{cardData.student.card_student_grade}</Text>                         
+                <Text style={styles.content}>{cardData.student.card_student_id}</Text>                         
             </View>
             ) : null }
             {cardData.student.card_student_role ? (

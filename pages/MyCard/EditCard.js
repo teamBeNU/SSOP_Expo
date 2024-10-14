@@ -1,10 +1,12 @@
-import { Dimensions, View, Text, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView } from "react-native"
+import { Dimensions, View, Text, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Alert } from "react-native"
 import { styles } from "./EditCardStyle"
 import React, { useState, useRef, useEffect } from 'react'
 import { theme } from "../../theme"
 import * as Progress from 'react-native-progress'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import RNPickerSelect from 'react-native-picker-select'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg'
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg'
@@ -12,27 +14,35 @@ import DoneIcon from '../../assets/icons/ic_done_small_line.svg'
 import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
 
 function EditCard() {
-    const cardData = [
-        { id: '1', name: 'Card 1', card_template: '대학생' },
-        { id: '2', name: 'Card 2' },
-        { id: '3', name: 'Card 3' },
-    ]
 
     const route = useRoute();
     const {card} = route.params;
 
-    const [name, setName] = useState(card?.card_name || '');
-    const [mbti, setMBTI] = useState(card?.MBTI || '');
-    const [birth, setBirth] = useState(card?.birth || '');
-    const [introduce, setIntroduce] = useState(card?.introduce || '');
+    //기본 정보
+    const [name, setName] = useState(card.cardEssential.card_name);
+    const [MBTI, setMBTI] = useState(card.cardOptional.card_MBTI ? card.cardOptional.card_MBTI : '');
+    const [birth, setBirth] = useState(card.cardOptional.card_bSecret === true ? card.cardOptional.card_birth : '');
+    const [introduce, setIntroduce] = useState(card.cardEssential.card_introduction);
+    const [isSecret, setIsSecret] = useState(card.cardOptional.card_bSecret === true ? true : false);
 
-    const [isSecret, setIsSecret] = useState(false);
+    const [tel, setTel] = useState(card.cardOptional.card_tel ? card.cardOptional.card_tel : '');
+    const [email, setEmail] = useState(card.cardOptional.card_email ? card.cardOptional.card_email : '');
+    const [insta, setInsta] = useState(card.cardOptional.card_sns_insta ? card.cardOptional.card_sns_insta : '');
+    const [x, setX] = useState(card.cardOptional.card_sns_x ? card.cardOptional.card_sns_x : '');
+
+    //학생
+    const [school, setSchool] = useState(card.student.card_student_school ? card.student.card_student_school : '');
+    const [grade, setGrade] = useState(card.student.card_student_grade ? card.student.card_student_grade : '');
+    const [major, setMajor] = useState(card.student.card_student_major ? card.student.card_student_major : '');
+    const [id, setId] = useState(card.student.card_student_id ? card.student.card_student_id : '');
+    const [club, setClub] = useState(card.student.card_student_club ? card.student.card_student_club : '');
+    const [role, setRole] = useState(card.student.card_student_role ? card.student.card_student_role : '');
+    const [studentStatus, setStudentStatus] = useState(card.student.card_student_status ? card.student.card_student_status : '');
+    //직장인
+    //팬
+
     const [step, setStep] = useState(1);
     const ref_input = useRef();
-
-
-    const [grade, setGrade] = useState('');
-    const [studentStatus, setStudentStatus] = useState('');
 
     const handleMBTI = (input) => {
         // 영어만 입력되도록 정규식 필터 적용
@@ -42,21 +52,98 @@ function EditCard() {
 
     const navigation = useNavigation();
 
-    const handleSubmit = () =>  {
+    const handleSubmit = async () =>  {
+        const editCardData = {
+            card_name: name,
+            card_introduction: introduce,
+            card_birth: birth, 
+            card_bSecret: isSecret,
+            card_tel: tel,
+            card_sns_insta: insta,
+            card_sns_x: x,
+            card_email: email,
+            card_MBTI: MBTI,
+            // card_music: music,
+            // card_movie: movie,
+            // card_hobby: hobby,
+            // card_address: address,
+           
+        };
+    
+        switch (card.card_template) {
+            case 'studentUniv':
+                editCardData.student = {
+                    card_student_school: school,
+                    card_student_grade: grade,
+                    card_student_major: major,
+                    card_student_id: id,
+                    card_student_club: club,
+                    card_student_role: role,
+                    card_student_status: studentStatus,
+                };
+                break;
+            case 'studentSchool':
+                editCardData.student = {
+                    card_student_school: school,
+                    card_student_grade: grade,
+                    card_student_major: major,
+                    card_student_id: id,
+                    card_student_club: club,
+                    card_student_role: role,
+                };
+                break;
+            case 'worker':
+                // editCardData.worker = {
+    
+                // }
+                break;
+            case 'fan':
+            //     editCardData.fan = {
+    
+            //   }
+              break;
+            case 'free':
+              break;
+        }
+        console.log('edit : ', editCardData);
+
+        const token = await AsyncStorage.getItem('token');
+
+        const formData = new FormData();
+        formData.append('card', {name: 'card', string: JSON.stringify(editCardData), type: 'application/json',});
+
+        try {
+            const response = await axios.patch(`http://43.202.52.64:8080/api/card/edit?cardId=${card.cardId}`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            },
+            });
+
+        // Check response status
+        if (response.status !== 200) {
+            throw new Error(response.data.message || '서버 오류 발생');
+        }
+    
+        console.log('성공:', response.data, '\nform : ', formData);  // response.data already contains parsed JSON
+    
+        } catch (error) {
+        // Show error message from the server or a generic error
+        Alert.alert(error.response?.data?.message || error.message || 'Request failed');
+        }
+    
         navigation.goBack();
-    }
+    };
 
     const handleNext = () => {
         if (step === 1 ) {
             setStep(2);
         } else if (step === 2) {
-            setStep(3);
-           // if (cardData.card_template === '대학생') setStep(3);
-            // else if (cardData.card_template === '초중고등학생') setStep(4);
-            // else if (cardData.card_template === '직장인') setStep(5);
-            // else if (cardData.card_template === '팬') setStep(6);
-            // else if (cardData.card_template === '자유') setStep(7);
-
+           if (card.card_template === 'studentUniv') setStep(3);
+            // else if (card.card_template === 'studentSchool') setStep(4);
+            // else if (card.card_template === 'worker') setStep(5);
+            // else if (card.card_template === 'fan') setStep(6);
+            // else if (card.card_template === 'free') setStep(7);
         } 
     }
 
@@ -135,7 +222,7 @@ function EditCard() {
                     value={name}
                     onChangeText={setName}
                     style={styles.input}
-                    placeholder="이름을 입력해 주세요."
+                    placeholder={name}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>
@@ -146,7 +233,7 @@ function EditCard() {
                     value={introduce}
                     onChangeText={setIntroduce}
                     style={styles.input}
-                    placeholder="나에 대해 간단히 알려주세요."
+                    placeholder={introduce}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>
@@ -155,8 +242,8 @@ function EditCard() {
                 <Text style={styles.subTitle}>MBTI</Text>
                 <TextInput 
                     style={styles.input}
-                    placeholder="MBTI를 입력해 주세요."
-                    value={mbti}
+                    placeholder={MBTI ? MBTI : 'MBTI를 입력해 주세요.'}
+                    value={MBTI}
                     onChangeText={handleMBTI}
                     placeholderTextColor={theme.gray60}
                     maxLength={4}
@@ -169,7 +256,7 @@ function EditCard() {
                 <Text style={styles.subTitle}>생년월일 8자리</Text>
                 <TextInput 
                     style={{...styles.input, marginBottom: 20}}
-                    placeholder="YYYY/MM/DD"
+                    placeholder={birth ? birth : "YYYY/MM/DD"}
                     placeholderTextColor={theme.gray60}
                     keyboardType="numeric"
                     value={birth}
@@ -217,7 +304,9 @@ function EditCard() {
                     <Text style={styles.subTitle}>전화번호</Text>
                     <TextInput 
                         style={styles.input}
-                        placeholder="전화번호를 입력해 주세요."
+                        value={tel}
+                        onChangeText={setTel}
+                        placeholder={tel ? tel : "전화번호를 입력해 주세요."}
                         placeholderTextColor={theme.gray60}
                         keyboardType="number-pad"
                         maxLength={11}
@@ -228,7 +317,9 @@ function EditCard() {
                     <Text style={styles.subTitle}>이메일</Text>
                     <TextInput 
                         style={styles.input}
-                        placeholder="이메일을 입력해 주세요."
+                        value={email}
+                        onChangeText={setEmail}
+                        placeholder={email ? email : "이메일을 입력해 주세요."}
                         placeholderTextColor={theme.gray60}
                         keyboardType="email-address"
                         />
@@ -240,7 +331,9 @@ function EditCard() {
                     <Text style={styles.subTitle}>Instagram</Text>
                     <TextInput 
                         style={styles.input}
-                        placeholder="인스타그램 계정을 입력해 주세요."
+                        value={insta}
+                        onChangeText={setInsta}
+                        placeholder={insta ? insta : "인스타그램 계정을 입력해 주세요."}
                         placeholderTextColor={theme.gray60}
                         />
                     </View>
@@ -249,7 +342,9 @@ function EditCard() {
                     <Text style={styles.subTitle}>X(트위터)</Text>
                     <TextInput 
                         style={styles.input}
-                        placeholder="X 계정을 입력해 주세요."
+                        value={x}
+                        onChangeText={setX}
+                        placeholder={x ? x : "X 계정을 입력해 주세요."}
                         placeholderTextColor={theme.gray60}
                         />
                     </View>    
@@ -279,7 +374,9 @@ function EditCard() {
                 <Text style={styles.subTitle}>학교*</Text>
                 <TextInput 
                     style={styles.input}
-                    placeholder= {cardData.card_school ? cardData.card_school : "학교명을 입력해 주세요."}
+                    value={school}
+                    onChangeText={setSchool}
+                    placeholder= {school ? school : "학교명을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>
@@ -314,7 +411,9 @@ function EditCard() {
                 <Text style={styles.subTitle}>전공*</Text>
                 <TextInput 
                     style={styles.input}
-                    placeholder="전공을 입력해 주세요."
+                    value={major}
+                    onChangeText={setMajor}
+                    placeholder={major ? major : "전공을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>
@@ -325,7 +424,9 @@ function EditCard() {
                 <Text style={styles.subTitle}>학생번호</Text>
                 <TextInput 
                     style={styles.input}
-                    placeholder="학번을 입력해 주세요. 예) 17학번"
+                    value={id}
+                    onChangeText={setId}
+                    placeholder={id ? id : "학번을 입력해 주세요. 예) 17학번"}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>
@@ -334,7 +435,9 @@ function EditCard() {
                 <Text style={styles.subTitle}>역할</Text>
                 <TextInput 
                     style={styles.input}
-                    placeholder="프로젝트 혹은 학과 내 역할을 입력해 주세요."
+                    value={role}
+                    onChangeText={setRole}
+                    placeholder={role ? role : "프로젝트 혹은 학과 내 역할을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>    
@@ -343,7 +446,9 @@ function EditCard() {
                 <Text style={styles.subTitle}>동아리</Text>
                 <TextInput 
                     style={styles.input}
-                    placeholder="소속된 동아리가 있다면 입력해 주세요."
+                    value={club}
+                    onChangeText={setClub}
+                    placeholder={club ? club :"소속된 동아리가 있다면 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>   
@@ -374,7 +479,7 @@ function EditCard() {
                 </ScrollView>
 
                 </View>
-                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
                 <Text style={styles.memoBtnText}>수정완료</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
