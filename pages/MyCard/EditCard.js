@@ -817,7 +817,7 @@ function EditCard() {
             >
                 <View style={{marginBottom: 120}}>
 
-                <Text style={styles.title}>카드 속 정보를 수정하세요.</Text>
+                <Text style={styles.title}>카드 속 정보를 수정하기</Text>
 
                 <ScrollView>
                 {card.student?.card_student_school && (  
@@ -844,8 +844,10 @@ function EditCard() {
                     { label: '2학년', value: '2학년', key: '2' },
                     { label: '3학년', value: '3학년', key: '3' },
                     { label: '4학년', value: '4학년', key: '4' },
-                    { label: '추가학기', value: '추가학기', key: '5' },
-                    { label: '그 외', value: '그 외', key: '6' },
+                    { label: '5학년', value: '5학년', key: '5' },
+                    { label: '6학년', value: '6학년', key: '6' },
+                    { label: '추가학기', value: '추가학기', key: '7' },
+                    { label: '그 외', value: '그 외', key: '8' },
                     ]}
                     placeholder={{ label: '학년', value: null }}
                     useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
@@ -1047,7 +1049,7 @@ function EditCard() {
             >
                 <View style={{marginBottom: 120}}>
 
-                <Text style={styles.title}>추가 정보를 수정하세요.</Text>
+                <Text style={styles.title}>추가 정보를 수정하기</Text>
 
                 <ScrollView>
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
