@@ -11,7 +11,7 @@ import * as Progress from 'react-native-progress';
 import * as Sharing from 'expo-sharing';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import ShareImage from '../../assets/icons/LinkShareImage.svg'
-import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
+import ShareIcon from '../../assets/icons/ic_share_blue.svg';
 
 import Student from '../../assets/profile/student.svg';
 import Worker from '../../assets/profile/worker.svg';

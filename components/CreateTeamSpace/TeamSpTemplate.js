@@ -14,7 +14,7 @@ import * as Sharing from 'expo-sharing';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import Select from "../../assets/teamSp/select.svg";
 import ShareImage from '../../assets/icons/LinkShareImage.svg'
-import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
+import ShareIcon from '../../assets/icons/ic_share_blue.svg';
 import StudentTemplate from "./StudentTemplate";
 import WorkerTemplate from "./WorkerTemplate";
 import FanTemplate from "./FanTemplate";
