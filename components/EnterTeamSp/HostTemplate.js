@@ -594,10 +594,10 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
 
                       let formatted = cleaned;
                       if (cleaned.length > 4) {
-                        formatted = `${cleaned.slice(0, 4)}-${cleaned.slice(4, 6)}`;
+                        formatted = `${cleaned.slice(0, 4)}/${cleaned.slice(4, 6)}`;
                       }
                       if (cleaned.length > 6) {
-                        formatted = `${formatted}-${cleaned.slice(6, 8)}`;
+                        formatted = `${formatted}/${cleaned.slice(6, 8)}`;
                       }
 
                       setBirth(formatted);
