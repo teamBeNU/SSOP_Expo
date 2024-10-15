@@ -109,6 +109,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
   // 지정 템플릿 목록 API 호출
   const templateView = () => {
     const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
+    // const apiUrl = `${baseUrl}/teamsp?teamId=93`;
     axios
       .get(apiUrl)
       .then((response) => {
@@ -214,13 +215,13 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
 
       if ((!showTel || !newEmptyTel) &&
         (!showEmail || !newEmptyEmail) &&
-          (!showInsta || !newEmptyInsta) &&
+        (!showInsta || !newEmptyInsta) &&
         (!showX || !newEmptyX)
       )
         setStep(3);
 
     } else if (step === 3) { // 템플릿 필수
-      setStep(4);      
+      setStep(4);
     } else if (step === 4) { // 템플릿 자유
       setStep(5);
     } else if (step === 5) { // 추가 정보
@@ -236,17 +237,17 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
 
       if ((!showHobby || !newEmptyHobby) &&
         (!showMusic || !newEmptyMusic) &&
-          (!showMovie || !newEmptyMovie) &&
+        (!showMovie || !newEmptyMovie) &&
         (!showAddress || !newEmptyAddress)
       )
         if (card_cover === "free") {
           setStep(6) // 아바타와 사진 중 택 1
         }
-        else { 
+        else {
           setStep(7); // 호스트가 지정한 아바타/사진으로 안내
         }
     } else if (step === 6) { // 아바타/사진 선택
-
+      setStep(8);
     } else if (step === 7) { // 커버 아바타 안내 / 사진 업로드
       setStep(8);
     } else if (step === 8) { // 아바타 커스텀
@@ -297,6 +298,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
         }
       }
       const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
+      // const apiUrl = `${baseUrl}/teamsp?teamId=93`;
 
       axios
         .post(apiUrl, { member: requestData }, {
@@ -341,6 +343,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
         break;
       case 7:
         setStep(5);
+        break;
+      case 8:
+        setStep(6);
         break;
       default:
         setStep(step - 1);
@@ -839,7 +844,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
 
           {/* 카드 커버 선택 */}
           {step === 6 && (
-            <View style={{ height: '100%', backgroundColor: theme.white }}>
+            <View style={{ height: '100%', backgroundColor: theme.white, marginHorizontal: -16 }}>
               <SelectCover
                 step={step}
                 setStep={setStep}
