@@ -267,8 +267,6 @@ const fetchData = async () => {
                         </Animated.View>
                     );
                 })}
-
-                
             </ScrollView>
             
             <View style={styles.btnContainer}>

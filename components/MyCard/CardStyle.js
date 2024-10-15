@@ -81,6 +81,7 @@ export const styles = StyleSheet.create({
 
     // CardBack
     textArea: {
+        flexGrow: 1,
         marginVertical: 40,
         marginHorizontal: 24,
         alignItems: 'flex-start',
