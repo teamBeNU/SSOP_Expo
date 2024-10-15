@@ -11,7 +11,7 @@ import * as Progress from 'react-native-progress';
 import * as Sharing from 'expo-sharing';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import ShareImage from '../../assets/icons/LinkShareImage.svg'
-import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
+import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 
 import Student from '../../assets/profile/student.svg';
 import Worker from '../../assets/profile/worker.svg';
@@ -308,9 +308,8 @@ function CreateTeamSp({ navigation }) {
                 <View style={styles.shareContainer}>
                   <ShareImage />
                   <View style={styles.shareBox}>
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 8 }} onPress={handleShareButtonPress}>
-                      <Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
-                      <RightArrowBlueIcon />
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}} onPress={handleShareButtonPress}>
+                      <ShareIcon /><Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
                     </TouchableOpacity>
                     <Modal
                       animationType="fade"
@@ -347,8 +346,8 @@ function CreateTeamSp({ navigation }) {
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, {marginBottom: 0}]} onPress={() => navigation.navigate('스페이스')}>
-                  <Text style={styles.btnText}> 팀스페이스 확인 </Text>
+                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('팀스페이스 입장', {step: 2, inviteCode: inviteCode})}>
+                  <Text style={styles.btnText}> 카드 생성하기 </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
                   <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
