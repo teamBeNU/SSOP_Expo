@@ -21,7 +21,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   // 각각의 값 가져오기
   const teamId = params.teamId;
   const selectedFilters = params.selectedFilters;
-  const onDataChange = params.onDataChange; 
+  const onDataChange = params.onDataChange;
 
   // console.log("받아온 teamId:", teamId);
 
@@ -30,7 +30,9 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState([]);
   const [inviteCode, setInviteCode] = useState(null);
-  const [cardData, setCardData] = useState([]);
+  const [cardId, setCardId] = useState(null);
+  const [cardIdData, setCardIdData] = useState([]);
+  const [memberData, setMemberData] = useState([]);
   const [filter, setFilter] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
 
@@ -81,8 +83,11 @@ export default function DetailTeamSpaceScreen({ navigation }) {
         .then((response) => {
           setData(response.data);
           setFilter(response.data.filter);
-          setCardData(response.data.members);
+          setMemberData(response.data.members || []);
+          setCardId(response.data.cardIds || []);
+
           console.log("필터목록: ", response.data.filter);
+          console.log('참여 카드 목록:', response.data.cardIds);
           // console.log('참여 멤버 목록:', response.data.members);
           // console.log("전체 데이터: ", response.data);
 
@@ -97,6 +102,47 @@ export default function DetailTeamSpaceScreen({ navigation }) {
         });
     }
   }, [userId, token]);
+
+  useEffect(() => {
+    if (Array.isArray(cardId) && cardId.length > 0) {
+      const cardDetailsUrl = `${baseUrl}/card/view`;
+
+      // 카드 ID가 0보다 큰 경우에만 상세 정보 요청
+      const validCardIds = cardId.filter(id => id > 0);
+      const requests = validCardIds.map(id => 
+        axios.get(`${cardDetailsUrl}?cardId=${id}`)
+          .then(response => response.data)
+          .catch(error => {
+            console.error(`카드 ID ${id} 상세 정보 요청 에러:`, error.message);
+            return null;
+          })
+      );
+
+      Promise.all(requests)
+        .then(details => {
+          // 유효한 카드 상세 정보만 추가
+          setCardIdData(details.filter(detail => detail !== null));
+
+          // cardId에 0이 포함된 경우 members 데이터 추가
+          if (cardId.includes(0)) {
+            const members = data.members || [];
+            setMemberData(members);
+          } else {
+            // 카드 ID가 유효한 경우에만 카드 데이터를 설정
+            setMemberData(validCardIds);
+          }
+        });
+    }
+  }, [cardId, data.members]);
+
+  // 카드ID 상세 + membes 상세
+  const combinedData = {
+    cardIdData,
+    memberData,
+  };
+  
+  console.log(combinedData);
+  
 
   useEffect(() => {
     // 특정 팀스페이스 조회 API 호출 for 초대코드
@@ -235,7 +281,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
         viewOption={viewOption}
         setViewOption={setViewOption}
         handleFilterNext={handleFilterNext}
-        cardData={filteredData.length > 0 ? filteredData : cardData}
+        cardData={filteredData.length > 0 ? filteredData : combinedData}
         selectedFilters={selectedFilters}
       />
 
@@ -258,13 +304,13 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
       {/* 하단 버튼 영역 */}
       <View style={styles.bottomDetailContainer}>
-        <Share/>
-        <TouchableOpacity style={{marginLeft: 6}}>
-          <Text style={styles.bottomText} onPress={handleShareButtonPress}>카드 공유</Text>          
+        <Share />
+        <TouchableOpacity style={{ marginLeft: 6 }}>
+          <Text style={styles.bottomText} onPress={handleShareButtonPress}>팀스페이스 공유</Text>
         </TouchableOpacity>
         <BottomLineIcon style={styles.bottomLine} />
-        <Contact/>
-        <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')} style={{marginLeft: 6}}>
+        <Contact />
+        <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')} style={{ marginLeft: 6 }}>
           <Text style={styles.bottomText}>연락처 저장</Text>
         </TouchableOpacity>
       </View>
