@@ -36,7 +36,7 @@ export const CardBack = ({cardData}) => {
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData}/>
-                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0, borderColor: 'pink'}}/>)}
+                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <StudentOptional cardData={cardData}/>
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>
@@ -46,7 +46,7 @@ export const CardBack = ({cardData}) => {
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData} />
-                        {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0, borderColor: 'pink'}}/>)}
+                        {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <WorkerOptional cardData={cardData} />
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>      
@@ -56,7 +56,7 @@ export const CardBack = ({cardData}) => {
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData}/>
-                        {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0, borderColor: 'pink'}}/>)}
+                        {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <FanOptional cardData={cardData} />
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>   

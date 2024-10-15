@@ -14,10 +14,8 @@ import DoneIcon from '../../assets/icons/ic_done_small_line.svg'
 import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
 
 function EditCard() {
-    console.log('card : ', card);
-
     const route = useRoute();
-    const {card} = route.params;
+    const {card, index} = route.params;
 
     //기본 정보
     const [name, setName] = useState(card.cardEssential.card_name);
@@ -88,7 +86,7 @@ function EditCard() {
             card_hobby: hobby,
             card_address: address,
         };
-    
+        if (step > 3) {
         switch (card.card_template) {
             case 'studentUniv':
                 editCardData.student = {
@@ -150,6 +148,7 @@ function EditCard() {
                     card_fan_reason: reason
                 };
                 break;
+            }
         }
 
         const token = await AsyncStorage.getItem('token');
@@ -167,7 +166,7 @@ function EditCard() {
         } catch (error) {
         Alert.alert(error.response?.data?.message || error.message || 'Request failed');
         }
-        navigation.goBack();
+       navigation.navigate('카드 상세보기', { cardId : card.cardId }); 
     };
 
     const handleNext = () => {

@@ -340,7 +340,7 @@ const fetchData = async () => {
                                         <View style={styles.modalContent}>
                                             <TouchableOpacity onPress={() => {
                                                 setIsModalVisible(false);
-                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex]});}}>
+                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex], index: currentCardIndex});}}>
                                             <Text style={styles.modalTitle}>정보 수정할래요</Text>
                                             </TouchableOpacity>
                                             <View style={styles.line} />
