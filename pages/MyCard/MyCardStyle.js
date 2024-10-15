@@ -159,7 +159,7 @@ export const styles = StyleSheet.create({
         color: theme.gray10,
         fontFamily: 'PretendardRegular',
         fontSize: 16,
-        fontWeight: '500',
+        fontWeight: '400',
         lineHeight: 19,
         letterSpacing: -0.32
         },
@@ -179,10 +179,10 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray10,
         },
         modalFont: {
-        fontFamily: 'PretendardRegular',
+        fontFamily: 'PretendardSemiBold',
         color: theme.gray10,
         fontSize: 16,
-        fontWeight: 500,
+        fontWeight: 600,
         letterSpacing: -0.32,
         textAlign: 'center',
         flex: 1,
