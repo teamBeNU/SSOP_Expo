@@ -12,6 +12,7 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-m
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
@@ -76,104 +77,134 @@ function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, tit
   );
 }
 
-const cardData = [
+// 그룹 상세 페이지
+function DetailSpaceGroup({ groupId, navigation }) {
+  const [selectedOption, setSelectedOption] = useState('최신순');
+  const [viewOption, setViewOption] = useState('격자형');
+  const [groupName, setGroupName] = useState(''); // 그룹 이름 상태
+  const [members, setMembers] = useState(0); // 그룹 멤버 수 상태
+  const [cardData, setCardData] = useState([]); // 카드 목록 상태
+  const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
+  const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const API_URL = 'http://43.202.52.64:8080/api/mysp'; // 그룹 정보 API 경로
 
-];
+  // 그룹 상세 정보를 가져오는 함수
+  const fetchGroupDetails = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token'); // 인증 토큰 가져오기
+      const response = await fetch(`${API_URL}?groupId=${groupId}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`, // 인증 토큰 추가
+        },
+      });
 
-// 그룹 상세
-function DetailSpaceGroup({ navigation }) {
-    const [selectedOption, setSelectedOption] = useState('최신순');
-    const [viewOption, setViewOption] = useState('격자형');
-    const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
-    const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
-    const [hasCards, setHasCards] = useState(true);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+      const result = await response.json();
+      if (response.ok) {
+        // 그룹 상세 정보 응답 처리
+        setGroupName(result.group_name); // 그룹 이름 상태 업데이트
+        setMembers(result.memberCount); // 멤버 수 상태 업데이트
+        setCardData(result.cards); // 카드 목록 상태 업데이트
+      } else {
+        console.error('그룹 상세 정보를 가져오는데 실패했습니다:', result.error);
+      }
+    } catch (error) {
+      console.error('API 호출 중 오류 발생:', error);
+    }
+  };
 
-    const handleBluetoothPress = () => {
-      setIsModalVisible(false);
-      navigation.navigate('내 카드 보내기');
-    };
-  
-    const handleLinkSharePress = () => {
-      setIsModalVisible(false);
-      navigation.navigate('링크 복사');
-    };
-    const handleDeleteGroup = () => {
-      setIsSpaceModalVisible(true);
-    };
+  // 컴포넌트가 마운트될 때 그룹 상세 정보 가져옴
+  useEffect(() => {
+    fetchGroupDetails();
+  }, [groupId]);
 
-    const handleChangeGroupName = () => {
-      setIsGroupNameChangeModalVisible(true);
-    };
+  const handleBluetoothPress = () => {
+    setIsModalVisible(false);
+    navigation.navigate('내 카드 보내기');
+  };
 
-    const handleNext = () => {
-      navigation.navigate('카드 조회');
-    };
-  
-    return (
-      <View style={styles.backgroundColor}>
-          <MySpaceDetailView
-            title="24학번 후배"
-            members='8'
-            navigation={navigation}
-            hasCards={hasCards}
-            selectedOption={selectedOption}
-            setSelectedOption={setSelectedOption}
-            viewOption={viewOption}
-            setViewOption={setViewOption}
-            handleNext={handleNext}
-            cardData={cardData}
-          />
-          <SpaceModal
-            isVisible={isSpaceModalVisible}
-            onClose={() => setIsSpaceModalVisible(false)}
-            title={'그룹을 삭제하시겠습니까?'}
-            sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
-            btn1={'취소할래요'}
-            btn2={'네, 삭제할래요'}
-          />
-          <SpaceNameChangeModal
-            isVisible={isGroupNameChangeModalVisible}
-            onClose={() => setIsGroupNameChangeModalVisible(false)}
-            groupName={'그룹 이름을 작성하세요.'}
-            btn1={'취소하기'}
-            btn2={'수정하기'}
-          />
-          {/* 하단 버튼 영역 */}
-          <View style={styles.bottomDetailContainer}>
-            <Edit style={{marginRight: 6}}/>
-            <TouchableOpacity onPress={() => navigation.navigate('카드 관리')}>
-              <Text style={styles.bottomText}>카드 관리</Text>
-            </TouchableOpacity>
-            <BottomLineIcon style={styles.bottomLine2} />
-            <Contact style={{marginRight: 6}}/>
-            <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
-              <Text style={styles.bottomTextBlue}>연락처 저장</Text>
-            </TouchableOpacity>
-            <BottomLineIcon style={styles.bottomLine2} />
-            <Swap style={{marginRight: 6}}/>
-            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-              <Text style={styles.bottomText}>카드 교환</Text>
-            </TouchableOpacity>
-          </View>
+  const handleLinkSharePress = () => {
+    setIsModalVisible(false);
+    navigation.navigate('링크 복사');
+  };
 
-          <ExchangeModal
-            isVisible={isModalVisible}
-            onClose={() => setIsModalVisible(false)}
-            onOption1Press={handleBluetoothPress}
-            onOption2Press={handleLinkSharePress}
-            title="카드 교환하기"
-            option1Text="블루투스 송신"
-            option1SubText="주변에 있다면 바로"
-            option2Text="링크 복사"
-            option2SubText="연락처가 있다면"
-            option1Icon={BluetoothIcon}
-            option2Icon={LinkIcon}
-          />
-        </View>
-        
-    );
-  }
+  const handleDeleteGroup = () => {
+    setIsSpaceModalVisible(true);
+  };
+
+  const handleChangeGroupName = () => {
+    setIsGroupNameChangeModalVisible(true);
+  };
+
+  const handleNext = () => {
+    navigation.navigate('카드 조회');
+  };
+
+  return (
+    <View style={styles.backgroundColor}>
+      <MySpaceDetailView
+        title={groupName} // 그룹 이름을 타이틀로 표시
+        members={members} // 그룹 멤버 수
+        navigation={navigation}
+        hasCards={cardData.length > 0}
+        selectedOption={selectedOption}
+        setSelectedOption={setSelectedOption}
+        viewOption={viewOption}
+        setViewOption={setViewOption}
+        handleNext={handleNext}
+        cardData={cardData} // 그룹에 속한 카드 목록 표시
+        showFilterButton={false}
+      />
+      <SpaceModal
+        isVisible={isSpaceModalVisible}
+        onClose={() => setIsSpaceModalVisible(false)}
+        title={'그룹을 삭제하시겠습니까?'}
+        sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
+        btn1={'취소할래요'}
+        btn2={'네, 삭제할래요'}
+      />
+      <SpaceNameChangeModal
+        isVisible={isGroupNameChangeModalVisible}
+        onClose={() => setIsGroupNameChangeModalVisible(false)}
+        groupName={groupName} // 현재 그룹 이름 전달
+        btn1={'취소하기'}
+        btn2={'수정하기'}
+      />
+      {/* 하단 버튼 영역 */}
+      <View style={styles.bottomDetailContainer}>
+        <Edit style={{ marginRight: 6 }} />
+        <TouchableOpacity onPress={() => navigation.navigate('카드 관리')}>
+          <Text style={styles.bottomText}>카드 관리</Text>
+        </TouchableOpacity>
+        <BottomLineIcon style={styles.bottomLine2} />
+        <Contact style={{ marginRight: 6 }} />
+        <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
+          <Text style={styles.bottomTextBlue}>연락처 저장</Text>
+        </TouchableOpacity>
+        <BottomLineIcon style={styles.bottomLine2} />
+        <Swap style={{ marginRight: 6 }} />
+        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+          <Text style={styles.bottomText}>카드 교환</Text>
+        </TouchableOpacity>
+      </View>
+
+      <ExchangeModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onOption1Press={handleBluetoothPress}
+        onOption2Press={handleLinkSharePress}
+        title="카드 교환하기"
+        option1Text="블루투스 송신"
+        option1SubText="주변에 있다면 바로"
+        option2Text="링크 복사"
+        option2SubText="연락처가 있다면"
+        option1Icon={BluetoothIcon}
+        option2Icon={LinkIcon}
+      />
+    </View>
+  );
+}
 
 
   // 연락처 저장
@@ -476,7 +507,16 @@ function DetailSpaceGroup({ navigation }) {
       );
     }
 
-function DetailGroup() {
+    
+  function DetailGroup({ route, navigation }) {
+      const { groupId } = route.params;  // route에서 groupId 가져오기
+    
+      // groupId가 없을 경우 에러 처리
+      if (!groupId) {
+        console.error('groupId가 전달되지 않았습니다.');
+        return <Text>잘못된 접근입니다.</Text>;
+      }
+
     return (
       <Stack.Navigator>
           <Stack.Screen name="Group" component={DetailSpaceGroup} 

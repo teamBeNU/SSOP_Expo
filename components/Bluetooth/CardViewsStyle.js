@@ -280,7 +280,7 @@ export const styles = StyleSheet.create({
     // 마이 스페이스 상세
     backgroundColor: {
         flex: 1,
-        backgroundColor: theme.gray95
+        backgroundColor: theme.white
     },
     backgroundColor2: {
         paddingTop: 40,

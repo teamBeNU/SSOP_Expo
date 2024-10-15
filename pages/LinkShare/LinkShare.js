@@ -23,7 +23,7 @@ function Step1Screen({ navigation }) {
   // 카드 데이터 유무를 상태로 설정
   const [hasCards, setHasCards] = useState(true);
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형');
+  const [viewOption, setViewOption] = useState('리스트형');
   const [cardData, setCardData] = useState([]);  // 카드 데이터를 저장할 상태
 
   // 백엔드에서 카드 데이터를 가져오는 함수
@@ -88,6 +88,7 @@ function Step1Screen({ navigation }) {
             cardData={cardData}  // 백엔드에서 가져온 카드 데이터를 전달
             title={title}
             showNewCardButton={true}
+            showPlusCard={true}
           />
         ) : (
           <NoCardsView 
@@ -180,7 +181,7 @@ function Step2Screen({ navigation }) {
           <TouchableOpacity style={styles.btnNext} onPress={handleShareButtonPress}>
             <Text style={styles.btnText}>링크 공유하기</Text>
           </TouchableOpacity >
-          <TouchableOpacity style={styles.btnNextWhite} onPress={() => navigation.navigate(' ')}>
+          <TouchableOpacity style={styles.btnNextWhite} onPress={() => navigation.navigate('홈')}>
             <Text style={styles.btnTextWhite}> 홈 화면으로 </Text>
           </TouchableOpacity>
         </View>

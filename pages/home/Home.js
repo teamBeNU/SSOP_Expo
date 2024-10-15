@@ -28,7 +28,7 @@ function Home({navigation}) {
 
                 <Text style={styles.title}>누구더라?</Text>
                 <View>
-                    <TouchableOpacity style={styles.btn3} onPress={() => navigation.navigate('카드 조회')}>
+                    <TouchableOpacity style={styles.btn3} onPress={() => navigation.navigate('받은 프로필 카드')}>
                         <FolderIcon style={{marginRight: 6}}/>
                         <Text style={styles.Text16}>내가 받은 카드 보러가기</Text>
                     </TouchableOpacity>

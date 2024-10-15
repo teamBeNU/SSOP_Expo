@@ -45,6 +45,7 @@ const CardsView = ({
   handleNext,
   cardData,
   title,
+  showPlusCard = false,
   showTitle = true,
   showRadio = false,
   showNewCardButton = false,
@@ -91,7 +92,9 @@ const CardsView = ({
         <View>
           {viewOption === '격자형' && (
             <View style={styles.gridContainer}>
-              <PlusCardButton navigation={navigation} />
+              {showPlusCard &&(
+                <PlusCardButton navigation={navigation} />
+              )}
               {/* 카드 데이터 목록 렌더링 */}
               {cardData.map((item) => (
                 <View key={item.id} style={styles.cardWrapper}>
@@ -115,6 +118,7 @@ const CardsView = ({
                     card_birth={item.cardOptional.card_birth}
                     card_template={item.card_template}
                     card_cover={item.card_cover}
+                    profile_image_url={item.profile_image_url}
                   />
                   </TouchableOpacity>
                 </View>
@@ -128,7 +132,9 @@ const CardsView = ({
                 <TouchableOpacity
                   key={item.id}
                   style={styles.radioCardWrapper}
-                  onPress={() => handleRadioSelect(item.id)} // 카드 클릭 시 선택 처리
+                  onPress={() => {
+                    handleNext(item.id); // Step2로 이동 처리
+                  }}
                 >
                   {/* showRadio가 true일 때만 라디오 버튼을 왼쪽에 표시 */}
                   {showRadio && (
@@ -144,16 +150,18 @@ const CardsView = ({
                   <View style={styles.ListContainer}>
                     <View style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}>
                       <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                        {item.card_cover === 'avatar' ? 
-                        (<View style={{...styles.cardImgArea, backgroundColor: getColor(item.avatar.bgColor)}}>
+                      {item.card_cover === 'avatar' ? 
+                        <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor)}]}>
                         
-                        </View>)
+                        </View>
                         :
-                        (<Image
-                              source={{ uri: item.profile_image_url }}
-                              resizeMode="cover"
-                              style={styles.cardImgArea}
-                          />)
+                        <View style={[styles.gray]}>
+                          <Image 
+                            source={{ uri: item.profile_image_url }} 
+                            resizeMode="cover"
+                            style={{ width: 64, height: 64, borderRadius: 16, }}
+                          />
+                        </View>                 
                       }
                       </View>
                       <View style={styles.infoContainer}>

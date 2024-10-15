@@ -653,7 +653,7 @@ export const styles = StyleSheet.create({
     bottomTextBlue: {
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
-        color: theme.skyblue,
+        color: theme.gray30,
         letterSpacing: -1,
         justifyContent: 'center',
         alignContent: 'center'

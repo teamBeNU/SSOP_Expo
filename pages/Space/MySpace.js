@@ -36,20 +36,31 @@ function MySpace({ navigation }) {
         return;
       }
 
-      const response = await fetch(`${API_URL}/view`, {
+      // 그룹 목록 API 호출
+      const groupResponse = await fetch(`${API_URL}/view`, {
         method: 'GET',
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
 
-      const result = await response.json();
-      if (Array.isArray(result)) {  // 결과가 배열인지 확인
-        setGroupData(result);  // 그룹 데이터를 상태에 저장
-        setReceivedProfileCardCount(result.receivedProfileCardCount || 0);  // 받은 프로필 카드 수 설정
+      const groupResult = await groupResponse.json();
+      if (Array.isArray(groupResult)) {  // 그룹 데이터가 배열인지 확인
+        setGroupData(groupResult);  // 그룹 데이터를 상태에 저장
       } else {
         console.error('그룹 데이터를 받지 못했습니다.');
       }
+
+      // 받은 프로필 카드 수 API 호출
+      const savedCardsResponse = await fetch(`http://43.202.52.64:8080/api/card/view/saved`, {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const savedCards = await savedCardsResponse.json();
+      setReceivedProfileCardCount(savedCards.length);  // 받은 프로필 카드 수 설정
     } catch (error) {
       console.error('그룹 목록을 불러오는 중 오류가 발생했습니다:', error);
     }
@@ -133,7 +144,6 @@ function MySpace({ navigation }) {
     setCurrentGroupName(currentName);
     setIsGroupNameChangeModalVisible(true);
   };
-  
 
   const showCustomToast = (text) => {
     Toast.show({
@@ -145,7 +155,7 @@ function MySpace({ navigation }) {
   };
 
   useEffect(() => {
-    fetchGroups();  // 컴포넌트가 마운트될 때 그룹 목록을 가져옴
+    fetchGroups();  // 컴포넌트가 마운트될 때 그룹 목록과 받은 카드 개수 가져옴
   }, []);
 
   return (
@@ -163,7 +173,7 @@ function MySpace({ navigation }) {
         <MySpaceGroup
           name={'받은 프로필 카드'}
           members={receivedProfileCardCount}  // 받은 프로필 카드 수
-          onGroupPress={() => navigation.navigate('그룹')}
+          onGroupPress={() => navigation.navigate('받은 프로필 카드')}
           showMenu={false}
         />
 
@@ -176,7 +186,10 @@ function MySpace({ navigation }) {
                 id={group.groupId}  // 그룹 ID
                 name={group.group_name}  // group_name을 name으로 전달
                 members={group.memberCount}  // memberCount를 members로 전달
-                onGroupPress={() => navigation.navigate('그룹', { groupId: group.groupId })}
+                // onGroupPress={() => {
+                //   console.log('groupId:', group.groupId);  // groupId 값 확인
+                //   navigation.navigate('그룹', { groupId: group.groupId });
+                // }}
                 onDeleteGroup={() => {
                   setGroupToDelete(group.groupId);
                   setIsSpaceModalVisible(true);
@@ -184,6 +197,7 @@ function MySpace({ navigation }) {
                 onChangeGroupName={() => handleChangeGroupName(group.groupId, group.group_name)}  // 그룹 이름 변경
                 showMenu={true}
               />
+
             ))
           ) : (
             <Text></Text>  // 그룹이 없을 때

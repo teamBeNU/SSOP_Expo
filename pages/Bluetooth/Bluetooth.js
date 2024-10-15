@@ -20,7 +20,7 @@ import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 function Step1Screen() {
   const navigation = useNavigation(); 
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형');
+  const [viewOption, setViewOption] = useState('리스트형');
   const [hasCards, setHasCards] = useState(true); 
   const [cardData, setCardData] = useState([]);
 
@@ -85,6 +85,7 @@ function Step1Screen() {
             cardData={cardData}
             title={title}
             showNewCardButton={true}
+            showPlusCard={true}
           />
         ) : (
           <NoCardsView 
@@ -198,7 +199,7 @@ function Bluetooth({ navigation }) {
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity onPress={() => navigation.navigate(' ')}>
+          <TouchableOpacity onPress={() => navigation.navigate('홈')}>
             <HomeIcon style={{ marginRight: 8 }} />
           </TouchableOpacity>
         ),
