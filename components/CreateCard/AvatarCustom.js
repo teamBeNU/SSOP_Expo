@@ -10,20 +10,25 @@ import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
 import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
 
-export default function AvatarCustom({setProfileImageUrl, avatar, setAvatar}) {
+export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar}) {
     const ref = useRef();
     const [a, setA] = useState('');
 
     const [avaIndex, setAvaIndex] = useState(1);
-    // const [avatar, setAvatar] = useState({
-    //     face: 1,
-    //     hair: 1,
-    //     hairColor: 1,
-    //     clothes: 1,
-    //     acc: 0,
-    //     bg: 1,
-    //     bgColor: 1,
-    // })
+
+    // 외부에서 avatar와 setAvatar가 주어지지 않으면, 내부적으로 상태 관리
+    const [internalAvatar, internalSetAvatar] = useState({
+        face: null,
+        hair: null,
+        hairColor: null,
+        clothes: null,
+        acc: null,
+        bg: null,
+        bgColor: null,
+    });
+    // 실제로 사용할 avatar와 setAvatar 결정
+    const avatar = externalAvatar ?? internalAvatar;
+    const setAvatar = externalSetAvatar ?? internalSetAvatar;
 
     useEffect(() => {
         // 컴포넌트가 열리자마자 avatar 값을 1로 변경

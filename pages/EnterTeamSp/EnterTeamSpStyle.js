@@ -462,4 +462,12 @@ export const styles = StyleSheet.create({
     inactiveCircle: {
         backgroundColor: theme.gray90,
     },
+
+    avatarNext: {
+        color: "black",
+        fontFamily: "PretendardSemiBold",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "600",
+    },
 })
