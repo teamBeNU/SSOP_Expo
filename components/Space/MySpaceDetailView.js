@@ -27,8 +27,9 @@ const MySpaceDetailView = ({
   showMenu = true,
   onChangeGroupName,
   onDeleteGroup,
-  showFilterButton = true }) => {
-
+  showFilterButton = true
+}) => {
+  
   // 생년월일 -> 나이 계산
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -52,7 +53,7 @@ const MySpaceDetailView = ({
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor} >
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
       <View style={styles.backgroundColor2}>
         <Text style={[styles.detailtitle, { marginBottom: 8 }]}>{title}</Text>
         {sub ? (
@@ -83,7 +84,6 @@ const MySpaceDetailView = ({
               </TouchableOpacity>
             ))}
 
-            {/* 필터 버튼이 없을 때도 공간을 차지할 빈 뷰 */}
             {!showFilterButton && <View style={{ flex: 1 }} />}
 
             <View style={styles.rightButtonGroup}>
@@ -119,7 +119,6 @@ const MySpaceDetailView = ({
                     style={{ marginBottom: 10.5 }}
                     onSelect={() => setSelectedOption('최신순')}
                     text='최신순'
-
                   />
                   <MenuOption
                     onSelect={() => setSelectedOption('오래된 순')}
@@ -140,7 +139,7 @@ const MySpaceDetailView = ({
             {Object.entries(selectedFilters).map(([key, values]) => (
               values.map((value, index) => (
                 <TouchableOpacity
-                  key={`${key}-${index}`}
+                  key={`${key}-${index}`} // 고유한 key 추가
                   style={styles.selectedElement}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -152,7 +151,6 @@ const MySpaceDetailView = ({
                 </TouchableOpacity>
               ))
             ))}
-
           </View>
         ) : (
           <></>
@@ -163,12 +161,12 @@ const MySpaceDetailView = ({
             <View>
               <View style={[styles.row, styles.container]}>
                 {Array.isArray(cardData) && cardData.length > 0 ? (
-                  cardData.map((item) => {
+                  cardData.map((item, index) => {
                     const essential = item.memberEssential || item.cardEssential; // memberEssential이 없으면 cardEssential 사용
                     const optional = item.memberOptional || item.cardOptional; // memberOptional이 없으면 cardOptional 사용
 
                     return (
-                      <TouchableOpacity key={item.cardId} style={styles.btn1} onPress={handleNext}>
+                      <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={handleNext}>
                         {/* <ShareCard
                           backgroundColor={item.backgroundColor}
                           avatar={
@@ -206,17 +204,16 @@ const MySpaceDetailView = ({
                 )}
               </View>
             </View>
-
           )}
 
           {viewOption === '리스트형' && (
             <View>
-              {cardData.map((item) => {
+              {cardData.map((item, index) => {
                 const essential = item.memberEssential || item.cardEssential; // memberEssential이 없으면 cardEssential 사용
                 const optional = item.memberOptional || item.cardOptional; // memberOptional이 없으면 cardOptional 사용
 
                 return (
-                  <View key={item.id} style={styles.ListContainer}>
+                  <View key={item.id || index} style={styles.ListContainer}>
                     <TouchableOpacity onPress={handleNext}>
                       <View style={styles.row2}>
                         <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>

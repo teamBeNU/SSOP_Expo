@@ -200,6 +200,7 @@ function EditGroupPage({ route, navigation }) {
       <ScrollView>
         {/* (디폴트) 받은 프로필 카드 항목 */}
         <MySpaceGroup
+          key={'received-card'}  // 고유한 key 설정
           id={'received-card'}  // 고유 ID 설정
           name={'받은 프로필 카드'}
           members={receivedProfileCardCount}
@@ -213,7 +214,7 @@ function EditGroupPage({ route, navigation }) {
         <View style={styles.row}>
           {teamData.map((team) => (
             <MySpaceGroup
-              key={team.id}
+              key={team.id}  // 고유한 key 설정
               id={team.id}
               name={team.group_name}
               members={team.memberCount}
