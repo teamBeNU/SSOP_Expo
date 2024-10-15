@@ -167,7 +167,7 @@ const MySpaceDetailView = ({
 
                     return (
                       <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={handleNext}>
-                        {/* <ShareCard
+                        <ShareCard
                           backgroundColor={item.backgroundColor}
                           avatar={
                             <Image
@@ -186,14 +186,14 @@ const MySpaceDetailView = ({
                                   essential.card_template === 'free' ? '자유' :
                                     '기타'
                           }
-                        /> */}
-                        <ShareCard
+                        />
+                        {/* <ShareCard
                           avatar={item.avatar}
                           card_name={item.cardEssential.card_name}
                           card_birth={item.cardOptional.card_birth}
                           card_template={item.card_template}
                           card_cover={item.card_cover}
-                        />
+                        /> */}
                       </TouchableOpacity>
                     );
                   })
