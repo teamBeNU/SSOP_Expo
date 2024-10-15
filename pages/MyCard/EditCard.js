@@ -59,6 +59,7 @@ function EditCard() {
     const [address, setAddress] = useState(card.cardOptional.card_address ? card.cardOptional.card_address : '');
 
     const [step, setStep] = useState(1);
+    const [subStep, setSubStep] = useState(1); // 진행바를 위한 보조 변수
     const ref_input = useRef();
 
     const handleMBTI = (input) => {
@@ -69,7 +70,9 @@ function EditCard() {
 
     const navigation = useNavigation();
 
+    // 카드 수정
     const handleSubmit = async () =>  {
+        // 수정 내용 데이터에 담기
         const editCardData = {
             card_name: name,
             card_introduction: introduce,
@@ -160,27 +163,61 @@ function EditCard() {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data'
             },
-            });
-
-        // Check response status
-        if (response.status !== 200) {
-            throw new Error(response.data.message || '서버 오류 발생');
-        }
-    
-        console.log('성공:', response.data, '\nform : ', formData);  // response.data already contains parsed JSON
-    
+            });    
         } catch (error) {
-        // Show error message from the server or a generic error
         Alert.alert(error.response?.data?.message || error.message || 'Request failed');
         }
-    
         navigation.goBack();
     };
 
     const handleNext = () => {
         if (step === 1 ) {
+            setSubStep(2);
             setStep(2);
         } else if (step === 2) {
+            switch(card.card_template) {
+                case 'studentUniv': 
+                    setSubStep(3);
+                    setStep(3);
+                    break;
+                case 'studentSchool':
+                    setSubStep(3);
+                    setStep(4);
+                    break;
+                case 'worker': 
+                    setSubStep(3);
+                    setStep(5);
+                    break;
+                case 'fan':
+                    setSubStep(3);
+                    setStep(6);
+                    break;
+                case 'free':
+                    setSubStep(3);
+                    setStep(7);
+                    break;
+            }
+        } else {
+          setSubStep(4);  
+          setStep(8);
+        }
+    }
+
+    const handleBack = () => {
+        switch (step) {
+          case 1:
+            break;
+          case 2:
+            setStep(1);
+            break;
+          case 3:
+          case 4:
+          case 5:
+          case 6:
+          case 7:
+            setStep(2);
+            break;
+          case 8:
             switch(card.card_template) {
                 case 'studentUniv': 
                     setStep(3);
@@ -198,18 +235,6 @@ function EditCard() {
                     setStep(7);
                     break;
             }
-        } else {
-          setStep(8);
-        }
-    }
-
-    const handleBack = () => {
-        switch (step) {
-          case 1:
-            break;
-          default:
-            setStep(step - 1);
-            break;
         }
       };
 
@@ -255,7 +280,7 @@ function EditCard() {
             <View style={{flex: 1}}>
             {( // 프로그레스 바
                 <Progress.Bar
-                    progress={step / 3}
+                    progress={subStep / 4}
                     width={null}
                     height={2}
                     color={theme.green}
@@ -795,6 +820,193 @@ function EditCard() {
                 <Text style={styles.title}>카드 속 정보를 수정하세요.</Text>
 
                 <ScrollView>
+                {card.student?.card_student_school && (  
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>학교</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={school}
+                    onChangeText={setSchool}
+                    placeholder={school ? school : "학교명을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View> 
+                )}
+                {card.student?.card_student_grade && (  
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>학년</Text>
+                <View style={styles.dropDown}>
+                <RNPickerSelect
+                    onValueChange={(value) => setGrade(value)}
+                    value={grade}
+                    items={[
+                    { label: '1학년', value: '1학년', key: '1' },
+                    { label: '2학년', value: '2학년', key: '2' },
+                    { label: '3학년', value: '3학년', key: '3' },
+                    { label: '4학년', value: '4학년', key: '4' },
+                    { label: '추가학기', value: '추가학기', key: '5' },
+                    { label: '그 외', value: '그 외', key: '6' },
+                    ]}
+                    placeholder={{ label: '학년', value: null }}
+                    useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
+                    style={{
+                        inputIOS: styles.dropDownInput, // iOS 스타일 적용
+                        inputAndroid: styles.dropDownInput, // Android 스타일 적용
+                        iconContainer: styles.dropDownIconContainer, // 아이콘 위치 조정
+                      }}
+                      Icon={() => <DownIcon />} // 드롭다운 화살표 아이콘
+                />
+                </View>
+                </View>
+                )}
+                {card.student?.card_student_school && (  
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>전공</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={major}
+                    onChangeText={setMajor}
+                    placeholder={major ? major : "전공을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>                 
+                )}
+                {card.student?.card_student_id && (  
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>학생번호</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={id}
+                    onChangeText={setId}
+                    placeholder={id ? id : "학번을 입력해 주세요. 예) 17학번"}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+                )}
+                {card.student?.card_student_role && (  
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>역할</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={role}
+                    onChangeText={setRole}
+                    placeholder={role ? role : "프로젝트 혹은 학과 내 역할을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>    
+                )}
+                {card.student?.card_student_club && (  
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>동아리</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={club}
+                    onChangeText={setClub}
+                    placeholder={club ? club :"소속된 동아리가 있다면 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>   
+                )}
+                {card.student?.card_student_grade && (  
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>재학상태</Text>
+                <View style={styles.dropDown}>
+                <RNPickerSelect
+                    onValueChange={(value) => setStudentStatus(value)}
+                    value={studentStatus}
+                    items={[
+                    { label: '재학', value: '재학', key: '1' },
+                    { label: '휴학', value: '휴학', key: '2' },
+                    { label: '졸업 예정', value: '졸업 예정', key: '3' },
+                    { label: '졸업', value: '졸업', key: '4' },
+                    ]}
+                    placeholder={{ label: '학년', value: null }}
+                    useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
+                    style={{
+                        inputIOS: styles.dropDownInput, // iOS 스타일 적용
+                        inputAndroid: styles.dropDownInput, // Android 스타일 적용
+                        iconContainer: styles.dropDownIconContainer, // 아이콘 위치 조정
+                      }}
+                      Icon={() => <DownIcon />} // 드롭다운 화살표 아이콘
+                />
+                </View>
+                </View>
+                )}
+                
+                {card.worker?.card_worker_company && (
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>회사</Text>
+                <TextInput 
+                    style={styles.input }
+                    value={company}
+                    onChangeText={setCompany}
+                    placeholder= {company ? company : "회사명을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+                )}
+                {card.worker?.card_worker_job && (
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>직무</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={job}
+                    onChangeText={setJob}
+                    placeholder= {job ? job : "직무를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+                )}
+                {card.worker?.card_worker_position && (
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>직위</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={position}
+                    onChangeText={setPosition}
+                    placeholder={position ? position : "직위를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+                )}
+                {card.worker?.card_worker_department && (
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>부서</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={department}
+                    onChangeText={setDepartment}
+                    placeholder={department ? department : "소속 부서를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>    
+                )}
+                
+                {card.fan?.card_fan_genre && (
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>덕질 장르</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={genre}
+                    onChangeText={setGenre}
+                    placeholder= {genre ? genre : "덕질 장르를 입력해 주세요. 예)아이돌, 야구 등"}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+                )}
+                {card.fan?.card_fan_first && (
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>최애</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={first}
+                    onChangeText={setFirst}
+                    placeholder= {first ? first : "최애를 입력해 주세요. 예)차은우, 뉴진스 하니"}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+                )}
+                {card.fan?.card_fan_first && (
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
                 <Text style={styles.subTitle}>차애</Text>
                 <TextInput 
@@ -804,7 +1016,20 @@ function EditCard() {
                     placeholder={second ? second : "차애를 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
-                </View> 
+                </View>
+                )}
+                {card.fan?.card_fan_first && (
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>입덕 계기</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={reason}
+                    onChangeText={setReason}
+                    placeholder={reason ? reason : "입덕하게된 계기를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>    
+                )}
                 </ScrollView>
 
                 </View>
