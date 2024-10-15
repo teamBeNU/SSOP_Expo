@@ -4,6 +4,8 @@ import { getColor } from '../../utils/bgColorMapping';
 import { calculateAge } from '../../utils/calculateAge';
 import { getTemplate } from '../../utils/templateMapping';
 import { styles } from './CardViewStyle';
+
+
 export const GridCardView = ({cardData}) => {
     const navigation = useNavigation(); 
 

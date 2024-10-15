@@ -26,8 +26,10 @@ const MySpaceDetailView = ({
   handleFilterNext,
   showMenu = true,
   onChangeGroupName,
-  onDeleteGroup }) => {
-
+  onDeleteGroup,
+  showFilterButton = true
+}) => {
+  
   // 생년월일 -> 나이 계산
   const calculateAge = (birthDate) => {
     const birth = new Date(birthDate);
@@ -51,7 +53,7 @@ const MySpaceDetailView = ({
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor} >
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
       <View style={styles.backgroundColor2}>
         <Text style={[styles.detailtitle, { marginBottom: 8 }]}>{title}</Text>
         {sub ? (
@@ -65,7 +67,8 @@ const MySpaceDetailView = ({
 
         <View>
           <View style={styles.rowRange2}>
-            {hasSelectedFilters ? (
+            {/* 필터 버튼 표시 여부 제어 */}
+            {showFilterButton && (hasSelectedFilters ? (
               <TouchableOpacity
                 style={styles.selectedFilterButton}
                 onPress={handleFilterNext}
@@ -79,7 +82,9 @@ const MySpaceDetailView = ({
               >
                 <Text style={styles.filterButtonText}>필터</Text>
               </TouchableOpacity>
-            )}
+            ))}
+
+            {!showFilterButton && <View style={{ flex: 1 }} />}
 
             <View style={styles.rightButtonGroup}>
               {/* 격자형, 리스트형 버튼 */}
@@ -114,7 +119,6 @@ const MySpaceDetailView = ({
                     style={{ marginBottom: 10.5 }}
                     onSelect={() => setSelectedOption('최신순')}
                     text='최신순'
-
                   />
                   <MenuOption
                     onSelect={() => setSelectedOption('오래된 순')}
@@ -135,7 +139,7 @@ const MySpaceDetailView = ({
             {Object.entries(selectedFilters).map(([key, values]) => (
               values.map((value, index) => (
                 <TouchableOpacity
-                  key={`${key}-${index}`}
+                  key={`${key}-${index}`} // 고유한 key 추가
                   style={styles.selectedElement}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -147,7 +151,6 @@ const MySpaceDetailView = ({
                 </TouchableOpacity>
               ))
             ))}
-
           </View>
         ) : (
           <></>
@@ -158,34 +161,42 @@ const MySpaceDetailView = ({
             <View>
               <View style={[styles.row, styles.container]}>
                 {Array.isArray(cardData) && cardData.length > 0 ? (
-                  cardData.map((item) => (
-                    <TouchableOpacity key={item.cardId} style={styles.btn1} onPress={handleNext}>
-                      <ShareCard
-                        backgroundColor={item.backgroundColor}
-                        // avatar={item.avatar}
-                        avatar={
-                          <Image
-                            source={{ uri: item.profile_image_url ? item.profile_image_url :item.memberEssential.profile_image_url }}
-                            style={styles.gridImage}
-                          />
-                        }
-                        isHost={isHost}
-                        card_name={item.team_name ? item.team_name : item.memberEssential.card_name}
-                        age={item.card_birth ? calculateAge(item.card_birth) : item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : ''}
-                        dot=' · '
-                        card_template={
-                          item.template === 'student' ? '학생' :
-                            item.template === 'worker' ? '직장인' :
-                              item.template === 'fan' ? '팬' :
-                                item.template === 'free' ? '자유' :
-                                  item.memberEssential.card_template === 'student' ? '학생' :
-                                    item.memberEssential.card_template === 'worker' ? '직장인' :
-                                      item.memberEssential.card_template === 'fan' ? '팬' :
-                                        item.memberEssential.card_template === 'free' ? '자유' :
-                                          '기타'}
-                      />
-                    </TouchableOpacity>
-                  ))
+                  cardData.map((item, index) => {
+                    const essential = item.memberEssential || item.cardEssential; // memberEssential이 없으면 cardEssential 사용
+                    const optional = item.memberOptional || item.cardOptional; // memberOptional이 없으면 cardOptional 사용
+
+                    return (
+                      <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={handleNext}>
+                        <ShareCard
+                          backgroundColor={item.backgroundColor}
+                          avatar={
+                            <Image
+                              source={{ uri: item.profile_image_url ? item.profile_image_url : essential.profile_image_url }}
+                              style={styles.gridImage}
+                            />
+                          }
+                          isHost={isHost}
+                          card_name={essential.card_name}
+                          age={optional?.card_birth ? calculateAge(optional.card_birth) : '정보 없음'}
+                          dot=' · '
+                          card_template={
+                            essential.card_template === 'student' ? '학생' :
+                              essential.card_template === 'worker' ? '직장인' :
+                                essential.card_template === 'fan' ? '팬' :
+                                  essential.card_template === 'free' ? '자유' :
+                                    '기타'
+                          }
+                        />
+                        {/* <ShareCard
+                          avatar={item.avatar}
+                          card_name={item.cardEssential.card_name}
+                          card_birth={item.cardOptional.card_birth}
+                          card_template={item.card_template}
+                          card_cover={item.card_cover}
+                        /> */}
+                      </TouchableOpacity>
+                    );
+                  })
                 ) : (
                   <View style={styles.emptyContainer}>
                     <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
@@ -193,54 +204,62 @@ const MySpaceDetailView = ({
                 )}
               </View>
             </View>
-
           )}
 
           {viewOption === '리스트형' && (
             <View>
-              {cardData.map((item) => (
-                <View key={item.id} style={styles.ListContainer}>
-                  <TouchableOpacity onPress={handleNext}>
-                    <View style={styles.row2}>
-                      <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                        <Image
-                          source={{ uri: item.profile_image_url ? item.profile_image_url :item.memberEssential.profile_image_url }}
-                          style={styles.listImage}
-                        />
-                      </View>
+              {cardData.map((item, index) => {
+                const essential = item.memberEssential || item.cardEssential; // memberEssential이 없으면 cardEssential 사용
+                const optional = item.memberOptional || item.cardOptional; // memberOptional이 없으면 cardOptional 사용
 
-                      <View style={styles.infoContainer}>
-                        <View style={styles.rowName}>
-                          {isHost && (
-                            <View style={styles.host}>
-                              <Text style={styles.hostText}>호스트</Text>
-                            </View>
-                          )}
-                          <Text style={styles.Text16gray10}>
-                            {item.team_name ? item.team_name : item.memberEssential.card_name}
-                            {userId===item.userId && ( <Text> (나)</Text> )}
-                            </Text>
-                          <Text style={styles.Text16gray50}>{item.card_birth ? calculateAge(item.card_birth) : item.memberOptional.card_birth ? calculateAge(item.memberOptional.card_birth) : '정보 없음'}</Text>
+                return (
+                  <View key={item.id || index} style={styles.ListContainer}>
+                    <TouchableOpacity onPress={handleNext}>
+                      <View style={styles.row2}>
+                        <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
+                          <Image
+                            source={{ uri: item.profile_image_url ? item.profile_image_url : essential.profile_image_url }}
+                            style={styles.listImage}
+                          />
                         </View>
-                        <Text style={styles.Text14gray30}>{item.team_comment? item.team_comment : item.memberEssential.card_introduction}</Text>
+
+                        <View style={styles.infoContainer}>
+                          <View style={styles.rowName}>
+                            {isHost && (
+                              <View style={styles.host}>
+                                <Text style={styles.hostText}>호스트</Text>
+                              </View>
+                            )}
+                            <Text style={styles.Text16gray10}>
+                              {essential.card_name}
+                              {userId === item.userId && (<Text> (나)</Text>)}
+                            </Text>
+                            <Text style={styles.Text16gray50}>
+                              {optional?.card_birth ? calculateAge(optional.card_birth) : '정보 없음'}
+                            </Text>
+                          </View>
+                          <Text style={styles.Text14gray30}>
+                            {essential.card_introduction}
+                          </Text>
+                        </View>
                       </View>
-                    </View>
-                    <View style={styles.menuContainer}>
-                      {userId===item.userId && showMenu && (
-                        <Menu>
-                          <MenuTrigger>
-                            <MoreGrayIcon style={{ marginRight: 8 }} />
-                          </MenuTrigger>
-                          <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                            <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
-                            <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(id)} />
-                          </MenuOptions>
-                        </Menu>
-                      )}
-                    </View>
-                  </TouchableOpacity>
-                </View>
-              ))}
+                      <View style={styles.menuContainer}>
+                        {userId === item.userId && showMenu && (
+                          <Menu>
+                            <MenuTrigger>
+                              <MoreGrayIcon style={{ marginRight: 8 }} />
+                            </MenuTrigger>
+                            <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
+                              <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
+                              <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(item.id)} />
+                            </MenuOptions>
+                          </Menu>
+                        )}
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                );
+              })}
             </View>
           )}
         </View>
@@ -251,4 +270,3 @@ const MySpaceDetailView = ({
 };
 
 export default MySpaceDetailView;
-
