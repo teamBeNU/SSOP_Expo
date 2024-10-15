@@ -205,6 +205,7 @@ function EditCard() {
                     borderWidth={0}
                 />
             )}
+
             {step === 1 && (
             <KeyboardAvoidingView 
             style={styles.container}
@@ -220,10 +221,11 @@ function EditCard() {
                 <TextInput 
                     value={name}
                     onChangeText={setName}
-                    style={styles.input}
-                    placeholder={name}
+                    style={name ? styles.input : styles.warningInput }
+                    placeholder={name ? name : '이름을 입력해 주세요.'}
                     placeholderTextColor={theme.gray60}
                     />
+                {name ? null : <Text style={styles.warningText}>이름을 입력해 주세요.</Text>}
                 </View>
 
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
@@ -231,10 +233,11 @@ function EditCard() {
                 <TextInput 
                     value={introduce}
                     onChangeText={setIntroduce}
-                    style={styles.input}
-                    placeholder={introduce}
+                    style={introduce ? styles.input : styles.warningInput }
+                    placeholder={introduce ? introduce : '한줄소개를 입력해 주세요.'}
                     placeholderTextColor={theme.gray60}
                     />
+                {introduce ? null : <Text style={styles.warningText}>한줄소개를 입력해 주세요.</Text>}
                 </View>
 
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
@@ -372,12 +375,13 @@ function EditCard() {
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
                 <Text style={styles.subTitle}>학교*</Text>
                 <TextInput 
-                    style={styles.input}
+                    style={school ? styles.input : styles.warningInput}
                     value={school}
                     onChangeText={setSchool}
                     placeholder= {school ? school : "학교명을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
+                {school ? null : <Text style={styles.warningText}>학교명을 입력해 주세요.</Text>}
                 </View>
 
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
@@ -409,12 +413,13 @@ function EditCard() {
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
                 <Text style={styles.subTitle}>전공*</Text>
                 <TextInput 
-                    style={styles.input}
+                    style={major ? styles.input : styles.warningInput}
                     value={major}
                     onChangeText={setMajor}
                     placeholder={major ? major : "전공을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
+                {major ? null : <Text style={styles.warningText}>전공을 입력해 주세요.</Text>}
                 </View>
 
                 <View style={styles.line} />
@@ -498,12 +503,13 @@ function EditCard() {
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
                 <Text style={styles.subTitle}>학교*</Text>
                 <TextInput 
-                    style={styles.input}
+                    style={school ? styles.input : styles.warningInput}
                     value={school}
                     onChangeText={setSchool}
                     placeholder= {school ? school : "학교명을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
+                {school ? null : <Text style={styles.warningText}>학교명을 입력해 주세요.</Text>}
                 </View>
 
                 <View style={{...styles.inputContainer, marginBottom: 28}}>

@@ -66,6 +66,30 @@ export const styles = StyleSheet.create({
     lineHeight: 19,
     letterSpacing: -0.32
     },
+    warningInput:{
+    backgroundColor: theme.gray95,
+    height: 48,
+    paddingVertical: 8,
+    paddingHorizontal: 16,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: theme.red,
+    color: theme.gray10,
+    fontFamily: 'PretendardRegular',
+    fontSize: 16,
+    fontWeight: '500',
+    lineHeight: 19,
+    letterSpacing: -0.32
+    },
+    warningText:{
+    color: theme.red,
+    fontFamily: 'PretendardRegular',
+    fontSize: 14,
+    fontWeight: '400',
+    lineHeight: 17,
+    letterSpacing: -0.14,
+    marginLeft: 8
+    },
     line: {
     borderBottomWidth: 1,
     borderBottomColor: theme.gray90, 
