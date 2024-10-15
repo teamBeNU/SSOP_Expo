@@ -10,8 +10,8 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     paddingHorizontal: 16,
-    paddingTop: 32,
-    justifyContent: 'center'
+    paddingTop: 30,
+    justifyContent: 'flex-start',
     },
     scrollContainer:{
     backgroundColor: 'white',

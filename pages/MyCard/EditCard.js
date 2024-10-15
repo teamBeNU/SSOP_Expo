@@ -14,6 +14,7 @@ import DoneIcon from '../../assets/icons/ic_done_small_line.svg'
 import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
 
 function EditCard() {
+    console.log('card : ', card);
 
     const route = useRoute();
     const {card} = route.params;
@@ -31,15 +32,31 @@ function EditCard() {
     const [x, setX] = useState(card.cardOptional.card_sns_x ? card.cardOptional.card_sns_x : '');
 
     //학생
-    const [school, setSchool] = useState(card.student.card_student_school ? card.student.card_student_school : '');
-    const [grade, setGrade] = useState(card.student.card_student_grade ? card.student.card_student_grade : '');
-    const [major, setMajor] = useState(card.student.card_student_major ? card.student.card_student_major : '');
-    const [id, setId] = useState(card.student.card_student_id ? card.student.card_student_id : '');
-    const [club, setClub] = useState(card.student.card_student_club ? card.student.card_student_club : '');
-    const [role, setRole] = useState(card.student.card_student_role ? card.student.card_student_role : '');
-    const [studentStatus, setStudentStatus] = useState(card.student.card_student_status ? card.student.card_student_status : '');
+    const [school, setSchool] = useState(card.student ? card.student.card_student_school : '');
+    const [grade, setGrade] = useState(card.student ? card.student.card_student_grade : '');
+    const [major, setMajor] = useState(card.student ? card.student.card_student_major : '');
+    const [id, setId] = useState(card.student ? card.student.card_student_id : '');
+    const [club, setClub] = useState(card.student ? card.student.card_student_club : '');
+    const [role, setRole] = useState(card.student ? card.student.card_student_role : '');
+    const [studentStatus, setStudentStatus] = useState(card.student ? card.student.card_student_status : '');
+   
     //직장인
+    const [company, setCompany] = useState(card.worker ? card.worker.card_worker_company : '');
+    const [job, setJob] = useState(card.worker ? card.worker.card_worker_job : '');
+    const [position, setPosition] = useState(card.worker ? card.worker.card_worker_position : '');
+    const [department, setDepartment] = useState(card.worker ? card.worker.card_worker_department : '');
+
     //팬
+    const [genre, setGenre] = useState(card.fan ? card.fan.card_fan_genre : '');
+    const [first, setFirst] = useState(card.fan ? card.fan.card_fan_first : '');
+    const [second, setSecond] = useState(card.fan ? card.fan.card_fan_second : '');
+    const [reason, setReason] = useState(card.fan ? card.fan.card_fan_reason : '');
+
+    //추가 정보
+    const [music, setMusic] = useState(card.cardOptional.card_music ? card.cardOptional.card_music : '');
+    const [hobby, setHobby] = useState(card.cardOptional.card_hobby ? card.cardOptional.card_hobby : '');
+    const [movie, setMovie] = useState(card.cardOptional.card_movie ? card.cardOptional.card_movie : '');
+    const [address, setAddress] = useState(card.cardOptional.card_address ? card.cardOptional.card_address : '');
 
     const [step, setStep] = useState(1);
     const ref_input = useRef();
@@ -63,10 +80,10 @@ function EditCard() {
             card_sns_x: x,
             card_email: email,
             card_MBTI: MBTI,
-            // card_music: music,
-            // card_movie: movie,
-            // card_hobby: hobby,
-            // card_address: address,
+            card_music: music,
+            card_movie: movie,
+            card_hobby: hobby,
+            card_address: address,
         };
     
         switch (card.card_template) {
@@ -92,19 +109,45 @@ function EditCard() {
                 };
                 break;
             case 'worker':
-                // editCardData.worker = {
-    
-                // }
+                editCardData.worker = {
+                    card_worker_company: company,
+                    card_worker_job: job,
+                    card_worker_position: position,
+                    card_worker_department: department
+                };
                 break;
             case 'fan':
-            //     editCardData.fan = {
-    
-            //   }
+                editCardData.fan = {
+                    card_fan_genre: genre,
+                    card_fan_first: first,
+                    card_fan_second: second,
+                    card_fan_reason: reason
+                };
               break;
             case 'free':
-              break;
+                editCardData.student = {
+                    card_student_school: school,
+                    card_student_grade: grade,
+                    card_student_major: major,
+                    card_student_id: id,
+                    card_student_club: club,
+                    card_student_role: role,
+                    card_student_status: studentStatus,
+                };
+                editCardData.worker = {
+                    card_worker_company: company,
+                    card_worker_job: job,
+                    card_worker_position: position,
+                    card_worker_department: department
+                };
+                editCardData.fan = {
+                    card_fan_genre: genre,
+                    card_fan_first: first,
+                    card_fan_second: second,
+                    card_fan_reason: reason
+                };
+                break;
         }
-        console.log('edit : ', editCardData);
 
         const token = await AsyncStorage.getItem('token');
 
@@ -138,12 +181,26 @@ function EditCard() {
         if (step === 1 ) {
             setStep(2);
         } else if (step === 2) {
-           if (card.card_template === 'studentUniv') setStep(3);
-           else if (card.card_template === 'studentSchool') setStep(4);
-            // else if (card.card_template === 'worker') setStep(5);
-            // else if (card.card_template === 'fan') setStep(6);
-            // else if (card.card_template === 'free') setStep(7);
-        } 
+            switch(card.card_template) {
+                case 'studentUniv': 
+                    setStep(3);
+                    break;
+                case 'studentSchool':
+                    setStep(4);
+                    break;
+                case 'worker': 
+                    setStep(5);
+                    break;
+                case 'fan':
+                    setStep(6);
+                    break;
+                case 'free':
+                    setStep(7);
+                    break;
+            }
+        } else {
+          setStep(8);
+        }
     }
 
     const handleBack = () => {
@@ -212,7 +269,7 @@ function EditCard() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
             >
-            <View style={{marginBottom: 120, marginTop: 17}}>
+            <View style={{marginBottom: 120}}>
 
                 <Text style={styles.title}>나에 대한 기본 정보 수정하기</Text>
 
@@ -297,7 +354,7 @@ function EditCard() {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
                 >
-                <View style={{marginBottom: 120, marginTop: 20}}>
+                <View style={{marginBottom: 120}}>
 
                     <Text style={styles.title}>내 연락처와 SNS 계정 수정하기</Text>
                     
@@ -367,7 +424,7 @@ function EditCard() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
             >
-                <View style={{marginBottom: 120, marginTop: 33}}>
+                <View style={{marginBottom: 120}}>
 
                 <Text style={styles.title}>학교 속 나에 대한 정보 수정하기</Text>
 
@@ -483,8 +540,8 @@ function EditCard() {
                 </ScrollView>
 
                 </View>
-                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
-                <Text style={styles.memoBtnText}>수정완료</Text>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
+                <Text style={styles.memoBtnText}>다음으로</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
             )}
@@ -495,7 +552,7 @@ function EditCard() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
             >
-                <View style={{marginBottom: 120, marginTop: 33}}>
+                <View style={{marginBottom: 120}}>
 
                 <Text style={styles.title}>학교 속 나에 대한 정보 수정하기</Text>
 
@@ -587,11 +644,235 @@ function EditCard() {
                 </ScrollView>
 
                 </View>
-                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
-                <Text style={styles.memoBtnText}>수정완료</Text>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
+                <Text style={styles.memoBtnText}>다음으로</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
             )}
+
+        {step === 5 && ( // 직장인
+            <KeyboardAvoidingView 
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
+            >
+                <View style={{marginBottom: 120}}>
+
+                <Text style={styles.title}>직장 속 나에 대한 정보 수정하기</Text>
+
+                <ScrollView>
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>회사*</Text>
+                <TextInput 
+                    style={company ? styles.input : styles.warningInput}
+                    value={company}
+                    onChangeText={setCompany}
+                    placeholder= {company ? company : "회사명을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                {company ? null : <Text style={styles.warningText}>회사명을 입력해 주세요.</Text>}
+                </View>
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>직무*</Text>
+                <TextInput 
+                    style={job ? styles.input : styles.warningInput}
+                    value={job}
+                    onChangeText={setJob}
+                    placeholder= {job ? job : "직무를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                {job ? null : <Text style={styles.warningText}>직무를 입력해 주세요.</Text>}
+                </View>
+
+                <View style={styles.line} />
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>직위</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={position}
+                    onChangeText={setPosition}
+                    placeholder={position ? position : "직위를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>부서</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={department}
+                    onChangeText={setDepartment}
+                    placeholder={department ? department : "소속 부서를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>    
+                </ScrollView>
+
+                </View>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
+                <Text style={styles.memoBtnText}>다음으로</Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
+            )}
+
+        {step === 6 && ( // 팬
+            <KeyboardAvoidingView 
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
+            >
+                <View style={{marginBottom: 120}}>
+
+                <Text style={styles.title}>팬으로서의 나에 대한 정보 수정하기</Text>
+
+                <ScrollView>
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>덕질 장르*</Text>
+                <TextInput 
+                    style={genre ? styles.input : styles.warningInput}
+                    value={genre}
+                    onChangeText={setGenre}
+                    placeholder= {genre ? genre : "덕질 장르를 입력해 주세요. 예)아이돌, 야구 등"}
+                    placeholderTextColor={theme.gray60}
+                    />
+                {genre ? null : <Text style={styles.warningText}>덕질 장르를 입력해 주세요.</Text>}
+                </View>
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>최애*</Text>
+                <TextInput 
+                    style={first ? styles.input : styles.warningInput}
+                    value={first}
+                    onChangeText={setFirst}
+                    placeholder= {first ? first : "최애를 입력해 주세요. 예)차은우, 뉴진스 하니"}
+                    placeholderTextColor={theme.gray60}
+                    />
+                {first ? null : <Text style={styles.warningText}>직무를 입력해 주세요.</Text>}
+                </View>
+
+                <View style={styles.line} />
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>차애</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={second}
+                    onChangeText={setSecond}
+                    placeholder={second ? second : "차애를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>
+
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>입덕 계기</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={reason}
+                    onChangeText={setReason}
+                    placeholder={reason ? reason : "입덕하게된 계기를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View>    
+                </ScrollView>
+
+                </View>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
+                <Text style={styles.memoBtnText}>다음으로</Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
+        )}
+
+        {step === 7 && ( // 자유
+            <KeyboardAvoidingView 
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
+            >
+                <View style={{marginBottom: 120}}>
+
+                <Text style={styles.title}>카드 속 정보를 수정하세요.</Text>
+
+                <ScrollView>
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>차애</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={second}
+                    onChangeText={setSecond}
+                    placeholder={second ? second : "차애를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View> 
+                </ScrollView>
+
+                </View>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
+                <Text style={styles.memoBtnText}>다음으로</Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
+        )}
+
+        {step === 8 && ( // 추가 정보
+            <KeyboardAvoidingView 
+            style={styles.container}
+            behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+            keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
+            >
+                <View style={{marginBottom: 120}}>
+
+                <Text style={styles.title}>추가 정보를 수정하세요.</Text>
+
+                <ScrollView>
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>취미</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={hobby}
+                    onChangeText={setHobby}
+                    placeholder={hobby ? hobby : "취미를 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View> 
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>인생 음악</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={music}
+                    onChangeText={setMusic}
+                    placeholder={music ? music : "노래 제목을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View> 
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>인생 영화</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={movie}
+                    onChangeText={setMovie}
+                    placeholder={movie ? movie : "영화 제목을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View> 
+                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>거주지</Text>
+                <TextInput 
+                    style={styles.input}
+                    value={address}
+                    onChangeText={setAddress}
+                    placeholder={address ? address : "거주지를 입력해 주세요. 예)서울특별시 강남구"}
+                    placeholderTextColor={theme.gray60}
+                    />
+                </View> 
+                </ScrollView>
+
+                </View>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
+                <Text style={styles.memoBtnText}>수정 완료</Text>
+                </TouchableOpacity>
+            </KeyboardAvoidingView>
+        )}
             
             
             </View>
