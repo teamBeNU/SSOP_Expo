@@ -38,7 +38,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형');
+  const [viewOption, setViewOption] = useState('리스트형');
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const [hasCards, setHasCards] = useState(true);
@@ -140,9 +140,6 @@ export default function DetailTeamSpaceScreen({ navigation }) {
     cardIdData,
     memberData,
   };
-  
-  console.log(combinedData);
-  
 
   useEffect(() => {
     // 특정 팀스페이스 조회 API 호출 for 초대코드

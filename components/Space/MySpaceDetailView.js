@@ -1,15 +1,21 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text, ScrollView, TouchableOpacity, Image, Modal, TouchableWithoutFeedback } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import People from '../../assets/icons/ic_person_small_fill.svg';
 import CloseIcon from '../../assets/icons/ic_close_small_line.svg';
+import CloseIcon2 from '../../assets/icons/ic_close_regular_line.svg';
 import ListIcon from '../../assets/icons/ic_lists.svg';
 import AllListIcon from '../../assets/icons/ic_border_all.svg';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { ShareCard } from '../Bluetooth/ShareCard.js';
+import { Card } from '../MyCard/Card.js';
+import { CardMember } from '../MyCard/CardMember.js';
+import { calculateAge } from '../../utils/calculateAge.js';
 
 const MySpaceDetailView = ({
   title,
@@ -27,20 +33,30 @@ const MySpaceDetailView = ({
   showMenu = true,
   onChangeGroupName
 }) => {
-  
-  const navigation = useNavigation();
 
-  // 생년월일 -> 나이 계산
-  const calculateAge = (birthDate) => {
-    const birth = new Date(birthDate);
-    const today = new Date();
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-      age--;
-    }
-    return age;
-  };
+  const navigation = useNavigation();
+  const baseUrl = 'http://43.202.52.64:8080/api'
+  const [token, setToken] = useState(null);
+  const [data, setData] = useState([]);
+  const [modalCardVisible, setModalCardVisible] = useState(false);
+  const [modalMemberVisible, setModalMemberVisible] = useState(false);
+  const [selectedCardData, setSelectedCardData] = useState(null);
+  const [loading, setLoading] = useState(false); // 로딩 상태 추가
+  const [error, setError] = useState(null); // 에러 상태 추가
+
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
 
   // 선택된 필터 값이 모두 null인지 확인
   const hasSelectedFilters = selectedFilters && Object.values(selectedFilters).some(filterArray => filterArray.length > 0);
@@ -53,8 +69,25 @@ const MySpaceDetailView = ({
   };
 
   // 카드 상세보기
-  const handleCardDetail = (cardId) => {
+  const handleCardDetail = async (cardData) => {
+    console.log("클릭한 카드: ", cardData);
+
+    if (typeof cardData === 'number') {
+      try {
+        const response = await axios.get(`${baseUrl}/card/view?cardId=${cardData}`);
+        console.log("카드 상세보기 API 요청: ", response.data);
+        // setData(response.data);
+        setSelectedCardData(response.data);
+        setModalCardVisible(true);
+      } catch (error) {
+        console.error("팀스페이스 - 카드 상세보기 API 호출 에러: ", error.message);
+      }
+    }
+    else{
+      setModalMemberVisible(true);
+    }
   }
+
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor} >
@@ -168,7 +201,7 @@ const MySpaceDetailView = ({
                     <TouchableOpacity
                       key={item.cardId}
                       style={styles.btn1}
-                      onPress={item.memberEssential ? handleCardDetail : handleCardDetail}
+                      onPress={() => handleCardDetail(item)}
                     >
                       <ShareCard
                         backgroundColor={item.backgroundColor}
@@ -216,17 +249,16 @@ const MySpaceDetailView = ({
                   </View>
                 )}
               </View>
+              {/* <Card cardData={}/> */}
             </View>
           )}
-
-
 
           {viewOption === '리스트형' && (
             <View>
               {Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
                 [...cardData.memberData, ...cardData.cardIdData].map((item) => (
                   <View key={item.id} style={styles.ListContainer}>
-                    <TouchableOpacity onPress={handleCardDetail}>
+                    <TouchableOpacity onPress={() => item.cardId ? handleCardDetail(item.cardId) : handleCardDetail(item)} >
                       <View style={styles.row2}>
                         <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
                           <Image
@@ -242,11 +274,11 @@ const MySpaceDetailView = ({
                               </View>
                             )}
                             <Text style={styles.Text16gray10}>
-                              {item.team_name 
-                              ? item.team_name 
-                              : item.memberEssential
-                              ? item.memberEssential?.card_name
-                              : item.cardEssential?.card_name
+                              {item.team_name
+                                ? item.team_name
+                                : item.memberEssential
+                                  ? item.memberEssential?.card_name
+                                  : item.cardEssential?.card_name
                               }
                               {userId === item.userId && (<Text> (나)</Text>)}
                             </Text>
@@ -262,11 +294,11 @@ const MySpaceDetailView = ({
                             </Text>
                           </View>
                           <Text style={styles.Text14gray30}>
-                            {item.team_comment 
-                            ? item.team_comment // filterData
-                            : item.memberEssential
-                            ? item.memberEssential.card_introduction // memberData
-                            : item.cardEssential.card_introduction // cardIdData
+                            {item.team_comment
+                              ? item.team_comment // filterData
+                              : item.memberEssential
+                                ? item.memberEssential.card_introduction // memberData
+                                : item.cardEssential.card_introduction // cardIdData
                             }
                           </Text>
                         </View>
@@ -294,6 +326,58 @@ const MySpaceDetailView = ({
               )}
             </View>
           )}
+
+          {/* 기존 카드 상세보기 모달 */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalCardVisible}
+            onRequestClose={() => {
+              setModalCardVisible(!modalCardVisible);
+            }}
+          >
+            <TouchableWithoutFeedback onPress={() => setModalCardVisible(false)}>
+
+              <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => setModalCardVisible(false)}
+                  >
+                    <CloseIcon2 />
+                  </TouchableOpacity>
+
+                    <Card cardData={selectedCardData} /> 
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </Modal>
+
+          {/* 호스트 템플릿 상세보기 모달 */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalMemberVisible}
+            onRequestClose={() => {
+              setModalMemberVisible(!modalMemberVisible);
+            }}
+          >
+            <TouchableWithoutFeedback onPress={() => setModalMemberVisible(false)}>
+
+              <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => setModalMemberVisible(false)}
+                  >
+                    <CloseIcon2 />
+                  </TouchableOpacity>
+                    <CardMember cardData={cardData.memberData[0]} />
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </Modal>
+
         </View>
         <View style={styles.innerView}></View>
       </View>
