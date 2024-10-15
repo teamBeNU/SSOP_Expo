@@ -452,12 +452,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
       const permission = await requestPermission();   // 파일 및 미디어 액세스 권한 요청
       if (!permission.granted) {   // 권한 거부
         Alert.alert(
-          "권한 필요", // 제목
-          "이미지를 선택하려면 설정에서 권한을 허용해 주세요.",   // 메시지
+          "필수 권한 허용 안내", // 제목
+          "이미지를 게시하려면 설정에서 사진 및 동영상 권한을 허용해 주세요.",   // 메시지
           [
             {
-              text: "취소",
-              onPress: () => console.log("취소됨"),
+              text: "닫기",
+              onPress: () => console.log("권한 취소"),
               style: "cancel"
             },
             { text: "설정으로 가기", onPress: () => Linking.openSettings() }  // 설정으로 이동
