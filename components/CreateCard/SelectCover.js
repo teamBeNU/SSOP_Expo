@@ -12,6 +12,8 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
 
     const [imageWidth, setImageWidth] = useState(0);
 
+    const [isAvatar, setIsAvatar] = useState(false);    // 아바타 커버 선택했는지
+
     // 이미지 권한 요청을 위한 hooks
     const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
@@ -32,12 +34,12 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
             const permission = await requestPermission();   // 파일 및 미디어 액세스 권한 요청
             if(!permission.granted) {   // 권한 거부
                 Alert.alert(
-                    "권한 필요", // 제목
-                    "이미지를 선택하려면 설정에서 권한을 허용해 주세요.",   // 메시지
+                    "필수 권한 허용 안내", // 제목
+                    "이미지를 게시하려면 설정에서 사진 및 동영상 권한을 허용해 주세요.",   // 메시지
                     [
                       {
-                        text: "취소",
-                        onPress: () => console.log("취소됨"),
+                        text: "닫기",
+                        onPress: () => console.log("권한 취소"),
                         style: "cancel"
                       },
                       { text: "설정으로 가기", onPress: () => Linking.openSettings() }  // 설정으로 이동
@@ -65,6 +67,13 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
         }
     }
 
+    useEffect(() => {
+        if (isAvatar) {
+            handleNext();
+            setIsAvatar(false);
+        }
+    }, [isAvatar]);
+
     return (
         <View style={{height: '100%', backgroundColor: theme.white}}>
             <Text style={styles.coverTitle}>카드 커버를 선택하세요.</Text>
@@ -82,8 +91,10 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                 >
                     <TouchableOpacity  
                         onPress={() => {
-                            handleNext(); 
-                            setCardCover("avatar");}}    
+                            setCardCover("avatar");
+                            setIsAvatar(true);
+                            // handleNext(); 
+                        }}
                     >
                         <Image 
                             source={require("../../assets/images/cardCover-1.png")}
@@ -97,7 +108,6 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                     </TouchableOpacity>
                     <TouchableOpacity
                         onPress={() => {
-                            //handleNext(); 
                             setCardCover("picture");
                             handleImagePicker();
                         }}  

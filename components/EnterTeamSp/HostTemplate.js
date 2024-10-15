@@ -23,7 +23,7 @@ import CoverPicture from "../../assets/createCard/coverPicture.svg";
 import AvatarCustom from "../CreateCard/AvatarCustom";
 import SelectCover from "../CreateCard/SelectCover";
 
-export default function HostTemplate({ navigation, goToOriginal, data, setProfileImageUrl, setIsPictureComplete }) {
+export default function HostTemplate({ navigation, goToOriginal, data }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
   const [step, setStep] = useState(1);
@@ -79,7 +79,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
   const [emptyMusic, setEmptyMusic] = useState(false);
   const [emptyMovie, setEmptyMovie] = useState(false);
   const [emptyAddress, setEmptyAddress] = useState(false);
-
+  
+  const [profile_image_url, setProfileImageUrl] = useState(null);
+  const [isPictureComplete, setIsPictureComplete] = useState(false);
+  const [isAvatarComplete, setIsAvatarComplete] = useState(false);
+  const [coverInit, setCoverInit] = useState(null);   // 호스트가 지정한 커버 (free, avtar, picture)
 
   const [isBirthCorrect, setIsBirthCorrect] = useState({ year: true, month: true, day: true });
 
@@ -126,6 +130,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
         setShowX(response.data.showX ? true : false);
         setPlus(response.data.plus);
         setCover(response.data.cardCover);
+        setCoverInit(response.data.cardCover);
 
         setStudentOptional(response.data.studentOptional);
         setWorkerOptional(response.data.workerOptional);
@@ -140,6 +145,100 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
         console.error("팀스페이스를 찾을 수 없습니다. :", error)
       });
   };
+
+  // post 요청
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    const requestData = {
+      memberEssential: {
+        card_name: card_name,
+        card_introduction: card_introduction,
+        card_template: data.template,
+        card_cover: card_cover
+      },
+      memberOptional: {
+        card_birth: card_birth,
+        card_MBTI: card_MBTI,
+        card_tel: card_tel,
+        card_email: card_email,
+        card_insta: card_Insta,
+        card_x: card_X,
+        card_hobby: card_hobby,
+        card_music: card_music,
+        card_movie: card_movie,
+        ard_address: card_address,
+        card_free_A1: card_free_A1,
+        card_free_A2: card_free_A2,
+        card_free_A3: card_free_A3,
+        ard_free_A4: card_free_A4,
+        card_free_A5: card_free_A5
+      },
+      memberStudent: {
+        card_student_school: studentOptional?.card_school || null,
+        card_student_grade: studentOptional?.card_grade || null,
+        card_student_id: studentOptional?.card_studNum || null,
+        card_student_major: studentOptional?.card_major || null,
+        card_student_club: studentOptional?.card_club || null,
+        card_student_role: studentOptional?.card_role || null,
+        card_student_status: studentOptional?.card_status || null,
+      },
+      memberWorker: {
+        card_worker_company: workerOptional?.card_company || null,
+        card_worker_job: workerOptional?.card_job || null,
+        card_worker_position: workerOptional?.card_position || null,
+        card_worker_department: workerOptional?.card_part || null
+      },
+      memberFan: {
+        card_fan_genre: fanOptional?.card_genre || null,
+        card_fan_first: fanOptional?.card_favorite || null,
+        card_fan_second: fanOptional?.card_second || null,
+        card_fan_reason: fanOptional?.card_reason || null
+      }
+    };
+
+    // member card
+    formData.append('member', {
+      name: 'member',
+      string: JSON.stringify(requestData),
+      type: 'application/json',
+    });
+
+    // image URI
+    if (profile_image_url) {
+      const localUri = profile_image_url;
+      const filename = localUri.split('/').pop();
+      const fileMatch = /\.(\w+)$/.exec(filename);
+      const type = fileMatch ? `image/${fileMatch[1]}` : 'image'  
+      formData.append('image', {
+          uri: localUri,
+          name: filename,
+          type: type
+      });
+    }
+
+    try {
+      const response = await axios.post(
+        `${baseUrl}/teamsp/member/create/${data.teamId}`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': `Bearer ${token}`,
+          }
+        }
+      );
+      if (response.data.code === 200) {
+        console.log('멤버 카드 생성 완료');
+        console.log("작성한 멤버 카드:", requestData);
+        setStep(9);
+      } else {
+        console.log('멤버 카드 생성 실패');
+      }
+    } catch (error) {
+      Alert.alert("카드 제출 중 오류가 발생했습니다.", error);
+      console.error('멤버 카드 생성 API 에러 발생: ', error);
+    }
+  }
 
   const hasStudentOptional = studentOptional !== undefined;
   const hasWorkerOptional = workerOptional !== undefined;
@@ -247,82 +346,49 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
           setStep(7); // 호스트가 지정한 아바타/사진으로 안내
         }
     } else if (step === 6) { // 아바타/사진 선택
-      setStep(8);
-    } else if (step === 7) { // 커버 아바타 안내 / 사진 업로드
-      setStep(8);
-    } else if (step === 8) { // 아바타 커스텀
-      const requestData = {
-        memberEssential: {
-          card_name: card_name,
-          card_introduction: card_introduction,
-          card_template: data.template,
-          card_cover: card_cover
-        },
-        memberOptional: {
-          card_birth: card_birth,
-          card_MBTI: card_MBTI,
-          card_tel: card_tel,
-          card_email: card_email,
-          card_insta: card_Insta,
-          card_x: card_X,
-          card_hobby: card_hobby,
-          card_music: card_music,
-          card_movie: card_movie,
-          ard_address: card_address,
-          card_free_A1: card_free_A1,
-          card_free_A2: card_free_A2,
-          card_free_A3: card_free_A3,
-          ard_free_A4: card_free_A4,
-          card_free_A5: card_free_A5
-        },
-        memberStudent: {
-          card_student_school: studentOptional?.card_school || null,
-          card_student_grade: studentOptional?.card_grade || null,
-          card_student_id: studentOptional?.card_studNum || null,
-          card_student_major: studentOptional?.card_major || null,
-          card_student_club: studentOptional?.card_club || null,
-          card_student_role: studentOptional?.card_role || null,
-          card_student_status: studentOptional?.card_status || null,
-        },
-        memberWorker: {
-          card_worker_company: workerOptional?.card_company || null,
-          card_worker_job: workerOptional?.card_job || null,
-          card_worker_position: workerOptional?.card_position || null,
-          card_worker_department: workerOptional?.card_part || null
-        },
-        memberFan: {
-          card_fan_genre: fanOptional?.card_genre || null,
-          card_fan_first: fanOptional?.card_favorite || null,
-          card_fan_second: fanOptional?.card_second || null,
-          card_fan_reason: fanOptional?.card_reason || null
-        }
+      if(card_cover === "avatar") {   // card cover가 avatar인 경우
+        setStep(8);
+      } else if (card_cover === "picture" && profile_image_url) { // card cover가 picture 인 경우(step 8이 없음)
+        handleSubmit();
+        setStep(9);
       }
-      const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
-      // const apiUrl = `${baseUrl}/teamsp?teamId=93`;
-
-      axios
-        .post(apiUrl, { member: requestData }, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          console.log("작성한 카드:", requestData);
-          setStep(9);
-        })
-        .catch((error) => {
-          Alert.alert("카드 제출 중 오류가 발생했습니다.", error);
-          console.log("작성한 카드:", requestData);
-        });
+    } else if (step === 7) { // 커버 아바타 안내 / 사진 업로드
+      if(card_cover === "avatar") {   // card cover가 avatar인 경우
+        setStep(8);
+      } else if (card_cover === "picture" && profile_image_url) { // card cover가 picture 인 경우(step 8이 없음)
+        handleSubmit();
+        setStep(9);
+      }
+    } else if (step === 8) { // 아바타 커스텀
+      handleSubmit();
+      setStep(9);
     }
   }
 
   // step 단위로 뒤로가기
   useEffect(() => {
-    navigation.setOptions({
-      headerTitle: '카드 생성',
-      headerLeft: handleHeaderLeft
-    });
+    if (step === 8) {
+      navigation.setOptions({
+        headerTitle: '아바타 커스터마이징',
+        headerLeft: handleHeaderLeft,
+        headerRight: () => (
+          <TouchableOpacity
+            style={{marginRight: 20}}
+            onPress={() => {
+              setIsAvatarComplete(true);
+            }}
+          >
+            <Text style={styles.avatarNext}>완료</Text>
+          </TouchableOpacity>
+        ),
+      });
+    } else {
+        navigation.setOptions({
+          headerTitle: '카드 생성',
+          headerLeft: handleHeaderLeft
+        });
+    }
   }, [navigation, step]);
-
 
   const handleHeaderLeft = (onPress) => {
     if (step < 9) {
@@ -345,7 +411,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
         setStep(5);
         break;
       case 8:
-        setStep(6);
+        if(coverInit === "free") {    // 호스트가 지정한 커버가 free일 경우
+          setStep(6);
+        } else if (coverInit === "avatar") {    // 호스트가 지정한 커버가 avatar일 경우
+          setStep(7);
+        }
         break;
       default:
         setStep(step - 1);
@@ -376,14 +446,6 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
   // 이미지 권한 요청을 위한 hooks
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
-  // 커버
-  const handleScroll = (event) => {
-    const contentOffsetX = event.nativeEvent.contentOffset.x;
-    const currentIndex = Math.round(contentOffsetX / (SCREEN_WIDTH));
-    if (currentIndex == 0) { setCover('avatar'); }
-    else if (currentIndex == 1) { setCover('picture'); }
-  }
-
   // 갤러리 열기
   const handleImagePicker = async () => {
     // 권한 확인: 권한 없으면 물어보고, 승인하지 않으면 함수 종료
@@ -391,12 +453,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
       const permission = await requestPermission();   // 파일 및 미디어 액세스 권한 요청
       if (!permission.granted) {   // 권한 거부
         Alert.alert(
-          "권한 필요", // 제목
-          "이미지를 선택하려면 설정에서 권한을 허용해 주세요.",   // 메시지
+          "필수 권한 허용 안내", // 제목
+          "이미지를 게시하려면 설정에서 사진 및 동영상 권한을 허용해 주세요.",   // 메시지
           [
             {
-              text: "취소",
-              onPress: () => console.log("취소됨"),
+              text: "닫기",
+              onPress: () => console.log("권한 취소"),
               style: "cancel"
             },
             { text: "설정으로 가기", onPress: () => Linking.openSettings() }  // 설정으로 이동
@@ -415,15 +477,23 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
     });
 
     if (!result.canceled) {     // 이미지 업로드
-      // console.log(result);
-      // console.log(result.assets[0].uri);
       setProfileImageUrl(result.assets[0].uri);
       setIsPictureComplete(true);
-      setStep(9); // 완료 페이지로 이동
     } else {        // 이미지 업로드 취소
       setStep(step);
     }
   }
+
+  useEffect(() => {
+    if(isAvatarComplete && profile_image_url) {
+      handleNext();
+      setIsAvatarComplete(false);
+    }
+    if(isPictureComplete && profile_image_url) {
+      handleNext();
+      setIsPictureComplete(false);
+    }
+  }, [isAvatarComplete, isPictureComplete, profile_image_url]);
 
   // progressBar
   const maxSteps = 9;
@@ -908,7 +978,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
           {step === 8 && (
             <View style={{ marginLeft: -16, marginTop: -16 }}>
               {card_cover === "avatar" && (
-                <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
+                <AvatarCustom setProfileImageUrl={setProfileImageUrl} avatar={null} setAvatar={null} />
               )}
             </View>
           )}

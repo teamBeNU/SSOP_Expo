@@ -9,15 +9,14 @@ import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
 
 import BottomSheet from "../../components/CreateCard/BottomSheet";
-import TemplateStudentTeenager from "../../components/CreateCard/TemplateStudentTeenager";
-import TemplateStudentYouth from "../../components/CreateCard/TemplateStudentYouth";
+import TemplateStudentSchool from "../../components/CreateCard/TemplateStudentSchool";
+import TemplateStudentUniv from "../../components/CreateCard/TemplateStudentUniv";
 import TemplateWorker from "../../components/CreateCard/TemplateWorker";
 import TemplateFan from "../../components/CreateCard/TemplateFan";
 import TemplateFree from "../../components/CreateCard/TemplateFree";
 
 function CreateCard({navigation}) {
     const [card_template, setCardTemplate] = useState();
-    const [selectStudent, setSelectStudent] = useState("");     // 초,중,고등학생: teenager, 대학(원)생: youth
     const [step, setStep] = useState(1);
     const [modalVisible, setModalVisible] = useState(false);
 
@@ -80,8 +79,8 @@ function CreateCard({navigation}) {
                         <BottomSheet                 
                             modalVisible={modalVisible}
                             setModalVisible={setModalVisible}
-                            setSelectStudent={setSelectStudent}
                             setStep={setStep}
+                            setCardTemplate={setCardTemplate}
                         />
                     )}
                 </View>
@@ -89,11 +88,13 @@ function CreateCard({navigation}) {
 
             {step === 2 && (
                 <View style={{flex:1}}>
-                    {card_template === "student" && selectStudent === "teenager" && (
-                        <TemplateStudentTeenager navigation={navigation} card_template={card_template} />
+                    {card_template === "studentSchool" && (
+                        // 학생 - 초중고
+                        <TemplateStudentSchool navigation={navigation} card_template={card_template} />
                     )} 
-                    {card_template === "student" && selectStudent === "youth" && (
-                        <TemplateStudentYouth navigation={navigation} card_template={card_template} />
+                    {card_template === "studentUniv" && (
+                        // 학생 - 대학(원)
+                        <TemplateStudentUniv navigation={navigation} card_template={card_template} />
                     )} 
                     {card_template === "worker" && (
                         // 직장인
