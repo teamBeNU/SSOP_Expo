@@ -26,9 +26,7 @@ import SelectCover from "../CreateCard/SelectCover";
 export default function HostTemplate({ navigation, goToOriginal, data, setProfileImageUrl, setIsPictureComplete }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
-
   const [step, setStep] = useState(1);
-  const [isEmpty, setIsEmpty] = useState(false);
   const [imageWidth, setImageWidth] = useState(0);
   const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -69,19 +67,23 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
   const [workerOptional, setWorkerOptional] = useState([]);
   const [fanOptional, setFanOptional] = useState([]);
 
-  const emptyName = card_name.trim() === '';
-  const emptyIntroduction = card_introduction.trim() === '';
-  const emptyBirth = card_birth.trim() === '';
-  const emptyMbti = card_MBTI.trim() === '';
-  const emptyTel = card_tel.trim() === '';
-  const emptyEmail = card_email.trim() === '';
-  const emptyInsta = card_Insta.trim() === '';
-  const emptyX = card_X.trim() === '';
+  const [emptyName, setEmptyName] = useState(false);
+  const [emptyIntroduction, setEmptyIntroduction] = useState(false);
+  const [emptyBirth, setEmptyBirth] = useState(false);
+  const [emptyMbti, setEmptyMbti] = useState(false);
+  const [emptyTel, setEmptyTel] = useState(false);
+  const [emptyEmail, setEmptyEmail] = useState(false);
+  const [emptyInsta, setEmptyInsta] = useState(false);
+  const [emptyX, setEmptyX] = useState(false);
+  const [emptyHobby, setEmptyHobby] = useState(false);
+  const [emptyMusic, setEmptyMusic] = useState(false);
+  const [emptyMovie, setEmptyMovie] = useState(false);
+  const [emptyAddress, setEmptyAddress] = useState(false);
 
-  const emptyHobby = card_hobby.trim() === '';
-  const emptyMusic = card_music.trim() === '';
-  const emptyMovie = card_movie.trim() === '';
-  const emptyAddress = card_address.trim() === '';
+
+  const [isBirthCorrect, setIsBirthCorrect] = useState({ year: true, month: true, day: true });
+
+  const currentYear = new Date().getFullYear();
 
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
@@ -106,8 +108,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
 
   // 지정 템플릿 목록 API 호출
   const templateView = () => {
-    // const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
-    const apiUrl = `${baseUrl}/teamsp?teamId=81`;
+    const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
     axios
       .get(apiUrl)
       .then((response) => {
@@ -123,6 +124,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
         setShowInsta(response.data.showInsta ? true : false);
         setShowX(response.data.showX ? true : false);
         setPlus(response.data.plus);
+        setCover(response.data.cardCover);
 
         setStudentOptional(response.data.studentOptional);
         setWorkerOptional(response.data.workerOptional);
@@ -145,88 +147,171 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
   const optionsCount = [hasStudentOptional, hasWorkerOptional, hasFanOptional].filter(Boolean).length;
 
   const handleNext = () => {
-    switch (step) {
-      case 5:
+    if (step === 1) { // 기본 정보
+      const newEmptyName = card_name.trim() === '';
+      const newEmptyIntroduction = card_introduction.trim() === '';
+      const newEmptyBirth = card_birth.trim() === '';
+      const newEmptyMbti = card_MBTI.trim() === '';
+
+      setEmptyName(newEmptyName);
+      setEmptyIntroduction(newEmptyIntroduction);
+      setEmptyBirth(newEmptyBirth);
+      setEmptyMbti(newEmptyMbti);
+
+      const year = card_birth.slice(0, 4);
+      const month = card_birth.slice(5, 7);
+      const day = card_birth.slice(8, 10);
+
+      const isBirthFull = year !== '' && month !== '' && day !== '';
+
+      const isLeapYear = (year) => {    // 윤년 구하기
+        return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0));
+      }
+
+      const getDayInMonth = (year, month) => {    // 윤달 구하기
+        month = parseInt(month);
+        switch (month) {
+          case 1: case 3: case 5: case 7: case 8: case 10: case 12:   // 31일
+            return 31;
+          case 4: case 6: case 9: case 11:    //30일
+            return 30;
+          case 2:
+            return isLeapYear(year) ? 29 : 28;      // 윤달(2/29), 2/28
+          default:
+            return 0;
+        }
+      }
+
+      const days = getDayInMonth(year, month);
+
+      const isYearCorrect = year >= currentYear - 110 && year <= currentYear;
+      const isMonthCorrect = month.length === 2 && (1 <= parseInt(month) && parseInt(month) <= 12);
+      const isDayCorrect = day.length === 2 && (1 <= parseInt(day) && parseInt(day) <= days);
+
+      setIsBirthCorrect((prev) => ({
+        ...prev,
+        year: isYearCorrect,
+        month: isMonthCorrect,
+        day: isDayCorrect,
+      }));
+
+      if (!newEmptyName && !newEmptyIntroduction &&
+        (!showBirth || !newEmptyBirth) &&
+        (!showMBTI || !newEmptyMbti)
+      )
+        setStep(2);
+
+    } else if (step === 2) { // 연락처
+      const newEmptyTel = card_tel.trim() === '';
+      const newEmptyEmail = card_email.trim() === '';
+      const newEmptyInsta = card_Insta.trim() === '';
+      const newEmptyX = card_X.trim() === '';
+
+      setEmptyTel(newEmptyTel);
+      setEmptyEmail(newEmptyEmail);
+      setEmptyInsta(newEmptyInsta);
+      setEmptyX(newEmptyX);
+
+      if ((!showTel || !newEmptyTel) &&
+        (!showEmail || !newEmptyEmail) &&
+          (!showInsta || !newEmptyInsta) &&
+        (!showX || !newEmptyX)
+      )
+        setStep(3);
+
+    } else if (step === 3) { // 템플릿 필수
+      setStep(4);      
+    } else if (step === 4) { // 템플릿 자유
+      setStep(5);
+    } else if (step === 5) { // 추가 정보
+      const newEmptyHobby = card_hobby.trim() === '';
+      const newEmptyMusic = card_music.trim() === '';
+      const newEmptyMovie = card_movie.trim() === '';
+      const newEmptyAddress = card_address.trim() === '';
+
+      setEmptyHobby(newEmptyHobby);
+      setEmptyMusic(newEmptyMusic);
+      setEmptyMovie(newEmptyMovie);
+      setEmptyAddress(newEmptyAddress);
+
+      if ((!showHobby || !newEmptyHobby) &&
+        (!showMusic || !newEmptyMusic) &&
+          (!showMovie || !newEmptyMovie) &&
+        (!showAddress || !newEmptyAddress)
+      )
         if (card_cover === "free") {
-          setCover("avatar"); // 하단 순서알림를 위한 일시 적용
-          setStep(8)
-          break;
+          setStep(6) // 아바타와 사진 중 택 1
         }
-        else { setStep(7); break; }
-
-      case 6:
-        setStep(9);
-        break;
-
-      case 8:
-        const requestData = {
-          memberEssential: {
-            card_name: card_name,
-            card_introduction: card_introduction,
-            // card_template: data.template,
-            card_template: 'student',
-            card_cover: card_cover
-          },
-          memberOptional: {
-            card_birth: card_birth,
-            card_MBTI: card_MBTI,
-            card_tel: card_tel,
-            card_email: card_email,
-            card_insta: card_Insta,
-            card_x: card_X,
-            card_hobby: card_hobby,
-            card_music: card_music,
-            card_movie: card_movie,
-            ard_address: card_address,
-            card_free_A1: card_free_A1,
-            card_free_A2: card_free_A2,
-            card_free_A3: card_free_A3,
-            ard_free_A4: card_free_A4,
-            card_free_A5: card_free_A5
-          },
-          memberStudent: {
-            card_student_school: studentOptional?.card_school || null,
-            card_student_grade: studentOptional?.card_grade || null,
-            card_student_id: studentOptional?.card_studNum || null,
-            card_student_major: studentOptional?.card_major || null,
-            card_student_club: studentOptional?.card_club || null,
-            card_student_role: studentOptional?.card_role || null,
-            card_student_status: studentOptional?.card_status || null,
-          },
-          memberWorker: {
-            card_worker_company: workerOptional?.card_company || null,
-            card_worker_job: workerOptional?.card_job || null,
-            card_worker_position: workerOptional?.card_position || null,
-            card_worker_department: workerOptional?.card_part || null
-          },
-          memberFan: {
-            card_fan_genre: fanOptional?.card_genre || null,
-            card_fan_first: fanOptional?.card_favorite || null,
-            card_fan_second: fanOptional?.card_second || null,
-            card_fan_reason: fanOptional?.card_reason || null
-          }
+        else { 
+          setStep(7); // 호스트가 지정한 아바타/사진으로 안내
         }
-        // const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
-        const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=81`;
+    } else if (step === 6) { // 아바타/사진 선택
 
-        axios
-          .post(apiUrl, { member: requestData }, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-          .then((response) => {
-            console.log("작성한 카드:", requestData);
-            setStep(9);
-          })
-          .catch((error) => {
-            Alert.alert("카드 제출 중 오류가 발생했습니다.", error);
-            console.log("작성한 카드:", requestData);
-          });
+    } else if (step === 7) { // 커버 아바타 안내 / 사진 업로드
+      setStep(8);
+    } else if (step === 8) { // 아바타 커스텀
+      const requestData = {
+        memberEssential: {
+          card_name: card_name,
+          card_introduction: card_introduction,
+          card_template: data.template,
+          card_cover: card_cover
+        },
+        memberOptional: {
+          card_birth: card_birth,
+          card_MBTI: card_MBTI,
+          card_tel: card_tel,
+          card_email: card_email,
+          card_insta: card_Insta,
+          card_x: card_X,
+          card_hobby: card_hobby,
+          card_music: card_music,
+          card_movie: card_movie,
+          ard_address: card_address,
+          card_free_A1: card_free_A1,
+          card_free_A2: card_free_A2,
+          card_free_A3: card_free_A3,
+          ard_free_A4: card_free_A4,
+          card_free_A5: card_free_A5
+        },
+        memberStudent: {
+          card_student_school: studentOptional?.card_school || null,
+          card_student_grade: studentOptional?.card_grade || null,
+          card_student_id: studentOptional?.card_studNum || null,
+          card_student_major: studentOptional?.card_major || null,
+          card_student_club: studentOptional?.card_club || null,
+          card_student_role: studentOptional?.card_role || null,
+          card_student_status: studentOptional?.card_status || null,
+        },
+        memberWorker: {
+          card_worker_company: workerOptional?.card_company || null,
+          card_worker_job: workerOptional?.card_job || null,
+          card_worker_position: workerOptional?.card_position || null,
+          card_worker_department: workerOptional?.card_part || null
+        },
+        memberFan: {
+          card_fan_genre: fanOptional?.card_genre || null,
+          card_fan_first: fanOptional?.card_favorite || null,
+          card_fan_second: fanOptional?.card_second || null,
+          card_fan_reason: fanOptional?.card_reason || null
+        }
+      }
+      const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
 
-      default:
-        setStep(step + 1);
-        break;
+      axios
+        .post(apiUrl, { member: requestData }, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          console.log("작성한 카드:", requestData);
+          setStep(9);
+        })
+        .catch((error) => {
+          Alert.alert("카드 제출 중 오류가 발생했습니다.", error);
+          console.log("작성한 카드:", requestData);
+        });
     }
-  };
+  }
 
   // step 단위로 뒤로가기
   useEffect(() => {
@@ -250,7 +335,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
   const handleBack = () => {
     switch (step) {
       case 1:
-        goToOriginal();
+        break;
+      case 5:
+        setStep(3);
+        break;
+      case 7:
+        setStep(5);
         break;
       default:
         setStep(step - 1);
@@ -361,7 +451,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                 <View style={styles.nameContainer}>
                   <Text style={styles.nameBold}>이름 <Text style={styles.nameBold}> *</Text></Text>
                   <TextInput
-                    style={[styles.nameInput, isEmpty && emptyName && styles.inputEmpty]}
+                    style={[styles.nameInput, emptyName && styles.inputEmpty]}
                     placeholder="이름을 입력해 주세요."
                     keyboardType="default"
                     returnKeyType='next'
@@ -370,7 +460,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     ref={nameRef}
                     onSubmitEditing={() => introductionRef.current.focus()}
                   />
-                  {isEmpty && emptyName && (
+                  {emptyName && (
                     <Text style={styles.inputEmptyText}> 이름을 입력해 주세요.</Text>
                   )}
                 </View>
@@ -379,15 +469,14 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                 <View style={styles.nameContainer}>
                   <Text style={styles.nameBold}>한줄소개 <Text style={styles.nameBold}> *</Text></Text>
                   <TextInput
-                    style={[styles.nameInput, isEmpty && emptyIntroduction && styles.inputEmpty]}
+                    style={[styles.nameInput, emptyIntroduction && styles.inputEmpty]}
                     placeholder="나에 대해 간단히 알려주세요."
                     keyboardType="default"
                     value={card_introduction}
                     onChangeText={setIntroduction}
                     ref={introductionRef}
-                    onSubmitEditing={() => birthRef.current.focus()}
                   />
-                  {isEmpty && emptyIntroduction && (
+                  {emptyIntroduction && (
                     <Text style={styles.inputEmptyText}> 한줄소개를 입력해 주세요.</Text>
                   )}
                 </View>
@@ -398,14 +487,14 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>MBTI <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>MBTI</Text>}
                   <TextInput
-                    style={[styles.nameInput, showMBTI && isEmpty && emptyMbti && styles.inputEmpty]}
+                    style={[styles.nameInput, showMBTI && emptyMbti && styles.inputEmpty]}
                     placeholder="MBTI를 입력하세요."
                     keyboardType="default"
                     value={card_MBTI}
                     onChangeText={text => setMBTI(text.toUpperCase())}  // 입력 값을 대문자
                     ref={MBTIRef}
                   />
-                  {showMBTI && isEmpty && emptyMbti && (
+                  {showMBTI && emptyMbti && (
                     <Text style={styles.inputEmptyText}> MBTI를 입력해 주세요.</Text>
                   )}
                 </View>
@@ -420,17 +509,38 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>생년월일 8자리 <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>생년월일 8자리</Text>}
                   <TextInput
-                    style={[styles.nameInput, showBirth && isEmpty && emptyBirth && styles.inputEmpty]}
+                    style={[styles.birthInput, styles.birthInputbox, styles.marginR8, showBirth && emptyBirth && styles.inputEmpty]}
                     placeholder="YYYY/MM/DD"
+                    placeholderTextColor={theme.gray60}
                     keyboardType="numeric"
-                    returnKeyType='next'
-                    maxLength={8}
                     value={card_birth}
-                    onChangeText={setBirth}
+                    onChangeText={(text) => {
+                      const cleaned = text.replace(/[^0-9]/g, '');
+
+                      let formatted = cleaned;
+                      if (cleaned.length > 4) {
+                        formatted = `${cleaned.slice(0, 4)}/${cleaned.slice(4, 6)}`;
+                      }
+                      if (cleaned.length > 6) {
+                        formatted = `${formatted}/${cleaned.slice(6, 8)}`;
+                      }
+
+                      setBirth(formatted);
+                    }}
+                    maxLength={10}
+                    returnKeyType="next"
                     ref={birthRef}
+                    blurOnSubmit={false}
                   />
-                  {(showBirth && isEmpty && emptyBirth) && (
-                    <Text style={styles.inputEmptyText}> 생년월일 8자리를 올바르게 입력해 주세요. </Text>
+                  {showBirth && emptyBirth ? (
+                    <Text style={styles.inputEmptyText}>생년월일을 입력해 주세요.</Text>
+                  ) : (
+                    <View></View>
+                  )}
+                  {!emptyBirth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) ? (
+                    <Text style={styles.inputEmptyText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
+                  ) : (
+                    <View></View>
                   )}
                 </View>
 
@@ -461,7 +571,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>전화번호 <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>전화번호</Text>}
                   <TextInput
-                    style={[styles.nameInput, showTel && isEmpty && emptyTel && styles.inputEmpty]}
+                    style={[styles.nameInput, showTel && emptyTel && styles.inputEmpty]}
                     placeholder="전화번호를 입력해 주세요."
                     keyboardType="numeric"
                     returnKeyType='done'
@@ -470,7 +580,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     ref={telRef}
                     onSubmitEditing={() => emailRef.current.focus()}
                   />
-                  {showTel && isEmpty && emptyTel && (
+                  {showTel && emptyTel && (
                     <Text style={styles.inputEmptyText}> 전화번호를 입력해 주세요.</Text>
                   )}
                 </View>
@@ -481,7 +591,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>이메일 <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>이메일</Text>}
                   <TextInput
-                    style={[styles.nameInput, showEmail && isEmpty && emptyEmail && styles.inputEmpty]}
+                    style={[styles.nameInput, showEmail && emptyEmail && styles.inputEmpty]}
                     placeholder="이메일 주소를 입력해 주세요."
                     keyboardType="email"
                     value={card_email}
@@ -489,7 +599,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     ref={emailRef}
                     onSubmitEditing={() => instaRef.current.focus()}
                   />
-                  {showEmail && isEmpty && emptyEmail && (
+                  {showEmail && emptyEmail && (
                     <Text style={styles.inputEmptyText}> 이메일을 입력해 주세요.</Text>
                   )}
                 </View>
@@ -502,7 +612,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>Instagram <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>Instagram</Text>}
                   <TextInput
-                    style={[styles.nameInput, showInsta && isEmpty && emptyInsta && styles.inputEmpty]}
+                    style={[styles.nameInput, showInsta && emptyInsta && styles.inputEmpty]}
                     placeholder="인스타그램 계정을 입력해주세요."
                     keyboardType="default"
                     value={card_Insta}
@@ -510,7 +620,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     ref={instaRef}
                     onSubmitEditing={() => xRef.current.focus()}
                   />
-                  {showInsta && isEmpty && emptyInsta && (
+                  {showInsta && emptyInsta && (
                     <Text style={styles.inputEmptyText}> 인스타그램 계정을 입력해 주세요.</Text>
                   )}
                 </View>
@@ -521,14 +631,14 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>X(트위터) <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>X(트위터)</Text>}
                   <TextInput
-                    style={[styles.nameInput, showX && isEmpty && emptyX && styles.inputEmpty]}
+                    style={[styles.nameInput, showX && emptyX && styles.inputEmpty]}
                     placeholder="X 계정을 입력해 주세요."
                     keyboardType="default"
                     value={card_X}
                     onChangeText={setX}
                     ref={xRef}
                   />
-                  {showX && isEmpty && emptyX && (
+                  {showX && emptyX && (
                     <Text style={styles.inputEmptyText}> X 계정을 입력해 주세요.</Text>
                   )}
                 </View>
@@ -614,7 +724,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>취미<Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>취미</Text>}
                   <TextInput
-                    style={[styles.nameInput, showHobby && isEmpty && emptyHobby && styles.inputEmpty]}
+                    style={[styles.nameInput, showHobby && emptyHobby && styles.inputEmpty]}
                     placeholder="취미를 입력해 주세요."
                     keyboardType="default"
                     value={card_hobby}
@@ -622,7 +732,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     ref={hobbyRef}
                     onSubmitEditing={() => musicRef.current.focus()}
                   />
-                  {showHobby && isEmpty && emptyHobby && (
+                  {showHobby && emptyHobby && (
                     <Text style={styles.inputEmptyText}> 취미를 입력해 주세요.</Text>
                   )}
                 </View>
@@ -633,7 +743,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>인생 음악<Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>인생 음악</Text>}
                   <TextInput
-                    style={[styles.nameInput, showMusic && isEmpty && emptyMusic && styles.inputEmpty]}
+                    style={[styles.nameInput, showMusic && emptyMusic && styles.inputEmpty]}
                     placeholder="노래 제목을 입력해 주세요."
                     keyboardType="default"
                     value={card_music}
@@ -641,7 +751,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     ref={musicRef}
                     onSubmitEditing={() => movieRef.current.focus()}
                   />
-                  {showMusic && isEmpty && emptyMusic && (
+                  {showMusic && emptyMusic && (
                     <Text style={styles.inputEmptyText}> 노래 제목을 입력해 주세요.</Text>
                   )}
                 </View>
@@ -652,7 +762,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>인생 영화 <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>인생 영화</Text>}
                   <TextInput
-                    style={[styles.nameInput, showMovie && isEmpty && emptyMovie && styles.inputEmpty]}
+                    style={[styles.nameInput, showMovie && emptyMovie && styles.inputEmpty]}
                     placeholder="영화 제목을 입력해 주세요."
                     keyboardType="default"
                     value={card_movie}
@@ -660,7 +770,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     ref={movieRef}
                     onSubmitEditing={() => addressRef.current.focus()}
                   />
-                  {showMovie && isEmpty && emptyMovie && (
+                  {showMovie && emptyMovie && (
                     <Text style={styles.inputEmptyText}> 영화 제목을 입력해 주세요.</Text>
                   )}
                 </View>
@@ -671,21 +781,21 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                     <Text style={styles.nameBold}>거주지 <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>거주지</Text>}
                   <TextInput
-                    style={[styles.nameInput, showAddress && isEmpty && emptyAddress && styles.inputEmpty]}
+                    style={[styles.nameInput, showAddress && emptyAddress && styles.inputEmpty]}
                     placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구"
                     keyboardType="default"
                     value={card_address}
                     onChangeText={setAddress}
                     ref={addressRef}
                   />
-                  {showAddress && isEmpty && emptyAddress && (
+                  {showAddress && emptyAddress && (
                     <Text style={styles.inputEmptyText}> 거주지를 입력해 주세요.</Text>
                   )}
                 </View>
 
                 {/* 자유 질문 */}
                 <>
-                  {plus.map((item, index) => {
+                  {plus?.map((item, index) => {
                     const cardValues = [
                       card_free_A1, card_free_A2, card_free_A3, card_free_A4, card_free_A5
                     ];
@@ -698,7 +808,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
 
                     return (
                       <View key={index} style={styles.nameContainer}>
-                        <Text style={styles.nameBold}>{item} <Text style={styles.nameBold}> *</Text></Text>
+                        <Text style={styles.nameBold}>
+                          {item} <Text style={styles.nameBold}> *</Text>
+                        </Text>
                         <TextInput
                           style={styles.nameInput}
                           placeholder={`${item}을(를) 입력해주세요`}
@@ -709,7 +821,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                         />
                       </View>
                     );
-                  })}
+                  }) || null}
                 </>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
@@ -780,7 +892,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
                   </TouchableOpacity>
                 )}
                 {card_cover === "picture" && (
-                  <TouchableOpacity style={styles.btnNext} onPress={()=> handleImagePicker()}>
+                  <TouchableOpacity style={styles.btnNext} onPress={() => handleImagePicker()}>
                     <Text style={styles.btnText}> 사진 선택하기 </Text>
                   </TouchableOpacity>
                 )}
@@ -789,11 +901,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, setProfil
           )}
 
           {step === 8 && (
-              <View style={{marginLeft: -16, marginTop: -16}}>
-                  {card_cover === "avatar" && (
-                      <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
-                  )}
-              </View>
+            <View style={{ marginLeft: -16, marginTop: -16 }}>
+              {card_cover === "avatar" && (
+                <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
+              )}
+            </View>
           )}
 
           {/* 팀스페이스 입장 완료 */}

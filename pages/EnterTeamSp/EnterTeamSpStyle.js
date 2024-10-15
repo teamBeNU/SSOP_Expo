@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native"
 import { theme } from "../../theme"
 
-const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
+const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
     mainlayout: {
@@ -222,24 +222,33 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     // 호스트 지정 템플릿
-    inputBirthContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    inputBirth: {
-        width: '30%',
+    // 생년월일
+    birthInput: {
+        width: (Dimensions.get('window').width - 48) / 2,
         height: 48,
-        borderRadius: 8,
-        borderWidth: 0,
-        color: theme.gray10,
-        backgroundColor: theme.gray95,
         paddingVertical: 8,
         paddingHorizontal: 16,
+        alignItems: 'center',
+        backgroundColor: theme.gray95,
+        borderRadius: 8,
+        placeholderTextColo: theme.gray60,
     },
-    inputBirthText: {
-        textAlign: "right",
-        fontFamily: "PretendardRegular",
+    birthInputbox: {
+        justifyContent: 'space-between',
+        gap: 8,
+        alignItems: 'center',
+        flexDirection: 'row',
+    },
+    birthText: {
+        color: theme.gray60,
+        textAlign: 'right',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
+        fontWeight: '400',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        position: 'absolute',
+        right: 16
     },
     marginR8: {
         marginRight: '4%',
@@ -328,7 +337,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
     },
     selectContaienr: {
-        paddingTop: 31-8,
+        paddingTop: 31 - 8,
         paddingBottom: 33,
     },
     selectBtnContainer: {
@@ -340,9 +349,9 @@ export const styles = StyleSheet.create({
         marginTop: 8,
     },
     selectBtnTitleContainer: {
-        flexDirection:"row",
+        flexDirection: "row",
         justifyContent: "space-between",
-        alignItems:"center",
+        alignItems: "center",
         paddingTop: 24,
     },
     selectBtnTitle: {
@@ -354,7 +363,7 @@ export const styles = StyleSheet.create({
         textAlign: "center",
     },
     selectBtns: {
-        flexDirection:"row",
+        flexDirection: "row",
         flexWrap: 'wrap',
         marginTop: 16,
     },
@@ -367,13 +376,13 @@ export const styles = StyleSheet.create({
     selectInputContainer: {
         flex: 1,
         justifyContent: "center",
-        alignItems:"center",
+        alignItems: "center",
         marginBottom: 60
     },
     selectTextInputContainer: {
         paddingTop: 32,
         width: "100%",
-    }, 
+    },
     selectTitle: {
         marginTop: 60,
         color: theme.gray50,
@@ -391,11 +400,11 @@ export const styles = StyleSheet.create({
     dropDownContainerZIndex1: {
         marginRight: "63%",
         zIndex: 1,
-    }, 
+    },
     dropDownContainer: {
         marginRight: "63%",
         zIndex: 0
-    }, 
+    },
     // 아바타
     coverTitle: {
         fontFamily: "PretendardSemiBold",
@@ -404,7 +413,7 @@ export const styles = StyleSheet.create({
         fontWeight: "600",
         marginTop: 70,
         textAlign: "center",
-    }, 
+    },
     coverSubTitle: {
         fontFamily: "Pretendard",
         fontSize: 16,
@@ -419,8 +428,8 @@ export const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     coverImg: {
-        width: SCREEN_WIDTH*0.8,
-        height: SCREEN_WIDTH*0.8*1.2,
+        width: SCREEN_WIDTH * 0.8,
+        height: SCREEN_WIDTH * 0.8 * 1.2,
         justifyContent: 'center',
         alignItems: 'center',
         shadowOffset: {
@@ -449,7 +458,7 @@ export const styles = StyleSheet.create({
     },
     activeCircle: {
         backgroundColor: theme.skyblue,
-    }, 
+    },
     inactiveCircle: {
         backgroundColor: theme.gray90,
     },
