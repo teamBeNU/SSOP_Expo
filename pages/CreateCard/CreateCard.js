@@ -1,7 +1,9 @@
 import { View, Text, TouchableOpacity } from "react-native";
 import React, { useState } from 'react';
 import "react-native-gesture-handler";
+import * as Progress from 'react-native-progress';
 import { styles } from "./CreateCardStyle";
+import { theme } from "../../theme";
 
 import Student from '../../assets/profile/student.svg';
 import Worker from '../../assets/profile/worker.svg';
@@ -51,12 +53,20 @@ function CreateCard({navigation}) {
 
     return (
         <View style={styles.main}>
-
             {step === 1 && (
+                <>
+                <Progress.Bar
+                    progress={1 / 8}
+                    width={null}
+                    height={2}
+                    color={theme.green}
+                    borderWidth={0}
+                />
+
                 <View>
                     <View>
-                        <Text style={styles.title}>템플릿을 선택하세요.</Text>
-                        <Text style={styles.subTitle}>아이덴티티에 따라 구성되는 선택지가 달라요.</Text>
+                        <Text style={styles.title}>당신의 정체성을 가장 잘 표현하는{"\n"}템플릿을 선택해 주세요.</Text>
+                        <Text style={styles.subTitle}>정체성에 따라 작성할 수 있는 정보가 달라요.</Text>
                     </View>
                     <View style={styles.templates}>
                         <View style={styles.row}>
@@ -84,6 +94,7 @@ function CreateCard({navigation}) {
                         />
                     )}
                 </View>
+                </>
             )}
 
             {step === 2 && (
