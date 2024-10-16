@@ -65,7 +65,7 @@ export default function BottomSheet({modalVisible, setModalVisible, setStep, set
                             <CloseBtn />
                         </TouchableOpacity>
                     </View>
-                    <View>
+                    <View style={styles.btnContainer}>
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
