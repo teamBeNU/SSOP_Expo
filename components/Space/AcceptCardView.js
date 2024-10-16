@@ -126,6 +126,7 @@ const AcceptCardView = ({
                             card_name={item.cardEssential.card_name}
                             card_birth={item.cardOptional.card_birth}
                             card_template={item.card_template}
+                            profile_image_url={item.profile_image_url}
                             card_cover={item.card_cover}
                           />
                         </TouchableOpacity>
