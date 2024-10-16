@@ -36,7 +36,6 @@ const MySpaceDetailView = ({
   showFilterButton = true
 }) => {
 
-  const navigation = useNavigation();
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
   const [modalCardVisible, setModalCardVisible] = useState(false);
@@ -222,7 +221,6 @@ const MySpaceDetailView = ({
                   ) : (
                     Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
                       [...cardData.memberData, ...cardData.cardIdData].map((item) => {
-                        console.log("Filtered Item:", item);
                         return (
                           <TouchableOpacity
                             key={item.cardId}

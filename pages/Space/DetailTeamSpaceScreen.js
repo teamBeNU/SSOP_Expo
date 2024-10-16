@@ -30,11 +30,12 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState([]);
   const [inviteCode, setInviteCode] = useState(null);
-  const [cardId, setCardId] = useState(null);
-  const [cardIdData, setCardIdData] = useState([]);
-  const [memberData, setMemberData] = useState([]);
-  const [filter, setFilter] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
+
+  const [cardId, setCardId] = useState(null); // 기존 카드 ID
+  const [cardIdData, setCardIdData] = useState([]); // 기존 카드 상세데이터
+  const [memberData, setMemberData] = useState([]); // 지정 템플릿 상세 데이터
+  const [filter, setFilter] = useState([]); // 카드 제출한 사람들의 필터 모음
+  const [filteredData, setFilteredData] = useState([]); // 필터링한 데이터
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('최신순');

@@ -1,18 +1,18 @@
 import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
-import { RadioButton } from 'react-native-paper';
 import { styles } from './SpaceStyle';
-import { MySpaceGroup, TeamSpaceList } from "../../components/Space/SpaceList.js";
-import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
+import { TeamSpaceList } from "../../components/Space/SpaceList.js";
+import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import CloseIcon from '../../assets/icons/close.svg';
-import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 
 function EditTeamSpace({ route, navigation }) {
-  const { teamData: initialTeamData } = route.params;  // 전달된 그룹 데이터
-  const [teamData, setTeamData] = useState(initialTeamData);  // 팀 데이터 상태로 관리
+  const { teamData, userId } = route.params; // params에서 각각의 값 가져오기
+  const isHost = (teamData.hostId === userId); 
+  
+  console.log("EditTeamSpace: ", teamData);
   const [selectedGroups, setSelectedGroups] = useState([]);  // 선택된 그룹 ID 배열 상태
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false); // 삭제 모달 상태
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false); // 그룹 수정, 추가 모달 상태
@@ -30,7 +30,7 @@ function EditTeamSpace({ route, navigation }) {
   // 선택된 팀스페이스 삭제
   const handleDeleteGroups = () => {
     const updatedGroups = teamData.filter((team) => 
-      !selectedGroups.includes(team.id) || team.isHost // isHost가 true인 항목은 삭제하지 않음
+      !selectedGroups.includes(team.teamId) || team.isHost // isHost가 true인 항목은 삭제하지 않음
     );
     setTeamData(updatedGroups);  // 삭제된 그룹 리스트로 상태 업데이트
     setSelectedGroups([]);  // 선택 초기화
@@ -43,7 +43,7 @@ function EditTeamSpace({ route, navigation }) {
 
   // 특정 팀스페이스 선택/해제 핸들러
   const handleGroupSelect = (id) => {
-    const selectedTeam = teamData.find((team) => team.id === id);
+    const selectedTeam = teamData.find((team) => team.teamId === id);
     if (selectedTeam.isHost) return; // 호스트인 경우 선택 불가
     if (isGroupSelected(id)) {
       setSelectedGroups(selectedGroups.filter((groupId) => groupId !== id));
@@ -97,24 +97,24 @@ function EditTeamSpace({ route, navigation }) {
         <View>
           {teamData.map((team) => (
             <TouchableOpacity
-              key={team.id}
+              key={team.teamId}
               onPress={() => handleGroupSelect(team.id)}
-              disabled={team.isHost}  // 호스트인 경우 선택 비활성화
+              disabled={isHost}  // 호스트인 경우 선택 비활성화
               style={[
                 styles.teamCard,
-                team.isHost && { opacity: 0.3 },  // 호스트인 경우 반투명 처리
+                isHost && { opacity: 0.3 },  // 호스트인 경우 반투명 처리
               ]}
             >
               <TeamSpaceList
-                id={team.id}
-                description={team.description}
-                name={team.name}
-                members={team.members}
-                isHost={team.isHost}
+                id={team.teamId}
+                description={team.team_comment}
+                name={team.team_name}
+                members={team.memberCount}
+                isHost={isHost}
                 showRadio={true}
                 showMenu={false}  // 메뉴 비활성화
-                selected={!team.isHost && isGroupSelected(team.id)}  // 선택 상태 전달
-                onPress={() => handleGroupSelect(team.id)}  // 카드 클릭 핸들러
+                selected={!team.isHost && isGroupSelected(team.teamId)}  // 선택 상태 전달
+                onPress={() => handleGroupSelect(team.teamId)}  // 카드 클릭 핸들러
               />
             </TouchableOpacity>
           ))}
