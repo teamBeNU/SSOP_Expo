@@ -58,7 +58,7 @@ const MySpaceDetailView = ({
   }, []);
 
   // 선택된 필터 값이 모두 null인지 확인
-  const hasSelectedFilters = selectedFilters && Object.values(selectedFilters).some(filterArray => filterArray.length > 0);
+  const hasSelectedFilters = selectedFilters && Object.values(selectedFilters).some(filterArray => Array.isArray(filterArray) && filterArray.length > 0);
 
   const templateTextMapping = {
     student: '학생',
@@ -191,6 +191,7 @@ const MySpaceDetailView = ({
           <></>
         )}
 
+
         <View>
           {viewOption === '격자형' && (
             <View>
@@ -218,27 +219,9 @@ const MySpaceDetailView = ({
                               ? item.memberEssential.card_name // memberData
                               : item.cardEssential?.card_name // cardIdData
                         }
-                        age={
-                          item.card_birth
-                            ? calculateAge(item.card_birth)
-                            : item.memberOptional?.card_birth
-                              ? calculateAge(item.memberOptional.card_birth)
-                              : item.cardOptional?.card_birth
-                                ? calculateAge(item.cardOptional.card_birth)
-                                : ''
-                        }
+                        card_birth={ item.card_birth || item.memberOptional?.card_birth || item.cardOptional?.card_birth || ''}
                         dot=' · '
-                        card_template={
-                          item.card_template === 'student' ? '학생' :
-                            item.card_template === 'worker' ? '직장인' :
-                              item.card_template === 'fan' ? '팬' :
-                                item.card_template === 'free' ? '자유' :
-                                  item.memberEssential?.card_template === 'student' ? '학생' :
-                                    item.memberEssential?.card_template === 'worker' ? '직장인' :
-                                      item.memberEssential?.card_template === 'fan' ? '팬' :
-                                        item.memberEssential?.card_template === 'free' ? '자유' :
-                                          '기타'
-                        }
+                        card_template={item.card_template || item.memberEssential?.card_template || '기타'}
                       />
                     </TouchableOpacity>
                   ))
@@ -248,7 +231,6 @@ const MySpaceDetailView = ({
                   </View>
                 )}
               </View>
-              {/* <Card cardData={}/> */}
             </View>
           )}
 
@@ -256,8 +238,8 @@ const MySpaceDetailView = ({
             <View>
               {Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
                 [...cardData.memberData, ...cardData.cardIdData].map((item) => (
-                  <View key={item.id} style={styles.ListContainer}>
-                    <TouchableOpacity onPress={() => item.cardId ? handleCardDetail(item.cardId) : handleCardDetail(item)} >
+                  <View key={item.cardId} style={styles.ListContainer}>
+                    <TouchableOpacity onPress={() => item.cardId ? handleCardDetail(item.cardId) : handleCardDetail(item)}>
                       <View style={styles.row2}>
                         <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
                           <Image
