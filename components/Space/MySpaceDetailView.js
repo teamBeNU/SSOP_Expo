@@ -27,6 +27,7 @@ const MySpaceDetailView = ({
   setSelectedOption,
   viewOption,
   setViewOption,
+  filteredData,
   cardData,
   selectedFilters = {},
   handleFilterNext,
@@ -38,7 +39,6 @@ const MySpaceDetailView = ({
   const navigation = useNavigation();
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
-  const [data, setData] = useState([]);
   const [modalCardVisible, setModalCardVisible] = useState(false);
   const [modalMemberVisible, setModalMemberVisible] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState(null);
@@ -191,122 +191,191 @@ const MySpaceDetailView = ({
           <></>
         )}
 
-
         <View>
-          {viewOption === '격자형' && (
-            <View>
-              <View style={[styles.row, styles.container]}>
-                {Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
-                  [...cardData.memberData, ...cardData.cardIdData].map((item) => (
-                    <TouchableOpacity
-                      key={item.cardId}
-                      style={styles.btn1}
-                      onPress={() => handleCardDetail(item)}
-                    >
-                      <ShareCard
-                        backgroundColor={item.backgroundColor}
-                        avatar={
-                          <Image
-                            source={{ uri: item.profile_image_url ? item.profile_image_url : item.memberEssential?.profile_image_url }}
-                            style={styles.gridImage}
-                          />
-                        }
-                        isHost={isHost}
-                        card_name={
-                          item.team_name // filterData
-                            ? item.team_name
-                            : item.memberEssential
-                              ? item.memberEssential.card_name // memberData
-                              : item.cardEssential?.card_name // cardIdData
-                        }
-                        card_birth={ item.card_birth || item.memberOptional?.card_birth || item.cardOptional?.card_birth || ''}
-                        dot=' · '
-                        card_template={item.card_template || item.memberEssential?.card_template || '기타'}
-                      />
-                    </TouchableOpacity>
-                  ))
-                ) : (
-                  <View style={styles.emptyContainer}>
-                    <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
-                  </View>
-                )}
+          <View>
+            {viewOption === '격자형' && (
+              <View>
+                <View style={[styles.row, styles.container]}>
+                  {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                    filteredData.map((item) => (
+                      <TouchableOpacity
+                        key={item.cardId}
+                        style={styles.btn1}
+                        onPress={() => handleCardDetail(item)}
+                      >
+                        <ShareCard
+                          backgroundColor={item.backgroundColor}
+                          avatar={
+                            <Image
+                              source={{ uri: item.profile_image_url }}
+                              style={styles.gridImage}
+                            />
+                          }
+                          isHost={isHost}
+                          card_name={item.team_name}
+                          card_birth={item.card_birth || ''}
+                          dot=' · '
+                          card_template={item.card_template}
+                        />
+                      </TouchableOpacity>
+                    ))
+                  ) : (
+                    Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
+                      [...cardData.memberData, ...cardData.cardIdData].map((item) => {
+                        console.log("Filtered Item:", item);
+                        return (
+                          <TouchableOpacity
+                            key={item.cardId}
+                            style={styles.btn1}
+                            onPress={() => handleCardDetail(item)}
+                          >
+                            <ShareCard
+                              backgroundColor={item.backgroundColor}
+                              avatar={
+                                <Image
+                                  source={{ uri: item.profile_image_url ? item.profile_image_url : item.memberEssential?.profile_image_url }}
+                                  style={styles.gridImage}
+                                />
+                              }
+                              isHost={isHost}
+                              card_name={item.team_name || item.memberEssential?.card_name || item.cardEssential?.card_name}
+                              card_birth={item.card_birth || item.memberOptional?.card_birth || item.cardOptional?.card_birth || ''}
+                              dot=' · '
+                              card_template={item.card_template || item.memberEssential?.card_template || '기타'}
+                            />
+                          </TouchableOpacity>
+                        );
+                      })
+                    ) : (
+                      <View style={styles.emptyContainer}>
+                        <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
+                      </View>
+                    )
+                  )}
+                </View>
               </View>
-            </View>
-          )}
+            )}
 
-          {viewOption === '리스트형' && (
-            <View>
-              {Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
-                [...cardData.memberData, ...cardData.cardIdData].map((item) => (
-                  <View key={item.cardId} style={styles.ListContainer}>
-                    <TouchableOpacity onPress={() => item.cardId ? handleCardDetail(item.cardId) : handleCardDetail(item)}>
-                      <View style={styles.row2}>
-                        <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                          <Image
-                            source={{ uri: item.profile_image_url ? item.profile_image_url : item.memberEssential?.profile_image_url }}
-                            style={styles.listImage}
-                          />
-                        </View>
-                        <View style={styles.infoContainer}>
-                          <View style={styles.rowName}>
-                            {isHost && (
-                              <View style={styles.host}>
-                                <Text style={styles.hostText}>호스트</Text>
-                              </View>
-                            )}
-                            <Text style={styles.Text16gray10}>
-                              {item.team_name
-                                ? item.team_name
-                                : item.memberEssential
-                                  ? item.memberEssential?.card_name
-                                  : item.cardEssential?.card_name
-                              }
-                              {userId === item.userId && (<Text> (나)</Text>)}
-                            </Text>
-                            <Text style={styles.Text16gray50}>
-                              {item.card_birth
-                                ? calculateAge(item.card_birth)
-                                : item.memberOptional?.card_birth
-                                  ? calculateAge(item.memberOptional.card_birth)
-                                  : item.cardOptional?.card_birth
-                                    ? calculateAge(item.cardOptional.card_birth)
-                                    : ' '
-                              }
+            {viewOption === '리스트형' && (
+              <View>
+                {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                  filteredData.map((item) => (
+                    <View key={item.cardId} style={styles.ListContainer}>
+                      <TouchableOpacity onPress={() => handleCardDetail(item.cardId)}>
+                        <View style={styles.row2}>
+                          <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
+                            <Image
+                              source={{ uri: item.profile_image_url }}
+                              style={styles.listImage}
+                            />
+                          </View>
+                          <View style={styles.infoContainer}>
+                            <View style={styles.rowName}>
+                              {isHost && (
+                                <View style={styles.host}>
+                                  <Text style={styles.hostText}>호스트</Text>
+                                </View>
+                              )}
+                              <Text style={styles.Text16gray10}>
+                                {item.team_name}
+                                {userId === item.userId && <Text> (나)</Text>}
+                              </Text>
+                              <Text style={styles.Text16gray50}>
+                                {calculateAge(item.card_birth)}
+                              </Text>
+                            </View>
+                            <Text style={styles.Text14gray30}>
+                              {item.team_comment}
                             </Text>
                           </View>
-                          <Text style={styles.Text14gray30}>
-                            {item.team_comment
-                              ? item.team_comment // filterData
-                              : item.memberEssential
-                                ? item.memberEssential.card_introduction // memberData
-                                : item.cardEssential.card_introduction // cardIdData
-                            }
-                          </Text>
                         </View>
+                        <View style={styles.menuContainer}>
+                          {userId === item.userId && showMenu && (
+                            <Menu>
+                              <MenuTrigger>
+                                <MoreGrayIcon style={{ marginRight: 8 }} />
+                              </MenuTrigger>
+                              <MenuOptions
+                                optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
+                              >
+                                <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
+                                <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
+                              </MenuOptions>
+                            </Menu>
+                          )}
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  ))
+                ) : (
+                  // filteredData가 없을 때 cardData를 무조건 보여줍니다.
+                  (Array.isArray(cardData.memberData) && cardData.memberData.length > 0) ||
+                    (Array.isArray(cardData.cardIdData) && cardData.cardIdData.length > 0) ? (
+                    [...cardData.memberData, ...cardData.cardIdData].map((item) => (
+                      <View key={item.cardId} style={styles.ListContainer}>
+                        <TouchableOpacity onPress={() => handleCardDetail(item.cardId)}>
+                          <View style={styles.row2}>
+                            <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
+                              <Image
+                                source={{ uri: item.profile_image_url || item.memberEssential?.profile_image_url }}
+                                style={styles.listImage}
+                              />
+                            </View>
+                            <View style={styles.infoContainer}>
+                              <View style={styles.rowName}>
+                                {isHost && (
+                                  <View style={styles.host}>
+                                    <Text style={styles.hostText}>호스트</Text>
+                                  </View>
+                                )}
+                                <Text style={styles.Text16gray10}>
+                                  {item.team_name || item.memberEssential?.card_name || item.cardEssential?.card_name}
+                                  {userId === item.userId && <Text> (나)</Text>}
+                                </Text>
+                                <Text style={styles.Text16gray50}>
+                                  {item.card_birth
+                                    ? calculateAge(item.card_birth)
+                                    : item.memberOptional?.card_birth
+                                      ? calculateAge(item.memberOptional.card_birth)
+                                      : item.cardOptional?.card_birth
+                                        ? calculateAge(item.cardOptional.card_birth)
+                                        : ' '}
+                                </Text>
+                              </View>
+                              <Text style={styles.Text14gray30}>
+                                {item.team_comment ||
+                                  item.memberEssential?.card_introduction ||
+                                  item.cardEssential?.card_introduction}
+                              </Text>
+                            </View>
+                          </View>
+                          <View style={styles.menuContainer}>
+                            {userId === item.userId && showMenu && (
+                              <Menu>
+                                <MenuTrigger>
+                                  <MoreGrayIcon style={{ marginRight: 8 }} />
+                                </MenuTrigger>
+                                <MenuOptions
+                                  optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
+                                >
+                                  <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
+                                  <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
+                                </MenuOptions>
+                              </Menu>
+                            )}
+                          </View>
+                        </TouchableOpacity>
                       </View>
-                      <View style={styles.menuContainer}>
-                        {userId === item.userId && showMenu && (
-                          <Menu>
-                            <MenuTrigger>
-                              <MoreGrayIcon style={{ marginRight: 8 }} />
-                            </MenuTrigger>
-                            <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                              <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
-                              <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
-                            </MenuOptions>
-                          </Menu>
-                        )}
-                      </View>
-                    </TouchableOpacity>
-                  </View>
-                ))
-              ) : (
-                <View style={styles.emptyContainer}>
-                  <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
-                </View>
-              )}
-            </View>
-          )}
+                    ))
+                  ) : (
+                    <View style={styles.emptyContainer}>
+                      <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
+                    </View>
+                  )
+                )}
+              </View>
+            )}
+          </View>
 
           {/* 기존 카드 상세보기 모달 */}
           <Modal

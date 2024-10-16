@@ -160,12 +160,19 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
   useEffect(() => {
     if (selectedFilters) {
-      applyFilters(selectedFilters);
-    } else {
-      console.log("선택한 필터가 없습니다.");
-    }
-  }, [selectedFilters]);
+      const hasSelectedFilters = Object.values(selectedFilters).some(
+        filterArray => Array.isArray(filterArray) && filterArray.length > 0
+      );
 
+      if (hasSelectedFilters) {
+        const newFilteredData = applyFilters(selectedFilters);
+        setFilteredData(newFilteredData);
+      } else {
+        setFilteredData(data); // 필터가 선택되지 않은 경우 원본 데이터 반환
+      }
+    }
+  }, [selectedFilters, data]);
+    
   const applyFilters = async (filters) => {
     try {
       const { card_student_role, card_mbti, card_student_major, card_template } = filters;
@@ -278,7 +285,8 @@ export default function DetailTeamSpaceScreen({ navigation }) {
         viewOption={viewOption}
         setViewOption={setViewOption}
         handleFilterNext={handleFilterNext}
-        cardData={filteredData.length > 0 ? filteredData : combinedData}
+        filteredData={filteredData}
+        cardData={combinedData} 
         selectedFilters={selectedFilters}
       />
 
