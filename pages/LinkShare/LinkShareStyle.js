@@ -139,7 +139,7 @@ export const styles = StyleSheet.create({
     },
     // 링크 공유하기 버튼, 사진
     linkShareContainer: {
-        marginTop: 69,
+        flex: 0.7,
         justifyContent: 'center',
         alignItems: 'center',
     },

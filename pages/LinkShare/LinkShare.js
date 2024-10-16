@@ -104,7 +104,6 @@ function Step1Screen({ navigation }) {
 }
 
 function Step2Screen({ navigation }) {
-  const LinkShare = 'digitalmedia.com'; // 링크 
 
   // 링크 복사
   const copyLinkShare = async () => {
