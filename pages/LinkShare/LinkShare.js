@@ -12,12 +12,13 @@ import * as Clipboard from 'expo-clipboard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from "../../theme";
 
+import HomeIcon from '../../assets/icons/ic_home_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import AvatarSample1 from '../../assets/icons/AbatarSample1.svg';
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg';
 import LinkShareImage from '../../assets/icons/LinkShareImage.svg';
-import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
+import ShareIcon from '../../assets/icons/ic_share.svg';
 
 function Step1Screen({ navigation }) {
   // 카드 데이터 유무를 상태로 설정
@@ -179,11 +180,9 @@ function Step2Screen({ navigation }) {
         </View>
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.btnNext} onPress={handleShareButtonPress}>
+            <ShareIcon style={{marginRight: 8}}/>
             <Text style={styles.btnText}>링크 공유하기</Text>
           </TouchableOpacity >
-          <TouchableOpacity style={styles.btnNextWhite} onPress={() => navigation.navigate('홈')}>
-            <Text style={styles.btnTextWhite}> 홈 화면으로 </Text>
-          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -210,6 +209,11 @@ function LinkShare({ navigation }) {
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <LeftArrowIcon style={{ marginLeft: 8  }}/>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('홈')}>
+            <HomeIcon style={{ marginRight: 8 }} />
           </TouchableOpacity>
         ),
       }}/>

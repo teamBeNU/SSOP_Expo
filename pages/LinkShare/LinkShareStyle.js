@@ -103,12 +103,16 @@ export const styles = StyleSheet.create({
         position: 'relative',
     },
     btnNext: {
+        justifyContent: 'center',
+        alignContent: 'center',
         width: '100%',
         height: 48,
-        justifyContent: 'center',
-        borderRadius: 8,
+        borderRadius: 16,
         fontFamily: 'PretendardRegular',
         backgroundColor: theme.gray10,
+        flexDirection: 'row',
+        paddingVertical: 14.5
+        
     },
     btnNextWhite: {
         width: '100%',
@@ -123,7 +127,6 @@ export const styles = StyleSheet.create({
         marginTop: 10,
     },
     btnText:{
-        textAlign: 'center',
         color: theme.white,
         fontSize: 16,
         fontFamily: 'PretendardSemiBold'

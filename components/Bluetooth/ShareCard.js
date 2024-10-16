@@ -20,11 +20,7 @@ export const ShareCard = ({ avatar, card_name, card_birth, card_template, card_c
             </View>
           ) : (
             // picture일 때 profile_image_url을 사용
-            <Image
-              source={{ uri: profile_image_url }}
-              resizeMode="cover"
-              style={styles.cardImgArea}
-            />
+            avatar
           )}
         </View>
         {isHost && (
