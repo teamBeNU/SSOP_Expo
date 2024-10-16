@@ -1,4 +1,5 @@
-export const templateMaaping = {
+export const templateMaaping = { 
+    "student": "학생",
     "studentSchool": '학생', 
     "studentUniv": "학생",
     "worker": '직장인',

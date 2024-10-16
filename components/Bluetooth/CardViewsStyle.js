@@ -442,11 +442,28 @@ export const styles = StyleSheet.create({
     gridImage: {        
         width: '120%',
         height: '120%',
-        borderRadius: 12,
+        borderRadius: 12
     },
     listImage: {
         width: 64,
         height: 64,
         borderRadius: 12
-    }
+    },
+    // 카드 상세보기 모달
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // 배경에 반투명 검정색
+      },
+      modalContent: {
+        width: '80%', 
+        height: '50%',      
+      },
+      closeButton: {
+        position: 'absolute',
+        right: -8,
+        top: 8,
+        zIndex: 1
+      }    
 })

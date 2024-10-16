@@ -1,14 +1,21 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { View, Text, ScrollView, TouchableOpacity, Image, Modal, TouchableWithoutFeedback } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import People from '../../assets/icons/ic_person_small_fill.svg';
 import CloseIcon from '../../assets/icons/ic_close_small_line.svg';
+import CloseIcon2 from '../../assets/icons/ic_close_regular_line.svg';
 import ListIcon from '../../assets/icons/ic_lists.svg';
 import AllListIcon from '../../assets/icons/ic_border_all.svg';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { ShareCard } from '../Bluetooth/ShareCard.js';
+import { Card } from '../MyCard/Card.js';
+import { CardMember } from '../MyCard/CardMember.js';
+import { calculateAge } from '../../utils/calculateAge.js';
 
 const MySpaceDetailView = ({
   title,
@@ -20,30 +27,38 @@ const MySpaceDetailView = ({
   setSelectedOption,
   viewOption,
   setViewOption,
-  handleNext,
+  filteredData,
   cardData,
   selectedFilters = {},
   handleFilterNext,
   showMenu = true,
   onChangeGroupName,
-  onDeleteGroup,
   showFilterButton = true
 }) => {
-  
-  // 생년월일 -> 나이 계산
-  const calculateAge = (birthDate) => {
-    const birth = new Date(birthDate);
-    const today = new Date();
-    let age = today.getFullYear() - birth.getFullYear();
-    const monthDiff = today.getMonth() - birth.getMonth();
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-      age--;
-    }
-    return age;
-  };
+
+  const baseUrl = 'http://43.202.52.64:8080/api'
+  const [token, setToken] = useState(null);
+  const [modalCardVisible, setModalCardVisible] = useState(false);
+  const [modalMemberVisible, setModalMemberVisible] = useState(false);
+  const [selectedCardData, setSelectedCardData] = useState(null);
+  const [selectedMemberData, setSelectedMemberData] = useState([]);
+
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
 
   // 선택된 필터 값이 모두 null인지 확인
-  const hasSelectedFilters = selectedFilters && Object.values(selectedFilters).some(filterArray => filterArray.length > 0);
+  const hasSelectedFilters = selectedFilters && Object.values(selectedFilters).some(filterArray => Array.isArray(filterArray) && filterArray.length > 0);
 
   const templateTextMapping = {
     student: '학생',
@@ -52,8 +67,28 @@ const MySpaceDetailView = ({
     free: '자유',
   };
 
+  // 카드 상세보기
+  const handleCardDetail = async (cardData) => {
+    // console.log("클릭한 카드: ", cardData);
+
+    if (typeof cardData === 'number') {
+      try {
+        const response = await axios.get(`${baseUrl}/card/view?cardId=${cardData}`);
+        console.log("카드 상세보기 API 요청: ", response.data);
+        // setData(response.data);
+        setSelectedCardData(response.data);
+        setModalCardVisible(true);
+      } catch (error) {
+        console.error("팀스페이스 - 카드 상세보기 API 호출 에러: ", error.message);
+      }
+    }
+    else {
+      setModalMemberVisible(true);
+    }
+  }
+
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor} >
       <View style={styles.backgroundColor2}>
         <Text style={[styles.detailtitle, { marginBottom: 8 }]}>{title}</Text>
         {sub ? (
@@ -157,111 +192,314 @@ const MySpaceDetailView = ({
         )}
 
         <View>
-          {viewOption === '격자형' && (
-            <View>
-              <View style={[styles.row, styles.container]}>
-                {Array.isArray(cardData) && cardData.length > 0 ? (
-                  cardData.map((item, index) => {
-                    const essential = item.memberEssential || item.cardEssential; // memberEssential이 없으면 cardEssential 사용
-                    const optional = item.memberOptional || item.cardOptional; // memberOptional이 없으면 cardOptional 사용
+          <View>
+            {viewOption === '격자형' && (
+              <View>
+                <View style={[styles.row, styles.container]}>
+                  {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                    filteredData.map((item) => (
+                      <TouchableOpacity
+                        key={item.cardId}
+                        style={styles.btn1}
+                        onPress={() => {
+                          if (item.cardId === undefined) {
+                            const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
 
-                    return (
-                      <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={() => handleNext(item.cardId)}>
+                            if (matchingMember) {
+                              setSelectedMemberData(matchingMember);
+                              setModalMemberVisible(true);
+                            } else {
+                              console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                            }
+                          } else {
+                            handleCardDetail(item); // 기존 카드 제출일 경우
+                          }
+                        }}
+                      >
                         <ShareCard
                           backgroundColor={item.backgroundColor}
                           avatar={
                             <Image
-                              source={{ uri: item.profile_image_url ? item.profile_image_url : essential.profile_image_url }}
+                              source={{ uri: item.profile_image_url }}
                               style={styles.gridImage}
                             />
                           }
                           isHost={isHost}
-                          card_name={essential.card_name}
-                          age={optional?.card_birth ? calculateAge(optional.card_birth) : '정보 없음'}
+                          card_name={item.team_name}
+                          card_birth={item.card_birth || ''}
                           dot=' · '
-                          card_template={
-                            essential.card_template === 'student' ? '학생' :
-                              essential.card_template === 'worker' ? '직장인' :
-                                essential.card_template === 'fan' ? '팬' :
-                                  essential.card_template === 'free' ? '자유' :
-                                    '기타'
-                          }
-                        />
-                        {/* <ShareCard
-                          avatar={item.avatar}
-                          card_name={item.cardEssential.card_name}
-                          card_birth={item.cardOptional.card_birth}
                           card_template={item.card_template}
-                          card_cover={item.card_cover}
-                        /> */}
+                        />
                       </TouchableOpacity>
-                    );
-                  })
-                ) : (
-                  <View style={styles.emptyContainer}>
-                    <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
-                  </View>
-                )}
+                    ))
+                  ) : (
+                    Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
+                      [...cardData.memberData, ...cardData.cardIdData].map((item) => {
+                        return (
+                          <TouchableOpacity
+                            key={item.cardId}
+                            style={styles.btn1}
+                            onPress={() => {
+                              if (item.cardId === undefined) {
+                                const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+
+                                if (matchingMember) {
+                                  setSelectedMemberData(matchingMember);
+                                  setModalMemberVisible(true);
+                                } else {
+                                  console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                                }
+                              } else {
+                                handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                              }
+                            }}
+                          >
+                            <TouchableOpacity
+                              onPress={() => {
+                                if (item.cardId === undefined) {
+                                  const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+
+                                  if (matchingMember) {
+                                    setSelectedMemberData(matchingMember);
+                                    setModalMemberVisible(true);
+                                  } else {
+                                    console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                                  }
+                                } else {
+                                  handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                                }
+                              }}
+                            ></TouchableOpacity>
+                            <ShareCard
+                              backgroundColor={item.backgroundColor}
+                              avatar={
+                                <Image
+                                  source={{ uri: item.profile_image_url ? item.profile_image_url : item.memberEssential?.profile_image_url }}
+                                  style={styles.gridImage}
+                                />
+                              }
+                              isHost={isHost}
+                              card_name={item.team_name || item.memberEssential?.card_name || item.cardEssential?.card_name}
+                              card_birth={item.card_birth || item.memberOptional?.card_birth || item.cardOptional?.card_birth || ''}
+                              dot=' · '
+                              card_template={item.card_template || item.memberEssential?.card_template || '기타'}
+                            />
+                          </TouchableOpacity>
+                        );
+                      })
+                    ) : (
+                      <View style={styles.emptyContainer}>
+                        <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
+                      </View>
+                    )
+                  )}
+                </View>
               </View>
-            </View>
-          )}
+            )}
 
-          {viewOption === '리스트형' && (
-            <View>
-              {cardData.map((item, index) => {
-                const essential = item.memberEssential || item.cardEssential; // memberEssential이 없으면 cardEssential 사용
-                const optional = item.memberOptional || item.cardOptional; // memberOptional이 없으면 cardOptional 사용
+            {viewOption === '리스트형' && (
+              <View>
+                {Array.isArray(filteredData) && filteredData.length > 0 ? (
+                  filteredData.map((item) => (
+                    <View key={item.cardId} style={styles.ListContainer}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          if (item.cardId === undefined) {
+                            const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
 
-                return (
-                  <View key={item.id || index} style={styles.ListContainer}>
-                    <TouchableOpacity  onPress={() => handleNext(item.cardId)}>
-                      <View style={styles.row2}>
-                        <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                          <Image
-                            source={{ uri: item.profile_image_url ? item.profile_image_url : essential.profile_image_url }}
-                            style={styles.listImage}
-                          />
-                        </View>
-
-                        <View style={styles.infoContainer}>
-                          <View style={styles.rowName}>
-                            {isHost && (
-                              <View style={styles.host}>
-                                <Text style={styles.hostText}>호스트</Text>
-                              </View>
-                            )}
-                            <Text style={styles.Text16gray10}>
-                              {essential.card_name}
-                              {userId === item.userId && (<Text> (나)</Text>)}
-                            </Text>
-                            <Text style={styles.Text16gray50}>
-                              {optional?.card_birth ? calculateAge(optional.card_birth) : '정보 없음'}
+                            if (matchingMember) {
+                              setSelectedMemberData(matchingMember);
+                              setModalMemberVisible(true);
+                            } else {
+                              console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                            }
+                          } else {
+                            handleCardDetail(item); // 기존 카드 제출일 경우
+                          }
+                        }}
+                      >
+                        <View style={styles.row2}>
+                          <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
+                            <Image
+                              source={{ uri: item.profile_image_url }}
+                              style={styles.listImage}
+                            />
+                          </View>
+                          <View style={styles.infoContainer}>
+                            <View style={styles.rowName}>
+                              {isHost && (
+                                <View style={styles.host}>
+                                  <Text style={styles.hostText}>호스트</Text>
+                                </View>
+                              )}
+                              <Text style={styles.Text16gray10}>
+                                {item.team_name}
+                                {userId === item.userId && <Text> (나)</Text>}
+                              </Text>
+                              <Text style={styles.Text16gray50}>
+                                {calculateAge(item.card_birth)}
+                              </Text>
+                            </View>
+                            <Text style={styles.Text14gray30}>
+                              {item.team_comment}
                             </Text>
                           </View>
-                          <Text style={styles.Text14gray30}>
-                            {essential.card_introduction}
-                          </Text>
                         </View>
+                        <View style={styles.menuContainer}>
+                          {userId === item.userId && showMenu && (
+                            <Menu>
+                              <MenuTrigger>
+                                <MoreGrayIcon style={{ marginRight: 8 }} />
+                              </MenuTrigger>
+                              <MenuOptions
+                                optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
+                              >
+                                <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
+                                <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
+                              </MenuOptions>
+                            </Menu>
+                          )}
+                        </View>
+                      </TouchableOpacity>
+                    </View>
+                  ))
+                ) : (
+                  // filteredData가 없을 때 cardData를 무조건 보여줍니다.
+                  (Array.isArray(cardData.memberData) && cardData.memberData.length > 0) ||
+                    (Array.isArray(cardData.cardIdData) && cardData.cardIdData.length > 0) ? (
+                    [...cardData.memberData, ...cardData.cardIdData].map((item) => (
+                      <View key={item?.cardId || item.userId} style={styles.ListContainer}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            if (item.cardId === undefined) {
+                              const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+
+                              if (matchingMember) {
+                                setSelectedMemberData(matchingMember);
+                                setModalMemberVisible(true);
+                              } else {
+                                console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                              }
+                            } else {
+                              handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                            }
+                          }}
+                        >
+                          <View style={styles.row2}>
+                            <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
+                              <Image
+                                source={{ uri: item.profile_image_url || item.memberEssential?.profile_image_url }}
+                                style={styles.listImage}
+                              />
+                            </View>
+                            <View style={styles.infoContainer}>
+                              <View style={styles.rowName}>
+                                {isHost && (
+                                  <View style={styles.host}>
+                                    <Text style={styles.hostText}>호스트</Text>
+                                  </View>
+                                )}
+                                <Text style={styles.Text16gray10}>
+                                  {item.team_name || item.memberEssential?.card_name || item.cardEssential?.card_name}
+                                  {userId === item.userId && <Text> (나)</Text>}
+                                </Text>
+                                <Text style={styles.Text16gray50}>
+                                  {item.card_birth
+                                    ? calculateAge(item.card_birth)
+                                    : item.memberOptional?.card_birth
+                                      ? calculateAge(item.memberOptional.card_birth)
+                                      : item.cardOptional?.card_birth
+                                        ? calculateAge(item.cardOptional.card_birth)
+                                        : ' '}
+                                </Text>
+                              </View>
+                              <Text style={styles.Text14gray30}>
+                                {item.team_comment ||
+                                  item.memberEssential?.card_introduction ||
+                                  item.cardEssential?.card_introduction}
+                              </Text>
+                            </View>
+                          </View>
+                          <View style={styles.menuContainer}>
+                            {userId === item.userId && showMenu && (
+                              <Menu>
+                                <MenuTrigger>
+                                  <MoreGrayIcon style={{ marginRight: 8 }} />
+                                </MenuTrigger>
+                                <MenuOptions
+                                  optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
+                                >
+                                  <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
+                                  <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
+                                </MenuOptions>
+                              </Menu>
+                            )}
+                          </View>
+                        </TouchableOpacity>
                       </View>
-                      <View style={styles.menuContainer}>
-                        {userId === item.userId && showMenu && (
-                          <Menu>
-                            <MenuTrigger>
-                              <MoreGrayIcon style={{ marginRight: 8 }} />
-                            </MenuTrigger>
-                            <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                              <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
-                              <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(item.id)} />
-                            </MenuOptions>
-                          </Menu>
-                        )}
-                      </View>
+                    ))
+                  ) : (
+                    <View style={styles.emptyContainer}>
+                      <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
+                    </View>
+                  )
+                )}
+              </View>
+            )}
+          </View>
+
+          {/* 기존 카드 상세보기 모달 */}
+          <Modal
+            animationType="slide"
+            transparent={true}
+            visible={modalCardVisible}
+            onRequestClose={() => {
+              setModalCardVisible(!modalCardVisible);
+            }}
+          >
+            <TouchableWithoutFeedback onPress={() => setModalCardVisible(false)}>
+
+              <View style={styles.modalOverlay}>
+                <View style={styles.modalContent}>
+                  <TouchableOpacity
+                    style={styles.closeButton}
+                    onPress={() => setModalCardVisible(false)}
+                  >
+                    <CloseIcon2 />
+                  </TouchableOpacity>
+
+                  <Card cardData={selectedCardData} />
+                </View>
+              </View>
+            </TouchableWithoutFeedback>
+          </Modal>
+
+          {selectedMemberData && (
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalMemberVisible}
+              onRequestClose={() => {
+                setModalMemberVisible(false);
+                setSelectedMemberData(null); // 선택된 멤버 데이터 초기화
+              }}
+            >
+              <TouchableWithoutFeedback onPress={() => setModalMemberVisible(false)}>
+                <View style={styles.modalOverlay}>
+                  <View style={styles.modalContent}>
+                    <TouchableOpacity
+                      style={styles.closeButton}
+                      onPress={() => setModalMemberVisible(false)}
+                    >
+                      <CloseIcon2 />
                     </TouchableOpacity>
+                    <CardMember cardData={selectedMemberData} />
                   </View>
-                );
-              })}
-            </View>
+                </View>
+              </TouchableWithoutFeedback>
+            </Modal>
           )}
+
         </View>
         <View style={styles.innerView}></View>
       </View>
