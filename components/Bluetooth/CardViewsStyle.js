@@ -442,7 +442,7 @@ export const styles = StyleSheet.create({
     gridImage: {        
         width: '120%',
         height: '120%',
-        borderRadius: 12,
+        borderRadius: 12
     },
     listImage: {
         width: 64,

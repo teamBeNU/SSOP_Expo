@@ -31,7 +31,8 @@ const MySpaceDetailView = ({
   selectedFilters = {},
   handleFilterNext,
   showMenu = true,
-  onChangeGroupName
+  onChangeGroupName,
+  showFilterButton = true
 }) => {
 
   const navigation = useNavigation();
@@ -41,8 +42,6 @@ const MySpaceDetailView = ({
   const [modalCardVisible, setModalCardVisible] = useState(false);
   const [modalMemberVisible, setModalMemberVisible] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState(null);
-  const [loading, setLoading] = useState(false); // 로딩 상태 추가
-  const [error, setError] = useState(null); // 에러 상태 추가
 
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
@@ -83,14 +82,13 @@ const MySpaceDetailView = ({
         console.error("팀스페이스 - 카드 상세보기 API 호출 에러: ", error.message);
       }
     }
-    else{
+    else {
       setModalMemberVisible(true);
     }
   }
 
-
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor} >
       <View style={styles.backgroundColor2}>
         <Text style={[styles.detailtitle, { marginBottom: 8 }]}>{title}</Text>
         {sub ? (
@@ -197,7 +195,7 @@ const MySpaceDetailView = ({
           {viewOption === '격자형' && (
             <View>
               <View style={[styles.row, styles.container]}>
-                {/* {Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
+                {Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
                   [...cardData.memberData, ...cardData.cardIdData].map((item) => (
                     <TouchableOpacity
                       key={item.cardId}
@@ -243,44 +241,7 @@ const MySpaceDetailView = ({
                         }
                       />
                     </TouchableOpacity>
-                  )) */}
-                {Array.isArray(cardData) && cardData.length > 0 ? (
-                  cardData.map((item, index) => {
-                    const essential = item.memberEssential || item.cardEssential; // memberEssential이 없으면 cardEssential 사용
-                    const optional = item.memberOptional || item.cardOptional; // memberOptional이 없으면 cardOptional 사용
-
-                    return (
-                      <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={handleNext}>
-                        <ShareCard
-                          backgroundColor={item.backgroundColor}
-                          avatar={
-                            <Image
-                              source={{ uri: item.profile_image_url ? item.profile_image_url : essential.profile_image_url }}
-                              style={styles.gridImage}
-                            />
-                          }
-                          isHost={isHost}
-                          card_name={essential.card_name}
-                          age={optional?.card_birth ? calculateAge(optional.card_birth) : '정보 없음'}
-                          dot=' · '
-                          card_template={
-                            essential.card_template === 'student' ? '학생' :
-                              essential.card_template === 'worker' ? '직장인' :
-                                essential.card_template === 'fan' ? '팬' :
-                                  essential.card_template === 'free' ? '자유' :
-                                    '기타'
-                          }
-                        />
-                        {/* <ShareCard
-                          avatar={item.avatar}
-                          card_name={item.cardEssential.card_name}
-                          card_birth={item.cardOptional.card_birth}
-                          card_template={item.card_template}
-                          card_cover={item.card_cover}
-                        /> */}
-                      </TouchableOpacity>
-                    );
-                  })
+                  ))
                 ) : (
                   <View style={styles.emptyContainer}>
                     <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
@@ -350,7 +311,6 @@ const MySpaceDetailView = ({
                             <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
                               <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
                               <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
-                              <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(item.id)} />
                             </MenuOptions>
                           </Menu>
                         )}
@@ -386,7 +346,7 @@ const MySpaceDetailView = ({
                     <CloseIcon2 />
                   </TouchableOpacity>
 
-                    <Card cardData={selectedCardData} /> 
+                  <Card cardData={selectedCardData} />
                 </View>
               </View>
             </TouchableWithoutFeedback>
@@ -411,7 +371,7 @@ const MySpaceDetailView = ({
                   >
                     <CloseIcon2 />
                   </TouchableOpacity>
-                    <CardMember cardData={cardData.memberData[0]} />
+                  <CardMember cardData={cardData.memberData[0]} />
                 </View>
               </View>
             </TouchableWithoutFeedback>
