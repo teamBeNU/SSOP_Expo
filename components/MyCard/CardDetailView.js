@@ -288,7 +288,7 @@ const fetchData = async () => {
                             <View style={styles.shareModalContainer}>
                                     <View style={styles.shareModalView}>
                                         <View style={styles.modalTitle}>
-                                            <Text style={styles.modalFont}>카드 교환하기</Text>
+                                            <Text style={{...styles.modalFont, textAlign: 'center'}}>카드 교환하기</Text>
                                             <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                                                 <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
                                             </TouchableOpacity>
@@ -332,7 +332,7 @@ const fetchData = async () => {
                             <View style={styles.modalContainer}>
                                     <View style={styles.modalView}>
                                         <View style={styles.modalTitle}>
-                                            <Text style={styles.modalFont}>프로필 카드 수정하기</Text>
+                                            <Text style={{...styles.modalFont, fontWeight: '500', textAlign: 'center'}}>프로필 카드 수정하기</Text>
                                             <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                                                 <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
                                             </TouchableOpacity>

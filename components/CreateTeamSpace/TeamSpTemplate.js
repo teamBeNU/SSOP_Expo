@@ -214,7 +214,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                     console.log(newRequestData); // 콘솔 로그를 여기로 이동
                     // 상태에 저장
                     setRequestData(newRequestData);
-                    // setStep(2); // Step 2로 이동
+                    setStep(2); // Step 2로 이동
                 } catch (error) {
                     console.error('newRequestData 생성 중 에러:', error);
                 }

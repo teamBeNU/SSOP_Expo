@@ -27,6 +27,7 @@ const OpenURLButton = ({url, children}) => {
       );
   };
 
+
 export const CardBack = ({cardData}) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
@@ -36,7 +37,7 @@ export const CardBack = ({cardData}) => {
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData}/>
-                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
+                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : ((cardData.cardOptional.card_birth === "" && cardData.cardOptional.card_MBTI === "") ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <StudentOptional cardData={cardData}/>
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>
@@ -99,7 +100,7 @@ const CardOptional1 = ({cardData}) => {
                 <Text style={styles.topic}>생년월일</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>                         
             </View>
-        ) : (cardData.cardOptional.card_MBTI ? <View style={[styles.line]} /> : null)}
+        ) : null}
         {cardData.cardOptional.card_MBTI ? (
             <View>
             <View style={styles.info}>                             

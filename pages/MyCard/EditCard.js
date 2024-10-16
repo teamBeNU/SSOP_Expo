@@ -86,7 +86,7 @@ function EditCard() {
             card_hobby: hobby,
             card_address: address,
         };
-        if (step > 3) {
+        if (step > 2) {
         switch (card.card_template) {
             case 'studentUniv':
                 editCardData.student = {
@@ -265,7 +265,7 @@ function EditCard() {
                 </TouchableOpacity>
             )
         }
-      }
+      };
 
       useEffect(() => {
         navigation.setOptions({
@@ -1106,4 +1106,3 @@ function EditCard() {
     );
 }
 export default EditCard;
-
