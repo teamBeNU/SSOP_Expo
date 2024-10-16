@@ -13,11 +13,11 @@ import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import SelectCover from "./SelectCover";
 
-export default function TemplateWorker ({navigation, card_template}) {
+export default function TemplateWorker ({navigation, card_template, step, setStep}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
     const [token, setToken] = useState(null);
 
-    const [step, setStep] = useState(1);
+    // const [step, setStep] = useState(1);
 
     const [card_name, setCardName] = useState(null)
     const [card_introduction, setCardIntroduction] = useState(null)
@@ -303,18 +303,13 @@ export default function TemplateWorker ({navigation, card_template}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {
-                        if (step !== 1) {
-                            setStep(step - 1);  //  이전 단계로 이동
-                        } else {
-                            navigation.goBack();
-                        }
+                        setStep(step - 1);  //  이전 단계로 이동
                     }}>
                         <LeftArrowIcon style={{ marginLeft: 8 }}/>
                     </TouchableOpacity>
                 )
             });
         }
-    
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
@@ -365,16 +360,6 @@ export default function TemplateWorker ({navigation, card_template}) {
 
     return (
         <View style={{flex:1}}>
-            {step !== 7 && (        // 프로그레스 바
-                <Progress.Bar
-                    progress={step / 8}
-                    width={null}
-                    height={2}
-                    color={theme.green}
-                    borderWidth={0}
-                />
-            )}
-
             {step === 1 && (
                 <KeyboardAvoidingView
                     behavior="padding"

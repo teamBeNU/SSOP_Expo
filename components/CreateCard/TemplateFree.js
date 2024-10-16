@@ -17,11 +17,11 @@ import SelectTextInput from "./FreeTemplate/SelectTextInput";
 import DropDown from "./DropDown";
 import SelectCover from "./SelectCover";
 
-export default function TemplateFree ({navigation, card_template}) {
+export default function TemplateFree ({navigation, card_template, step, setStep}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
     const [token, setToken] = useState(null);
 
-    const [step, setStep] = useState(1);
+    // const [step, setStep] = useState(1);
 
     const [card_name, setCardName] = useState(null);
     const [card_introduction, setCardIntroduction] = useState(null);
@@ -410,11 +410,7 @@ export default function TemplateFree ({navigation, card_template}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {
-                        if (step !== 1) {
-                            setStep(step - 1);  //  이전 단계로 이동
-                        } else {
-                            navigation.goBack();
-                        }
+                        setStep(step - 1);  //  이전 단계로 이동
                     }}>
                         <LeftArrowIcon style={{ marginLeft: 8 }}/>
                     </TouchableOpacity>
@@ -474,16 +470,6 @@ export default function TemplateFree ({navigation, card_template}) {
 
     return (
         <View style={{flex:1}}>
-            {step !== 6 && (        // 프로그레스 바
-                <Progress.Bar
-                    progress={step / 7}
-                    width={null}
-                    height={2}
-                    color={theme.green}
-                    borderWidth={0}
-                />
-            )}
-
             {step === 1 && (
                 <KeyboardAvoidingView
                     behavior="padding"

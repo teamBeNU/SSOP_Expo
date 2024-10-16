@@ -5,7 +5,7 @@ import "react-native-gesture-handler";
 import { styles } from "./BottomSheetStyle";
 import CloseBtn from '../../assets/icons/close.svg';
 
-export default function BottomSheet({modalVisible, setModalVisible, setStep, setCardTemplate}) {
+export default function BottomSheet({modalVisible, setModalVisible, setCreateStep, setStep, setCardTemplate}) {
     const screenHeight = Dimensions.get("screen").height;
     const panY = useRef(new Animated.Value(screenHeight)).current;    // 애니메이션 초기 상태
     const translateY = panY.interpolate({ // panY에 따라 BottomSheet의 y축 위치를 결정
@@ -70,7 +70,8 @@ export default function BottomSheet({modalVisible, setModalVisible, setStep, set
                             style={styles.btn}
                             onPress={() => {
                                 setCardTemplate("studentSchool");
-                                setStep(2);
+                                setCreateStep(2);
+                                setStep(1);
                             }}
                         >
                             <Text style={styles.btnText}>초/중/고등학생이에요</Text>
@@ -80,7 +81,8 @@ export default function BottomSheet({modalVisible, setModalVisible, setStep, set
                             style={styles.btn}
                             onPress={() => {
                                 setCardTemplate("studentUniv");
-                                setStep(2);
+                                setCreateStep(2);
+                                setStep(1);
                             }}
                         >
                             <Text style={styles.btnText}>대학(원)생이에요</Text>
