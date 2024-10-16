@@ -22,7 +22,7 @@ import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
-import Contact from '../../assets/icons/ic_contact_small_line.svg';
+import Contact from '../../assets/icons/ic_contact_black.svg';
 import Edit from '../../assets/icons/ic_edit.svg';
 import Swap from '../../assets/icons/ic_swap.svg';
 
@@ -187,17 +187,17 @@ function DetailSpaceGroup({ navigation }) {
       <View style={styles.bottomDetailContainer}>
         <Edit style={{ marginRight: 6 }} />
         <TouchableOpacity onPress={() => navigation.navigate('카드 관리')}>
-          <Text style={styles.bottomText}>카드 관리</Text>
+          <Text style={styles.bottomTextBlue}>카드 관리</Text>
         </TouchableOpacity>
         <BottomLineIcon style={styles.bottomLine2} />
         <Contact style={{ marginRight: 6 }} />
         <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
-          <Text style={styles.bottomTextBlue}>연락처 저장</Text>
+          <Text style={styles.bottomText}>연락처 저장</Text>
         </TouchableOpacity>
         <BottomLineIcon style={styles.bottomLine2} />
         <Swap style={{ marginRight: 6 }} />
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <Text style={styles.bottomText}>카드 교환</Text>
+          <Text style={styles.bottomTextBlue}>카드 교환</Text>
         </TouchableOpacity>
       </View>
 
