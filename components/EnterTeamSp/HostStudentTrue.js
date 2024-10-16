@@ -5,7 +5,7 @@ import Select from "../../assets/teamSp/select.svg";
 import DropDown from "../CreateCard/DropDown";
 import "react-native-gesture-handler";
 
-export default function HostStudentTrue({ studentOptional }) {
+export default function HostStudentTrue({ studentOptional, onDataChange }) {
 
     const [isEmpty, setIsEmpty] = useState(false);
     const [gradeDropDownOpen, setGradeDropDownOpen] = useState(false);
@@ -16,9 +16,9 @@ export default function HostStudentTrue({ studentOptional }) {
     const [card_studNum, setStudNum] = useState('');
     const [card_major, setMajor] = useState('');
     const [card_club, setClub] = useState('');
-    const [card_role, setRoleList] = useState([]);
-    const [card_status, setStatus] = useState();
-
+    const [card_role, setRole] = useState('');
+    const [card_status, setStatus] = useState('');
+    
     const [showSchool, setShowSchool] = useState(1);
     const [showGrade, setShowGrade] = useState(1);
     const [showStudNum, setShowStudNum] = useState(1);
@@ -26,6 +26,13 @@ export default function HostStudentTrue({ studentOptional }) {
     const [showClub, setShowClub] = useState(1);
     const [showRole, setShowRole] = useState(1);
     const [showStatus, setShowStatus] = useState(1);
+    
+    const [card_role_list, setRoleList] = useState([]);      // 카드 역할 모음
+
+    // 상위 컴포넌트(HostTemplate)로 데이터를 전달
+    useEffect(() => {
+        onDataChange({ card_school, card_grade, card_studNum, card_major, card_club, card_role, card_status });
+    }, [card_school, card_grade, card_studNum, card_major, card_club, card_role, card_status]);
 
     useEffect(() => {
         if (studentOptional) {
@@ -52,6 +59,14 @@ export default function HostStudentTrue({ studentOptional }) {
             return updatedList;
         });
     };
+
+    useEffect(()=>{
+        const selectedRoles = card_role_list    // card_role_list에서
+        .filter(item => item.selected)          // selected가 true인 항목만 필터링
+        .map(item => item.role);                // role 값만 추출
+
+        setRole(selectedRoles.join(", "));  // ["백엔드", "프론트엔드"]를 "백엔드, 프론트엔드" 형식으로 저장
+    }, [card_role_list])
 
     const [gradeItems, setGradeItems] = useState([
         { label: '1학년', value: '1학년' },
@@ -194,7 +209,7 @@ export default function HostStudentTrue({ studentOptional }) {
                     <Text style={styles.nameBold}>역할<Text style={styles.nameBold}> *</Text></Text>
 
                     <View style={[styles.elementContainer, { marginLeft: 8, marginTop: 8 }]}>
-                        {card_role.map((item, index) => (
+                        {card_role_list.map((item, index) => (
                             <TouchableOpacity key={index} onPress={() => roleSelected(index)}
                                 style={item.selected ? styles.selectedElement : styles.element}>
                                 {item.selected && (

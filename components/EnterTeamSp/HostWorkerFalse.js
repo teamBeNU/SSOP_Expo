@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostWorkerFalse({ workerOptional }) {
+export default function HostWorkerFalse({ workerOptional, onDataChange }) {
 
     const [card_company, setCompany] = useState('');
     const [card_job, setJob] = useState('');
@@ -19,6 +19,11 @@ export default function HostWorkerFalse({ workerOptional }) {
     const jobRef = useRef(null);
     const positionRef = useRef(null);
     const partRef = useRef(null);
+
+    // 상위 컴포넌트(HostTemplate)로 데이터를 전달
+    useEffect(() => {
+        onDataChange({ card_company, card_job, card_position, card_part });
+    }, [card_company, card_job, card_position, card_part]);
 
     useEffect(() => {
         if (workerOptional) {

@@ -4,7 +4,7 @@ import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostStudentFalse({ studentOptional }) {
+export default function HostStudentFalse({ studentOptional, onDataChange }) {
     
     const [gradeDropDownOpen, setGradeDropDownOpen] = useState(false);
     const [statusDropDownOpen, setStatusDropDownOpen] = useState(false);
@@ -14,6 +14,7 @@ export default function HostStudentFalse({ studentOptional }) {
     const [card_studNum, setStudNum] = useState('');
     const [card_major, setMajor] = useState('');
     const [card_club, setClub] = useState('');
+    const [card_role, setRole] = useState('');
     const [card_status, setStatus] = useState('');
 
     const [showSchool, setShowSchool] = useState(0);
@@ -23,6 +24,11 @@ export default function HostStudentFalse({ studentOptional }) {
     const [showClub, setShowClub] = useState(0);
     const [showRole, setShowRole] = useState(0);
     const [showStatus, setShowStatus] = useState(0);
+
+    // 상위 컴포넌트(HostTemplate)로 데이터를 전달
+    useEffect(() => {
+        onDataChange({ card_school, card_grade, card_studNum, card_major, card_club, card_role, card_status });
+    }, [card_school, card_grade, card_studNum, card_major, card_club, card_role, card_status]);
     
     useEffect(() => {
         if (studentOptional) {
@@ -139,8 +145,8 @@ export default function HostStudentFalse({ studentOptional }) {
                         style={styles.nameInput}
                         placeholder="프로젝트 혹은 학과 내 역할을 입력해 주세요."
                         keyboardType="default"
-                        value={card_club}
-                        onChangeText={setClub}
+                        value={card_role}
+                        onChangeText={setRole}
                     />
                 </View>
             )}
