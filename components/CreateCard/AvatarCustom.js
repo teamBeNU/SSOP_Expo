@@ -4,26 +4,40 @@ import "react-native-gesture-handler";
 import ViewShot from "react-native-view-shot";
 
 import { styles } from "./AvatarCustomStyles";
-import AutoAvatarIcon from "../../assets/icons/ic_autoAvatar_small_line.svg";
-import UndoIcon from "../../assets/icons/ic_undo_small_line.svg";
-import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
-import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
+import AutoAvatarIcon from "../../assets/icons/avatarCustom/ic_auto.svg";
+import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
+import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
+import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
 import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
 
-export default function AvatarCustom({setProfileImageUrl}) {
+export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar}) {
     const ref = useRef();
     const [a, setA] = useState('');
 
     const [avaIndex, setAvaIndex] = useState(1);
-    const [avatar, setAvatar] = useState({
-        face: 1,
-        hair: 1,
-        hairColor: 1,
-        clothes: 1,
-        acc: 0,
-        bg: 1,
-        bgColor: 1,
-    })
+
+    // 외부에서 avatar와 setAvatar가 주어지지 않으면, 내부적으로 상태 관리
+    const [internalAvatar, internalSetAvatar] = useState({
+        face: null,
+        hair: null,
+        hairColor: null,
+        clothes: null,
+        acc: null,
+        bg: null,
+        bgColor: null,
+    });
+    // 실제로 사용할 avatar와 setAvatar 결정
+    const avatar = externalAvatar ?? internalAvatar;
+    const setAvatar = externalSetAvatar ?? internalSetAvatar;
+
+    useEffect(() => {
+        // 컴포넌트가 열리자마자 avatar 값을 1로 변경
+        setAvatar((prev => ({...prev, face: 1, hair: 1, hairColor: 1, clothes: 1, bg: 1, bgColor: 1})));
+    }, []);
+    
+    // avatar의 속성에 접근하기 전에 null 체크
+    const hairColor = avatar?.hairColor ?? 1; // 기본값 설정
+    const bgColor = avatar?.bgColor ?? 1; // 기본값 설정
 
     const handleCategory = (id) => {
         setAvaIndex(id);
@@ -46,7 +60,7 @@ export default function AvatarCustom({setProfileImageUrl}) {
         //     }
         //     setProfileImageUrl(uri);
         //     });
-        // }, [setProfileImageUrl]);
+        // }, [avatar]);
 
         // 이미지 확인용
         ref.current.capture().then(uri => {
@@ -57,7 +71,7 @@ export default function AvatarCustom({setProfileImageUrl}) {
             setProfileImageUrl(uri);
             setA(uri);
         });
-    }, [setProfileImageUrl, setA, a, avatar]);
+    }, [avatar]);
 
     return (
         <View style={styles.container}>
@@ -71,7 +85,7 @@ export default function AvatarCustom({setProfileImageUrl}) {
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarAuto}>
-                    <TouchableOpacity style={styles.flexDirectionRow}>
+                    <TouchableOpacity style={[styles.flexDirectionRow, {justifyContent: 'center', alignItems: 'center'}]}>
                         <AutoAvatarIcon style={styles.autoAvatarIcon} />
                         <Text style={styles.avatarAutoText}>자동생성</Text>
                     </TouchableOpacity>
@@ -86,12 +100,12 @@ export default function AvatarCustom({setProfileImageUrl}) {
                     options={{ fileName: "card", format: "png", quality: 0.9 }}
                 >
                     <View style={styles.avatarView}>
-                        <Image
+                        {/* <Image
                             source={require("../../assets/images/sample-avatar-1.png")} 
                             resizeMode="contain"
                             style={styles.avatarImg}
-                        />
-                        <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === avatar.bgColor).color}]}></View>
+                        /> */}
+                        <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === (avatar.bgColor || 1)).color}]}></View>
                     </View>
                 </ViewShot>
                 

@@ -1,8 +1,8 @@
 import { View, Text, TextInput, TouchableOpacity, Platform, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, SafeAreaView } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
-import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
@@ -10,35 +10,36 @@ import AvatarCustom from "./AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import SelectCover from "./SelectCover";
 
-export default function TemplateWorker ({navigation, card_template}) {
-    const baseUrl = 'http://172.19.13.198:8080/api';
+export default function TemplateWorker ({navigation, card_template, step, setStep}) {
+    const baseUrl = 'http://43.202.52.64:8080/api';
     const [token, setToken] = useState(null);
 
-    const [step, setStep] = useState(1);
+    // const [step, setStep] = useState(1);
 
-    const [card_name, setCardName] = useState('');
-    const [card_introduction, setCardIntroduction] = useState('');
-    const [card_cover, setCardCover] = useState('');
-    const [profile_image_url, setProfileImageUrl] = useState('');
+    const [card_name, setCardName] = useState(null)
+    const [card_introduction, setCardIntroduction] = useState(null)
+    const [card_cover, setCardCover] = useState(null)
+    const [profile_image_url, setProfileImageUrl] = useState(null)
 
-    const [card_birth, setCardBirth] = useState('');
+    const [card_birth, setCardBirth] = useState('')
     const [card_bSecret, setCardBSecret] = useState(false);
-    const [card_tel, setCardTel] = useState('');
-    const [card_email, setCardEmail] = useState('');
-    const [card_sns_insta, setCardSnsInsta] = useState('');
-    const [card_sns_x, setCardSnsX] = useState('');
-    const [card_mbti, setCardMbti] = useState('');
-    const [card_music, setCardMusic] = useState('');
-    const [card_movie, setCardMovie] = useState('');
-    const [card_hobby, setCardHobby] = useState('');
-    const [card_address, setCardAddress] = useState('');
+    const [card_tel, setCardTel] = useState(null)
+    const [card_email, setCardEmail] = useState(null)
+    const [card_sns_insta, setCardSnsInsta] = useState(null)
+    const [card_sns_x, setCardSnsX] = useState(null)
+    const [card_mbti, setCardMbti] = useState('')
+    const [card_music, setCardMusic] = useState(null)
+    const [card_movie, setCardMovie] = useState(null)
+    const [card_hobby, setCardHobby] = useState(null)
+    const [card_address, setCardAddress] = useState(null)
 
-    const [card_worker_company, setCardWorkerCompany] = useState('');   // 회사
-    const [card_worker_job, setCardWorkerJob] = useState('');   // 직무
-    const [card_worker_position, setCardWorkerPosition] = useState('');   // 직위
-    const [card_worker_department, setCardWorkerDepartment] = useState('');   // 부서
+    const [card_worker_company, setCardWorkerCompany] = useState(null);   // 회사
+    const [card_worker_job, setCardWorkerJob] = useState(null);   // 직무
+    const [card_worker_position, setCardWorkerPosition] = useState(null)   // 직위
+    const [card_worker_department, setCardWorkerDepartment] = useState(null);   // 부서
     
     const [isFull, setIsFull] = useState({
         name: true,
@@ -54,7 +55,32 @@ export default function TemplateWorker ({navigation, card_template}) {
 
     const [isAvatarComplete, setIsAvatarComplete] = useState(false);
     const [isPictureComplete, setIsPictureComplete] = useState(false);
+
+    // 아바타
+    const [avatar, setAvatar] = useState({
+        face: null,
+        hair: null,
+        hairColor: null,
+        clothes: null,
+        acc: null,
+        bg: null,
+        bgColor: null,
+    })
     
+    // AsyncStorage에서 토큰 가져오기
+    useEffect(() => {
+        const fetchToken = async () => {
+        try {
+            const storedToken = await AsyncStorage.getItem('token');
+            setToken(storedToken);
+        } catch (error) {
+            console.error('토큰 가져오기 실패:', error);
+        }
+        };
+
+        fetchToken();
+    }, []);
+
     // post 요청
     const handleSubmit = async () => {
         const formData = new FormData();
@@ -88,6 +114,19 @@ export default function TemplateWorker ({navigation, card_template}) {
             },
         };
 
+        // card_cover가 'avatar'일 때만 avatar 데이터를 추가
+        if (card_cover === 'avatar') {
+            cardData.avatar = {
+                face: avatar.face,
+                hair: avatar.hair,
+                hairColor: avatar.hairColor,
+                clothes: avatar.clothes,
+                acc: avatar.acc,
+                bg: avatar.bg,
+                bgColor: avatar.bgColor,
+            };
+        }
+
         // card
         formData.append('card', {
             name: 'card',
@@ -110,13 +149,6 @@ export default function TemplateWorker ({navigation, card_template}) {
         }
 
         try {
-            // const token = await AsyncStorage.getItem('authToken');
-            const token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYWFAZ21haWwuY29tIiwiZXhwIjoxNzI3MjkxMTU0LCJ1c2VySWQiOjEsImVtYWlsIjoiYWFhQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoi6rmA7JeQ7J20In0.9pOh9tnGjcQr1mly5NO1fpFeyeK7RLpZob5zC0DGH5WuDS2MyGdriQPB0y8IxVhoTKC6myMh3d_lgL2RDIZqrg';
-            // const storedToken = await AsyncStorage.getItem('token');
-            // setToken(storedToken);
-            // console.log('token', token);
-            // console.log('storedToken', storedToken);
-
             const response = await axios.post(
                 `${baseUrl}/card/create`,
                 formData,
@@ -207,21 +239,32 @@ export default function TemplateWorker ({navigation, card_template}) {
 
     // 생년월일 비밀
     const handleBSecret = () => {
-        if(card_birth !== '') {
+        if(card_birth != null && card_birth !== '') {
             setCardBSecret(!card_bSecret);
         }
     }
 
+    useEffect(() => {
+        if(card_birth == null || card_birth === '') {
+            setCardBSecret(false);
+        }
+    }, [card_birth])
+
     // 다음으로 버튼
     const handleNext = () => {
         if (step === 1) {
-            const isNameFull = card_name !== '';
-            const isIntroductionFull = card_introduction !== '';
-            const isBirthFull = card_birth !== '';
-
+            const isNameFull = card_name != null && card_name !== '';
+            const isIntroductionFull = card_introduction != null && card_introduction !== '';
+            const isBirthFull = card_birth != null && card_birth !== '';
+            
             setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull, birth: isBirthFull })));
             isBirthCorrect(card_birth);
 
+            console.log('isNameFull', isNameFull);
+            console.log('isIntroductionFull', isIntroductionFull);
+            console.log('isBirthFull', isBirthFull);
+            console.log('isBirthValid', isBirthValid);
+            
             if (isNameFull && isIntroductionFull) {
                 if(!isBirthFull || (isBirthFull && isBirthValid.year && isBirthValid.month && isBirthValid.day)) {
                     setStep(2);
@@ -230,8 +273,8 @@ export default function TemplateWorker ({navigation, card_template}) {
         } else if (step === 2 ) {
             setStep(3);
         } else if (step === 3 ) {
-            const isCompanyFull = card_worker_company !== '';
-            const isJobFull = card_worker_job !== '';
+            const isCompanyFull = card_worker_company != null && card_worker_company !== '';
+            const isJobFull = card_worker_job != null && card_worker_job !== '';
             setIsFull((prev => ({ ...prev, company: isCompanyFull, job: isJobFull })));
             
             if (isCompanyFull && isJobFull) {
@@ -260,18 +303,13 @@ export default function TemplateWorker ({navigation, card_template}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {
-                        if (step !== 1) {
-                            setStep(step - 1);  //  이전 단계로 이동
-                        } else {
-                            navigation.goBack();
-                        }
+                        setStep(step - 1);  //  이전 단계로 이동
                     }}>
                         <LeftArrowIcon style={{ marginLeft: 8 }}/>
                     </TouchableOpacity>
                 )
             });
         }
-    
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
@@ -280,16 +318,6 @@ export default function TemplateWorker ({navigation, card_template}) {
         } else if (step === 6) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
-                headerRight: null,
-            });
-        } else if ( step === 8) {
-            navigation.setOptions({
-                headerTitle: '카드 생성',
-                headerLeft: () => (
-                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
-                        <CloseIcon style={{ marginLeft: 8 }}/>
-                    </TouchableOpacity>
-                ),
                 headerRight: null,
             });
         } else if (step === 7) {
@@ -303,6 +331,20 @@ export default function TemplateWorker ({navigation, card_template}) {
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>
+                    </TouchableOpacity>
+                ),
+            });
+        } else if (step === 8) {
+            navigation.setOptions({
+                headerTitle: '카드 생성',
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <CloseIcon style={{ marginLeft: 8 }}/>
+                    </TouchableOpacity>
+                ),
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <HomeIcon style={{marginRight: 20}}/>
                     </TouchableOpacity>
                 ),
             });
@@ -322,16 +364,6 @@ export default function TemplateWorker ({navigation, card_template}) {
 
     return (
         <View style={{flex:1}}>
-            {step !== 7 && (        // 프로그레스 바
-                <Progress.Bar
-                    progress={step / 8}
-                    width={null}
-                    height={2}
-                    color={theme.green}
-                    borderWidth={0}
-                />
-            )}
-
             {step === 1 && (
                 <KeyboardAvoidingView
                     behavior="padding"
@@ -749,7 +781,11 @@ export default function TemplateWorker ({navigation, card_template}) {
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
+                        <AvatarCustom 
+                            setProfileImageUrl={setProfileImageUrl} 
+                            avatar={avatar}
+                            setAvatar={setAvatar}
+                        />
                     )}
                 </View>
             )}
@@ -767,15 +803,9 @@ export default function TemplateWorker ({navigation, card_template}) {
                     <View style={styles.btnDone}>
                         <TouchableOpacity 
                                 style={styles.btnCheckCard}
-                                onPress={() => navigation.navigate('MyCard')}
+                                onPress={() => navigation.navigate('내 카드')}
                             >
                             <Text style={styles.btnNextText}>카드 확인하기</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                                style={styles.btnHome}
-                                onPress={() => navigation.navigate('홈')}
-                            >
-                            <Text style={styles.btnHomeText}>홈 화면으로</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

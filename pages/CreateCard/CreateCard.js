@@ -1,7 +1,9 @@
 import { View, Text, TouchableOpacity } from "react-native";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import "react-native-gesture-handler";
+import * as Progress from 'react-native-progress';
 import { styles } from "./CreateCardStyle";
+import { theme } from "../../theme";
 
 import Student from '../../assets/profile/student.svg';
 import Worker from '../../assets/profile/worker.svg';
@@ -9,16 +11,18 @@ import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
 
 import BottomSheet from "../../components/CreateCard/BottomSheet";
-import TemplateStudentTeenager from "../../components/CreateCard/TemplateStudentTeenager";
-import TemplateStudentYouth from "../../components/CreateCard/TemplateStudentYouth";
+import TemplateStudentSchool from "../../components/CreateCard/TemplateStudentSchool";
+import TemplateStudentUniv from "../../components/CreateCard/TemplateStudentUniv";
 import TemplateWorker from "../../components/CreateCard/TemplateWorker";
 import TemplateFan from "../../components/CreateCard/TemplateFan";
 import TemplateFree from "../../components/CreateCard/TemplateFree";
 
+import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
+
 function CreateCard({navigation}) {
-    const [card_template, setCardTemplate] = useState();
-    const [selectStudent, setSelectStudent] = useState("");     // 초,중,고등학생: teenager, 대학(원)생: youth
-    const [step, setStep] = useState(1);
+    const [card_template, setCardTemplate] = useState(null);
+    const [createStep, setCreateStep] = useState(1);
+    const [step, setStep] = useState(0);
     const [modalVisible, setModalVisible] = useState(false);
 
     const items = [
@@ -29,14 +33,22 @@ function CreateCard({navigation}) {
     ]
 
     const handleSelectTemplate = (id) => {
-        if (step === 1) {
-            if (id === "student") {
-                openModal();
-            } else {
-                setStep(2);
-            }
-            setCardTemplate(id);
+        // if (createStep === 1) {
+        //     if (id === "student") {
+        //         openModal();
+        //     } else {
+        //         setCreateStep(2);
+        //         setStep(1);
+        //     }
+        //     setCardTemplate(id);
+        // }
+        if (id === "student") {
+            openModal();
+        } else {
+            setCreateStep(2);
+            setStep(1);
         }
+        setCardTemplate(id);
     };
 
     // 학생 템플릿 - 바텀시트 열기
@@ -50,14 +62,52 @@ function CreateCard({navigation}) {
         rows.push(items.slice(i, i+2))
     }
 
+    useEffect(()=>{
+        console.log('createStep:', createStep);
+        console.log('step:', step);
+        console.log('card_template:', card_template);
+        console.log(step);
+        if (step === 0) {
+            navigation.setOptions({
+                headerTitle: '카드 생성',
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <CloseIcon style={{ marginLeft: 8 }}/>
+                    </TouchableOpacity>
+                ),
+                headerRight: null,
+            });
+        }
+    })
+
     return (
         <View style={styles.main}>
-
-            {step === 1 && (
+            {card_template === "free" ? 
+                step !== 6 && (        // 프로그레스 바
+                    <Progress.Bar
+                        progress={(step+1) / 7}
+                        width={null}
+                        height={2}
+                        color={theme.green}
+                        borderWidth={0}
+                    />
+                )
+            : 
+                step !== 7 && (        // 프로그레스 바
+                    <Progress.Bar
+                        progress={(step+1) / 8}
+                        width={null}
+                        height={2}
+                        color={theme.green}
+                        borderWidth={0}
+                    />
+                )
+            }
+            {step === 0 && (
                 <View>
                     <View>
-                        <Text style={styles.title}>템플릿을 선택하세요.</Text>
-                        <Text style={styles.subTitle}>아이덴티티에 따라 구성되는 선택지가 달라요.</Text>
+                        <Text style={styles.title}>당신의 정체성을 가장 잘 표현하는{"\n"}템플릿을 선택해 주세요.</Text>
+                        <Text style={styles.subTitle}>정체성에 따라 작성할 수 있는 정보가 달라요.</Text>
                     </View>
                     <View style={styles.templates}>
                         <View style={styles.row}>
@@ -80,32 +130,36 @@ function CreateCard({navigation}) {
                         <BottomSheet                 
                             modalVisible={modalVisible}
                             setModalVisible={setModalVisible}
-                            setSelectStudent={setSelectStudent}
+                            setCreateStep={setCreateStep}
                             setStep={setStep}
+                            setCardTemplate={setCardTemplate}
                         />
                     )}
                 </View>
+                
             )}
 
-            {step === 2 && (
+            {step > 0 && (
                 <View style={{flex:1}}>
-                    {card_template === "student" && selectStudent === "teenager" && (
-                        <TemplateStudentTeenager navigation={navigation} card_template={card_template} />
+                    {card_template === "studentSchool" && (
+                        // 학생 - 초중고
+                        <TemplateStudentSchool navigation={navigation} card_template={card_template} step={step} setStep={setStep} />
                     )} 
-                    {card_template === "student" && selectStudent === "youth" && (
-                        <TemplateStudentYouth navigation={navigation} card_template={card_template} />
+                    {card_template === "studentUniv" && (
+                        // 학생 - 대학(원)
+                        <TemplateStudentUniv navigation={navigation} card_template={card_template} step={step} setStep={setStep} />
                     )} 
                     {card_template === "worker" && (
                         // 직장인
-                        <TemplateWorker navigation={navigation} card_template={card_template} />
+                        <TemplateWorker navigation={navigation} card_template={card_template} step={step} setStep={setStep} />
                     )}
                     {card_template === "fan" && (
                         // 팬
-                        <TemplateFan navigation={navigation} card_template={card_template} />
+                        <TemplateFan navigation={navigation} card_template={card_template} step={step} setStep={setStep} />
                     )}
                     {card_template === "free" && (
                         // 자유 생성
-                        <TemplateFree navigation={navigation} card_template={card_template} />
+                        <TemplateFree navigation={navigation} card_template={card_template} step={step} setStep={setStep} />
                     )}
                 </View>
             )}

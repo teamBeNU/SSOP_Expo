@@ -40,7 +40,7 @@ export const styles = StyleSheet.create({
         flex: 1,
     },
     avatarDo: {
-        zIndex: 0,
+        zIndex: 10,
         width: 40,
         height: 104,
         backgroundColor: "rgba(255, 255, 255, 0.80)",
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
         transform: [{ translateY: -52 }],  // 요소를 세로 방향으로 부모 요소의 중앙으로 이동. translateY는 y축 방향의 이동(52: avatarDo의 height/2)
     },
     avatarAuto: {
-        zIndex: 0,
+        zIndex: 10,
         width: 100,
         height: 36,
         backgroundColor: theme.gray10,
@@ -83,10 +83,11 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardSemiBold",
         fontSize: 14,
         fontWeight: "600",
-        textAlign: "center"
+        textAlign: "center",
+        letterSpacing: -0.14,
     },
     avatarRestart: {
-        zIndex: 0,
+        zIndex: 10,
         width: 40,
         height: 40,
         backgroundColor: "rgba(255, 255, 255, 0.80)",

@@ -1,7 +1,5 @@
-import { StyleSheet, Dimensions } from "react-native"
+import { StyleSheet } from "react-native"
 import { theme } from "../../theme"
-
-const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
     flexDirectionRow: {
@@ -14,7 +12,7 @@ export const styles = StyleSheet.create({
 
     MyPageMain: {
         flex: 1,
-        backgroundColor: theme.bg,
+        backgroundColor: theme.gray99,
         paddingHorizontal: 16,
         paddingTop: 12,
     },
@@ -32,7 +30,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 32,
         paddingHorizontal: 16,
         marginBottom: 24,
-        borderRadius: 8,
+        borderRadius: 16,
         shadowOffset: {width: 4, height: 4},
         shadowOpacity: 0.5,
         shadowRadius: 12,
@@ -54,10 +52,34 @@ export const styles = StyleSheet.create({
         color: theme.skyblue,
     },
 
+    loginBtn: {
+        width: "100%",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        alignItems: "center",
+    },
+    loginText: {
+        fontFamily: "PretendardSemiBold",
+        fontSize: 20,
+        fontStyle: "normal",
+        fontWeight: "600",
+        color: theme.skyblue,
+        letterSpacing: -0.4,
+        marginBottom: 8,
+    },
+    loginSubText: {
+        fontFamily: "PretendardRegular",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "400",
+        color: theme.gray40,
+        letterSpacing: -0.32,
+    },
+
     infoContainer: {
         backgroundColor: theme.white,
         padding: 16,
-        borderRadius: 8,
+        borderRadius: 16,
         shadowOffset: {width: 4, height: 4},
         shadowOpacity: 0.5,
         shadowRadius: 12,
@@ -79,14 +101,23 @@ export const styles = StyleSheet.create({
     },
 
     logoutContainer: {
-        marginLeft: 16,
-        paddingVertical: 20,
+        marginVertical: 20,
+        width: '15%'
     },
     logoutText: {
-        fontFamily: "PretendardSemiBold",
+        fontFamily: "PretendardRegular",
         fontSize: 14,
         fontStyle: "normal",
         fontWeight: "600",
+        color: theme.gray40,
+        letterSpacing: -0.14,
+    },
+    deleteText: {
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
         color: theme.gray60,
+        letterSpacing: -0.14,
     },
 })

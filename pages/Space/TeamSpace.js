@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
@@ -14,6 +15,7 @@ function TeamSpace({ navigation }) {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState([]);
+  const route = useRoute();
 
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
@@ -44,22 +46,40 @@ function TeamSpace({ navigation }) {
   }, [token]);
 
   useEffect(() => {
-    if (userId) {
-      // 내가 참여한 팀스페이스 목록 API 호출
-      const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
-      axios
-        .get(apiUrl, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setData(response.data);
-          console.log('참여한 팀스페이스 목록:', response.data);
-        })
-        .catch((error) => {
-          console.error('내가 참여한 팀스페이스 목록 API 요청 에러:', error);
-        });
+    const refreshData = navigation.addListener('focus', () => {
+      fetchData();
+    });
+  
+    return refreshData;
+  }, [navigation]);
+  
+  useEffect(() => {
+    // Navigation params에서 refresh 값을 확인하여 데이터 요청
+    const { refresh } = route.params || {};
+    if (refresh) {
+      fetchData();
     }
-  }, [userId, token]);
+  }, [route.params]);  
+
+  const fetchData = async () => {
+    if (userId && token) {
+      const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
+      try {
+        const response = await axios.get(apiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setData(response.data);
+        console.log('참여한 팀스페이스 목록:', response.data);
+      } catch (error) {
+        console.error('내가 참여한 팀스페이스 목록 API 요청 에러:', error);
+      }
+    }
+  };
+  
+  useEffect(() => {
+    // userId가 업데이트될 때 fetchData 호출
+    fetchData();
+  }, [userId, token]);    
 
   // 토스트 메시지 표시 함수
   const showCustomToast = (text) => {
@@ -148,7 +168,7 @@ function TeamSpace({ navigation }) {
 
   // 팀스페이스 상세 화면으로 이동
   const handleNext = (teamId) => {
-    navigation.navigate('상세 팀스페이스', { teamId, userId });
+    navigation.navigate('상세 팀스페이스', { teamId, userId, token });
   };
 
   return data.length > 0 ? (
