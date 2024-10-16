@@ -27,6 +27,7 @@ const OpenURLButton = ({url, children}) => {
       );
   };
 
+
 export const CardBack = ({cardData}) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
@@ -36,6 +37,7 @@ export const CardBack = ({cardData}) => {
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData}/>
+                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : ((cardData.cardOptional.card_birth === "" && cardData.cardOptional.card_MBTI === "") ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <StudentOptional cardData={cardData}/>
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>
@@ -45,6 +47,7 @@ export const CardBack = ({cardData}) => {
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData} />
+                        {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <WorkerOptional cardData={cardData} />
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>      
@@ -54,6 +57,7 @@ export const CardBack = ({cardData}) => {
                 return (
                     <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData}/>
+                        {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <FanOptional cardData={cardData} />
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>   
@@ -63,9 +67,15 @@ export const CardBack = ({cardData}) => {
                     return(
                         <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData}/>
-                        <StudentOptional cardData={cardData}/>
-                        <WorkerOptional cardData={cardData} />
-                        <FanOptional cardData={cardData} />
+
+                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined && cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined && cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : <View style={{...styles.line, marginTop: 0}} />}
+
+                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : <StudentOptional cardData={cardData}/> }
+
+                        {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : <WorkerOptional cardData={cardData} />}                        
+
+                        {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : <FanOptional cardData={cardData} />} 
+
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>   
                     </ScrollView>
@@ -90,14 +100,13 @@ const CardOptional1 = ({cardData}) => {
                 <Text style={styles.topic}>생년월일</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>                         
             </View>
-        ) : (cardData.cardOptional.card_MBTI ? <View style={styles.line} /> : null)}
+        ) : null}
         {cardData.cardOptional.card_MBTI ? (
             <View>
             <View style={styles.info}>                             
                 <Text style={styles.topic}>MBTI</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>                         
             </View>
-            <View style={styles.line} />
             </View>
         ) : null}
         </View>
@@ -186,11 +195,11 @@ const CardOptional3 = ({cardData}) => {
 
 const StudentOptional = ({cardData}) => {
     return (
-    <View style={(cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24} : {gap: 24}}>
-            {cardData.student.card_student_grade ? (
+    <View style={((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'})}>
+            {cardData.student.card_student_id ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학번</Text>                             
-                <Text style={styles.content}>{cardData.student.card_student_grade}</Text>                         
+                <Text style={styles.content}>{cardData.student.card_student_id}</Text>                         
             </View>
             ) : null }
             {cardData.student.card_student_role ? (
@@ -219,7 +228,7 @@ const StudentOptional = ({cardData}) => {
 
 const WorkerOptional = ({cardData}) => {
     return (
-    <View style={(cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24} : {gap: 24}}>
+    <View style={(cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
         {cardData.worker.card_worker_position ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>직위</Text>                             
@@ -240,7 +249,7 @@ const WorkerOptional = ({cardData}) => {
 
 const FanOptional = ({cardData}) => {
     return (
-    <View style={(cardData.cardOptional.card_birth === null && cardData.cardOptional.card_MBTI === null) ? {gap: 24, marginTop: -24} : {gap: 24}}>
+    <View style={(cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
         {cardData.fan.card_fan_second ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>차애</Text>                             

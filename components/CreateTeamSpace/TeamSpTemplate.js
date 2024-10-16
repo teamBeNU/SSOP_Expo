@@ -18,6 +18,7 @@ import ShareIcon from '../../assets/icons/ic_share_blue.svg';
 import StudentTemplate from "./StudentTemplate";
 import WorkerTemplate from "./WorkerTemplate";
 import FanTemplate from "./FanTemplate";
+import { cardSampleData,getSampleData } from "../../utils/cardSampleData";
 
 export default function TeamSpTemplate({ navigation, goToOriginal, teamName, teamComment, card_template,
     // 학생
@@ -136,6 +137,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const handleRoleUpdate = (roles) => {
         setSelectedRoles(roles);
     };
+    const [sampleData, setSampleData]  = useState({});
 
     const showCustomToast = (text) => {
         Toast.show({
@@ -148,6 +150,12 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 
     const handleNext = () => {
         if (step === 1) {
+            const data = {
+                ...getSampleData(defaultText, connectText, extraText, student, worker, fan, cardCover, card_template),
+                plus: plusList.filter(item => item.selected).map(item => item.free),
+            };
+    
+            setSampleData(data);
             const anyStudentVisible = Object.values(student).some(value => value === true);
             const anyWorkerVisible = Object.values(worker).some(value => value === true);
             const anyFanVisible = Object.values(fan).some(value => value === true);
@@ -558,7 +566,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                         <View style={{ height: '100%' }} >
                             <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
                             <View style={styles.cardShadow}>
-                                {/* <Card cardData={requestData} /> */}
+                                <Card cardData={sampleData} />
                             </View>
                             <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 

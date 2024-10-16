@@ -159,7 +159,7 @@ export const styles = StyleSheet.create({
         color: theme.gray10,
         fontFamily: 'PretendardRegular',
         fontSize: 16,
-        fontWeight: '500',
+        fontWeight: '400',
         lineHeight: 19,
         letterSpacing: -0.32
         },
@@ -172,7 +172,7 @@ export const styles = StyleSheet.create({
         button: {
         height: 48,
         borderRadius: 8,
-        paddingVertical: 8,
+        paddingVertical: 14,
         paddingHorizontal: 16,
         justifyContent: 'center',
         alignItems: 'center',
@@ -182,9 +182,9 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         color: theme.gray10,
         fontSize: 16,
-        fontWeight: 500,
+        fontWeight: 400,
+        lineHeight: 19,
         letterSpacing: -0.32,
-        textAlign: 'center',
         flex: 1,
         },
         line: {

@@ -11,12 +11,11 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
     const navigation = useNavigation(); 
 
     const handleNext = (cardId) => {
-        //navigation.navigate('카드 상세보기', { cardId });
         navigation.navigate('카드 상세보기', { cardId });
     };
 
     return (
-        <ScrollView horizontal={false} contentContainerStyle={{ width: '100%' }}showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
+        <ScrollView horizontal={false} contentContainerStyle={{ width: '100%' }} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <View>
           {deleteMode ? (
           <View>
