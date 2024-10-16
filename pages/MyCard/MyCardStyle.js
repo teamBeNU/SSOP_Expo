@@ -172,19 +172,19 @@ export const styles = StyleSheet.create({
         button: {
         height: 48,
         borderRadius: 8,
-        paddingVertical: 8,
+        paddingVertical: 14,
         paddingHorizontal: 16,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: theme.gray10,
         },
         modalFont: {
-        fontFamily: 'PretendardSemiBold',
+        fontFamily: 'PretendardRegular',
         color: theme.gray10,
         fontSize: 16,
-        fontWeight: 600,
+        fontWeight: 400,
+        lineHeight: 19,
         letterSpacing: -0.32,
-        textAlign: 'center',
         flex: 1,
         },
         line: {
