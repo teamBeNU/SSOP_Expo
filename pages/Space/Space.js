@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { jwtDecode } from 'jwt-decode';
 import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert, TouchableWithoutFeedback } from "react-native";
-import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
@@ -8,12 +10,10 @@ import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard
 import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
-import Toast from 'react-native-toast-message';
 import MySpace from "./MySpace.js";
 import TeamSpace from "./TeamSpace.js";
 import PinkPoint from "../../assets/icons/ic_pink_point.svg";
 import BluePoint from "../../assets/icons/ic_blue_point.svg";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
@@ -108,7 +108,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                   {label === "팀스페이스" && isFocused && <PinkPoint />}
                   <Text
                     style={[
-                      { color: isFocused && (label === "마이스페이스" || label === "팀스페이스") ? theme.gray30 : theme.gray70,
+                      {
+                        color: isFocused && (label === "마이스페이스" || label === "팀스페이스") ? theme.gray30 : theme.gray70,
                         fontFamily: 'PretendardRegular',
                         fontSize: 16,
                         letterSpacing: -1,
@@ -249,7 +250,8 @@ function MySpaceStack({ navigation }) {
 }
 
 // TeamSpace 스택 네비게이션
-function TeamSpaceStack({ navigation }) {
+function TeamSpaceStack({ navigation, teamData, userId }) {
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const handleEnterTeamSpPress = () => {
     setIsModalVisible(false);
@@ -260,12 +262,6 @@ function TeamSpaceStack({ navigation }) {
     setIsModalVisible(false);
     navigation.navigate('팀스페이스 생성');
   };
-
-  const [teamData, setTeamData] = useState([
-    { id: 1, name: '김슈니의 팀스페이스', description: 'IT 소학회 SWUT 스페이스입니다.', members: 48, isHost: true },
-    { id: 2, name: '영어 교양 스페이스', description: '24-1학기 영어 교양 스페이스입니다.', members: 50, isHost: false },
-    { id: 3, name: '여대 교류회', description: '여대 교류를 위한 스페이스입니다.', members: 80, isHost: false },
-  ]);
 
   return (
     <>
@@ -288,8 +284,7 @@ function TeamSpaceStack({ navigation }) {
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
                     <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                      <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스 추가하기' />
-                      <MenuOption text='팀스페이스 편집하기' onSelect={() => navigation.navigate('팀스페이스 관리', { teamData })} />
+                      <MenuOption text='팀스페이스 편집하기' onSelect={() => navigation.navigate('팀스페이스 관리', { teamData : teamData, userId: userId })} />
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>
@@ -319,12 +314,62 @@ function TeamSpaceStack({ navigation }) {
 
 function Space() {
 
+  const baseUrl = 'http://43.202.52.64:8080/api'
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [teamData, setTeamData] = useState([]);
+
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      // JWT에서 userId 추출
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+      setUserId(decodedToken.userId);
+    }
+  }, [token]);
+
+  const fetchData = async () => {
+    if (userId && token) {
+      const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
+      try {
+        const response = await axios.get(apiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setTeamData(response.data);
+      } catch (error) {
+        console.error('내가 참여한 팀스페이스 목록 API 요청 에러:', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, [userId, token]);
+
   return (
     <Tab.Navigator
       tabBarPosition="bottom"
       tabBar={(props) => <CustomTabBar {...props} />}>
       <Tab.Screen name="마이스페이스" component={MySpaceStack} />
-      <Tab.Screen name="팀스페이스" component={TeamSpaceStack} />
+      <Tab.Screen name="팀스페이스">
+        {({ navigation, route }) => (
+          <TeamSpaceStack navigation={navigation} route={route} teamData={teamData} userId={userId} />
+        )}
+      </Tab.Screen>
     </Tab.Navigator>
   );
 }

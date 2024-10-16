@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
@@ -14,9 +15,13 @@ function TeamSpace({ navigation }) {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState([]);
+  const [inviteCode, setInviteCode] = useState([]);
+  const route = useRoute();
 
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
+  const [nullCardModal, setNullCardModal] = useState(false);
+  const [selectedTeam, setSelectedTeam] = useState(null);
   const [groupToDelete, setGroupToDelete] = useState(null);
   const [selectedGroup, setSelectedGroup] = useState(null);
   const [newTeamName, setNewTeamName] = useState('');
@@ -44,22 +49,96 @@ function TeamSpace({ navigation }) {
   }, [token]);
 
   useEffect(() => {
-    if (userId) {
-      // 내가 참여한 팀스페이스 목록 API 호출
-      const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
-      axios
-        .get(apiUrl, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
-        .then((response) => {
-          setData(response.data);
-          console.log('참여한 팀스페이스 목록:', response.data);
-        })
-        .catch((error) => {
-          console.error('내가 참여한 팀스페이스 목록 API 요청 에러:', error);
-        });
+    const refreshData = navigation.addListener('focus', () => {
+      fetchData();
+    });
+
+    return refreshData;
+  }, [navigation]);
+
+  useEffect(() => {
+    // Navigation params에서 refresh 값을 확인하여 데이터 요청
+    const { refresh } = route.params || {};
+    if (refresh) {
+      fetchData();
     }
+  }, [route.params]);
+
+  const fetchData = async () => {
+    if (userId && token) {
+      const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
+      try {
+        const response = await axios.get(apiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        setData(response.data);
+        console.log('참여한 팀스페이스 목록:', response.data);
+      } catch (error) {
+        console.error('내가 참여한 팀스페이스 목록 API 요청 에러:', error);
+      }
+    }
+  };
+
+  useEffect(() => {
+    // userId가 업데이트될 때 fetchData 호출
+    fetchData();
   }, [userId, token]);
+
+  useEffect(() => {
+    const fetchInviteCode = async (teamId) => {
+      const apiUrl = `${baseUrl}/teamsp?teamId=${teamId}`;
+      try {
+        const response = await axios.get(apiUrl);
+        return response.data.inviteCode;
+      } catch (error) {
+        console.error('초대코드 조회 요청 에러:', error);
+        return null;
+      }
+    };
+
+    const getInviteCodes = async () => {
+      const codes = await Promise.all(
+        data.map(async (team) => {
+          if (team.teamId) {
+            const code = await fetchInviteCode(team.teamId);
+            return { teamId: team.teamId, inviteCode: code };
+          }
+          return null;
+        })
+      );
+
+      // null이 아닌 초대코드만 필터링
+      const validCodes = codes.filter((code) => code !== null);
+      setInviteCode(validCodes);
+    };
+    if (data.length > 0) {
+      getInviteCodes();
+    }
+  }, [data]);
+
+  // 팀스페이스 상세 화면 이동
+  const handleNext = (teamId) => {
+    const selectedTeam = data.find(team => team.teamId === teamId);
+
+    // 카드 ID가 null인 경우
+    if (selectedTeam && selectedTeam.cardId === null) {
+      setSelectedTeam(selectedTeam);
+      setNullCardModal(true);
+    } else {
+      navigation.navigate('상세 팀스페이스', { teamId, userId, token });
+    }
+  };
+
+  const handleConfirmCard = () => {
+    if (selectedTeam) {
+      const inviteCodeForTeam = inviteCode.find(code => code.teamId === selectedTeam.teamId)?.inviteCode;
+
+      if (inviteCodeForTeam) {
+        navigation.navigate('팀스페이스 입장', { step: 2, inviteCode: inviteCodeForTeam });
+        setNullCardModal(false);
+      }
+    }
+  };
 
   // 토스트 메시지 표시 함수
   const showCustomToast = (text) => {
@@ -146,16 +225,11 @@ function TeamSpace({ navigation }) {
     }
   };
 
-  // 팀스페이스 상세 화면으로 이동
-  const handleNext = (teamId) => {
-    navigation.navigate('상세 팀스페이스', { teamId, userId });
-  };
-
   return data.length > 0 ? (
     <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
       <View style={styles.container2}>
-        <View style={{flexDirection: 'row', gap: 10}}>
-        <TeamSp/><Text style={styles.Text26}>팀스페이스</Text>
+        <View style={{ flexDirection: 'row', gap: 10 }}>
+          <TeamSp /><Text style={styles.Text26}>팀스페이스</Text>
         </View>
         <Text style={styles.Text16gray}>팀별로 프로필 카드를 관리하세요.</Text>
       </View>
@@ -178,6 +252,17 @@ function TeamSpace({ navigation }) {
         </View>
         <View style={styles.innerView}></View>
       </View>
+
+      {/* 카드 제출 안내 모달 */}
+      <SpaceModal
+        isVisible={nullCardModal}
+        onClose={() => setNullCardModal(false)}
+        title={'해당 팀스페이스에 제출한 카드가 없습니다.'}
+        sub={'카드를 제출해야 팀스페이스를 확인할 수 있어요.'}
+        btn1={'취소할래요'}
+        btn2={'카드 생성할래요'}
+        onConfirm={handleConfirmCard}
+      />
 
       {/* 그룹 삭제 모달 */}
       <SpaceModal

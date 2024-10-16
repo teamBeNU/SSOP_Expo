@@ -29,7 +29,6 @@ TextInput.defaultProps.allowFontScaling = false;
 import CheckCardDetail from './pages/CheckCard/CheckCardDetail';
 import CardDetailView from './components/MyCard/CardDetailView';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
-import CheckCard from './pages/CheckCard/CheckCard';
 import Memo from './pages/CheckCard/Memo';
 import CreateCard from './pages/CreateCard/CreateCard';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
@@ -48,6 +47,7 @@ import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
 import UserPw from './pages/MyPage/UserPw';
 import Notify from './pages/Notify/Notify';
 import DetailGroup from './pages/Space/DetailGroup';
+import FAQ from './pages/MyPage/Service/FAQ';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import Space from './pages/Space/Space';
 import DeleteMyCard from './pages/MyCard/DeleteMyCard';
@@ -62,6 +62,7 @@ import EditGroupPage from './pages/Space/EditGroupPage';
 import EditTeamSpace from './pages/Space/EditTeamSpace';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
+import ServiceAgree from './pages/MyPage/Service/ServiceAgree';
 import AcceptCard from './pages/Space/AcceptCard';
 
 import { theme } from './theme';
@@ -82,7 +83,8 @@ export default function App() {
     Pretendard : PretendardRegular,
     PretendardRegular : PretendardRegular,
     PretendardMedium : PretendardMedium,
-    PretendardSemiBold : PretendardSemiBold
+    PretendardSemiBold : PretendardSemiBold,
+    PretendardSemibold : PretendardSemiBold
   });
 
   if (!fontsLoaded) {
@@ -211,31 +213,6 @@ export default function App() {
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
-        <Stack.Screen 
-          name="카드 조회" 
-          component={CheckCard}
-          options={{
-            headerTitle: "카드 조회",
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontFamily: 'PretendardRegular',
-              fontSize: 16,
-              fontStyle: 'normal',
-              fontWeight: '400',
-              lineHeight: 19,
-              letterSpacing: -0.32,
-            },
-            headerStyle: {
-              borderBottomWidth: 1,
-              borderBottomColor: theme.gray90,
-            },
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <LeftArrowIcon style={{ marginLeft: 8, }}/>
-              </TouchableOpacity>
-            ),
-          }}
-          />
           <Stack.Screen 
           name="상대카드 상세보기" 
           component={CheckCardDetail}
@@ -351,7 +328,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-       <Stack.Screen name="MY 계정관리" component={UserAccount} 
+        <Stack.Screen name="MY 계정관리" component={UserAccount} 
           options={{
             headerTitle: "계정관리",
             headerLeft: ({onPress}) => (
@@ -360,7 +337,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
+        <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
           options={{
             headerTitle: "이름 및 생년월일 변경",
             headerLeft: ({onPress}) => (
@@ -369,7 +346,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
+        <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
           options={{
             headerTitle: "연락처 변경",
             headerLeft: ({onPress}) => (
@@ -378,7 +355,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
+        <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
           options={{
             headerTitle: "비밀번호 변경",
             headerLeft: ({onPress}) => (
@@ -387,7 +364,25 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-          <Stack.Screen name="마이 스페이스" component={MySpace}
+        <Stack.Screen name="MY 자주 묻는 질문" component={FAQ} 
+          options={{
+            headerTitle: "자주 묻는 질문",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+        <Stack.Screen name="MY 서비스 방침 이용약관" component={ServiceAgree} 
+          options={{
+            headerTitle: "서비스 방침 이용약관",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}/>
+        <Stack.Screen name="마이 스페이스" component={MySpace}
           options={{
             title: " ",
             headerShadowVisible: false,

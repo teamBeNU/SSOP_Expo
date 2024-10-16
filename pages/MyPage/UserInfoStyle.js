@@ -16,7 +16,6 @@ export const styles = StyleSheet.create({
 
     userMain: {
         flex: 1,
-        backgroundColor: "yellow"
     },
     // UserInfo
     userInfoMain: {
@@ -65,6 +64,9 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardRegular",
         fontSize: 14,
         color: theme.gray40,
+        fontStyle: "normal",
+        fontWeight: "600",
+        letterSpacing: -0.4,
         marginBottom: 8,
     },
     customInput: {
@@ -89,60 +91,6 @@ export const styles = StyleSheet.create({
         fontWeight: "400",
         marginHorizontal: 8,
         marginTop: 8,
-    },
-
-    // USerInfo: 생일
-    inputBirthContainer: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-    },
-    inputBirth: {
-        flex: 1,
-        height: 48,
-        borderRadius: 8,
-        backgroundColor: theme.gray95,
-        paddingVertical: 8,
-        paddingHorizontal: 16,
-    },
-    inputBirthText: {
-        textAlign: "right",
-        fontFamily: "PretendardRegular",
-        fontSize: 16,
-    },
-
-    // UserPhoneNumber: 연락처 변경
-    unCorrect: {
-        fontFamily: "PretendardSemiBold",
-        fontSize: 14,
-        fontStyle: "normal",
-        fontWeight: "600",
-        color: theme.gray40,
-    },
-    requestNum: {
-        flexDirection: "row",
-        justifyContent: "space-between",
-        marginVertical: 16,
-    },
-    remainTime: {
-        fontFamily: "PretendardSemiBold",
-        fontSize: 14,
-        fontStyle: "normal",
-        fontWeight: "600",
-        color: theme.gray40,
-    },
-    resendBtn: {
-        fontFamily: "PretendardSemiBold",
-        fontSize: 14,
-        fontStyle: "normal",
-        fontWeight: "600",
-        color: theme.skyblue,
-    },
-    resendText: {
-        fontFamily: "PretendardRegular",
-        fontSize: 14,
-        fontStyle: "normal",
-        fontWeight: "400",
-        color: theme.gray40,
     },
 
     // UserPw: 비밀번호 변경
@@ -217,9 +165,10 @@ export const styles = StyleSheet.create({
     },
     btnNextText: {
         color: theme.white,
-        fontFamily: "PretendardSemiBold",
+        fontFamily: "PretendardMedium",
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: "600",
+        fontWeight: "500",
+        letterSpacing: -0.32,
     },
 })

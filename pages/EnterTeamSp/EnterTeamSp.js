@@ -18,7 +18,7 @@ import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
 import CardSample from '../../assets/teamSp/bg_gradation';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
-function EnterTeamSp({ navigation }) {
+function EnterTeamSp({ navigation, route }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
 
@@ -34,7 +34,6 @@ function EnterTeamSp({ navigation }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형')
   const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
-
 
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
@@ -61,6 +60,28 @@ function EnterTeamSp({ navigation }) {
     }
   }, [data]);
 
+  useEffect(() => {
+    // 호스트가 팀스페이스 생성하자마자 카드 생성하러 옴
+    if (route.params && token) {
+      const newStep = route.params.step || 1; // step 기본값 1
+      setStep(newStep); // step 상태 업데이트
+      console.log("받아온 초대코드 :", route.params.inviteCode);
+  
+      const apiUrl = `${baseUrl}/teamsp/search?inviteCode=${route.params.inviteCode}`;
+      axios
+        .get(apiUrl, {
+          headers: { Authorization: `Bearer ${token}` },
+        })
+        .then((response) => {
+          console.log(response.data);
+          setData(response.data);
+        })
+        .catch((error) => {
+          console.error('호스트 카드 생성 - 초대코드 검색 API 요청 에러:', error);
+        });
+    }
+  }, [route.params, token]); // route.params를 의존성 배열에 추가
+  
   // 팀스페이스 입장 API 호출
   const handleEnterModal = () => {
     const apiUrl = `${baseUrl}/teamsp/enter`;
@@ -119,7 +140,7 @@ function EnterTeamSp({ navigation }) {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {      
-        console.log("Response:", response.data); // Log the response data
+        console.log("Response:", response.data);
         console.log("제출한 카드 ID : ", cardId);
         setStep(3);
       })
@@ -154,6 +175,8 @@ function EnterTeamSp({ navigation }) {
     switch (step) {
       case 1:
         navigation.goBack();
+        break;
+      case 2:
         break;
       case 4:
         setStep(1);

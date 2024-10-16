@@ -3,7 +3,7 @@ import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostFanFalse({ fanOptional }) {
+export default function HostFanFalse({ fanOptional, onDataChange }) {
 
     const [card_genre, setGenre] = useState('');
     const [card_favorite, setFavorite] = useState('');
@@ -20,6 +20,11 @@ export default function HostFanFalse({ fanOptional }) {
     const secondRef = useRef(null);
     const reasonRef = useRef(null);
 
+    // 상위 컴포넌트(HostTemplate)로 데이터를 전달
+    useEffect(() => {
+        onDataChange({ card_genre, card_favorite, card_second, card_reason });
+    }, [card_genre, card_favorite, card_second, card_reason]);
+
     useEffect(() => {
         if (fanOptional) {
             setShowGenre(fanOptional.showGenre);
@@ -31,8 +36,6 @@ export default function HostFanFalse({ fanOptional }) {
 
     return (
         <View style={{ paddingHorizontal: 16 }}>
-            <Text style={styles.title}> 더 자세히 알려주실래요? </Text>
-            <Text style={styles.subtitle}> 정보를 더 추가할 수 있어요. </Text>
 
             {/* 덕질 장르 */}
             {!showGenre && (

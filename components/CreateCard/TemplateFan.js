@@ -2,6 +2,8 @@ import { View, Text, TextInput, TouchableOpacity, Dimensions, ScrollView, Image,
 import React, { useState, useEffect, useRef } from 'react';
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
+import axios from 'axios';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
@@ -9,32 +11,36 @@ import AvatarCustom from "./AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import SelectCover from "./SelectCover";
 
-export default function TemplateFan ({navigation, card_template}) {
-    const [step, setStep] = useState(1);
+export default function TemplateFan ({navigation, card_template, step, setStep}) {
+    const baseUrl = 'http://43.202.52.64:8080/api';
+    const [token, setToken] = useState(null);
 
-    const [card_name, setCardName] = useState('');
-    const [card_introduction, setCardIntroduction] = useState('');
-    const [card_cover, setCardCover] = useState('');
-    const [profile_image_url, setProfileImageUrl] = useState('');
+    // const [step, setStep] = useState(1);
+
+    const [card_name, setCardName] = useState(null);
+    const [card_introduction, setCardIntroduction] = useState(null);
+    const [card_cover, setCardCover] = useState(null);
+    const [profile_image_url, setProfileImageUrl] = useState(null);
 
     const [card_birth, setCardBirth] = useState('');
     const [card_bSecret, setCardBSecret] = useState(false);
-    const [card_tel, setCardTel] = useState('');
-    const [card_email, setCardEmail] = useState('');
-    const [card_sns_insta, setCardSnsInsta] = useState('');
-    const [card_sns_x, setCardSnsX] = useState('');
+    const [card_tel, setCardTel] = useState(null);
+    const [card_email, setCardEmail] = useState(null);
+    const [card_sns_insta, setCardSnsInsta] = useState(null);
+    const [card_sns_x, setCardSnsX] = useState(null);
     const [card_mbti, setCardMbti] = useState('');
-    const [card_music, setCardMusic] = useState('');
-    const [card_movie, setCardMovie] = useState('');
-    const [card_hobby, setCardHobby] = useState('');
-    const [card_address, setCardAddress] = useState('');
+    const [card_music, setCardMusic] = useState(null);
+    const [card_movie, setCardMovie] = useState(null);
+    const [card_hobby, setCardHobby] = useState(null);
+    const [card_address, setCardAddress] = useState(null);
 
-    const [card_fan_genre, setCardFanGenre] = useState('');  // 덕질 장르
-    const [card_fan_first, setCardFanFirst] = useState('');  // 최애
-    const [card_fan_second, setCardFanSecond] = useState('');  // 차애
-    const [card_fan_reason, setCardFanReason] = useState('');  // 입덕 계기
+    const [card_fan_genre, setCardFanGenre] = useState(null);  // 덕질 장르
+    const [card_fan_first, setCardFanFirst] = useState(null);  // 최애
+    const [card_fan_second, setCardFanSecond] = useState(null);  // 차애
+    const [card_fan_reason, setCardFanReason] = useState(null);  // 입덕 계기
     
     const [isFull, setIsFull] = useState({
         name: true,
@@ -48,6 +54,122 @@ export default function TemplateFan ({navigation, card_template}) {
     const ref_input3 = useRef();
     const ref_input4 = useRef();
     
+    const [isAvatarComplete, setIsAvatarComplete] = useState(false);
+    const [isPictureComplete, setIsPictureComplete] = useState(false);
+
+    // 아바타
+    const [avatar, setAvatar] = useState({
+        face: null,
+        hair: null,
+        hairColor: null,
+        clothes: null,
+        acc: null,
+        bg: null,
+        bgColor: null,
+    })
+    
+    // AsyncStorage에서 토큰 가져오기
+    useEffect(() => {
+        const fetchToken = async () => {
+        try {
+            const storedToken = await AsyncStorage.getItem('token');
+            setToken(storedToken);
+        } catch (error) {
+            console.error('토큰 가져오기 실패:', error);
+        }
+        };
+
+        fetchToken();
+    }, []);
+
+    // post 요청
+    const handleSubmit = async () => {
+        const formData = new FormData();
+
+        // 카드 데이터
+        const cardData = {
+            cardEssential: {
+                card_name,
+                card_introduction,
+                card_template,
+                card_cover,
+            },
+            cardOptional: {
+                card_birth,
+                card_bSecret,
+                card_tel,
+                card_email,
+                card_sns_insta,
+                card_sns_x,
+                card_MBTI: card_mbti,
+                card_music,
+                card_movie,
+                card_hobby,
+                card_address,
+            },
+            fan: {
+                card_fan_genre,
+                card_fan_first,
+                card_fan_second,
+                card_fan_reason,
+            },
+        };
+        
+        // card_cover가 'avatar'일 때만 avatar 데이터를 추가
+        if (card_cover === 'avatar') {
+            cardData.avatar = {
+                face: avatar.face,
+                hair: avatar.hair,
+                hairColor: avatar.hairColor,
+                clothes: avatar.clothes,
+                acc: avatar.acc,
+                bg: avatar.bg,
+                bgColor: avatar.bgColor,
+            };
+        }
+
+        // card
+        formData.append('card', {
+            name: 'card',
+            string: JSON.stringify(cardData),
+            type: 'application/json',
+        });
+
+        // image URI
+        if (profile_image_url) {
+            const localUri = profile_image_url;
+            const filename = localUri.split('/').pop();
+            const fileMatch = /\.(\w+)$/.exec(filename);
+            const type = fileMatch ? `image/${fileMatch[1]}` : 'image';
+
+            formData.append('image', {
+                uri: localUri,
+                name: filename,
+                type: type
+            });
+        }
+
+        try {
+            const response = await axios.post(
+                `${baseUrl}/card/create`,
+                formData,
+                {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        'Authorization': `Bearer ${token}`,
+                    }
+                }
+            );
+            if (response.data.code === 200) {
+                console.log('카드 생성 완료');
+            } else {
+                console.log('카드 생성 실패');
+            }
+        } catch (error) {
+            console.error('카드 생성 API 에러 발생: ', error);
+        }
+    }
+
     // mbti
     const handleMBTI = (input) => {
         // 영어만 입력되도록 정규식 필터 적용
@@ -118,17 +240,23 @@ export default function TemplateFan ({navigation, card_template}) {
 
     // 생년월일 비밀
     const handleBSecret = () => {
-        if(card_birth !== '') {
+        if(card_birth != null && card_birth !== '') {
             setCardBSecret(!card_bSecret);
         }
     }
+
+    useEffect(() => {
+        if(card_birth == null || card_birth === '') {
+            setCardBSecret(false);
+        }
+    }, [card_birth])
     
     // 다음으로 버튼
     const handleNext = () => {
         if (step === 1) {
-            const isNameFull = card_name !== '';
-            const isIntroductionFull = card_introduction !== '';
-            const isBirthFull = card_birth !== '';
+            const isNameFull = card_name != null && card_name !== '';
+            const isIntroductionFull = card_introduction != null && card_introduction !== '';
+            const isBirthFull = card_birth != null && card_birth !== '';
 
             setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull, birth: isBirthFull })));
             isBirthCorrect(card_birth);
@@ -141,8 +269,8 @@ export default function TemplateFan ({navigation, card_template}) {
         } else if (step === 2 ) {
             setStep(3);
         } else if (step === 3 ) {
-            const isGenreFull = card_fan_genre !== '';
-            const isFirstFull = card_fan_first !== '';
+            const isGenreFull = card_fan_genre != null && card_fan_genre !== '';
+            const isFirstFull = card_fan_first != null && card_fan_first !== '';
             setIsFull((prev => ({ ...prev, genre: isGenreFull, first: isFirstFull })));
             
             if (isGenreFull && isFirstFull) {
@@ -153,8 +281,14 @@ export default function TemplateFan ({navigation, card_template}) {
         } else if (step === 5 ) {
             setStep(6);
         } else if (step === 6 ) {
-            setStep(7);
+            if(card_cover === "avatar") {   // card cover가 avatar인 경우
+                setStep(7);
+            } else if (card_cover === "picture" && profile_image_url) { // card cover가 picture 인 경우(step 7이 없음)
+                handleSubmit();
+                setStep(8);
+            }
         } else if (step === 7 ) {
+            handleSubmit();
             setStep(8);
         }
     };
@@ -165,11 +299,7 @@ export default function TemplateFan ({navigation, card_template}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {
-                        if (step !== 1) {
-                            setStep(step - 1);  //  이전 단계로 이동
-                        } else {
-                            navigation.goBack();
-                        }
+                        setStep(step - 1);  //  이전 단계로 이동
                     }}>
                         <LeftArrowIcon style={{ marginLeft: 8 }}/>
                     </TouchableOpacity>
@@ -189,6 +319,20 @@ export default function TemplateFan ({navigation, card_template}) {
                 headerTitle: '카드 생성',
                 headerRight: null,
             });
+        } else if (step === 7) {
+            navigation.setOptions({
+                headerTitle: '아바타 커스터마이징',
+                headerRight: () => (
+                    <TouchableOpacity
+                        style={{marginRight: 20}}
+                        onPress={() => {
+                            setIsAvatarComplete(true);
+                        }}
+                    >
+                        <Text style={styles.avatarNext}>완료</Text>
+                    </TouchableOpacity>
+                ),
+            });
         } else if ( step === 8) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
@@ -197,35 +341,28 @@ export default function TemplateFan ({navigation, card_template}) {
                         <CloseIcon style={{ marginLeft: 8 }}/>
                     </TouchableOpacity>
                 ),
-                headerRight: null,
-            });
-        } else if (step === 7) {
-            navigation.setOptions({
-                headerTitle: '아바타 커스터마이징',
                 headerRight: () => (
-                    <TouchableOpacity
-                        style={{marginRight: 20}}
-                        onPress={handleNext}
-                    >
-                        <Text style={styles.avatarNext}>완료</Text>
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <HomeIcon style={{marginRight: 20}}/>
                     </TouchableOpacity>
                 ),
             });
         }
     }, [step]);
 
+    useEffect(() => {
+        if(isAvatarComplete && profile_image_url) {
+            handleNext();
+            setIsAvatarComplete(false);
+        }
+        if(isPictureComplete && profile_image_url) {
+            handleNext();
+            setIsPictureComplete(false);
+        }
+    });
+    
     return (
         <View style={{flex:1}}>
-            {step !== 7 && (        // 프로그레스 바
-                <Progress.Bar
-                    progress={step / 8}
-                    width={null}
-                    height={2}
-                    color={theme.green}
-                    borderWidth={0}
-                />
-            )}
-
             {step === 1 && (
                 <KeyboardAvoidingView
                     behavior="padding"
@@ -643,7 +780,11 @@ export default function TemplateFan ({navigation, card_template}) {
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom setProfileImageUrl={setProfileImageUrl} />
+                        <AvatarCustom 
+                            setProfileImageUrl={setProfileImageUrl} 
+                            avatar={avatar}
+                            setAvatar={setAvatar}
+                        />
                     )}
                 </View>
             )}  
@@ -661,15 +802,9 @@ export default function TemplateFan ({navigation, card_template}) {
                     <View style={styles.btnDone}>
                         <TouchableOpacity 
                                 style={styles.btnCheckCard}
-                                onPress={() => navigation.navigate('MyCard')}
+                                onPress={() => navigation.navigate('내 카드')}
                             >
                             <Text style={styles.btnNextText}>카드 확인하기</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                                style={styles.btnHome}
-                                onPress={() => navigation.navigate('홈')}
-                            >
-                            <Text style={styles.btnHomeText}>홈 화면으로</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

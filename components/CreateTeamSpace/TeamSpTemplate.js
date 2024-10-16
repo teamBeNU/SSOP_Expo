@@ -3,6 +3,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Clipboard from 'expo-clipboard';
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Modal } from "react-native";
+import Toast from "react-native-toast-message";
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
 import { theme } from "../../theme";
@@ -13,10 +14,11 @@ import * as Sharing from 'expo-sharing';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import Select from "../../assets/teamSp/select.svg";
 import ShareImage from '../../assets/icons/LinkShareImage.svg'
-import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
+import ShareIcon from '../../assets/icons/ic_share_blue.svg';
 import StudentTemplate from "./StudentTemplate";
 import WorkerTemplate from "./WorkerTemplate";
 import FanTemplate from "./FanTemplate";
+import { cardSampleData,getSampleData } from "../../utils/cardSampleData";
 
 export default function TeamSpTemplate({ navigation, goToOriginal, teamName, teamComment, card_template,
     // 학생
@@ -41,6 +43,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const [token, setToken] = useState(null);
 
     const [step, setStep] = useState(1);
+    const [requestData, setRequestData] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
     // step1
     const [defaultText, setDefaultText] = useState({
@@ -65,7 +68,6 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     });
 
     const [cardCover, setCardCover] = useState("free");
-
     const [plus, setPlus] = useState("");
     const [plusList, setPlusList] = useState([]);
     const [plusLength, setPlusLength] = useState(0);
@@ -135,56 +137,89 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
     const handleRoleUpdate = (roles) => {
         setSelectedRoles(roles);
     };
+    const [sampleData, setSampleData]  = useState({});
+
+    const showCustomToast = (text) => {
+        Toast.show({
+            text1: text,
+            type: 'selectedToast',
+            position: 'bottom',
+            visibilityTime: 2000,
+        });
+    };
 
     const handleNext = () => {
         if (step === 1) {
-            setStep(2);
-        } else if (step === 2) {
-            // 지금까지 작성한 팀스페이스 정보로 생성
-            const requestData = {
-                team_name: teamName,
-                team_comment: teamComment,
-                isTemplate: true,
-                template: card_template,
-                showAge: defaultText.showAge,
-                showBirth: defaultText.showBirth,
-                showMBTI: defaultText.showMBTI,
-                showTel: connectText.showTel,
-                showEmail: connectText.showEmail,
-                showInsta: connectText.showInsta,
-                showX: connectText.showX,
-                // 학생 템플릿
-                studentOptional: {
-                    showSchool: student.showSchool,
-                    showGrade: student.showGrade,
-                    showStudNum: student.showStudNum,
-                    showMajor: student.showMajor,
-                    showClub: student.showClub,
-                    showRole: selectedRoles,
-                    showStatus: student.showStatus
-                },
-                // 직장인 템플릿
-                workerOptional: {
-                    showCompany: worker.showCompany,
-                    showJob: worker.showJob,
-                    showPosition: worker.showPosition,
-                    showPart: worker.showPart
-                },
-                // 팬 템플릿
-                fanOptional: {
-                    showGenre: fan.showGenre,
-                    showFavorite: fan.showFavorite,
-                    showSecond: fan.showSecond,
-                    showReason: fan.showReason
-                },
-                showHobby: extraText.showHobby,
-                showMusic: extraText.showMusic,
-                showMovie: extraText.showMovie,
-                showAddress: extraText.showAddress,
+            const data = {
+                ...getSampleData(defaultText, connectText, extraText, student, worker, fan, cardCover, card_template),
                 plus: plusList.filter(item => item.selected).map(item => item.free),
-                cardCover: cardCover
             };
+    
+            setSampleData(data);
+            const anyStudentVisible = Object.values(student).some(value => value === true);
+            const anyWorkerVisible = Object.values(worker).some(value => value === true);
+            const anyFanVisible = Object.values(fan).some(value => value === true);
 
+            // 하나라도 선택되었는지 확인
+            const anyRoleSelected = selectedRoles.some(role => role.selected);
+
+            if (!anyStudentVisible && !anyWorkerVisible && !anyFanVisible && !anyRoleSelected) {
+                showCustomToast('최소 하나의 질문은 선택해주세요.');
+            } else {
+                try {
+                    const newRequestData = {
+                        team_name: teamName,
+                        team_comment: teamComment,
+                        isTemplate: true,
+                        template: card_template,
+                        showAge: defaultText.showAge,
+                        showBirth: defaultText.showBirth,
+                        showMBTI: defaultText.showMBTI,
+                        showTel: connectText.showTel,
+                        showEmail: connectText.showEmail,
+                        showInsta: connectText.showInsta,
+                        showX: connectText.showX,
+                        // 학생 템플릿
+                        studentOptional: {
+                            showSchool: student.showSchool,
+                            showGrade: student.showGrade,
+                            showStudNum: student.showStudNum,
+                            showMajor: student.showMajor,
+                            showClub: student.showClub,
+                            showRole: selectedRoles,
+                            showStatus: student.showStatus
+                        },
+                        // 직장인 템플릿
+                        workerOptional: {
+                            showCompany: worker.showCompany,
+                            showJob: worker.showJob,
+                            showPosition: worker.showPosition,
+                            showPart: worker.showPart
+                        },
+                        // 팬 템플릿
+                        fanOptional: {
+                            showGenre: fan.showGenre,
+                            showFavorite: fan.showFavorite,
+                            showSecond: fan.showSecond,
+                            showReason: fan.showReason
+                        },
+                        showHobby: extraText.showHobby,
+                        showMusic: extraText.showMusic,
+                        showMovie: extraText.showMovie,
+                        showAddress: extraText.showAddress,
+                        plus: plusList.filter(item => item.selected).map(item => item.free),
+                        cardCover: cardCover
+                    };
+
+                    console.log(newRequestData); // 콘솔 로그를 여기로 이동
+                    // 상태에 저장
+                    setRequestData(newRequestData);
+                    setStep(2); // Step 2로 이동
+                } catch (error) {
+                    console.error('newRequestData 생성 중 에러:', error);
+                }
+            }
+        } else if (step === 2) {
             // 팀스페이스 생성 API 호출
             const apiUrl = `${baseUrl}/teamsp/create`;
             axios
@@ -297,12 +332,12 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
         try {
             const isAvailable = await Sharing.isAvailableAsync();
             if (!isAvailable) {
-                Alert.alert('Sharing is not available on this device');
+                Alert.alert('링크를 공유할 수 없습니다.');
                 return;
             }
 
-            await Sharing.shareAsync('https://naver.com', {
-                dialogTitle: 'SSOP Share TEST',
+            await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=4', {
+                dialogTitle: '네 세계에 쏩 빠지다, SSOP 카드로 서로에게 스며들다',
             });
         } catch (error) {
             Alert.alert('Error sharing', error.message);
@@ -531,7 +566,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                         <View style={{ height: '100%' }} >
                             <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
                             <View style={styles.cardShadow}>
-                                <Card />
+                                <Card cardData={sampleData} />
                             </View>
                             <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
 
@@ -578,9 +613,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             <View style={styles.shareContainer}>
                                 <ShareImage />
                                 <View style={styles.shareBox}>
-                                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', marginRight: 8 }} onPress={handleShareButtonPress}>
-                                        <Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
-                                        <RightArrowBlueIcon />
+                                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={handleShareButtonPress}>
+                                        <ShareIcon /><Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
                                     </TouchableOpacity>
                                     <Modal
                                         animationType="fade"
@@ -619,8 +653,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             </View>
 
                             <View style={[styles.btnContainer, { marginBottom: -16 }]}>
-                                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('스페이스')}>
-                                    <Text style={styles.btnText}> 팀스페이스 확인 </Text>
+                                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('팀스페이스 입장', { step: 2, inviteCode: inviteCode })}>
+                                    <Text style={styles.btnText}> 카드 생성하기 </Text>
                                 </TouchableOpacity>
                                 <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
                                     <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
