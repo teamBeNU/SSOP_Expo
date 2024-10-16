@@ -117,7 +117,7 @@ function Notify() {
     const fetchNotifications = async () => {
       try {
         const response = await axios.get('http://43.202.52.64:8080/api/notifications', {
-          params: { userId: 1 }, // userId를 필요에 따라 수정
+          params: { userId: 16 }, // userId를 필요에 따라 수정
         });
         setNotiData(response.data);
         setHasNotify(response.data.length > 0);

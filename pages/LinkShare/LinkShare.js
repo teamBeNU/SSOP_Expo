@@ -9,6 +9,7 @@ import CardsView from '../../components/Bluetooth/CardsView.js';
 import * as Progress from 'react-native-progress';
 import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from "../../theme";
 
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -22,14 +23,42 @@ function Step1Screen({ navigation }) {
   // 카드 데이터 유무를 상태로 설정
   const [hasCards, setHasCards] = useState(true);
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형');
+  const [viewOption, setViewOption] = useState('리스트형');
+  const [cardData, setCardData] = useState([]);  // 카드 데이터를 저장할 상태
 
-  // 카드 데이터
-  const cardData = [
-    { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
-    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{marginLeft: -10}} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
-    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{marginLeft: -10}} />, card_name: '릴리', card_template: '팬', card_introduce: '서울여자대학교 디지털미디어학과 20학번' },
-  ];
+  // 백엔드에서 카드 데이터를 가져오는 함수
+  const fetchCardData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');  // 토큰 가져오기
+      if (!token) {
+        console.error('토큰이 없습니다.');
+        return;
+      }
+
+      const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,  // 인증 헤더에 토큰 추가
+        },
+      });
+
+      const result = await response.json();  // 응답을 JSON으로 변환
+      setCardData(result);  // 카드 데이터를 상태로 저장
+
+      if (result.length > 0) {
+        setHasCards(true);  // 카드가 있으면 true
+      } else {
+        setHasCards(false);  // 카드가 없으면 false
+      }
+    } catch (error) {
+      console.error('카드 데이터를 불러오는 중 오류가 발생했습니다:', error);
+    }
+  };
+
+  // 컴포넌트가 처음 렌더링될 때 데이터 가져오기
+  useEffect(() => {
+    fetchCardData();  // 카드 데이터 가져오기
+  }, []);
 
   const title = '공유할 카드를 선택하세요.';
   const sub = '공유할 수 있는 카드가 없어요.';
@@ -48,27 +77,27 @@ function Step1Screen({ navigation }) {
         borderWidth={0}
       />
       <View style={styles.shareContainer}>
-      {hasCards ? (
-        <CardsView
-          navigation={navigation}
-          selectedOption={selectedOption}
-          setSelectedOption={setSelectedOption}
-          viewOption={viewOption}
-          setViewOption={setViewOption}
-          handleNext={handleNext}
-          cardData={cardData}
-          title={title}
-          showNewCardButton={true}
-        />
-      ) : (
-        <NoCardsView 
-          navigation={navigation}
-          title={title}
-          sub={sub}
-        />
-      )}
+        {hasCards ? (
+          <CardsView
+            navigation={navigation}
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+            viewOption={viewOption}
+            setViewOption={setViewOption}
+            handleNext={handleNext}
+            cardData={cardData}  // 백엔드에서 가져온 카드 데이터를 전달
+            title={title}
+            showNewCardButton={true}
+            showPlusCard={true}
+          />
+        ) : (
+          <NoCardsView 
+            navigation={navigation}
+            title={title}
+            sub={sub}
+          />
+        )}
       </View>
-
     </View>
   );
 }
@@ -91,7 +120,7 @@ function Step2Screen({ navigation }) {
         return;
       }
 
-      await Sharing.shareAsync('https://naver.com', {
+      await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=25', {
         dialogTitle: 'SSOP Share TEST',
       });
     } catch (error) {
@@ -152,7 +181,7 @@ function Step2Screen({ navigation }) {
           <TouchableOpacity style={styles.btnNext} onPress={handleShareButtonPress}>
             <Text style={styles.btnText}>링크 공유하기</Text>
           </TouchableOpacity >
-          <TouchableOpacity style={styles.btnNextWhite} onPress={() => navigation.navigate(' ')}>
+          <TouchableOpacity style={styles.btnNextWhite} onPress={() => navigation.navigate('홈')}>
             <Text style={styles.btnTextWhite}> 홈 화면으로 </Text>
           </TouchableOpacity>
         </View>

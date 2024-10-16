@@ -1,86 +1,51 @@
-import { View, Text, TouchableOpacity, StyleSheet, Dimensions } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Dimensions } from 'react-native';
 import { theme } from "../../theme";
 import { styles } from './ShareCardStyle';
 import { useNavigation } from '@react-navigation/native';
-import { RadioButton } from 'react-native-paper';
 import PlusCardIcon from '../../assets/icons/ic_add_small_line_gray.svg';
-import RadioWhiteIcon from '../../assets/icons/ic_radio_check_white.svg';
+import { getColor } from '../../utils/bgColorMapping';
+import { calculateAge } from '../../utils/calculateAge';
+import { getTemplate } from '../../utils/templateMapping';
 
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 16 * 2 - 12) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
 
-export const ShareCard = ({ backgroundColor, avatar, isHost, card_name, age, dot, card_template, filter }) => {
+export const ShareCard = ({ avatar, card_name, card_birth, card_template, card_cover, profile_image_url, isHost }) => {
     return (
-        <View style={[styles.card, { backgroundColor, width: cardWidth }]}>
-            <View style={styles.cardImgArea}>
-                {avatar}
+      <View style={[styles.card, { backgroundColor: card_cover === 'avatar' ? getColor(avatar.bgColor) : getColor(card_cover), width: cardWidth }]}>
+        <View style={styles.cardImgArea}>
+          {card_cover === 'avatar' ? (
+            <View style={{ backgroundColor: getColor(avatar.bgColor) }}> 
+              {/* avatar 렌더링 로직 */}
             </View>
-            {isHost && (
-                <View style={styles.DetailcardHost}>
-                    <Text style={styles.DetailcardFilterText}>호스트</Text>
-                </View>
-            )}
-            <View style={styles.cardTextArea}>
-                <View style={styles.Info}> 
-                    <Text style={styles.name}>{card_name}</Text>
-                    <View style={styles.age}>
-                        {age ? <Text style={styles.ageText}>{age}</Text> : null}
-                        {dot ? <Text style={styles.ageText}>{dot}</Text> : null}
-                        {card_template ? <Text style={styles.ageText}>{card_template}</Text> : null}
-                    </View>
-                </View>
-                {filter && (
-                    <View style={styles.DetailcardFilter}>
-                        <Text style={styles.DetailcardFilterText}>{filter}</Text>
-                    </View>
-                )}
-            </View>
+          ) : (
+            // picture일 때 profile_image_url을 사용
+            <Image
+              source={{ uri: profile_image_url }}
+              resizeMode="cover"
+              style={styles.cardImgArea}
+            />
+          )}
         </View>
-    )
-}
-
-const CustomCardRadioButton = ({ selected, onPress }) => {
-    return (
-        <TouchableOpacity onPress={onPress} style={styles.radioContainer}>
-            <View style={[styles.radio, selected && styles.radioSelected]}>
-                {selected && <RadioWhiteIcon style={styles.radioInner} />}
+        {isHost && (
+          <View style={styles.DetailcardHost}>
+            <Text style={styles.DetailcardFilterText}>호스트</Text>
+          </View>
+        )}
+        <View style={styles.cardTextArea}>
+          <View style={styles.Info}>
+            <Text style={styles.name}>{card_name}</Text>
+            <View style={styles.age}>
+              {card_birth && <Text style={styles.ageText}>{calculateAge(card_birth)}</Text>}
+              {card_birth && card_template && <Text style={styles.ageText}>·</Text>}
+              {card_template && <Text style={styles.ageText}>{getTemplate(card_template)}</Text>}
             </View>
-        </TouchableOpacity>
+          </View>
+        </View>
+      </View>
     );
-};
+  };
 
-export const RadioCard = ({ backgroundColor, avatar, host, card_name, age, dot, card_template, filter, selected, onPress }) => {
-    return (
-        <TouchableOpacity style={[styles.card, { backgroundColor, width: cardWidth }]} onPress={onPress}>
-            <View style={styles.radioButtonContainer}>
-                <CustomCardRadioButton selected={selected} onPress={onPress} />
-            </View>
-            <View style={styles.cardImgArea}>
-                {avatar}
-            </View>
-            {host && (
-                <View style={styles.DetailcardHost}>
-                    <Text style={styles.DetailcardFilterText}>호스트</Text>
-                </View>
-            )}
-            <View style={styles.cardTextArea}>
-                <View style={styles.Info}>
-                    <Text style={styles.name}>{card_name}</Text>
-                    <View style={styles.age}>
-                        {age ? <Text style={styles.ageText}>{age}</Text> : null}
-                        {dot ? <Text style={styles.ageText}>{dot}</Text> : null}
-                        {card_template ? <Text style={styles.ageText}>{card_template}</Text> : null}
-                    </View>
-                </View>
-                {filter && (
-                    <View style={styles.DetailcardFilter}>
-                        <Text style={styles.DetailcardFilterText}>{filter}</Text>
-                    </View>
-                )}
-            </View>
-        </TouchableOpacity>
-    );
-};
 
 export const PlusCardButton = () => {
     const navigation = useNavigation();
