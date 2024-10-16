@@ -37,13 +37,13 @@ const CheckCardDetail = () => {
 
     const handleNewMemo = () => {
         setIsEdit(false);
-        navigation.navigate('Memo', { isEdit: false });
+        navigation.navigate('Memo', { isEdit : false, card: cardData[currentCardIndex], index: currentCardIndex });
       };
 
-    const handleEditMemo = () => {
+    const handleEditMemo = (card) => {
         setIsModalVisible(false);
         setIsEdit(true);
-        navigation.navigate('Memo', { isEdit: true });
+        navigation.navigate('Memo', { isEdit : true, memo : card.memo, card });
       };
 
     const checkIfRecentlyUpdated = (responseTime) => {
@@ -229,7 +229,7 @@ const CheckCardDetail = () => {
                   <View style={styles.modalView}>
                     <View style={styles.modalTitle}>
                         <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 보기</Text>
-                        <TouchableOpacity style={{ position: 'absolute', right: 24 }} onPress={ handleEditMemo }><Text style={{...styles.modalFont, color:'#00C2ED', fontWeight:'500',}}>수정</Text></TouchableOpacity>
+                        <TouchableOpacity style={{ position: 'absolute', right: 24 }} onPress={() => handleEditMemo(cardData[currentCardIndex]) }><Text style={{...styles.modalFont, color:'#00C2ED', fontWeight:'500',}}>수정</Text></TouchableOpacity>
                     </View>
                     <View style={styles.modalContent}>
                         <View style={{height: 100}}>

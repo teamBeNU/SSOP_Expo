@@ -83,15 +83,14 @@ export const styles = StyleSheet.create({
         },
         memoInput: {
         width: '100%',
-        height: 93, 
+        height: 125, 
         paddingVertical: 16,
         paddingHorizontal: 16,
         marginTop:32,
         marginBottom: 8, 
         fontSize: 16,
-        borderRadius: 8,
-        borderWidth: 1,
-        borderColor: theme.gray10,
+        borderRadius: 16,
+        backgroundColor: theme.gray95,
         fontFamily: 'PretendardRegular'
         },
         memoLeng: {

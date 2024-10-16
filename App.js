@@ -29,7 +29,6 @@ TextInput.defaultProps.allowFontScaling = false;
 import CheckCardDetail from './pages/CheckCard/CheckCardDetail';
 import CardDetailView from './components/MyCard/CardDetailView';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
-import CheckCard from './pages/CheckCard/CheckCard';
 import Memo from './pages/CheckCard/Memo';
 import CreateCard from './pages/CreateCard/CreateCard';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
@@ -211,31 +210,6 @@ export default function App() {
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
-        <Stack.Screen 
-          name="카드 조회" 
-          component={CheckCard}
-          options={{
-            headerTitle: "카드 조회",
-            headerTitleAlign: 'center',
-            headerTitleStyle: {
-              fontFamily: 'PretendardRegular',
-              fontSize: 16,
-              fontStyle: 'normal',
-              fontWeight: '400',
-              lineHeight: 19,
-              letterSpacing: -0.32,
-            },
-            headerStyle: {
-              borderBottomWidth: 1,
-              borderBottomColor: theme.gray90,
-            },
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <LeftArrowIcon style={{ marginLeft: 8, }}/>
-              </TouchableOpacity>
-            ),
-          }}
-          />
           <Stack.Screen 
           name="상대카드 상세보기" 
           component={CheckCardDetail}
