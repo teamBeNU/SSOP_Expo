@@ -90,7 +90,7 @@ const MySpaceDetailView = ({
 
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor} >
+    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
       <View style={styles.backgroundColor2}>
         <Text style={[styles.detailtitle, { marginBottom: 8 }]}>{title}</Text>
         {sub ? (
@@ -104,7 +104,8 @@ const MySpaceDetailView = ({
 
         <View>
           <View style={styles.rowRange2}>
-            {hasSelectedFilters ? (
+            {/* 필터 버튼 표시 여부 제어 */}
+            {showFilterButton && (hasSelectedFilters ? (
               <TouchableOpacity
                 style={styles.selectedFilterButton}
                 onPress={handleFilterNext}
@@ -118,7 +119,9 @@ const MySpaceDetailView = ({
               >
                 <Text style={styles.filterButtonText}>필터</Text>
               </TouchableOpacity>
-            )}
+            ))}
+
+            {!showFilterButton && <View style={{ flex: 1 }} />}
 
             <View style={styles.rightButtonGroup}>
               {/* 격자형, 리스트형 버튼 */}
@@ -153,7 +156,6 @@ const MySpaceDetailView = ({
                     style={{ marginBottom: 10.5 }}
                     onSelect={() => setSelectedOption('최신순')}
                     text='최신순'
-
                   />
                   <MenuOption
                     onSelect={() => setSelectedOption('오래된 순')}
@@ -174,7 +176,7 @@ const MySpaceDetailView = ({
             {Object.entries(selectedFilters).map(([key, values]) => (
               values.map((value, index) => (
                 <TouchableOpacity
-                  key={`${key}-${index}`}
+                  key={`${key}-${index}`} // 고유한 key 추가
                   style={styles.selectedElement}
                 >
                   <View style={{ flexDirection: 'row', alignItems: 'center' }}>
@@ -186,7 +188,6 @@ const MySpaceDetailView = ({
                 </TouchableOpacity>
               ))
             ))}
-
           </View>
         ) : (
           <></>
@@ -196,7 +197,7 @@ const MySpaceDetailView = ({
           {viewOption === '격자형' && (
             <View>
               <View style={[styles.row, styles.container]}>
-                {Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
+                {/* {Array.isArray(cardData.memberData) && Array.isArray(cardData.cardIdData) && (cardData.memberData.length > 0 || cardData.cardIdData.length > 0) ? (
                   [...cardData.memberData, ...cardData.cardIdData].map((item) => (
                     <TouchableOpacity
                       key={item.cardId}
@@ -242,7 +243,44 @@ const MySpaceDetailView = ({
                         }
                       />
                     </TouchableOpacity>
-                  ))
+                  )) */}
+                {Array.isArray(cardData) && cardData.length > 0 ? (
+                  cardData.map((item, index) => {
+                    const essential = item.memberEssential || item.cardEssential; // memberEssential이 없으면 cardEssential 사용
+                    const optional = item.memberOptional || item.cardOptional; // memberOptional이 없으면 cardOptional 사용
+
+                    return (
+                      <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={handleNext}>
+                        <ShareCard
+                          backgroundColor={item.backgroundColor}
+                          avatar={
+                            <Image
+                              source={{ uri: item.profile_image_url ? item.profile_image_url : essential.profile_image_url }}
+                              style={styles.gridImage}
+                            />
+                          }
+                          isHost={isHost}
+                          card_name={essential.card_name}
+                          age={optional?.card_birth ? calculateAge(optional.card_birth) : '정보 없음'}
+                          dot=' · '
+                          card_template={
+                            essential.card_template === 'student' ? '학생' :
+                              essential.card_template === 'worker' ? '직장인' :
+                                essential.card_template === 'fan' ? '팬' :
+                                  essential.card_template === 'free' ? '자유' :
+                                    '기타'
+                          }
+                        />
+                        {/* <ShareCard
+                          avatar={item.avatar}
+                          card_name={item.cardEssential.card_name}
+                          card_birth={item.cardOptional.card_birth}
+                          card_template={item.card_template}
+                          card_cover={item.card_cover}
+                        /> */}
+                      </TouchableOpacity>
+                    );
+                  })
                 ) : (
                   <View style={styles.emptyContainer}>
                     <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
@@ -312,6 +350,7 @@ const MySpaceDetailView = ({
                             <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
                               <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
                               <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
+                              <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(item.id)} />
                             </MenuOptions>
                           </Menu>
                         )}
@@ -386,4 +425,3 @@ const MySpaceDetailView = ({
 };
 
 export default MySpaceDetailView;
-

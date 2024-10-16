@@ -30,6 +30,9 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 48,
     },
+    container3: {
+        flexDirection: 'row'
+    },
     row2: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -650,7 +653,7 @@ export const styles = StyleSheet.create({
     bottomTextBlue: {
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
-        color: theme.skyblue,
+        color: theme.gray30,
         letterSpacing: -1,
         justifyContent: 'center',
         alignContent: 'center'
@@ -660,15 +663,19 @@ export const styles = StyleSheet.create({
         marginLeft: 44,
         marginRight: 44,
     },
+    bottomLine2: {
+        marginLeft: 16,
+        marginRight: 16,
+    },
 
     bottomDetailContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
         position: 'absolute',
-        bottom: 16,
-        left: 16,
-        right: 16,
-        padding: 16,
+        bottom: 0,
+        left: 0,
+        right: 0,
+        paddingVertical: 21.5,
         borderRadius: 12,
         backgroundColor: "#FFFFFF",
         shadowColor: "rgba(73, 81, 100, 0.07)",

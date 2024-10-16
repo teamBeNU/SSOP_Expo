@@ -156,7 +156,7 @@ export const styles = StyleSheet.create({
 
     // 카드가 없을 때
     emptyContainer: {
-        flex: 1,
+        flex: 0.8,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 16,
@@ -280,7 +280,7 @@ export const styles = StyleSheet.create({
     // 마이 스페이스 상세
     backgroundColor: {
         flex: 1,
-        backgroundColor: theme.gray95
+        backgroundColor: theme.white
     },
     backgroundColor2: {
         paddingTop: 40,
