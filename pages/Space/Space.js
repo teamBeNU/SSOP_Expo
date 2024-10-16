@@ -5,7 +5,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
 import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
-import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
+import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 import Toast from 'react-native-toast-message';
@@ -128,6 +128,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
 // MySpace 스택 네비게이션
 function MySpaceStack({ navigation }) {
+  const [teamData, setTeamData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const handleBluetoothPress = () => {
@@ -141,15 +142,11 @@ function MySpaceStack({ navigation }) {
   };
 
   const handlePlusGroup = () => {
+    console.log('새 그룹 추가하기 클릭됨'); 
     setIsGroupNameChangeModalVisible(true);
   };
 
-  const [teamData, setTeamData] = useState([
-    { id: 1, name: '24학번 후배', members: 8 },
-    { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
-    { id: 3, name: '그룹 3', members: 10 },
-    { id: 4, name: '그룹 4', members: 15 },
-  ]);
+
 
   return (
     <>
@@ -172,7 +169,7 @@ function MySpaceStack({ navigation }) {
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
                     <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 , borderRadius: 16 }}>
-                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' onPress={handlePlusGroup}/>
+                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' onSelect={handlePlusGroup}/>
                       <MenuOption text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })}/>
                     </MenuOptions>
                   </Menu>
@@ -184,12 +181,13 @@ function MySpaceStack({ navigation }) {
       </Stack.Navigator>
 
 
-      <SpaceNameChangeModal
-        isVisible={isGroupNameChangeModalVisible}
-        onClose={() => setIsGroupNameChangeModalVisible(false)}
+      <NewGroupModal
+        isVisible={isGroupNameChangeModalVisible}  // 상태에 따라 모달 표시 여부 결정
+        onClose={() => setIsGroupNameChangeModalVisible(false)}  // 닫기 시 false로 변경
         groupName={'그룹 이름을 작성하세요.'}
         btn1={'취소하기'}
         btn2={'추가하기'}
+        onConfirm={''}
       />
       <ExchangeModal
         isVisible={isModalVisible}

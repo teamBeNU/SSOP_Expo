@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, ScrollView, Image, Dimensions } from "react-native";
 import { styles } from './HomeStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
+import LinearGradient from 'react-native-linear-gradient';
 
 import CreateCardIcon from '../../assets/HomeIcon/CreateCardIcon.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
@@ -69,18 +70,7 @@ function Home({navigation}) {
                         </TouchableOpacity>
                     </View>
                 </View>
-
-                <TouchableOpacity 
-                onPress={() => navigation.navigate('로그인')}
-                style={{
-                    marginVertical: 16,
-                    marginHorizontal: 16,
-                    padding: 16,
-                    backgroundColor: 'white'
-                }}
-                >
-                <Text>로그인 테스트</Text>
-                </TouchableOpacity>  
+                <View style={{marginTop: 80}}></View>
                 </View>  
             </View>
         </ScrollView>
