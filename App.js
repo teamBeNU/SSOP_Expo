@@ -82,7 +82,8 @@ export default function App() {
     Pretendard : PretendardRegular,
     PretendardRegular : PretendardRegular,
     PretendardMedium : PretendardMedium,
-    PretendardSemiBold : PretendardSemiBold
+    PretendardSemiBold : PretendardSemiBold,
+    PretendardSemibold : PretendardSemiBold
   });
 
   if (!fontsLoaded) {
