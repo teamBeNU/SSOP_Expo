@@ -41,6 +41,7 @@ const MySpaceDetailView = ({
   const [modalCardVisible, setModalCardVisible] = useState(false);
   const [modalMemberVisible, setModalMemberVisible] = useState(false);
   const [selectedCardData, setSelectedCardData] = useState(null);
+  const [selectedMemberData, setSelectedMemberData] = useState([]);
 
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
@@ -68,7 +69,7 @@ const MySpaceDetailView = ({
 
   // 카드 상세보기
   const handleCardDetail = async (cardData) => {
-    console.log("클릭한 카드: ", cardData);
+    // console.log("클릭한 카드: ", cardData);
 
     if (typeof cardData === 'number') {
       try {
@@ -200,7 +201,20 @@ const MySpaceDetailView = ({
                       <TouchableOpacity
                         key={item.cardId}
                         style={styles.btn1}
-                        onPress={() => handleCardDetail(item)}
+                        onPress={() => {
+                          if (item.cardId === undefined) {
+                            const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+
+                            if (matchingMember) {
+                              setSelectedMemberData(matchingMember);
+                              setModalMemberVisible(true);
+                            } else {
+                              console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                            }
+                          } else {
+                            handleCardDetail(item); // 기존 카드 제출일 경우
+                          }
+                        }}
                       >
                         <ShareCard
                           backgroundColor={item.backgroundColor}
@@ -225,8 +239,37 @@ const MySpaceDetailView = ({
                           <TouchableOpacity
                             key={item.cardId}
                             style={styles.btn1}
-                            onPress={() => handleCardDetail(item)}
+                            onPress={() => {
+                              if (item.cardId === undefined) {
+                                const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+
+                                if (matchingMember) {
+                                  setSelectedMemberData(matchingMember);
+                                  setModalMemberVisible(true);
+                                } else {
+                                  console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                                }
+                              } else {
+                                handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                              }
+                            }}
                           >
+                            <TouchableOpacity
+                              onPress={() => {
+                                if (item.cardId === undefined) {
+                                  const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+
+                                  if (matchingMember) {
+                                    setSelectedMemberData(matchingMember);
+                                    setModalMemberVisible(true);
+                                  } else {
+                                    console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                                  }
+                                } else {
+                                  handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                                }
+                              }}
+                            ></TouchableOpacity>
                             <ShareCard
                               backgroundColor={item.backgroundColor}
                               avatar={
@@ -259,7 +302,22 @@ const MySpaceDetailView = ({
                 {Array.isArray(filteredData) && filteredData.length > 0 ? (
                   filteredData.map((item) => (
                     <View key={item.cardId} style={styles.ListContainer}>
-                      <TouchableOpacity onPress={() => handleCardDetail(item.cardId)}>
+                      <TouchableOpacity
+                        onPress={() => {
+                          if (item.cardId === undefined) {
+                            const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+
+                            if (matchingMember) {
+                              setSelectedMemberData(matchingMember);
+                              setModalMemberVisible(true);
+                            } else {
+                              console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                            }
+                          } else {
+                            handleCardDetail(item); // 기존 카드 제출일 경우
+                          }
+                        }}
+                      >
                         <View style={styles.row2}>
                           <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
                             <Image
@@ -310,8 +368,23 @@ const MySpaceDetailView = ({
                   (Array.isArray(cardData.memberData) && cardData.memberData.length > 0) ||
                     (Array.isArray(cardData.cardIdData) && cardData.cardIdData.length > 0) ? (
                     [...cardData.memberData, ...cardData.cardIdData].map((item) => (
-                      <View key={item.cardId} style={styles.ListContainer}>
-                        <TouchableOpacity onPress={() => handleCardDetail(item.cardId)}>
+                      <View key={item?.cardId || item.userId} style={styles.ListContainer}>
+                        <TouchableOpacity
+                          onPress={() => {
+                            if (item.cardId === undefined) {
+                              const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+
+                              if (matchingMember) {
+                                setSelectedMemberData(matchingMember);
+                                setModalMemberVisible(true);
+                              } else {
+                                console.log('해당 사용자의 카드를 조회할 수 없습니다.');
+                              }
+                            } else {
+                              handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                            }
+                          }}
+                        >
                           <View style={styles.row2}>
                             <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
                               <Image
@@ -401,30 +474,31 @@ const MySpaceDetailView = ({
             </TouchableWithoutFeedback>
           </Modal>
 
-          {/* 호스트 템플릿 상세보기 모달 */}
-          <Modal
-            animationType="slide"
-            transparent={true}
-            visible={modalMemberVisible}
-            onRequestClose={() => {
-              setModalMemberVisible(!modalMemberVisible);
-            }}
-          >
-            <TouchableWithoutFeedback onPress={() => setModalMemberVisible(false)}>
-
-              <View style={styles.modalOverlay}>
-                <View style={styles.modalContent}>
-                  <TouchableOpacity
-                    style={styles.closeButton}
-                    onPress={() => setModalMemberVisible(false)}
-                  >
-                    <CloseIcon2 />
-                  </TouchableOpacity>
-                  <CardMember cardData={cardData.memberData[0]} />
+          {selectedMemberData && (
+            <Modal
+              animationType="slide"
+              transparent={true}
+              visible={modalMemberVisible}
+              onRequestClose={() => {
+                setModalMemberVisible(false);
+                setSelectedMemberData(null); // 선택된 멤버 데이터 초기화
+              }}
+            >
+              <TouchableWithoutFeedback onPress={() => setModalMemberVisible(false)}>
+                <View style={styles.modalOverlay}>
+                  <View style={styles.modalContent}>
+                    <TouchableOpacity
+                      style={styles.closeButton}
+                      onPress={() => setModalMemberVisible(false)}
+                    >
+                      <CloseIcon2 />
+                    </TouchableOpacity>
+                    <CardMember cardData={selectedMemberData} />
+                  </View>
                 </View>
-              </View>
-            </TouchableWithoutFeedback>
-          </Modal>
+              </TouchableWithoutFeedback>
+            </Modal>
+          )}
 
         </View>
         <View style={styles.innerView}></View>
