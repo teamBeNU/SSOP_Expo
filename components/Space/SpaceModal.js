@@ -90,7 +90,7 @@ export const NewGroupModal = ({ isVisible, onClose, groupName, btn1, btn2, onCon
     const [inputName, setInputName] = useState(groupName);
 
     useEffect(() => {
-        setInputName(groupName); // groupName이 변경될 때마다 inputName 업데이트
+        setInputName('');
     }, [groupName]);
 
     return (
