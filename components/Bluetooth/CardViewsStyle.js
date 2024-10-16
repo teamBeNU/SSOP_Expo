@@ -130,6 +130,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
     },
+    rowRange3: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+    },
     row2: {
         flexDirection: 'row',
         alignItems: 'center',
