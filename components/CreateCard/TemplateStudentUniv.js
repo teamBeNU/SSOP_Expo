@@ -12,6 +12,7 @@ import AvatarCustom from "./AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import SelectCover from "./SelectCover";
 
 export default function TemplateStudentUniv ({navigation, card_template, step, setStep}) {
@@ -341,16 +342,6 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                 headerTitle: '카드 생성',
                 headerRight: null,
             });
-        } else if ( step === 8) {
-            navigation.setOptions({
-                headerTitle: '카드 생성',
-                headerLeft: () => (
-                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
-                        <CloseIcon style={{ marginLeft: 8 }}/>
-                    </TouchableOpacity>
-                ),
-                headerRight: null,
-            });
         } else if (step === 7) {
             navigation.setOptions({
                 headerTitle: '아바타 커스터마이징',
@@ -362,6 +353,20 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>
+                    </TouchableOpacity>
+                ),
+            });
+        } else if ( step === 8) {
+            navigation.setOptions({
+                headerTitle: '카드 생성',
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <CloseIcon style={{ marginLeft: 8 }}/>
+                    </TouchableOpacity>
+                ),
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <HomeIcon style={{marginRight: 20}}/>
                     </TouchableOpacity>
                 ),
             });
@@ -871,15 +876,9 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                     <View style={styles.btnDone}>
                         <TouchableOpacity 
                                 style={styles.btnCheckCard}
-                                onPress={() => navigation.navigate('MyCard')}
+                                onPress={() => navigation.navigate('내 카드')}
                             >
                             <Text style={styles.btnNextText}>카드 확인하기</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                                style={styles.btnHome}
-                                onPress={() => navigation.navigate('홈')}
-                            >
-                            <Text style={styles.btnHomeText}>홈 화면으로</Text>
                         </TouchableOpacity>
                     </View>
                 </View>
