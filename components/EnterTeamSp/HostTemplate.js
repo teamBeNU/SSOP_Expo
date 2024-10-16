@@ -120,6 +120,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   // 지정 템플릿 목록 API 호출
   const templateView = () => {
     const apiUrl = `${baseUrl}/teamsp?teamId=${data.teamId}`;
+    // const apiUrl = `${baseUrl}/teamsp?teamId=93`;
     axios
       .get(apiUrl)
       .then((response) => {
@@ -342,7 +343,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
 
       if ((!showHobby || !newEmptyHobby) &&
         (!showMusic || !newEmptyMusic) &&
-          (!showMovie || !newEmptyMovie) &&
+        (!showMovie || !newEmptyMovie) &&
         (!showAddress || !newEmptyAddress)
       )
         if (card_cover === "free") {

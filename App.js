@@ -63,8 +63,9 @@ import EditGroupPage from './pages/Space/EditGroupPage';
 import EditTeamSpace from './pages/Space/EditTeamSpace';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
-import AcceptCard from './pages/Space/AcceptCard';
 import ServiceAgree from './pages/MyPage/Service/ServiceAgree';
+import AcceptCard from './pages/Space/AcceptCard';
+
 import { theme } from './theme';
 
 const linking = {

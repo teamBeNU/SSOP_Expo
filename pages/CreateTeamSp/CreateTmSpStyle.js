@@ -290,15 +290,16 @@ export const styles = StyleSheet.create({
     shareText: {
         fontSize: 16,
         marginTop: -3,
-        marginLeft: 16,
+        marginLeft: 4,
         fontFamily: 'PretendardSemiBold',
         color: theme.skyblue,
         letterSpacing: -1,
     },
-    shareBox: {
+    shareBox: {        
+        paddingVertical: 12,
+        paddingHorizontal: 16,
         alignSelf: 'center',
         flexShrink: 1,
-        paddingVertical: 14.5,
         marginTop: -12,
         height: 48,
         borderRadius: 16,
