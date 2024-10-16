@@ -63,6 +63,7 @@ import EditGroupPage from './pages/Space/EditGroupPage';
 import EditTeamSpace from './pages/Space/EditTeamSpace';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
+import AcceptCard from './pages/Space/AcceptCard';
 import ServiceAgree from './pages/MyPage/Service/ServiceAgree';
 import { theme } from './theme';
 
@@ -436,6 +437,7 @@ export default function App() {
           <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
           <Stack.Screen name="그룹 관리" component={EditGroupPage}/>
           <Stack.Screen name="팀스페이스 관리" component={EditTeamSpace}/>
+          <Stack.Screen name="받은 프로필 카드" component={AcceptCard} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />
