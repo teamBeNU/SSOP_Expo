@@ -166,7 +166,7 @@ const MySpaceDetailView = ({
                     const optional = item.memberOptional || item.cardOptional; // memberOptional이 없으면 cardOptional 사용
 
                     return (
-                      <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={handleNext}>
+                      <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={() => handleNext(item.cardId)}>
                         <ShareCard
                           backgroundColor={item.backgroundColor}
                           avatar={
@@ -214,7 +214,7 @@ const MySpaceDetailView = ({
 
                 return (
                   <View key={item.id || index} style={styles.ListContainer}>
-                    <TouchableOpacity onPress={handleNext}>
+                    <TouchableOpacity  onPress={() => handleNext(item.cardId)}>
                       <View style={styles.row2}>
                         <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
                           <Image

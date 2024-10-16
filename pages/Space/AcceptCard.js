@@ -154,8 +154,9 @@ function DetailSpaceGroup({ navigation }) {
     setIsGroupNameChangeModalVisible(true);
   };
 
-  const handleNext = () => {
-    navigation.navigate('카드 조회');
+  const handleNext = (cardId) => {
+    console.log('cardid: ', cardId);
+    navigation.navigate('상대카드 상세보기', { cardId });
   };
 
   return (

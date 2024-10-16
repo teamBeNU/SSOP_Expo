@@ -11,7 +11,6 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
     const navigation = useNavigation(); 
 
     const handleNext = (cardId) => {
-        //navigation.navigate('카드 상세보기', { cardId });
         navigation.navigate('카드 상세보기', { cardId });
     };
 

@@ -69,7 +69,7 @@ const CheckCardDetail = () => {
 
             const result = await response.json();
             setCardData(result);
-            checkIfRecentlyUpdated(cardData[currentCardIndex].time);
+            //checkIfRecentlyUpdated(cardData[currentCardIndex].time);
 
             const cardIndex = result.findIndex(card => card.cardId === cardId);
             if (cardIndex !== -1) {
@@ -90,6 +90,12 @@ const CheckCardDetail = () => {
             fetchData();
         }, [])
     );
+
+    useEffect(() => {
+        if (cardData.length > 0 && currentCardIndex >= 0) {
+            checkIfRecentlyUpdated(cardData[currentCardIndex].time);
+        }
+    }, [cardData, currentCardIndex]);
 
     useEffect(() => {
         if (cardData.length > 0 && scrollViewRef.current) {
@@ -165,7 +171,7 @@ const CheckCardDetail = () => {
             <View style={styles.btnContainer}>
                 <View style={styles.btn}>
                     <TouchableOpacity>
-                        <AddContact phoneNumber={cardData.cardOptional.card_tel} firstName={cardData.cardEssential.card_name} type="icon"/>
+                        <AddContact phoneNumber={cardData[currentCardIndex].cardOptional.card_tel} firstName={cardData[currentCardIndex].cardEssential.card_name} type="icon"/>
                     </TouchableOpacity>
                     <Text style={styles.btnText}>연락처 저장</Text>                    
                 </View>
