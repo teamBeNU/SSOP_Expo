@@ -24,19 +24,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: theme.white,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 16,
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 5,
         position: 'relative',
         borderStyle: 'solid',
         borderWidth: 1.5,
         borderColor: theme.gray95,
+        marginTop: 12,
     },
     
     avatar: {
@@ -79,7 +71,7 @@ export const styles = StyleSheet.create({
     Text14: {
         marginBottom: 21,
         fontFamily: "PretendardSemiBold",
-        color: theme.gray60,
+        color: theme.gray70,
         fontSize: 14,
         letterSpacing: -1,
     },

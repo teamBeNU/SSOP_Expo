@@ -62,6 +62,8 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
         elevation: 5, // Android 전용 그림자 설정
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     container: {
         flex: 1,
