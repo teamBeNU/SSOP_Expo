@@ -29,11 +29,12 @@ export const styles = StyleSheet.create({
     titleText: {
         flex: 1,
         color: theme.gray10,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: "500",
+        fontWeight: "600",
         textAlign: "center",
+        letterSpacing: -0.32,
     },
     closeBtn: {
         position: "absolute",
@@ -42,16 +43,21 @@ export const styles = StyleSheet.create({
         justifyContent: "flex-end",
         alignItems: "flex-end",
     },
+    btnContainer: {
+        paddingVertical: 12,
+        marginBottom: 24,
+    },
     btn: {
         paddingHorizontal: 24,
         paddingVertical: 18.5,
     },
     btnText: {
-        color: theme.gray10,
-        fontFamily: 'Pretendard',
+        color: 'black',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: "500",
+        fontWeight: "400",
+        letterSpacing: -0.32,
     },
     line: {
         alignSelf: "stretch",

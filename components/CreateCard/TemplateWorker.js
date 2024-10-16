@@ -1,6 +1,5 @@
 import { View, Text, TextInput, TouchableOpacity, Platform, ScrollView, Image, Keyboard, KeyboardAvoidingView, TouchableWithoutFeedback, SafeAreaView } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
-import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,13 +10,14 @@ import AvatarCustom from "./AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import SelectCover from "./SelectCover";
 
-export default function TemplateWorker ({navigation, card_template}) {
+export default function TemplateWorker ({navigation, card_template, step, setStep}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
     const [token, setToken] = useState(null);
 
-    const [step, setStep] = useState(1);
+    // const [step, setStep] = useState(1);
 
     const [card_name, setCardName] = useState(null)
     const [card_introduction, setCardIntroduction] = useState(null)
@@ -303,18 +303,13 @@ export default function TemplateWorker ({navigation, card_template}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {
-                        if (step !== 1) {
-                            setStep(step - 1);  //  이전 단계로 이동
-                        } else {
-                            navigation.goBack();
-                        }
+                        setStep(step - 1);  //  이전 단계로 이동
                     }}>
                         <LeftArrowIcon style={{ marginLeft: 8 }}/>
                     </TouchableOpacity>
                 )
             });
         }
-    
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
@@ -323,16 +318,6 @@ export default function TemplateWorker ({navigation, card_template}) {
         } else if (step === 6) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
-                headerRight: null,
-            });
-        } else if ( step === 8) {
-            navigation.setOptions({
-                headerTitle: '카드 생성',
-                headerLeft: () => (
-                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
-                        <CloseIcon style={{ marginLeft: 8 }}/>
-                    </TouchableOpacity>
-                ),
                 headerRight: null,
             });
         } else if (step === 7) {
@@ -346,6 +331,20 @@ export default function TemplateWorker ({navigation, card_template}) {
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>
+                    </TouchableOpacity>
+                ),
+            });
+        } else if (step === 8) {
+            navigation.setOptions({
+                headerTitle: '카드 생성',
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <CloseIcon style={{ marginLeft: 8 }}/>
+                    </TouchableOpacity>
+                ),
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                        <HomeIcon style={{marginRight: 20}}/>
                     </TouchableOpacity>
                 ),
             });
@@ -365,16 +364,6 @@ export default function TemplateWorker ({navigation, card_template}) {
 
     return (
         <View style={{flex:1}}>
-            {step !== 7 && (        // 프로그레스 바
-                <Progress.Bar
-                    progress={step / 8}
-                    width={null}
-                    height={2}
-                    color={theme.green}
-                    borderWidth={0}
-                />
-            )}
-
             {step === 1 && (
                 <KeyboardAvoidingView
                     behavior="padding"
@@ -814,15 +803,9 @@ export default function TemplateWorker ({navigation, card_template}) {
                     <View style={styles.btnDone}>
                         <TouchableOpacity 
                                 style={styles.btnCheckCard}
-                                onPress={() => navigation.navigate('MyCard')}
+                                onPress={() => navigation.navigate('내 카드')}
                             >
                             <Text style={styles.btnNextText}>카드 확인하기</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity 
-                                style={styles.btnHome}
-                                onPress={() => navigation.navigate('홈')}
-                            >
-                            <Text style={styles.btnHomeText}>홈 화면으로</Text>
                         </TouchableOpacity>
                     </View>
                 </View>

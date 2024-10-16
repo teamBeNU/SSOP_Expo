@@ -84,6 +84,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: "600",
         textAlign: "center",
+        letterSpacing: -0.14,
     },
     avatarRestart: {
         zIndex: 10,

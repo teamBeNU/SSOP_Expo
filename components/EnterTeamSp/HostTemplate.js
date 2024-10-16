@@ -89,6 +89,13 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
 
   const currentYear = new Date().getFullYear();
 
+  const [templateData, setTemplateData] = useState({}); // 하위 템플릿에서 전달된 데이터를 저장하는 곳
+
+  // 하위 템플릿 컴포넌트에서 데이터를 받아오는 콜백 함수
+  const handleTemplateData = (data) => {
+    setTemplateData(data);
+  };
+
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
     const fetchToken = async () => {
@@ -174,25 +181,25 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
         card_free_A5: card_free_A5
       },
       memberStudent: {
-        card_student_school: studentOptional?.card_school || null,
-        card_student_grade: studentOptional?.card_grade || null,
-        card_student_id: studentOptional?.card_studNum || null,
-        card_student_major: studentOptional?.card_major || null,
-        card_student_club: studentOptional?.card_club || null,
-        card_student_role: studentOptional?.card_role || null,
-        card_student_status: studentOptional?.card_status || null,
+        card_student_school: templateData?.card_school || null,
+        card_student_grade: templateData?.card_grade || null,
+        card_student_id: templateData?.card_studNum || null,
+        card_student_major: templateData?.card_major || null,
+        card_student_club: templateData?.card_club || null,
+        card_student_role: templateData?.card_role || null,
+        card_student_status: templateData?.card_status || null,
       },
       memberWorker: {
-        card_worker_company: workerOptional?.card_company || null,
-        card_worker_job: workerOptional?.card_job || null,
-        card_worker_position: workerOptional?.card_position || null,
-        card_worker_department: workerOptional?.card_part || null
+        card_worker_company: templateData?.card_company || null,
+        card_worker_job: templateData?.card_job || null,
+        card_worker_position: templateData?.card_position || null,
+        card_worker_department: templateData?.card_part || null
       },
       memberFan: {
-        card_fan_genre: fanOptional?.card_genre || null,
-        card_fan_first: fanOptional?.card_favorite || null,
-        card_fan_second: fanOptional?.card_second || null,
-        card_fan_reason: fanOptional?.card_reason || null
+        card_fan_genre: templateData?.card_genre || null,
+        card_fan_first: templateData?.card_favorite || null,
+        card_fan_second: templateData?.card_second || null,
+        card_fan_reason: templateData?.card_reason || null
       }
     };
 
@@ -565,6 +572,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
                     style={[styles.nameInput, showMBTI && emptyMbti && styles.inputEmpty]}
                     placeholder="MBTI를 입력하세요."
                     keyboardType="default"
+                    maxLength={4}
                     value={card_MBTI}
                     onChangeText={text => setMBTI(text.toUpperCase())}  // 입력 값을 대문자
                     ref={MBTIRef}
@@ -739,9 +747,9 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
                 <Text style={styles.title}>호스트가 지정한 정보를 입력해 주세요.</Text>
                 <Text style={styles.subtitle}>필수로 입력해야 하는 정보예요. </Text>
 
-                {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} />}
-                {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} />}
-                {hasFanOptional && <HostFanTrue fanOptional={fanOptional} />}
+                {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} onDataChange={handleTemplateData} />}
+                {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onDataChange={handleTemplateData} />}
+                {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onDataChange={handleTemplateData} />}
 
               </ScrollView>
 
@@ -762,16 +770,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
                 <Text style={[styles.subtitle, { marginLeft: 16 }]}>더 보여주고 싶은 정보만 선택하여 입력하세요. </Text>
 
                 {optionsCount >= 2 ? (
-                  <HostFreeFalse
-                    studentOptional={studentOptional}
-                    workerOptional={workerOptional}
-                    fanOptional={fanOptional}
-                  />
+                  <HostFreeFalse onDataChange={handleTemplateData} />
                 ) : (
                   <>
-                    {hasStudentOptional && <HostStudentFalse studentOptional={studentOptional} />}
-                    {hasWorkerOptional && <HostWorkerFalse workerOptional={workerOptional} />}
-                    {hasFanOptional && <HostFanFalse fanOptional={fanOptional} />}
+                    {hasStudentOptional && <HostStudentFalse studentOptional={studentOptional} onDataChange={handleTemplateData} />}
+                    {hasWorkerOptional && <HostWorkerFalse workerOptional={workerOptional} onDataChange={handleTemplateData} />}
+                    {hasFanOptional && <HostFanFalse fanOptional={fanOptional} onDataChange={handleTemplateData} />}
                   </>
                 )}
 

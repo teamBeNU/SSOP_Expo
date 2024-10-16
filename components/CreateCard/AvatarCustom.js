@@ -4,10 +4,10 @@ import "react-native-gesture-handler";
 import ViewShot from "react-native-view-shot";
 
 import { styles } from "./AvatarCustomStyles";
-import AutoAvatarIcon from "../../assets/icons/ic_autoAvatar_small_line.svg";
-import UndoIcon from "../../assets/icons/ic_undo_small_line.svg";
-import RedoIcon from "../../assets/icons/ic_redo_small_line.svg";
-import RestartIcon from "../../assets/icons/ic_restart_small_line.svg";
+import AutoAvatarIcon from "../../assets/icons/avatarCustom/ic_auto.svg";
+import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
+import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
+import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
 import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
 
 export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar}) {
