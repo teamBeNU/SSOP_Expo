@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostFanTrue({ fanOptional }) {
+export default function HostFanTrue({ fanOptional, onDataChange }) {
 
     const [isEmpty, setIsEmpty] = useState(false);
 
@@ -21,6 +21,11 @@ export default function HostFanTrue({ fanOptional }) {
     const favoriteRef = useRef(null);
     const secondRef = useRef(null);
     const reasonRef = useRef(null);
+
+    // 상위 컴포넌트(HostTemplate)로 데이터를 전달
+    useEffect(() => {
+        onDataChange({ card_genre, card_favorite, card_second, card_reason });
+    }, [card_genre, card_favorite, card_second, card_reason]);
 
     useEffect(() => {
         if (fanOptional) {

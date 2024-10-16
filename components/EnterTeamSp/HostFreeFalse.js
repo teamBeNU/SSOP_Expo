@@ -6,25 +6,25 @@ import DownArrow from "../CreateCard/FreeTemplate/DownArrow";
 import SelectBtn from "../CreateCard/FreeTemplate/SelectBtn";
 import SelectTextInput from "../CreateCard/FreeTemplate/SelectTextInput";
 
-export default function HostFreeFalse() {
+export default function HostFreeFalse({ onDataChange }) {
 
-    const [card_student_school, setCardStudentSchool] = useState('');   // 학교
-    const [card_student_grade, setCardStudentGrade] = useState('');   // 학년
-    const [card_student_major, setCardStudentMajor] = useState('');   // 전공
-    const [card_student_id, setCardStudentId] = useState('');   // 학번
-    const [card_student_club, setCardStudentClub] = useState('');   // 동아리
-    const [card_student_role, setCardStudentRole] = useState('');   // 역할
-    const [card_student_status, setCardStudentStatus] = useState('');   // 재학 상태
+    const [card_school, setCardStudentSchool] = useState('');   // 학교
+    const [card_grade, setCardStudentGrade] = useState('');   // 학년
+    const [card_major, setCardStudentMajor] = useState('');   // 전공
+    const [card_studNum, setCardStudentId] = useState('');   // 학번
+    const [card_club, setCardStudentClub] = useState('');   // 동아리
+    const [card_role, setCardStudentRole] = useState('');   // 역할
+    const [card_status, setCardStudentStatus] = useState('');   // 재학 상태
 
-    const [card_worker_company, setCardWorkerCompany] = useState('');   // 회사
-    const [card_worker_job, setCardWorkerJob] = useState('');   // 직무
-    const [card_worker_position, setCardWorkerPosition] = useState('');   // 직위
-    const [card_worker_department, setCardWorkerDepartment] = useState('');   // 부서
+    const [card_company, setCardWorkerCompany] = useState('');   // 회사
+    const [card_job, setCardWorkerJob] = useState('');   // 직무
+    const [card_position, setCardWorkerPosition] = useState('');   // 직위
+    const [card_part, setCardWorkerDepartment] = useState('');   // 부서
 
-    const [card_fan_genre, setCardFanGenre] = useState('');  // 덕질 장르
-    const [card_fan_first, setCardFanFirst] = useState('최애');  // 최애
-    const [card_fan_second, setCardFanSecond] = useState('');  // 차애
-    const [card_fan_reason, setCardFanReason] = useState('');  // 입덕 계기
+    const [card_genre, setCardFanGenre] = useState('');  // 덕질 장르
+    const [card_favorite, setCardFanFirst] = useState('최애');  // 최애
+    const [card_second, setCardFanSecond] = useState('');  // 차애
+    const [card_reason, setCardFanReason] = useState('');  // 입덕 계기
 
     // 유형 선택지 버튼 클릭 여부
     const [isClick, setIsClick] = useState({
@@ -56,27 +56,40 @@ export default function HostFreeFalse() {
 
     // 유형 선택지 버튼
     const studentItems = [
-        { key: 'school', name: '학교', isClick: isClick.school, cardValue: card_student_school, setCardValue: setCardStudentSchool },
-        { key: 'grade', name: '학년', isClick: isClick.grade, cardValue: card_student_grade, setCardValue: setCardStudentGrade },
-        { key: 'major', name: '전공', isClick: isClick.major, cardValue: card_student_major, setCardValue: setCardStudentMajor },
-        { key: 'id', name: '학생번호', isClick: isClick.id, cardValue: card_student_id, setCardValue: setCardStudentId },
-        { key: 'club', name: '동아리', isClick: isClick.club, cardValue: card_student_club, setCardValue: setCardStudentClub },
-        { key: 'role', name: '역할', isClick: isClick.role, cardValue: card_student_role, setCardValue: setCardStudentRole },
-        { key: 'status', name: '재학상태', isClick: isClick.status, cardValue: card_student_status, setCardValue: setCardStudentStatus },
+        { key: 'school', name: '학교', isClick: isClick.school, cardValue: card_school, setCardValue: setCardStudentSchool },
+        { key: 'grade', name: '학년', isClick: isClick.grade, cardValue: card_grade, setCardValue: setCardStudentGrade },
+        { key: 'major', name: '전공', isClick: isClick.major, cardValue: card_major, setCardValue: setCardStudentMajor },
+        { key: 'id', name: '학생번호', isClick: isClick.id, cardValue: card_studNum, setCardValue: setCardStudentId },
+        { key: 'club', name: '동아리', isClick: isClick.club, cardValue: card_club, setCardValue: setCardStudentClub },
+        { key: 'role', name: '역할', isClick: isClick.role, cardValue: card_role, setCardValue: setCardStudentRole },
+        { key: 'status', name: '재학상태', isClick: isClick.status, cardValue: card_status, setCardValue: setCardStudentStatus },
     ]
     const workerItems = [
-        { key: 'company', name: '회사', isClick: isClick.company, cardValue: card_worker_company, setCardValue: setCardWorkerCompany },
-        { key: 'job', name: '직무', isClick: isClick.job, cardValue: card_worker_job, setCardValue: setCardWorkerJob },
-        { key: 'position', name: '직위', isClick: isClick.position, cardValue: card_worker_position, setCardValue: setCardWorkerPosition },
-        { key: 'department', name: '부서', isClick: isClick.department, cardValue: card_worker_department, setCardValue: setCardWorkerDepartment },
+        { key: 'company', name: '회사', isClick: isClick.company, cardValue: card_company, setCardValue: setCardWorkerCompany },
+        { key: 'job', name: '직무', isClick: isClick.job, cardValue: card_job, setCardValue: setCardWorkerJob },
+        { key: 'position', name: '직위', isClick: isClick.position, cardValue: card_position, setCardValue: setCardWorkerPosition },
+        { key: 'department', name: '부서', isClick: isClick.department, cardValue: card_part, setCardValue: setCardWorkerDepartment },
     ]
     const fanItems = [
-        { key: 'genre', name: '덕질장르', isClick: isClick.genre, cardValue: card_fan_genre, setCardValue: setCardFanGenre },
-        { key: 'first', name: '최애', isClick: isClick.first, cardValue: card_fan_first, setCardValue: setCardFanFirst },
-        { key: 'second', name: '차애', isClick: isClick.second, cardValue: card_fan_second, setCardValue: setCardFanSecond },
-        { key: 'reason', name: '입덕계기', isClick: isClick.reason, cardValue: card_fan_reason, setCardValue: setCardFanReason },
+        { key: 'genre', name: '덕질장르', isClick: isClick.genre, cardValue: card_genre, setCardValue: setCardFanGenre },
+        { key: 'first', name: '최애', isClick: isClick.first, cardValue: card_favorite, setCardValue: setCardFanFirst },
+        { key: 'second', name: '차애', isClick: isClick.second, cardValue: card_second, setCardValue: setCardFanSecond },
+        { key: 'reason', name: '입덕계기', isClick: isClick.reason, cardValue: card_reason, setCardValue: setCardFanReason },
     ]
 
+    // 상위 컴포넌트(HostTemplate)로 데이터를 전달
+    useEffect(() => {
+        onDataChange({ 
+            card_school, card_grade, card_studNum, card_major, card_club, card_role, card_status,
+            card_company, card_job, card_position, card_part,
+            card_genre, card_favorite, card_second, card_reason 
+        });
+    }, 
+    [card_school, card_grade, card_studNum, card_major, card_club, card_role, card_status,
+        card_company, card_job, card_position, card_part,
+        card_genre, card_favorite, card_second, card_reason
+    ]);
+    
     return (
         <View>
             <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>

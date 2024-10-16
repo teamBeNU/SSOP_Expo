@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostWorkerFalse({ workerOptional }) {
+export default function HostWorkerFalse({ workerOptional, onDataChange }) {
 
     const [card_company, setCompany] = useState('');
     const [card_job, setJob] = useState('');
@@ -20,6 +20,11 @@ export default function HostWorkerFalse({ workerOptional }) {
     const positionRef = useRef(null);
     const partRef = useRef(null);
 
+    // 상위 컴포넌트(HostTemplate)로 데이터를 전달
+    useEffect(() => {
+        onDataChange({ card_company, card_job, card_position, card_part });
+    }, [card_company, card_job, card_position, card_part]);
+
     useEffect(() => {
         if (workerOptional) {
             setShowCompany(workerOptional.showCompany);
@@ -31,8 +36,6 @@ export default function HostWorkerFalse({ workerOptional }) {
 
     return (
         <View style={{ paddingHorizontal: 16 }}>
-            <Text style={styles.title}> 더 자세히 알려주실래요? </Text>
-            <Text style={styles.subtitle}> 정보를 더 추가할 수 있어요. </Text>
 
             {/* 회사 */}
             {!showCompany && (

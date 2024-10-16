@@ -5,7 +5,7 @@ import "react-native-gesture-handler";
 import { styles } from "./BottomSheetStyle";
 import CloseBtn from '../../assets/icons/close.svg';
 
-export default function BottomSheet({modalVisible, setModalVisible, setSelectStudent, setStep}) {
+export default function BottomSheet({modalVisible, setModalVisible, setCreateStep, setStep, setCardTemplate}) {
     const screenHeight = Dimensions.get("screen").height;
     const panY = useRef(new Animated.Value(screenHeight)).current;    // 애니메이션 초기 상태
     const translateY = panY.interpolate({ // panY에 따라 BottomSheet의 y축 위치를 결정
@@ -46,7 +46,6 @@ export default function BottomSheet({modalVisible, setModalVisible, setSelectStu
             transparent={true}      // 뒷 배경 투명으로 만드는 효과
             statusBarTranslucent    // 안드로이드 statusBar에 효과 적용
             onRequestClose={() => {
-                
                 setModalVisible(!modalVisible);
             }}
         >
@@ -66,12 +65,13 @@ export default function BottomSheet({modalVisible, setModalVisible, setSelectStu
                             <CloseBtn />
                         </TouchableOpacity>
                     </View>
-                    <View>
+                    <View style={styles.btnContainer}>
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
-                                setSelectStudent("teenager");
-                                setStep(2);
+                                setCardTemplate("studentSchool");
+                                setCreateStep(2);
+                                setStep(1);
                             }}
                         >
                             <Text style={styles.btnText}>초/중/고등학생이에요</Text>
@@ -80,8 +80,9 @@ export default function BottomSheet({modalVisible, setModalVisible, setSelectStu
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
-                                setSelectStudent("youth");
-                                setStep(2);
+                                setCardTemplate("studentUniv");
+                                setCreateStep(2);
+                                setStep(1);
                             }}
                         >
                             <Text style={styles.btnText}>대학(원)생이에요</Text>

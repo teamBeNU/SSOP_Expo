@@ -24,6 +24,8 @@ const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 export default function DetailTeamSpace() {
+  const baseUrl = 'http://43.202.52.64:8080/api'
+  const [data, setData] = useState([]);
   const navigation = useNavigation();
   const route = useRoute();
   const params = route.params || {};
@@ -31,11 +33,26 @@ export default function DetailTeamSpace() {
   // 각각의 값 가져오기
   const teamId = params.teamId;
   const userId = params.userId;
+  const token = params.token;
 
   const [hostId, setHostId] = useState(null);
 
   const handleDataChange = (data) => {
     setHostId(data);
+  };
+
+  const handleDeleteSpace = async () => {
+    try {
+      console.log("삭제할 teamId :", teamId);
+      const apiUrl = `${baseUrl}/teamsp?teamId=${teamId}`;
+
+      const response = await axios.delete(apiUrl, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      navigation.navigate('TeamSpace', { refresh: true });
+    } catch (error) {
+      console.error('상세 팀스페이스 삭제 API 요청 에러:', error.response ? error.response.data : error.message);
+    }
   };
 
   return (
@@ -68,12 +85,24 @@ export default function DetailTeamSpace() {
                     <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
                       {isHost && (
                         <>
-                          <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스명 변경하기' />
-                          <MenuOption style={{ marginBottom: 10.5 }}  text='팀스페이스 삭제하기'/>
+                          <TouchableOpacity onPress={() => {
+                          }}>
+                            <Text style={{ marginTop: 8, marginBottom: 16 }}>팀스페이스 변경하기</Text>
+                          </TouchableOpacity>
+
+                          <TouchableOpacity onPress={() => {
+                            handleDeleteSpace();
+                          }}>
+                            <Text style={{ marginBottom: 10.5 }}>팀스페이스 삭제하기</Text>
+                          </TouchableOpacity>
                         </>
                       )}
                       {!isHost &&
-                        <MenuOption text='팀스페이스 나가기' />
+                        <TouchableOpacity onPress={() => {
+                          handleDeleteSpace();
+                        }}>
+                          <Text style={{ marginTop: 8, marginBottom: 8 }}>팀스페이스 나가기</Text>
+                        </TouchableOpacity>
                       }
                     </MenuOptions>
                   </Menu>
