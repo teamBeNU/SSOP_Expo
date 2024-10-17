@@ -37,8 +37,9 @@ export const styles = StyleSheet.create({
     },
 	cardImgArea: {
         height: 150,
+        width: '100%',
         alignItems: 'center',
-        marginRight: 15
+        flex: 1,
     },
     cardTextArea: {
         borderRadius: 15,

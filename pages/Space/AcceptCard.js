@@ -8,16 +8,11 @@ import { MySpaceGroup } from "../../components/Space/SpaceList.js";
 import SpaceManage from "../../components/Space/SpaceManage.js";
 import Toast from 'react-native-toast-message';
 import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
-import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
+import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
-import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
-import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 import People from '../../assets/icons/ic_person_small_fill.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
@@ -27,11 +22,9 @@ import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
-import Contact from '../../assets/icons/ic_contact_small_line.svg';
+import Contact from '../../assets/icons/ic_contact_black.svg';
 import Edit from '../../assets/icons/ic_edit.svg';
-import FolderMove from '../../assets/icons/ic_folder-move.svg';
 import Swap from '../../assets/icons/ic_swap.svg';
-import Trash from '../../assets/icons/ic_trash.svg';
 
 import { theme } from "../../theme.js";
 
@@ -173,6 +166,7 @@ function DetailSpaceGroup({ navigation }) {
         handleNext={handleNext}
         cardData={cardData}  // 카드 데이터를 전달
         showFilterButton={false}
+        showMenu={true}
       />
       <SpaceModal
         isVisible={isSpaceModalVisible}
@@ -193,17 +187,17 @@ function DetailSpaceGroup({ navigation }) {
       <View style={styles.bottomDetailContainer}>
         <Edit style={{ marginRight: 6 }} />
         <TouchableOpacity onPress={() => navigation.navigate('카드 관리')}>
-          <Text style={styles.bottomText}>카드 관리</Text>
+          <Text style={styles.bottomTextBlue}>카드 관리</Text>
         </TouchableOpacity>
         <BottomLineIcon style={styles.bottomLine2} />
         <Contact style={{ marginRight: 6 }} />
         <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
-          <Text style={styles.bottomTextBlue}>연락처 저장</Text>
+          <Text style={styles.bottomText}>연락처 저장</Text>
         </TouchableOpacity>
         <BottomLineIcon style={styles.bottomLine2} />
         <Swap style={{ marginRight: 6 }} />
         <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <Text style={styles.bottomText}>카드 교환</Text>
+          <Text style={styles.bottomTextBlue}>카드 교환</Text>
         </TouchableOpacity>
       </View>
 

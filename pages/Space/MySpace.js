@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert } from "react-native";
-import { useNavigation, NavigationContainer } from '@react-navigation/native';
+import { useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
 import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
-import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
+import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 import Toast from 'react-native-toast-message';
@@ -16,7 +16,7 @@ import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 import MySpaceIcon from '../../assets/icons/ic_myspace.svg'
   
-const API_URL = 'http://43.202.52.64:8080/api/mysp';  // 백엔드 API 주소
+const API_URL = 'http://43.202.52.64:8080/api/mysp'; 
 
 function MySpace({ navigation }) {
   const [groupData, setGroupData] = useState([]);  // 그룹 목록 상태
@@ -66,7 +66,13 @@ function MySpace({ navigation }) {
     }
   };
 
-  // 그룹 이름 변경
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchGroups();
+    }, [])
+  );
+
+  // 그룹 이름 변경 
   const changeGroupName = async (groupId, newName) => {
     try {
       const token = await AsyncStorage.getItem('token');
@@ -155,7 +161,7 @@ function MySpace({ navigation }) {
   };
 
   useEffect(() => {
-    fetchGroups();  // 컴포넌트가 마운트될 때 그룹 목록과 받은 카드 개수 가져옴
+    fetchGroups(); 
   }, []);
 
   return (

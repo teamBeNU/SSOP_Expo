@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Alert, Modal, TouchableWithoutFeedback } from "react-native";
+import { View, Text, ScrollView, Alert, Modal, TouchableWithoutFeedback, Share } from "react-native";
 import { styles } from './LinkShareStyle';
 import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -12,12 +12,13 @@ import * as Clipboard from 'expo-clipboard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from "../../theme";
 
+import HomeIcon from '../../assets/icons/ic_home_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import AvatarSample1 from '../../assets/icons/AbatarSample1.svg';
 import AvatarSample2 from '../../assets/icons/AbatarSample2.svg';
 import LinkShareImage from '../../assets/icons/LinkShareImage.svg';
-import RightArrowBlueIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
+import ShareIcon from '../../assets/icons/ic_share.svg';
 
 function Step1Screen({ navigation }) {
   // 카드 데이터 유무를 상태로 설정
@@ -103,7 +104,6 @@ function Step1Screen({ navigation }) {
 }
 
 function Step2Screen({ navigation }) {
-  const LinkShare = 'digitalmedia.com'; // 링크 
 
   // 링크 복사
   const copyLinkShare = async () => {
@@ -112,21 +112,40 @@ function Step2Screen({ navigation }) {
     Alert.alert("클립보드에 복사되었습니다.");
   };
   
-  const shareLinkCode = async () => {
-    try {
-      const isAvailable = await Sharing.isAvailableAsync();
-      if (!isAvailable) {
-        Alert.alert('Sharing is not available on this device');
-        return;
-      }
+  // const shareLinkCode = async () => {
+  //   try {
+  //     const isAvailable = await Sharing.isAvailableAsync();
+  //     if (!isAvailable) {
+  //       Alert.alert('Sharing is not available on this device');
+  //       return;
+  //     }
 
-      await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=25', {
-        dialogTitle: 'SSOP Share TEST',
-      });
-    } catch (error) {
-      Alert.alert('Error sharing', error.message);
+  //     await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=25', {
+  //       dialogTitle: 'SSOP Share TEST',
+  //     });
+  //   } catch (error) {
+  //     Alert.alert('Error sharing', error.message);
+  //   }
+  // };
+
+  const handleLinkSharePress = async () => {
+    setIsModalVisible(false);
+
+    const result = await Share.share({
+        title: `SSOP`, // android 단독
+        message: `SSOP: Share SOcial Profile card\nhttp://ssop2024.notion.site`,
+    });
+
+    if (result.action === Share.sharedAction) {
+        if (result.activityType) {
+        // shared with activity type of result.activityType
+        } else {
+        // shared
+        }
+    } else if (result.action === Share.dismissedAction) {
+        // dismissed
     }
-  };
+};
 
   const [isModalVisible, setIsModalVisible] = useState(false);
 
@@ -165,7 +184,7 @@ function Step2Screen({ navigation }) {
                         <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
                       </TouchableOpacity>
                       <View style={styles.line} />
-                      <TouchableOpacity onPress={() => { shareLinkCode(); setIsModalVisible(false)}}>
+                      <TouchableOpacity onPress={() => { handleLinkSharePress(); setIsModalVisible(false)}}>
                         <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
                       </TouchableOpacity>
                     </View>
@@ -179,11 +198,9 @@ function Step2Screen({ navigation }) {
         </View>
         <View style={styles.btnContainer}>
           <TouchableOpacity style={styles.btnNext} onPress={handleShareButtonPress}>
+            <ShareIcon style={{marginRight: 8}}/>
             <Text style={styles.btnText}>링크 공유하기</Text>
           </TouchableOpacity >
-          <TouchableOpacity style={styles.btnNextWhite} onPress={() => navigation.navigate('홈')}>
-            <Text style={styles.btnTextWhite}> 홈 화면으로 </Text>
-          </TouchableOpacity>
         </View>
       </View>
     </View>
@@ -210,6 +227,11 @@ function LinkShare({ navigation }) {
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <LeftArrowIcon style={{ marginLeft: 8  }}/>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('홈')}>
+            <HomeIcon style={{ marginRight: 8 }} />
           </TouchableOpacity>
         ),
       }}/>
