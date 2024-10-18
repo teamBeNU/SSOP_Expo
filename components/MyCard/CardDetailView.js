@@ -12,6 +12,8 @@ import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
+import SelectCover from '../../components/CreateCard/SelectCover.js';
+import AvatarCustom from '../../components/CreateCard/AvatarCustom.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
@@ -27,7 +29,12 @@ const CardDetailView = () => {
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isShareModalVisible, setIsShareModalVisible] = useState(false);
+    const [isCoverModalVisible, setIsCoverModalVisible] = useState(false);
+
+    const [editAvatar, setEditAvatar] = useState([]);
+
     const [moreMenu, setMoreMenu] = useState(false);
+
 
     const navigation = useNavigation();
 
@@ -118,7 +125,7 @@ const CardDetailView = () => {
         
     }, [moreMenu, navigation]);
 
-const fetchData = async () => {
+    const fetchData = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
             if (!token) {
@@ -135,7 +142,6 @@ const fetchData = async () => {
 
             const result = await response.json();
             setCardData(result);
-
             const cardIndex = result.findIndex(card => card.cardId === cardId);
             if (cardIndex !== -1) {
                 setCurrentCardIndex(cardIndex);
@@ -144,7 +150,6 @@ const fetchData = async () => {
                     animated: true,
                 });
             }
-
         } catch (error) {
             console.error('Error fetching card data:', error);
         }
@@ -155,6 +160,23 @@ const fetchData = async () => {
             fetchData();
         }, [])
     );
+
+    useEffect(() => {
+        if (cardData.length > 0 && currentCardIndex !== null) {
+            const currentCard = cardData[currentCardIndex];
+            if (currentCard) {
+                setEditAvatar({
+                    face: currentCard.avatar.face,
+                    hair: currentCard.avatar.hair,
+                    hairColor: currentCard.avatar.hairColor,
+                    clothes: currentCard.avatar.clothes,
+                    acc: currentCard.avatar.acc,
+                    bg: currentCard.avatar.bg,
+                    bgColor: currentCard.avatar.bgColor,
+                });
+            }
+        }
+    }, [cardData, currentCardIndex]);
 
     useEffect(() => {
         if (cardData.length > 0 && scrollViewRef.current) {
@@ -352,8 +374,47 @@ const fetchData = async () => {
                                             <View style={styles.line} />
                                             <TouchableOpacity onPress={() => {
                                                 setIsModalVisible(false);
-                                                navigation.navigate('카드 커버 수정', {card: cardData});}}>
+                                                setIsCoverModalVisible(true);
+                                                //navigation.navigate('카드 커버 수정', {card: cardData});
+                                                }}>
                                             <Text style={styles.modalTitle}>표지 수정할래요</Text>
+                                            </TouchableOpacity>
+                                        </View>
+                                    </View>
+                                
+                            </View>
+                        </TouchableWithoutFeedback>
+                    </Modal>
+
+                    <Modal
+                        animationType="fade"
+                        transparent={true}
+                        visible={isCoverModalVisible}
+                        onRequestClose={() => {
+                            setIsCoverModalVisible(false); 
+                        }}
+                    >
+                        <TouchableWithoutFeedback onPress={() => setIsCoverModalVisible(false)}>
+                            <View style={styles.modalContainer}>
+                                    <View style={styles.modalView}>
+                                        <View style={styles.modalTitle}>
+                                            <Text style={{...styles.modalFont, fontWeight: '500', textAlign: 'center'}}>카드 표지 수정</Text>
+                                            <TouchableOpacity onPress={() => setIsCoverModalVisible(false)}>
+                                                <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
+                                            </TouchableOpacity>
+                                        </View>
+                                        <View style={styles.modalContent}>
+                                            <TouchableOpacity onPress={() => {
+                                                setIsCoverModalVisible(false);
+                                                }}>
+                                            <Text style={styles.modalTitle}>앨범에서 선택</Text>
+                                            </TouchableOpacity>
+                                            <View style={styles.line} />
+                                            <TouchableOpacity onPress={() => {
+                                                setIsCoverModalVisible(false);
+                                                navigation.navigate('아바타 커스터마이징');
+                                                }}>
+                                            <Text style={styles.modalTitle}>아바타 커스터마이징 후 등록</Text>
                                             </TouchableOpacity>
                                         </View>
                                     </View>
@@ -368,3 +429,4 @@ const fetchData = async () => {
     );
   }
   export default CardDetailView;
+
