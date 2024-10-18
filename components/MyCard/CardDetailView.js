@@ -15,7 +15,7 @@ import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
-const SPACING = -18;
+const SPACING = -20;
 
 const CardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
@@ -272,9 +272,11 @@ const fetchData = async () => {
             <View style={styles.btnContainer}>
                 <View style={styles.btn}>
                     <TouchableOpacity onPress={handleShare}>
+                        <View style={styles.btn}>
                         <ShareIcon />
+                        <Text style={styles.btnText}>공유하기</Text>
+                        </View>
                     </TouchableOpacity>
-                    <Text style={styles.btnText}>공유하기</Text>
 
                     <Modal
                         animationType="fade"
@@ -317,9 +319,13 @@ const fetchData = async () => {
 
                 <View style={styles.btn}>
                     <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+                        <View style={styles.btn}>
                         <EditIcon style={{paddingTop: 5, paddingLeft: 4, paddingBottom: 3, paddingRight: 1.1714}} />
+                        <Text style={styles.btnText}>수정하기</Text>
+                        </View>
                     </TouchableOpacity>
-                    <Text style={styles.btnText}>수정하기</Text>
+                    
+                    
                     <Modal
                         animationType="fade"
                         transparent={true}

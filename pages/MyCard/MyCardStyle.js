@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
         paddingVertical: 16,
         paddingHorizontal: 12,
         borderRadius: 20,
-        backgroundColor: theme.gray95
+        backgroundColor: theme.gray95,
         },
         btnText: {
         color: theme.gray20,
@@ -115,9 +115,9 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.32,
         },
         cardScrollView: {
-        height: WIDTH * 1.2,  
+        height: Math.min(WIDTH * 1.2, HEIGHT * 0.6),
         marginTop: 60,
-        paddingHorizontal: 42,
+        paddingHorizontal: 42, //42
         alignItems: 'center',
         //ios shadow
         shadowColor: 'rgba(0, 0, 0, 0.08)',
