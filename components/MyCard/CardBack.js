@@ -27,7 +27,6 @@ const OpenURLButton = ({url, children}) => {
       );
   };
 
-
 export const CardBack = ({cardData}) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
@@ -68,13 +67,13 @@ export const CardBack = ({cardData}) => {
                         <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
                         <CardOptional1 cardData={cardData}/>
 
-                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined && cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined && cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : <View style={{...styles.line, marginTop: 0}} />}
+                        {cardData.student ? <View style={{...styles.line, marginTop: 0}} /> : null}
 
-                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : <StudentOptional cardData={cardData}/> }
+                        {cardData.student ? <StudentOptional cardData={cardData}/> : null }
 
-                        {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : <WorkerOptional cardData={cardData} />}                        
+                        {cardData.worker ?  <WorkerOptional cardData={cardData} /> : null}                        
 
-                        {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : <FanOptional cardData={cardData} />} 
+                        {cardData.fan ? <FanOptional cardData={cardData} /> : null} 
 
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>   
@@ -196,6 +195,25 @@ const CardOptional3 = ({cardData}) => {
 const StudentOptional = ({cardData}) => {
     return (
     <View style={((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'})}>
+            {cardData.card_template === 'free' && cardData.student.card_student_school ? (
+                <View style={styles.info}>                             
+                <Text style={styles.topic}>학교</Text>                             
+                <Text style={styles.content}>{cardData.student.card_student_school}</Text>  
+                </View>
+            ) : null}
+            {cardData.card_template === 'free' && cardData.student.card_student_grade ? (
+                <View style={styles.info}>                             
+                <Text style={styles.topic}>학년</Text>                             
+                <Text style={styles.content}>{cardData.student.card_student_grade}</Text>  
+                </View>
+            ) : null}
+            {cardData.card_template === 'free' && cardData.student.card_student_major ? (
+                <View style={styles.info}>                             
+                <Text style={styles.topic}>전공</Text>                             
+                <Text style={styles.content}>{cardData.student.card_student_major}</Text>  
+                </View>
+            ) : null}
+
             {cardData.student.card_student_id ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학번</Text>                             
@@ -229,6 +247,19 @@ const StudentOptional = ({cardData}) => {
 const WorkerOptional = ({cardData}) => {
     return (
     <View style={(cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
+        {cardData.card_template === 'free' && cardData.worker.card_worker_company ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>회사</Text>                             
+                <Text style={styles.content}>{cardData.worker.card_worker_company}</Text>                         
+            </View>
+        ) : null}
+        {cardData.card_template === 'free' && cardData.worker.card_worker_job ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>직무</Text>                             
+                <Text style={styles.content}>{cardData.worker.card_worker_job}</Text>                         
+            </View>
+        ) : null}
+
         {cardData.worker.card_worker_position ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>직위</Text>                             
@@ -250,6 +281,19 @@ const WorkerOptional = ({cardData}) => {
 const FanOptional = ({cardData}) => {
     return (
     <View style={(cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
+        {cardData.card_template === 'free' && cardData.fan.card_fan_genre ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>장르</Text>                             
+                <Text style={styles.content}>{cardData.fan.card_fan_genre}</Text>                         
+            </View>
+        ) : null}
+        {cardData.card_template === 'free' && cardData.fan.card_fan_first ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>최애</Text>                             
+                <Text style={styles.content}>{cardData.fan.card_fan_first}</Text>                         
+            </View>
+        ) : null}
+        
         {cardData.fan.card_fan_second ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>차애</Text>                             
