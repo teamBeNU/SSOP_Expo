@@ -291,7 +291,7 @@ const fetchData = async () => {
                                     <View style={styles.shareModalView}>
                                         <View style={styles.modalTitle}>
                                             <Text style={{...styles.modalFont, textAlign: 'center'}}>카드 교환하기</Text>
-                                            <TouchableOpacity onPress={() => setIsModalVisible(false)}>
+                                            <TouchableOpacity onPress={() => setIsShareModalVisible(false)}>
                                                 <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
                                             </TouchableOpacity>
                                         </View>

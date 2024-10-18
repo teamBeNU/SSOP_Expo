@@ -140,16 +140,15 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         },
         modalView: {
-        height: 232,
+        //height: 232,
         backgroundColor: 'white',
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
+        paddingBottom: 24
         },
         modalTitle: {
-        width: '100%',
-        height: 48,
         flexDirection: 'row',
         paddingVertical: 16,
         paddingHorizontal: 8,
