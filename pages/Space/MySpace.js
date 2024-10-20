@@ -48,7 +48,7 @@ function MySpace({ navigation }) {
       if (Array.isArray(groupResult)) {  // 그룹 데이터가 배열인지 확인
         setGroupData(groupResult);  // 그룹 데이터를 상태에 저장
       } else {
-        console.error('그룹 데이터를 받지 못했습니다.');
+        //console.error('그룹 데이터를 받지 못했습니다.');
       }
 
       // 받은 프로필 카드 수 API 호출
