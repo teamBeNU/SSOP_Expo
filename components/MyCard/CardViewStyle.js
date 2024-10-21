@@ -138,7 +138,8 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
     },
     infoContainer: {
-        marginLeft: 12
+        marginLeft: 12,
+        width: '60%',
     },
     rowName: {
         flexDirection: 'row',
@@ -174,6 +175,12 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 4
+    },
+    menuContainer: {
+        position: 'absolute',
+        zIndex: 30,
+        top: 16,
+        right: 0,
     },
 
     // 그리드형
