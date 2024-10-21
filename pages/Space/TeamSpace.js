@@ -9,6 +9,7 @@ import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceMo
 import Toast from 'react-native-toast-message';
 import { TeamSpaceList } from "../../components/Space/SpaceList.js";
 import TeamSp from "../../assets/icons/ic_teamsp.svg"
+import RightArrowBlue from "../../assets/icons/ic_RightArrow_small_blue_line.svg";
 
 function TeamSpace({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
@@ -302,6 +303,7 @@ function TeamSpace({ navigation }) {
         <TouchableOpacity style={styles.margin10} onPress={() => navigation.navigate('팀스페이스 입장')}>
           <View style={styles.newContainer}>
             <Text style={styles.newCard}>팀스페이스 추가하기</Text>
+            <RightArrowBlue/>
           </View>
         </TouchableOpacity>
       </View>

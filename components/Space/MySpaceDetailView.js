@@ -306,7 +306,6 @@ const MySpaceDetailView = ({
                         onPress={() => {
                           if (item.cardId === undefined) {
                             const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
-
                             if (matchingMember) {
                               setSelectedMemberData(matchingMember);
                               setModalMemberVisible(true);
@@ -364,16 +363,14 @@ const MySpaceDetailView = ({
                     </View>
                   ))
                 ) : (
-                  // filteredData가 없을 때 cardData를 무조건 보여줍니다.
-                  (Array.isArray(cardData.memberData) && cardData.memberData.length > 0) ||
-                    (Array.isArray(cardData.cardIdData) && cardData.cardIdData.length > 0) ? (
+                  Array.isArray(cardData.memberData) && cardData.memberData.length > 0 ||
+                    Array.isArray(cardData.cardIdData) && cardData.cardIdData.length > 0 ? (
                     [...cardData.memberData, ...cardData.cardIdData].map((item) => (
                       <View key={item?.cardId || item.userId} style={styles.ListContainer}>
                         <TouchableOpacity
                           onPress={() => {
                             if (item.cardId === undefined) {
                               const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
-
                               if (matchingMember) {
                                 setSelectedMemberData(matchingMember);
                                 setModalMemberVisible(true);
@@ -438,14 +435,11 @@ const MySpaceDetailView = ({
                         </TouchableOpacity>
                       </View>
                     ))
-                  ) : (
-                    <View style={styles.emptyContainer}>
-                      <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
-                    </View>
-                  )
+                  ) : null
                 )}
               </View>
             )}
+
           </View>
 
           {/* 기존 카드 상세보기 모달 */}

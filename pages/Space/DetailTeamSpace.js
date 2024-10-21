@@ -228,7 +228,7 @@ function Filter() {
   };
 
   return (
-    <View style={styles.backgroundColor}>
+    <View style={{flex: 1, backgroundColor: theme.white}}>
       {/* 역할 필터 */}
       {currentFilter.card_student_role && currentFilter.card_student_role.length > 0 && (
         <>

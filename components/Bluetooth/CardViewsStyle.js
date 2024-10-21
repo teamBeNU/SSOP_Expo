@@ -196,8 +196,7 @@ export const styles = StyleSheet.create({
     ListContainer: {
         flex: 1,
         flexDirection: 'column',
-        paddingVertical: 12,
-        paddingHorizontal: 20,
+        padding: 16,
         marginTop: 12,
         backgroundColor: theme.white,
         borderColor: theme.gray95,

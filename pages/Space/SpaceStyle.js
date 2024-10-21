@@ -263,9 +263,11 @@ export const styles = StyleSheet.create({
      },
     noCard: {
         color: theme.gray60,
-        fontFamily: 'PretendardSemiBold',
+        fontFamily: 'Pretendard',
+        fontWeight: '500',
         fontSize: 16,
-        letterSpacing: -0.2,
+        letterSpacing: -0.32,
+        lineHeight: 24,
         marginBottom: 3
     },
     newContainer: {
@@ -277,7 +279,8 @@ export const styles = StyleSheet.create({
     },
     newCard: {
         color:theme.skyblue,
-        fontFamily: 'PretendardSemiBold',
+        fontFamily: 'Pretendard',
+        fontWeight: '500',
         fontSize: 16,
         letterSpacing: -0.2,
     },
