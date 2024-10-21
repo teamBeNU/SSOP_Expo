@@ -12,10 +12,6 @@ import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCards }) => {
     const navigation = useNavigation(); 
 
-    const handleNext = (cardId) => {
-        navigation.navigate('카드 상세보기', { cardId });
-    };
-
     return (
         <ScrollView horizontal={false} contentContainerStyle={{ width: '100%' }} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <View>
@@ -41,7 +37,14 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                   )}
               </TouchableOpacity>
             <View key={item.cardId} style={{...styles.ListContainer, width: Dimensions.get('window').width - 64}}>
-              <TouchableOpacity onPress={() => handleNext(item.cardId)}>
+              <TouchableOpacity  onPress={() => {
+                      setSelectedCards((prev) => {
+                          if (prev.includes(item.cardId)) {
+                              return prev.filter(id => id !== item.cardId);
+                          }
+                          return [...prev, item.cardId];
+                      });
+                  }}>
                 <View style={styles.row2}>
 
                   {item.card_cover === 'avatar' ? 
