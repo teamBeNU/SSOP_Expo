@@ -1,13 +1,16 @@
 import { useNavigation } from '@react-navigation/native';
 import { Image, ScrollView, Text, View, Dimensions } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { getColor } from '../../utils/bgColorMapping';
 import { calculateAge } from '../../utils/calculateAge';
 import { styles } from './CardViewStyle';
+import Toast from 'react-native-toast-message';
 import NotSelectedIcon from '../../assets/icons/ic_radioBtn_all.svg';
 import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
+import {deleteCard} from './DeleteCardAPI.js';
 
 export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCards }) => {
     const navigation = useNavigation(); 
@@ -120,7 +123,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                   >
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 공유하기' onSelect={() => {}} />
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 수정하기' onSelect={() => {}} />
-                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기' onSelect={() => {}} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기' onSelect={() => deleteCard(item.cardId, navigation)} />
                   </MenuOptions>
                 </Menu>
               </View>

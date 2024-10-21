@@ -1,19 +1,17 @@
-import { Dimensions, View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Share, Modal, Animated, Alert } from "react-native";
-import { Card } from "../../components/MyCard/Card";
-import { styles } from '../../pages/MyCard/MyCardStyle.js';
-import React, { useState, useLayoutEffect, useCallback, useRef, useEffect } from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation, useFocusEffect, Link } from '@react-navigation/native';
-import { useRoute } from '@react-navigation/native';
+import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
+import { Alert, Animated, Dimensions, Modal, ScrollView, Share, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import Toast from 'react-native-toast-message';
-import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
-import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
-import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
-import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
-import SelectCover from '../../components/CreateCard/SelectCover.js';
-import AvatarCustom from '../../components/CreateCard/AvatarCustom.js';
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
+import { Card } from "../../components/MyCard/Card";
+import { styles } from '../../pages/MyCard/MyCardStyle.js';
+import { deleteCard } from './DeleteCardAPI.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
@@ -199,52 +197,10 @@ const CardDetailView = () => {
     };
 
     const confirmDelete = async () => {
-        await deleteMyCard(cardData[currentCardIndex].cardId);
+        await deleteCard(cardId, navigation);
         setMoreMenu(false);
     };
-    
-    const deleteMyCard  = async (cardId) => {
-        try {   
-            const token = await AsyncStorage.getItem('token');
-            
-            const response = await fetch(`http://43.202.52.64:8080/api/card/delete?cardIds=${cardId}`,
-            {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-            });
-            if (response.status === 200) {
-                navigation.goBack();
-    
-                Toast.show({
-                  text1: "프로필 카드가 삭제되었어요.",
-                  type: 'success',
-                  position: 'bottom',
-                  visibilityTime: 3000,
-                  autoHide: true,
-                });
-            } else {
-              Toast.show({
-                text1: "삭제에 실패하였습니다.",
-                type: 'fail',
-                position: 'bottom',
-                visibilityTime: 3000,
-                autoHide: true,
-              });
-            }
-    
-        } catch (error) {
-            Toast.show({
-              text1: "카드 삭제 중 오류가 발생했습니다.",
-              type: 'fail',
-              position: 'bottom',
-              visibilityTime: 3000,
-              autoHide: true,
-            });
-        }
-    };
-    
+        
    return (
      <View style={styles.container}>
             {moreMenu && (

@@ -14,7 +14,7 @@ import { theme } from '../../theme';
 
 const CardsView = ({ cardData }) => {
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형');
+  const [viewOption, setViewOption] = useState('리스트형');
   const navigation = useNavigation();
 
   const toggleViewOption = () => {
