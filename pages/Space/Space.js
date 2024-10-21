@@ -207,7 +207,7 @@ function MySpaceStack({ navigation }) {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity onPress={() => {navigation.navigate('카드 검색')}}><SearchIcon /></TouchableOpacity>
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
@@ -279,7 +279,7 @@ function TeamSpaceStack({ navigation, teamData, userId }) {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity ><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity onPress={() => {navigation.navigate('카드 검색')}}><SearchIcon /></TouchableOpacity>
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>

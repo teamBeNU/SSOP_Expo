@@ -64,6 +64,7 @@ import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
 import ServiceAgree from './pages/MyPage/Service/ServiceAgree';
 import AcceptCard from './pages/Space/AcceptCard';
+import SearchCard from './pages/SearchCard/SearchCard';
 
 import { theme } from './theme';
 
@@ -383,7 +384,7 @@ export default function App() {
             ),
           }}/>
         <Stack.Screen name="마이 스페이스" component={MySpace}
-          options={{
+        options={({ navigation }) => ({
             title: " ",
             headerShadowVisible: false,
             headerLeft: () => (
@@ -393,7 +394,7 @@ export default function App() {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => navigation.navigate('마이 스페이스 관리')}><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('카드 검색')}><SearchIcon /></TouchableOpacity>
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
@@ -406,13 +407,14 @@ export default function App() {
                 </TouchableOpacity>
               </View>
             ),
-          }}/>
+          })}/>
           <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
           <Stack.Screen name="그룹 관리" component={EditGroupPage}/>
           <Stack.Screen name="팀스페이스 관리" component={EditTeamSpace}/>
           <Stack.Screen name="받은 프로필 카드" component={AcceptCard} options={{ headerShown: false }}/>
+          <Stack.Screen name="카드 검색" component={SearchCard} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />
@@ -488,7 +490,7 @@ const Tab = createBottomTabNavigator();
             backgroundColor: theme.white
           },
           headerRight: () => (
-            <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
+            <TouchableOpacity onPress={() => { navigation.navigate('카드 검색') }}>
               <SearchIcon style={{ marginRight: 8 }} />
             </TouchableOpacity>
           ),

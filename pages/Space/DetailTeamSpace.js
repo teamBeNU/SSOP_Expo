@@ -78,7 +78,8 @@ export default function DetailTeamSpace() {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity onPress={() => {navigation.navigate('카드 검색')}}><SearchIcon /></TouchableOpacity>
+
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
@@ -228,7 +229,7 @@ function Filter() {
   };
 
   return (
-    <View style={{flex: 1, backgroundColor: theme.white}}>
+    <View style={{ flex: 1, backgroundColor: theme.white }}>
       {/* 역할 필터 */}
       {currentFilter.card_student_role && currentFilter.card_student_role.length > 0 && (
         <>
