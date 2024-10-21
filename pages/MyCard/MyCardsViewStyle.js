@@ -1,6 +1,8 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
+
 export const styles = StyleSheet.create({
     container: {
     backgroundColor: 'white',
@@ -95,29 +97,33 @@ export const styles = StyleSheet.create({
     },
     //삭제 버튼
     delteBtn: {
-    width: '100%',
+    width: WIDTH,
     height: 56,
-    padding: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 20,
+    flexDirection: 'row',
+    gap: 6,
     justifyContent: 'center',
     alignItems: 'center',
     borderTopWidth: 1,
     borderTopColor: theme.gray95,
     shadowColor: 'rgba(73, 81, 100, 0.09)',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 1,
-        shadowRadius: 16,
-        elevation: 5,
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 1,
+    shadowRadius: 16,
+    elevation: 5,
     },
     delteBtnText: {
     color: theme.gray10,
     fontFamily: 'PretendardRegular',
     fontSize: 16,
     fontWeight: '500',
-    lineHeight: 19,
-    letterSpacing: -0.32
+    letterSpacing: -0.32,
+    textAlign: 'center',
+    height: 19
     },
 
     // 삭제 모달 스타일

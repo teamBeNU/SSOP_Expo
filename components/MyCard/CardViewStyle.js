@@ -202,10 +202,12 @@ export const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 10,
         position: 'relative',
-        backgroundColor: 'pink'
     },
+    cardImgAreaWrapper: {
+        position: 'relative', 
+      },
     cardImgArea: {
-        width:'100%',
+        width: WIDTH * 0.444,
         height: '100%',
         flex: 1,
         justifyContent: 'center',
@@ -257,5 +259,11 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     width: '100%',
     overflow: 'hidden',
+    },
+    selectIcon: {
+        position: 'absolute',
+        top: 12,
+        left: 11,
+        zIndex: 10
     }
 })

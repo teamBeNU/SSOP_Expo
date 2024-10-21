@@ -11,8 +11,9 @@ import ListIcon from '../../assets/icons/ic_list.svg';
 import { GridCardView } from "../../components/MyCard/GridCardView";
 import { ListCardView } from "../../components/MyCard/ListCardView";
 import { styles } from './MyCardsViewStyle';
-import NotSelectedIcon from '../../assets/icons/ic_radioBtn_notSelect.svg';
+import NotSelectedIcon from '../../assets/icons/ic_radioBtn_all.svg';
 import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
+import TrashIcon from '../../assets/icons/ic_trash.svg';
 
 const DeleteMyCard = ({ route, navigation }) => {
   const { cardData } = route.params;
@@ -120,9 +121,10 @@ const deleteMyCard  = async (cardId) => {
        </View>
       </View>
 
-      {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />}
+      {viewOption === '그리드형' ? <GridCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards}/> : <ListCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />}
 
       <TouchableOpacity style={styles.delteBtn} onPress={handleDelete}>
+        <TrashIcon />
         <Text style={styles.delteBtnText}>삭제</Text>
       </TouchableOpacity>
 

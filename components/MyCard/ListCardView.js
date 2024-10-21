@@ -12,6 +12,10 @@ import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCards }) => {
     const navigation = useNavigation(); 
 
+    const handleNext = (cardId) => {
+      navigation.navigate('카드 상세보기', { cardId });
+    };
+
     return (
         <ScrollView horizontal={false} contentContainerStyle={{ width: '100%' }} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <View>
