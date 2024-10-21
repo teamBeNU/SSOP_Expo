@@ -11,6 +11,8 @@ export const deleteCard = async (cardId, navigation) => {
             },
         });
         
+        const result = await response.json();
+
         if (response.status === 200) {
             navigation.goBack();
             Toast.show({
@@ -22,7 +24,7 @@ export const deleteCard = async (cardId, navigation) => {
             });
         } else {
             Toast.show({
-                text1: "삭제에 실패하였습니다.",
+                text1: result.message.includes("카드 삭제 실패 : 팀스페이스에 제출한 카드는 삭제할 수 없습니다.") ? "팀스페이스에 제출한 카드는 삭제할 수 없습니다." : "삭제에 실패하였습니다.",
                 type: 'fail',
                 position: 'bottom',
                 visibilityTime: 3000,
