@@ -9,10 +9,11 @@ export const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 16,
     overflow: 'visible',
-    paddingTop: 47,
     alignItems: 'center'
     },
     titleContainer: {
+    marginTop: 48.5,
+    marginBottom: 40.5,
     flexDirection: 'row',
     gap: 10
     },
@@ -23,7 +24,6 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
     lineHeight: 31,
     letterSpacing: -0.52,
-    marginBottom: 39
     },
     container2: {
     alignSelf: 'flex-end',

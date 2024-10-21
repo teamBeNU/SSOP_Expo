@@ -4,7 +4,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { getColor } from '../../utils/bgColorMapping';
 import { calculateAge } from '../../utils/calculateAge';
 import { styles } from './CardViewStyle';
-import NotSelectedIcon from '../../assets/icons/ic_radioBtn_notSelect.svg';
+import NotSelectedIcon from '../../assets/icons/ic_radioBtn_all.svg';
 import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
