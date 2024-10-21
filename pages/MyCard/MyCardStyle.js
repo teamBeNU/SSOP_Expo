@@ -278,8 +278,10 @@ export const styles = StyleSheet.create({
         },
 
         dropdownMenu: {
+        width: 147,
+        height: 80,
         position: 'absolute',
-        top: 0,
+        top: 8,
         right: 8,
         borderRadius: 16,
         shadowColor: '#000',
@@ -287,7 +289,8 @@ export const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
         paddingVertical: 16,
-        paddingHorizontal: 24,
+        alignItems: 'center',
+        justifyContent: 'center',
         borderWidth: 1,
         borderColor: theme.gray95,
         backgroundColor: 'white',
@@ -303,7 +306,6 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
-        lineHeight: 19,
         letterSpacing: -0.32,
         },
         updateText: {

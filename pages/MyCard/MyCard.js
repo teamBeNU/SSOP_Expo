@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback, useLayoutEffect, useState } from 'react';
-import { Alert, Share, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Share, Text, TouchableOpacity, View, TouchableWithoutFeedback  } from "react-native";
 import { styles } from './MyCardStyle';
 
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
@@ -88,8 +88,13 @@ function MyCard() {
                     </TouchableOpacity>
                 ),
                 headerRight: () => (
-                    <TouchableOpacity onPress={() => setMoreMenu(!moreMenu)}>
+                    <TouchableOpacity onPress={() => moreMenu ? handleDelete : setMoreMenu(!moreMenu)}>
                         <MoreIcon style={{ marginRight: 8 }} />
+                        {moreMenu && (
+                            <TouchableOpacity onPress={handleDelete} style={styles.dropdownMenu}>
+                                <Text style={styles.menuItem}>프로필 편집하기</Text>
+                            </TouchableOpacity>
+                        )}
                     </TouchableOpacity>
                 ),
             });
@@ -97,17 +102,12 @@ function MyCard() {
     }, [hasCard, moreMenu, navigation]);
 
     return (
+        <TouchableWithoutFeedback onPress={() => setMoreMenu(false)}>
         <View style={{flex: 1}}> 
             {hasCard ? (
             <View style={{flex: 1}} >
                 <MyCardsView cardData={cardData}/>
-                {moreMenu && (
-                    <View style={styles.dropdownMenu}>
-                        <TouchableOpacity onPress={handleDelete}>
-                            <Text style={styles.menuItem}>프로필 편집하기</Text>
-                        </TouchableOpacity>
-                    </View>
-                )}
+               
             </View>
         ) : (
             <View style={styles.emptyContainer}>
@@ -119,6 +119,7 @@ function MyCard() {
             </View>
         )}
         </View>
+        </TouchableWithoutFeedback>
     );
   }
   export default MyCard;
