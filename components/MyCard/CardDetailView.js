@@ -162,15 +162,15 @@ const CardDetailView = () => {
     useEffect(() => {
         if (cardData.length > 0 && currentCardIndex !== null) {
             const currentCard = cardData[currentCardIndex];
-            if (currentCard) {
+            if (currentCard.avatar) {
                 setEditAvatar({
-                    face: currentCard.avatar.face,
-                    hair: currentCard.avatar.hair,
-                    hairColor: currentCard.avatar.hairColor,
-                    clothes: currentCard.avatar.clothes,
-                    acc: currentCard.avatar.acc,
-                    bg: currentCard.avatar.bg,
-                    bgColor: currentCard.avatar.bgColor,
+                    face: currentCard.avatar.face ? currentCard.avatar.face : null,
+                    hair: currentCard.avatar.hair ? currentCard.avatar.hair : null,
+                    hairColor: currentCard.avatar.hairColor? currentCard.avatar.hairColor : null,
+                    clothes: currentCard.avatar.clothes ? currentCard.avatar.clothes : null,
+                    acc: currentCard.avatar.acc ? currentCard.avatar.acc : null,
+                    bg: currentCard.avatar.bg ? currentCard.avatar.bg : null,
+                    bgColor: currentCard.avatar.bgColor ? currentCard.avatar.bgColor : null,
                 });
             }
         }
@@ -200,6 +200,8 @@ const CardDetailView = () => {
         await deleteCard(cardId, navigation);
         setMoreMenu(false);
     };
+
+    const [horizontalScrollEnabled, setHorizontalScrollEnabled] = useState(true);
         
    return (
      <View style={styles.container}>
@@ -218,6 +220,7 @@ const CardDetailView = () => {
                 showsHorizontalScrollIndicator={false}
                 snapToInterval={CARD_WIDTH + SPACING} 
                 decelerationRate="fast"
+                scrollEnabled={horizontalScrollEnabled}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                     { useNativeDriver: false }
@@ -241,7 +244,11 @@ const CardDetailView = () => {
 
                     return (
                         <Animated.View key={index} style={[styles.cardWrapper, { transform: [{ scale }] }]}>
-                            <Card cardData={item} />
+                            <Card 
+                            cardData={item}
+                            onVerticalScrollStart={() => setHorizontalScrollEnabled(false)}
+                            onVerticalScrollEnd={() => setHorizontalScrollEnabled(true)}
+                             />
                         </Animated.View>
                     );
                 })}

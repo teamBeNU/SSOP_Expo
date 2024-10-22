@@ -27,14 +27,18 @@ const OpenURLButton = ({url, children}) => {
       );
   };
 
-export const CardBack = ({cardData}) => {
+export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
             case 'studentSchool':
             case 'studentUniv': 
                 return (
-                    <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
+                    <ScrollView 
+                    contentContainerStyle={styles.textArea} 
+                    showsVerticalScrollIndicator={false}
+                    onTouchStart={onVerticalScrollStart}
+                    onTouchEnd={onVerticalScrollEnd}>
                         <CardOptional1 cardData={cardData}/>
                         {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : ((cardData.cardOptional.card_birth === "" && cardData.cardOptional.card_MBTI === "") ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <StudentOptional cardData={cardData}/>
@@ -44,7 +48,11 @@ export const CardBack = ({cardData}) => {
                 );
             case 'worker': //회사 직무
                 return (
-                    <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
+                    <ScrollView 
+                    contentContainerStyle={styles.textArea} 
+                    showsVerticalScrollIndicator={false}
+                    onTouchStart={onVerticalScrollStart}
+                    onTouchEnd={onVerticalScrollEnd}>
                         <CardOptional1 cardData={cardData} />
                         {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <WorkerOptional cardData={cardData} />
@@ -54,7 +62,11 @@ export const CardBack = ({cardData}) => {
                 );
             case 'fan': //덕질 장르, 최애
                 return (
-                    <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
+                    <ScrollView 
+                    contentContainerStyle={styles.textArea} 
+                    showsVerticalScrollIndicator={false}
+                    onTouchStart={onVerticalScrollStart}
+                    onTouchEnd={onVerticalScrollEnd}>
                         <CardOptional1 cardData={cardData}/>
                         {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <FanOptional cardData={cardData} />
@@ -64,20 +76,21 @@ export const CardBack = ({cardData}) => {
                 );
                 case 'free': 
                     return(
-                        <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
-                        <CardOptional1 cardData={cardData}/>
+                        <ScrollView 
+                        contentContainerStyle={styles.textArea} 
+                        showsVerticalScrollIndicator={false}
+                        onTouchStart={onVerticalScrollStart}
+                        onTouchEnd={onVerticalScrollEnd}>
+                            <CardOptional1 cardData={cardData}/>
 
-                        {cardData.student ? <View style={{...styles.line, marginTop: 0}} /> : null}
+                            {cardData.student ? <View style={{...styles.line, marginTop: 0}} /> : null}
+                            {cardData.student ? <StudentOptional cardData={cardData}/> : null }
+                            {cardData.worker ?  <WorkerOptional cardData={cardData} /> : null}                        
+                            {cardData.fan ? <FanOptional cardData={cardData} /> : null} 
 
-                        {cardData.student ? <StudentOptional cardData={cardData}/> : null }
-
-                        {cardData.worker ?  <WorkerOptional cardData={cardData} /> : null}                        
-
-                        {cardData.fan ? <FanOptional cardData={cardData} /> : null} 
-
-                        <CardOptional2 cardData={cardData}/>    
-                        <CardOptional3 cardData={cardData}/>   
-                    </ScrollView>
+                            <CardOptional2 cardData={cardData}/>    
+                            <CardOptional3 cardData={cardData}/>   
+                        </ScrollView>
                     );
                 default:
                 return null;
