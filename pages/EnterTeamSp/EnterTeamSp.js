@@ -322,6 +322,8 @@ useEffect(() => {
                   cardData={cardData}
                   title={"팀스페이스에 보여질 카드를 선택하세요."}
                   onCardSelect={handleCardSelect} // 제출 카드 선택
+                  showNewCardButton={true}
+                  showPlusCard={true}
                 />
 
               ) : (
