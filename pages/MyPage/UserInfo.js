@@ -21,11 +21,6 @@ function UserInfo({navigation}) {
     const [inputName, setInputName] = useState(user_name);
     const [inputBirth, setInputBirth] = useState(user_birth);
 
-    const [isFull, setIsFull] = useState({
-        name: true,
-        birth: true,
-    })
-
     const [modalVisible, setModalVisible] = useState(false);
 
     const ref_input2 = useRef();
@@ -71,7 +66,11 @@ function UserInfo({navigation}) {
 
     // 변경사항 저장
     const handleSave = async () => {
-        if (isFull.name && isFull.birth && isBirthValid.year && isBirthValid.month && isBirthValid.day) {
+        // 입력한 값이 있는지 확인
+        const isNameFull = inputName !== '';
+        const isBirthFull =  inputBirth !== '';
+
+        if (isNameFull && isBirthFull && isBirthValid.year && isBirthValid.month && isBirthValid.day) {
             setUserName(inputName);
             setUserBirth(inputBirth);
            
