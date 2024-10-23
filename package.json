@@ -65,7 +65,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",
-    "metro": "^0.81.0",
+    "metro": "^0.80.8",
     "react-native-svg-transformer": "^1.4.0"
   },
   "resolutions": {
