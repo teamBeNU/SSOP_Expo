@@ -93,5 +93,26 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray80,
         marginHorizontal: 0,
     },
+    ListContainer: {
+        paddingVertical: 12,
+        paddingHorizontal: 20,
+        marginBottom: 12,
+        backgroundColor: theme.white,
+        borderColor: theme.gray95,
+        borderRadius: 16,
+        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowOffset: {
+            width: 2,
+            height: 2
+        },
+        shadowOpacity: 1,
+        shadowRadius: 2,
+        elevation: 5,        
+    },
+    listImage: {
+        width: 64,
+        height: 64,
+        borderRadius: 12
+    },
 
 })
