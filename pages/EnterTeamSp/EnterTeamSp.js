@@ -25,6 +25,7 @@ function EnterTeamSp({ navigation, route }) {
   const [data, setData] = useState(null);
   const [team_name, setTeam_name] = useState('알 수 없음');
   const [team_comment, setTeam_comment] = useState('알 수 없음');
+  const [memberCount, setMemberCount] = useState('0');
   const [isTemplate, setIsTemplate] = useState(true);
   const [step, setStep] = useState(1);
 
@@ -111,6 +112,8 @@ function EnterTeamSp({ navigation, route }) {
           console.log(response.data);
           setTeam_name(response.data.team_name);
           setTeam_comment(response.data.team_comment);
+          setMemberCount(response.data.memberCount);
+          
           setIsModalVisible(true);
         })
         .catch((error) => {
@@ -266,7 +269,7 @@ function EnterTeamSp({ navigation, route }) {
                     <View style={styles.modalContent}>
                       <Text style={[styles.font18, { marginLeft: 0 }]}> {team_name} </Text>
                       <Text style={styles.font16}> {team_comment} </Text>
-                      <Text style={styles.people}> <People />  8 / 150명 </Text>
+                      <Text style={styles.people}> <People />  {memberCount} / 150명 </Text>
                     </View>
 
                     <View style={[styles.btnContainer, { marginLeft: 16 }]}>
