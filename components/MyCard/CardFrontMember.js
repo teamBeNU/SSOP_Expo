@@ -7,7 +7,8 @@ import { getColor } from '../../utils/bgColorMapping';
 export const CardFrontMember = ({ cardData, onFlip }) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.memberEssential.card_template) {
-            case 'student': //학교 학년 + 전공
+            case 'studentUniv':
+            case 'studentSchool': //학교 학년 + 전공
                 return (
                     <Text style={styles.sub}>
                         {cardData.memberStudent.card_student_school} {cardData.memberStudent.card_student_grade} {cardData.memberStudent.card_student_major ? cardData.memberStudent.card_student_major : null}
@@ -32,17 +33,11 @@ export const CardFrontMember = ({ cardData, onFlip }) => {
 
     return (
         <View style={{ ...styles.card }}>
-            {cardData.memberEssential.card_cover === 'avatar' ?
-                <View style={[styles.cardImgArea, { backgroundColor: getColor(cardData.avatar.bgColor) }]}>
-
-                </View>
-                :
-                <Image
-                    source={{ uri: cardData.memberEssential.profile_image_url }}
-                    resizeMode="cover"
-                    style={styles.cardImgArea}
-                />
-            }
+            <Image
+                source={{ uri: cardData.memberEssential.profile_image_url }}
+                resizeMode="cover"
+                style={styles.cardImgArea}
+            />
             <View style={styles.cardTextArea}>
                 <View style={styles.basicInfo}>
                     <Text style={styles.name}>{cardData.memberEssential.card_name}</Text>

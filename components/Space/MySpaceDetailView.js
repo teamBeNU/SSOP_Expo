@@ -60,8 +60,9 @@ const MySpaceDetailView = ({
   // 선택된 필터 값이 모두 null인지 확인
   const hasSelectedFilters = selectedFilters && Object.values(selectedFilters).some(filterArray => Array.isArray(filterArray) && filterArray.length > 0);
 
-  const templateTextMapping = {
-    student: '학생',
+  const templateTextMapping = {    
+    studentSchool: '학생',
+    studentUniv: '학생',
     worker: '직장인',
     fan: '팬',
     free: '자유',
@@ -212,7 +213,7 @@ const MySpaceDetailView = ({
                               console.log('해당 사용자의 카드를 조회할 수 없습니다.');
                             }
                           } else {
-                            handleCardDetail(item); // 기존 카드 제출일 경우
+                            handleCardDetail(item.cardId); // 기존 카드 제출일 경우
                           }
                         }}
                       >
@@ -225,7 +226,7 @@ const MySpaceDetailView = ({
                             />
                           }
                           isHost={isHost}
-                          card_name={item.team_name}
+                          card_name={item.card_name}
                           card_birth={item.card_birth || ''}
                           dot=' · '
                           card_template={item.card_template}
@@ -279,7 +280,7 @@ const MySpaceDetailView = ({
                                 />
                               }
                               isHost={isHost}
-                              card_name={item.team_name || item.memberEssential?.card_name || item.cardEssential?.card_name}
+                              card_name={item.card_name || item.memberEssential?.card_name || item.cardEssential?.card_name}
                               card_birth={item.card_birth || item.memberOptional?.card_birth || item.cardOptional?.card_birth || ''}
                               dot=' · '
                               card_template={item.card_template || item.memberEssential?.card_template || '기타'}
@@ -313,7 +314,7 @@ const MySpaceDetailView = ({
                               console.log('해당 사용자의 카드를 조회할 수 없습니다.');
                             }
                           } else {
-                            handleCardDetail(item); // 기존 카드 제출일 경우
+                            handleCardDetail(item.cardId); // 기존 카드 제출일 경우
                           }
                         }}
                       >
@@ -332,7 +333,7 @@ const MySpaceDetailView = ({
                                 </View>
                               )}
                               <Text style={styles.Text16gray10}>
-                                {item.team_name}
+                                {item.card_name}
                                 {userId === item.userId && <Text> (나)</Text>}
                               </Text>
                               <Text style={styles.Text16gray50}>
@@ -340,7 +341,7 @@ const MySpaceDetailView = ({
                               </Text>
                             </View>
                             <Text style={styles.Text14gray30}>
-                              {item.team_comment}
+                              {item.card_introduction}
                             </Text>
                           </View>
                         </View>

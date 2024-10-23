@@ -110,7 +110,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
       // 카드 ID가 0보다 큰 경우에만 상세 정보 요청
       const validCardIds = cardId.filter(id => id > 0);
-      const requests = validCardIds.map(id => 
+      const requests = validCardIds.map(id =>
         axios.get(`${cardDetailsUrl}?cardId=${id}`)
           .then(response => response.data)
           .catch(error => {
@@ -173,22 +173,23 @@ export default function DetailTeamSpaceScreen({ navigation }) {
       }
     }
   }, [selectedFilters, data]);
-    
+
   const applyFilters = async (filters) => {
     try {
-      const { card_student_role, card_mbti, card_student_major, card_template } = filters;
+      const { card_role, card_mbti, card_major, card_template } = filters;
 
       const response = await axios.get(`${baseUrl}/filter/view`, {
         params: {
           teamId,
-          role: card_student_role.length > 0 ? card_student_role : undefined,
-          mbti: card_mbti.length > 0 ? card_mbti : undefined,
-          major: card_student_major.length > 0 ? card_student_major : undefined,
-          template: card_template.length > 0 ? card_template : undefined,
+          ...(card_major.length > 0 && { major: card_major.join(',') }),
+          ...(card_mbti.length > 0 && { mbti: card_mbti.join(',') }),
+          ...(card_role.length > 0 && { role: card_role.join(',') }),
+          ...(card_template.length > 0 && { template: card_template.join(',') }),
         },
       });
 
       const filtered = response.data;
+
       console.log("필터링된 데이터:", filtered);
       setFilteredData(filtered);
 
@@ -287,7 +288,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
         setViewOption={setViewOption}
         handleFilterNext={handleFilterNext}
         filteredData={filteredData}
-        cardData={combinedData} 
+        cardData={combinedData}
         selectedFilters={selectedFilters}
       />
 

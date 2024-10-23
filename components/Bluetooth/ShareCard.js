@@ -10,21 +10,11 @@ import { getTemplate } from '../../utils/templateMapping';
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 16 * 2 - 12) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
 
-export const ShareCard = ({ avatar, card_name, card_birth, card_template, card_cover, profile_image_url, isHost, dot }) => {
+export const ShareCard = ({ avatar, card_name, card_birth, card_template, isHost }) => {
   return (
-    <View style={[styles.card, { backgroundColor: card_cover === 'avatar' ? getColor(avatar.bgColor) : getColor(card_cover), width: cardWidth }]}>
+    <View style={[styles.card, { width: cardWidth }]}>
       <View style={styles.cardImgArea}>
-        {card_cover === 'avatar' ? (
-          <View style={{ backgroundColor: getColor(avatar.bgColor) }}>
-            {/* avatar 렌더링 로직 */}
-          </View>
-        ) : (
-          <Image
-            source={{ uri: profile_image_url }} // profile_image_url이 존재할 경우 이미지 렌더링
-            resizeMode="cover"
-            style={styles.cardImgArea} // 이미지 스타일 적용
-          />
-        )}
+        {avatar}
       </View>
       {isHost && (
         <View style={styles.DetailcardHost}>
