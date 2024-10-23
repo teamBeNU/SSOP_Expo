@@ -156,8 +156,9 @@ function Filter() {
   const [currentFilter, setCurrentFilter] = useState(filter);
 
   const cardTemplates = {
-    studentSchool: '학생',
-    studentUniv: '학생',
+    student: '학생',
+    studentSchool: '초중고등학생',
+    studentUniv: '대학생',
     worker: '직장인',
     fan: '팬',
     free: '자유',

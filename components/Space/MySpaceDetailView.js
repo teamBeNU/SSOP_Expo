@@ -44,6 +44,9 @@ const MySpaceDetailView = ({
   const [selectedCardData, setSelectedCardData] = useState(null);
   const [selectedMemberData, setSelectedMemberData] = useState([]);
 
+  const [sortedCardIdData, setSortedCardIdData] = useState([]);
+  const [sortedMemberData, setSortedMemberData] = useState([]);
+
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
     const fetchToken = async () => {
@@ -62,12 +65,25 @@ const MySpaceDetailView = ({
   const hasSelectedFilters = selectedFilters && Object.values(selectedFilters).some(filterArray => Array.isArray(filterArray) && filterArray.length > 0);
 
   const templateTextMapping = {
-    studentSchool: '학생',
-    studentUniv: '학생',
+    student: '학생',
+    studentSchool: '초중고등학생',
+    studentUniv: '대학생',
     worker: '직장인',
     fan: '팬',
     free: '자유',
   };
+
+  // 최신순 / 오래된 순 정렬 함수
+  const sortData = (data) => {
+    const dataCopy = [...(data || [])];
+    return selectedOption === '최신순' ? dataCopy : dataCopy.reverse(); // 최신순은 그대로, 오래된 순은 역순
+  };
+
+  // 데이터 정렬
+  useEffect(() => {
+    setSortedCardIdData(sortData(cardData.cardIdData));
+    setSortedMemberData(sortData(cardData.memberData));
+  }, [cardData, selectedOption]);
 
   // 카드 상세보기
   const handleCardDetail = async (cardData) => {
@@ -206,7 +222,7 @@ const MySpaceDetailView = ({
                         style={styles.btn1}
                         onPress={() => {
                           if (item.cardId === undefined) {
-                            const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+                            const matchingMember = sortedMemberData.find(member => member.userId === item.userId);
                             if (matchingMember) {
                               setSelectedMemberData(matchingMember);
                               setModalMemberVisible(true);
@@ -236,8 +252,8 @@ const MySpaceDetailView = ({
                     ))
                   ) : (
                     // cardIdData가 있을 경우
-                    (Array.isArray(cardData.cardIdData) && cardData.cardIdData.length > 0) ? (
-                      cardData.cardIdData.map((item) => (
+                    (Array.isArray(sortedCardIdData) && sortedCardIdData.length > 0) ? (
+                      sortedCardIdData.map((item) => (
                         <TouchableOpacity
                           key={item.cardId}
                           style={styles.btn1}
@@ -263,8 +279,8 @@ const MySpaceDetailView = ({
                       ))
                     ) : (
                       // memberData가 있을 경우
-                      Array.isArray(cardData.memberData) && cardData.memberData.length > 0) ? (
-                      cardData.memberData.map((item) => (
+                      Array.isArray(sortedMemberData) && sortedMemberData.length > 0) ? (
+                      sortedMemberData.map((item) => (
                         <TouchableOpacity
                           key={item.userId}
                           style={styles.btn1}
@@ -305,7 +321,7 @@ const MySpaceDetailView = ({
                       <TouchableOpacity
                         onPress={() => {
                           if (item.cardId === undefined) {
-                            const matchingMember = cardData.memberData.find(member => member.userId === item.userId);
+                            const matchingMember = sortedMemberData.find(member => member.userId === item.userId);
                             if (matchingMember) {
                               setSelectedMemberData(matchingMember);
                               setModalMemberVisible(true);
@@ -321,7 +337,7 @@ const MySpaceDetailView = ({
                           avatar={
                             <Image
                               source={{ uri: item.profile_image_url }}
-                              style={styles.gridImage}
+                              style={styles.listImage}
                             />
                           }
                           isHost={isHost}
@@ -336,8 +352,8 @@ const MySpaceDetailView = ({
                   ))
                 ) : (
                   // cardIdData가 있을 경우 먼저 반환
-                  Array.isArray(cardData.cardIdData) && cardData.cardIdData.length > 0 ? (
-                    cardData.cardIdData.map((item) => (
+                  Array.isArray(sortedCardIdData) && sortedCardIdData.length > 0 ? (
+                    sortedCardIdData.map((item) => (
                       <View key={item.cardId} style={styles.ListContainer}>
                         <TouchableOpacity
                           onPress={() => handleCardDetail(item.cardId)} // 기존 카드 제출일 경우
@@ -346,7 +362,7 @@ const MySpaceDetailView = ({
                             avatar={
                               <Image
                                 source={{ uri: item.profile_image_url }}
-                                style={styles.gridImage}
+                                style={styles.listImage}
                               />
                             }
                             isHost={isHost}
@@ -361,8 +377,8 @@ const MySpaceDetailView = ({
                     ))
                   ) : (
                     // memberData가 있을 경우
-                    Array.isArray(cardData.memberData) && cardData.memberData.length > 0 ? (
-                      cardData.memberData.map((item) => (
+                    Array.isArray(sortedMemberData) && sortedMemberData.length > 0 ? (
+                      sortedMemberData.map((item) => (
                         <View key={item.userId} style={styles.ListContainer}>
                           <TouchableOpacity
                             onPress={() => {
@@ -371,20 +387,20 @@ const MySpaceDetailView = ({
                             }}
                           >
                             <ListCardsView
-                            avatar={
-                              <Image
-                                source={{ uri: item.memberEssential.profile_image_url }}
-                                style={styles.listImage}
-                              />
-                            }
-                            isHost={isHost}
-                            card_name={item.memberEssential.card_name}
-                            card_introduction={item.memberEssential.card_introduction}
-                            card_birth={item.memberOptional.card_birth || ''}
-                            card_template={item.memberEssential.card_template}
-                            me={userId == item.userId}
-                            userId={userId}
-                          />
+                              avatar={
+                                <Image
+                                  source={{ uri: item.memberEssential.profile_image_url }}
+                                  style={styles.listImage}
+                                />
+                              }
+                              isHost={isHost}
+                              card_name={item.memberEssential.card_name}
+                              card_introduction={item.memberEssential.card_introduction}
+                              card_birth={item.memberOptional.card_birth || ''}
+                              card_template={item.memberEssential.card_template}
+                              me={userId == item.userId}
+                              userId={userId}
+                            />
                           </TouchableOpacity>
                         </View>
                       ))
