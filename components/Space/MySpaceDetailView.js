@@ -16,6 +16,7 @@ import { ShareCard } from '../Bluetooth/ShareCard.js';
 import { Card } from '../MyCard/Card.js';
 import { CardMember } from '../MyCard/CardMember.js';
 import { calculateAge } from '../../utils/calculateAge.js';
+import ListCardsView from '../Bluetooth/ListCardsView.js';
 
 const MySpaceDetailView = ({
   title,
@@ -316,48 +317,20 @@ const MySpaceDetailView = ({
                           }
                         }}
                       >
-                        <View style={styles.row2}>
-                          <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
+                        <ListCardsView
+                          avatar={
                             <Image
                               source={{ uri: item.profile_image_url }}
-                              style={styles.listImage}
+                              style={styles.gridImage}
                             />
-                          </View>
-                          <View style={styles.infoContainer}>
-                            <View style={styles.rowName}>
-                              {isHost && (
-                                <View style={styles.host}>
-                                  <Text style={styles.hostText}>호스트</Text>
-                                </View>
-                              )}
-                              <Text style={styles.Text16gray10}>
-                                {item.card_name}
-                                {userId === item.userId && <Text> (나)</Text>}
-                              </Text>
-                              <Text style={styles.Text16gray50}>
-                                {calculateAge(item.card_birth)}
-                              </Text>
-                            </View>
-                            <Text style={styles.Text14gray30}>
-                              {item.card_introduction}
-                            </Text>
-                          </View>
-                        </View>
-                        <View style={styles.menuContainer}>
-                          {userId === item.userId && showMenu && (
-                            <Menu>
-                              <MenuTrigger>
-                                <MoreGrayIcon style={{ marginRight: 8 }} />
-                              </MenuTrigger>
-                              <MenuOptions
-                                optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
-                              >
-                                <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
-                                <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
-                              </MenuOptions>
-                            </Menu>
-                          )}
-                        </View>
+                          }
+                          isHost={isHost}
+                          card_name={item.card_name}
+                          card_introduction={item.card_introduction}
+                          card_birth={item.card_birth || ''}
+                          card_template={item.card_template}
+                          me={userId == item.userId}
+                        />
                       </TouchableOpacity>
                     </View>
                   ))
@@ -369,48 +342,20 @@ const MySpaceDetailView = ({
                         <TouchableOpacity
                           onPress={() => handleCardDetail(item.cardId)} // 기존 카드 제출일 경우
                         >
-                          <View style={styles.row2}>
-                            <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
+                          <ListCardsView
+                            avatar={
                               <Image
                                 source={{ uri: item.profile_image_url }}
-                                style={styles.listImage}
+                                style={styles.gridImage}
                               />
-                            </View>
-                            <View style={styles.infoContainer}>
-                              <View style={styles.rowName}>
-                                {isHost && (
-                                  <View style={styles.host}>
-                                    <Text style={styles.hostText}>호스트</Text>
-                                  </View>
-                                )}
-                                <Text style={styles.Text16gray10}>
-                                  {item.cardEssential.card_name}
-                                  {userId === item.userId && <Text> (나)</Text>}
-                                </Text>
-                                <Text style={styles.Text16gray50}>
-                                  {calculateAge(item.cardOptional.card_birth || '')}
-                                </Text>
-                              </View>
-                              <Text style={styles.Text14gray30}>
-                                {item.cardEssential.card_introduction}
-                              </Text>
-                            </View>
-                          </View>
-                          <View style={styles.menuContainer}>
-                            {userId === item.userId && showMenu && (
-                              <Menu>
-                                <MenuTrigger>
-                                  <MoreGrayIcon style={{ marginRight: 8 }} />
-                                </MenuTrigger>
-                                <MenuOptions
-                                  optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
-                                >
-                                  <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
-                                  <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
-                                </MenuOptions>
-                              </Menu>
-                            )}
-                          </View>
+                            }
+                            isHost={isHost}
+                            card_name={item.cardEssential.card_name}
+                            card_introduction={item.cardEssential.card_introduction}
+                            card_birth={item.cardOptional.card_birth || ''}
+                            card_template={item.cardEssential.card_template}
+                            me={userId == item.userId}
+                          />
                         </TouchableOpacity>
                       </View>
                     ))
@@ -425,48 +370,21 @@ const MySpaceDetailView = ({
                               setModalMemberVisible(true);
                             }}
                           >
-                            <View style={styles.row2}>
-                              <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                                <Image
-                                  source={{ uri: item.memberEssential.profile_image_url }}
-                                  style={styles.listImage}
-                                />
-                              </View>
-                              <View style={styles.infoContainer}>
-                                <View style={styles.rowName}>
-                                  {isHost && (
-                                    <View style={styles.host}>
-                                      <Text style={styles.hostText}>호스트</Text>
-                                    </View>
-                                  )}
-                                  <Text style={styles.Text16gray10}>
-                                    {item.memberEssential.card_name}
-                                    {userId === item.userId && <Text> (나)</Text>}
-                                  </Text>
-                                  <Text style={styles.Text16gray50}>
-                                    {calculateAge(item.memberOptional.card_birth || '')}
-                                  </Text>
-                                </View>
-                                <Text style={styles.Text14gray30}>
-                                  {item.memberEssential.card_introduction || ' '}
-                                </Text>
-                              </View>
-                            </View>
-                            <View style={styles.menuContainer}>
-                              {userId === item.userId && showMenu && (
-                                <Menu>
-                                  <MenuTrigger>
-                                    <MoreGrayIcon style={{ marginRight: 8 }} />
-                                  </MenuTrigger>
-                                  <MenuOptions
-                                    optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
-                                  >
-                                    <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
-                                    <MenuOption text='카드 수정하기' onSelect={onChangeGroupName} />
-                                  </MenuOptions>
-                                </Menu>
-                              )}
-                            </View>
+                            <ListCardsView
+                            avatar={
+                              <Image
+                                source={{ uri: item.memberEssential.profile_image_url }}
+                                style={styles.listImage}
+                              />
+                            }
+                            isHost={isHost}
+                            card_name={item.memberEssential.card_name}
+                            card_introduction={item.memberEssential.card_introduction}
+                            card_birth={item.memberOptional.card_birth || ''}
+                            card_template={item.memberEssential.card_template}
+                            me={userId == item.userId}
+                            userId={userId}
+                          />
                           </TouchableOpacity>
                         </View>
                       ))
@@ -475,8 +393,6 @@ const MySpaceDetailView = ({
                 )}
               </View>
             )}
-
-
           </View>
 
           {/* 기존 카드 상세보기 모달 */}
