@@ -5,7 +5,7 @@ import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import { Menu, MenuTrigger, MenuOptions, MenuOption } from 'react-native-popup-menu';
 import { calculateAge } from '../../utils/calculateAge';
 
-const ListCardsView = ({ avatar, isHost, card_name, card_introduction, card_birth, showMenu = true, me, userId, onChangeGroupName }) => {
+const ListCardsView = ({ avatar, isHost, card_name, card_introduction, card_birth, showMenu = true, me, onChangeGroupName }) => {
     return (
         <View>
             <View style={styles.row2}>

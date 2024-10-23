@@ -22,7 +22,7 @@ const MySpaceDetailView = ({
   title,
   sub,
   members,
-  isHost,
+  hostId,
   userId,
   selectedOption,
   setSelectedOption,
@@ -242,7 +242,7 @@ const MySpaceDetailView = ({
                               style={styles.gridImage}
                             />
                           }
-                          isHost={isHost}
+                          isHost={hostId == item.userId}
                           card_name={item.card_name}
                           card_birth={item.card_birth || ''}
                           dot=' · '
@@ -269,7 +269,7 @@ const MySpaceDetailView = ({
                                 style={styles.gridImage}
                               />
                             }
-                            isHost={isHost}
+                            isHost={hostId == item.userId}
                             card_name={item.cardEssential.card_name}
                             card_birth={item.cardOptional.card_birth || ''}
                             dot=' · '
@@ -297,7 +297,7 @@ const MySpaceDetailView = ({
                                 style={styles.gridImage}
                               />
                             }
-                            isHost={isHost}
+                            isHost={hostId == item.userId}
                             card_name={item.memberEssential.card_name}
                             card_birth={item.memberOptional.card_birth || ''}
                             dot=' · '
@@ -340,7 +340,7 @@ const MySpaceDetailView = ({
                               style={styles.listImage}
                             />
                           }
-                          isHost={isHost}
+                          isHost={hostId == item.userId}
                           card_name={item.card_name}
                           card_introduction={item.card_introduction}
                           card_birth={item.card_birth || ''}
@@ -365,7 +365,7 @@ const MySpaceDetailView = ({
                                 style={styles.listImage}
                               />
                             }
-                            isHost={isHost}
+                            isHost={hostId == item.userId}
                             card_name={item.cardEssential.card_name}
                             card_introduction={item.cardEssential.card_introduction}
                             card_birth={item.cardOptional.card_birth || ''}
@@ -393,7 +393,7 @@ const MySpaceDetailView = ({
                                   style={styles.listImage}
                                 />
                               }
-                              isHost={isHost}
+                              isHost={hostId == item.userId}
                               card_name={item.memberEssential.card_name}
                               card_introduction={item.memberEssential.card_introduction}
                               card_birth={item.memberOptional.card_birth || ''}

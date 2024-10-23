@@ -278,7 +278,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
         title={data.team_name}
         members={`${data.memberCount || 0} / 150`}
         sub={data.team_comment}
-        isHost={data.hostId === userId}
+        hostId={data.hostId}
         userId={userId}
         navigation={navigation}
         hasCards={hasCards}
