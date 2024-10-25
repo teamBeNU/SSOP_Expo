@@ -29,7 +29,6 @@ const OpenURLButton = ({url, children}) => {
 
 export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }) => {
     const renderTemplateSpecificInfo = () => {
-        console.log('carddata : ', cardData);
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
             case 'studentSchool':
@@ -222,13 +221,6 @@ const StudentOptional = ({cardData}) => {
                 <Text style={styles.content}>{cardData.student.card_student_grade}</Text>  
                 </View>
             ) : null}
-            {cardData.card_template === 'free' && cardData.student.card_student_major ? (
-                <View style={styles.info}>                             
-                <Text style={styles.topic}>전공</Text>                             
-                <Text style={styles.content}>{cardData.student.card_student_major}</Text>  
-                </View>
-            ) : null}
-
             {cardData.student.card_student_id ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학번</Text>                             
