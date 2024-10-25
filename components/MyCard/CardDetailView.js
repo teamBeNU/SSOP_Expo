@@ -2,7 +2,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Alert, Animated, Dimensions, Modal, ScrollView, Share, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import Toast from 'react-native-toast-message';
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -21,7 +22,7 @@ const CardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef(null);
     const route = useRoute();
-    const { cardId } = route.params;
+    const { cardId, refresh } = route.params;
 
     const [cardData, setCardData] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -106,6 +107,89 @@ const CardDetailView = () => {
         //     // dismissed
         // }
         // }
+    };
+
+    const [profile_image_url, setProfileImageUrl] = useState(null);
+    const [isPictureComplete, setIsPictureComplete] = useState(false);
+    const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
+
+    const handleImagePicker = async () => {
+        // 권한 확인: 권한 없으면 물어보고, 승인하지 않으면 함수 종료
+        if(!status?.granted) {
+            const permission = await requestPermission();   // 파일 및 미디어 액세스 권한 요청
+            if(!permission.granted) {   // 권한 거부
+                Alert.alert(
+                    "필수 권한 허용 안내", // 제목
+                    "이미지를 게시하려면 설정에서 사진 및 동영상 권한을 허용해 주세요.",   // 메시지
+                    [
+                      {
+                        text: "닫기",
+                        onPress: () => console.log("권한 취소"),
+                        style: "cancel"
+                      },
+                      { text: "설정으로 가기", onPress: () => Linking.openSettings() }  // 설정으로 이동
+                    ]
+                  );
+                return null
+            }
+        }
+
+        // 이미지 업로드
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,    // 어떤 타입의 파일 업로드할지 (이미지만 받기 위해 Images로 설정)
+            allowsEditing: true,    // 이미지 업로드 전에 자르기 등의 편집 가능 여부 설정
+            quality: 1,     // 이미지 압축 여부(1: 가장 높은 품질)
+            // aspect: [1, 1]    // 이미지 비율
+        });
+
+        if (!result.canceled) {     // 이미지 업로드
+            setProfileImageUrl(result.assets[0].uri);
+            setIsPictureComplete(true);
+        } 
+    }
+
+    useEffect(() => {
+        if (isPictureComplete) {
+            handleSubmit();
+        }
+    }, [isPictureComplete]);
+
+    const handleSubmit = async () => {
+        const formData = new FormData();
+        const localUri = profile_image_url;
+
+        if (!localUri) {
+            Alert.alert('이미지 URL이 설정되지 않았습니다.');
+            return;
+        }
+    
+        const filename = localUri.split('/').pop();
+        const fileMatch = /\.(\w+)$/.exec(filename);
+        const type = fileMatch ? `image/${fileMatch[1]}` : 'image';
+
+        formData.append('card', {name: 'card', string: '{}', type: 'application/json',});
+
+        formData.append('image', {
+            uri: localUri,
+            name: filename,
+            type: type
+        });
+
+        const token = await AsyncStorage.getItem('token');
+        const currentCardId = cardData[currentCardIndex].cardId;
+
+        try {
+            const response = await axios.patch(`http://43.202.52.64:8080/api/card/edit?cardId=${currentCardId}`, formData, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data'
+            },
+            });    
+        } catch (error) {
+        Alert.alert(error.response?.data?.message || error.message || 'Request failed');
+        }
+        fetchData();
+       navigation.navigate('카드 상세보기', { cardId : currentCardId }); 
     };
 
       const handleShare = () => {
@@ -369,6 +453,7 @@ const CardDetailView = () => {
                                         <View style={styles.modalContent}>
                                             <TouchableOpacity onPress={() => {
                                                 setIsCoverModalVisible(false);
+                                                handleImagePicker();
                                                 }}>
                                             <Text style={styles.modalTitle}>앨범에서 선택</Text>
                                             </TouchableOpacity>
