@@ -29,6 +29,7 @@ const OpenURLButton = ({url, children}) => {
 
 export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }) => {
     const renderTemplateSpecificInfo = () => {
+        console.log('carddata : ', cardData);
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
             case 'studentSchool':
@@ -84,9 +85,10 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                             <CardOptional1 cardData={cardData}/>
 
                             {cardData.student ? <View style={{...styles.line, marginTop: 0}} /> : null}
-                            {cardData.student ? <StudentOptional cardData={cardData}/> : null }
-                            {cardData.worker ?  <WorkerOptional cardData={cardData} /> : null}                        
-                            {cardData.fan ? <FanOptional cardData={cardData} /> : null} 
+
+                            {!Object.values(cardData.student).every(value => value === "") ? <StudentOptional cardData={cardData} /> : null}
+                            {!Object.values(cardData.worker).every(value => value === "") ? <WorkerOptional cardData={cardData} /> : null}
+                            {!Object.values(cardData.fan).every(value => value === "") ? <FanOptional cardData={cardData} /> : null}
 
                             <CardOptional2 cardData={cardData}/>    
                             <CardOptional3 cardData={cardData}/>   
