@@ -134,7 +134,7 @@ const AcceptCardView = ({
                     })
                   ) : (
                     <View style={styles.emptyContainer}>
-                      <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
+                      <Text style={styles.noCardMarginTop}>공유받은 카드가 없어요.</Text>
                     </View>
                   )}
                 </View>

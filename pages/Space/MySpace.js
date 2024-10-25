@@ -192,10 +192,10 @@ function MySpace({ navigation }) {
                 id={group.groupId}  // 그룹 ID
                 name={group.group_name}  // group_name을 name으로 전달
                 members={group.memberCount}  // memberCount를 members로 전달
-                // onGroupPress={() => {
-                //   console.log('groupId:', group.groupId);  // groupId 값 확인
-                //   navigation.navigate('그룹', { groupId: group.groupId });
-                // }}
+                onGroupPress={() => {
+                  console.log('groupId:', group.groupId);  // groupId 값 확인
+                  navigation.navigate('그룹', { groupId: group.groupId });
+                }}
                 onDeleteGroup={() => {
                   setGroupToDelete(group.groupId);
                   setIsSpaceModalVisible(true);
