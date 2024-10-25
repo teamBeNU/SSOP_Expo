@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useCallback, useLayoutEffect, useState } from 'react';
+import React, { useCallback, useLayoutEffect, useState, useEffect } from 'react';
 import { Alert, Share, Text, TouchableOpacity, View, TouchableWithoutFeedback  } from "react-native";
 import { styles } from './MyCardStyle';
 
@@ -21,42 +21,39 @@ function MyCard() {
         navigation.navigate('내 카드 삭제', {cardData});
     };
 
+    const fetchData = async () => {
+        try {
+          const token = await AsyncStorage.getItem('token');
+          if (!token) {
+            Alert.alert('유효하지 않은 토큰입니다.');
+            return;
+          }
+  
+          const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+  
+          const result = await response.json();
+          setCardData(result);
+          
+          if (result.length === 0) {
+            setHasCard(false);
+          } else {
+            setHasCard(true);
+          }
+        } catch (error) {
+          console.error('Error fetching card data:', error);
+        } 
+      };
 
     useFocusEffect(
         useCallback(() => {
-        const fetchData = async () => {
-          try {
-            const token = await AsyncStorage.getItem('token');
-            if (!token) {
-              Alert.alert('유효하지 않은 토큰입니다.');
-              return;
-            }
-    
-            const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
-              method: 'GET',
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            });
-    
-            const result = await response.json();
-            setCardData(result);
-            
-            if (result.length === 0) {
-              setHasCard(false);
-            } else {
-              setHasCard(true);
-            }
-          } catch (error) {
-            console.error('Error fetching card data:', error);
-          } 
-        };
-    
         fetchData();
-        
         return () => {};
       }, []));
-
 
     const onShare = async () => {
     try {
@@ -106,7 +103,7 @@ function MyCard() {
         <View style={{flex: 1}}> 
             {hasCard ? (
             <View style={{flex: 1}} >
-                <MyCardsView cardData={cardData}/>
+                <MyCardsView cardData={cardData} refreshData={fetchData}/>
                
             </View>
         ) : (

@@ -12,7 +12,7 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-m
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import {deleteCard} from './DeleteCardAPI.js';
 
-export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCards }) => {
+export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCards, refreshData }) => {
     const navigation = useNavigation(); 
 
     const handleNext = (cardId) => {
@@ -123,7 +123,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                   >
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 공유하기' onSelect={() => {}} />
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 수정하기' onSelect={() => {}} />
-                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기' onSelect={() => deleteCard(item.cardId, navigation)} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기' onSelect={() => deleteCard(item.cardId, navigation, refreshData)} />
                   </MenuOptions>
                 </Menu>
               </View>
