@@ -96,19 +96,18 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     </TouchableOpacity>
                 </View>
                 <ViewShot 
-                    ref={ref} 
-                    options={{ fileName: "card", format: "png", quality: 0.9 }}
+                    ref={ref}
+                    options={{ fileName: "card", format: "png", quality: 1 }}
                 >
                     <View style={styles.avatarView}>
-                        {/* <Image
-                            source={require("../../assets/images/sample-avatar-1.png")} 
+                        <Image
+                            source={require("../../assets/avatars/sampleAva.png")} 
                             resizeMode="contain"
                             style={styles.avatarImg}
-                        /> */}
+                        />
                         <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === (avatar.bgColor || 1)).color}]}></View>
                     </View>
                 </ViewShot>
-                
             </View>
             <View style={styles.avatarItemContainer}>
                 <View style={styles.avatarItemCategory}>
