@@ -18,6 +18,8 @@ import SelectTextInput from "./FreeTemplate/SelectTextInput";
 import DropDown from "./DropDown";
 import SelectCover from "./SelectCover";
 
+const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
+
 export default function TemplateFree ({navigation, card_template, step, setStep}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
     const [token, setToken] = useState(null);
@@ -836,7 +838,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                     }
                                 </View>
                             </ScrollView>
-                            <View style={styles.btnContainer}>
+                            <View style={styles.btnFreeContainer}>
                                 <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}
