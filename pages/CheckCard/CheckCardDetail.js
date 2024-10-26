@@ -117,7 +117,7 @@ const CheckCardDetail = () => {
 
     useEffect(() => {
         if (cardData.length > 0 && currentCardIndex >= 0) {
-            checkIfRecentlyUpdated(cardData[currentCardIndex].time);
+            checkIfRecentlyUpdated(cardData[currentCardIndex].updatedAt);
         }
     }, [cardData, currentCardIndex]);
 

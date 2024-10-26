@@ -97,10 +97,10 @@ export const styles = StyleSheet.create({
         width: 55,
         color: theme.gray50,
         fontFamily: 'PretendardRegular',
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: '400',
         lineHeight: 19,
-        letterSpacing: -0.32,
+        letterSpacing: -0.14,
     },
     content: {
         maxWidth: '80%',
