@@ -83,7 +83,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                         onTouchEnd={onVerticalScrollEnd}>
                             <CardOptional1 cardData={cardData}/>
 
-                            {cardData.student ? <View style={{...styles.line, marginTop: 0}} /> : null}
+                            {!Object.values(cardData.student).every(value => value === "") ? <View style={{...styles.line, marginTop: 0}} /> : null}
 
                             {!Object.values(cardData.student).every(value => value === "") ? <StudentOptional cardData={cardData} /> : null}
                             {!Object.values(cardData.worker).every(value => value === "") ? <WorkerOptional cardData={cardData} /> : null}
