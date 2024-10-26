@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, ScrollView } from 'react-native';
 import { RadioButton } from 'react-native-paper';
 import { styles } from './SpaceStyle';
 import { MySpaceGroup } from "../../components/Space/SpaceList.js";
-import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
+import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
@@ -249,7 +249,7 @@ function EditGroupPage({ route, navigation }) {
         btn2={'네, 삭제할래요'}
         onConfirm={handleDeleteGroups}
       />
-      <SpaceNameChangeModal
+      <NewGroupModal
         isVisible={isGroupNameChangeModalVisible}
         onClose={() => setIsGroupNameChangeModalVisible(false)}
         groupName={'그룹 이름을 작성하세요.'}

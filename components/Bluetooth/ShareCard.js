@@ -19,10 +19,13 @@ export const ShareCard = ({ avatar, card_name, card_birth, card_template, card_c
             {/* avatar 렌더링 로직 */}
           </View>
         ) : (
-          avatar
+          <Image
+            source={{ uri: profile_image_url }} // profile_image_url이 존재할 경우 이미지 렌더링
+            resizeMode="cover"
+            style={styles.cardImgArea} // 이미지 스타일 적용
+          />
         )}
       </View>
-
       {isHost && (
         <View style={styles.DetailcardHost}>
           <Text style={styles.DetailcardFilterText}>호스트</Text>

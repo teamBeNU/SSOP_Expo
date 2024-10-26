@@ -6,7 +6,8 @@ import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard,
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
-import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
+import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
+import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 import MySpace from "./MySpace.js";
@@ -129,6 +130,7 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
 // MySpace 스택 네비게이션
 function MySpaceStack({ navigation }) {
+  const [teamData, setTeamData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const handleBluetoothPress = () => {
@@ -141,16 +143,53 @@ function MySpaceStack({ navigation }) {
     navigation.navigate('링크 복사');
   };
 
+  const showCustomToast = (text) => {
+    Toast.show({
+      text1: text,
+      type: 'selectedToast',
+      position: 'bottom',
+      visibilityTime: 2000,
+    });
+  };
+
   const handlePlusGroup = () => {
     setIsGroupNameChangeModalVisible(true);
   };
 
-  const [teamData, setTeamData] = useState([
-    { id: 1, name: '24학번 후배', members: 8 },
-    { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
-    { id: 3, name: '그룹 3', members: 10 },
-    { id: 4, name: '그룹 4', members: 15 },
-  ]);
+  const handleAddGroup = async (groupName) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) {
+        console.error('토큰이 없습니다.');
+        return;
+      }
+  
+      const response = await fetch('http://43.202.52.64:8080/api/mysp/create', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          group_name: groupName,
+        }),
+      });
+  
+      const result = await response.json();
+      if (response.ok) {
+        // 그룹 추가 성공 시
+        console.log('새 그룹 생성:', result);
+        // 그룹 목록 새로 고침을 위해 추가적인 작업 필요
+        fetchGroups();  // MySpace에서 그룹 목록을 다시 불러옴
+        showCustomToast('새 그룹이 성공적으로 추가되었습니다.');
+        setIsGroupNameChangeModalVisible(false);  // 모달 닫기
+      } else {
+        console.error('그룹 추가에 실패했습니다:', result.message);
+      }
+    } catch (error) {
+      console.error('그룹 추가 중 오류가 발생했습니다:', error);
+    }
+  };
 
   return (
     <>
@@ -172,9 +211,9 @@ function MySpaceStack({ navigation }) {
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
-                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' onPress={handlePlusGroup} />
-                      <MenuOption text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })} />
+                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 , borderRadius: 16 }}>
+                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' onSelect={handlePlusGroup}/>
+                      <MenuOption text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })}/>
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>
@@ -185,12 +224,13 @@ function MySpaceStack({ navigation }) {
       </Stack.Navigator>
 
 
-      <SpaceNameChangeModal
-        isVisible={isGroupNameChangeModalVisible}
-        onClose={() => setIsGroupNameChangeModalVisible(false)}
+      <NewGroupModal
+        isVisible={isGroupNameChangeModalVisible}  // 상태에 따라 모달 표시 여부 결정
+        onClose={() => setIsGroupNameChangeModalVisible(false)}  // 닫기 시 false로 변경
         groupName={'그룹 이름을 작성하세요.'}
         btn1={'취소하기'}
         btn2={'추가하기'}
+        onConfirm={handleAddGroup}
       />
       <ExchangeModal
         isVisible={isModalVisible}
