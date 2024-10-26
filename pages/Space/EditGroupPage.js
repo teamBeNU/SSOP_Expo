@@ -23,8 +23,7 @@ function EditGroupPage({ route, navigation }) {
   const [selectedGroups, setSelectedGroups] = useState([]);  // 선택된 그룹 ID 배열 상태
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false); // 삭제 모달 상태
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false); // 그룹 수정, 추가 모달 상태
-  const [receivedProfileCardCount, setReceivedProfileCardCount] = useState(0);  // 받은 프로필 카드 수
-      
+
   const showCustomToast = (text) => {
     Toast.show({
       text1: text,
@@ -61,17 +60,6 @@ function EditGroupPage({ route, navigation }) {
       } else {
         console.error('그룹 데이터를 받지 못했습니다.');
       }
-
-      // 받은 프로필 카드 수 API 호출
-      const savedCardsResponse = await fetch(`${API_URL}/card/view/saved`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      const savedCards = await savedCardsResponse.json();
-      setReceivedProfileCardCount(savedCards.length);  // 받은 프로필 카드 수 설정
     } catch (error) {
       console.error('그룹 목록을 불러오는 중 오류가 발생했습니다:', error);
     }
@@ -87,14 +75,12 @@ function EditGroupPage({ route, navigation }) {
       }
 
       for (const groupId of selectedGroups) {
-        if (groupId !== 'received-card') {  // 받은 프로필 카드 그룹은 삭제 불가
-          await fetch(`${API_URL}?groupId=${groupId}`, {
-            method: 'DELETE',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-        }
+        await fetch(`${API_URL}?groupId=${groupId}`, {
+          method: 'DELETE',
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       }
 
       setTeamData((prevTeamData) =>
@@ -157,15 +143,14 @@ function EditGroupPage({ route, navigation }) {
       ]);
     }
   };
-  
 
   // 전체 선택/해제 핸들러
   const handleSelectAll = () => {
     // 전체 선택된 상태라면 초기화, 아니라면 모든 항목을 선택
-    if (selectedGroups.length === teamData.length + 1) {  // 모든 선택 해제 (받은 프로필 카드 포함)
+    if (selectedGroups.length === teamData.length) {
       setSelectedGroups([]);  // 선택 배열 초기화
     } else {
-      setSelectedGroups(['received-card', ...teamData.map((team) => team.id)]);  // 모든 항목 선택
+      setSelectedGroups([...teamData.map((team) => team.id)]);  // 모든 항목 선택
     }
   };
 
@@ -185,7 +170,7 @@ function EditGroupPage({ route, navigation }) {
       headerRight: () => (
         <TouchableOpacity onPress={handleSelectAll}>
           {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-          {selectedGroups.length === teamData.length + 1 ? (
+          {selectedGroups.length === teamData.length ? (
             <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
           ) : (
             <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
@@ -198,18 +183,6 @@ function EditGroupPage({ route, navigation }) {
   return (
     <View style={styles.editgrouplayout}>
       <ScrollView>
-        {/* (디폴트) 받은 프로필 카드 항목 */}
-        <MySpaceGroup
-          key={'received-card'}  // 고유한 key 설정
-          id={'received-card'}  // 고유 ID 설정
-          name={'받은 프로필 카드'}
-          members={receivedProfileCardCount}
-          showRadio={true}  // 라디오 버튼 활성화
-          showMenu={false}  // 메뉴 비활성화
-          selected={isGroupSelected('received-card')}  // 선택 상태 전달 (배열 내 포함 여부 확인)
-          onPress={() => handleGroupSelect('received-card')}  // 라디오 버튼 및 카드 클릭 핸들러
-        />
-
         {/* 그룹 리스트 */}
         <View style={styles.row}>
           {teamData.map((team) => (
@@ -236,7 +209,7 @@ function EditGroupPage({ route, navigation }) {
         <BottomLineIcon style={styles.bottomLine} />
         <Trash style={{marginRight: 6}}/>
         <TouchableOpacity onPress={() => setIsSpaceModalVisible(true)}>
-          <Text style={styles.bottomText}>그룹 삭제</Text>
+          <Text style={styles.bottomText}>삭제</Text>
         </TouchableOpacity>
       </View>
 
@@ -262,3 +235,4 @@ function EditGroupPage({ route, navigation }) {
 }
 
 export default EditGroupPage;
+
