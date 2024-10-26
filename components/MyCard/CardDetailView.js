@@ -196,17 +196,6 @@ const CardDetailView = () => {
         setIsShareModalVisible(true);
       }
 
-    useLayoutEffect(() => {
-        navigation.setOptions({
-            headerRight: () => (
-                <TouchableOpacity onPress={() => setMoreMenu(!moreMenu)}>
-                    <MoreIcon style={{ marginRight: 8 }} />
-                </TouchableOpacity>
-            ),
-        });
-        
-    }, [moreMenu, navigation]);
-
     const fetchData = async () => {
         try {
             const token = await AsyncStorage.getItem('token');
@@ -281,7 +270,7 @@ const CardDetailView = () => {
     };
 
     const confirmDelete = async () => {
-        await deleteCard(cardId, navigation);
+        await deleteCard(cardData[currentCardIndex].cardId, navigation, '내 카드',refresh);
         setMoreMenu(false);
     };
 

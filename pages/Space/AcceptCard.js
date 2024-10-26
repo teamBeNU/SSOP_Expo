@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Modal, StyleSheet} from "react-native";
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,6 +11,7 @@ import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceMo
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import People from '../../assets/icons/ic_person_small_fill.svg';
@@ -104,30 +105,36 @@ function DetailSpaceGroup({ navigation }) {
   const [cardData, setCardData] = useState([]);  // 카드 데이터를 상태로 관리
   const [members, setMembers] = useState(0);  // members로 카드 개수를 저장
 
-  useEffect(() => {
-    const fetchCardData = async () => {
-        try {
-          const token = await AsyncStorage.getItem('token'); // 토큰 가져오기
-          const response = await fetch(API_URL, {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`, // 인증 토큰 추가
-            },
-          });
-          const result = await response.json();
-          if (response.ok) {
-            setCardData(result); // 카드 데이터를 상태에 저장
-            setMembers(result.length); // members에 카드 개수를 저장
-          } else {
-            console.error('카드 데이터를 가져오는데 실패했습니다:', result.message);
-          }
-        } catch (error) {
-          console.error('API 호출 중 오류 발생:', error);
-        }
-    };
+  const fetchCardData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token'); // 토큰 가져오기
+      const response = await fetch(API_URL, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`, // 인증 토큰 추가
+        },
+      });
+      const result = await response.json();
+      if (response.ok) {
+        setCardData(result); // 카드 데이터를 상태에 저장
+        setMembers(result.length); // members에 카드 개수를 저장
+      } else {
+        console.error('카드 데이터를 가져오는데 실패했습니다:', result.message);
+      }
+    } catch (error) {
+      console.error('API 호출 중 오류 발생:', error);
+    }
+};
 
+  useEffect(() => {
     fetchCardData();  // 컴포넌트가 로드될 때 데이터 가져오기
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+    fetchCardData();
+    return () => {};
+  }, []));
 
   const handleBluetoothPress = () => {
     setIsModalVisible(false);
@@ -149,7 +156,7 @@ function DetailSpaceGroup({ navigation }) {
 
   const handleNext = (cardId) => {
     console.log('cardid: ', cardId);
-    navigation.navigate('상대카드 상세보기', { cardId });
+    navigation.navigate('상대카드 상세보기', { cardId, fetchCardData });
   };
 
   return (

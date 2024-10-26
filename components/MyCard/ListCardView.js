@@ -123,7 +123,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                   >
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 공유하기' onSelect={() => {}} />
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 수정하기' onSelect={() => {}} />
-                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기' onSelect={() => deleteCard(item.cardId, navigation, refreshData)} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기' onSelect={() => deleteCard(item.cardId, navigation, '내 카드', refreshData)} />
                   </MenuOptions>
                 </Menu>
               </View>

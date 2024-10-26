@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 
-export const deleteCard = async (cardId, navigation, refreshData) => {
+export const deleteCard = async (cardId, navigation, source, refreshData) => {
     try {
         const token = await AsyncStorage.getItem('token');
         const response = await fetch(`http://43.202.52.64:8080/api/card/delete?cardIds=${cardId}`, {
@@ -14,7 +14,7 @@ export const deleteCard = async (cardId, navigation, refreshData) => {
         const result = await response.json();
 
         if (response.status === 200) {
-            navigation.navigate('내 카드');
+            navigation.navigate(source);
             refreshData();
             Toast.show({
                 text1: "프로필 카드가 삭제되었어요.",
