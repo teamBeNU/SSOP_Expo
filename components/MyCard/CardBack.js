@@ -2,6 +2,10 @@ import React, { useCallback,useState } from 'react';
 import { Alert, Linking, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import InstaLogo from '../../assets/Card/logo_insta.svg';
 import XLogo from '../../assets/Card/logo_x.svg';
+import ContactIcon from '../../assets/Card/ic_contact.svg';
+import MailIcon from '../../assets/Card/ic_mail.svg';
+import LinkIcon from '../../assets/Card/ic_link.svg';
+
 import { styles } from './CardStyle';
 import AddContact from './AddTel';
 
@@ -145,6 +149,7 @@ const CardOptional2 = ({cardData}) => {
                 <Text style={styles.topic}>이메일</Text>                            
                 <TouchableOpacity style={styles.grayBox} onPress={() => Linking.openURL(`mailto:${cardData.cardOptional.card_email}`)}>
                     <Text style={styles.grayBoxText}>{cardData.cardOptional.card_email}</Text>
+                    <MailIcon />
                 </TouchableOpacity>
                 </View>
             ) : null }
@@ -156,12 +161,14 @@ const CardOptional2 = ({cardData}) => {
                         <View style={styles.grayBox}>
                         <InstaLogo />
                         <OpenURLButton url={ instaURL + cardData.cardOptional.card_sns_insta + '/' }>{cardData.cardOptional.card_sns_insta}</OpenURLButton>
+                        <LinkIcon />
                         </View>
                     ) : null }
                     {cardData.cardOptional.card_sns_x ? (
                         <View style={styles.grayBox}>
                         <XLogo />
                         <OpenURLButton url={xURL + cardData.cardOptional.card_sns_x}>{cardData.cardOptional.card_sns_x}</OpenURLButton>
+                        <LinkIcon />
                         </View>
                     ) : null }
                 </View>

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, TouchableOpacity, Alert, PermissionsAndroid, Platform, Linking } from 'react-native';
 import * as Contacts from 'expo-contacts';
 import SaveIcon from '../../assets/icons/ic_contact_small_line.svg';
+import ContactIcon from '../../assets/Card/ic_contact.svg';
 
 const AddContact = ({ phoneNumber, firstName, type }) => {
   const [hasPermission, setHasPermission] = useState(false);
@@ -99,7 +100,10 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
     <View>
       <TouchableOpacity onPress={handlePress}>
         {type === 'phoneNumber' ? (
+          <View style={{flexDirection: 'row', gap: 4}}>
           <Text>{phoneNumber}</Text>
+          <ContactIcon />
+          </View>
         ) : (
           <SaveIcon width={24} height={24} /> // Your icon component here
         )}
