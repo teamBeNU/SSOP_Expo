@@ -140,19 +140,32 @@ const CheckCardDetail = () => {
         const newCardIndex = Math.round(event.nativeEvent.contentOffset.x / (CARD_WIDTH + SPACING));
         setCurrentCardIndex(newCardIndex);
     };
+
+    useLayoutEffect(() => {
+        navigation.setOptions({
+            headerRight: () => (
+                <TouchableOpacity onPress={() => moreMenu ? '' : setMoreMenu(!moreMenu)}>
+                    <MoreIcon style={{ marginRight: 8 }} />
+                    {moreMenu && (
+                        <View style={styles.dropdownMenu}>
+                            <TouchableOpacity onPress={() => ''} style={styles.dropdownMenuDetail}>
+                                <Text style={styles.menuItem}>그룹 이동하기</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => ''} style={styles.dropdownMenuDetail}>
+                                <Text style={styles.menuItem}>카드 삭제하기</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                </TouchableOpacity>
+            ),
+        });
+
+    }, [moreMenu]);
+
     
    return (
+    <TouchableWithoutFeedback onPress={() => setMoreMenu(false)}>
      <View style={styles.container}>
-            {moreMenu && (
-                <View style={styles.dropdownMenu}>
-                    <TouchableOpacity onPress={() => ''} style={styles.dropdownMenuDetail}>
-                        <Text style={styles.menuItem}>그룹 이동하기</Text>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={() => ''} style={styles.dropdownMenuDetail}>
-                        <Text style={styles.menuItem}>카드 삭제하기</Text>
-                    </TouchableOpacity>
-                </View>
-            )}
             {isRecent ? <Text style={styles.updateText}>최근 업데이트 되었어요</Text> : <Text style={styles.updateText}></Text>}
             <ScrollView
                 ref={scrollViewRef}
@@ -259,8 +272,8 @@ const CheckCardDetail = () => {
             </View>
 
             </View>
-
         </View> 
+        </TouchableWithoutFeedback>
     );
   }
   export default CheckCardDetail;

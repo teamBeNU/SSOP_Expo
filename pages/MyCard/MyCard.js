@@ -88,9 +88,11 @@ function MyCard() {
                     <TouchableOpacity onPress={() => moreMenu ? handleDelete : setMoreMenu(!moreMenu)}>
                         <MoreIcon style={{ marginRight: 8 }} />
                         {moreMenu && (
-                            <TouchableOpacity onPress={handleDelete} style={styles.dropdownMenu}>
+                            <View style={styles.dropdownMenu}>
+                            <TouchableOpacity onPress={handleDelete} style={styles.dropdownMenuDetail}>
                                 <Text style={styles.menuItem}>프로필 편집하기</Text>
                             </TouchableOpacity>
+                            </View>
                         )}
                     </TouchableOpacity>
                 ),

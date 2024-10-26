@@ -278,9 +278,9 @@ export const styles = StyleSheet.create({
         },
 
         dropdownMenu: {
-        width: 147,
-        height: 80,
+        width: 'auto',
         position: 'absolute',
+        paddingVertical: 16,
         top: 8,
         right: 8,
         borderRadius: 16,
@@ -294,12 +294,14 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.gray95,
         backgroundColor: 'white',
-        zIndex: 1
         },
         dropdownMenuDetail:{
         height: 48,
+        paddingHorizontal: 24,
+        alignItems:'center',
         justifyContent: 'center',
-        alignItems:'center'
+        gap: 8,
+        alignSelf: 'stretch',
         },
         menuItem: {
         color: theme.gray10,

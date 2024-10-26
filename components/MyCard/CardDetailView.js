@@ -286,17 +286,28 @@ const CardDetailView = () => {
     };
 
     const [horizontalScrollEnabled, setHorizontalScrollEnabled] = useState(true);
+
+    useLayoutEffect(() => {
+            navigation.setOptions({
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => moreMenu ? confirmDelete : setMoreMenu(!moreMenu)}>
+                        <MoreIcon style={{ marginRight: 8 }} />
+                        {moreMenu && (
+                            <View style={styles.dropdownMenu}>
+                            <TouchableOpacity onPress={confirmDelete} style={styles.dropdownMenuDetail}>
+                                <Text style={styles.menuItem}>프로필 삭제하기</Text>
+                            </TouchableOpacity>
+                            </View>
+                        )}
+                    </TouchableOpacity>
+                ),
+            });
+
+    }, [moreMenu]);
         
    return (
+    <TouchableWithoutFeedback onPress={() => setMoreMenu(false)}>
      <View style={styles.container}>
-            {moreMenu && (
-                <View style={styles.dropdownMenu}>
-                    <TouchableOpacity onPress={confirmDelete}>
-                        <Text style={styles.menuItem}>프로필 삭제하기</Text>
-                    </TouchableOpacity>
-                   
-                </View>
-            )}
             <ScrollView
                 ref={scrollViewRef}
                 horizontal={true}
@@ -474,6 +485,7 @@ const CardDetailView = () => {
             </View>
 
         </View> 
+        </TouchableWithoutFeedback>
     );
   }
   export default CardDetailView;
