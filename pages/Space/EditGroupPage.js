@@ -12,6 +12,7 @@ import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 import Contact from '../../assets/icons/ic_contact_small_line.svg';
 import Edit from '../../assets/icons/ic_edit.svg';
 import FolderMove from '../../assets/icons/ic_folder-move.svg';
+import Add from '../../assets/icons/ic_folder-add.svg';
 import Swap from '../../assets/icons/ic_swap.svg';
 import Trash from '../../assets/icons/ic_trash.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -204,7 +205,7 @@ function EditGroupPage({ route, navigation }) {
 
       {/* 하단 버튼 영역 */}
       <View style={styles.bottomContainer}>
-        <FolderMove style={{marginRight: 6}}/>
+        <Add style={{marginRight: 6}}/>
         <TouchableOpacity onPress={() => setIsGroupNameChangeModalVisible(true)}>
           <Text style={styles.bottomText}>새 그룹 추가</Text>
         </TouchableOpacity>
