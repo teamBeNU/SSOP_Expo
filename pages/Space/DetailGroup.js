@@ -11,7 +11,7 @@ import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceMo
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
-import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
+import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -78,41 +78,57 @@ function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, tit
 }
 
 // 그룹 상세 페이지
-function DetailSpaceGroup({ groupId, navigation }) {
+function DetailSpaceGroup({ route, navigation }) {
+  const { groupId } = route.params || {};
+
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형');
+  const [viewOption, setViewOption] = useState('리스트형');
   const [groupName, setGroupName] = useState(''); // 그룹 이름 상태
   const [members, setMembers] = useState(0); // 그룹 멤버 수 상태
   const [cardData, setCardData] = useState([]); // 카드 목록 상태
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+
   const API_URL = 'http://43.202.52.64:8080/api/mysp'; // 그룹 정보 API 경로
 
-  // 그룹 상세 정보를 가져오는 함수
-  const fetchGroupDetails = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token'); // 인증 토큰 가져오기
-      const response = await fetch(`${API_URL}?groupId=${groupId}`, {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`, // 인증 토큰 추가
-        },
-      });
+   // 컴포넌트가 마운트될 때 groupId 로그 확인
+   useEffect(() => {
+    console.log('groupId:', groupId);
+    fetchGroupDetails();
+  }, [groupId]);
 
-      const result = await response.json();
-      if (response.ok) {
-        // 그룹 상세 정보 응답 처리
-        setGroupName(result.group_name); // 그룹 이름 상태 업데이트
-        setMembers(result.memberCount); // 멤버 수 상태 업데이트
-        setCardData(result.cards); // 카드 목록 상태 업데이트
-      } else {
-        console.error('그룹 상세 정보를 가져오는데 실패했습니다:', result.error);
-      }
-    } catch (error) {
-      console.error('API 호출 중 오류 발생:', error);
+// 그룹 상세 정보를 가져오는 함수
+const fetchGroupDetails = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token'); // 인증 토큰 가져오기
+    if (!token) {
+      console.error('토큰이 없습니다.');
+      return;
     }
-  };
+
+    const response = await fetch(`${API_URL}?groupId=${groupId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`, // 인증 토큰 추가
+      },
+    });
+
+    const result = await response.json();
+    console.log('API 응답 데이터:', result); // 응답 로그 확인
+
+    if (response.ok) {
+      setGroupName(result.group_name); // 그룹 이름 상태 업데이트
+      setMembers(result.memberCount); // 멤버 수 상태 업데이트
+      setCardData(result.members); // 카드 목록 상태 업데이트 (members를 cardData로 설정)
+    } else {
+      console.error('그룹 상세 정보를 가져오는데 실패했습니다:', result?.error || '알 수 없는 오류');
+    }
+  } catch (error) {
+    console.error('API 호출 중 오류 발생:', error);
+  }
+};
+
 
   // 컴포넌트가 마운트될 때 그룹 상세 정보 가져옴
   useEffect(() => {
@@ -137,8 +153,9 @@ function DetailSpaceGroup({ groupId, navigation }) {
     setIsGroupNameChangeModalVisible(true);
   };
 
-  const handleNext = () => {
-    navigation.navigate('카드 조회');
+  const handleNext = (cardId) => {
+    console.log('cardid: ', cardId);
+    navigation.navigate('상대카드 상세보기', { cardId });
   };
 
   return (
@@ -153,8 +170,7 @@ function DetailSpaceGroup({ groupId, navigation }) {
         viewOption={viewOption}
         setViewOption={setViewOption}
         handleNext={handleNext}
-        cardData={cardData} // 그룹에 속한 카드 목록 표시
-        showFilterButton={false}
+        cardData={cardData}
       />
       <SpaceModal
         isVisible={isSpaceModalVisible}
@@ -509,7 +525,7 @@ function DetailSpaceGroup({ groupId, navigation }) {
 
     
   function DetailGroup({ route, navigation }) {
-      const { groupId } = route.params;  // route에서 groupId 가져오기
+      const { groupId } = route.params || {};  // route에서 groupId 가져오기
     
       // groupId가 없을 경우 에러 처리
       if (!groupId) {
@@ -520,6 +536,7 @@ function DetailSpaceGroup({ groupId, navigation }) {
     return (
       <Stack.Navigator>
           <Stack.Screen name="Group" component={DetailSpaceGroup} 
+          initialParams={{ groupId }}
           options={{
             title: "",
             tabBarStyle: { display: 'none' } ,
