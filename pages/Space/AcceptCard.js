@@ -357,11 +357,6 @@ function DetailSpaceGroup({ navigation }) {
           <TouchableOpacity onPress={handleSaveTel}>
             <Text style={styles.bottomText}>연락처 저장</Text>
           </TouchableOpacity>
-          <BottomLineIcon style={styles.bottomLine} />
-          <Trash style={{marginRight: 6}}/>
-          <TouchableOpacity>
-          <Text style={styles.bottomText}>삭제</Text>
-          </TouchableOpacity>
         </View>
       </View>
     );

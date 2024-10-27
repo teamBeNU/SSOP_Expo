@@ -3,25 +3,18 @@ import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Mod
 import { useNavigation, NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { styles } from './SpaceStyle';
-import { ShareCard, RadioCard } from "../../components/Bluetooth/ShareCard.js";
 import { MySpaceGroup } from "../../components/Space/SpaceList.js";
-import SpaceManage from "../../components/Space/SpaceManage.js";
 import Toast from 'react-native-toast-message';
 import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
-import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
-import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
-import People from '../../assets/icons/ic_person_small_fill.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
-import GroupIcon from '../../assets/icons/ic_group_regular.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
@@ -357,11 +350,6 @@ const fetchGroupDetails = async () => {
           <TouchableOpacity onPress={handleSaveTel}>
             <Text style={styles.bottomText}>연락처 저장</Text>
           </TouchableOpacity>
-          <BottomLineIcon style={styles.bottomLine} />
-          <Trash style={{marginRight: 6}}/>
-          <TouchableOpacity>
-          <Text style={styles.bottomText}>삭제</Text>
-        </TouchableOpacity>
         </View>
       </View>
     );
