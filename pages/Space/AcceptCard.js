@@ -362,134 +362,152 @@ function DetailSpaceGroup({ navigation }) {
     );
   }
 
-    // 카드 관리
-    function ManageCardScreen({navigation}) {
-      const [selectedCards, setSelectedCards] = useState([]);
-      const [selectedOption, setSelectedOption] = useState('최신순');
-      const [viewOption, setViewOption] = useState('리스트형');
-      const [cardData, setCardData] = useState([]);  // 카드 데이터를 상태로 관리
-    
-      useEffect(() => {
-        const fetchData = async () => {
-          const savedCards = await fetchSavedCards();  // 받은 카드 목록 가져오기
-          setCardData(savedCards);  // 상태에 저장
-        };
-    
-        fetchData();  // 컴포넌트가 로드될 때 데이터 가져오기
-      }, []);
+// 카드 관리
+function ManageCardScreen({ navigation }) {
+  const [selectedCards, setSelectedCards] = useState([]);
+  const [selectedOption, setSelectedOption] = useState('최신순');
+  const [viewOption, setViewOption] = useState('리스트형');
+  const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
+  const [cardData, setCardData] = useState([]);  // 카드 데이터를 상태로 관리
 
-      const showCustomToast = (text) => {
-        Toast.show({
-          text1: text,
-          type: 'selectedToast',
-          position: 'bottom',
-          visibilityTime: 2000,
-        });
-      };
-      
-      // 선택된 카드 삭제 처리 함수
-const handleDeleteCard = () => {
-  if (selectedCards.length > 0) {
+  useEffect(() => {
+    const fetchData = async () => {
+      const savedCards = await fetchSavedCards();  // 받은 카드 목록 가져오기
+      setCardData(savedCards);  // 상태에 저장
+    };
+
+    fetchData();  // 컴포넌트가 로드될 때 데이터 가져오기
+  }, []);
+
+  const showCustomToast = (text) => {
+    Toast.show({
+      text1: text,
+      type: 'selectedToast',
+      position: 'bottom',
+      visibilityTime: 2000,
+    });
+  };
+
+  // 삭제 버튼 클릭 시 모달 표시
+  const handleDeleteButtonPress = () => {
+    if (selectedCards.length > 0) {
+      setIsSpaceModalVisible(true);  // 모달 표시
+    } else {
+      showCustomToast('카드가 선택되지 않았습니다.');
+    }
+  };
+
+  // 모달에서 확인 버튼 클릭 시 카드 삭제
+  const handleConfirmDelete = () => {
     deleteSelectedCards(selectedCards, setCardData, cardData); // setCardData와 cardData를 함께 전달
     setSelectedCards([]); // 선택된 카드 초기화
-  } else {
-    showCustomToast('카드가 선택되지 않았습니다.');
-  }
-};
+    setIsSpaceModalVisible(false); // 모달 닫기
+  };
 
+  // 카드 선택/해제 처리 함수
+  const handleRadioSelect = (cardId) => {
+    setSelectedCards((prevSelectedCards) =>
+      prevSelectedCards.includes(cardId)
+        ? prevSelectedCards.filter((id) => id !== cardId) // 이미 선택된 카드 해제
+        : [...prevSelectedCards, cardId] // 새 카드 선택
+    );
+  };
 
-      // 카드 선택/해제 처리 함수
-      const handleRadioSelect = (cardId) => {
-        setSelectedCards((prevSelectedCards) =>
-          prevSelectedCards.includes(cardId)
-            ? prevSelectedCards.filter((id) => id !== cardId) // 이미 선택된 카드 해제
-            : [...prevSelectedCards, cardId] // 새 카드 선택
-        );
-      };
-
-      // 모든 카드를 선택하거나 선택 해제하는 함수
-      const handleSelectAll = () => {
-        if (selectedCards.length === cardData.length) {
-          setSelectedCards([]); // 모든 선택 해제
-        } else {
-          setSelectedCards(cardData.map((card) => card.cardId)); // 모든 카드 선택
-        }
-      };
-
-      const handleNext = (cardId) => {
-        console.log('cardid: ', cardId);
-        navigation.navigate('상대카드 상세보기', { cardId });
-      };
-
-        // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
-        React.useLayoutEffect(() => {
-          navigation.setOptions({
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <CloseIcon style={{ marginLeft: 16 }} />
-              </TouchableOpacity>
-            ),
-            headerTitle: () => (
-              <Text style={{ fontSize: 16, fontWeight: '500' }}>
-                {selectedCards.length}개 선택됨
-              </Text>
-            ),
-            headerRight: () => (
-              <TouchableOpacity onPress={handleSelectAll}>
-                {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-                {selectedCards.length > 0 && selectedCards.length === cardData.length ? (
-                  <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
-                ) : (
-                  <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
-                )}
-              </TouchableOpacity>
-            ),
-          });
-        }, [navigation, selectedCards]);  // 선택된 그룹 상태가 변경될 때마다 헤더 업데이트
-  
-      // 그룹 이동 버튼을 누를 때 호출되는 함수
-      const handleMoveToGroup = () => {
-        console.log("선택된 카드 ID:", selectedCards);
-        navigation.navigate('그룹 이동', { selectedCards }); // 선택된 카드 목록을 전달
-      };
-
-      return (
-        <View style={styles.backgroundColor}>
-          <View >
-            <ScrollView showsVerticalScrollIndicator={false}>
-              <View style={styles.container}>
-                <View style={styles.row}>
-                  <CardsView
-                    navigation={navigation}
-                    selectedOption={selectedOption}
-                    setSelectedOption={setSelectedOption}
-                    viewOption={viewOption}
-                    setViewOption={setViewOption}
-                    handleNext={handleNext}
-                    cardData={cardData}
-                    showRadio={true}
-                    selectedCards={selectedCards} // 선택된 카드 목록 전달
-                    handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달
-                />
-                </View>
-              </View>
-              <View style={styles.innerView}></View>
-            </ScrollView>
-          </View>
-          <View style={styles.bottomContainer}>
-            <FolderMove style={{marginRight: 6}} />
-            <TouchableOpacity onPress={handleMoveToGroup}>
-              <Text style={styles.bottomText}>그룹 이동</Text>
-            </TouchableOpacity>
-            <BottomLineIcon style={styles.bottomLine}/>
-            <Trash style={{marginRight: 6}}/>
-            <TouchableOpacity onPress={handleDeleteCard}>
-              <Text style={styles.bottomText}>삭제</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      );
+  // 모든 카드를 선택하거나 선택 해제하는 함수
+  const handleSelectAll = () => {
+    if (selectedCards.length === cardData.length) {
+      setSelectedCards([]); // 모든 선택 해제
+    } else {
+      setSelectedCards(cardData.map((card) => card.cardId)); // 모든 카드 선택
     }
+  };
+
+  const handleNext = (cardId) => {
+    console.log('cardid: ', cardId);
+    navigation.navigate('상대카드 상세보기', { cardId });
+  };
+
+  // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
+  React.useLayoutEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <CloseIcon style={{ marginLeft: 16 }} />
+        </TouchableOpacity>
+      ),
+      headerTitle: () => (
+        <Text style={{ fontSize: 16, fontWeight: '500' }}>
+          {selectedCards.length}개 선택됨
+        </Text>
+      ),
+      headerRight: () => (
+        <TouchableOpacity onPress={handleSelectAll}>
+          {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
+          {selectedCards.length > 0 && selectedCards.length === cardData.length ? (
+            <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
+          ) : (
+            <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
+          )}
+        </TouchableOpacity>
+      ),
+    });
+  }, [navigation, selectedCards]);  // 선택된 그룹 상태가 변경될 때마다 헤더 업데이트
+
+  // 그룹 이동 버튼을 누를 때 호출되는 함수
+  const handleMoveToGroup = () => {
+    console.log("선택된 카드 ID:", selectedCards);
+    navigation.navigate('그룹 이동', { selectedCards }); // 선택된 카드 목록을 전달
+  };
+
+  return (
+    <View style={styles.backgroundColor}>
+      <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <View style={styles.container}>
+            <View style={styles.row}>
+              <CardsView
+                navigation={navigation}
+                selectedOption={selectedOption}
+                setSelectedOption={setSelectedOption}
+                viewOption={viewOption}
+                setViewOption={setViewOption}
+                handleNext={handleNext}
+                cardData={cardData}
+                showRadio={true}
+                selectedCards={selectedCards} // 선택된 카드 목록 전달
+                handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달
+              />
+            </View>
+          </View>
+          <View style={styles.innerView}></View>
+        </ScrollView>
+      </View>
+      <View style={styles.bottomContainer}>
+        <FolderMove style={{ marginRight: 6 }} />
+        <TouchableOpacity onPress={handleMoveToGroup}>
+          <Text style={styles.bottomText}>그룹 이동</Text>
+        </TouchableOpacity>
+        <BottomLineIcon style={styles.bottomLine} />
+        <Trash style={{ marginRight: 6 }} />
+        <TouchableOpacity onPress={handleDeleteButtonPress}>
+          <Text style={styles.bottomText}>삭제</Text>
+        </TouchableOpacity>
+      </View>
+
+      {/* 카드 삭제 모달 */}
+      <SpaceModal
+        isVisible={isSpaceModalVisible}
+        onClose={() => setIsSpaceModalVisible(false)}
+        title={'프로필 카드를 삭제하시겠습니까?'}
+        sub={'이 작업은 되돌릴 수 없습니다.'}
+        btn1={'취소할래요'}
+        btn2={'네, 삭제할래요'}
+        onConfirm={handleConfirmDelete}  // 삭제 버튼 클릭 시 그룹 삭제 실행
+      />
+    </View>
+  );
+}
+
 
 
     // 그룹 이동
