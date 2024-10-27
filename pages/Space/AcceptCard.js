@@ -1,6 +1,6 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Modal, StyleSheet} from "react-native";
-import { useNavigation, NavigationContainer } from '@react-navigation/native';
+import { useNavigation, NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { styles } from './SpaceStyle';
 import { MySpaceGroup } from "../../components/Space/SpaceList.js";
@@ -28,6 +28,15 @@ import Trash from '../../assets/icons/ic_trash.svg';
 import { theme } from "../../theme.js";
 
 const Stack = createStackNavigator();
+
+const showCustomToast = (text) => {
+  Toast.show({
+    text1: text,
+    type: 'selectedToast',
+    position: 'bottom',
+    visibilityTime: 2000,
+  });
+};
 
 // 스왑 모달
 function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, title, option1Text, option1SubText, option1Icon: Option1Icon, option2Text, option2SubText, option2Icon: Option2Icon }) {
@@ -70,6 +79,7 @@ function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, tit
 
 const API_URL = 'http://43.202.52.64:8080/api/card/view/saved';  // 백엔드 API 주소
 
+// 받은 카드 리스트
 const fetchSavedCards = async () => {
   try {
     const token = await AsyncStorage.getItem('token'); // 토큰 가져오기
@@ -92,6 +102,44 @@ const fetchSavedCards = async () => {
   }
 };
 
+const API_URL_DELETE = 'http://43.202.52.64:8080/api/card/delete';
+
+// 카드 삭제 API 호출 함수
+const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (!token) {
+      console.error('토큰이 없습니다.');
+      return;
+    }
+
+    const queryString = selectedCards.map((id) => `cardIds=${id}`).join('&');
+    const url = `${API_URL_DELETE}?${queryString}`;
+
+    const response = await fetch(url, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    if (response.ok) {
+      showCustomToast('카드를 성공적으로 삭제하였습니다.');
+
+      // 삭제된 카드를 제외한 나머지 카드로 상태 업데이트
+      const updatedCardData = (cardData || []).filter(card => !selectedCards.includes(card.cardId));
+      setCardData(updatedCardData);
+    } else {
+      const result = await response.json();
+      console.error('카드 삭제에 실패했습니다:', result.message);
+      showCustomToast('카드 삭제에 실패했습니다');
+    }
+  } catch (error) {
+    console.error('API 호출 중 오류 발생:', error);
+    showCustomToast('카드 삭제 중 오류가 발생했습니다.');
+  }
+};
+
 
 // 받은 프로필 카드
 function DetailSpaceGroup({ navigation }) {
@@ -103,39 +151,16 @@ function DetailSpaceGroup({ navigation }) {
   const [cardData, setCardData] = useState([]);  // 카드 데이터를 상태로 관리
   const [members, setMembers] = useState(0);  // members로 카드 개수를 저장
 
-  // useEffect(() => {
-  //   const fetchCardData = async () => {
-  //       try {
-  //         const token = await AsyncStorage.getItem('token'); // 토큰 가져오기
-  //         const response = await fetch(API_URL, {
-  //           method: 'GET',
-  //           headers: {
-  //             'Authorization': `Bearer ${token}`, // 인증 토큰 추가
-  //           },
-  //         });
-  //         const result = await response.json();
-  //         if (response.ok) {
-  //           setCardData(result); // 카드 데이터를 상태에 저장
-  //           setMembers(result.length); // members에 카드 개수를 저장
-  //         } else {
-  //           console.error('카드 데이터를 가져오는데 실패했습니다:', result.message);
-  //         }
-  //       } catch (error) {
-  //         console.error('API 호출 중 오류 발생:', error);
-  //       }
-  //   };
-
-  //   fetchCardData();  // 컴포넌트가 로드될 때 데이터 가져오기
-  // }, []);
-
-  useEffect(() => {
-    const fetchCardData = async () => {
-      const result = await fetchSavedCards();
-      setCardData(result);
-      setMembers(result.length);
-    };
-    fetchCardData();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchCardData = async () => {
+        const result = await fetchSavedCards();
+        setCardData(result);
+        setMembers(result.length);
+      };
+      fetchCardData();
+    }, [])
+  );
 
   const handleBluetoothPress = () => {
     setIsModalVisible(false);
@@ -242,14 +267,6 @@ function DetailSpaceGroup({ navigation }) {
   
       fetchData();  // 컴포넌트가 로드될 때 데이터 가져오기
     }, []);
-    const showCustomToast = (text) => {
-      Toast.show({
-        text1: text,
-        type: 'selectedToast',
-        position: 'bottom',
-        visibilityTime: 2000,
-      });
-    };
     
     const handleSaveTel = () => {
       showCustomToast('연락처가 저장되었습니다.');
@@ -344,7 +361,7 @@ function DetailSpaceGroup({ navigation }) {
           <Trash style={{marginRight: 6}}/>
           <TouchableOpacity>
           <Text style={styles.bottomText}>삭제</Text>
-        </TouchableOpacity>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -375,9 +392,15 @@ function DetailSpaceGroup({ navigation }) {
         });
       };
       
-      const handleDeleteCard = () => {
-        showCustomToast('카드가 성공적으로 삭제되었습니다.');
-      };
+      // 선택된 카드 삭제 처리 함수
+const handleDeleteCard = () => {
+  if (selectedCards.length > 0) {
+    deleteSelectedCards(selectedCards, setCardData, cardData); // setCardData와 cardData를 함께 전달
+    setSelectedCards([]); // 선택된 카드 초기화
+  } else {
+    showCustomToast('카드가 선택되지 않았습니다.');
+  }
+};
 
 
       // 카드 선택/해제 처리 함수

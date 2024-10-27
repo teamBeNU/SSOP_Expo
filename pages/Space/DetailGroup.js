@@ -7,7 +7,7 @@ import { ShareCard, RadioCard } from "../../components/Bluetooth/ShareCard.js";
 import { MySpaceGroup } from "../../components/Space/SpaceList.js";
 import SpaceManage from "../../components/Space/SpaceManage.js";
 import Toast from 'react-native-toast-message';
-import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
+import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
