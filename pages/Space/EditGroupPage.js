@@ -55,10 +55,11 @@ function EditGroupPage({ route, navigation }) {
       });
 
       const groupResult = await groupResponse.json();
+
       if (Array.isArray(groupResult)) {  // 그룹 데이터가 배열인지 확인
         setTeamData(groupResult);  // 그룹 데이터를 teamData 상태에 저장
       } else {
-        console.error('그룹 데이터를 받지 못했습니다.');
+        //console.error('그룹 데이터를 받지 못했습니다.');
       }
     } catch (error) {
       console.error('그룹 목록을 불러오는 중 오류가 발생했습니다:', error);
@@ -84,7 +85,7 @@ function EditGroupPage({ route, navigation }) {
       }
 
       setTeamData((prevTeamData) =>
-        prevTeamData.filter((team) => !selectedGroups.includes(team.id))
+        prevTeamData.filter((team) => !selectedGroups.includes(team.groupId))
       );  // 그룹 데이터를 업데이트
       setSelectedGroups([]);  // 선택 초기화
       setIsSpaceModalVisible(false);  // 모달 닫기
@@ -130,6 +131,7 @@ function EditGroupPage({ route, navigation }) {
 
   // 특정 그룹 선택/해제 핸들러
   const handleGroupSelect = (id) => {
+    console.log(`선택된 그룹 ID: ${id}`);
     if (isGroupSelected(id)) {
       // 이미 선택된 경우 선택 해제
       setSelectedGroups((prevSelectedGroups) => 
@@ -150,7 +152,7 @@ function EditGroupPage({ route, navigation }) {
     if (selectedGroups.length === teamData.length) {
       setSelectedGroups([]);  // 선택 배열 초기화
     } else {
-      setSelectedGroups([...teamData.map((team) => team.id)]);  // 모든 항목 선택
+      setSelectedGroups([...teamData.map((team) => team.groupId)]);  // 모든 항목 선택
     }
   };
 
@@ -170,7 +172,7 @@ function EditGroupPage({ route, navigation }) {
       headerRight: () => (
         <TouchableOpacity onPress={handleSelectAll}>
           {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-          {selectedGroups.length === teamData.length ? (
+          {selectedGroups.length > 0 && selectedGroups.length === teamData.length ? (
             <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
           ) : (
             <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
@@ -187,14 +189,14 @@ function EditGroupPage({ route, navigation }) {
         <View style={styles.row}>
           {teamData.map((team) => (
             <MySpaceGroup
-              key={team.id}  // 고유한 key 설정
-              id={team.id}
+              key={team.groupId}
+              id={team.groupId}
               name={team.group_name}
               members={team.memberCount}
               showRadio={true}  // 라디오 버튼 활성화
               showMenu={false}  // 메뉴 비활성화
-              selected={isGroupSelected(team.id)}  // 선택 상태 전달 (배열 내 포함 여부 확인)
-              onPress={() => handleGroupSelect(team.id)}  // 라디오 버튼 및 카드 클릭 핸들러
+              selected={isGroupSelected(team.groupId)}  // 선택 상태 전달 (배열 내 포함 여부 확인)
+              onPress={() => handleGroupSelect(team.groupId)}  // 라디오 버튼 및 카드 클릭 핸들러
             />
           ))}
         </View>
