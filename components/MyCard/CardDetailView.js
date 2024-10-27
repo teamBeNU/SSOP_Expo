@@ -7,7 +7,7 @@ import axios from 'axios';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
-import EditIcon from '../../assets/icons/ic_editNote_small_line.svg';
+import EditIcon from '../../assets/icons/ic_editcard.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
 import { Card } from "../../components/MyCard/Card";
@@ -390,7 +390,7 @@ const CardDetailView = () => {
                     <TouchableOpacity onPress={() => setIsModalVisible(true)}>
                         <View style={styles.btn}>
                         <EditIcon style={{paddingTop: 5, paddingLeft: 4, paddingBottom: 3, paddingRight: 1.1714}} />
-                        <Text style={styles.btnText}>수정하기</Text>
+                        <Text style={styles.btnText}>카드 수정하기</Text>
                         </View>
                     </TouchableOpacity>
                     
