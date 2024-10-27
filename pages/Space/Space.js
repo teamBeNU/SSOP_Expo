@@ -184,10 +184,10 @@ function MySpaceStack({ navigation }) {
         showCustomToast('새 그룹이 성공적으로 추가되었습니다.');
         setIsGroupNameChangeModalVisible(false);  // 모달 닫기
       } else {
-        console.error('그룹 추가에 실패했습니다:', result.message);
+        //console.error('그룹 추가에 실패했습니다:', result.message);
       }
     } catch (error) {
-      console.error('그룹 추가 중 오류가 발생했습니다:', error);
+      //console.error('그룹 추가 중 오류가 발생했습니다:', error);
     }
   };
 
