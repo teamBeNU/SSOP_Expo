@@ -114,7 +114,7 @@ const CardOptional1 = ({cardData}) => {
         <View style={{gap: 24, width: '100%'}}>
         {cardData.cardOptional.card_birth ? (
             <View style={styles.info}>                             
-                <Text style={styles.topic}>생년월일</Text>                             
+                <Text style={[styles.topic, {fontSize: 14}]}>생년월일</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>                         
             </View>
         ) : null}
@@ -192,13 +192,13 @@ const CardOptional3 = ({cardData}) => {
             ) : null }     
             {cardData.cardOptional.card_music ? (
                 <View style={styles.info}>                             
-                <Text style={styles.topic}>인생음악</Text>                             
+                <Text style={[styles.topic, {fontSize: 14}]}>인생음악</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_music}</Text> 
                 </View>
             ) : null } 
             {cardData.cardOptional.card_movie ? (
                 <View style={styles.info}>                             
-                <Text style={styles.topic}>인생영화</Text>                             
+                <Text style={[styles.topic, {fontSize: 14}]}>인생영화</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_movie}</Text> 
                 </View>
             ) : null } 
@@ -317,7 +317,7 @@ const FanOptional = ({cardData}) => {
         {cardData.fan.card_fan_reason ? (
             <View>
             <View style={styles.info}>                             
-                <Text style={styles.topic}>입덕계기</Text>                             
+                <Text style={[styles.topic, {fontSize: 14}]}>입덕계기</Text>                             
                 <Text style={styles.content}>{cardData.fan.card_fan_reason}</Text>                         
             </View>
             </View>

@@ -97,7 +97,7 @@ export const styles = StyleSheet.create({
         width: 55,
         color: theme.gray50,
         fontFamily: 'PretendardRegular',
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '400',
         lineHeight: 19,
         letterSpacing: -0.14,
