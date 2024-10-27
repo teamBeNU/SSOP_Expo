@@ -30,6 +30,7 @@ import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import Contact from '../../assets/icons/ic_contact_black.svg';
 import Edit from '../../assets/icons/ic_edit.svg';
 import Swap from '../../assets/icons/ic_swap.svg';
+import Add from '../../assets/icons/ic_folder-add.svg';
 import FolderMove from '../../assets/icons/ic_folder-move.svg';
 import Trash from '../../assets/icons/ic_trash.svg';
 
@@ -77,6 +78,29 @@ function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, tit
   );
 }
 
+// 그룹 상세 정보를 가져오는 공통 함수
+const fetchGroupDetails = async (groupId, token) => {
+  try {
+    const response = await fetch(`http://43.202.52.64:8080/api/mysp?groupId=${groupId}`, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`,
+      },
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      return result.members; // 카드 목록 반환
+    } else {
+      console.error('그룹 카드 정보를 가져오는데 실패했습니다:', result?.error || '알 수 없는 오류');
+      return [];
+    }
+  } catch (error) {
+    console.error('API 호출 중 오류 발생:', error);
+    return [];
+  }
+};
+
 // 그룹 상세 페이지
 function DetailSpaceGroup({ route, navigation }) {
   const { groupId } = route.params || {};
@@ -91,12 +115,6 @@ function DetailSpaceGroup({ route, navigation }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
 
   const API_URL = 'http://43.202.52.64:8080/api/mysp'; // 그룹 정보 API 경로
-
-   // 컴포넌트가 마운트될 때 groupId 로그 확인
-   useEffect(() => {
-    console.log('groupId:', groupId);
-    fetchGroupDetails();
-  }, [groupId]);
 
 // 그룹 상세 정보를 가져오는 함수
 const fetchGroupDetails = async () => {
@@ -115,7 +133,6 @@ const fetchGroupDetails = async () => {
     });
 
     const result = await response.json();
-    console.log('API 응답 데이터:', result); // 응답 로그 확인
 
     if (response.ok) {
       setGroupName(result.group_name); // 그룹 이름 상태 업데이트
@@ -224,7 +241,24 @@ const fetchGroupDetails = async () => {
 
 
   // 연락처 저장
-  function SaveTellScreen({navigation}) {
+  function SaveTellScreen({route, navigation}) {
+    const { groupId } = route.params || {};
+    const [cardData, setCardData] = useState([]);
+    const [selectedCards, setSelectedCards] = useState([]);
+    const [selectedOption, setSelectedOption] = useState('최신순');
+    const [viewOption, setViewOption] = useState('리스트형');
+
+    useEffect(() => {
+      const getData = async () => {
+        const token = await AsyncStorage.getItem('token');
+        if (token && groupId) {
+          const data = await fetchGroupDetails(groupId, token);
+          setCardData(data);
+        }
+      };
+      getData();
+    }, [groupId]);
+
     const showCustomToast = (text) => {
       Toast.show({
         text1: text,
@@ -237,10 +271,6 @@ const fetchGroupDetails = async () => {
     const handleSaveTel = () => {
       showCustomToast('연락처가 저장되었습니다.');
     };
-
-    const [selectedCards, setSelectedCards] = useState([]);
-    const [selectedOption, setSelectedOption] = useState('최신순');
-    const [viewOption, setViewOption] = useState('격자형');
   
     const handlePress = (cardId) => {
       setSelectedCards(prevSelectedCards => 
@@ -250,8 +280,9 @@ const fetchGroupDetails = async () => {
       );
     };
 
-    const handleNext = () => {
-      navigation.navigate('카드 조회');
+    const handleNext = (cardId) => {
+      console.log('cardid: ', cardId);
+      navigation.navigate('상대카드 상세보기', { cardId });
     };
   
       // 카드 선택/해제 처리 함수
@@ -268,7 +299,7 @@ const fetchGroupDetails = async () => {
         if (selectedCards.length === cardData.length) {
           setSelectedCards([]); // 모든 선택 해제
         } else {
-          setSelectedCards(cardData.map((card) => card.id)); // 모든 카드 선택
+          setSelectedCards(cardData.map((card) => card.cardId)); // 모든 카드 선택
         }
       };
 
@@ -288,7 +319,7 @@ const fetchGroupDetails = async () => {
             headerRight: () => (
               <TouchableOpacity onPress={handleSelectAll}>
                 {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-                {selectedCards.length === cardData.length ? (
+                {selectedCards.length > 0 && selectedCards.length === cardData.length ? (
                   <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
                 ) : (
                   <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
@@ -326,13 +357,35 @@ const fetchGroupDetails = async () => {
           <TouchableOpacity onPress={handleSaveTel}>
             <Text style={styles.bottomText}>연락처 저장</Text>
           </TouchableOpacity>
+          <BottomLineIcon style={styles.bottomLine} />
+          <Trash style={{marginRight: 6}}/>
+          <TouchableOpacity>
+          <Text style={styles.bottomText}>삭제</Text>
+        </TouchableOpacity>
         </View>
       </View>
     );
   }
 
     // 카드 관리
-    function ManageCardScreen({navigation}) {
+    function ManageCardScreen({route, navigation}) {
+      const { groupId } = route.params || {};
+      const [cardData, setCardData] = useState([]);
+      const [selectedCards, setSelectedCards] = useState([]);
+      const [selectedOption, setSelectedOption] = useState('최신순');
+      const [viewOption, setViewOption] = useState('리스트형');
+
+      useEffect(() => {
+        const getData = async () => {
+          const token = await AsyncStorage.getItem('token');
+          if (token && groupId) {
+            const data = await fetchGroupDetails(groupId, token);
+            setCardData(data);
+          }
+        };
+        getData();
+      }, [groupId]);
+
       const showCustomToast = (text) => {
         Toast.show({
           text1: text,
@@ -346,11 +399,6 @@ const fetchGroupDetails = async () => {
         showCustomToast('카드가 성공적으로 삭제되었습니다.');
       };
   
-      const [selectedCards, setSelectedCards] = useState([]);
-      const [selectedOption, setSelectedOption] = useState('최신순');
-      const [viewOption, setViewOption] = useState('격자형');
-
-
       // 카드 선택/해제 처리 함수
       const handleRadioSelect = (cardId) => {
         setSelectedCards((prevSelectedCards) =>
@@ -365,12 +413,13 @@ const fetchGroupDetails = async () => {
         if (selectedCards.length === cardData.length) {
           setSelectedCards([]); // 모든 선택 해제
         } else {
-          setSelectedCards(cardData.map((card) => card.id)); // 모든 카드 선택
+          setSelectedCards(cardData.map((card) => card.cardId)); // 모든 카드 선택
         }
       };
 
-      const handleNext = () => {
-        navigation.navigate('카드 조회');
+      const handleNext = (cardId) => {
+        console.log('cardid: ', cardId);
+        navigation.navigate('상대카드 상세보기', { cardId });
       };
 
         // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
@@ -389,7 +438,7 @@ const fetchGroupDetails = async () => {
             headerRight: () => (
               <TouchableOpacity onPress={handleSelectAll}>
                 {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-                {selectedCards.length === cardData.length ? (
+                {selectedCards.length > 0 && selectedCards.length === cardData.length ? (
                   <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
                 ) : (
                   <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
@@ -437,15 +486,16 @@ const fetchGroupDetails = async () => {
       );
     }
 
+
     // 그룹 이동
     function MoveGroupScreen({route, navigation}) {
 
-    const [teamData, setTeamData] = useState([
-      { id: 1, name: '24학번 후배', members: 8 },
-      { id: 2, name: '24-1학기 영어 교양 팀원', members: 4 },
-      { id: 3, name: '그룹 3', members: 10 },
-      { id: 4, name: '그룹 4', members: 15 },
-  ]);
+      const API_URL = 'http://43.202.52.64:8080/api/mysp';
+
+      const [teamData, setTeamData] = useState([]);  // 팀 데이터 상태로 관리
+      const [selectedGroups, setSelectedGroups] = useState([]);  // 선택된 그룹 ID 배열 상태
+      const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false); // 삭제 모달 상태
+      const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
 
       const showCustomToast = (text) => {
         Toast.show({
@@ -455,6 +505,73 @@ const fetchGroupDetails = async () => {
           visibilityTime: 2000,
         });
       };
+
+      useEffect(() => {
+        fetchGroups();
+      }, []);
+    
+      // 그룹 목록을 가져오는 함수
+      const fetchGroups = async () => {
+        try {
+          const token = await AsyncStorage.getItem('token');
+          if (!token) {
+            console.error('토큰이 없습니다.');
+            return;
+          }
+    
+          // 그룹 목록 API 호출
+          const groupResponse = await fetch(`${API_URL}/view`, {
+            method: 'GET',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+    
+          const groupResult = await groupResponse.json();
+    
+          if (Array.isArray(groupResult)) {  // 그룹 데이터가 배열인지 확인
+            setTeamData(groupResult);  // 그룹 데이터를 teamData 상태에 저장
+          } else {
+            //console.error('그룹 데이터를 받지 못했습니다.');
+          }
+        } catch (error) {
+          console.error('그룹 목록을 불러오는 중 오류가 발생했습니다:', error);
+        }
+      };
+
+        // 그룹 추가 API 호출
+  const handleAddGroup = async (groupName) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) {
+        console.error('토큰이 없습니다.');
+        return;
+      }
+
+      const response = await fetch(`${API_URL}/create`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ group_name: groupName }),
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        fetchGroups();  // 그룹 목록 새로고침
+        showCustomToast('새 그룹이 성공적으로 추가되었습니다.');
+        setIsGroupNameChangeModalVisible(false);  // 모달 닫기
+      } else {
+        console.error('그룹 추가에 실패했습니다:', result.message);
+      }
+    } catch (error) {
+      console.error('그룹 추가 중 오류가 발생했습니다:', error);
+    }
+  };
+
+    // 특정 그룹이 선택되었는지 확인하는 함수
+    const isGroupSelected = (id) => selectedGroups.includes(id);
       
       const handleMoveCard = () => {
         showCustomToast('이동 완료되었어요.');
@@ -467,58 +584,41 @@ const fetchGroupDetails = async () => {
       };
 
       const [selectedOption, setSelectedOption] = useState('최신순');
-
-      const MySpaceGroup = ({ name, members }) => (
-        <TouchableOpacity style={styles.groupContent} onPress={handleMoveCard} >
-            <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <GroupIcon/>
-                <Text style={styles.fontGroup}>{name}</Text>
-                <Text style={styles.peopleGroup}>
-                    <People /> {members}
-                </Text>
-            </View>
-        </TouchableOpacity>
-      );
     
       return (
         <View style={styles.backgroundColor}>
           <View style={styles.cardLayout}>
             <ScrollView showsVerticalScrollIndicator={false}>
-            <MySpaceGroup
-            id={'received-card'}  // 고유 ID 설정
-            name={'받은 프로필 카드'}
-            members={'8'}
-            showRadio={true}  // 라디오 버튼 활성화
-            showMenu={false}  // 메뉴 비활성화
-          />
-  
           {/* 그룹 리스트 */}
-          <View>
+          <View style={styles.row}>
             {teamData.map((team) => (
               <MySpaceGroup
-                key={team.id}
-                id={team.id}
-                name={team.name}
-                members={team.members}
-                showRadio={false}  // 라디오 버튼 활성화
+                key={team.groupId}
+                id={team.groupId}
+                name={team.group_name}
+                members={team.memberCount}
                 showMenu={false}  // 메뉴 비활성화
+                // selected={isGroupSelected(team.groupId)}  // 선택 상태 전달 (배열 내 포함 여부 확인)
+                // onPress={() => handleGroupSelect(team.groupId)}  // 라디오 버튼 및 카드 클릭 핸들러
               />
             ))}
           </View>
             </ScrollView>
           </View>
           <View style={styles.bottomContainer}>
-            <TouchableOpacity onPress={handleCreateGroup}>
+            <Add style={{marginRight: 6}}/>
+            <TouchableOpacity onPress={() => setIsGroupNameChangeModalVisible(true)}>
               <Text style={styles.bottomText}>새 그룹 추가</Text>
             </TouchableOpacity>
           </View>
-          <SpaceNameChangeModal
-          isVisible={isCreateGroupModalVisible}
-          onClose={() => setIsCreateGroupModalVisible(false)}
-          groupName={'그룹 이름을 작성하세요.'}
-          btn1={'취소하기'}
-          btn2={'추가하기'}
-        />
+          <NewGroupModal
+            isVisible={isGroupNameChangeModalVisible}
+            onClose={() => setIsGroupNameChangeModalVisible(false)}
+            groupName={'그룹 이름을 작성하세요.'}
+            btn1={'취소하기'}
+            btn2={'추가하기'}
+            onConfirm={handleAddGroup}
+          />
         </View>
       );
     }
@@ -565,6 +665,7 @@ const fetchGroupDetails = async () => {
               ),            
           }}/>
           <Stack.Screen name="연락처 저장" component={SaveTellScreen}
+          initialParams={{ groupId }}
           options={{
             headerTitle: " ",
             headerLeft: ({onPress}) => (
@@ -574,6 +675,7 @@ const fetchGroupDetails = async () => {
             ),
           }}/>
           <Stack.Screen name="카드 관리" component={ManageCardScreen}
+          initialParams={{ groupId }}
           options={{
             headerTitle: " ",
             headerLeft: ({onPress}) => (
