@@ -20,7 +20,7 @@ const CheckCardDetail = () => {
     const scrollViewRef = useRef(null);
     const route = useRoute();
     const navigation = useNavigation();
-    const { cardId, fetchCardData } = route.params;
+    const { cardId, refresh } = route.params;
 
     const [cardData, setCardData] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -111,7 +111,7 @@ const CheckCardDetail = () => {
 
     // 카드 삭제
     const confirmDelete = async () => {
-        await deleteCard(cardData[currentCardIndex].cardId, navigation, '받은 프로필 카드', fetchCardData);
+        await deleteCard(cardData[currentCardIndex].cardId, navigation, '받은 프로필 카드', refresh);
         setMoreMenu(false);
     };
 

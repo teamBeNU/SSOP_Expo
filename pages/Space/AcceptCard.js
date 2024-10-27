@@ -124,7 +124,7 @@ function DetailSpaceGroup({ navigation }) {
     } catch (error) {
       console.error('API 호출 중 오류 발생:', error);
     }
-};
+  };
 
   useEffect(() => {
     fetchCardData();  // 컴포넌트가 로드될 때 데이터 가져오기
@@ -154,9 +154,9 @@ function DetailSpaceGroup({ navigation }) {
     setIsGroupNameChangeModalVisible(true);
   };
 
-  const handleNext = (cardId) => {
-    console.log('cardid: ', cardId);
-    navigation.navigate('상대카드 상세보기', { cardId, fetchCardData });
+  const handleNext = async (cardId) => {
+    const data = await fetchCardData();
+    navigation.navigate('상대카드 상세보기', { cardId, refresh: data });
   };
 
   return (
