@@ -258,8 +258,9 @@ function DetailSpaceGroup({ navigation }) {
       );
     };
 
-    const handleNext = () => {
-      navigation.navigate('카드 조회');
+    const handleNext = (cardId) => {
+      console.log('cardid: ', cardId);
+      navigation.navigate('상대카드 상세보기', { cardId });
     };
   
       // 카드 선택/해제 처리 함수
@@ -296,7 +297,7 @@ function DetailSpaceGroup({ navigation }) {
             headerRight: () => (
               <TouchableOpacity onPress={handleSelectAll}>
                 {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-                {selectedCards.length === cardData.length ? (
+                {selectedCards.length > 0 && selectedCards.length === cardData.length ? (
                   <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
                 ) : (
                   <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
@@ -376,6 +377,8 @@ function DetailSpaceGroup({ navigation }) {
 
       // 카드 선택/해제 처리 함수
       const handleRadioSelect = (cardId) => {
+        console.log(`선택된 카드 ID: ${cardId}`);
+
         setSelectedCards((prevSelectedCards) =>
           prevSelectedCards.includes(cardId)
             ? prevSelectedCards.filter((id) => id !== cardId) // 이미 선택된 카드 해제
@@ -388,12 +391,13 @@ function DetailSpaceGroup({ navigation }) {
         if (selectedCards.length === cardData.length) {
           setSelectedCards([]); // 모든 선택 해제
         } else {
-          setSelectedCards(cardData.map((card) => card.id)); // 모든 카드 선택
+          setSelectedCards(cardData.map((card) => card.cardId)); // 모든 카드 선택
         }
       };
 
-      const handleNext = () => {
-        navigation.navigate('카드 조회');
+      const handleNext = (cardId) => {
+        console.log('cardid: ', cardId);
+        navigation.navigate('상대카드 상세보기', { cardId });
       };
 
         // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
@@ -412,7 +416,7 @@ function DetailSpaceGroup({ navigation }) {
             headerRight: () => (
               <TouchableOpacity onPress={handleSelectAll}>
                 {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-                {selectedCards.length === cardData.length ? (
+                {selectedCards.length > 0 && selectedCards.length === cardData.length ? (
                   <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
                 ) : (
                   <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때

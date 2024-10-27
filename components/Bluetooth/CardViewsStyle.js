@@ -315,7 +315,6 @@ export const styles = StyleSheet.create({
     radioContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 12,
     },
     radio: {
         height: 16,

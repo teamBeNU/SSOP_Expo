@@ -97,12 +97,12 @@ const CardsView = ({
               {showPlusCard && <PlusCardButton navigation={navigation} />}
               {/* 카드 목록 렌더링 */}
               {cardData.map((item, index) => (
-                <View key={item.id || index} style={styles.cardWrapper}>
+                <View key={item.cardId || index} style={styles.cardWrapper}>
                   {showRadio && (
                     <View style={styles.radioButtonContainer}>
                       <CustomCardRadioButton2
-                        selected={selectedCards.includes(item.id)} // 선택 여부 확인
-                        onPress={() => handleRadioSelect(item.id)} // 카드 선택 처리
+                        selected={selectedCards.includes(item.cardId)} // 선택 여부 확인
+                        onPress={() => handleRadioSelect(item.cardId)} // 카드 선택 처리
                       />
                     </View>
                   )}
@@ -110,7 +110,7 @@ const CardsView = ({
                   {/* 카드 본문 */}
                   <TouchableOpacity
                     style={styles.btn2}
-                    onPress={() => showRadio ? handleRadioSelect(item.id) : handleNext(item.id)}
+                    onPress={() => showRadio ? handleRadioSelect(item.cardId) : handleNext(item.cardId)}
                   >
                     <ShareCard
                       avatar={item.avatar}
@@ -130,16 +130,16 @@ const CardsView = ({
             <View>
               {cardData.map((item, index) => (
                 <TouchableOpacity
-                  key={item.id || index}
+                  key={item.cardId || index}
                   style={styles.radioCardWrapper}
-                  onPress={() => handleNext(item.id)} // Step2로 이동
+                  onPress={() => handleNext(item.cardId)} // Step2로 이동
                 >
                   {/* showRadio가 true일 때 라디오 버튼 표시 */}
                   {showRadio && (
                     <View style={styles.radioButtonWrapper}>
                       <CustomCardRadioButton
-                        selected={selectedCards.includes(item.id)} // 선택 여부 확인
-                        onPress={() => handleRadioSelect(item.id)} // 카드 선택 처리
+                        selected={selectedCards.includes(item.cardId)} // 선택 여부 확인
+                        onPress={() => handleRadioSelect(item.cardId)} // 카드 선택 처리
                       />
                     </View>
                   )}

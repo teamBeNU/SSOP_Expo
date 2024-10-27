@@ -118,7 +118,7 @@ const AcceptCardView = ({
                 <View style={[styles.row, styles.container]}>
                   {Array.isArray(cardData) && cardData.length > 0 ? (
                     cardData.map((item, index) => {
-  
+                      console.log(`렌더링되는 카드 ID: ${item.cardId}`);
                       return (
                         <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={() => handleNext(item.cardId)}>
                           <ShareCard
@@ -148,7 +148,7 @@ const AcceptCardView = ({
                 const optional = item.cardOptional;    // cardOptional만 사용
 
                 return (
-                    <View key={item.id || index} style={styles.ListContainer}>
+                    <View key={item.cardId || index} style={styles.ListContainer}>
                     <TouchableOpacity onPress={() => handleNext(item.cardId)}>
                         <View style={styles.row2}>
                         {item.card_cover === 'avatar' ? 
@@ -187,7 +187,7 @@ const AcceptCardView = ({
                             </MenuTrigger>
                             <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
                                 <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
-                                <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(item.id)} />
+                                <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(item.cardId)} />
                             </MenuOptions>
                             </Menu>
                         )}
