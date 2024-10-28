@@ -56,17 +56,42 @@ function Step1Screen({ navigation }) {
     }
   };
 
+    // 카드 선택 후 링크를 생성하고 Step2로 이동
+    const handleNext = async (selectedCardId) => {
+      console.log("선택된 카드 ID:", selectedCardId);
+      try {
+        const token = await AsyncStorage.getItem('token');
+        if (!token) {
+          console.error('토큰이 없습니다.');
+          return;
+        }
+        const response = await fetch('http://43.202.52.64:8080/api/link/create', {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ cardId: selectedCardId }),
+        });
+
+        console.log("서버 응답 상태:", response.status, response.statusText);  // 응답 상태 확인
+        const result = await response.json();
+        console.log("서버 응답 데이터:", result); 
+        
+        if (response.ok) {
+          navigation.navigate('Step2', { link: result.link });
+        } else {
+          console.error('링크 생성 실패:', result.message);
+        }
+      } catch (error) {
+        console.error('링크 생성 중 오류가 발생했습니다:', error);
+      }
+    };
+
   // 컴포넌트가 처음 렌더링될 때 데이터 가져오기
   useEffect(() => {
     fetchCardData();  // 카드 데이터 가져오기
   }, []);
-
-  const title = '공유할 카드를 선택하세요.';
-  const sub = '공유할 수 있는 카드가 없어요.';
-
-  const handleNext = () => {
-    navigation.navigate('Step2');
-  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -86,16 +111,16 @@ function Step1Screen({ navigation }) {
             viewOption={viewOption}
             setViewOption={setViewOption}
             handleNext={handleNext}
-            cardData={cardData}  // 백엔드에서 가져온 카드 데이터를 전달
-            title={title}
+            cardData={cardData} 
+            title={'공유할 카드를 선택하세요.'}
             showNewCardButton={true}
             showPlusCard={true}
           />
         ) : (
           <NoCardsView 
             navigation={navigation}
-            title={title}
-            sub={sub}
+            title={'공유할 카드를 선택하세요.'}
+            sub={'공유할 수 있는 카드가 없어요.'}
           />
         )}
       </View>
@@ -103,14 +128,21 @@ function Step1Screen({ navigation }) {
   );
 }
 
-function Step2Screen({ navigation }) {
+function Step2Screen({ route }) {
+  const { link } = route.params;
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   // 링크 복사
   const copyLinkShare = async () => {
-    const textToCopy = LinkShare;
-    await Clipboard.setStringAsync(textToCopy);
-    Alert.alert("클립보드에 복사되었습니다.");
+    await Clipboard.setStringAsync(link);
+    Alert.alert('클립보드에 복사되었습니다.');
   };
+  
+  // const copyLinkShare = async () => {
+  //   const textToCopy = LinkShare;
+  //   await Clipboard.setStringAsync(textToCopy);
+  //   Alert.alert("클립보드에 복사되었습니다.");
+  // };
   
   // const shareLinkCode = async () => {
   //   try {
@@ -130,24 +162,35 @@ function Step2Screen({ navigation }) {
 
   const handleLinkSharePress = async () => {
     setIsModalVisible(false);
-
-    const result = await Share.share({
-        title: `SSOP`, // android 단독
-        message: `SSOP: Share SOcial Profile card\nhttp://ssop2024.notion.site`,
-    });
-
-    if (result.action === Share.sharedAction) {
-        if (result.activityType) {
-        // shared with activity type of result.activityType
-        } else {
-        // shared
-        }
-    } else if (result.action === Share.dismissedAction) {
-        // dismissed
+    try {
+      await Share.share({
+        title: 'SSOP',
+        message: `SSOP: Share Social Profile card\n${link}`,
+      });
+    } catch (error) {
+      console.error('링크 공유 중 오류가 발생했습니다:', error);
     }
-};
+  };
 
-  const [isModalVisible, setIsModalVisible] = useState(false);
+//   const handleLinkSharePress = async () => {
+//     setIsModalVisible(false);
+
+//     const result = await Share.share({
+//         title: `SSOP`, // android 단독
+//         message: `SSOP: Share SOcial Profile card\nhttp://ssop2024.notion.site`,
+//     });
+
+//     if (result.action === Share.sharedAction) {
+//         if (result.activityType) {
+//         // shared with activity type of result.activityType
+//         } else {
+//         // shared
+//         }
+//     } else if (result.action === Share.dismissedAction) {
+//         // dismissed
+//     }
+// };
+
 
   const handleShareButtonPress = () => {
     setIsModalVisible(true);
