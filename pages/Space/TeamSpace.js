@@ -226,89 +226,88 @@ function TeamSpace({ navigation }) {
     }
   };
 
-  return data.length > 0 ? (
-    <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
-      <View style={styles.container2}>
-        <View style={{ flexDirection: 'row', gap: 10 }}>
-          <TeamSp /><Text style={styles.Text26}>팀스페이스</Text>
-        </View>
-        <Text style={styles.Text16gray}>팀별로 프로필 카드를 관리하세요.</Text>
-      </View>
-      <View style={styles.container}>
-        <View style={styles.row}>
-          {data.map((team) => (
-            <TeamSpaceList
-              key={team.teamId}
-              id={team.teamId}
-              name={team.team_name}
-              description={team.team_comment}
-              isHost={team.hostId === userId}
-              members={team.memberCount}
-              onGroupPress={() => handleNext(team.teamId)}
-              onDeleteGroup={handleDeleteGroup} // 그룹 삭제
-              onChangeGroupName={(newName) => handleChangeGroupName(newName, team.teamId)}  // 이름 변경
-              showMenu={true}
-            />
-          ))}
-        </View>
-        <View style={styles.innerView}></View>
-      </View>
-
-      {/* 카드 제출 안내 모달 */}
-      <SpaceModal
-        isVisible={nullCardModal}
-        onClose={() => setNullCardModal(false)}
-        title={'내 프로필 카드를 아직 생성하지 않았어요!'}
-        sub={selectedTeam && selectedTeam.hostId === userId ? '카드를 생성해야 입장이 완료돼요' : '카드를 생성해야 팀스페이스를 볼 수 있어요.'}
-        btn1={'나중에 하기'}
-        btn2={'카드 추가하기'}
-        onConfirm={handleConfirmCard}
-      />
-
-      {/* 그룹 삭제 모달 */}
-      <SpaceModal
-        isVisible={isSpaceModalVisible}
-        onClose={() => setIsSpaceModalVisible(false)}
-        title={'현재 팀스페이스를 나가시겠습니까?'}
-        sub={
-          // 호스트일 때만
-          groupToDelete ? (
-            data.find(group => group.teamId === groupToDelete)?.hostId === userId ? (
-              <Text style={{ textAlign: 'center' }}>
-                호스트가 나가면{'\n'}팀스페이스가 삭제됩니다
-              </Text>
-            ) : null
-          ) : null
-        }
-        btn1={'취소할래요'}
-        btn2={'네, 삭제할래요'}
-        onConfirm={handleConfirmDelete}
-      />
-
-      {/* 그룹 이름 변경 모달 */}
-      <SpaceNameChangeModal
-        isVisible={isGroupNameChangeModalVisible}
-        onClose={() => setIsGroupNameChangeModalVisible(false)}
-        groupName={newTeamName} // 선택된 그룹 이름 전달
-        btn1={'취소하기'}
-        btn2={'수정하기'}
-        onConfirm={handleUpdateGroupName} // 새로운 이름 반영
-      />
-    </ScrollView>
-  ) : (
-    <View style={styles.mainlayout}>
-      <View style={styles.emptyContainer}>
-        <Text style={styles.noCard}>아직 입장한 팀스페이스가 없어요.</Text>
-        <Text style={styles.noCard}>인원이 많다면 팀스페이스를 활용해보세요.</Text>
-        <TouchableOpacity style={styles.margin10} onPress={() => navigation.navigate('팀스페이스 입장')}>
-          <View style={styles.newContainer}>
-            <Text style={styles.newCard}>팀스페이스 추가하기</Text>
-            <RightArrowBlue/>
+  return (
+    data.length > 0 ? (
+      <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
+        <View style={styles.container2}>
+          <View style={{ flexDirection: 'row', gap: 10 }}>
+            <TeamSp />
+            <Text style={styles.Text26}>팀스페이스</Text>
           </View>
-        </TouchableOpacity>
+          <Text style={styles.Text16gray}>팀별로 프로필 카드를 관리하세요.</Text>
+        </View>
+        <View style={styles.container}>
+          <View style={styles.row}>
+            {data.map((team) => (
+              <TeamSpaceList
+                key={team.teamId}
+                id={team.teamId}
+                name={team.team_name}
+                description={team.team_comment}
+                isHost={team.hostId === userId}
+                members={team.memberCount}
+                onGroupPress={() => handleNext(team.teamId)}
+                onDeleteGroup={handleDeleteGroup} // 그룹 삭제
+                onChangeGroupName={(newName) => handleChangeGroupName(newName, team.teamId)}  // 이름 변경
+                showMenu={true}
+              />
+            ))}
+          </View>
+          <View style={styles.innerView}></View>
+        </View>
+  
+        {/* 카드 제출 안내 모달 */}
+        <SpaceModal
+          isVisible={nullCardModal}
+          onClose={() => setNullCardModal(false)}
+          title={'내 프로필 카드를 아직 생성하지 않았어요!'}
+          sub={selectedTeam && selectedTeam.hostId === userId ? 
+            '카드를 생성해야 입장이 완료돼요' : '카드를 생성해야 팀스페이스를 볼 수 있어요.'}
+          btn1={'나중에 하기'}
+          btn2={'카드 추가하기'}
+          onConfirm={handleConfirmCard}
+        />
+  
+        {/* 그룹 삭제 모달 */}
+        <SpaceModal
+          isVisible={isSpaceModalVisible}
+          onClose={() => setIsSpaceModalVisible(false)}
+          title={'현재 팀스페이스를 나가시겠습니까?'}
+          sub={groupToDelete && data.find(group => group.teamId === groupToDelete)?.hostId === userId ? (
+            <Text style={{ textAlign: 'center' }}>
+              호스트가 나가면{'\n'}팀스페이스가 삭제됩니다
+            </Text>
+          ) : null}
+          btn1={'취소할래요'}
+          btn2={'네, 삭제할래요'}
+          onConfirm={handleConfirmDelete}
+        />
+  
+        {/* 그룹 이름 변경 모달 */}
+        <SpaceNameChangeModal
+          isVisible={isGroupNameChangeModalVisible}
+          onClose={() => setIsGroupNameChangeModalVisible(false)}
+          groupName={newTeamName} // 선택된 그룹 이름 전달
+          btn1={'취소하기'}
+          btn2={'수정하기'}
+          onConfirm={handleUpdateGroupName} // 새로운 이름 반영
+        />
+      </ScrollView>
+    ) : (
+      <View style={styles.mainlayout}>
+        <View style={styles.emptyContainer}>
+          <Text style={styles.noCard}>아직 입장한 팀스페이스가 없어요.</Text>
+          <Text style={styles.noCard}>인원이 많다면 팀스페이스를 활용해보세요.</Text>
+          <TouchableOpacity style={styles.margin10} onPress={() => navigation.navigate('팀스페이스 입장')}>
+            <View style={styles.newContainer}>
+              <Text style={styles.newCard}>팀스페이스 추가하기</Text>
+              <RightArrowBlue />
+            </View>
+          </TouchableOpacity>
+        </View>
       </View>
-    </View>
-  );
+    )
+  );  
 }
 
 export default TeamSpace;

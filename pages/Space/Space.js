@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from "react";
+import { useFocusEffect } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
-import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert, TouchableWithoutFeedback } from "react-native";
+import { View, Text, TouchableOpacity, Modal, TouchableWithoutFeedback } from "react-native";
 import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
-import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
-import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
+import { NewGroupModal } from "../../components/Space/SpaceModal.js";
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 import MySpace from "./MySpace.js";
@@ -23,7 +23,6 @@ import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import EnterTeamSPIcon from '../../assets/HomeIcon/EnterTeamSPIcon.svg';
 import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
-
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
@@ -163,7 +162,7 @@ function MySpaceStack({ navigation }) {
         console.error('토큰이 없습니다.');
         return;
       }
-  
+
       const response = await fetch('http://43.202.52.64:8080/api/mysp/create', {
         method: 'POST',
         headers: {
@@ -174,7 +173,7 @@ function MySpaceStack({ navigation }) {
           group_name: groupName,
         }),
       });
-  
+
       const result = await response.json();
       if (response.ok) {
         // 그룹 추가 성공 시
@@ -207,13 +206,13 @@ function MySpaceStack({ navigation }) {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => {navigation.navigate('마이스페이스 카드 검색')}}><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate('마이스페이스 카드 검색') }}><SearchIcon /></TouchableOpacity>
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
-                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 , borderRadius: 16 }}>
-                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' onSelect={handlePlusGroup}/>
-                      <MenuOption text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })}/>
+                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
+                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' onSelect={handlePlusGroup} />
+                      <MenuOption text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })} />
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>
@@ -251,8 +250,9 @@ function MySpaceStack({ navigation }) {
 
 // TeamSpace 스택 네비게이션
 function TeamSpaceStack({ navigation, teamData, userId }) {
-
   const [isModalVisible, setIsModalVisible] = useState(false);
+  console.log('teamData:', teamData);
+
   const handleEnterTeamSpPress = () => {
     setIsModalVisible(false);
     navigation.navigate('팀스페이스 입장');
@@ -279,12 +279,12 @@ function TeamSpaceStack({ navigation, teamData, userId }) {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => {navigation.navigate('팀스페이스 카드 검색')}}><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity onPress={() => { navigation.navigate('팀스페이스 카드 검색') }}><SearchIcon /></TouchableOpacity>
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
                     <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                      <MenuOption text='팀스페이스 편집하기' onSelect={() => navigation.navigate('팀스페이스 관리', { teamData : teamData, userId: userId })} />
+                      <MenuOption text='팀스페이스 편집하기' onSelect={() => navigation.navigate('팀스페이스 관리', { teamData: teamData, userId: userId })} />
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>
@@ -308,7 +308,6 @@ function TeamSpaceStack({ navigation, teamData, userId }) {
         option2Icon={CreatTeamSPIcon}
       />
     </>
-
   );
 }
 
@@ -342,23 +341,31 @@ function Space() {
     }
   }, [token]);
 
-  const fetchData = async () => {
-    if (userId && token) {
-      const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
-      try {
-        const response = await axios.get(apiUrl, {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        setTeamData(response.data);
-      } catch (error) {
-        console.error('내가 참여한 팀스페이스 목록 API 요청 에러:', error);
-      }
-    }
-  };
+  // 화면이 포커스될 때마다 데이터 가져오기
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        if (userId && token) {
+          const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
+          try {
+            const response = await axios.get(apiUrl, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            setTeamData(response.data);
+          } catch (error) {
+            console.error('내가 참여한 팀스페이스 목록 API 요청 에러:', error);
+          }
+        }
+      };
 
-  useEffect(() => {
-    fetchData();
-  }, [userId, token]);
+      fetchData();
+
+      return () => {
+        setTeamData([]);
+      };
+    }, [userId, token])
+  );
+
 
   return (
     <Tab.Navigator
