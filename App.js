@@ -68,10 +68,13 @@ import AcceptCard from './pages/Space/AcceptCard';
 import { theme } from './theme';
 
 const linking = {
-  prefixes: ['ssop://', 'https://ssop.com'],
+  prefixes: ['https://ssop.com', 'ssop://'],
   config: {
     screens: {
       CardDetails: 'card/:cardId',
+      Step1: 'step1',
+      Step2: 'step2',
+      LinkReceiverScreen: 'api/link/:token', 
     },
   },
 

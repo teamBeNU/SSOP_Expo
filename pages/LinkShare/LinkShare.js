@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, Alert, Modal, TouchableWithoutFeedback, Share } from "react-native";
 import { styles } from './LinkShareStyle';
-import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard.js";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { createStackNavigator } from '@react-navigation/stack';
+import { WebView } from 'react-native-webview';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import * as Progress from 'react-native-progress';
-import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from "../../theme";
@@ -15,8 +14,6 @@ import { theme } from "../../theme";
 import HomeIcon from '../../assets/icons/ic_home_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-import AvatarSample1 from '../../assets/icons/AbatarSample1.svg';
-import AvatarSample2 from '../../assets/icons/AbatarSample2.svg';
 import LinkShareImage from '../../assets/icons/LinkShareImage.svg';
 import ShareIcon from '../../assets/icons/ic_share.svg';
 
@@ -74,7 +71,6 @@ function Step1Screen({ navigation }) {
           body: JSON.stringify({ cardId: selectedCardId }),
         });
 
-        console.log("서버 응답 상태:", response.status, response.statusText);  // 응답 상태 확인
         const result = await response.json();
         console.log("서버 응답 데이터:", result); 
         
@@ -137,28 +133,6 @@ function Step2Screen({ route }) {
     await Clipboard.setStringAsync(link);
     Alert.alert('클립보드에 복사되었습니다.');
   };
-  
-  // const copyLinkShare = async () => {
-  //   const textToCopy = LinkShare;
-  //   await Clipboard.setStringAsync(textToCopy);
-  //   Alert.alert("클립보드에 복사되었습니다.");
-  // };
-  
-  // const shareLinkCode = async () => {
-  //   try {
-  //     const isAvailable = await Sharing.isAvailableAsync();
-  //     if (!isAvailable) {
-  //       Alert.alert('Sharing is not available on this device');
-  //       return;
-  //     }
-
-  //     await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=25', {
-  //       dialogTitle: 'SSOP Share TEST',
-  //     });
-  //   } catch (error) {
-  //     Alert.alert('Error sharing', error.message);
-  //   }
-  // };
 
   const handleLinkSharePress = async () => {
     setIsModalVisible(false);
@@ -171,26 +145,6 @@ function Step2Screen({ route }) {
       console.error('링크 공유 중 오류가 발생했습니다:', error);
     }
   };
-
-//   const handleLinkSharePress = async () => {
-//     setIsModalVisible(false);
-
-//     const result = await Share.share({
-//         title: `SSOP`, // android 단독
-//         message: `SSOP: Share SOcial Profile card\nhttp://ssop2024.notion.site`,
-//     });
-
-//     if (result.action === Share.sharedAction) {
-//         if (result.activityType) {
-//         // shared with activity type of result.activityType
-//         } else {
-//         // shared
-//         }
-//     } else if (result.action === Share.dismissedAction) {
-//         // dismissed
-//     }
-// };
-
 
   const handleShareButtonPress = () => {
     setIsModalVisible(true);
@@ -250,6 +204,67 @@ function Step2Screen({ route }) {
   );
 }
 
+function LinkReceiverScreen({ route, navigation }) {
+  const { link } = route.params;  // 공유 링크에서 받은 전체 링크
+
+  // 링크에서 token 추출 함수
+  const extractToken = (url) => {
+    const tokenMatch = url.match(/\/([a-f0-9-]+)$/);  // URL에서 마지막 '/' 뒤의 문자열 추출
+    return tokenMatch ? tokenMatch[1] : null;
+  };
+
+  // 카드 저장 함수
+  const saveCard = async (token) => {
+    try {
+      const authToken = await AsyncStorage.getItem('token');
+      if (!authToken) {
+        console.error("사용자 인증 토큰이 없습니다.");
+        return;
+      }
+
+      const response = await fetch(`http://43.202.52.64:8080/api/card/save`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${authToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ token }),
+      });
+
+      if (response.ok) {
+        Alert.alert("카드가 성공적으로 저장되었습니다!");
+        navigation.navigate("홈");  // 카드 저장 후 홈 화면으로 이동
+      } else {
+        console.error("카드 저장 실패:", (await response.json()).message);
+        Alert.alert("카드 저장에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("카드 저장 중 오류가 발생했습니다:", error);
+      Alert.alert("카드 저장 중 오류가 발생했습니다.");
+    }
+  };
+
+  // 웹뷰가 로드될 때마다 URL을 확인해 token을 추출하고 저장
+  const handleWebViewNavigationStateChange = (newNavState) => {
+    const { url } = newNavState;
+    const token = extractToken(url);
+
+    if (token) {
+      saveCard(token);  // token이 추출되면 카드 저장
+    }
+  };
+
+  return (
+    <View style={{ flex: 1 }}>
+      <Text>카드 저장 중입니다...</Text>
+      <WebView
+        source={{ uri: link }}
+        onLoadEnd={handleWebViewNavigationStateChange}  // 페이지 로드가 끝날 때 호출
+      />
+    </View>
+  );
+}
+
 function LinkShare({ navigation }) {
   const Stack = createStackNavigator();
 
@@ -278,6 +293,9 @@ function LinkShare({ navigation }) {
           </TouchableOpacity>
         ),
       }}/>
+      <Stack.Screen name="LinkReceiverScreen" component={LinkReceiverScreen} 
+      options={{
+        title: "카드 저장" }}/>
     </Stack.Navigator>
   );
 }
