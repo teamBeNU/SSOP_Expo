@@ -8,16 +8,25 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 
-export const Memo = ({ hasMemo, cardData }) => {
+export const Memo = ({ hasMemo, cardData }) => {    
     const [isMemoHidden, setIsMemoHidden] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [displayText, setDisplayText] = useState('');
     const [isTruncated, setIsTruncated] = useState(false);
-
     const maxLength = 50;
 
     useEffect(() => {
-        if (hasMemo && cardData?.memo) { // Check if cardData and cardData.memo exist
+        const loadHiddenState = async () => {
+            const savedHiddenState = await AsyncStorage.getItem('isMemoHidden');
+            if (savedHiddenState !== null) {
+                setIsMemoHidden(JSON.parse(savedHiddenState));
+            }
+        };
+        loadHiddenState();
+    }, []);
+
+    useEffect(() => {
+        if (hasMemo && cardData?.memo && !isMemoHidden) {
             if (cardData.memo.length > maxLength && !isExpanded) {
                 setDisplayText(cardData.memo.slice(0, maxLength));
                 setIsTruncated(true);
@@ -27,13 +36,17 @@ export const Memo = ({ hasMemo, cardData }) => {
             }
         } else if (isMemoHidden) {
             setDisplayText('메모가 숨겨져 있어요.');
-        } else {
-            setDisplayText('');
+            setIsTruncated(false);
         }
-    }, [cardData?.memo, isExpanded, hasMemo]);
+    }, [cardData?.memo, isExpanded, hasMemo, isMemoHidden]);
 
     const handleToggleExpand = () => setIsExpanded(!isExpanded);
-    const toggleSwitch = () => setIsMemoHidden(!isMemoHidden);
+
+    const toggleSwitch = async () => {
+        const newHiddenState = !isMemoHidden;
+        setIsMemoHidden(newHiddenState);
+        await AsyncStorage.setItem('isMemoHidden', JSON.stringify(newHiddenState));
+    };
 
     return (
         hasMemo ? (
@@ -59,7 +72,7 @@ export const Memo = ({ hasMemo, cardData }) => {
                     <Text style={styles.hideText}>메모 숨기기</Text>
                     <Switch
                         trackColor={{ false: "#CACACA", true: "#00C2ED" }}
-                        thumbColor={isMemoHidden ? "#ffffff" : "#ffffff"}
+                        thumbColor="#ffffff"
                         onValueChange={toggleSwitch}
                         value={isMemoHidden}
                         style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
