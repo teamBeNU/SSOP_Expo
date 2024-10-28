@@ -7,12 +7,15 @@ import Toast from 'react-native-toast-message';
 import CloseIcon from '../../assets/icons/close.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
+import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
+import OutICon from '../../assets/icons/ic_out.svg';
+import TrashIcon from '../../assets/icons/ic_trash.svg';
 
 function EditTeamSpace({ route, navigation }) {
   const { teamData: initialTeamData, userId } = route.params;
   const [teamData, setTeamData] = useState(initialTeamData);
   const isHost = teamData.some((team) => team.hostId === userId);
-  
+
   console.log("EditTeamSpace: ", teamData);
   const [selectedGroups, setSelectedGroups] = useState([]);  // 선택된 그룹 ID 배열 상태
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false); // 삭제 모달 상태
@@ -30,7 +33,7 @@ function EditTeamSpace({ route, navigation }) {
 
   // 선택된 팀스페이스 삭제
   const handleDeleteGroups = () => {
-    const updatedGroups = teamData.filter((team) => 
+    const updatedGroups = teamData.filter((team) =>
       !selectedGroups.includes(team.teamId) || team.isHost // isHost가 true인 항목은 삭제하지 않음
     );
     setTeamData(updatedGroups);  // 삭제된 그룹 리스트로 상태 업데이트
@@ -66,7 +69,7 @@ function EditTeamSpace({ route, navigation }) {
       setSelectedGroups(nonHostGroups);
     }
   };
-  
+
   // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -125,9 +128,17 @@ function EditTeamSpace({ route, navigation }) {
       </ScrollView>
 
       {/* 하단 버튼 영역 */}
-      <View style={styles.bottomContainer}>
-        <TouchableOpacity onPress={() => setIsSpaceModalVisible(true)}>
+      <View style={styles.bottomDetailContainer}>
+        <OutICon />
+        <TouchableOpacity style={{ marginLeft: 6, alignItems: 'center', justifyContent: 'center' }}
+          onPress={() => setIsSpaceModalVisible(true)}>
           <Text style={styles.bottomText}>팀스페이스 나가기</Text>
+        </TouchableOpacity>
+        <BottomLineIcon style={styles.bottomLine} />
+        <TrashIcon />
+        <TouchableOpacity style={{ marginLeft: 6, alignItems: 'center', justifyContent: 'center' }}
+          onPress={() => setIsSpaceModalVisible(true)}>
+          <Text style={styles.bottomText}>삭제</Text>
         </TouchableOpacity>
       </View>
 
