@@ -12,6 +12,8 @@ import SearchIcon from '../../assets/icons/ic_search_small_line.svg';
 import DeleteIcon from '../../assets/icons/ic_delete_all.svg';
 import SearchMySpace from './SearchMySpace.js';
 import SearchTeamSp from './SearchTeamSp.js';
+import PinkPoint from "../../assets/icons/ic_pink_point.svg";
+import BluePoint from "../../assets/icons/ic_blue_point.svg";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -98,8 +100,8 @@ function SearchCard() {
                   ]}
                 >
                   <View style={{ gap: 6, flexDirection: 'row', alignItems: 'center' }}>
-                    {label === "마이스페이스"}
-                    {label === "팀스페이스"}
+                    {label === "마이스페이스" && isFocused && <BluePoint />}
+                    {label === "팀스페이스" && isFocused && <PinkPoint />}
                     <Text
                       style={[
                         {
@@ -124,7 +126,7 @@ function SearchCard() {
 
   return (
     <View style={styles.mainLayout}>
-      <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{ flexDirection: 'row', alignItems: 'center', marginLeft: -8 }}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <LeftArrowIcon />
         </TouchableOpacity>
@@ -134,7 +136,11 @@ function SearchCard() {
             placeholder="이름을 입력하세요"
             value={searchWord}
             onChangeText={handleSearchInputChange} />
-          <TouchableOpacity><DeleteIcon style={styles.deleteIcon} /></TouchableOpacity>
+             {searchWord.length > 0 && ( // 검색어가 있을 때만 DeleteIcon을 보여줌
+                <TouchableOpacity onPress={() => handleSearchInputChange('')}>
+                    <DeleteIcon style={styles.deleteIcon} />
+                </TouchableOpacity>
+            )}
           <TouchableOpacity><SearchIcon style={styles.searchIcon} /></TouchableOpacity>
         </View>
       </View>

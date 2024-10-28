@@ -64,7 +64,9 @@ import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
 import ServiceAgree from './pages/MyPage/Service/ServiceAgree';
 import AcceptCard from './pages/Space/AcceptCard';
-import SearchCard from './pages/SearchCard/SearchCard';
+import HomeSearchCard from './pages/SearchCard/HomeSearchCard';
+import MySpSearchCard from './pages/SearchCard/MySpSearchCard';
+import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
 
 import { theme } from './theme';
 
@@ -414,7 +416,9 @@ export default function App() {
           <Stack.Screen name="그룹 관리" component={EditGroupPage}/>
           <Stack.Screen name="팀스페이스 관리" component={EditTeamSpace}/>
           <Stack.Screen name="받은 프로필 카드" component={AcceptCard} options={{ headerShown: false }}/>
-          <Stack.Screen name="카드 검색" component={SearchCard} options={{ headerShown: false }}/>
+          <Stack.Screen name="전체 카드 검색" component={HomeSearchCard} options={{ headerShown: false }}/>
+          <Stack.Screen name="마이스페이스 카드 검색" component={MySpSearchCard} options={{ headerShown: false }}/>
+          <Stack.Screen name="팀스페이스 카드 검색" component={TeamSpSearchCard} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />

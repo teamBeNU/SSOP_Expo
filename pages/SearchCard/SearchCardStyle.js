@@ -6,10 +6,11 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.white,
         flex: 1, // 디바이스 세로 100%
         paddingTop: 44,
+        paddingHorizontal: 16,
     },
     spaceLayout: {
         backgroundColor: theme.white,
-        flex: 1, // 디바이스 세로 100%
+        flex: 1, // 디바이스 세로 100%        
         paddingTop: 60,
     },
     searchContainer: {
@@ -17,7 +18,7 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     InputText: {
-        width: '91%',
+        width: '92.5%',
         height: 40,
         paddingVertical: 8,
         paddingHorizontal: 12,
@@ -30,6 +31,14 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         flexDirection: 'row',
         justifyContent: 'flex-end',
+    },
+    text16gray60: {
+        color: theme.gray60,
+        fontSize: 16,
+        fontFamily: 'PretendardRegular',
+        fontWeight: 500,
+        textAlign: 'center',
+        marginVertical: '80%'
     },
     deleteIcon: {
         position: 'absolute',
@@ -54,8 +63,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    tabContainer: {        
-        paddingHorizontal: 64,
+    tabContainer: {
+        paddingHorizontal: 54,
         zIndex: 10,
         flexDirection: 'row',
         alignItems: 'center',
@@ -107,12 +116,52 @@ export const styles = StyleSheet.create({
         },
         shadowOpacity: 1,
         shadowRadius: 2,
-        elevation: 5,        
+        elevation: 5,
     },
     listImage: {
         width: 64,
         height: 64,
         borderRadius: 12
     },
-
+    gridContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
+        marginRight: 12
+    },
+    gridImage: {
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1,
+        borderRadius: 12
+    },
+    // 격자형&리스트형
+    rightButtonGroup: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+    },
+    optionButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderWidth: 1,
+        borderColor: theme.gray90,
+        borderRadius: 50,
+        paddingVertical: 8,
+        paddingRight: 10,
+        paddingLeft: 16,
+        backgroundColor: theme.white
+    },
+    iconContainer: {
+        borderWidth: 1,
+        borderColor: theme.gray90,
+        borderRadius: 50,
+        padding: 8,
+        marginRight: 4,
+        marginBottom: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.white
+    }
 })
