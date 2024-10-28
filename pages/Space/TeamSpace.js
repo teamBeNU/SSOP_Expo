@@ -258,10 +258,10 @@ function TeamSpace({ navigation }) {
       <SpaceModal
         isVisible={nullCardModal}
         onClose={() => setNullCardModal(false)}
-        title={'해당 팀스페이스에 제출한 카드가 없습니다.'}
-        sub={'카드를 제출해야 팀스페이스를 확인할 수 있어요.'}
-        btn1={'취소할래요'}
-        btn2={'카드 생성할래요'}
+        title={'내 프로필 카드를 아직 생성하지 않았어요!'}
+        sub={selectedTeam && selectedTeam.hostId === userId ? '카드를 생성해야 입장이 완료돼요' : '카드를 생성해야 팀스페이스를 볼 수 있어요.'}
+        btn1={'나중에 하기'}
+        btn2={'카드 추가하기'}
         onConfirm={handleConfirmCard}
       />
 
