@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: 'white',
-        flex: 1,
+        //flex: 1,
         },
 	cardPage: {
         color: theme.gray50,
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems:'center',
         width: WIDTH * 0.84,
-        height: 79,
+        height: 56,
         gap: 26,
         bottom: Platform.OS === 'android' ? HEIGHT-StatusBar.currentHeight-cardHeight-220 : HEIGHT-cardHeight-260,
         marginHorizontal: 28,
@@ -133,7 +133,7 @@ export const styles = StyleSheet.create({
         width: WIDTH * 0.84,
         marginHorizontal: -10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
         },
         //modal style
         modalContainer: {

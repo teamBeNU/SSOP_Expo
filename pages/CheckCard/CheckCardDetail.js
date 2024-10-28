@@ -10,6 +10,7 @@ import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
 import { refreshAsync } from 'expo-auth-session';
 import { deleteCard } from '../../components/MyCard/DeleteCardAPI.js';
+import { Memo } from '../../components/MyCard/Memo.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
@@ -161,7 +162,8 @@ const CheckCardDetail = () => {
     
    return (
     <TouchableWithoutFeedback onPress={() => setMoreMenu(false)}>
-     <View style={styles.container}>
+     <View style={{flex: 1, backgroundColor: 'white'}}>
+            <View style={styles.container}>
             {isRecent ? <Text style={styles.updateText}>최근 업데이트 되었어요</Text> : <Text style={styles.updateText}></Text>}
             <ScrollView
                 ref={scrollViewRef}
@@ -193,16 +195,18 @@ const CheckCardDetail = () => {
 
                     return (
                         <Animated.View key={index} style={[styles.cardWrapper, { transform: [{ scale }] }]}>
-                            <Card cardData={item} />
+                            <Card cardData={item}/>
                         </Animated.View>
                     );
                 })}
-
-                
             </ScrollView>
+            </View>
             
-            <View style={styles.btnContainer}>
-                <View style={styles.btn}>
+            <View  style={{marginTop: 24, alignItems: 'center'}}>
+            <Memo hasMemo= {hasMemo} cardData = {cardData[currentCardIndex]}/>
+            </View>
+            {/* <View style={styles.btnContainer}> */}
+                {/* <View style={styles.btn}>
                     <TouchableOpacity disabled={cardData.length === 0}>
                         {cardData.length > 0 && cardData[currentCardIndex] && (
                             <AddContact 
@@ -213,9 +217,9 @@ const CheckCardDetail = () => {
                         )}
                     </TouchableOpacity>
                     <Text style={styles.btnText}>연락처 저장</Text>                    
-                </View>
+                </View> */}
 
-                <View style={styles.verticalLine} />
+                {/* <View style={styles.verticalLine} />
 
                 <View>
                 {hasMemo && hasMemo ? 
@@ -265,9 +269,8 @@ const CheckCardDetail = () => {
                 </TouchableOpacity>
                 <Text style={styles.btnText}>메모 하기</Text>
                 </View>}
-            </View>
-
-            </View>
+            </View> */}
+            {/* </View> */}
         </View> 
         </TouchableWithoutFeedback>
     );
