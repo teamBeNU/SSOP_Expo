@@ -24,6 +24,14 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.3,
         alignSelf: 'stretch'
     },
+    readMoreText: {
+        color: theme.skyblue,
+        textAlign: 'center',
+        fontFamily: 'PretendardRegular',
+        fontSize: 15,
+        fontWeight: '400',
+        letterSpacing: -0.3
+    },
     moreIcon: {
         padding: 5,
         justifyContent: 'center',

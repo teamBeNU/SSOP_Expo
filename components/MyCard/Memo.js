@@ -1,5 +1,5 @@
 import { useNavigation } from '@react-navigation/native';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Image, ScrollView, Text, View, Dimensions, Switch } from 'react-native';
 import { styles } from './MemoStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -8,18 +8,51 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 
-
-export const Memo = ({hasMemo, cardData}) => {
+export const Memo = ({ hasMemo, cardData }) => {
     const [isMemoHidden, setIsMemoHidden] = useState(false);
+    const [isExpanded, setIsExpanded] = useState(false);
+    const [displayText, setDisplayText] = useState('');
+    const [isTruncated, setIsTruncated] = useState(false);
 
-    const toggleSwitch = () => setIsMemoHidden(previousState => !previousState);
-  
-    return ( 
+    const maxLength = 50;
+
+    useEffect(() => {
+        if (hasMemo && cardData?.memo) { // Check if cardData and cardData.memo exist
+            if (cardData.memo.length > maxLength && !isExpanded) {
+                setDisplayText(cardData.memo.slice(0, maxLength));
+                setIsTruncated(true);
+            } else {
+                setDisplayText(cardData.memo);
+                setIsTruncated(false);
+            }
+        } else if (isMemoHidden) {
+            setDisplayText('메모가 숨겨져 있어요.');
+        } else {
+            setDisplayText('');
+        }
+    }, [cardData?.memo, isExpanded, hasMemo]);
+
+    const handleToggleExpand = () => setIsExpanded(!isExpanded);
+    const toggleSwitch = () => setIsMemoHidden(!isMemoHidden);
+
+    return (
         hasMemo ? (
             <View>
                 <View style={styles.memoContainer}>
                     <MoreIcon width={32} height={32} fill="#949494" style={styles.moreIcon} />
-                    <Text style={styles.memoText}>{isMemoHidden ? "메모가 숨겨져 있어요." : cardData.memo}</Text>
+                    <Text style={styles.memoText}>
+                        {displayText}
+                        {isTruncated && !isExpanded && (
+                            <Text style={styles.readMoreText} onPress={handleToggleExpand}>
+                                {' 더보기'}
+                            </Text>
+                        )}
+                    </Text>
+                    {isExpanded && (
+                        <TouchableOpacity onPress={handleToggleExpand}>
+                            <Text style={styles.readMoreText}>접기</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
 
                 <View style={styles.hideContainer}>
@@ -30,17 +63,16 @@ export const Memo = ({hasMemo, cardData}) => {
                         onValueChange={toggleSwitch}
                         value={isMemoHidden}
                         style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
-                        />
+                    />
                 </View>
             </View>
-          ) : (
+        ) : (
             <TouchableOpacity style={styles.container}>
-              <View style={styles.btn}>
-                <WriteBtn style={styles.writeBtn} />
-                <Text style={styles.btnText}>메모 추가하기</Text>
-              </View>
+                <View style={styles.btn}>
+                    <WriteBtn style={styles.writeBtn} />
+                    <Text style={styles.btnText}>메모 추가하기</Text>
+                </View>
             </TouchableOpacity>
-          )
-        );
-      };
-
+        )
+    );
+};
