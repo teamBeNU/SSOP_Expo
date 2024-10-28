@@ -9,8 +9,9 @@ import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 
 function EditTeamSpace({ route, navigation }) {
-  const { teamData, userId } = route.params; // params에서 각각의 값 가져오기
-  const isHost = (teamData.hostId === userId); 
+  const { teamData: initialTeamData, userId } = route.params;
+  const [teamData, setTeamData] = useState(initialTeamData);
+  const isHost = teamData.some((team) => team.hostId === userId);
   
   console.log("EditTeamSpace: ", teamData);
   const [selectedGroups, setSelectedGroups] = useState([]);  // 선택된 그룹 ID 배열 상태
@@ -33,6 +34,7 @@ function EditTeamSpace({ route, navigation }) {
       !selectedGroups.includes(team.teamId) || team.isHost // isHost가 true인 항목은 삭제하지 않음
     );
     setTeamData(updatedGroups);  // 삭제된 그룹 리스트로 상태 업데이트
+    console.log(updatedGroups);
     setSelectedGroups([]);  // 선택 초기화
     setIsSpaceModalVisible(false);  // 모달 닫기
     showCustomToast('팀스페이스가 삭제되었어요.');
@@ -54,16 +56,17 @@ function EditTeamSpace({ route, navigation }) {
 
   // 전체 선택/해제 핸들러
   const handleSelectAll = () => {
-    // 전체 선택된 상태라면 초기화, 아니라면 모든 `isHost`가 `false`인 항목을 선택
-    if (selectedGroups.length === teamData.filter((team) => !team.isHost).length) {
-      setSelectedGroups([]);  // 선택 배열 초기화
+    const nonHostGroups = teamData.filter((team) => !team.isHost).map((team) => team.teamId);
+    // 모든 호스트가 아닌 그룹이 이미 선택되었는지 확인
+    if (selectedGroups.length === nonHostGroups.length) {
+      // 모든 항목이 선택된 상태라면 선택 해제
+      setSelectedGroups([]);
     } else {
-      // `isHost`가 `false`인 팀스페이스만 선택
-      const nonHostGroups = teamData.filter((team) => !team.isHost).map((team) => team.id);
-      setSelectedGroups(nonHostGroups);  // 모든 선택할 수 있는 항목을 선택
+      // 아직 모든 항목이 선택되지 않았다면 호스트가 아닌 모든 그룹 선택
+      setSelectedGroups(nonHostGroups);
     }
   };
-
+  
   // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -78,7 +81,7 @@ function EditTeamSpace({ route, navigation }) {
         </Text>
       ),
       headerRight: () => (
-        <TouchableOpacity onPress={handleSelectAll}>
+        <TouchableOpacity onPress={!isHost ? handleSelectAll : null}>
           {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
           {selectedGroups.length === teamData.filter((team) => !team.isHost).length ? (
             <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
@@ -112,9 +115,9 @@ function EditTeamSpace({ route, navigation }) {
                 members={team.memberCount}
                 isHost={isHost}
                 showRadio={true}
-                showMenu={false}  // 메뉴 비활성화
+                // showMenu={false}  // 메뉴 비활성화 -> 있어야하나? 클릭해도 나오는거 없잖아
                 selected={!team.isHost && isGroupSelected(team.teamId)}  // 선택 상태 전달
-                onPress={() => handleGroupSelect(team.teamId)}  // 카드 클릭 핸들러
+                onPress={!isHost ? () => handleGroupSelect(team.teamId) : null}  // 카드 클릭 핸들러
               />
             </TouchableOpacity>
           ))}
