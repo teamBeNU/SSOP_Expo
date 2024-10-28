@@ -67,7 +67,7 @@ const AcceptCardView = ({
     handleNext,
     cardData,
     showMenu = true,
-    onChangeGroupName,
+    onMoveGroup,
     onDeleteGroup
   }) => {
 
@@ -240,14 +240,14 @@ const AcceptCardView = ({
                           </View>
                         </View>
                         <View style={styles.menuContainer}>
-                          {userId === item.userId && showMenu && (
+                          {showMenu && (
                             <Menu>
                               <MenuTrigger>
                                 <MoreGrayIcon style={{ marginRight: 8 }} />
                               </MenuTrigger>
                               <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                                <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
-                                <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(item.cardId)} />
+                                <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={() => onDeleteGroup(item.cardId)} />
+                                <MenuOption text='그룹 이동하기' onSelect={() => onMoveGroup(item.cardId)} />
                               </MenuOptions>
                             </Menu>
                           )}

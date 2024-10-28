@@ -199,7 +199,6 @@ function DetailSpaceGroup({ navigation }) {
         handleNext={handleNext}
         cardData={cardData} 
         showFilterButton={false}
-        showMenu={true}
       />
       <SpaceModal
         isVisible={isSpaceModalVisible}
