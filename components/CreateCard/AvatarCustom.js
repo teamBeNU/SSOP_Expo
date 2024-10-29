@@ -18,9 +18,13 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     // 외부에서 avatar와 setAvatar가 주어지지 않으면, 내부적으로 상태 관리
     const [internalAvatar, internalSetAvatar] = useState({
-        face: null,
-        hair: null,
-        hairColor: null,
+        eyes: null,
+        eyebrows: null,
+        mouth: null,
+        hairFront: null,
+        hairBack: null,
+        hairFrontColor: null,
+        hairBackColor: null,
         clothes: null,
         acc: null,
         bg: null,
@@ -139,8 +143,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
                     {avaIndex === 1 && (
+                        <View>
+                        <Text style={styles.avatarItemText}>눈</Text>
                         <View style={styles.avatarItemList}>
-                            {faceItems.map(item => (
+                            {eyesItems.map(item => (
                                 <TouchableOpacity
                                     key={item.id}
                                     onPress={(() => setAvatar((prev => ({...prev, face: item.id}))))}
@@ -150,10 +156,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     ]}
                                 >
                                     <View style={styles.avatarItem}>
-                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
                                     </View>    
                                 </TouchableOpacity>
                             ))}
+                        </View>
                         </View>
                     )}
                     {avaIndex === 2 && (
@@ -179,7 +186,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         ]}
                                     >
                                         <View style={styles.avatarItem}>
-                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                            <Image source={item.image} style={{width: "100%", height: "100%"}} />
                                         </View>    
                                     </TouchableOpacity>
                                 ))}
@@ -201,7 +208,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         <View>
                             <Text style={styles.avatarItemText}>귀걸이</Text>
                             <View style={styles.avatarItemList}>
-                                {accItems.map(item => (
+                                {/* {accItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
                                         onPress={(() => setAvatar((prev => ({...prev, acc: item.id}))))}
@@ -211,10 +218,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         ]}
                                     >
                                         <View style={styles.avatarItem}>
-                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                            <Image source={item.image} style={{width: "100%", height: "100%"}} />
                                         </View>    
                                     </TouchableOpacity>
-                                ))}
+                                ))} */}
                             </View>
                         </View>
                     )}
@@ -233,7 +240,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         </View>
                         <Text style={styles.avatarItemText}>오브젝트</Text>
                         <View style={styles.avatarItemList}>
-                            {objectItems.map(item => (
+                            {/* {objectItems.map(item => (
                                 <TouchableOpacity
                                     key={item.id}
                                     onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
@@ -243,10 +250,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     ]}
                                 >
                                     <View style={styles.avatarItem}>
-                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
                                     </View>    
                                 </TouchableOpacity>
-                            ))}
+                            ))} */}
                         </View>
                     </View>
                     )}
