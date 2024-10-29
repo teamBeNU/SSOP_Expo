@@ -58,9 +58,13 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
 
     // 아바타
     const [avatar, setAvatar] = useState({
-        face: null,
-        hair: null,
-        hairColor: null,
+        eyes: null,
+        eyebrows: null,
+        mouth: null,
+        hairFront: null,
+        hairBack: null,
+        hairFrontColor: null,
+        hairBackColor: null,
         clothes: null,
         acc: null,
         bg: null,
