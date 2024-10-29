@@ -1,12 +1,13 @@
 import { useNavigation } from '@react-navigation/native';
 import React, { useState, useEffect } from 'react';
-import { Image, ScrollView, Text, View, Dimensions, Switch, TouchableWithoutFeedback } from 'react-native';
+import { Image, Modal, Text, View, Pressable, Switch, TouchableWithoutFeedback, Keyboard } from 'react-native';
 import { styles } from './MemoStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Svg, { Path } from 'react-native-svg';
-import { TouchableOpacity } from "react-native-gesture-handler";
+import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
 
 export const Memo = ({ hasMemo, cardData }) => {    
     const [isMemoHidden, setIsMemoHidden] = useState(false);
@@ -14,6 +15,17 @@ export const Memo = ({ hasMemo, cardData }) => {
     const [displayText, setDisplayText] = useState('');
     const [isTruncated, setIsTruncated] = useState(false);
     const [moreMenu, setMoreMenu] = useState(false);
+    const [isEdit, setIsEdit] = useState(true);
+    const [textLeng, setTextLeng] = useState(0);
+    const [newMemo, setNewMemo] = useState('');
+
+    const handleTextChange = (text, e) => {
+        setTextLeng(text.length);
+        setNewMemo(text);
+    };
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+
     const maxLength = 50;
 
     useEffect(() => {
@@ -27,7 +39,9 @@ export const Memo = ({ hasMemo, cardData }) => {
     }, []);
 
     useEffect(() => {
+        
         if (hasMemo && cardData?.memo && !isMemoHidden) {
+            setNewMemo(cardData.memo);
             if (cardData.memo.length > maxLength && !isExpanded) {
                 setDisplayText(cardData.memo.slice(0, maxLength));
                 setIsTruncated(true);
@@ -44,6 +58,12 @@ export const Memo = ({ hasMemo, cardData }) => {
     const handleToggleExpand = () => setIsExpanded(!isExpanded);
     const handleMoreMenu = () => setMoreMenu(!moreMenu);
 
+    const handleMemoWrite= async () => {
+        setIsModalVisible(true);
+    };
+
+    const handleMemoDelete = async () => {};
+
     const toggleSwitch = async () => {
         const newHiddenState = !isMemoHidden;
         setIsMemoHidden(newHiddenState);
@@ -55,18 +75,106 @@ export const Memo = ({ hasMemo, cardData }) => {
             <View>
                 {moreMenu && (
                     <View style={styles.dropdownMenu}>
-                        <TouchableOpacity style={styles.dropdownMenuDetail}>
+                        <TouchableOpacity style={styles.dropdownMenuDetail} onPress={() => setIsModalVisible(true)}>
                             <Text style={styles.menuItem}>메모 수정하기</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.dropdownMenuDetail}>
+
+                        <TouchableOpacity style={styles.dropdownMenuDetail} onPress={() => handleMemoDelete}>
                             <Text style={styles.menuItem}>메모 삭제하기</Text>
                         </TouchableOpacity>
                     </View>
                 )}
+
+                <Modal
+                animationType="fade"
+                transparent={true}
+                visible={isModalVisible}
+                onRequestClose={() => {
+                setIsModalVisible(!isModalVisible);
+                }}>
+                <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                <View style={styles.modalContainer}>
+                <View style={styles.modalView}>
+                    
+                    <TouchableOpacity style={{ position: 'absolute', right: -180, top: 0, zIndex: 1}} onPress={() => setIsModalVisible(!isModalVisible)}>
+                        <CloseICon />
+                    </TouchableOpacity>
+
+                    <View style={styles.modalTitle}>
+                        <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 작성</Text>
+                    </View>
+
+                    <View style={styles.modalContent}>
+                        <TextInput
+                        style={styles.memoInput}
+                        multiline
+                        onChangeText={handleTextChange}
+                        maxLength={500}
+                        value={newMemo}
+                        placeholder={isEdit ? cardData.memo : "잊으면 안 되거나 특별했던 부분, 첫인상 등"}/>
+                        <Text style={styles.memoLeng}> {textLeng} / 500 </Text>
+                    </View>
+
+                    <Pressable
+                    style={styles.button}
+                    onPress={() => setIsModalVisible(!isModalVisible)}>
+                        <Text style={{...styles.modalFont, color:'white', fontWeight:'500'}}>메모 완료하기</Text>
+                    </Pressable>
+                </View>
+                </View>
+                </TouchableWithoutFeedback>
+                </Modal>
+
+                {isExpanded && (
+                    <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={isExpanded}
+                    onRequestClose={() => {
+                    setIsExpanded(!isExpanded);
+                    }}>
+                    <TouchableWithoutFeedback onPress={()=>setIsExpanded(false)}>
+                        <View style={styles.modalContainer}>
+                        <View style={[styles.modalView, {height: 'auto'}]}>
+                            
+                            <TouchableOpacity style={{ position: 'absolute', right: -180, top: 0, zIndex: 1}} onPress={() => setIsModalVisible(!isModalVisible)}>
+                                <CloseICon />
+                            </TouchableOpacity>
+
+                            <View style={styles.modalTitle}>
+                                <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 보기</Text>
+                            </View>
+
+                            <View style={styles.memoContent}>
+                                <Text style={styles.memoLeng}>{cardData.memo}</Text>
+                            </View>
+
+                            <View style={styles.memoBtnContainer}>
+                            <Pressable
+                            style={styles.whiteBtn}
+                            onPress={() => setIsModalVisible(!isModalVisible)}>
+                                <Text style={[styles.btnFont]}>삭제하기</Text>
+                            </Pressable>
+                            <Pressable
+                            style={styles.blackBtn}
+                            onPress={() => setIsModalVisible(!isModalVisible)}>
+                                <Text style={[styles.btnFont, {color: 'white'}]}>수정하기</Text>
+                            </Pressable>
+                            </View>
+                        </View>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    </Modal>
+                )}
+
                 <TouchableWithoutFeedback onPress={() => setMoreMenu(false)}>
                     <View>
-                        <View style={styles.memoContainer} >
-                                <MoreIcon width={32} height={32} fill="#949494" style={styles.moreIcon} onPress={handleMoreMenu} />
+                        <View style={styles.memoContainer}>
+                        {/* <TouchableOpacity onPress={handleMoreMenu} style={styles.touchableArea} > */}
+                            <MoreIcon width={32} height={32} fill="#949494" onPress={handleMoreMenu} style={styles.moreIcon} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}/>
+                        {/* </TouchableOpacity> */}
+
+
                             <Text style={styles.memoText}>
                                 {displayText}
                                 {isTruncated && !isExpanded && (
@@ -74,15 +182,9 @@ export const Memo = ({ hasMemo, cardData }) => {
                                         {' 더보기'}
                                     </Text>
                                 )}
-                                 {isExpanded && (
-                                <TouchableOpacity onPress={handleToggleExpand}>
-                                    <Text style={styles.readMoreText}> 접기</Text>
-                                </TouchableOpacity>
-                            )}
                             </Text>
-                           
                         </View>
-    
+
                         <View style={styles.hideContainer}>
                             <Text style={styles.hideText}>메모 숨기기</Text>
                             <Switch

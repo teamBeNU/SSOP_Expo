@@ -1,6 +1,7 @@
 import { Dimensions, StyleSheet, Platform, StatusBar } from 'react-native';
 import { theme } from "../../theme";
 
+const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
 const SPACING = -18;
@@ -11,9 +12,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 8,
+       // padding: 24,
         borderRadius: 20,
         backgroundColor: '#F8F8F8',
-        zIndex: 0
+        zIndex: 0,
+       // position: 'relative',
     },
     memoText: {
         color: theme.gray30,
@@ -23,7 +26,9 @@ export const styles = StyleSheet.create({
         lineHeight: 23,
         letterSpacing: -0.3,
         alignSelf: 'stretch',
-        margin:24
+        margin:24,
+        //marginTop: -12,
+        zIndex: 0,
     },
     readMoreText: {
         color: theme.skyblue,
@@ -34,15 +39,24 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.3,
         zIndex: 0,
     },
-    moreIcon: {
-        padding: 5,
-        justifyContent: 'center',
+    touchableArea: {
+        //padding: 20,
         alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'pink',
+       // left: CARD_WIDTH / 2.5,
         position: 'absolute',
         right: 4,
         top: 6,
-        zIndex: 1,
-        padding: 10
+    },
+    moreIcon: {
+        padding: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
+        zIndex: 10,
+        position: 'absolute',
+        right: 4,
+        top: 6,
     },
     dropdownMenu: {
         zIndex:1,
@@ -92,6 +106,118 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
         letterSpacing: -0.14
     },
+     //modal style
+     modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        justifyContent: 'flex-end',
+        alignItems: 'center'
+        },
+        modalView: {
+        width: '100%',
+        height: HEIGHT * 0.8,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        paddingBottom: 24,
+        paddingHorizontal: 16,
+        alignItems: 'center'
+        },
+        modalTitle: {
+        flexDirection: 'row',
+        paddingVertical: 16,
+        paddingHorizontal: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        color: theme.gray10,
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontWeight: '400',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        width: 200
+        },
+        modalContent: {
+        padding: 24,
+        alignItems: 'flex-start',
+        gap: 8,
+        width: '100%',
+        height: 240,
+        justifyContent: 'space-between',
+        borderRadius: 16,
+        backgroundColor: theme.gray95
+        },
+        button: {
+        width: '100%',
+        height: 48,
+        borderRadius: 8,
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.gray10,
+        position: 'absolute',
+        bottom: 16,
+        left: 16,
+        },
+        modalFont: {
+        fontFamily: 'PretendardRegular',
+        color: theme.gray10,
+        fontSize: 16,
+        fontWeight: 400,
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        flex: 1,
+        },
+        memoBtnContainer: {
+        width: '100%',
+        flexDirection: 'row',
+        height: 48,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 8,
+        marginHorizontal: 16,
+        marginTop: 32,
+        },
+        whiteBtn: {
+        height: 48,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+        borderWidth: 1,
+        borderColor: theme.gray80,
+        flexGrow: 1,
+        },
+        blackBtn: {
+        height: 48,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+        borderWidth: 1,
+        backgroundColor: theme.gray10,
+        flexGrow: 1,
+        },
+        btnFont: {
+        fontFamily: 'PretendardRegular',
+        color: theme.gray50,
+        fontSize: 16,
+        fontWeight: '600',
+        letterSpacing: -0.32,
+        },
+        memoContent: {
+        alignItems: 'flex-start',
+        gap: 8,
+        width: '100%',
+        height: 'auto',
+        justifyContent: 'space-between',
+        },
     // 메모 없을 때 
     container: {
         width: CARD_WIDTH,
