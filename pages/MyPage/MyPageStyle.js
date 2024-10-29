@@ -32,10 +32,16 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         marginBottom: 24,
         borderRadius: 16,
-        shadowOffset: {width: 4, height: 4},
-        shadowOpacity: 0.3,
-        shadowRadius: 3,
-        shadowColor: "#000",
+        // IOS - Shadow
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.05,
+        shadowRadius: 12,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
         elevation: 5,
     },
     userName: {
@@ -82,10 +88,16 @@ export const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 16,
         marginHorizontal: 16,
-        shadowOffset: {width: 4, height: 4},
-        shadowOpacity: 0.5,
+        // IOS - Shadow
+        shadowColor: '#000',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.05,
         shadowRadius: 12,
-        shadowColor: "#000",
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
         elevation: 5,
     },
     infoBtn: {
@@ -104,7 +116,7 @@ export const styles = StyleSheet.create({
 
     logoutContainer: {
         marginVertical: 20,
-        width: '15%',
+        width: '30%',
         marginHorizontal: 16, 
     },
     logoutText: {
@@ -114,6 +126,7 @@ export const styles = StyleSheet.create({
         fontWeight: "600",
         color: theme.gray40,
         letterSpacing: -0.14,
+        marginLeft: 16
     },
     deleteText: {
         fontFamily: "PretendardRegular",
