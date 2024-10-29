@@ -7,6 +7,9 @@ export const styles = StyleSheet.create({
     flexDirectionRow: {
         flexDirection: "row",
     },
+    marginB100: {
+        marginBottom: 100
+    },
 
     btnNext: {
         position: 'absolute',
@@ -119,6 +122,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         width: "100%", 
         height: "100%",
+        zIndex: 3,
     },
     avatarSvg: {
         position: 'absolute',
@@ -169,7 +173,7 @@ export const styles = StyleSheet.create({
         flexWrap: "wrap",
         justifyContent: "space-between",
         marginTop: 8,
-        marginBottom: 100,
+        marginBottom: 20,
         paddingHorizontal: 8,
     },
     avatarItems: {
@@ -196,11 +200,12 @@ export const styles = StyleSheet.create({
     },
 
     avatarItemText: {
-        color: "black",
-        fontFamily: "PretendardSemiBold",
+        color: theme.gray10,
+        fontFamily: "PretendardMedium",
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: "600",
+        fontWeight: "500",
+        letterSpacing: -0.32,
         marginTop: 20,
         marginLeft: 16,
     },

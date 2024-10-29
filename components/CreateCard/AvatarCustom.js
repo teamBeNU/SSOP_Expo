@@ -1,4 +1,4 @@
-import { View, ScrollView, Text, TouchableOpacity, Image, Dimensions, Platform } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity, Image, SafeAreaView, Platform } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import "react-native-gesture-handler";
 import ViewShot from "react-native-view-shot";
@@ -8,7 +8,7 @@ import AutoAvatarIcon from "../../assets/icons/avatarCustom/ic_auto.svg";
 import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
-import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
+import { faceItems, eyebrowsItems, eyesItems, hairFrontItems, hairBackItems, clothesItems, accItems, objectItems, hairColors, bgColors } from "./avatarItems";
 
 export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar}) {
     const ref = useRef();
@@ -36,7 +36,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     useEffect(() => {
         // 컴포넌트가 열리자마자 avatar 값을 1로 변경
-        setAvatar((prev => ({...prev, face: 1, hair: 1, hairColor: 1, clothes: 1, bg: 1, bgColor: 1})));
+        setAvatar((prev => ({...prev, eyes: 1, eyebrows: 1, hairFrontColor: 1, clothes: 1, bg: 1, bgColor: 1})));
     }, []);
     
     // avatar의 속성에 접근하기 전에 null 체크
@@ -48,7 +48,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     }
 
     const handleHairColor = (id) => {
-        setAvatar((prev => ({...prev, hairColor: id})));
+        setAvatar((prev => ({...prev, hairFrontColor: id, hairBackColor: id})));
     }
 
     const handleBgColor = (id) => {
@@ -78,7 +78,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     }, [avatar]);
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
                 <View style={styles.avatarDo}>
                     <TouchableOpacity>
@@ -104,11 +104,30 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     options={{ fileName: "card", format: "png", quality: 1 }}
                 >
                     <View style={styles.avatarView}>
+                        {hairFrontItems.find(item => item.id === avatar.hairFront) && (
+                            <Image source={hairFrontItems.find(item => item.id === avatar.hairFront).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 6}} />
+                        )}
+                        {eyesItems.find(item => item.id === avatar.eyes) && (
+                            <Image source={eyesItems.find(item => item.id === avatar.eyes).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 5}} />
+                        )}
+                        {eyebrowsItems.find(item => item.id === avatar.eyebrows) && (
+                            <Image source={eyebrowsItems.find(item => item.id === avatar.eyebrows).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 4}} />
+                        )}
                         <Image
+                            source={require('../../assets/avatars/face/face/face-1.png')}
+                            style={styles.avatarImg}
+                        />
+                        {clothesItems.find(item => item.id === avatar.clothes) && (
+                            <Image source={clothesItems.find(item => item.id === avatar.clothes).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 2}} />
+                        )}
+                        {hairBackItems.find(item => item.id === avatar.hairBack) && (
+                            <Image source={hairBackItems.find(item => item.id === avatar.hairBack).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 1}} />
+                        )}
+                        {/* <Image
                             source={require("../../assets/avatars/sampleAva.png")} 
                             resizeMode="contain"
                             style={styles.avatarImg}
-                        />
+                        /> */}
                         <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === (avatar.bgColor || 1)).color}]}></View>
                     </View>
                 </ViewShot>
@@ -142,59 +161,119 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     </TouchableOpacity>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    {avaIndex === 1 && (
+                    {avaIndex === 1 && (        // 이목구비
                         <View>
-                        <Text style={styles.avatarItemText}>눈</Text>
-                        <View style={styles.avatarItemList}>
-                            {eyesItems.map(item => (
-                                <TouchableOpacity
-                                    key={item.id}
-                                    onPress={(() => setAvatar((prev => ({...prev, face: item.id}))))}
-                                    style={[
-                                        styles.avatarItems, 
-                                        avatar.face === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                    ]}
-                                >
-                                    <View style={styles.avatarItem}>
-                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
-                                    </View>    
-                                </TouchableOpacity>
-                            ))}
-                        </View>
+                            <Text style={styles.avatarItemText}>눈</Text>
+                            <View style={styles.avatarItemList}>
+                                {eyesItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, eyes: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.eyes === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
+                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>눈썹</Text>
+                            <View style={styles.avatarItemList}>
+                                {eyebrowsItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, eyebrows: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.eyebrows === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
+                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
+                                        </View>    
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <View style={styles.marginB100}></View>
                         </View>
                     )}
-                    {avaIndex === 2 && (
+                    {avaIndex === 2 && (        // 헤어
                         <View>
                             <View style={styles.colorChipContainer}>
                                 {hairColors.map(hc => (
                                     <TouchableOpacity 
                                         key={hc.id}
                                         onPress={(() => handleHairColor(hc.id))}
-                                        style={[styles.colorChipOn, avatar.hairColor === hc.id ? styles.colorChipOn : styles.colorChipOff,]}
-                                    ><View style={[styles.colorChip, {backgroundColor: hc.color}]}></View>
+                                        style={[styles.colorChipOn, avatar.hairFrontColor === hc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                    >
+                                        <View style={[styles.colorChip, {backgroundColor: hc.color}]}></View>
                                     </TouchableOpacity>
                                 ))}
                             </View>
+                            <Text style={styles.avatarItemText}>앞머리</Text>
                             <View style={styles.avatarItemList}>
-                                {hairItems.map(item => (
+                                {hairFrontItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, hair: item.id}))))}
+                                        onPress={(() => setAvatar((prev => ({...prev, hairFront: item.id}))))}
                                         style={[
                                             styles.avatarItems, 
-                                            avatar.hair === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                            avatar.hairFront === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                         ]}
                                     >
                                         <View style={styles.avatarItem}>
-                                            <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
+                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
                                         </View>    
                                     </TouchableOpacity>
                                 ))}
                             </View>
+                            <Text style={styles.avatarItemText}>뒷머리</Text>
+                            <View style={styles.avatarItemList}>
+                                {hairBackItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, hairBack: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.hairBack === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
+                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
+                                        </View>    
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <View style={styles.marginB100}></View>
                         </View>
                     )}
-                    {avaIndex === 3 && (
-                        // <Text>옷</Text>
+                    {avaIndex === 3 && (        // 옷
+                        <View>
+                            <View style={styles.avatarItemList}>
+                                {clothesItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, clothes: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.clothes === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <View style={styles.marginB100}></View>
+                        </View>
+                    )}
+                    {avaIndex === 4 && (        // 악세사리
                         // 이미지 확인용
                         <>
                             <Image 
@@ -203,18 +282,48 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 onError={(e) => console.log('Error loading image: ', e)}
                             />
                         </>
+                        // <View>
+                        //     <Text style={styles.avatarItemText}>귀걸이</Text>
+                        //     <View style={styles.avatarItemList}>
+                        //         {accItems.map(item => (
+                        //             <TouchableOpacity
+                        //                 key={item.id}
+                        //                 onPress={(() => setAvatar((prev => ({...prev, acc: item.id}))))}
+                        //                 style={[
+                        //                     styles.avatarItems, 
+                        //                     avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                        //                 ]}
+                        //             >
+                        //                 <View style={styles.avatarItem}>
+                        //                     <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                        //                 </View>    
+                        //             </TouchableOpacity>
+                        //         ))}
+                        //     </View>
+                        // </View>
                     )}
-                    {avaIndex === 4 && (
+                    {avaIndex === 5 && (        // 배경
                         <View>
-                            <Text style={styles.avatarItemText}>귀걸이</Text>
+                            <Text style={styles.avatarItemText}>배경색</Text>
+                            <View style={styles.colorChipContainer}>
+                                {bgColors.map(bc => (
+                                    <TouchableOpacity 
+                                        key={bc.id}
+                                        onPress={(() => handleBgColor(bc.id))}
+                                        style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                    ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>오브젝트</Text>
                             <View style={styles.avatarItemList}>
-                                {/* {accItems.map(item => (
+                                {/* {objectItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, acc: item.id}))))}
+                                        onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
                                         style={[
                                             styles.avatarItems, 
-                                            avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                            avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                         ]}
                                     >
                                         <View style={styles.avatarItem}>
@@ -223,39 +332,8 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     </TouchableOpacity>
                                 ))} */}
                             </View>
+                            <View style={styles.marginB100}></View>
                         </View>
-                    )}
-                    {avaIndex === 5 && (
-                        <View>
-                        <Text style={styles.avatarItemText}>배경색</Text>
-                        <View style={styles.colorChipContainer}>
-                            {bgColors.map(bc => (
-                                <TouchableOpacity 
-                                    key={bc.id}
-                                    onPress={(() => handleBgColor(bc.id))}
-                                    style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
-                                ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                        <Text style={styles.avatarItemText}>오브젝트</Text>
-                        <View style={styles.avatarItemList}>
-                            {/* {objectItems.map(item => (
-                                <TouchableOpacity
-                                    key={item.id}
-                                    onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
-                                    style={[
-                                        styles.avatarItems, 
-                                        avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                    ]}
-                                >
-                                    <View style={styles.avatarItem}>
-                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
-                                    </View>    
-                                </TouchableOpacity>
-                            ))} */}
-                        </View>
-                    </View>
                     )}
                 </ScrollView>
                 {/* <TouchableOpacity onPress={handleNext}>
@@ -264,6 +342,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     </Text>
                 </TouchableOpacity> */}
             </View>
-        </View>
+        </SafeAreaView>
     );
 }
