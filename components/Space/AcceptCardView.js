@@ -68,7 +68,7 @@ const AcceptCardView = ({
     cardData,
     showMenu = true,
     onMoveGroup,
-    onDeleteGroup
+    onDeleteCard
   }) => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
