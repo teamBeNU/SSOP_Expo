@@ -9,7 +9,6 @@ import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../component
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect } from '@react-navigation/native';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from '../../assets/icons/close.svg';
@@ -152,13 +151,14 @@ function DetailSpaceGroup({ navigation }) {
   const [cardData, setCardData] = useState([]);  // 카드 데이터를 상태로 관리
   const [members, setMembers] = useState(0);  // members로 카드 개수를 저장
 
+  const fetchCardData = async () => {
+    const result = await fetchSavedCards();
+    setCardData(result);
+    setMembers(result.length);
+  };
+
   useFocusEffect(
     useCallback(() => {
-      const fetchCardData = async () => {
-        const result = await fetchSavedCards();
-        setCardData(result);
-        setMembers(result.length);
-      };
       fetchCardData();
     }, [])
   );
