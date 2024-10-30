@@ -52,20 +52,19 @@ const CardsView = ({
   selectedCards = [], // 선택된 카드 목록 상태
   handleRadioSelect, // 카드 선택 상태 변경 함수
 }) => {
-  const [sortedCardIdData, setSortedCardIdData] = useState([]);
-  const [sortedMemberData, setSortedMemberData] = useState([]);
 
-    // 최신순 / 오래된 순 정렬 함수
-    const sortData = (data) => {
-      const dataCopy = [...(data || [])];
-      return selectedOption === '최신순' ? dataCopy : dataCopy.reverse(); // 최신순은 그대로, 오래된 순은 역순
-    };
+  const [sortedCardData, setSortedCardData] = useState([]); // 정렬된 카드 데이터를 저장
 
-    // 데이터 정렬
-    useEffect(() => {
-      setSortedCardIdData(sortData(cardData.cardIdData));
-      setSortedMemberData(sortData(cardData.memberData));
-    }, [cardData, selectedOption]);
+  // 최신순 / 오래된 순 정렬 함수
+  const sortData = (data) => {
+    const dataCopy = [...(data || [])];
+    return selectedOption === '오래된 순' ? dataCopy : dataCopy.reverse(); 
+  };
+
+  // 데이터 정렬
+  useEffect(() => {
+    setSortedCardData(sortData(cardData)); // cardData 정렬하여 sortedCardData에 저장
+  }, [cardData, selectedOption]);
 
   return (
     <View style={styles.mainlayout}>
@@ -117,8 +116,8 @@ const CardsView = ({
           {viewOption === '격자형' && (
             <View style={styles.gridContainer}>
               {showPlusCard && <PlusCardButton navigation={navigation} />}
-              {/* 카드 목록 렌더링 */}
-              {cardData.map((item, index) => (
+              {/* 정렬된 카드 목록 렌더링 */}
+              {sortedCardData.map((item, index) => (
                 <View key={item.cardId || index} style={styles.cardWrapper}>
                   {showRadio && (
                     <View style={styles.radioButtonContainer}>
@@ -150,7 +149,7 @@ const CardsView = ({
 
           {viewOption === '리스트형' && (
             <View>
-              {cardData.map((item, index) => (
+              {sortedCardData.map((item, index) => (
                 <TouchableOpacity
                   key={item.cardId || index}
                   style={styles.radioCardWrapper}
@@ -207,6 +206,7 @@ const CardsView = ({
     </View>
   );
 };
+
 
 export default CardsView;
 
