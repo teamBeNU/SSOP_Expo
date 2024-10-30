@@ -237,6 +237,22 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderStyle: "solid",
     },
+    btnFreeContainer: {
+        position: 'absolute',
+        bottom: 16,
+        marginLeft: 16,
+        width: SCREEN_WIDTH - 32,
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+    },
     btnNext: {
         // // position: 'absolute',
         // // bottom: 16,  // contair의 height: '100%',

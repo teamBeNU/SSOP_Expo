@@ -480,7 +480,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
       mediaTypes: ImagePicker.MediaTypeOptions.Images,    // 어떤 타입의 파일 업로드할지 (이미지만 받기 위해 Images로 설정)
       allowsEditing: true,    // 이미지 업로드 전에 자르기 등의 편집 가능 여부 설정
       quality: 1,     // 이미지 압축 여부(1: 가장 높은 품질)
-      // aspect: [1, 1]    // 이미지 비율
+      aspect: [1, 1]    // 이미지 비율
     });
 
     if (!result.canceled) {     // 이미지 업로드

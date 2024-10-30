@@ -7,6 +7,8 @@ import { AuthContext } from "../../AuthContext";
 
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
+import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
+import MyPageModal from "../../components/MyPage/MyPageModal";
 
 function UserPhoneNumber({navigation}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -15,6 +17,10 @@ function UserPhoneNumber({navigation}) {
     
     const [user_tel, setTel] = useState('');
     const [isTelFull, setIsTelFull] = useState(true);
+
+    const [telInit, setTelInit] = useState('')
+
+    const [modalVisible, setModalVisible] = useState(false);
 
     // AsyncStorage에서 토큰 가져오기
     useEffect(() => {
@@ -42,6 +48,7 @@ function UserPhoneNumber({navigation}) {
                         withCredentials: true,
                     });
     
+                    setTelInit(response.data.user_phone);
                     setTel(response.data.user_phone);
                 } catch (error) {
                   console.error('에러: ',error);
@@ -85,6 +92,45 @@ function UserPhoneNumber({navigation}) {
         }
     };
 
+    // 모달 - '네, 취소할래요'
+    const handleBtn1 = () => {
+        setModalVisible(false);
+        navigation.goBack();
+    };
+
+    // 모달 - '마저 변경할래요'
+    const handleBtn2 = () => {
+        setModalVisible(false);
+    };
+
+    // 나가기
+    const handleClose = () => {
+        // 입력한 값이 있는지 확인
+        const isTF = user_tel !== '';
+        
+        // 기존 유저 정보와 입력한 값이 일치하는지 확인
+        const isTCorrect = telInit === user_tel;
+
+        if (isTF && isTCorrect) {
+            navigation.goBack();
+        } else {
+            setModalVisible(true);
+        }
+    }
+
+    // 헤더 바
+    useEffect(() => {
+        navigation.setOptions({
+            headerLeft: () => (
+                <TouchableOpacity
+                    onPress={() => { handleClose(); }}   // 나가기
+                >
+                    <CloseIcon style={{ marginLeft: 8 }} />
+                </TouchableOpacity>
+            ),
+        });
+    }, [user_tel]);
+
     return (
         <View style={styles.userMain}>
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -105,6 +151,21 @@ function UserPhoneNumber({navigation}) {
                             <Text style={styles.inputErrorText}>연락처를 입력해 주세요.</Text>
                         )}
                     </View>
+
+                    {modalVisible && (
+                        <MyPageModal 
+                            modalVisible={modalVisible}
+                            setModalVisible={setModalVisible}
+                            handleBtn1={handleBtn1}
+                            handleBtn2={handleBtn2}
+                            modalTitle={'정보 변경을 취소하시겠습니까?'}
+                            modalText={null}
+                            btn1={'네, 취소할래요'}
+                            btn2={'마저 변경할래요'}
+                            btnMargin={26.5}
+                        />
+                    )}
+
                     <View style={styles.btnFlex} />
                     <TouchableOpacity 
                         style={styles.btnNext}

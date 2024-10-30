@@ -73,8 +73,10 @@ function MyPage({navigation}) {
           setIsLoggedIn(false); // Update login state
           setUserName('');
           // Alert.alert('로그아웃 성공');
-          // navigation.navigate('로그인');
-          navigation.navigate('로그인', { showCloseBtn: true });
+          navigation.reset({
+            index: 0,
+            routes: [{ name: '로그인'}],
+        })
         } catch (error) {
           console.error('Error during logout:', error);
           // Alert.alert('Error', 'Failed to log out.');

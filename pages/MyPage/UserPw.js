@@ -8,12 +8,12 @@ import { AuthContext } from "../../AuthContext";
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
-import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import VisibilityIcon from "../../assets/Login/ic_visibility.svg";
 import VisibilityOffIcon from "../../assets/Login/ic_visibility_off.svg";
 import CheckIcon from "../../assets/Login/ic_done_small_line.svg";
 import BlueCheckIcon from "../../assets/Login/ic_done_small_line_blue.svg";
 import PasswordDone from "../../assets/images/passwordDone.svg";
+import MyPageModal from "../../components/MyPage/MyPageModal";
 
 function UserPw({navigation}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -23,12 +23,12 @@ function UserPw({navigation}) {
     const [step, setStep] = useState(1);
     const [userPassword, setuserPassword] = useState('');
     const [isPwVisible, setIsPwVisible] = useState(false);
-    const [isPwFull, setIsPwFull] = useState(true);
     const [pwIsCorrect, setPwIsCorrect] = useState(true);
     const [hasEnglish, setHasEnglish] = useState(false);
     const [hasNum, setHasNum] = useState(false);
     const [hasLeng, setHasLeng] = useState(false);
-
+    
+    const [modalVisible, setModalVisible] = useState(false);
     
     // AsyncStorage에서 토큰 가져오기
     useEffect(() => {
@@ -59,7 +59,6 @@ function UserPw({navigation}) {
     const handleNext = async () => {
         if (step === 1) {
             const isFull = userPassword !== '';
-            setIsPwFull(isFull);
             console.log('userPassword: ',userPassword );
             try {
                 const response = await axios.post(
@@ -78,7 +77,6 @@ function UserPw({navigation}) {
                     setPwIsCorrect(true);
 
                     setIsPwVisible(false);
-                    setIsPwFull('');
                     setuserPassword('');
                     setStep(2);
                 } else {
@@ -114,6 +112,22 @@ function UserPw({navigation}) {
         }
     };
 
+    // 모달 - '네, 취소할래요'
+    const handleBtn1 = () => {
+        setModalVisible(false);
+        navigation.goBack();
+    };
+
+    // 모달 - '마저 변경할래요'
+    const handleBtn2 = () => {
+        setModalVisible(false);
+    };
+
+    // 나가기
+    const handleClose = () => {
+        setModalVisible(true);
+    }
+
     useEffect(() => {
         if (step === 1) {
             navigation.setOptions({
@@ -129,9 +143,9 @@ function UserPw({navigation}) {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity
-                        onPress={() => {setStep(1); setuserPassword('');}}
+                        onPress={() => {handleClose();}}
                     >
-                        <LeftArrowIcon style={{ marginLeft: 8 }} />
+                        <CloseIcon style={{ marginLeft: 8 }} />
                     </TouchableOpacity>
                 ),
             });
@@ -234,6 +248,20 @@ function UserPw({navigation}) {
                         >
                             <Text style={styles.btnNextText}>비밀번호 변경하기</Text>
                         </TouchableOpacity>
+
+                        {modalVisible && (
+                            <MyPageModal 
+                                modalVisible={modalVisible}
+                                setModalVisible={setModalVisible}
+                                handleBtn1={handleBtn1}
+                                handleBtn2={handleBtn2}
+                                modalTitle={'정보 변경을 취소하시겠습니까?'}
+                                modalText={null}
+                                btn1={'네, 취소할래요'}
+                                btn2={'마저 변경할래요'}
+                                btnMargin={26.5}
+                            />
+                        )}
                     </View>
                 </TouchableWithoutFeedback>
             )}
