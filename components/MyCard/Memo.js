@@ -9,7 +9,7 @@ import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
 
-export const Memo = ({ hasMemo, cardData }) => {    
+export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {    
     const navigation = useNavigation();
 
     const [isMemoHidden, setIsMemoHidden] = useState(false);
@@ -30,7 +30,7 @@ export const Memo = ({ hasMemo, cardData }) => {
 
     const [isModalVisible, setIsModalVisible] = useState(false);
 
-    const maxLength = 50;
+    const maxLength = 45;
 
     useEffect(() => {
         const loadHiddenState = async () => {
@@ -43,20 +43,24 @@ export const Memo = ({ hasMemo, cardData }) => {
     }, []);
 
     useEffect(() => {
-        if (hasMemo && cardData?.memo && !isMemoHidden) {
-            setNewMemo(cardData.memo);
-            if (cardData.memo.length > maxLength && !isExpanded) {
-                setDisplayText(cardData.memo.slice(0, maxLength));
-                setIsTruncated(true);
-            } else {
-                setDisplayText(cardData.memo);
-                setIsTruncated(false);
-            }
-        } else if (isMemoHidden) {
-            setDisplayText('메모가 숨겨져 있어요.');
+        const currentMemo = cardData[currentCardIndex]?.memo;
+      
+        if (isMemoHidden) {
+          setDisplayText('메모가 숨겨져 있어요.');
+          setIsTruncated(false);
+        } else if (hasMemo && currentMemo) {
+          setNewMemo(currentMemo);
+      
+          if (currentMemo.length > maxLength && !isExpanded) {
+            setDisplayText(currentMemo.slice(0, maxLength));
+            setIsTruncated(true);
+          } else {
+            setDisplayText(currentMemo);
             setIsTruncated(false);
+          }
         }
-    }, [cardData?.memo, isExpanded, hasMemo, isMemoHidden]);
+      }, [cardData[currentCardIndex]?.memo, isExpanded, hasMemo, isMemoHidden]);
+      
 
     const handleToggleExpand = () => setIsExpanded(!isExpanded);
     const handleMoreMenu = () => setMoreMenu(!moreMenu);
@@ -83,6 +87,27 @@ export const Memo = ({ hasMemo, cardData }) => {
             },
             body: JSON.stringify({
                 memo: "",
+            }),
+            });
+        } catch (error) {
+            Alert.alert(error.message);
+        }
+
+        navigation.navigate('상대카드 상세보기', { cardId, refreshTrigger: Date.now() });
+    }
+
+    const writeMemo = async (cardId, newMemo) => {
+        try {
+            const token = await AsyncStorage.getItem('token');
+
+            const response = await fetch(`http://43.202.52.64:8080/api/card/memo?cardId=${cardId}`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                memo: newMemo,
             }),
             });
         } catch (error) {
@@ -130,10 +155,12 @@ export const Memo = ({ hasMemo, cardData }) => {
                         <CloseICon />
                     </TouchableOpacity>
 
+                    <TouchableWithoutFeedback onPress={() => setIsModalVisible(!isModalVisible)}>
                     <View style={styles.modalTitle}>
-                        <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 작성</Text>
+                        <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 수정</Text>
                     </View>
-
+                    </TouchableWithoutFeedback>
+                    
                     <View style={styles.modalContent}>
                         <TextInput
                         style={styles.memoInput}
@@ -141,13 +168,14 @@ export const Memo = ({ hasMemo, cardData }) => {
                         onChangeText={handleTextChange}
                         maxLength={500}
                         value={newMemo}
-                        placeholder={isEdit ? cardData.memo : "잊으면 안 되거나 특별했던 부분, 첫인상 등"}/>
+                        blurOnSubmit={true}
+                        placeholder={isEdit ? cardData[currentCardIndex].memo : "잊으면 안 되거나 특별했던 부분, 첫인상 등"}/>
                         <Text style={styles.memoLeng}> {textLeng} / 500 </Text>
                     </View>
 
                     <Pressable
                     style={styles.button}
-                    onPress={() => setIsModalVisible(!isModalVisible)}>
+                    onPress={() => { writeMemo(cardData[currentCardIndex].cardId, newMemo); setIsModalVisible(!isModalVisible);}}>
                         <Text style={{...styles.modalFont, color:'white', fontWeight:'500'}}>메모 완료하기</Text>
                     </Pressable>
                 </View>
@@ -179,7 +207,7 @@ export const Memo = ({ hasMemo, cardData }) => {
                                 </TouchableOpacity>
                                 <TouchableOpacity
                                 style={[styles.blackBtn, {width: 132}]}
-                                onPress={() => deleteMemo(cardData.cardId)}>
+                                onPress={() => deleteMemo(cardData[currentCardIndex].cardId)}>
                                     <Text style={[styles.btnFont, {color: 'white', fontSize: 14}]}>네, 삭제할래요</Text>
                                 </TouchableOpacity>
                             </View>
@@ -199,35 +227,36 @@ export const Memo = ({ hasMemo, cardData }) => {
                     }}>
                    
                         <View style={styles.modalContainer}>
-                        <View style={[styles.modalView, {height: 'auto'}]}>
-                            
-                            <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
-                            <View style={styles.modalTitle}>
-                                <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 보기</Text>
-                                <TouchableOpacity style={{ position: 'absolute', right: -16, top: -24, zIndex: 1}}  onPress={() => setIsExpanded(!isExpanded)}>
-                                 <CloseICon />
+                            <View style={[styles.modalView, {height: 'auto'}]}>
+                                
+                                <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
+                                <View style={styles.modalTitle}>
+                                    <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 보기</Text>
+                                    <TouchableOpacity style={{ position: 'absolute', right: -16, top: -24, zIndex: 1}}  onPress={() => setIsExpanded(!isExpanded)}>
+                                    <CloseICon />
+                                    </TouchableOpacity>
+                                </View>
+                                </TouchableWithoutFeedback>
+                                
+
+                                <View style={styles.memoContent}>
+                                    <Text style={styles.memoLeng}>{cardData[currentCardIndex].memo}</Text>
+                                </View>
+
+                                <View style={styles.memoBtnContainer}>
+                                <TouchableOpacity
+                                style={styles.whiteBtn}
+                                onPress={() => handleMemoDelete(cardData[currentCardIndex].cardId)}>
+                                    <Text style={[styles.btnFont]}>삭제하기</Text>
                                 </TouchableOpacity>
-                            </View>
-                            </TouchableWithoutFeedback>
-                            
 
-                            <View style={styles.memoContent}>
-                                <Text style={styles.memoLeng}>{cardData.memo}</Text>
+                                <TouchableOpacity
+                                style={styles.blackBtn}
+                                onPress={() => {setIsExpanded(false); setIsModalVisible(!isModalVisible);}}>
+                                    <Text style={[styles.btnFont, {color: 'white'}]}>수정하기</Text>
+                                </TouchableOpacity>
+                                </View>
                             </View>
-
-                            <View style={styles.memoBtnContainer}>
-                            <Pressable
-                            style={styles.whiteBtn}
-                            onPress={() => handleMemoDelete(cardData.cardId)}>
-                                <Text style={[styles.btnFont]}>삭제하기</Text>
-                            </Pressable>
-                            <Pressable
-                            style={styles.blackBtn}
-                            onPress={() => handleMemoWrite}>
-                                <Text style={[styles.btnFont, {color: 'white'}]}>수정하기</Text>
-                            </Pressable>
-                            </View>
-                        </View>
                         </View>
                     </Modal>
                 )}
@@ -263,12 +292,58 @@ export const Memo = ({ hasMemo, cardData }) => {
                     </TouchableWithoutFeedback>
             </View>
         ) : (
-            <TouchableOpacity style={styles.container}>
+        <View>
+            <TouchableOpacity style={styles.container} onPress={() => {setNewMemo(''); setIsModalVisible(true);}}>
                 <View style={styles.btn}>
                     <WriteBtn style={styles.writeBtn} />
                     <Text style={styles.btnText}>메모 추가하기</Text>
                 </View>
             </TouchableOpacity>
+
+            <Modal
+            animationType="fade"
+            transparent={true}
+            visible={isModalVisible}
+            onRequestClose={() => {
+            setIsModalVisible(!isModalVisible);
+            }}>
+            
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.modalContainer}>
+            <View style={styles.modalView}>
+                
+                <TouchableOpacity style={{ position: 'absolute', right: -180, top: 0, zIndex: 1}} onPress={() => setIsModalVisible(false)}>
+                    <CloseICon />
+                </TouchableOpacity>
+
+                <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+                <View style={styles.modalTitle}  onPress={() => setIsModalVisible(false)}>
+                    <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 작성</Text>
+                </View>
+                </TouchableWithoutFeedback>
+
+                <View style={styles.modalContent}>
+                    <TextInput
+                    style={styles.memoInput}
+                    multiline
+                    onChangeText={handleTextChange}
+                    maxLength={500}
+                    value={newMemo}
+                    //blurOnSubmit={true}
+                    placeholder="잊으면 안 되거나 특별했던 부분, 첫인상 등"/>
+                    <Text style={styles.memoLeng}> {textLeng} / 500 </Text>
+                </View>
+
+                <Pressable
+                style={styles.button}
+                onPress={() => {setIsModalVisible(!isModalVisible); writeMemo(cardData[currentCardIndex].cardId, newMemo)}}>
+                    <Text style={{...styles.modalFont, color:'white', fontWeight:'500'}}>메모 완료하기</Text>
+                </Pressable>
+            </View>
+            </View>
+            </TouchableWithoutFeedback>
+            </Modal>
+        </View>
         )
     );
 };

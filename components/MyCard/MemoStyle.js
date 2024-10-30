@@ -175,8 +175,8 @@ export const styles = StyleSheet.create({
         flex: 1,
         },
         memoBtnContainer: {
-        width: '100%',
         flexDirection: 'row',
+        width: '100%',
         height: 48,
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -185,6 +185,7 @@ export const styles = StyleSheet.create({
         marginTop: 32,
         },
         whiteBtn: {
+        width: WIDTH * 0.45,
         height: 48,
         paddingVertical: 8,
         paddingHorizontal: 16,
@@ -193,9 +194,9 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray80,
-        flexGrow: 1,
         },
         blackBtn: {
+        width: WIDTH * 0.45,
         height: 48,
         paddingVertical: 8,
         paddingHorizontal: 16,
@@ -204,7 +205,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         backgroundColor: theme.gray10,
-        flexGrow: 1,
+        // flex: 1,
         },
         btnFont: {
         fontFamily: 'PretendardRegular',

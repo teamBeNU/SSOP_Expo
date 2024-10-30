@@ -205,7 +205,7 @@ const CheckCardDetail = () => {
             </TouchableWithoutFeedback>
 
             <View  style={{marginTop: 24, alignItems: 'center'}}>
-            <Memo hasMemo= {hasMemo} cardData = {cardData[currentCardIndex]} refresh={fetchData}/>
+            <Memo hasMemo= {hasMemo} cardData = {cardData} currentCardIndex={currentCardIndex} />
             </View>
           
             {/* <View style={styles.btnContainer}> */}
