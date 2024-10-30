@@ -51,6 +51,7 @@ import FAQ from './pages/MyPage/Service/FAQ';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import Space from './pages/Space/Space';
 import DeleteMyCard from './pages/MyCard/DeleteMyCard';
+import AvatarCustom from './components/CreateCard/AvatarCustom';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';
@@ -280,11 +281,23 @@ export default function App() {
             )
           }}
         />
-        <Stack.Screen 
+        {/* <Stack.Screen 
           name="카드 커버 수정"
           component={EditCardCover}
           options={{
             headerTitle: "카드 커버 수정",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            )
+          }}
+        /> */}
+        <Stack.Screen 
+          name="아바타 커스터마이징"
+          component={AvatarCustom}
+          options={{
+            headerTitle: "아바타 커스터마이징",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>

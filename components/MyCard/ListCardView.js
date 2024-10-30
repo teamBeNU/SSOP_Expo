@@ -1,17 +1,22 @@
 import { useNavigation } from '@react-navigation/native';
 import { Image, ScrollView, Text, View, Dimensions } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { getColor } from '../../utils/bgColorMapping';
 import { calculateAge } from '../../utils/calculateAge';
 import { styles } from './CardViewStyle';
-import NotSelectedIcon from '../../assets/icons/ic_radioBtn_notSelect.svg';
+import Toast from 'react-native-toast-message';
+import NotSelectedIcon from '../../assets/icons/ic_radioBtn_all.svg';
 import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
+import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
+import {deleteCard} from './DeleteCardAPI.js';
 
-export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCards }) => {
+export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCards, refreshData }) => {
     const navigation = useNavigation(); 
 
     const handleNext = (cardId) => {
-        navigation.navigate('카드 상세보기', { cardId });
+      navigation.navigate('카드 상세보기', { cardId });
     };
 
     return (
@@ -39,7 +44,14 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                   )}
               </TouchableOpacity>
             <View key={item.cardId} style={{...styles.ListContainer, width: Dimensions.get('window').width - 64}}>
-              <TouchableOpacity onPress={() => handleNext(item.cardId)}>
+              <TouchableOpacity  onPress={() => {
+                      setSelectedCards((prev) => {
+                          if (prev.includes(item.cardId)) {
+                              return prev.filter(id => id !== item.cardId);
+                          }
+                          return [...prev, item.cardId];
+                      });
+                  }}>
                 <View style={styles.row2}>
 
                   {item.card_cover === 'avatar' ? 
@@ -77,31 +89,44 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
             <View key={item.cardId} style={styles.ListContainer}>
               <TouchableOpacity onPress={() => handleNext(item.cardId)}>
                 <View style={styles.row2}>
-                  {item.card_cover === 'avatar' ? 
-                    <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor)}]}>
-                    
+                  {item.card_cover === 'avatar' ? (
+                    <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor) }]}>
                     </View>
-                    :
+                  ) : (
                     <View style={[styles.gray]}>
-                      <Image 
-                        source={{ uri: item.profile_image_url }} 
+                      <Image
+                        source={{ uri: item.profile_image_url }}
                         resizeMode="cover"
-                        style={{ width: 64, height: 64, borderRadius: 16, }}
+                        style={{ width: 64, height: 64, borderRadius: 16 }}
                       />
-                    </View>                 
-                  }
-                  
+                    </View>
+                  )}
                   <View style={styles.infoContainer}>
                     <View style={styles.rowName}>
                       <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
                       {item.cardOptional.card_birth ? (
-                      <Text style={styles.Text16gray50}>{calculateAge(item.cardOptional.card_birth)}</Text>
-                      ) : null}                        
+                        <Text style={styles.Text16gray50}>{calculateAge(item.cardOptional.card_birth)}</Text>
+                      ) : null}
                     </View>
                     <Text style={styles.Text14gray30}>{item.cardEssential.card_introduction}</Text>
                   </View>
                 </View>
               </TouchableOpacity>
+              
+              <View style={styles.menuContainer} pointerEvents="box-none">
+                <Menu>
+                  <MenuTrigger>
+                    <MoreGrayIcon style={{ marginRight: 8 }} />
+                  </MenuTrigger>
+                  <MenuOptions
+                    optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
+                  >
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 공유하기' onSelect={() => {}} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 수정하기' onSelect={() => {}} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기' onSelect={() => deleteCard(item.cardId, navigation, '내 카드', refreshData)} />
+                  </MenuOptions>
+                </Menu>
+              </View>
             </View>
           ))}
           </View>

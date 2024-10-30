@@ -191,13 +191,14 @@ function DetailSpaceGroup({ navigation }) {
   const [members, setMembers] = useState(0);  // members로 카드 개수를 저장
   const [selectedCardId, setSelectedCardId] = useState(null)
 
+  const fetchCardData = async () => {
+    const result = await fetchSavedCards();
+    setCardData(result);
+    setMembers(result.length);
+  };
+
   useFocusEffect(
     useCallback(() => {
-      const fetchCardData = async () => {
-        const result = await fetchSavedCards();
-        setCardData(result);
-        setMembers(result.length);
-      };
       fetchCardData();
     }, [])
   );
@@ -233,9 +234,9 @@ function DetailSpaceGroup({ navigation }) {
     navigation.navigate('그룹 이동', { selectedCards: [cardId] });
   };
 
-  const handleNext = (cardId) => {
-    console.log('cardid: ', cardId);
-    navigation.navigate('상대카드 상세보기', { cardId });
+  const handleNext = async (cardId) => {
+    const data = await fetchCardData();
+    navigation.navigate('상대카드 상세보기', { cardId, refresh: data });
   };
 
   return (

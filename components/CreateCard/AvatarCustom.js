@@ -1,4 +1,4 @@
-import { View, ScrollView, Text, TouchableOpacity, Image, Dimensions, Platform } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity, Image, SafeAreaView, Platform } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
 import "react-native-gesture-handler";
 import ViewShot from "react-native-view-shot";
@@ -8,7 +8,7 @@ import AutoAvatarIcon from "../../assets/icons/avatarCustom/ic_auto.svg";
 import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
-import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "./avatarItems";
+import { faceItems, eyebrowsItems, eyesItems, hairFrontItems, hairBackItems, clothesItems, accItems, bgItems, hairColors, bgColors } from "./avatarItems";
 
 export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar}) {
     const ref = useRef();
@@ -17,10 +17,14 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [avaIndex, setAvaIndex] = useState(1);
 
     // 외부에서 avatar와 setAvatar가 주어지지 않으면, 내부적으로 상태 관리
-    const [internalAvatar, internalSetAvatar] = useState({
-        face: null,
-        hair: null,
-        hairColor: null,
+    const [internalAvatar, SetinternalAvatar] = useState({
+        eyes: null,
+        eyebrows: null,
+        mouth: null,
+        hairFront: null,
+        hairBack: null,
+        hairFrontColor: null,
+        hairBackColor: null,
         clothes: null,
         acc: null,
         bg: null,
@@ -28,11 +32,54 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     });
     // 실제로 사용할 avatar와 setAvatar 결정
     const avatar = externalAvatar ?? internalAvatar;
-    const setAvatar = externalSetAvatar ?? internalSetAvatar;
+    const setAvatar = externalSetAvatar ?? SetinternalAvatar;
+
+    // 초기 값 저장
+    const [initAvatar, setInitAvatar] = useState({
+        eyes: avatar.eyes,
+        eyebrows: avatar.eyebrows,
+        mouth: avatar.mouth,
+        hairFront: avatar.hairFront,
+        hairBack: avatar.hairBack,
+        hairFrontColor: avatar.hairFrontColor,
+        hairBackColor: avatar.hairBackColor,
+        clothes: avatar.clothes,
+        acc: avatar.acc,
+        bg: avatar.bg,
+        bgColor: avatar.bgColor,
+    });
 
     useEffect(() => {
-        // 컴포넌트가 열리자마자 avatar 값을 1로 변경
-        setAvatar((prev => ({...prev, face: 1, hair: 1, hairColor: 1, clothes: 1, bg: 1, bgColor: 1})));
+        // 처음 렌더링 되었을 때 기본값(기존값)으로 지정
+        if (initAvatar.eyes === null || initAvatar.eyes === 0) {     // 초기 eyes가 null이라는 것은 카드 생성에서 아바타커스터마이징에 처음 접근한 것을 의미
+            setAvatar((prev => ({...prev, 
+                eyes: 1,
+                eyebrows: 1,
+                mouth: 1,
+                hairFront: null,
+                hairBack: null,
+                hairFrontColor: 1,
+                hairBackColor: 1,
+                clothes: 1,
+                acc: null,
+                bg: null,
+                bgColor: 1,
+            })));
+        } else {      // 화면 이동했다가 다시 돌아왔을 경우 이전에 선택한 데이터를 유지하기 위해
+            setAvatar((prev => ({...prev, 
+                eyes: initAvatar.eyes,
+                eyebrows: initAvatar.eyebrows,
+                mouth: initAvatar.mouth,
+                hairFront: initAvatar.hairFront,
+                hairBack: initAvatar.hairBack,
+                hairFrontColor: initAvatar.hairFrontColor,
+                hairBackColor: initAvatar.hairBackColor,
+                clothes: initAvatar.clothes,
+                acc: initAvatar.acc,
+                bg: initAvatar.bg,
+                bgColor: initAvatar.bgColor,
+            })));
+        }
     }, []);
     
     // avatar의 속성에 접근하기 전에 null 체크
@@ -44,7 +91,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     }
 
     const handleHairColor = (id) => {
-        setAvatar((prev => ({...prev, hairColor: id})));
+        setAvatar((prev => ({...prev, hairFrontColor: id, hairBackColor: id})));
     }
 
     const handleBgColor = (id) => {
@@ -73,8 +120,53 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         });
     }, [avatar]);
 
+    // 초기화
+    const handleReset = () => {
+        setAvatar((prev => ({...prev, 
+            eyes: 1,
+            eyebrows: 1,
+            mouth: 1,
+            hairFront: null,
+            hairBack: null,
+            hairFrontColor: 1,
+            hairBackColor: 1,
+            clothes: 1,
+            acc: null,
+            bg: null,
+            bgColor: 1,
+        })));
+    }
+
+    // 자동 생성
+    const handleAuto = () => {
+        let randEyes = Math.floor(Math.random( ) * eyesItems.length) + 1;
+        let randEyebrows = Math.floor(Math.random( ) * eyebrowsItems.length) + 1;
+        // let randMouth = Math.floor(Math.random( ) * mouthItems.length) + 1;
+        let randHairFront = Math.floor(Math.random( ) * hairFrontItems.length) + 1;
+        let randHairBack = Math.floor(Math.random( ) * hairBackItems.length) + 1;
+        let randHairColor = Math.floor(Math.random( ) * hairColors.length) + 1;
+        let randClothes = Math.floor(Math.random( ) * clothesItems.length) + 1;
+        // let randAcc = Math.floor(Math.random( ) * accItems.length) + 1;
+        // let randBg = Math.floor(Math.random( ) * bgItem.length) + 1;
+        let randBgColor = Math.floor(Math.random( ) * bgColors.length) + 1;
+
+        setAvatar((prev => ({...prev, 
+            eyes: randEyes,
+            eyebrows: randEyebrows,
+            //mouth: randMouth,
+            hairFront: randHairFront,
+            hairBack: randHairBack,
+            hairFrontColor: randHairColor,
+            hairBackColor: randHairColor,
+            clothes: randClothes,
+            //acc: randAcc,
+            //bg: randBg,
+            bgColor: randBgColor,
+        })));
+    }
+
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
                 <View style={styles.avatarDo}>
                     <TouchableOpacity>
@@ -85,30 +177,51 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarAuto}>
-                    <TouchableOpacity style={[styles.flexDirectionRow, {justifyContent: 'center', alignItems: 'center'}]}>
+                    <TouchableOpacity 
+                        style={styles.avatarAutoBtn}
+                        onPress={() => handleAuto()}
+                    >
                         <AutoAvatarIcon style={styles.autoAvatarIcon} />
                         <Text style={styles.avatarAutoText}>자동생성</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarRestart}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleReset()}>
                         <RestartIcon />
                     </TouchableOpacity>
                 </View>
                 <ViewShot 
-                    ref={ref} 
-                    options={{ fileName: "card", format: "png", quality: 0.9 }}
+                    ref={ref}
+                    options={{ fileName: "card", format: "png", quality: 1 }}
                 >
                     <View style={styles.avatarView}>
+                        {hairFrontItems.find(item => item.id === avatar.hairFront) && (
+                            <Image source={hairFrontItems.find(item => item.id === avatar.hairFront).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 6}} />
+                        )}
+                        {eyesItems.find(item => item.id === avatar.eyes) && (
+                            <Image source={eyesItems.find(item => item.id === avatar.eyes).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 5}} />
+                        )}
+                        {eyebrowsItems.find(item => item.id === avatar.eyebrows) && (
+                            <Image source={eyebrowsItems.find(item => item.id === avatar.eyebrows).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 4}} />
+                        )}
+                        <Image
+                            source={require('../../assets/avatars/face/face/face-1.png')}
+                            style={styles.avatarImg}
+                        />
+                        {clothesItems.find(item => item.id === avatar.clothes) && (
+                            <Image source={clothesItems.find(item => item.id === avatar.clothes).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 2}} />
+                        )}
+                        {hairBackItems.find(item => item.id === avatar.hairBack) && (
+                            <Image source={hairBackItems.find(item => item.id === avatar.hairBack).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 1}} />
+                        )}
                         {/* <Image
-                            source={require("../../assets/images/sample-avatar-1.png")} 
+                            source={require("../../assets/avatars/sampleAva.png")} 
                             resizeMode="contain"
                             style={styles.avatarImg}
                         /> */}
                         <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === (avatar.bgColor || 1)).color}]}></View>
                     </View>
                 </ViewShot>
-                
             </View>
             <View style={styles.avatarItemContainer}>
                 <View style={styles.avatarItemCategory}>
@@ -139,56 +252,119 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     </TouchableOpacity>
                 </View>
                 <ScrollView showsVerticalScrollIndicator={false}>
-                    {avaIndex === 1 && (
-                        <View style={styles.avatarItemList}>
-                            {faceItems.map(item => (
-                                <TouchableOpacity
-                                    key={item.id}
-                                    onPress={(() => setAvatar((prev => ({...prev, face: item.id}))))}
-                                    style={[
-                                        styles.avatarItems, 
-                                        avatar.face === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                    ]}
-                                >
-                                    <View style={styles.avatarItem}>
-                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
-                                    </View>    
-                                </TouchableOpacity>
-                            ))}
+                    {avaIndex === 1 && (        // 이목구비
+                        <View>
+                            <Text style={styles.avatarItemText}>눈</Text>
+                            <View style={styles.avatarItemList}>
+                                {eyesItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, eyes: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.eyes === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
+                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>눈썹</Text>
+                            <View style={styles.avatarItemList}>
+                                {eyebrowsItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, eyebrows: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.eyebrows === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
+                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
+                                        </View>    
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <View style={styles.marginB100}></View>
                         </View>
                     )}
-                    {avaIndex === 2 && (
+                    {avaIndex === 2 && (        // 헤어
                         <View>
                             <View style={styles.colorChipContainer}>
                                 {hairColors.map(hc => (
                                     <TouchableOpacity 
                                         key={hc.id}
                                         onPress={(() => handleHairColor(hc.id))}
-                                        style={[styles.colorChipOn, avatar.hairColor === hc.id ? styles.colorChipOn : styles.colorChipOff,]}
-                                    ><View style={[styles.colorChip, {backgroundColor: hc.color}]}></View>
+                                        style={[styles.colorChipOn, avatar.hairFrontColor === hc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                    >
+                                        <View style={[styles.colorChip, {backgroundColor: hc.color}]}></View>
                                     </TouchableOpacity>
                                 ))}
                             </View>
+                            <Text style={styles.avatarItemText}>앞머리</Text>
                             <View style={styles.avatarItemList}>
-                                {hairItems.map(item => (
+                                {hairFrontItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, hair: item.id}))))}
+                                        onPress={(() => setAvatar((prev => ({...prev, hairFront: item.id}))))}
                                         style={[
                                             styles.avatarItems, 
-                                            avatar.hair === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                            avatar.hairFront === item.id ? styles.itemSelectOn : styles.itemSelectOff,
                                         ]}
                                     >
                                         <View style={styles.avatarItem}>
-                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
+                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
+                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
                                         </View>    
                                     </TouchableOpacity>
                                 ))}
                             </View>
+                            <Text style={styles.avatarItemText}>뒷머리</Text>
+                            <View style={styles.avatarItemList}>
+                                {hairBackItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, hairBack: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.hairBack === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
+                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
+                                        </View>    
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <View style={styles.marginB100}></View>
                         </View>
                     )}
-                    {avaIndex === 3 && (
-                        // <Text>옷</Text>
+                    {avaIndex === 3 && (        // 옷
+                        <View>
+                            <View style={styles.avatarItemList}>
+                                {clothesItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, clothes: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.clothes === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <View style={styles.marginB100}></View>
+                        </View>
+                    )}
+                    {avaIndex === 4 && (        // 악세사리
                         // 이미지 확인용
                         <>
                             <Image 
@@ -197,59 +373,58 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 onError={(e) => console.log('Error loading image: ', e)}
                             />
                         </>
+                        // <View>
+                        //     <Text style={styles.avatarItemText}>귀걸이</Text>
+                        //     <View style={styles.avatarItemList}>
+                        //         {accItems.map(item => (
+                        //             <TouchableOpacity
+                        //                 key={item.id}
+                        //                 onPress={(() => setAvatar((prev => ({...prev, acc: item.id}))))}
+                        //                 style={[
+                        //                     styles.avatarItems, 
+                        //                     avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                        //                 ]}
+                        //             >
+                        //                 <View style={styles.avatarItem}>
+                        //                     <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                        //                 </View>    
+                        //             </TouchableOpacity>
+                        //         ))}
+                        //     </View>
+                        // </View>
                     )}
-                    {avaIndex === 4 && (
+                    {avaIndex === 5 && (        // 배경
                         <View>
-                            <Text style={styles.avatarItemText}>귀걸이</Text>
-                            <View style={styles.avatarItemList}>
-                                {accItems.map(item => (
-                                    <TouchableOpacity
-                                        key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, acc: item.id}))))}
-                                        style={[
-                                            styles.avatarItems, 
-                                            avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                        ]}
-                                    >
-                                        <View style={styles.avatarItem}>
-                                            {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
-                                        </View>    
+                            <Text style={styles.avatarItemText}>배경색</Text>
+                            <View style={styles.colorChipContainer}>
+                                {bgColors.map(bc => (
+                                    <TouchableOpacity 
+                                        key={bc.id}
+                                        onPress={(() => handleBgColor(bc.id))}
+                                        style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                    ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
                                     </TouchableOpacity>
                                 ))}
                             </View>
+                            <Text style={styles.avatarItemText}>오브젝트</Text>
+                            <View style={styles.avatarItemList}>
+                                {/* {bgItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
+                                        style={[
+                                            styles.avatarItems, 
+                                            avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
+                                        ]}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                        </View>    
+                                    </TouchableOpacity>
+                                ))} */}
+                            </View>
+                            <View style={styles.marginB100}></View>
                         </View>
-                    )}
-                    {avaIndex === 5 && (
-                        <View>
-                        <Text style={styles.avatarItemText}>배경색</Text>
-                        <View style={styles.colorChipContainer}>
-                            {bgColors.map(bc => (
-                                <TouchableOpacity 
-                                    key={bc.id}
-                                    onPress={(() => handleBgColor(bc.id))}
-                                    style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
-                                ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                        <Text style={styles.avatarItemText}>오브젝트</Text>
-                        <View style={styles.avatarItemList}>
-                            {objectItems.map(item => (
-                                <TouchableOpacity
-                                    key={item.id}
-                                    onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
-                                    style={[
-                                        styles.avatarItems, 
-                                        avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                    ]}
-                                >
-                                    <View style={styles.avatarItem}>
-                                        {item.svg({ width: '100%', height: '100%', borderRadius: 8 })}
-                                    </View>    
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    </View>
                     )}
                 </ScrollView>
                 {/* <TouchableOpacity onPress={handleNext}>
@@ -258,6 +433,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     </Text>
                 </TouchableOpacity> */}
             </View>
-        </View>
+        </SafeAreaView>
     );
 }

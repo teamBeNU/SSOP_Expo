@@ -146,4 +146,41 @@ export const styles = StyleSheet.create({
     top: -2,
     left: 70 
     },
+    btnContainer: {
+    width: '100%',
+    paddingHorizontal: 16,
+    alignItems: 'flex-start',
+    },
+    editBtn: {
+    paddingVertical: 16,
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    gap: 8,
+    alignSelf: 'stretch'
+    },
+    line: {
+    height: 0,
+    alignSelf: 'stretch',
+    borderTopWidth: 1,
+    borderColor: theme.gray90,
+    },
+    editTitle: {
+    color: theme.gray10,
+    fontFamily: 'PretendardRegular',
+    fontSize: 16,
+    fontWeight: '400',
+    letterSpacing: -0.32
+    },
+    editSub: {
+    color: theme.gray50,
+    fontFamily: 'PretendardRegular',
+    fontSize: 14,
+    fontWeight: '400',
+    letterSpacing: -0.14
+    },
+    rightArrow:{
+    position: 'absolute',
+    right: 8,
+    top: 30
+    }
 })

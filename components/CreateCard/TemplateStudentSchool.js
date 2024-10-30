@@ -88,9 +88,13 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
 
     // 아바타
     const [avatar, setAvatar] = useState({
-        face: null,
-        hair: null,
-        hairColor: null,
+        eyes: null,
+        eyebrows: null,
+        mouth: null,
+        hairFront: null,
+        hairBack: null,
+        hairFrontColor: null,
+        hairBackColor: null,
         clothes: null,
         acc: null,
         bg: null,
@@ -135,9 +139,13 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
         // card_cover가 'avatar'일 때만 avatar 데이터를 추가
         if (card_cover === 'avatar') {
             cardData.avatar = {
-                face: avatar.face,
-                hair: avatar.hair,
-                hairColor: avatar.hairColor,
+                eyes: avatar.eyes,
+                eyebrows: avatar.eyebrows,
+                mouth: avatar.mouth,
+                hairFront: avatar.hairFront,
+                hairBack: avatar.hairBack,
+                hairFrontColor: avatar.hairFrontColor,
+                hairBackColor: avatar.hairBackColor,
                 clothes: avatar.clothes,
                 acc: avatar.acc,
                 bg: avatar.bg,

@@ -63,10 +63,6 @@ function CreateCard({navigation}) {
     }
 
     useEffect(()=>{
-        console.log('createStep:', createStep);
-        console.log('step:', step);
-        console.log('card_template:', card_template);
-        console.log(step);
         if (step === 0) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
