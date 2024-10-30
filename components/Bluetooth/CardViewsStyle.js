@@ -203,8 +203,7 @@ export const styles = StyleSheet.create({
     ListContainer: {
         flex: 1,
         flexDirection: 'column',
-        paddingVertical: 12,
-        paddingHorizontal: 20,
+        padding: 16,
         marginTop: 12,
         backgroundColor: theme.white,
         borderColor: theme.gray95,
@@ -450,9 +449,10 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold'
     },
     // 프로필 이미지
-    gridImage: {        
-        width: '120%',
-        height: '120%',
+    gridImage: {       
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1,
         borderRadius: 12
     },
     listImage: {

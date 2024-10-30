@@ -164,7 +164,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
             const anyRoleSelected = selectedRoles.some(role => role.selected);
 
             if (!anyStudentVisible && !anyWorkerVisible && !anyFanVisible && !anyRoleSelected) {
-                showCustomToast('최소 하나의 질문은 선택해주세요.');
+                showCustomToast('템플릿 내에서 최소 하나의 질문을 선택해주세요.');
             } else {
                 try {
                     const newRequestData = {
