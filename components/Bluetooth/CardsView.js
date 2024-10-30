@@ -95,7 +95,12 @@ const CardsView = ({
               </View>
             </MenuTrigger>
             <MenuOptions
-              optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}
+                    optionsContainerStyle={{
+                    width: 'auto',
+                    paddingVertical: 16,
+                    paddingHorizontal: 24,
+                    borderRadius: 16,
+                  }}
             >
               <MenuOption
                 style={{ marginBottom: 10.5 }}
