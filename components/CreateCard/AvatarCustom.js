@@ -150,7 +150,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         // let randBg = Math.floor(Math.random( ) * bgItem.length) + 1;
         let randBgColor = Math.floor(Math.random( ) * bgColors.length) + 1;
 
-        console.log(randEyebrows)
         setAvatar((prev => ({...prev, 
             eyes: randEyes,
             eyebrows: randEyebrows,
