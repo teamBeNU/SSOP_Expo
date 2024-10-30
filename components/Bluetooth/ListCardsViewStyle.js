@@ -145,6 +145,12 @@ export const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 5,        
     },
+    menuContainer: {
+        position: 'absolute',
+        zIndex: 10,
+        top: 5,
+        right: -15
+    },
     gray: {
         width: 64,
         height: 64,
@@ -175,5 +181,29 @@ export const styles = StyleSheet.create({
         fontFamily: "Pretendard",
         color: theme.gray30,
         fontSize: 14,
+    },
+    // 프로필 이미지
+    listImage: {
+        width: 64,
+        height: 64,
+        borderRadius: 12
+    },
+    host: {
+        width: 38,
+        height: 18,
+        borderRadius: 8,
+        backgroundColor: '#00C2ED33',
+        fontFamily: 'PretendardRegular',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingHorizontal: 6,
+        paddingVertical: 3,
+    },
+    hostText: {
+        color: theme.gray20,
+        fontSize: 10,
+        fontFamily: 'PretendardRegular',
+        textAlign: 'center',
+        letterSpacing: -1,
     },
 })

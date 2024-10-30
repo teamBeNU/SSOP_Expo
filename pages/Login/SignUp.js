@@ -231,12 +231,12 @@ function SignUp() {
 
     const handleSignUp = async () => {
       try {
-        const token = await AsyncStorage.getItem('token');
+        // const token = await AsyncStorage.getItem('token');
 
         const response = await fetch('http://43.202.52.64:8080/api/user/join', {
           method: 'POST',
           headers: {
-            Authorization: `Bearer ${token}`,
+            //Authorization: `Bearer ${token}`,
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({

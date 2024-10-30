@@ -11,9 +11,9 @@ export const styles = StyleSheet.create({
     },
 
     MyPageMain: {
+        paddingHorizontal: 16,
         flex: 1,
         backgroundColor: theme.gray99,
-        paddingHorizontal: 16,
         paddingTop: 12,
     },
     UserAccountMain: {
@@ -24,6 +24,7 @@ export const styles = StyleSheet.create({
     },
 
     accountManageContainer: {
+        marginHorizontal: 16,
         backgroundColor: theme.white,
         justifyContent: "space-between",
         alignItems: "center",
@@ -32,11 +33,11 @@ export const styles = StyleSheet.create({
         marginBottom: 24,
         borderRadius: 16,
         shadowOffset: {width: 4, height: 4},
-        shadowOpacity: 0.5,
-        shadowRadius: 12,
+        shadowOpacity: 0.3,
+        shadowRadius: 3,
         shadowColor: "#000",
         elevation: 5,
-    }, 
+    },
     userName: {
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
@@ -80,6 +81,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.white,
         padding: 16,
         borderRadius: 16,
+        marginHorizontal: 16,
         shadowOffset: {width: 4, height: 4},
         shadowOpacity: 0.5,
         shadowRadius: 12,
@@ -102,7 +104,8 @@ export const styles = StyleSheet.create({
 
     logoutContainer: {
         marginVertical: 20,
-        width: '15%'
+        width: '15%',
+        marginHorizontal: 16, 
     },
     logoutText: {
         fontFamily: "PretendardRegular",

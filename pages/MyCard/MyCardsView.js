@@ -12,9 +12,9 @@ import { ListCardView } from "../../components/MyCard/ListCardView";
 import { styles } from './MyCardsViewStyle';
 import { theme } from '../../theme';
 
-const CardsView = ({ cardData }) => {
+const CardsView = ({ cardData, refreshData }) => {
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형');
+  const [viewOption, setViewOption] = useState('리스트형');
   const navigation = useNavigation();
 
   const toggleViewOption = () => {
@@ -52,7 +52,7 @@ const CardsView = ({ cardData }) => {
        </View>
       </View>
 
-      {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData}/>}
+      {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData} refreshData={refreshData}/>}
 
       <TouchableOpacity style={styles.newCardBtn} onPress={() => {navigation.navigate('카드 만들기');}}>
         <AddIcon />

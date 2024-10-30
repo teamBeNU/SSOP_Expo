@@ -48,7 +48,7 @@ function MySpace({ navigation }) {
       if (Array.isArray(groupResult)) {  // 그룹 데이터가 배열인지 확인
         setGroupData(groupResult);  // 그룹 데이터를 상태에 저장
       } else {
-        console.error('그룹 데이터를 받지 못했습니다.');
+        //console.error('그룹 데이터를 받지 못했습니다.');
       }
 
       // 받은 프로필 카드 수 API 호출
@@ -192,10 +192,10 @@ function MySpace({ navigation }) {
                 id={group.groupId}  // 그룹 ID
                 name={group.group_name}  // group_name을 name으로 전달
                 members={group.memberCount}  // memberCount를 members로 전달
-                // onGroupPress={() => {
-                //   console.log('groupId:', group.groupId);  // groupId 값 확인
-                //   navigation.navigate('그룹', { groupId: group.groupId });
-                // }}
+                onGroupPress={() => {
+                  console.log('groupId:', group.groupId);  // groupId 값 확인
+                  navigation.navigate('그룹', { groupId: group.groupId });
+                }}
                 onDeleteGroup={() => {
                   setGroupToDelete(group.groupId);
                   setIsSpaceModalVisible(true);

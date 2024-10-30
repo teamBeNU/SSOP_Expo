@@ -25,6 +25,7 @@ function EnterTeamSp({ navigation, route }) {
   const [data, setData] = useState(null);
   const [team_name, setTeam_name] = useState('알 수 없음');
   const [team_comment, setTeam_comment] = useState('알 수 없음');
+  const [memberCount, setMemberCount] = useState('0');
   const [isTemplate, setIsTemplate] = useState(true);
   const [step, setStep] = useState(1);
 
@@ -32,8 +33,9 @@ function EnterTeamSp({ navigation, route }) {
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
 
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형')
-  const [hasCards, setHasCards] = useState(1); // 공유할 카드 유무
+  const [viewOption, setViewOption] = useState('리스트형')
+  const [hasCards, setHasCards] = useState(true); 
+  const [cardData, setCardData] = useState([]);
 
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
@@ -111,6 +113,8 @@ function EnterTeamSp({ navigation, route }) {
           console.log(response.data);
           setTeam_name(response.data.team_name);
           setTeam_comment(response.data.team_comment);
+          setMemberCount(response.data.memberCount);
+          
           setIsModalVisible(true);
         })
         .catch((error) => {
@@ -149,6 +153,39 @@ function EnterTeamSp({ navigation, route }) {
       });
   };
 
+  // 내 카드 데이터 호출
+const fetchCardData = async () => {
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (!token) {
+      console.error('토큰이 없습니다.');
+      return;
+    }
+
+    const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const result = await response.json();
+    setCardData(result);
+
+    if (result.length > 0) {
+      setHasCards(true);
+    } else {
+      setHasCards(false);
+    }
+  } catch (error) {
+    console.error('카드 데이터를 불러오는 중 오류가 발생했습니다:', error);
+  }
+};
+
+useEffect(() => {
+  fetchCardData();
+}, []);
+
   // 컴포넌트에서 페이지로 이동 함수
   const goToOriginal = () => {
     setStep(1);
@@ -186,12 +223,6 @@ function EnterTeamSp({ navigation, route }) {
         break;
     }
   };
-
-  const cardData = [
-    { id: 'plusButton', Component: PlusCardButton, backgroundColor: '', avatar: '' },
-    { id: '1', Component: ShareCard, backgroundColor: '#DFC4F0', avatar: <AvatarSample1 style={{ marginLeft: -10 }} />, card_name: '김슈니', age: '23세', dot: '·', card_template: '학생' },
-    { id: '2', Component: ShareCard, backgroundColor: '#F4BAAE', avatar: <AvatarSample2 style={{ marginLeft: -10 }} />, card_name: '릴리', card_template: '팬' },
-  ];
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -266,7 +297,7 @@ function EnterTeamSp({ navigation, route }) {
                     <View style={styles.modalContent}>
                       <Text style={[styles.font18, { marginLeft: 0 }]}> {team_name} </Text>
                       <Text style={styles.font16}> {team_comment} </Text>
-                      <Text style={styles.people}> <People />  8 / 150명 </Text>
+                      <Text style={styles.people}> <People />  {memberCount} / 150명 </Text>
                     </View>
 
                     <View style={[styles.btnContainer, { marginLeft: 16 }]}>
@@ -294,6 +325,8 @@ function EnterTeamSp({ navigation, route }) {
                   cardData={cardData}
                   title={"팀스페이스에 보여질 카드를 선택하세요."}
                   onCardSelect={handleCardSelect} // 제출 카드 선택
+                  showNewCardButton={true}
+                  showPlusCard={true}
                 />
 
               ) : (
