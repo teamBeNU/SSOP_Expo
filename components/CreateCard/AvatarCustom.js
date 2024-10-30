@@ -8,7 +8,7 @@ import AutoAvatarIcon from "../../assets/icons/avatarCustom/ic_auto.svg";
 import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
-import { faceItems, eyebrowsItems, eyesItems, hairFrontItems, hairBackItems, clothesItems, accItems, objectItems, hairColors, bgColors } from "./avatarItems";
+import { faceItems, eyebrowsItems, eyesItems, hairFrontItems, hairBackItems, clothesItems, accItems, bgItems, hairColors, bgColors } from "./avatarItems";
 
 export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar}) {
     const ref = useRef();
@@ -17,7 +17,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [avaIndex, setAvaIndex] = useState(1);
 
     // 외부에서 avatar와 setAvatar가 주어지지 않으면, 내부적으로 상태 관리
-    const [internalAvatar, internalSetAvatar] = useState({
+    const [internalAvatar, SetinternalAvatar] = useState({
         eyes: null,
         eyebrows: null,
         mouth: null,
@@ -32,11 +32,54 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     });
     // 실제로 사용할 avatar와 setAvatar 결정
     const avatar = externalAvatar ?? internalAvatar;
-    const setAvatar = externalSetAvatar ?? internalSetAvatar;
+    const setAvatar = externalSetAvatar ?? SetinternalAvatar;
+
+    // 초기 값 저장
+    const [initAvatar, setInitAvatar] = useState({
+        eyes: avatar.eyes,
+        eyebrows: avatar.eyebrows,
+        mouth: avatar.mouth,
+        hairFront: avatar.hairFront,
+        hairBack: avatar.hairBack,
+        hairFrontColor: avatar.hairFrontColor,
+        hairBackColor: avatar.hairBackColor,
+        clothes: avatar.clothes,
+        acc: avatar.acc,
+        bg: avatar.bg,
+        bgColor: avatar.bgColor,
+    });
 
     useEffect(() => {
-        // 컴포넌트가 열리자마자 avatar 값을 1로 변경
-        setAvatar((prev => ({...prev, eyes: 1, eyebrows: 1, hairFrontColor: 1, clothes: 1, bg: 1, bgColor: 1})));
+        // 처음 렌더링 되었을 때 기본값(기존값)으로 지정
+        if (initAvatar.eyes === null) {     // 초기 eyes가 null이라는 것은 카드 생성에서 아바타커스터마이징에 처음 접근한 것을 의미
+            setAvatar((prev => ({...prev, 
+                eyes: 1,
+                eyebrows: 1,
+                mouth: 1,
+                hairFront: null,
+                hairBack: null,
+                hairFrontColor: 1,
+                hairBackColor: 1,
+                clothes: 1,
+                acc: null,
+                bg: null,
+                bgColor: 1,
+            })));
+        } else {      // 화면 이동했다가 다시 돌아왔을 경우 이전에 선택한 데이터를 유지하기 위해
+            setAvatar((prev => ({...prev, 
+                eyes: initAvatar.eyes,
+                eyebrows: initAvatar.eyebrows,
+                mouth: initAvatar.mouth,
+                hairFront: initAvatar.hairFront,
+                hairBack: initAvatar.hairBack,
+                hairFrontColor: initAvatar.hairFrontColor,
+                hairBackColor: initAvatar.hairBackColor,
+                clothes: initAvatar.clothes,
+                acc: initAvatar.acc,
+                bg: initAvatar.bg,
+                bgColor: initAvatar.bgColor,
+            })));
+        }
     }, []);
     
     // avatar의 속성에 접근하기 전에 null 체크
@@ -77,6 +120,52 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         });
     }, [avatar]);
 
+    // 초기화
+    const handleReset = () => {
+        setAvatar((prev => ({...prev, 
+            eyes: 1,
+            eyebrows: 1,
+            mouth: 1,
+            hairFront: null,
+            hairBack: null,
+            hairFrontColor: 1,
+            hairBackColor: 1,
+            clothes: 1,
+            acc: null,
+            bg: null,
+            bgColor: 1,
+        })));
+    }
+
+    // 자동 생성
+    const handleAuto = () => {
+        let randEyes = Math.floor(Math.random( ) * eyesItems.length) + 1;
+        let randEyebrows = Math.floor(Math.random( ) * eyebrowsItems.length) + 1;
+        // let randMouth = Math.floor(Math.random( ) * mouthItems.length) + 1;
+        let randHairFront = Math.floor(Math.random( ) * hairFrontItems.length) + 1;
+        let randHairBack = Math.floor(Math.random( ) * hairBackItems.length) + 1;
+        let randHairColor = Math.floor(Math.random( ) * hairColors.length) + 1;
+        let randClothes = Math.floor(Math.random( ) * clothesItems.length) + 1;
+        // let randAcc = Math.floor(Math.random( ) * accItems.length) + 1;
+        // let randBg = Math.floor(Math.random( ) * bgItem.length) + 1;
+        let randBgColor = Math.floor(Math.random( ) * bgColors.length) + 1;
+
+        console.log(randEyebrows)
+        setAvatar((prev => ({...prev, 
+            eyes: randEyes,
+            eyebrows: randEyebrows,
+            //mouth: randMouth,
+            hairFront: randHairFront,
+            hairBack: randHairBack,
+            hairFrontColor: randHairColor,
+            hairBackColor: randHairColor,
+            clothes: randClothes,
+            //acc: randAcc,
+            //bg: randBg,
+            bgColor: randBgColor,
+        })));
+    }
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
@@ -89,13 +178,16 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarAuto}>
-                    <TouchableOpacity style={[styles.flexDirectionRow, {justifyContent: 'center', alignItems: 'center'}]}>
+                    <TouchableOpacity 
+                        style={styles.avatarAutoBtn}
+                        onPress={() => handleAuto()}
+                    >
                         <AutoAvatarIcon style={styles.autoAvatarIcon} />
                         <Text style={styles.avatarAutoText}>자동생성</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarRestart}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleReset()}>
                         <RestartIcon />
                     </TouchableOpacity>
                 </View>
@@ -317,7 +409,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                             </View>
                             <Text style={styles.avatarItemText}>오브젝트</Text>
                             <View style={styles.avatarItemList}>
-                                {/* {objectItems.map(item => (
+                                {/* {bgItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
                                         onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}

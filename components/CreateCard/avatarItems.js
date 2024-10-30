@@ -59,7 +59,7 @@ export const clothesItems = [
 // 배경 오브젝트
 // import ObjectSvg1 from '../../assets/avatars/background/object-1.svg';
 
-// export const objectItems = [
+// export const bgItems = [
 //     {id: 1, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
 //     {id: 2, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
 //     {id: 3, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
