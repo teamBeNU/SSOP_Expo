@@ -173,7 +173,7 @@ const AcceptCardView = ({
                 <View style={[styles.row, styles.container]}>
                   {Array.isArray(cardData) && cardData.length > 0 ? (
                     cardData.map((item, index) => {
-                      console.log(`렌더링되는 카드 ID: ${item.cardId}`);
+                      console.log(`렌더링되는 카드 ID: ${item.cardId}, 이미지 URL: ${item.profile_image_url}`);
                       return (
                         <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={() => handleNext(item.cardId)}>
                           <ShareCard
@@ -181,8 +181,8 @@ const AcceptCardView = ({
                             card_name={item.cardEssential.card_name}
                             card_birth={item.cardOptional.card_birth}
                             card_template={item.card_template}
-                            profile_image_url={item.profile_image_url}
                             card_cover={item.card_cover}
+                            profile_image_url={item.profile_image_url}
                           />
                         </TouchableOpacity>
                       );

@@ -97,6 +97,7 @@ const CardsView = ({
               {showPlusCard && <PlusCardButton navigation={navigation} />}
               {/* 카드 목록 렌더링 */}
               {cardData.map((item, index) => (
+                console.log(`렌더링되는 카드 ID: ${item.cardId}, 블투이미지 URL: ${item.profile_image_url}`),
                 <View key={item.cardId || index} style={styles.cardWrapper}>
                   {showRadio && (
                     <View style={styles.radioButtonContainer}>
