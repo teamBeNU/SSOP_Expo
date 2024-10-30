@@ -6,7 +6,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import Svg, { Path } from 'react-native-svg';
 import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
 import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
-import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_regular_line_small_gray.svg';
 import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
 
 export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {    

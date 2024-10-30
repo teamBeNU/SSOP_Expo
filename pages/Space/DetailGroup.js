@@ -12,7 +12,7 @@ import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';

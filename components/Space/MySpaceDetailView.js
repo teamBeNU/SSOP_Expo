@@ -236,7 +236,7 @@ const MySpaceDetailView = ({
                       >
                         <ShareCard
                             avatar={item.avatar}
-                            profile_image_url={item.memberEssential.profile_image_url}
+                            profile_image_url={item.profile_image_url}
                             isHost={hostId == item.userId}
                             card_name={item.memberEssential.card_name}
                             card_birth={item.memberOptional.card_birth || ''}

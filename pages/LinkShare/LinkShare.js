@@ -189,7 +189,7 @@ function Step2Screen({ route, navigation}) {
 
     // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
     const navigateToLinkReceiver = () => {
-      const testLink = 'https://ssop.com/api/link/ad523a52-1a19-40e8-ab3b-33994720b224'; // 임시 링크
+      const testLink = 'https://ssop.com/api/link/6ce24551-df95-4789-85ff-eb2949fc3ee1'; // 임시 링크
       console.log("네비게이션을 통해 전달된 링크:", testLink);
       navigation.navigate('LinkReceiverScreen', { link: testLink });
     };

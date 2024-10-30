@@ -92,7 +92,7 @@ const AcceptCardView = ({
   // 최신순 / 오래된 순 정렬 함수
   const sortData = (data) => {
     const dataCopy = [...(data || [])];
-    return selectedOption === '최신순' ? dataCopy : dataCopy.reverse();
+    return selectedOption === '오래된 순' ? dataCopy : dataCopy.reverse();
   };
 
   // 데이터 정렬
