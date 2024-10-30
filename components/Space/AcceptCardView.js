@@ -1,5 +1,5 @@
-import React from 'react';
-import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Image, Modal } from 'react-native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import People from '../../assets/icons/ic_person_small_fill.svg';
@@ -9,8 +9,52 @@ import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { ShareCard } from '../Bluetooth/ShareCard.js';
 import { getColor } from '../../utils/bgColorMapping';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
+import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
+import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
+import CloseIcon from '../../assets/icons/close.svg';
+
+// 스왑 모달
+function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, title, option1Text, option1SubText, option1Icon: Option1Icon, option2Text, option2SubText, option2Icon: Option2Icon }) {
+  return (
+    <Modal
+      animationType="fade"
+      transparent={true}
+      visible={isVisible}
+      onRequestClose={onClose}
+    >
+      <TouchableWithoutFeedback onPress={onClose}>
+        <View style={styles.modalContainer}>
+          <TouchableWithoutFeedback>
+            <View style={styles.modalView}>
+              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>{title}</Text>
+                <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
+                  <CloseIcon />
+                </TouchableOpacity>
+              </View>
+              <View style={styles.row}>
+                <TouchableOpacity style={styles.btnShare} onPress={onOption1Press}>
+                  <Text style={styles.Text18}>{option1Text}</Text>
+                  <Text style={styles.ModalText14}>{option1SubText}</Text>
+                  <Option1Icon style={styles.icon2} />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.btnShare} onPress={onOption2Press}>
+                  <Text style={styles.Text18}>{option2Text}</Text>
+                  <Text style={styles.ModalText14}>{option2SubText}</Text>
+                  <Option2Icon style={styles.icon2} />
+                </TouchableOpacity>
+              </View>
+            </View>
+          </TouchableWithoutFeedback>
+        </View>
+      </TouchableWithoutFeedback>
+    </Modal>
+  );
+}
 
 const AcceptCardView = ({
+    navigation,
     title,
     sub,
     members,
@@ -23,10 +67,21 @@ const AcceptCardView = ({
     handleNext,
     cardData,
     showMenu = true,
-    onChangeGroupName,
+    onMoveGroup,
     onDeleteGroup
   }) => {
-    
+
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const handleBluetoothPress = () => {
+      setIsModalVisible(false);
+      navigation.navigate('내 카드 보내기');
+    };
+  
+    const handleLinkSharePress = () => {
+      setIsModalVisible(false);
+      navigation.navigate('링크 복사');
+    };
+
     // 생년월일 -> 나이 계산
     const calculateAge = (birthDate) => {
       const today = new Date();
@@ -118,7 +173,7 @@ const AcceptCardView = ({
                 <View style={[styles.row, styles.container]}>
                   {Array.isArray(cardData) && cardData.length > 0 ? (
                     cardData.map((item, index) => {
-  
+                      console.log(`렌더링되는 카드 ID: ${item.cardId}`);
                       return (
                         <TouchableOpacity key={item.cardId || index} style={styles.btn1} onPress={() => handleNext(item.cardId)}>
                           <ShareCard
@@ -133,8 +188,14 @@ const AcceptCardView = ({
                       );
                     })
                   ) : (
-                    <View style={styles.emptyContainer}>
-                      <Text style={styles.noCardMarginTop}>선택한 조건에 해당하는 카드가 없습니다.</Text>
+                    <View style={styles.emptyContainer2}>
+                      <Text style={styles.noCard}>공유받은 카드가 없어요.</Text>
+                      <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+                        <View style={styles.newContainer}>
+                          <Text style={styles.newCard}>카드 교환하기</Text>
+                          <RightIcon />
+                        </View>
+                      </TouchableOpacity>
                     </View>
                   )}
                 </View>
@@ -143,65 +204,89 @@ const AcceptCardView = ({
   
             {viewOption === '리스트형' && (
             <View>
-                {cardData.map((item, index) => {
-                const essential = item.cardEssential;  // cardEssential만 사용
-                const optional = item.cardOptional;    // cardOptional만 사용
+              {Array.isArray(cardData) && cardData.length > 0 ? (
+                cardData.map((item, index) => {
+                  const essential = item.cardEssential;  // cardEssential만 사용
+                  const optional = item.cardOptional;    // cardOptional만 사용
 
-                return (
-                    <View key={item.id || index} style={styles.ListContainer}>
-                    <TouchableOpacity onPress={() => handleNext(item.cardId)}>
+                  return (
+                    <View key={item.cardId || index} style={styles.ListContainer}>
+                      <TouchableOpacity onPress={() => handleNext(item.cardId)}>
                         <View style={styles.row2}>
-                        {item.card_cover === 'avatar' ? 
-                            <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor)}]}>
-                            
-                            </View>
+                          {item.card_cover === 'avatar' ? 
+                            <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor)}]}></View>
                             :
                             <View style={[styles.gray]}>
-                            <Image 
+                              <Image 
                                 source={{ uri: item.profile_image_url }} 
                                 resizeMode="cover"
-                                style={{ width: 64, height: 64, borderRadius: 16, }}
-                            />
+                                style={{ width: 64, height: 64, borderRadius: 16 }}
+                              />
                             </View>                 
-                        }
+                          }
 
-                        <View style={styles.infoContainer}>
+                          <View style={styles.infoContainer}>
                             <View style={styles.rowName}>
-                            <Text style={styles.Text16gray10}>
+                              <Text style={styles.Text16gray10}>
                                 {essential.card_name}
-                            </Text>
-                            <Text style={styles.Text16gray50}>
+                              </Text>
+                              <Text style={styles.Text16gray50}>
                                 {optional?.card_birth ? calculateAge(optional.card_birth) : ''}
-                            </Text>
+                              </Text>
                             </View>
                             <Text style={styles.Text14gray30}>
-                            {essential.card_introduction}
+                              {essential.card_introduction}
                             </Text>
-                        </View>
+                          </View>
                         </View>
                         <View style={styles.menuContainer}>
-                        {userId === item.userId && showMenu && (
+                          {showMenu && (
                             <Menu>
-                            <MenuTrigger>
+                              <MenuTrigger>
                                 <MoreGrayIcon style={{ marginRight: 8 }} />
-                            </MenuTrigger>
-                            <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                                <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={onChangeGroupName} />
-                                <MenuOption text='그룹 이동하기' onSelect={() => onDeleteGroup(item.id)} />
-                            </MenuOptions>
+                              </MenuTrigger>
+                              <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
+                                <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={() => onDeleteGroup(item.cardId)} />
+                                <MenuOption text='그룹 이동하기' onSelect={() => onMoveGroup(item.cardId)} />
+                              </MenuOptions>
                             </Menu>
-                        )}
+                          )}
                         </View>
-                    </TouchableOpacity>
+                      </TouchableOpacity>
                     </View>
-                );
-                })}
+                  );
+                })
+              ) : (
+                <View style={styles.emptyContainer2}>
+                  <Text style={styles.noCard}>공유받은 카드가 없어요.</Text>
+                  <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+                    <View style={styles.newContainer}>
+                      <Text style={styles.newCard}>카드 교환하기</Text>
+                      <RightIcon />
+                    </View>
+                  </TouchableOpacity>
+                </View>
+              )}
             </View>
-            )}
+          )}
 
           </View>
           <View style={styles.innerView}></View>
         </View>
+
+        <ExchangeModal
+        isVisible={isModalVisible}
+        onClose={() => setIsModalVisible(false)}
+        onOption1Press={handleBluetoothPress}
+        onOption2Press={handleLinkSharePress}
+        title="카드 교환하기"
+        option1Text="블루투스 송신"
+        option1SubText="주변에 있다면 바로"
+        option2Text="링크 복사"
+        option2SubText="연락처가 있다면"
+        option1Icon={BluetoothIcon}
+        option2Icon={LinkIcon}
+      />
       </ScrollView>
     );
   };

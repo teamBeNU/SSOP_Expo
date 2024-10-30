@@ -22,7 +22,7 @@ const CustomCardRadioButton = ({ selected, onPress }) => {
 // 그룹 리스트 컴포넌트
 export const MySpaceGroup = ({ id, name, members, onGroupPress, onChangeGroupName, onDeleteGroup, showRadio = false, showMenu = true, selected, onPress }) => {
   return (
-    <TouchableOpacity style={styles.groupWrapper} key={id}>
+    <TouchableOpacity style={styles.groupWrapper}>
       {showRadio && (
         <CustomCardRadioButton selected={selected} onPress={onPress} />
       )}
