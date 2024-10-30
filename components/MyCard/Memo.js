@@ -130,11 +130,11 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
             <View>
                 {moreMenu && (
                     <View style={styles.dropdownMenu}>
-                        <TouchableOpacity style={styles.dropdownMenuDetail} onPress={() => setIsModalVisible(true)}>
+                        <TouchableOpacity style={styles.dropdownMenuDetail} onPress={() => {setMoreMenu(false); setIsModalVisible(true);}}>
                             <Text style={styles.menuItem}>메모 수정하기</Text>
                         </TouchableOpacity>
 
-                        <TouchableOpacity style={styles.dropdownMenuDetail} onPress={() => handleMemoDelete}>
+                        <TouchableOpacity style={styles.dropdownMenuDetail} onPress={() => {setMoreMenu(false); handleMemoDelete();}}>
                             <Text style={styles.menuItem}>메모 삭제하기</Text>
                         </TouchableOpacity>
                     </View>
@@ -160,7 +160,7 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
                         <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 수정</Text>
                     </View>
                     </TouchableWithoutFeedback>
-                    
+
                     <View style={styles.modalContent}>
                         <TextInput
                         style={styles.memoInput}
