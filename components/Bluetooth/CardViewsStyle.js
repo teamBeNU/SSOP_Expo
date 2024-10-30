@@ -166,6 +166,13 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         gap: 16,
     },
+    emptyContainer2: {
+        paddingTop: 200,
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 16,
+    },
     noCard: {
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
@@ -196,8 +203,7 @@ export const styles = StyleSheet.create({
     ListContainer: {
         flex: 1,
         flexDirection: 'column',
-        paddingVertical: 12,
-        paddingHorizontal: 20,
+        padding: 16,
         marginTop: 12,
         backgroundColor: theme.white,
         borderColor: theme.gray95,
@@ -315,7 +321,6 @@ export const styles = StyleSheet.create({
     radioContainer: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 12,
     },
     radio: {
         height: 16,
@@ -444,9 +449,10 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold'
     },
     // 프로필 이미지
-    gridImage: {        
-        width: '120%',
-        height: '120%',
+    gridImage: {       
+        width: '100%',
+        height: undefined,
+        aspectRatio: 1,
         borderRadius: 12
     },
     listImage: {
@@ -470,5 +476,75 @@ export const styles = StyleSheet.create({
         right: -8,
         top: 8,
         zIndex: 1
-      }    
+      },
+
+      // 모달
+      modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        width: '100%',
+        justifyContent: 'flex-end',
+    },
+    modalView: {
+        height: 304,
+        paddingHorizontal: 16,
+        backgroundColor: theme.white,
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+    },
+    closeIcon: {
+        marginTop: 19,
+        justifyContent: 'flex-end',
+        alignItems: 'flex-end'
+    },
+    modalText: {
+        marginTop: 18,
+        textAlign: 'center',
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        letterSpacing: -1
+    },
+    btnShare: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
+        width: 160,
+        height: 180,
+        elevation: 5,
+        marginHorizontal: 10,
+        position: 'relative',
+        marginTop: 35,
+        
+        borderRadius: 16,
+        backgroundColor: theme.white,
+        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 16,
+        shadowOpacity: 1,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
+        elevation: 5,
+        position: 'relative',
+    },
+    Text18: {
+        marginTop: 20,
+        marginLeft: 16,
+        fontFamily: "PretendardSemiBold",
+        fontSize: 18,
+        letterSpacing: -1,
+        marginBottom: 8,
+    },
+    ModalText14: {
+        marginLeft: 16,
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        letterSpacing: -1,
+    },
+    icon2: { // 블루투스, 링크, 팀스페이스 입장, 생성 아이콘
+        position: 'absolute',
+        bottom: 16,
+        right: 16,
+        width: 80,
+        height: 80,
+    },
 })

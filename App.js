@@ -51,6 +51,7 @@ import FAQ from './pages/MyPage/Service/FAQ';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import Space from './pages/Space/Space';
 import DeleteMyCard from './pages/MyCard/DeleteMyCard';
+import AvatarCustom from './components/CreateCard/AvatarCustom';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';
@@ -64,6 +65,9 @@ import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
 import ServiceAgree from './pages/MyPage/Service/ServiceAgree';
 import AcceptCard from './pages/Space/AcceptCard';
+import HomeSearchCard from './pages/SearchCard/HomeSearchCard';
+import MySpSearchCard from './pages/SearchCard/MySpSearchCard';
+import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
 
 import { theme } from './theme';
 
@@ -274,11 +278,23 @@ export default function App() {
             )
           }}
         />
-        <Stack.Screen 
+        {/* <Stack.Screen 
           name="카드 커버 수정"
           component={EditCardCover}
           options={{
             headerTitle: "카드 커버 수정",
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            )
+          }}
+        /> */}
+        <Stack.Screen 
+          name="아바타 커스터마이징"
+          component={AvatarCustom}
+          options={{
+            headerTitle: "아바타 커스터마이징",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -383,7 +399,7 @@ export default function App() {
             ),
           }}/>
         <Stack.Screen name="마이 스페이스" component={MySpace}
-          options={{
+        options={({ navigation }) => ({
             title: " ",
             headerShadowVisible: false,
             headerLeft: () => (
@@ -393,7 +409,7 @@ export default function App() {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => navigation.navigate('마이 스페이스 관리')}><SearchIcon /></TouchableOpacity>
+                <TouchableOpacity onPress={() => navigation.navigate('카드 검색')}><SearchIcon /></TouchableOpacity>
                 <TouchableOpacity>
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
@@ -406,13 +422,16 @@ export default function App() {
                 </TouchableOpacity>
               </View>
             ),
-          }}/>
+          })}/>
           <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
           <Stack.Screen name="그룹 관리" component={EditGroupPage}/>
           <Stack.Screen name="팀스페이스 관리" component={EditTeamSpace}/>
           <Stack.Screen name="받은 프로필 카드" component={AcceptCard} options={{ headerShown: false }}/>
+          <Stack.Screen name="전체 카드 검색" component={HomeSearchCard} options={{ headerShown: false }}/>
+          <Stack.Screen name="마이스페이스 카드 검색" component={MySpSearchCard} options={{ headerShown: false }}/>
+          <Stack.Screen name="팀스페이스 카드 검색" component={TeamSpSearchCard} options={{ headerShown: false }}/>
       </Stack.Navigator>
     </NavigationContainer>
     <Toast config={customToast} />
@@ -488,7 +507,7 @@ const Tab = createBottomTabNavigator();
             backgroundColor: theme.white
           },
           headerRight: () => (
-            <TouchableOpacity onPress={() => { /* 오른쪽 아이콘에 대한 액션 */ }}>
+            <TouchableOpacity onPress={() => { navigation.navigate('카드 검색') }}>
               <SearchIcon style={{ marginRight: 8 }} />
             </TouchableOpacity>
           ),

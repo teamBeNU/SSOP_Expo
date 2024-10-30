@@ -51,7 +51,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     useEffect(() => {
         // 처음 렌더링 되었을 때 기본값(기존값)으로 지정
-        if (initAvatar.eyes === null) {     // 초기 eyes가 null이라는 것은 카드 생성에서 아바타커스터마이징에 처음 접근한 것을 의미
+        if (initAvatar.eyes === null || initAvatar.eyes === 0) {     // 초기 eyes가 null이라는 것은 카드 생성에서 아바타커스터마이징에 처음 접근한 것을 의미
             setAvatar((prev => ({...prev, 
                 eyes: 1,
                 eyebrows: 1,

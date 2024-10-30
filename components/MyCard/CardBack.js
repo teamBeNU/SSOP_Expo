@@ -2,6 +2,10 @@ import React, { useCallback,useState } from 'react';
 import { Alert, Linking, Text, TouchableOpacity, View, ScrollView } from 'react-native';
 import InstaLogo from '../../assets/Card/logo_insta.svg';
 import XLogo from '../../assets/Card/logo_x.svg';
+import ContactIcon from '../../assets/Card/ic_contact.svg';
+import MailIcon from '../../assets/Card/ic_mail.svg';
+import LinkIcon from '../../assets/Card/ic_link.svg';
+
 import { styles } from './CardStyle';
 import AddContact from './AddTel';
 
@@ -27,15 +31,18 @@ const OpenURLButton = ({url, children}) => {
       );
   };
 
-
-export const CardBack = ({cardData}) => {
+export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
             case 'studentSchool':
             case 'studentUniv': 
                 return (
-                    <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
+                    <ScrollView 
+                    contentContainerStyle={styles.textArea} 
+                    showsVerticalScrollIndicator={false}
+                    onTouchStart={onVerticalScrollStart}
+                    onTouchEnd={onVerticalScrollEnd}>
                         <CardOptional1 cardData={cardData}/>
                         {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : ((cardData.cardOptional.card_birth === "" && cardData.cardOptional.card_MBTI === "") ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <StudentOptional cardData={cardData}/>
@@ -45,7 +52,11 @@ export const CardBack = ({cardData}) => {
                 );
             case 'worker': //회사 직무
                 return (
-                    <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
+                    <ScrollView 
+                    contentContainerStyle={styles.textArea} 
+                    showsVerticalScrollIndicator={false}
+                    onTouchStart={onVerticalScrollStart}
+                    onTouchEnd={onVerticalScrollEnd}>
                         <CardOptional1 cardData={cardData} />
                         {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <WorkerOptional cardData={cardData} />
@@ -55,7 +66,11 @@ export const CardBack = ({cardData}) => {
                 );
             case 'fan': //덕질 장르, 최애
                 return (
-                    <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
+                    <ScrollView 
+                    contentContainerStyle={styles.textArea} 
+                    showsVerticalScrollIndicator={false}
+                    onTouchStart={onVerticalScrollStart}
+                    onTouchEnd={onVerticalScrollEnd}>
                         <CardOptional1 cardData={cardData}/>
                         {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <FanOptional cardData={cardData} />
@@ -65,20 +80,22 @@ export const CardBack = ({cardData}) => {
                 );
                 case 'free': 
                     return(
-                        <ScrollView contentContainerStyle={styles.textArea} showsVerticalScrollIndicator={false}>
-                        <CardOptional1 cardData={cardData}/>
+                        <ScrollView 
+                        contentContainerStyle={styles.textArea} 
+                        showsVerticalScrollIndicator={false}
+                        onTouchStart={onVerticalScrollStart}
+                        onTouchEnd={onVerticalScrollEnd}>
+                            <CardOptional1 cardData={cardData}/>
 
-                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined && cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined && cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : <View style={{...styles.line, marginTop: 0}} />}
+                            {!Object.values(cardData.student).every(value => value === "") ? <View style={{...styles.line, marginTop: 0}} /> : null}
 
-                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : <StudentOptional cardData={cardData}/> }
+                            {!Object.values(cardData.student).every(value => value === "") ? <StudentOptional cardData={cardData} /> : null}
+                            {!Object.values(cardData.worker).every(value => value === "") ? <WorkerOptional cardData={cardData} /> : null}
+                            {!Object.values(cardData.fan).every(value => value === "") ? <FanOptional cardData={cardData} /> : null}
 
-                        {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : <WorkerOptional cardData={cardData} />}                        
-
-                        {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : <FanOptional cardData={cardData} />} 
-
-                        <CardOptional2 cardData={cardData}/>    
-                        <CardOptional3 cardData={cardData}/>   
-                    </ScrollView>
+                            <CardOptional2 cardData={cardData}/>    
+                            <CardOptional3 cardData={cardData}/>   
+                        </ScrollView>
                     );
                 default:
                 return null;
@@ -97,7 +114,7 @@ const CardOptional1 = ({cardData}) => {
         <View style={{gap: 24, width: '100%'}}>
         {cardData.cardOptional.card_birth ? (
             <View style={styles.info}>                             
-                <Text style={styles.topic}>생년월일</Text>                             
+                <Text style={[styles.topic, {fontSize: 14}]}>생년월일</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>                         
             </View>
         ) : null}
@@ -132,6 +149,7 @@ const CardOptional2 = ({cardData}) => {
                 <Text style={styles.topic}>이메일</Text>                            
                 <TouchableOpacity style={styles.grayBox} onPress={() => Linking.openURL(`mailto:${cardData.cardOptional.card_email}`)}>
                     <Text style={styles.grayBoxText}>{cardData.cardOptional.card_email}</Text>
+                    <MailIcon />
                 </TouchableOpacity>
                 </View>
             ) : null }
@@ -143,12 +161,14 @@ const CardOptional2 = ({cardData}) => {
                         <View style={styles.grayBox}>
                         <InstaLogo />
                         <OpenURLButton url={ instaURL + cardData.cardOptional.card_sns_insta + '/' }>{cardData.cardOptional.card_sns_insta}</OpenURLButton>
+                        <LinkIcon />
                         </View>
                     ) : null }
                     {cardData.cardOptional.card_sns_x ? (
                         <View style={styles.grayBox}>
                         <XLogo />
                         <OpenURLButton url={xURL + cardData.cardOptional.card_sns_x}>{cardData.cardOptional.card_sns_x}</OpenURLButton>
+                        <LinkIcon />
                         </View>
                     ) : null }
                 </View>
@@ -172,13 +192,13 @@ const CardOptional3 = ({cardData}) => {
             ) : null }     
             {cardData.cardOptional.card_music ? (
                 <View style={styles.info}>                             
-                <Text style={styles.topic}>인생음악</Text>                             
+                <Text style={[styles.topic, {fontSize: 14}]}>인생음악</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_music}</Text> 
                 </View>
             ) : null } 
             {cardData.cardOptional.card_movie ? (
                 <View style={styles.info}>                             
-                <Text style={styles.topic}>인생영화</Text>                             
+                <Text style={[styles.topic, {fontSize: 14}]}>인생영화</Text>                             
                 <Text style={styles.content}>{cardData.cardOptional.card_movie}</Text> 
                 </View>
             ) : null } 
@@ -196,6 +216,18 @@ const CardOptional3 = ({cardData}) => {
 const StudentOptional = ({cardData}) => {
     return (
     <View style={((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'})}>
+            {cardData.card_template === 'free' && cardData.student.card_student_school ? (
+                <View style={styles.info}>                             
+                <Text style={styles.topic}>학교</Text>                             
+                <Text style={styles.content}>{cardData.student.card_student_school}</Text>  
+                </View>
+            ) : null}
+            {cardData.card_template === 'free' && cardData.student.card_student_grade ? (
+                <View style={styles.info}>                             
+                <Text style={styles.topic}>학년</Text>                             
+                <Text style={styles.content}>{cardData.student.card_student_grade}</Text>  
+                </View>
+            ) : null}
             {cardData.student.card_student_id ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학번</Text>                             
@@ -229,6 +261,19 @@ const StudentOptional = ({cardData}) => {
 const WorkerOptional = ({cardData}) => {
     return (
     <View style={(cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
+        {cardData.card_template === 'free' && cardData.worker.card_worker_company ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>회사</Text>                             
+                <Text style={styles.content}>{cardData.worker.card_worker_company}</Text>                         
+            </View>
+        ) : null}
+        {cardData.card_template === 'free' && cardData.worker.card_worker_job ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>직무</Text>                             
+                <Text style={styles.content}>{cardData.worker.card_worker_job}</Text>                         
+            </View>
+        ) : null}
+
         {cardData.worker.card_worker_position ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>직위</Text>                             
@@ -250,6 +295,19 @@ const WorkerOptional = ({cardData}) => {
 const FanOptional = ({cardData}) => {
     return (
     <View style={(cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
+        {cardData.card_template === 'free' && cardData.fan.card_fan_genre ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>장르</Text>                             
+                <Text style={styles.content}>{cardData.fan.card_fan_genre}</Text>                         
+            </View>
+        ) : null}
+        {cardData.card_template === 'free' && cardData.fan.card_fan_first ? (
+            <View style={styles.info}>                             
+                <Text style={styles.topic}>최애</Text>                             
+                <Text style={styles.content}>{cardData.fan.card_fan_first}</Text>                         
+            </View>
+        ) : null}
+        
         {cardData.fan.card_fan_second ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>차애</Text>                             
@@ -259,7 +317,7 @@ const FanOptional = ({cardData}) => {
         {cardData.fan.card_fan_reason ? (
             <View>
             <View style={styles.info}>                             
-                <Text style={styles.topic}>입덕계기</Text>                             
+                <Text style={[styles.topic, {fontSize: 14}]}>입덕계기</Text>                             
                 <Text style={styles.content}>{cardData.fan.card_fan_reason}</Text>                         
             </View>
             </View>

@@ -9,6 +9,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg'
+import RightArrowIcon from '../../assets/icons/ic_RightArrow_small_line.svg'
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg'
 import DoneIcon from '../../assets/icons/ic_done_small_line.svg'
 import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
@@ -56,8 +57,7 @@ function EditCard() {
     const [movie, setMovie] = useState(card.cardOptional.card_movie ? card.cardOptional.card_movie : '');
     const [address, setAddress] = useState(card.cardOptional.card_address ? card.cardOptional.card_address : '');
 
-    const [step, setStep] = useState(1);
-    const [subStep, setSubStep] = useState(1); // 진행바를 위한 보조 변수
+    const [step, setStep] = useState(0);
     const ref_input = useRef();
 
     const handleMBTI = (input) => {
@@ -169,72 +169,29 @@ function EditCard() {
        navigation.navigate('카드 상세보기', { cardId : card.cardId }); 
     };
 
-    const handleNext = () => {
-        if (step === 1 ) {
-            setSubStep(2);
-            setStep(2);
-        } else if (step === 2) {
-            switch(card.card_template) {
-                case 'studentUniv': 
-                    setSubStep(3);
-                    setStep(3);
-                    break;
-                case 'studentSchool':
-                    setSubStep(3);
-                    setStep(4);
-                    break;
-                case 'worker': 
-                    setSubStep(3);
-                    setStep(5);
-                    break;
-                case 'fan':
-                    setSubStep(3);
-                    setStep(6);
-                    break;
-                case 'free':
-                    setSubStep(3);
-                    setStep(7);
-                    break;
-            }
-        } else {
-          setSubStep(4);  
-          setStep(8);
+    const handleTemplateStep = () => {
+        switch(card.card_template) {
+            case 'studentUniv':
+                setStep(3);
+                break;
+            case 'studentSchool':
+                setStep(4);
+                break;
+            case 'worker':
+                setStep(5);
+                break;
+            case 'fan':
+                setStep(6);
+                break;
+            case 'free':
+                setStep(7);
+                break;
+
         }
-    }
+    };
 
     const handleBack = () => {
-        switch (step) {
-          case 1:
-            break;
-          case 2:
-            setStep(1);
-            break;
-          case 3:
-          case 4:
-          case 5:
-          case 6:
-          case 7:
-            setStep(2);
-            break;
-          case 8:
-            switch(card.card_template) {
-                case 'studentUniv': 
-                    setStep(3);
-                    break;
-                case 'studentSchool':
-                    setStep(4);
-                    break;
-                case 'worker': 
-                    setStep(5);
-                    break;
-                case 'fan':
-                    setStep(6);
-                    break;
-                case 'free':
-                    setStep(7);
-                    break;
-            }
-        }
+        setStep(0);
       };
 
       const handleGoBack = () => {
@@ -242,13 +199,13 @@ function EditCard() {
       };
 
     const handleHeaderLeft = (onPress) => {
-        if (step > 1) {
+        if (step > 0) {
           return (
             <TouchableOpacity onPress={handleBack}>
               <LeftArrowIcon style={{ marginLeft: 8 }} />
             </TouchableOpacity>
           );
-        } else if (step === 1) {
+        } else if (step === 0) {
             return (
               <TouchableOpacity onPress={handleGoBack}>
                 <CloseIcon style={{ marginLeft: 8 }} />
@@ -257,35 +214,52 @@ function EditCard() {
           }
       };
 
-      const handleHeaderRight = (onPress) => {
-        if(step === 1 || step === 2) {
-            return (
-                <TouchableOpacity onPress={handleSubmit}>
-                    <Text style={styles.submit}>완료</Text>
-                </TouchableOpacity>
-            )
-        }
-      };
-
       useEffect(() => {
+        const headerRight = step > 0 ? (
+            <TouchableOpacity onPress={() => handleSubmit(step)}>
+                <Text style={styles.submit}>완료</Text>
+            </TouchableOpacity>
+        ) : null;
+    
         navigation.setOptions({
-          headerLeft: handleHeaderLeft,
-          headerRight: handleHeaderRight
+            headerLeft: handleHeaderLeft,
+            headerRight: () => headerRight,
         });
-      }, [navigation, step]);
+    }, [navigation, step]);
 
     return (
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={{flex: 1}}>
-            {( // 프로그레스 바
-                <Progress.Bar
-                    progress={subStep / 4}
-                    width={null}
-                    height={2}
-                    color={theme.green}
-                    borderWidth={0}
-                />
+            { step == 0 && (
+                <View style={[styles.container,{paddingTop: 8}]}>
+                    <View style={[styles.btnContainer]}>
+                        <TouchableOpacity style={[styles.editBtn]} onPress={() => setStep(1)}>
+                            <Text style={[styles.editTitle]}>내 기본 정보 추가 혹은 수정하기</Text>
+                            <RightArrowIcon style={[styles.rightArrow]}/>
+                            <Text style={[styles.editSub]}>이름, 한줄소개, MBTI, 생년월일</Text>
+                        </TouchableOpacity>
+                        <View style={[styles.line]} />
+                        <TouchableOpacity style={[styles.editBtn]} onPress={() => setStep(2)}>
+                            <Text style={[styles.editTitle]}>연락수단 추가 혹은 수정하기</Text>
+                            <RightArrowIcon style={[styles.rightArrow]}/>
+                            <Text style={[styles.editSub]}>전화번호, 이메일, Instagram, X</Text>
+                        </TouchableOpacity>
+                        <View style={[styles.line]} />
+                        <TouchableOpacity style={[styles.editBtn]} onPress={handleTemplateStep}>
+                            <Text style={[styles.editTitle]}>정체성 정보 추가 혹은 수정하기</Text>
+                            <RightArrowIcon style={[styles.rightArrow]}/>
+                            <Text style={[styles.editSub]}>학생, 직장인, 팬, 자유</Text>
+                        </TouchableOpacity>
+                        <View style={[styles.line]} />
+                        <TouchableOpacity style={[styles.editBtn]} onPress={() => setStep(8)}>
+                            <Text style={[styles.editTitle]}>기타 정보 추가 혹은 수정하기</Text>
+                            <RightArrowIcon style={[styles.rightArrow]}/>
+                            <Text style={[styles.editSub]}>취미, 인생 음악, 인생 영화, 거주지</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
             )}
+
 
             {step === 1 && (
             <KeyboardAvoidingView 
@@ -301,7 +275,7 @@ function EditCard() {
                 <Text style={styles.subTitle}>이름*</Text>
                 <TextInput 
                     value={name}
-                    onChangeText={setName}
+                    onChangeText={text => setName(text)} 
                     style={name ? styles.input : styles.warningInput }
                     placeholder={name ? name : '이름을 입력해 주세요.'}
                     placeholderTextColor={theme.gray60}
@@ -333,7 +307,7 @@ function EditCard() {
                     />
                 </View>
 
-                <View style={styles.line} />
+                <View style={[styles.line, {marginBottom: 40}]} />
 
                 <View style={styles.inputContainer}>
                 <Text style={styles.subTitle}>생년월일 8자리</Text>
@@ -366,9 +340,10 @@ function EditCard() {
                 </View>
                 </View>
 
-                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
-                <Text style={styles.memoBtnText}>다음으로</Text>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
+                <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>
+
             </KeyboardAvoidingView>
             )}
 
@@ -408,7 +383,7 @@ function EditCard() {
                         />
                     </View>
 
-                    <View style={styles.line} />
+                    <View style={[styles.line, {marginBottom: 40}]} />
 
                     <View style={{...styles.inputContainer, marginBottom: 28}}>
                     <Text style={styles.subTitle}>Instagram</Text>
@@ -434,8 +409,8 @@ function EditCard() {
                  </View>
                 </View>
 
-                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
-                <Text style={styles.memoBtnText}>다음으로</Text>
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
+                <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>
            
             </KeyboardAvoidingView>
@@ -564,9 +539,11 @@ function EditCard() {
                 </ScrollView>
 
                 </View>
-                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
-                <Text style={styles.memoBtnText}>다음으로</Text>
+
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
+                <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>
+
             </KeyboardAvoidingView>
             )}
 
@@ -668,8 +645,9 @@ function EditCard() {
                 </ScrollView>
 
                 </View>
-                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
-                <Text style={styles.memoBtnText}>다음으로</Text>
+
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
+                <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
             )}
@@ -735,8 +713,9 @@ function EditCard() {
                 </ScrollView>
 
                 </View>
-                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
-                <Text style={styles.memoBtnText}>다음으로</Text>
+
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
+                <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
             )}
@@ -802,8 +781,9 @@ function EditCard() {
                 </ScrollView>
 
                 </View>
-                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
-                <Text style={styles.memoBtnText}>다음으로</Text>
+
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
+                <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
         )}
@@ -1032,10 +1012,10 @@ function EditCard() {
                 </View>    
                 )}
                 </ScrollView>
-
                 </View>
-                <TouchableOpacity style={styles.memoBtn} onPress={handleNext}>
-                <Text style={styles.memoBtnText}>다음으로</Text>
+
+                <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
+                <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
         )}
@@ -1095,7 +1075,7 @@ function EditCard() {
 
                 </View>
                 <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
-                <Text style={styles.memoBtnText}>수정 완료</Text>
+                <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>
             </KeyboardAvoidingView>
         )}
