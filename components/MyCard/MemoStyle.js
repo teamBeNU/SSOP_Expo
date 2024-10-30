@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
         top: 6,
     },
     moreIcon: {
-        padding: 10,
+        //padding: 10,
         justifyContent: 'center',
         alignItems: 'center',
         zIndex: 10,
@@ -138,7 +138,9 @@ export const styles = StyleSheet.create({
         fontWeight: '400',
         lineHeight: 19,
         letterSpacing: -0.32,
-        width: 200
+        //backgroundColor: 'pink',
+        //width: 200,
+        zIndex: -10
         },
         modalContent: {
         padding: 24,
@@ -148,7 +150,7 @@ export const styles = StyleSheet.create({
         height: 240,
         justifyContent: 'space-between',
         borderRadius: 16,
-        backgroundColor: theme.gray95
+        backgroundColor: theme.gray95,
         },
         button: {
         width: '100%',

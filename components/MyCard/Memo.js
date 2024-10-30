@@ -133,17 +133,19 @@ export const Memo = ({ hasMemo, cardData }) => {
                     onRequestClose={() => {
                     setIsExpanded(!isExpanded);
                     }}>
-                    <TouchableWithoutFeedback onPress={()=>setIsExpanded(false)}>
+                   
                         <View style={styles.modalContainer}>
                         <View style={[styles.modalView, {height: 'auto'}]}>
                             
-                            <TouchableOpacity style={{ position: 'absolute', right: -180, top: 0, zIndex: 1}} onPress={() => setIsModalVisible(!isModalVisible)}>
-                                <CloseICon />
-                            </TouchableOpacity>
-
+                            <TouchableWithoutFeedback onPress={() => setIsExpanded(!isExpanded)}>
                             <View style={styles.modalTitle}>
                                 <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 보기</Text>
+                                <TouchableOpacity style={{ position: 'absolute', right: -16, top: -24, zIndex: 1}}  onPress={() => setIsExpanded(!isExpanded)}>
+                                 <CloseICon />
+                                </TouchableOpacity>
                             </View>
+                            </TouchableWithoutFeedback>
+                            
 
                             <View style={styles.memoContent}>
                                 <Text style={styles.memoLeng}>{cardData.memo}</Text>
@@ -152,26 +154,24 @@ export const Memo = ({ hasMemo, cardData }) => {
                             <View style={styles.memoBtnContainer}>
                             <Pressable
                             style={styles.whiteBtn}
-                            onPress={() => setIsModalVisible(!isModalVisible)}>
+                            onPress={() => setIsExpanded(!isExpanded)}>
                                 <Text style={[styles.btnFont]}>삭제하기</Text>
                             </Pressable>
                             <Pressable
                             style={styles.blackBtn}
-                            onPress={() => setIsModalVisible(!isModalVisible)}>
+                            onPress={() => setIsExpanded(!isExpanded)}>
                                 <Text style={[styles.btnFont, {color: 'white'}]}>수정하기</Text>
                             </Pressable>
                             </View>
                         </View>
                         </View>
-                    </TouchableWithoutFeedback>
                     </Modal>
                 )}
-
-                <TouchableWithoutFeedback onPress={() => setMoreMenu(false)}>
+                    <TouchableWithoutFeedback onPress={() => {setMoreMenu(false);}}>
                     <View>
                         <View style={styles.memoContainer}>
                         {/* <TouchableOpacity onPress={handleMoreMenu} style={styles.touchableArea} > */}
-                            <MoreIcon width={32} height={32} fill="#949494" onPress={handleMoreMenu} style={styles.moreIcon} hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}/>
+                            <MoreIcon onPress={handleMoreMenu} style={styles.moreIcon} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }}/>
                         {/* </TouchableOpacity> */}
 
 
@@ -196,7 +196,7 @@ export const Memo = ({ hasMemo, cardData }) => {
                             />
                         </View>
                     </View>
-                </TouchableWithoutFeedback>
+                    </TouchableWithoutFeedback>
             </View>
         ) : (
             <TouchableOpacity style={styles.container}>

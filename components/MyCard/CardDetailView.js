@@ -296,7 +296,7 @@ const CardDetailView = () => {
         
    return (
     <TouchableWithoutFeedback onPress={() => setMoreMenu(false)}>
-     <View style={styles.container}>
+     <View style={[styles.container, {flex:1}]}>
             <ScrollView
                 ref={scrollViewRef}
                 horizontal={true}

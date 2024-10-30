@@ -33,16 +33,16 @@ const CheckCardDetail = () => {
     const [isEdit, setIsEdit] = useState(false);
 
     // 메모
-    const handleNewMemo = () => {
-        setIsEdit(false);
-        navigation.navigate('Memo', { isEdit : false, card: cardData[currentCardIndex], index: currentCardIndex });
-      };
+    // const handleNewMemo = () => {
+    //     setIsEdit(false);
+    //     navigation.navigate('Memo', { isEdit : false, card: cardData[currentCardIndex], index: currentCardIndex });
+    //   };
 
-    const handleEditMemo = (card) => {
-        setIsModalVisible(false);
-        setIsEdit(true);
-        navigation.navigate('Memo', { isEdit : true, memo : card.memo, card });
-      };
+    // const handleEditMemo = (card) => {
+    //     setIsModalVisible(false);
+    //     setIsEdit(true);
+    //     navigation.navigate('Memo', { isEdit : true, memo : card.memo, card });
+    //   };
 
     useEffect(() => {
     if (cardData.length > 0 && currentCardIndex >= 0) {
@@ -161,8 +161,9 @@ const CheckCardDetail = () => {
 
     
    return (
-    <TouchableWithoutFeedback onPress={() => setMoreMenu(false)}>
+    
      <View style={{flex: 1, backgroundColor: 'white'}}>
+        <TouchableWithoutFeedback onPress={() => {setMoreMenu(false); }}>
             <View style={styles.container}>
             {isRecent ? <Text style={styles.updateText}>최근 업데이트 되었어요</Text> : <Text style={styles.updateText}></Text>}
             <ScrollView
@@ -201,10 +202,12 @@ const CheckCardDetail = () => {
                 })}
             </ScrollView>
             </View>
-            
+            </TouchableWithoutFeedback>
+
             <View  style={{marginTop: 24, alignItems: 'center'}}>
-            <Memo hasMemo= {hasMemo} cardData = {cardData[currentCardIndex]}/>
+            <Memo hasMemo= {hasMemo} cardData = {cardData[currentCardIndex]} />
             </View>
+          
             {/* <View style={styles.btnContainer}> */}
                 {/* <View style={styles.btn}>
                     <TouchableOpacity disabled={cardData.length === 0}>
@@ -272,7 +275,6 @@ const CheckCardDetail = () => {
             </View> */}
             {/* </View> */}
         </View> 
-        </TouchableWithoutFeedback>
     );
   }
   export default CheckCardDetail;

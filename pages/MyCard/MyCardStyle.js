@@ -3,7 +3,7 @@ import { theme } from "../../theme";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 const MAX_CARD_HEIGHT = HEIGHT * 0.6;
-const cardWidth = WIDTH * 0.84;
+const cardWidth = Math.min(WIDTH * 0.84, WIDTH*0.4)
 const cardHeight =  Math.min(WIDTH * 1.2, MAX_CARD_HEIGHT);
 
 export const styles = StyleSheet.create({
