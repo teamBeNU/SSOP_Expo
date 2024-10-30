@@ -8,6 +8,15 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
   const [hasPermission, setHasPermission] = useState(false);
 
   const checkPermissions = async () => {
+    const { status } = await Contacts.requestPermissionsAsync();
+    // if (status === 'granted') {
+    //   setHasPermission(true);
+    //   return true;
+    // } else {
+    //   Alert.alert('Permission Needed', 'Contact access permission is required to use this feature.');
+    //   return false;
+    // }
+    
     if (Platform.OS === 'android') {
       try {
         // 읽기 권한 요청
@@ -53,26 +62,24 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
     }
   };
 
-  
   const handlePress = async () => {
-    console.log('handlePress called'); // 로그 추가
+    console.log('handlePress called');
+  
     const permissionGranted = await checkPermissions();
     console.log('Permission Granted:', permissionGranted);
-    setHasPermission(permissionGranted);
-
+  
     if (permissionGranted) {
       Alert.alert(
-        'Save Contact',
-        'Do you want to save this contact?',
+        '연락처 저장',
+        '연락처를 저장하시겠습니까?',
         [
-          { text: 'No', onPress: () => console.log('Cancelled'), style: 'cancel' },
-          { text: 'Yes', onPress: () => saveContact(phoneNumber, firstName) },
+          { text: '아니오', onPress: () => console.log('Cancelled'), style: 'cancel' },
+          { text: '네', onPress: () => saveContact(phoneNumber, firstName) },
         ]
       );
-    } else {
-      Alert.alert('Permission Needed', 'Contact access permission is required to use this feature.');
     }
   };
+  
 
   const saveContact = async (phoneNumber, firstName) => {
     const contact = {
@@ -83,7 +90,7 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
     try {
       const contactId = await Contacts.addContactAsync(contact);
       if (contactId) {
-        Alert.alert('Success', 'Contact has been successfully added.');
+        Alert.alert('성공', '연락처가 저장되었습니다.');
         if (Platform.OS === 'android') {
           Linking.openURL('content://contacts/people/'); 
         }
@@ -105,7 +112,7 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
           <ContactIcon />
           </View>
         ) : (
-          <SaveIcon width={24} height={24} /> // Your icon component here
+          <SaveIcon width={24} height={24} />
         )}
       </TouchableOpacity>
     </View>
