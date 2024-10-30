@@ -93,11 +93,11 @@ const fetchSavedCards = async () => {
     if (response.ok) {
       return result;  // 카드 데이터를 반환
     } else {
-      console.error('카드 데이터를 가져오는데 실패했습니다:', result.message);
+      //console.error('카드 데이터를 가져오는데 실패했습니다:', result.message);
       return [];
     }
   } catch (error) {
-    console.error('API 호출 중 오류 발생:', error);
+    //console.error('API 호출 중 오류 발생:', error);
     return [];
   }
 };
@@ -109,7 +109,7 @@ const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
   try {
     const token = await AsyncStorage.getItem('token');
     if (!token) {
-      console.error('토큰이 없습니다.');
+      //console.error('토큰이 없습니다.');
       return;
     }
 
@@ -131,11 +131,11 @@ const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
       setCardData(updatedCardData);
     } else {
       const result = await response.json();
-      console.error('카드 삭제에 실패했습니다:', result.message);
+      //console.error('카드 삭제에 실패했습니다:', result.message);
       showCustomToast('카드 삭제에 실패했습니다');
     }
   } catch (error) {
-    console.error('API 호출 중 오류 발생:', error);
+    //console.error('API 호출 중 오류 발생:', error);
     showCustomToast('카드 삭제 중 오류가 발생했습니다.');
   }
 };
@@ -149,7 +149,7 @@ export const addCardsToGroup = async (groupId, selectedCards, navigation) => {
   try {
     const token = await AsyncStorage.getItem('token');
     if (!token) {
-      console.error('토큰이 없습니다.');
+      //console.error('토큰이 없습니다.');
       return;
     }
 
@@ -173,10 +173,10 @@ export const addCardsToGroup = async (groupId, selectedCards, navigation) => {
       });
       navigation.navigate('Group');
     } else {
-      console.error('카드를 그룹에 추가하는 데 실패했습니다:', result.message);
+      //console.error('카드를 그룹에 추가하는 데 실패했습니다:', result.message);
     }
   } catch (error) {
-    console.error('API 호출 중 오류 발생:', error);
+    //console.error('API 호출 중 오류 발생:', error);
   }
 };
 
@@ -586,7 +586,7 @@ function ManageCardScreen({ navigation }) {
         try {
           const token = await AsyncStorage.getItem('token');
           if (!token) {
-            console.error('토큰이 없습니다.');
+            //console.error('토큰이 없습니다.');
             return;
           }
     
@@ -606,7 +606,7 @@ function ManageCardScreen({ navigation }) {
             //console.error('그룹 데이터를 받지 못했습니다.');
           }
         } catch (error) {
-          console.error('그룹 목록을 불러오는 중 오류가 발생했습니다:', error);
+          //console.error('그룹 목록을 불러오는 중 오류가 발생했습니다:', error);
         }
       };
 
@@ -634,10 +634,10 @@ function ManageCardScreen({ navigation }) {
             showCustomToast('새 그룹이 성공적으로 추가되었습니다.');
             setIsGroupNameChangeModalVisible(false);  // 모달 닫기
           } else {
-            console.error('그룹 추가에 실패했습니다:', result.message);
+            //console.error('그룹 추가에 실패했습니다:', result.message);
           }
         } catch (error) {
-          console.error('그룹 추가 중 오류가 발생했습니다:', error);
+          //console.error('그룹 추가 중 오류가 발생했습니다:', error);
         }
       };
 
@@ -679,7 +679,7 @@ function ManageCardScreen({ navigation }) {
           //console.error('카드를 그룹에 추가하는 데 실패했습니다:', result.message);
         }
       } catch (error) {
-        console.error('API 호출 중 오류 발생:', error);
+        //console.error('API 호출 중 오류 발생:', error);
       }
     };
  

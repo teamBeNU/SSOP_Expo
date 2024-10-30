@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { useState, useEffect }from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js'
 import { PlusCardButton, ShareCard } from './ShareCard';
@@ -52,6 +52,21 @@ const CardsView = ({
   selectedCards = [], // 선택된 카드 목록 상태
   handleRadioSelect, // 카드 선택 상태 변경 함수
 }) => {
+  const [sortedCardIdData, setSortedCardIdData] = useState([]);
+  const [sortedMemberData, setSortedMemberData] = useState([]);
+
+    // 최신순 / 오래된 순 정렬 함수
+    const sortData = (data) => {
+      const dataCopy = [...(data || [])];
+      return selectedOption === '최신순' ? dataCopy : dataCopy.reverse(); // 최신순은 그대로, 오래된 순은 역순
+    };
+
+    // 데이터 정렬
+    useEffect(() => {
+      setSortedCardIdData(sortData(cardData.cardIdData));
+      setSortedMemberData(sortData(cardData.memberData));
+    }, [cardData, selectedOption]);
+
   return (
     <View style={styles.mainlayout}>
       {showTitle && title && (
@@ -83,8 +98,15 @@ const CardsView = ({
             <MenuOptions
               optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}
             >
-              <MenuOption style={{ marginBottom: 10.5 }} onSelect={() => setSelectedOption('최신순')} text="최신순" />
-              <MenuOption onSelect={() => setSelectedOption('오래된 순')} text="오래된 순" />
+              <MenuOption
+                style={{ marginBottom: 10.5 }}
+                onSelect={() => setSelectedOption('최신순')}
+                text='최신순'
+              />
+              <MenuOption
+                onSelect={() => setSelectedOption('오래된 순')}
+                text='오래된 순'
+              />
             </MenuOptions>
           </Menu>
         </View>

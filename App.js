@@ -497,7 +497,7 @@ const Tab = createBottomTabNavigator();
             backgroundColor: theme.white
           },
           headerRight: () => (
-            <TouchableOpacity onPress={() => { navigation.navigate('카드 검색') }}>
+            <TouchableOpacity onPress={() => { navigation.navigate('전체 카드 검색') }}>
               <SearchIcon style={{ marginRight: 8 }} />
             </TouchableOpacity>
           ),
