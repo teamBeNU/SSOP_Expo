@@ -235,18 +235,13 @@ const MySpaceDetailView = ({
                         }}
                       >
                         <ShareCard
-                          backgroundColor={item.backgroundColor}
-                          avatar={
-                            <Image
-                              source={{ uri: item.profile_image_url }}
-                              style={styles.gridImage}
-                            />
-                          }
-                          isHost={hostId == item.userId}
-                          card_name={item.card_name}
-                          card_birth={item.card_birth || ''}
-                          dot=' · '
-                          card_template={item.card_template}
+                            avatar={item.avatar}
+                            profile_image_url={item.memberEssential.profile_image_url}
+                            isHost={hostId == item.userId}
+                            card_name={item.memberEssential.card_name}
+                            card_birth={item.memberOptional.card_birth || ''}
+                            dot=' · '
+                            card_template={item.memberEssential.card_template || '기타'}
                         />
                       </TouchableOpacity>
                     ))
@@ -262,18 +257,13 @@ const MySpaceDetailView = ({
                           }}
                         >
                           <ShareCard
-                            backgroundColor={item.backgroundColor}
-                            avatar={
-                              <Image
-                                source={{ uri: item.profile_image_url }}
-                                style={styles.gridImage}
-                              />
-                            }
+                            avatar={item.avatar}
+                            profile_image_url={item.memberEssential.profile_image_url}
                             isHost={hostId == item.userId}
-                            card_name={item.cardEssential.card_name}
-                            card_birth={item.cardOptional.card_birth || ''}
+                            card_name={item.memberEssential.card_name}
+                            card_birth={item.memberOptional.card_birth || ''}
                             dot=' · '
-                            card_template={item.card_template}
+                            card_template={item.memberEssential.card_template || '기타'}
                           />
                         </TouchableOpacity>
                       ))
@@ -290,13 +280,8 @@ const MySpaceDetailView = ({
                           }}
                         >
                           <ShareCard
-                            backgroundColor={item.backgroundColor}
-                            avatar={
-                              <Image
-                                source={{ uri: item.memberEssential.profile_image_url }}
-                                style={styles.gridImage}
-                              />
-                            }
+                            avatar={item.avatar}
+                            profile_image_url={item.memberEssential.profile_image_url}
                             isHost={hostId == item.userId}
                             card_name={item.memberEssential.card_name}
                             card_birth={item.memberOptional.card_birth || ''}

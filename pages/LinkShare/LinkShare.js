@@ -124,16 +124,53 @@ function Step1Screen({ navigation }) {
   );
 }
 
-function Step2Screen({ route }) {
+function Step2Screen({ route, navigation}) {
   const { link } = route.params;
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [cardInfo, setCardInfo] = useState(null);  // 카드 정보를 상태로 저장
 
-  // 링크 복사
-  const copyLinkShare = async () => {
-    await Clipboard.setStringAsync(link);
-    Alert.alert('클립보드에 복사되었습니다.');
-  };
+  // // 링크 복사
+  // const copyLinkShare = async () => {
+  //   await Clipboard.setStringAsync(link);
+  //   Alert.alert('클립보드에 복사되었습니다.');
+  // };
 
+    // 링크 복사
+    const copyLinkShare = async () => {
+      await Clipboard.setStringAsync(link);
+      Alert.alert('클립보드에 복사되었습니다.');
+    
+      try {
+        // 링크에서 token 추출
+        const token = link.split('/').pop();
+        
+        const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+    
+        const result = await response.json();
+        if (response.ok) {
+          const cardInfoText = `
+            userId: ${result.userId}
+            cardId: ${result.cardId}
+            이름: ${result.cardEssential.card_name}
+            소개: ${result.cardEssential.card_introduction}
+          `;
+    
+          // 카드 정보를 Alert에 띄우기
+          Alert.alert("카드 정보", cardInfoText);
+        } else {
+          //console.error('카드 정보 가져오기 실패:', result.message);
+        }
+      } catch (error) {
+        //console.error('카드 정보 가져오는 중 오류가 발생했습니다:', error);
+      }
+    };
+    
+    
   const handleLinkSharePress = async () => {
     setIsModalVisible(false);
     try {
@@ -149,6 +186,13 @@ function Step2Screen({ route }) {
   const handleShareButtonPress = () => {
     setIsModalVisible(true);
   };
+
+    // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
+    const navigateToLinkReceiver = () => {
+      const testLink = 'https://ssop.com/api/link/ad523a52-1a19-40e8-ab3b-33994720b224'; // 임시 링크
+      console.log("네비게이션을 통해 전달된 링크:", testLink);
+      navigation.navigate('LinkReceiverScreen', { link: testLink });
+    };
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -194,7 +238,10 @@ function Step2Screen({ route }) {
           </View>
         </View>
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={styles.btnNext} onPress={handleShareButtonPress}>
+          <TouchableOpacity style={[styles.btnTestBox, {marginTop: 10}]} onPress={navigateToLinkReceiver}>
+            <Text style={styles.btnTest}>다른 사람이 보낸 링크 저장 (시연을 위한 임시 버튼)</Text>
+          </TouchableOpacity >
+          <TouchableOpacity style={[styles.btnNext, {marginTop: 10}]} onPress={handleShareButtonPress}>
             <ShareIcon style={{marginRight: 8}}/>
             <Text style={styles.btnText}>링크 공유하기</Text>
           </TouchableOpacity >
@@ -209,12 +256,14 @@ function LinkReceiverScreen({ route, navigation }) {
 
   // 링크에서 token 추출 함수
   const extractToken = (url) => {
-    const tokenMatch = url.match(/\/([a-f0-9-]+)$/);  // URL에서 마지막 '/' 뒤의 문자열 추출
-    return tokenMatch ? tokenMatch[1] : null;
+    const tokenMatch = url ? url.match(/\/([a-f0-9-]+)$/) : null;  // URL이 존재할 경우에만 매칭
+    const token = tokenMatch ? tokenMatch[1] : null;
+    console.log("추출된 토큰:", token);  // 토큰 로그로 확인
+    return token;
   };
 
   // 카드 저장 함수
-  const saveCard = async (token) => {
+  const saveCard = async (token, cardId) => {
     try {
       const authToken = await AsyncStorage.getItem('token');
       if (!authToken) {
@@ -222,44 +271,63 @@ function LinkReceiverScreen({ route, navigation }) {
         return;
       }
 
-      const response = await fetch(`http://43.202.52.64:8080/api/card/save`, {
+      const response = await fetch(`http://43.202.52.64:8080/api/card/save?cardId=${cardId}`, {  // cardId를 쿼리 파라미터로 추가
         method: 'POST',
         headers: {
           Authorization: `Bearer ${authToken}`,
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ token }),
+        body: JSON.stringify({ token }),  // token만 body에 포함
       });
+
+      const result = await response.json();
+      console.log("서버 응답 결과:", result);
 
       if (response.ok) {
         Alert.alert("카드가 성공적으로 저장되었습니다!");
-        navigation.navigate("홈");  // 카드 저장 후 홈 화면으로 이동
+        //navigation.navigate("받은 프로필 카드");
       } else {
-        console.error("카드 저장 실패:", (await response.json()).message);
-        Alert.alert("카드 저장에 실패했습니다.");
+        console.log("카드 저장 실패:", result.message || "알 수 없는 오류");
+        Alert.alert("카드 저장에 실패했습니다:", result.message || "알 수 없는 오류");
       }
     } catch (error) {
-      console.error("카드 저장 중 오류가 발생했습니다:", error);
+      console.log("카드 저장 중 오류가 발생했습니다:", error);
       Alert.alert("카드 저장 중 오류가 발생했습니다.");
     }
   };
 
-  // 웹뷰가 로드될 때마다 URL을 확인해 token을 추출하고 저장
-  const handleWebViewNavigationStateChange = (newNavState) => {
-    const { url } = newNavState;
-    const token = extractToken(url);
 
+  
+
+  // 웹뷰가 로드될 때마다 URL을 확인해 token을 추출하고 저장
+  const handleWebViewNavigationStateChange = async (newNavState) => {
+    const { url } = newNavState;
+    console.log("웹뷰 로드된 URL:", url);
+  
+    const token = extractToken(url);
+    console.log("추출된 토큰:", token);
+  
     if (token) {
-      saveCard(token);  // token이 추출되면 카드 저장
+      // 토큰으로부터 카드 정보를 조회
+      const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`);
+      const cardInfo = await response.json();
+  
+      const cardId = cardInfo.cardId;  // cardId를 추출
+      console.log("저장할 카드 ID:", cardId);
+  
+      if (cardId) {
+        saveCard(token, cardId); 
+      } else {
+        console.error("유효한 cardId를 찾을 수 없습니다.");
+      }
     }
   };
 
   return (
     <View style={{ flex: 1 }}>
-      <Text>카드 저장 중입니다...</Text>
       <WebView
         source={{ uri: link }}
-        onLoadEnd={handleWebViewNavigationStateChange}  // 페이지 로드가 끝날 때 호출
+        onNavigationStateChange={handleWebViewNavigationStateChange}  // 페이지 로드가 끝날 때 호출
       />
     </View>
   );
@@ -295,7 +363,17 @@ function LinkShare({ navigation }) {
       }}/>
       <Stack.Screen name="LinkReceiverScreen" component={LinkReceiverScreen} 
       options={{
-        title: "카드 저장" }}/>
+        title: "카드 저장",
+        headerLeft: ({onPress}) => (
+          <TouchableOpacity onPress={onPress}>
+            <LeftArrowIcon style={{ marginLeft: 8  }}/>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => navigation.navigate('홈')}>
+            <HomeIcon style={{ marginRight: 8 }} />
+          </TouchableOpacity>
+        ), }}/>
     </Stack.Navigator>
   );
 }
