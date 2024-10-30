@@ -3,16 +3,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useLayoutEffect, useState } from "react";
 import { Text, TouchableOpacity, View, Alert, Modal } from 'react-native';
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
-import Toast from 'react-native-toast-message';
-
+import { deleteCard } from '../../components/MyCard/DeleteCardAPI';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import GridIcon from '../../assets/icons/ic_border_all.svg';
 import ListIcon from '../../assets/icons/ic_list.svg';
 import { GridCardView } from "../../components/MyCard/GridCardView";
 import { ListCardView } from "../../components/MyCard/ListCardView";
 import { styles } from './MyCardsViewStyle';
-import NotSelectedIcon from '../../assets/icons/ic_radioBtn_notSelect.svg';
+import NotSelectedIcon from '../../assets/icons/ic_radioBtn_all.svg';
 import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
+import TrashIcon from '../../assets/icons/ic_trash.svg';
 
 const DeleteMyCard = ({ route, navigation }) => {
   const { cardData } = route.params;
@@ -34,52 +34,9 @@ const DeleteMyCard = ({ route, navigation }) => {
 };
 
 const confirmDelete = async () => {
-  await deleteMyCard(selectedCards);
+  await deleteCard(selectedCards, navigation);
   setModalVisible(false);
 }
-
-const deleteMyCard  = async (cardId) => {
-    try {   
-        const token = await AsyncStorage.getItem('token');
-        
-        const response = await fetch(`http://43.202.52.64:8080/api/card/delete?cardIds=${cardId.join(',')}`,
-        {
-        method: 'DELETE',
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-        });
-        if (response.status === 200) {
-            setSelectedCards([]); 
-            navigation.goBack();
-
-            Toast.show({
-              text1: "프로필 카드가 삭제되었어요.",
-              type: 'success',
-              position: 'bottom',
-              visibilityTime: 3000,
-              autoHide: true,
-            });
-        } else {
-          Toast.show({
-            text1: "삭제에 실패하였습니다.",
-            type: 'fail',
-            position: 'bottom',
-            visibilityTime: 3000,
-            autoHide: true,
-          });
-        }
-
-    } catch (error) {
-        Toast.show({
-          text1: "카드 삭제 중 오류가 발생했습니다.",
-          type: 'fail',
-          position: 'bottom',
-          visibilityTime: 3000,
-          autoHide: true,
-        });
-    }
-};
 
   const handleSelectAllToggle = () => {
     setSelectedCards(selectedCards.length === cardData.length ? [] : cardData.map(card => card.cardId));
@@ -120,9 +77,10 @@ const deleteMyCard  = async (cardId) => {
        </View>
       </View>
 
-      {viewOption === '그리드형' ? <GridCardView cardData={cardData}/> : <ListCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />}
+      {viewOption === '그리드형' ? <GridCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards}/> : <ListCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />}
 
       <TouchableOpacity style={styles.delteBtn} onPress={handleDelete}>
+        <TrashIcon />
         <Text style={styles.delteBtnText}>삭제</Text>
       </TouchableOpacity>
 

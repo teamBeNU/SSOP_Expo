@@ -36,14 +36,20 @@ export const CardFront = ({ cardData, onFlip }) => {
     };
 
     return (
-        <View style={{ ...styles.card }}>
-            <Image
-                source={{ uri: cardData.profile_image_url }}
+        <View style={{...styles.card}}>
+                {cardData.card_cover === 'avatar' ? 
+                <View style={[styles.cardImgArea, { backgroundColor: getColor(cardData.avatar.bgColor)}]}>
+                        
+                </View>
+                :
+                <Image 
+                source={{ uri: cardData.profile_image_url }} 
                 resizeMode="cover"
                 style={styles.cardImgArea}
-            />
+                />
+                } 
             <View style={styles.cardTextArea}>
-                <View style={styles.basicInfo}>
+                <View style={styles.basicInfo}> 
                     <Text style={styles.name}>{cardData.cardEssential.card_name}</Text>
                     {cardData.cardOptional.card_birth ? (
                         <Text style={styles.age}>
@@ -57,5 +63,26 @@ export const CardFront = ({ cardData, onFlip }) => {
                 </Text>
             </View>
         </View>
+        // <View style={{ ...styles.card }}>
+        //     <Image
+        //         source={{ uri: cardData.profile_image_url }}
+        //         resizeMode="cover"
+        //         style={styles.cardImgArea}
+        //     />
+        //     <View style={styles.cardTextArea}>
+        //         <View style={styles.basicInfo}>
+        //             <Text style={styles.name}>{cardData.cardEssential.card_name}</Text>
+        //             {cardData.cardOptional.card_birth ? (
+        //                 <Text style={styles.age}>
+        //                     {calculateAge(cardData.cardOptional.card_birth)}
+        //                 </Text>
+        //             ) : null}
+        //         </View>
+        //         {renderTemplateSpecificInfo()}
+        //         <Text style={styles.sub2}>
+        //             {cardData.cardEssential.card_introduction}
+        //         </Text>
+        //     </View>
+        // </View>
     );
 };

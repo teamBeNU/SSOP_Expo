@@ -3,7 +3,7 @@ import { theme } from "../../theme";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 const MAX_CARD_HEIGHT = HEIGHT * 0.6;
-const cardWidth = WIDTH * 0.84;
+const cardWidth = Math.min(WIDTH * 0.84, WIDTH*0.4)
 const cardHeight =  Math.min(WIDTH * 1.2, MAX_CARD_HEIGHT);
 
 export const styles = StyleSheet.create({
@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: 'white',
-        flex: 1,
+        //flex: 1,
         },
 	cardPage: {
         color: theme.gray50,
@@ -37,27 +37,29 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems:'center',
         width: WIDTH * 0.84,
-        height: 79,
-        gap: 52,
+        height: 56,
+        gap: 26,
         bottom: Platform.OS === 'android' ? HEIGHT-StatusBar.currentHeight-cardHeight-220 : HEIGHT-cardHeight-260,
         marginHorizontal: 28,
-        paddingVertical: 16,
+        paddingVertical: 18,
         paddingHorizontal: 12,
         borderRadius: 20,
-        backgroundColor: theme.gray95
+        backgroundColor: '#F8F8F8',
         },
         btnText: {
-        color: theme.gray20,
-        fontFamily: 'PretendardRegular',
+        color: theme.gray40,
+        fontFamily: 'PretendardMedium',
         fontSize: 14,
         fontWeight: '500',
-        lineHeight: 17,
         letterSpacing: -0.14
         },
         btn: {
-        gap: 6,
+        width: 100,
+        gap: 4,
+        flexDirection: 'row',
         justifyContent:'center',
         alignItems: 'center',
+        flexShrink: 0
         },
         whiteBtn: {
         width: 40,
@@ -115,9 +117,9 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.32,
         },
         cardScrollView: {
-        height: WIDTH * 1.2,  
+        height: Math.min(WIDTH * 1.2, HEIGHT * 0.6),
         marginTop: 60,
-        paddingHorizontal: 42,
+        paddingHorizontal: 42, //42
         alignItems: 'center',
         //ios shadow
         shadowColor: 'rgba(0, 0, 0, 0.08)',
@@ -131,7 +133,7 @@ export const styles = StyleSheet.create({
         width: WIDTH * 0.84,
         marginHorizontal: -10,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
         },
         //modal style
         modalContainer: {
@@ -140,16 +142,15 @@ export const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         },
         modalView: {
-        height: 232,
+        //height: 232,
         backgroundColor: 'white',
         borderTopLeftRadius: 16,
         borderTopRightRadius: 16,
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
+        paddingBottom: 24
         },
         modalTitle: {
-        width: '100%',
-        height: 48,
         flexDirection: 'row',
         paddingVertical: 16,
         paddingHorizontal: 8,
@@ -279,8 +280,10 @@ export const styles = StyleSheet.create({
         },
 
         dropdownMenu: {
+        width: 'auto',
         position: 'absolute',
-        top: 0,
+        paddingVertical: 16,
+        top: 8,
         right: 8,
         borderRadius: 16,
         shadowColor: '#000',
@@ -288,23 +291,25 @@ export const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowRadius: 8,
         paddingVertical: 16,
-        paddingHorizontal: 24,
+        alignItems: 'center',
+        justifyContent: 'center',
         borderWidth: 1,
         borderColor: theme.gray95,
         backgroundColor: 'white',
-        zIndex: 1
         },
         dropdownMenuDetail:{
         height: 48,
+        paddingHorizontal: 24,
+        alignItems:'center',
         justifyContent: 'center',
-        alignItems:'center'
+        gap: 8,
+        alignSelf: 'stretch',
         },
         menuItem: {
         color: theme.gray10,
         fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
-        lineHeight: 19,
         letterSpacing: -0.32,
         },
         updateText: {
