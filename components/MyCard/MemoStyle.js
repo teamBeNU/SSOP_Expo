@@ -255,5 +255,38 @@ export const styles = StyleSheet.create({
         paddingLeft: 3.333,
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    // 삭제 모달
+    deleteModalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    deleteModalView: {
+        width: 304,
+        height: 147,
+        paddingVertical: 32,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        gap: 24,
+        borderRadius: 16,
+        backgroundColor: 'white'
+    },
+    deleteModalTitle: {
+        // flexDirection: 'row',
+        // paddingVertical: 16,
+        // paddingHorizontal: 8,
+        // justifyContent: 'center',
+        // alignItems: 'center',
+        //position: 'relative',
+        color: theme.gray10,
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontWeight: '500',
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        height: 19,
     }
 });

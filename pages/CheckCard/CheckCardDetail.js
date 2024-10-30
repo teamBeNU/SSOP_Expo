@@ -107,7 +107,7 @@ const CheckCardDetail = () => {
     useFocusEffect(
         useCallback(() => {
             fetchData();
-        }, [])
+        }, [route.params?.refreshTrigger])
     );
 
     // 카드 삭제
@@ -205,7 +205,7 @@ const CheckCardDetail = () => {
             </TouchableWithoutFeedback>
 
             <View  style={{marginTop: 24, alignItems: 'center'}}>
-            <Memo hasMemo= {hasMemo} cardData = {cardData[currentCardIndex]} />
+            <Memo hasMemo= {hasMemo} cardData = {cardData[currentCardIndex]} refresh={fetchData}/>
             </View>
           
             {/* <View style={styles.btnContainer}> */}

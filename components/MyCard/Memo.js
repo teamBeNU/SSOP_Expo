@@ -10,6 +10,8 @@ import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
 
 export const Memo = ({ hasMemo, cardData }) => {    
+    const navigation = useNavigation();
+
     const [isMemoHidden, setIsMemoHidden] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [displayText, setDisplayText] = useState('');
@@ -18,6 +20,8 @@ export const Memo = ({ hasMemo, cardData }) => {
     const [isEdit, setIsEdit] = useState(true);
     const [textLeng, setTextLeng] = useState(0);
     const [newMemo, setNewMemo] = useState('');
+    const [isDelete, setIsDelete] = useState(false);
+    const [isDeleteModal, setIsDeleteModal] = useState(false);
 
     const handleTextChange = (text, e) => {
         setTextLeng(text.length);
@@ -39,7 +43,6 @@ export const Memo = ({ hasMemo, cardData }) => {
     }, []);
 
     useEffect(() => {
-        
         if (hasMemo && cardData?.memo && !isMemoHidden) {
             setNewMemo(cardData.memo);
             if (cardData.memo.length > maxLength && !isExpanded) {
@@ -62,13 +65,40 @@ export const Memo = ({ hasMemo, cardData }) => {
         setIsModalVisible(true);
     };
 
-    const handleMemoDelete = async () => {};
+    const handleMemoDelete = async () => {
+        setIsExpanded(false);
+        setIsDeleteModal(true);
+    };
+
+    const deleteMemo = async (cardId) => {
+        setIsDeleteModal(false); 
+        try {
+            const token = await AsyncStorage.getItem('token');
+
+            const response = await fetch(`http://43.202.52.64:8080/api/card/memo?cardId=${cardId}`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                memo: "",
+            }),
+            });
+        } catch (error) {
+            Alert.alert(error.message);
+        }
+
+        navigation.navigate('상대카드 상세보기', { cardId, refreshTrigger: Date.now() });
+    }
 
     const toggleSwitch = async () => {
         const newHiddenState = !isMemoHidden;
         setIsMemoHidden(newHiddenState);
         await AsyncStorage.setItem('isMemoHidden', JSON.stringify(newHiddenState));
     };
+
+
 
     return (
         hasMemo ? (
@@ -125,6 +155,40 @@ export const Memo = ({ hasMemo, cardData }) => {
                 </TouchableWithoutFeedback>
                 </Modal>
 
+                {isDeleteModal && (
+                    <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={isDeleteModal}
+                    onRequestClose={() => {
+                    setIsDeleteModal(!isDeleteModal);
+                    }}>
+                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    <View style={styles.deleteModalContainer}>
+                        <View style={[styles.deleteModalView]}>
+        
+                            <View style={styles.deleteModalTitle}>
+                                <Text style={{...styles.modalFont, textAlign: 'center'}}>메모를 삭제하시겠습니까?</Text>
+                            </View>
+        
+                            <View style={[styles.memoBtnContainer, {marginTop: 0}]}>
+                                <TouchableOpacity
+                                style={[styles.whiteBtn, {width: 132}]}
+                                onPress={() => setIsDeleteModal(false)}>
+                                    <Text style={[styles.btnFont, {fontSize: 14}]}>취소할래요</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity
+                                style={[styles.blackBtn, {width: 132}]}
+                                onPress={() => deleteMemo(cardData.cardId)}>
+                                    <Text style={[styles.btnFont, {color: 'white', fontSize: 14}]}>네, 삭제할래요</Text>
+                                </TouchableOpacity>
+                            </View>
+                        </View>
+                    </View>
+                    </TouchableWithoutFeedback>
+                    </Modal>
+                )}
+
                 {isExpanded && (
                     <Modal
                     animationType="fade"
@@ -154,12 +218,12 @@ export const Memo = ({ hasMemo, cardData }) => {
                             <View style={styles.memoBtnContainer}>
                             <Pressable
                             style={styles.whiteBtn}
-                            onPress={() => setIsExpanded(!isExpanded)}>
+                            onPress={() => handleMemoDelete(cardData.cardId)}>
                                 <Text style={[styles.btnFont]}>삭제하기</Text>
                             </Pressable>
                             <Pressable
                             style={styles.blackBtn}
-                            onPress={() => setIsExpanded(!isExpanded)}>
+                            onPress={() => handleMemoWrite}>
                                 <Text style={[styles.btnFont, {color: 'white'}]}>수정하기</Text>
                             </Pressable>
                             </View>
