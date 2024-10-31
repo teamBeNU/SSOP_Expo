@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useRoute } from '@react-navigation/native';
+import React, { useState, useEffect, useCallback } from "react";
+import { useFocusEffect, useRoute } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
@@ -49,21 +49,30 @@ function TeamSpace({ navigation }) {
     }
   }, [token]);
 
-  useEffect(() => {
-    const refreshData = navigation.addListener('focus', () => {
-      fetchData();
-    });
+  // 화면이 포커스될 때마다 데이터 가져오기
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        if (userId && token) {
+          const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
+          try {
+            const response = await axios.get(apiUrl, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            setData(response.data);
+          } catch (error) {
+            console.error('teamsp - 내가 참여한 팀스페이스 목록 API 요청 에러:', error);
+          }
+        }
+      };
 
-    return refreshData;
-  }, [navigation]);
-
-  useEffect(() => {
-    // Navigation params에서 refresh 값을 확인하여 데이터 요청
-    const { refresh } = route.params || {};
-    if (refresh) {
       fetchData();
-    }
-  }, [route.params]);
+
+      return () => {
+        setData([]);
+      };
+    }, [userId, token])
+  );
 
   const fetchData = async () => {
     if (userId && token) {
