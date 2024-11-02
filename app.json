@@ -27,20 +27,28 @@
       },
       "permissions": [
         "READ_CONTACTS",
-        "WRITE_CONTACTS"
+        "WRITE_CONTACTS", 
+        "BLUETOOTH",
+        "BLUETOOTH_ADMIN",
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
       ]
     },
     "web": {
       "favicon": "./assets/icon.png"
     },
     "plugins": [
-      "expo-font",
-      "react-native-ble-plx",
+      [
+        "react-native-ble-plx",
         {
-          "isBackgroundEnabled": true, 
-          "modes": ["peripheral", "central"], 
+          "isBackgroundEnabled": true,
+          "modes": [
+            "peripheral",
+            "central"
+          ],
           "bluetoothAlwaysPermission": "Allow $(PRODUCT_NAME) to connect to bluetooth devices"
         }
+      ]
     ]
   }
 }
