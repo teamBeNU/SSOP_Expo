@@ -19,6 +19,7 @@ import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import { AuthProvider, AuthContext } from './AuthContext';
 import * as Linking from 'expo-linking';
+import { BleManager } from 'react-native-ble-plx'; 
 
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
@@ -69,6 +70,9 @@ import MySpSearchCard from './pages/SearchCard/MySpSearchCard';
 import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
 
 import { theme } from './theme';
+
+// 블루투스
+const bleManager = new BleManager();
 
 const linking = {
   prefixes: ['ssop://', 'https://ssop.com'],
