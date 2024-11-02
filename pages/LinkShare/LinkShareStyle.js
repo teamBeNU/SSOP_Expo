@@ -112,7 +112,18 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray10,
         flexDirection: 'row',
         paddingVertical: 14.5
-        
+    },
+    btnTestBox: {
+        justifyContent: 'center',
+        alignContent: 'center',
+        width: '100%',
+        height: 48,
+        borderRadius: 16,
+        fontFamily: 'PretendardRegular',
+        flexDirection: 'row',
+        paddingVertical: 14.5,
+        borderColor: theme.gray10,
+        borderWidth: 1
     },
     btnNextWhite: {
         width: '100%',
@@ -129,6 +140,11 @@ export const styles = StyleSheet.create({
     btnText:{
         color: theme.white,
         fontSize: 16,
+        fontFamily: 'PretendardSemiBold'
+    },
+    btnTest:{
+        color: theme.gray10,
+        fontSize: 15,
         fontFamily: 'PretendardSemiBold'
     },
     btnTextWhite:{
