@@ -1,65 +1,89 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { BleManager } from 'react-native-ble-plx';
+import BluetoothRequestPermissions from './BluetoothRequestPermissions';
 
 const useBLE = () => {
-  const bleManager = new BleManager();
-  const [allDevices, setAllDevices] = useState([]);
-  const [connectedDevice, setConnectedDevice] = useState([]);
-
-  useEffect(() => {
-    // 초기화 및 정리 작업
-    return () => {
-      bleManager.destroy(); // 메모리 누수를 방지
-    };
-  }, []);
-
-  // 중복 장치 확인
-  const isDuplicateDevice = (devices, nextDevice) =>
-    devices.findIndex((device) => nextDevice.id === device.id) > -1;
-
-  // 주변 장치 스캔
-  useEffect(() => {
+  // const bleManager = new BleManager();
+  const bleManager = useRef(new BleManager()).current;
+  const [allDevices, setAllDevices] = useState([]); // 연결 가능한 주변 Bluetooth 장치 목록
+  const [connectedDevice, setConnectedDevice] = useState(null); // 연결된 장치
+  const isScanning = useRef(false); // 스캔 상태 추적
+  
+  const scanForPeripherals = () => {
+    if (isScanning.current) {
+      console.log("이미 스캔 중입니다.");
+      return;
+    }
+  
+    isScanning.current = true; // 스캔 시작 상태로 변경
+    console.log("스캔 시작");
+  
     bleManager.startDeviceScan(null, null, (error, device) => {
       if (error) {
-        console.log("Scan error:", error);
-        return;
+        console.log("Scan error:", error.reason);
       }
-
+  
       if (device && device.name && !isDuplicateDevice(allDevices, device)) {
         setAllDevices((prevDevices) => [...prevDevices, device]);
         console.log("Found device:", device.name);
       }
-
-      if (device.name === "TARGET_DEVICE_NAME") {
-        bleManager.stopDeviceScan();
-        connectToDevice(device.id);
-      }
     });
+  };
+  
+  const isDuplicateDevice = (devices, nextDevice) =>
+    devices.findIndex((device) => nextDevice.id === device.id) > -1;
+
+  useEffect(() => {
+    const checkBLESupport = async () => {
+      const permissionGranted = await BluetoothRequestPermissions();
+      if (permissionGranted) {
+        console.log("Bluetooth 권한이 부여되었습니다.");
+        scanForPeripherals();
+      } else {
+        console.log("Bluetooth 권한이 거부되었습니다.");
+      }
+    };
+
+    checkBLESupport();
 
     return () => {
-      bleManager.stopDeviceScan();
+      bleManager.destroy();
     };
   }, []);
 
-  // 블루투스 연결
+  useEffect(() => {
+    const scanTimeout = setTimeout(() => {
+      if (isScanning.current) {
+        bleManager.stopDeviceScan();
+        isScanning.current = false;
+        console.log("스캔 종료 (타임아웃)");
+      }
+    }, 5000);
+
+    return () => {
+      clearTimeout(scanTimeout);
+      if (isScanning.current) {
+        bleManager.stopDeviceScan();
+        isScanning.current = false;
+        console.log("스캔 종료 (클린업)");
+      }
+    };
+  }, [allDevices]);
+
   async function connectToDevice(deviceId) {
     try {
       const deviceConnection = await bleManager.connectToDevice(deviceId);
       console.log("Connected to device:", deviceConnection.name);
-
       setConnectedDevice(deviceConnection);
       await deviceConnection.discoverAllServicesAndCharacteristics();
-      bleManager.stopDeviceScan();
-      // startStreamingData(deviceConnection); // 데이터 스트리밍 시작 코드
-    } catch (e) {
-      console.log("디바이스 연결 오류", e);
+    } catch (error) {
+      console.log("디바이스 연결 오류", error.reason);
     }
-  };
+  }
 
-  // 데이터 전송
   async function sendData(serviceUUID, characteristicUUID, data) {
     if (!connectedDevice) {
-      console.log("No connected device");
+      console.log("연결된 디바이스 없음");
       return;
     }
     try {
@@ -74,8 +98,8 @@ const useBLE = () => {
     }
   }
 
-  // 필요한 상태 및 함수 반환
   return {
+    scanForPeripherals,
     allDevices,
     connectedDevice,
     connectToDevice,
