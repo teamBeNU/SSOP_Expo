@@ -27,7 +27,8 @@
       },
       "permissions": [
         "android.permission.READ_CONTACTS",
-        "android.permission.WRITE_CONTACTS"
+        "android.permission.WRITE_CONTACTS",
+        "INTERNET"
       ],
       "networkSecurityConfig": {
         "domainConfig": [

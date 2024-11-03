@@ -89,10 +89,10 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
             <View key={item.cardId} style={styles.ListContainer}>
               <TouchableOpacity onPress={() => handleNext(item.cardId)}>
                 <View style={styles.row2}>
-                  {item.card_cover === 'avatar' ? (
+                  {/* {item.card_cover === 'avatar' ? (
                     <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor) }]}>
                     </View>
-                  ) : (
+                  ) : ( */}
                     <View style={[styles.gray]}>
                       <Image
                         source={{ uri: item.profile_image_url }}
@@ -100,7 +100,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                         style={{ width: 64, height: 64, borderRadius: 16 }}
                       />
                     </View>
-                  )}
+                   {/* )} */}
                   <View style={styles.infoContainer}>
                     <View style={styles.rowName}>
                       <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
