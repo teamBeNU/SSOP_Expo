@@ -58,10 +58,10 @@ export const styles = StyleSheet.create({
         marginRight: 8,
     },
     btn1Text: {
-        fontFamily: "PretendardSemiBold",
+        fontFamily: "PretendardRegular",
         fontSize: 14,
         fontStyle: "normal",
-        fontWeight: "600",
+        fontWeight: "400",
         color: theme.gray50,
         textAlign: "center",
         letterSpacing: -0.14,
