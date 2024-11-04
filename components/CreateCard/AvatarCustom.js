@@ -98,37 +98,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             setIsInit(false);
         }
     }, [avatar, isInit])
-    
-    // avatar의 속성에 접근하기 전에 null 체크
-    const hairColor = avatar?.hairColor ?? 1; // 기본값 설정
-    const bgColor = avatar?.bgColor ?? 1; // 기본값 설정
 
     // 카테고리 선택
     const handleCategory = (id) => {
         setAvaIndex(id);
     }
-
-    // 컴포넌트 -> 이미지
-    useEffect(() => {
-        // ref.current.capture().then(uri => {
-        //     console.log("do something with ", uri);
-        //     if(Platform.OS === 'ios') {
-        //         uri = `file://${uri}`;
-        //     }
-        //     setProfileImageUrl(uri);
-        //     });
-        // }, [avatar]);
-
-        // 이미지 확인용
-        ref.current.capture().then(uri => {
-            //     console.log("do something with ", uri);
-            if(Platform.OS === 'ios') {
-                uri = `file://${uri}`;
-            }
-            setProfileImageUrl(uri);
-            setA(uri);
-        });
-    }, [avatar]);
 
     // 초기화
     const handleReset = () => {
@@ -208,7 +182,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     // 아이템 선택
     const handleSelect = () => {
         undo.current.push(avatar);
-        redo.current = [];              // redo 초기화
+        redo.current = [];          // redo 초기화
     }
 
     useEffect(() => {
@@ -217,6 +191,28 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             setIsSelect(false);
         }
     }, [avatar, isSelect]);
+
+    // 컴포넌트 -> 이미지
+    useEffect(() => {
+        // ref.current.capture().then(uri => {
+        //     console.log("do something with ", uri);
+        //     if(Platform.OS === 'ios') {
+        //         uri = `file://${uri}`;
+        //     }
+        //     setProfileImageUrl(uri);
+        //     });
+        // }, [avatar]);
+
+        // 이미지 확인용
+        ref.current.capture().then(uri => {
+            //     console.log("do something with ", uri);
+            if(Platform.OS === 'ios') {
+                uri = `file://${uri}`;
+            }
+            setProfileImageUrl(uri);
+            setA(uri);
+        });
+    }, [avatar]);
 
     return (
         <SafeAreaView style={styles.container}>
