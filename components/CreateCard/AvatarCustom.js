@@ -16,6 +16,14 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const [avaIndex, setAvaIndex] = useState(1);
 
+    // undo, redo
+    let undo = useRef([]);
+    let redo = useRef([]);
+
+    const [isInit, setIsInit] = useState(false);        // 처음 렌더링 되어 값 지정 되었는지 여부
+    const [isSelect, setIsSelect] = useState(false);        // 아이템 선택 여부
+    const [isRandom, setIsRandom] = useState(false);        // 자동생성 선택 여부
+
     // 외부에서 avatar와 setAvatar가 주어지지 않으면, 내부적으로 상태 관리
     const [internalAvatar, SetinternalAvatar] = useState({
         eyes: null,
@@ -65,6 +73,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 bg: null,
                 bgColor: 1,
             })));
+            setIsInit(true);
         } else {      // 화면 이동했다가 다시 돌아왔을 경우 이전에 선택한 데이터를 유지하기 위해
             setAvatar((prev => ({...prev, 
                 eyes: initAvatar.eyes,
@@ -79,23 +88,24 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 bg: initAvatar.bg,
                 bgColor: initAvatar.bgColor,
             })));
+            setIsInit(true);
         }
     }, []);
+
+    useEffect(() => {
+        if (isInit) {
+            undo.current.push(avatar);
+            setIsInit(false);
+        }
+    }, [avatar, isInit])
     
     // avatar의 속성에 접근하기 전에 null 체크
     const hairColor = avatar?.hairColor ?? 1; // 기본값 설정
     const bgColor = avatar?.bgColor ?? 1; // 기본값 설정
 
+    // 카테고리 선택
     const handleCategory = (id) => {
         setAvaIndex(id);
-    }
-
-    const handleHairColor = (id) => {
-        setAvatar((prev => ({...prev, hairFrontColor: id, hairBackColor: id})));
-    }
-
-    const handleBgColor = (id) => {
-        setAvatar((prev => ({...prev, bgColor: id})));
     }
 
     // 컴포넌트 -> 이미지
@@ -135,6 +145,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             bg: null,
             bgColor: 1,
         })));
+
+        setIsInit(true);
+        redo.current = [];  // redo 초기화
     }
 
     // 자동 생성
@@ -163,16 +176,56 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             //bg: randBg,
             bgColor: randBgColor,
         })));
+
+        setIsRandom(true);
     }
+    
+    useEffect(() => {
+        if (isRandom) {
+            undo.current.push(avatar);
+            setIsRandom(false);
+        }
+    }, [avatar, isRandom]);
+
+    // Undo
+    const handleUndo = () => {
+        if (undo.current.length <= 1) return;   // undo가 비어 있으면 리턴
+
+        redo.current.push(undo.current.pop());              // undo의 마지막 상태를 redo에 추가 (undo 마지막 상태 제거)
+        const lastState = undo.current[undo.current.length - 1];  // 제거 후의 마지막 상태 가져오기
+        setAvatar(prev => ({...prev, ...lastState}));       // 아바타 적용
+    }
+
+    // Redo
+    const handleRedo = () => {
+        if (redo.current.length === 0) return;  // redo가 비어 있으면 리턴
+
+        let redoPop = redo.current.pop();               // redo의 마지막 상태 반환
+        undo.current.push(redoPop);                     // undo에 추가
+        setAvatar(prev => ({...prev, ...redoPop}));     // 아바타 적용
+    }
+
+    // 아이템 선택
+    const handleSelect = () => {
+        undo.current.push(avatar);
+        redo.current = [];              // redo 초기화
+    }
+
+    useEffect(() => {
+        if (isSelect) {
+            handleSelect();
+            setIsSelect(false);
+        }
+    }, [avatar, isSelect]);
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
                 <View style={styles.avatarDo}>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleUndo()}>
                         <UndoIcon />
                     </TouchableOpacity>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => handleRedo()}>
                         <RedoIcon />
                     </TouchableOpacity>
                 </View>
@@ -214,6 +267,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         {hairBackItems.find(item => item.id === avatar.hairBack) && (
                             <Image source={hairBackItems.find(item => item.id === avatar.hairBack).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 1}} />
                         )}
+                        {/* <Image
+                            source={{uri: 'https://.png'}} 
+                            resizeMode="contain"
+                            style={styles.avatarImg}
+                        /> */}
                         {/* <Image
                             source={require("../../assets/avatars/sampleAva.png")} 
                             resizeMode="contain"
@@ -259,11 +317,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {eyesItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, eyes: item.id}))))}
-                                        style={[
-                                            styles.avatarItems, 
-                                            avatar.eyes === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                        ]}
+                                        style={[styles.avatarItems, avatar.eyes === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        onPress={() => {
+                                            setAvatar(prev => ({ ...prev, eyes: item.id }));
+                                            setIsSelect(true);
+                                        }}
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
@@ -277,11 +335,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {eyebrowsItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, eyebrows: item.id}))))}
-                                        style={[
-                                            styles.avatarItems, 
-                                            avatar.eyebrows === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                        ]}
+                                        style={[styles.avatarItems, avatar.eyebrows === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        onPress={() => {
+                                            setAvatar(prev => ({...prev, eyebrows: item.id}));
+                                            setIsSelect(true);
+                                        }}
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
@@ -299,8 +357,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {hairColors.map(hc => (
                                     <TouchableOpacity 
                                         key={hc.id}
-                                        onPress={(() => handleHairColor(hc.id))}
-                                        style={[styles.colorChipOn, avatar.hairFrontColor === hc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                        style={[styles.colorChipOn, avatar.hairFrontColor === hc.id ? styles.colorChipOn : styles.colorChipOff]}
+                                        onPress={() => {
+                                            setAvatar(prev => ({...prev, hairFrontColor: hc.id, hairBackColor: hc.id}));
+                                            setIsSelect(true);
+                                        }}
                                     >
                                         <View style={[styles.colorChip, {backgroundColor: hc.color}]}></View>
                                     </TouchableOpacity>
@@ -311,11 +372,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {hairFrontItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, hairFront: item.id}))))}
-                                        style={[
-                                            styles.avatarItems, 
-                                            avatar.hairFront === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                        ]}
+                                        style={[styles.avatarItems, avatar.hairFront === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        onPress={() => {
+                                            setAvatar((prev => ({...prev, hairFront: item.id})))
+                                            setIsSelect(true);
+                                        }}
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
@@ -329,11 +390,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {hairBackItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, hairBack: item.id}))))}
-                                        style={[
-                                            styles.avatarItems, 
-                                            avatar.hairBack === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                        ]}
+                                        style={[styles.avatarItems, avatar.hairBack === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        onPress={() => {
+                                            setAvatar((prev => ({...prev, hairBack: item.id})))
+                                            setIsSelect(true);
+                                        }}
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
@@ -351,11 +412,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {clothesItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, clothes: item.id}))))}
-                                        style={[
-                                            styles.avatarItems, 
-                                            avatar.clothes === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                        ]}
+                                        style={[styles.avatarItems, avatar.clothes === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        onPress={() => {
+                                            setAvatar((prev => ({...prev, clothes: item.id})))
+                                            setIsSelect(true);
+                                        }}
                                     >
                                         <Image source={item.image} style={{width: "100%", height: "100%"}} />
                                     </TouchableOpacity>
@@ -400,8 +461,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {bgColors.map(bc => (
                                     <TouchableOpacity 
                                         key={bc.id}
-                                        onPress={(() => handleBgColor(bc.id))}
-                                        style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff,]}
+                                        style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff]}
+                                        onPress={() => {
+                                            setAvatar((prev => ({...prev, bgColor: bc.id})));
+                                            setIsSelect(true);
+                                        }}
                                     ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
                                     </TouchableOpacity>
                                 ))}

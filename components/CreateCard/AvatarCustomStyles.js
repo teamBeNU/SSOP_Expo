@@ -75,6 +75,7 @@ export const styles = StyleSheet.create({
     },
     avatarAutoBtn: {
         flexDirection: "row",
+        justifyContent: "center",
         alignItems: "center",
     }, 
     autoAvatarIcon: {
