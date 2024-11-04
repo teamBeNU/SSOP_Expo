@@ -3,72 +3,85 @@ import { BleManager } from 'react-native-ble-plx';
 import BluetoothRequestPermissions from './BluetoothRequestPermissions';
 
 const useBLE = () => {
-  // const bleManager = new BleManager();
   const bleManager = useRef(new BleManager()).current;
+  const discoveredDevices = useRef(new Map()); // 장치를 저장할 Map
   const [allDevices, setAllDevices] = useState([]); // 연결 가능한 주변 Bluetooth 장치 목록
   const [connectedDevice, setConnectedDevice] = useState(null); // 연결된 장치
-  const isScanning = useRef(false); // 스캔 상태 추적
-  
-  const scanForPeripherals = () => {
-    if (isScanning.current) {
-      console.log("이미 스캔 중입니다.");
+  const [isScanning, setIsScanning] = useState(false); // 스캔 상태
+
+  const scanForPeripherals = async () => {
+    if (bleManager.isScanning) {
+      console.log("현재 스캔 중입니다.");
       return;
     }
-  
-    isScanning.current = true; // 스캔 시작 상태로 변경
-    console.log("스캔 시작");
-  
+
+    discoveredDevices.current.clear(); // 새로운 스캔 시작 시 기존 장치 목록 초기화
+    setIsScanning(true); // 스캔 시작 표시
+
     bleManager.startDeviceScan(null, null, (error, device) => {
       if (error) {
-        console.log("Scan error:", error.reason);
+        // console.error("Scan error:", error.reason);
+        return;
       }
-  
-      if (device && device.name && !isDuplicateDevice(allDevices, device)) {
-        setAllDevices((prevDevices) => [...prevDevices, device]);
-        console.log("Found device:", device.name);
+
+      if (device && device.name) {
+        // 장치 이름이 있을 경우에만 처리
+        if (!discoveredDevices.current.has(device.id)) {
+          discoveredDevices.current.set(device.id, device);
+
+          // 상태 업데이트 (중복 없이)
+          setAllDevices((prevDevices) => {
+            // 장치가 기존 목록에 없으면 추가
+            if (!prevDevices.some(prevDevice => prevDevice.id === device.id)) {
+              console.log(`새로운 장치 추가: ${device.name}`);
+              return [...prevDevices, device]; // 새로운 배열 반환
+            }
+            return prevDevices; // 중복된 경우 기존 배열 반환
+          });
+        } else {
+          // 이미 발견된 장치
+        }
+      } else if (device) {
+        // 장치 이름 없음
       }
     });
+    // 2초 후 스캔 중지
+    const timeoutId = setTimeout(() => {
+      bleManager.stopDeviceScan();
+      setIsScanning(false); // 스캔 종료 표시
+      console.log("스캔 종료 (타임아웃)");
+    }, 2000);
+
+    return () => {
+      clearTimeout(timeoutId); // 클린업 함수에서 타임아웃 제거
+      bleManager.stopDeviceScan(); // 스캔 중지
+      setIsScanning(false); // 스캔 종료 표시
+    };
   };
   
-  const isDuplicateDevice = (devices, nextDevice) =>
-    devices.findIndex((device) => nextDevice.id === device.id) > -1;
-
   useEffect(() => {
-    const checkBLESupport = async () => {
+    const initializeBLE = async () => {
       const permissionGranted = await BluetoothRequestPermissions();
+      console.log("권한 요청 결과:", permissionGranted);
+
       if (permissionGranted) {
         console.log("Bluetooth 권한이 부여되었습니다.");
-        scanForPeripherals();
+        scanForPeripherals(); // 스캔 시작
       } else {
         console.log("Bluetooth 권한이 거부되었습니다.");
       }
     };
 
-    checkBLESupport();
+    initializeBLE();
 
     return () => {
-      bleManager.destroy();
-    };
-  }, []);
-
-  useEffect(() => {
-    const scanTimeout = setTimeout(() => {
-      if (isScanning.current) {
+      if (isScanning) {
         bleManager.stopDeviceScan();
-        isScanning.current = false;
-        console.log("스캔 종료 (타임아웃)");
-      }
-    }, 5000);
-
-    return () => {
-      clearTimeout(scanTimeout);
-      if (isScanning.current) {
-        bleManager.stopDeviceScan();
-        isScanning.current = false;
+        setIsScanning(false); // 스캔 종료 표시
         console.log("스캔 종료 (클린업)");
       }
     };
-  }, [allDevices]);
+  }, []);
 
   async function connectToDevice(deviceId) {
     try {
@@ -99,8 +112,8 @@ const useBLE = () => {
   }
 
   return {
-    scanForPeripherals,
     allDevices,
+    scanForPeripherals,
     connectedDevice,
     connectToDevice,
     sendData,

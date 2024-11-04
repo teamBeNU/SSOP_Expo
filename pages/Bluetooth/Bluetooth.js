@@ -118,46 +118,28 @@ function Step2Screen({ route }) {
   const { permissionGranted = false } = route.params || {};
 
   const [recipients, setRecipients] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [recipientStatuses, setRecipientStatuses] = useState({});
-  const [showModal, setShowModal] = useState(false);
-
   const { scanForPeripherals, allDevices } = useBLE();
-  console.log("연결 가능한 주변 Bluetooth 장치:", allDevices);
+  const [isScanning, setIsScanning] = useState(false);
 
   useEffect(() => {
-    if (permissionGranted) {
-      scanForPeripherals();
-    }
-  }, [permissionGranted, scanForPeripherals]);
+    const startScanning = async () => {
+      if (permissionGranted && !isScanning) {
+        setIsScanning(true);
+        await scanForPeripherals();
+      }
+    };
+    startScanning();
+  }, [permissionGranted, isScanning]);
 
-  // allDevices가 업데이트될 때 recipients에 반영
   useEffect(() => {
     setRecipients(allDevices || []);
   }, [allDevices]);
 
-  const hasRecipients = Array.isArray(recipients) && recipients.length > 0;
-
-  // 보낼 사람이 없는 경우
-  if (!hasRecipients) {
-    return (
-      <View style={styles.mainlayout}>
-        <Text style={styles.title}>보낼 사람을 선택하여 프로필을 공유하세요.</Text>
-        <View style={styles.emptyContainer}>
-          {loading ? ( // 로딩 중일 때
-            <ActivityIndicator size="large" color="#949494" />
-          ) : (
-            <Text style={styles.noCard}>주변에 공유할 사람이 없어요.</Text>
-          )}
-        </View>
-      </View>
-    );
-  }
-
   useEffect(() => {
     setRecipientStatuses(
       recipients.reduce((acc, recipient) => {
-        acc[recipient.userId] = recipient.status;
+        acc[recipient.userId] = recipient.status || '대기중';
         return acc;
       }, {})
     );
