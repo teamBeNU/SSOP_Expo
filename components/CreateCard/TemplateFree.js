@@ -490,7 +490,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                     behavior="padding"
                     style={styles.container}
                 >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -588,7 +588,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
+                    {/* </TouchableWithoutFeedback> */}
                 </KeyboardAvoidingView>
             )}
 
@@ -685,7 +685,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                     behavior="padding"
                     style={styles.container}
                 >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                    {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
                         <SafeAreaView style={styles.selectViewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -855,7 +855,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                 </TouchableOpacity>
                             </View>
                         </SafeAreaView>
-                    </TouchableWithoutFeedback>
+                    {/* </TouchableWithoutFeedback> */}
                 </KeyboardAvoidingView>
             )}
 
