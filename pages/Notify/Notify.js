@@ -1,69 +1,73 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native'; // useFocusEffect 임포트
 import { styles } from './NotifyStyle';
 import Toast from 'react-native-toast-message';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Notify() {
-  const [notiData, setNotiData] = useState([]); // 서버에서 가져온 알림 데이터를 저장할 상태
-  const [hasNotify, setHasNotify] = useState(true); // 알림이 있는지 확인하는 상태
+  const [notiData, setNotiData] = useState([]);
+  const [hasNotify, setHasNotify] = useState(true);
   const navigation = useNavigation();
 
-  // 화면이 처음 로드될 때 서버에서 알림 목록을 가져오는 useEffect
-  useEffect(() => {
-    const fetchNotifications = async () => {
-      try {
-        const token = await AsyncStorage.getItem('token');
+  // 알림 목록을 가져오는 함수
+  const fetchNotifications = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
   
-        // JWT 토큰에서 userId 추출
-        if (!token) {
-          throw new Error('Token not found');
-        }
-  
-        const base64Payload = token.split('.')[1]; 
-        const payload = JSON.parse(atob(base64Payload));
-        const userId = payload.userId;
-  
-        if (!userId) {
-          throw new Error('User ID not found in token');
-        }
-  
-        const response = await fetch(`http://43.202.52.64:8080/api/notifications?userId=${userId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
-          },
-        });
-  
-        if (!response.ok) {
-          console.error('Response status:', response.status); // 상태 코드 출력
-          throw new Error('Network response was not ok');
-        }
-  
-        const data = await response.json();
-        setNotiData(data);
-        setHasNotify(data.length > 0);
-      } catch (error) {
-        console.error('Error fetching notifications:', error);
-        showCustomToast('알림 데이터를 불러오는 중 오류가 발생했습니다.');
+      if (!token) {
+        throw new Error('Token not found');
       }
-    };
+
+      const base64Payload = token.split('.')[1];
+      const payload = JSON.parse(atob(base64Payload));
+      const userId = payload.userId;
   
+      if (!userId) {
+        throw new Error('User ID not found in token');
+      }
+
+      const response = await fetch(`http://43.202.52.64:8080/api/notifications?userId=${userId}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        console.error('Response status:', response.status);
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      setNotiData(data);
+      setHasNotify(data.length > 0);
+    } catch (error) {
+      console.error('Error fetching notifications:', error);
+      showCustomToast('알림 데이터를 불러오는 중 오류가 발생했습니다.');
+    }
+  };
+
+  // 화면이 처음 로드될 때 알림 목록 가져오기
+  useEffect(() => {
     fetchNotifications();
   }, []);
-  
-  
+
+  // 화면이 포커싱될 때마다 알림 목록 새로고침
+  useFocusEffect(
+    useCallback(() => {
+      fetchNotifications();
+    }, [])
+  );
 
   // 알림 거절 함수
   const handleRefuse = async (notification_id) => {
     try {
-      const token = await AsyncStorage.getItem('token'); // JWT 토큰을 로컬 저장소에서 가져옴
+      const token = await AsyncStorage.getItem('token');
 
       const response = await fetch(`http://43.202.52.64:8080/api/notifications/${notification_id}/refuse`, {
         method: 'DELETE',
         headers: {
-          Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+          Authorization: `Bearer ${token}`,
         },
       });
 
@@ -82,12 +86,12 @@ function Notify() {
   // 알림 수락 함수
   const handleAccept = async (notification_id) => {
     try {
-      const token = await AsyncStorage.getItem('token'); // JWT 토큰을 로컬 저장소에서 가져옴
+      const token = await AsyncStorage.getItem('token');
 
       const response = await fetch(`http://43.202.52.64:8080/api/notifications/${notification_id}/accept`, {
         method: 'POST',
         headers: {
-          Authorization: `Bearer ${token}`, // 토큰을 헤더에 포함
+          Authorization: `Bearer ${token}`,
         },
       });
 
