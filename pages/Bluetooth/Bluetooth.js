@@ -119,7 +119,7 @@ function Step2Screen({ route }) {
 
   const [recipients, setRecipients] = useState([]);
   const [recipientStatuses, setRecipientStatuses] = useState({});
-  const { scanForPeripherals, allDevices } = useBLE();
+  const { scanForPeripherals, connectToDevice, allDevices } = useBLE();
   const [isScanning, setIsScanning] = useState(false);
 
   useEffect(() => {
@@ -145,7 +145,9 @@ function Step2Screen({ route }) {
     );
   }, [recipients]);
 
-  const handlePressRecipient = (id) => {
+  const handlePressRecipient = async (id) => {
+    await connectToDevice(id); // 디바이스 연결
+
     setRecipientStatuses((prevStatuses) => {
       if (prevStatuses[id] === '공유 완료됨') {
         return prevStatuses;
