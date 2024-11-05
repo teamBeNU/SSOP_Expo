@@ -171,21 +171,25 @@ export const styles = StyleSheet.create({
     },
 
     avatarItemList: {
-        width: SCREEN_WIDTH,
+        //width: SCREEN_WIDTH,
         flexDirection: "row",
         flexWrap: "wrap",
-        // justifyContent: "space-between",
         justifyContent: "flex-start",
         marginTop: 20,
-        marginBottom: 20,
-        paddingHorizontal: 24-9,
+        marginBottom: 20 - 18,
+        marginLeft: 24 - 9,
+        marginRight: 24 - 9,
     },
     avatarItems: {
-        justifyContent: "center",
-        alignItems: "center",
-        width: "30%",
+        // justifyContent: "center",
+        // alignItems: "center",
+        // width: "30%",
+        // justifyContent: "flex-start",
+        width: (SCREEN_WIDTH - 24 - 24 - 18 - 18) / 3,
         aspectRatio: 1,
-        margin: "1.5%",
+        // margin: "1.5%",
+        marginHorizontal: 9, // 좌우 여백을 9로 주어 아이템 간 간격 18 유지
+        marginBottom: 18, // 세로 간격
         borderRadius: 20,
     },
     avatarItem: {
@@ -208,7 +212,6 @@ export const styles = StyleSheet.create({
     itemSelectOff: {
         padding: 2, // 이미지와 테두리 사이 여백
     },
-
     avatarItemText: {
         color: theme.gray10,
         fontFamily: "PretendardMedium",
