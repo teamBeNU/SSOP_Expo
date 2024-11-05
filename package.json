@@ -25,7 +25,6 @@
     "cacache": "^18.0.3",
     "expo": "^51.0.38",
     "expo-auth-session": "~5.5.2",
-    "expo-cli": "^6.3.10",
     "expo-clipboard": "~6.0.3",
     "expo-constants": "^16.0.2",
     "expo-contacts": "~13.0.4",
