@@ -37,17 +37,17 @@ export const CardFront = ({ cardData, onFlip }) => {
 
     return (
         <View style={{...styles.card}}>
-                {cardData.card_cover === 'avatar' ? 
+                {/* {cardData.card_cover === 'avatar' ? 
                 <View style={[styles.cardImgArea, { backgroundColor: getColor(cardData.avatar.bgColor)}]}>
                         
                 </View>
-                :
+                : */}
                 <Image 
                 source={{ uri: cardData.profile_image_url }} 
                 resizeMode="cover"
                 style={styles.cardImgArea}
                 />
-                } 
+                {/* }  */}
             <View style={styles.cardTextArea}>
                 <View style={styles.basicInfo}> 
                     <Text style={styles.name}>{cardData.cardEssential.card_name}</Text>
