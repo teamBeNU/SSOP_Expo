@@ -66,12 +66,8 @@ function SearchTeamSp({ TeamSpSearch }) {
                                     // }}
                                     >
                                         <ShareCard
-                                            avatar={
-                                                <Image
-                                                    source={{ uri: item.profile_image_url }}
-                                                    style={styles.gridImage}
-                                                />
-                                            }
+                                            avatar={item.avatar}
+                                            profile_image_url={item.profile_image_url}
                                             card_name={item.card_name}
                                             dot=' · '
                                             card_birth={item.card_birth}

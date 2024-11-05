@@ -120,7 +120,7 @@ function Step2Screen() {
     { id: '1', name: '홍길동', status: '' },
     { id: '2', name: '홍길동', status: '' },
     { id: '3', name: '홍길동', status: '' },
-    { id: '4', name: '홍길동', status: '공유 완료됨' },
+    { id: '4', name: '홍길동', status: '전송 완료됨' },
     { id: '5', name: '홍길동', status: '' },
   ];
 
@@ -133,12 +133,12 @@ function Step2Screen() {
 
   const handlePressRecipient = (id) => {
     setRecipientStatuses((prevStatuses) => {
-      if (prevStatuses[id] === '공유 완료됨') {
+      if (prevStatuses[id] === '전송 완료됨') {
         return prevStatuses;
       }
       return {
         ...prevStatuses,
-        [id]: '요청 중...'
+        [id]: '전송 중...'
       };
     });
   };
@@ -161,7 +161,7 @@ function Step2Screen() {
                 <TouchableOpacity style={styles.namebox} onPress={() => handlePressRecipient(recipient.id)}>
                   <Text style={styles.name}>{recipient.name}</Text>
                   {recipientStatuses[recipient.id] && (
-                    <Text style={recipientStatuses[recipient.id] === '요청 중...' ? styles.stateCall : styles.stateFinish}>
+                    <Text style={recipientStatuses[recipient.id] === '전송 중...' ? styles.stateCall : styles.stateFinish}>
                       {recipientStatuses[recipient.id]}
                     </Text>
                   )}

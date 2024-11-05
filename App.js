@@ -72,10 +72,13 @@ import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
 import { theme } from './theme';
 
 const linking = {
-  prefixes: ['ssop://', 'https://ssop.com'],
+  prefixes: ['https://ssop.com', 'ssop://'],
   config: {
     screens: {
       CardDetails: 'card/:cardId',
+      Step1: 'step1',
+      Step2: 'step2',
+      LinkReceiverScreen: 'api/link/:token', 
     },
   },
 
@@ -507,7 +510,7 @@ const Tab = createBottomTabNavigator();
             backgroundColor: theme.white
           },
           headerRight: () => (
-            <TouchableOpacity onPress={() => { navigation.navigate('카드 검색') }}>
+            <TouchableOpacity onPress={() => { navigation.navigate('전체 카드 검색') }}>
               <SearchIcon style={{ marginRight: 8 }} />
             </TouchableOpacity>
           ),
