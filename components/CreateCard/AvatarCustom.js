@@ -8,9 +8,11 @@ import AutoAvatarIcon from "../../assets/icons/avatarCustom/ic_auto.svg";
 import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
-import { faceItems, eyebrowsItems, eyesItems, hairFrontItems, hairBackItems, clothesItems, accItems, bgItems, hairColors, bgColors } from "./avatarItems";
+import { eyesItems, eyebrowsItems, mouthItems, hairFrontItems, hairBackItems, clothesItems, accItems, bgItems, hairColors, bgColors } from "./avatarItems";
 
 export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar}) {
+    const baseTmbUrl = "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/tmb";
+    
     const ref = useRef();
     const [a, setA] = useState('');
 
@@ -128,7 +130,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const handleAuto = () => {
         let randEyes = Math.floor(Math.random( ) * eyesItems.length) + 1;
         let randEyebrows = Math.floor(Math.random( ) * eyebrowsItems.length) + 1;
-        // let randMouth = Math.floor(Math.random( ) * mouthItems.length) + 1;
+        let randMouth = Math.floor(Math.random( ) * mouthItems.length) + 1;
         let randHairFront = Math.floor(Math.random( ) * hairFrontItems.length) + 1;
         let randHairBack = Math.floor(Math.random( ) * hairBackItems.length) + 1;
         let randHairColor = Math.floor(Math.random( ) * hairColors.length) + 1;
@@ -140,7 +142,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setAvatar((prev => ({...prev, 
             eyes: randEyes,
             eyebrows: randEyebrows,
-            //mouth: randMouth,
+            mouth: randMouth,
             hairFront: randHairFront,
             hairBack: randHairBack,
             hairFrontColor: randHairColor,
@@ -244,7 +246,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     options={{ fileName: "card", format: "png", quality: 1 }}
                 >
                     <View style={styles.avatarView}>
-                        {hairFrontItems.find(item => item.id === avatar.hairFront) && (
+                        {/* {hairFrontItems.find(item => item.id === avatar.hairFront) && (
                             <Image source={hairFrontItems.find(item => item.id === avatar.hairFront).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 6}} />
                         )}
                         {eyesItems.find(item => item.id === avatar.eyes) && (
@@ -262,7 +264,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         )}
                         {hairBackItems.find(item => item.id === avatar.hairBack) && (
                             <Image source={hairBackItems.find(item => item.id === avatar.hairBack).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 1}} />
-                        )}
+                        )} */}
                         {/* <Image
                             source={{uri: 'https://.png'}} 
                             resizeMode="contain"
@@ -313,15 +315,17 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {eyesItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        style={[styles.avatarItems, avatar.eyes === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar(prev => ({ ...prev, eyes: item.id }));
                                             setIsSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
-                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
-                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/eyes/eyes0${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.eyes === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
                                         </View>
                                     </TouchableOpacity>
                                 ))}
@@ -331,16 +335,38 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {eyebrowsItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        style={[styles.avatarItems, avatar.eyebrows === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar(prev => ({...prev, eyebrows: item.id}));
                                             setIsSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
-                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
-                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
-                                        </View>    
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/eyebrows/eyebrows0${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.eyebrows === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            /> 
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>입모양</Text>
+                            <View style={styles.avatarItemList}>
+                                {mouthItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        style={styles.avatarItems}
+                                        onPress={() => {
+                                            setAvatar(prev => ({...prev, mouth: item.id}));
+                                            setIsSelect(true);
+                                        }}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/mouth/mouth0${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.mouth === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
                                     </TouchableOpacity>
                                 ))}
                             </View>
@@ -368,15 +394,17 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {hairFrontItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        style={[styles.avatarItems, avatar.hairFront === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar((prev => ({...prev, hairFront: item.id})))
                                             setIsSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
-                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
-                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/hairfront/hairfront0${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.hairFront === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
                                         </View>    
                                     </TouchableOpacity>
                                 ))}
@@ -386,16 +414,18 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {hairBackItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        style={[styles.avatarItems, avatar.hairBack === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar((prev => ({...prev, hairBack: item.id})))
                                             setIsSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
-                                            <Image source={item.image} style={{width: "100%", height: "100%", position: "absolute", zIndex: 1}} />
-                                            <Image source={require('../../assets/avatars/face/face/face-1.png')} style={{width: "100%", height: "100%", position: "absolute", zIndex: 2}} />
-                                        </View>    
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/hairback/hairback0${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.hairBack === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
                                     </TouchableOpacity>
                                 ))}
                             </View>
@@ -408,13 +438,18 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {clothesItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
-                                        style={[styles.avatarItems, avatar.clothes === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                        style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar((prev => ({...prev, clothes: item.id})))
                                             setIsSelect(true);
                                         }}
                                     >
-                                        <Image source={item.image} style={{width: "100%", height: "100%"}} />
+                                        <View style={styles.avatarItem}>
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/clothes/clothes0${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.clothes === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
                                     </TouchableOpacity>
                                 ))}
                             </View>

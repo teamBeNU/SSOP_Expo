@@ -152,12 +152,13 @@ export const styles = StyleSheet.create({
         borderBottomColor: theme.gray90,
     },
     avatarItemCategoryTextOn: {
-        color: "black",
+        color: theme.skyblue,
         textAlign: "center",
         fontFamily: "PretendardSemiBold",
         fontSize: 14,
         fontStyle: "normal",
         fontWeight: "600",
+        letterSpacing: -0.14,
     },
     avatarItemCategoryTextOff: {
         color: theme.gray50,
@@ -166,6 +167,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontStyle: "normal",
         fontWeight: "400",
+        letterSpacing: -0.14,
     },
 
     avatarItemList: {
@@ -173,7 +175,7 @@ export const styles = StyleSheet.create({
         flexDirection: "row",
         flexWrap: "wrap",
         justifyContent: "space-between",
-        marginTop: 8,
+        marginTop: 20,
         marginBottom: 20,
         paddingHorizontal: 8,
     },
@@ -183,21 +185,27 @@ export const styles = StyleSheet.create({
         width: "30%",
         aspectRatio: 1,
         margin: "1.5%",
-        borderRadius: 8,
-    },
-    itemSelectOn: {
-        borderWidth: 2,
-        borderColor: theme.gray80,
-    },
-    itemSelectOff: {
-        padding: 2, // 이미지와 테두리 사이 여백
+        borderRadius: 20,
     },
     avatarItem: {
         width: "100%",
         height: "100%",
-        borderRadius: 8,
+        borderRadius: 20,
         overflow: "hidden",
-        backgroundColor: theme.white,
+        // backgroundColor: theme.white,
+    },
+    avatarItemImg: {
+        position: "absolute",
+        width: "100%",
+        height: "100%",
+    },
+    itemSelectOn: {
+        borderRadius: 22,
+        borderWidth: 1.5,
+        borderColor: theme.green,
+    },
+    itemSelectOff: {
+        padding: 2, // 이미지와 테두리 사이 여백
     },
 
     avatarItemText: {
