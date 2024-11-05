@@ -4,7 +4,7 @@ import "react-native-gesture-handler";
 import ViewShot from "react-native-view-shot";
 
 import { styles } from "./AvatarCustomStyles";
-import AutoAvatarIcon from "../../assets/icons/avatarCustom/ic_auto.svg";
+import AutoAvatarIcon from "../../assets/icons/avatarCustom/fa-solid_dice-d6.svg";
 import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
@@ -24,7 +24,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const [isInit, setIsInit] = useState(false);        // 처음 렌더링 되어 값 지정 되었는지 여부
     const [isSelect, setIsSelect] = useState(false);        // 아이템 선택 여부
-    const [isRandom, setIsRandom] = useState(false);        // 자동생성 선택 여부
+    const [isRandom, setIsRandom] = useState(false);        // 랜덤 생성 선택 여부
 
     // 외부에서 avatar와 setAvatar가 주어지지 않으면, 내부적으로 상태 관리
     const [internalAvatar, SetinternalAvatar] = useState({
@@ -126,7 +126,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         redo.current = [];  // redo 초기화
     }
 
-    // 자동 생성
+    // 랜덤 생성
     const handleAuto = () => {
         let randEyes = Math.floor(Math.random( ) * eyesItems.length) + 1;
         let randEyebrows = Math.floor(Math.random( ) * eyebrowsItems.length) + 1;
@@ -233,7 +233,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         onPress={() => handleAuto()}
                     >
                         <AutoAvatarIcon style={styles.autoAvatarIcon} />
-                        <Text style={styles.avatarAutoText}>자동생성</Text>
+                        <Text style={styles.avatarAutoText}>랜덤 생성</Text>
                     </TouchableOpacity>
                 </View>
                 <View style={styles.avatarRestart}>

@@ -174,10 +174,11 @@ export const styles = StyleSheet.create({
         width: SCREEN_WIDTH,
         flexDirection: "row",
         flexWrap: "wrap",
-        justifyContent: "space-between",
+        // justifyContent: "space-between",
+        justifyContent: "flex-start",
         marginTop: 20,
         marginBottom: 20,
-        paddingHorizontal: 8,
+        paddingHorizontal: 24-9,
     },
     avatarItems: {
         justifyContent: "center",
@@ -216,7 +217,7 @@ export const styles = StyleSheet.create({
         fontWeight: "500",
         letterSpacing: -0.32,
         marginTop: 20,
-        marginLeft: 16,
+        marginLeft: 36,
     },
 
     colorChipContainer: {
