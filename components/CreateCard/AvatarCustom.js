@@ -78,7 +78,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 bg: null,
                 bgColor: 1,
             })));
-            setIsInit(true);
+            // setIsInit(true);
         } else {      // 화면 이동했다가 다시 돌아왔을 경우 이전에 선택한 데이터를 유지하기 위해
             setAvatar((prev => ({...prev, 
                 eyes: initAvatar.eyes,
@@ -93,7 +93,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 bg: initAvatar.bg,
                 bgColor: initAvatar.bgColor,
             })));
-            setIsInit(true);
+            // setIsInit(true);
         }
     }, []);
 
