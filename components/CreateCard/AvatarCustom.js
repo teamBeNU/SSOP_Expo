@@ -11,7 +11,10 @@ import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.s
 import { eyesItems, eyebrowsItems, mouthItems, hairFrontItems, hairBackItems, clothesItems, accItems, bgItems, hairColors, bgColors } from "./avatarItems";
 
 export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar}) {
+    const baseAvtUrl = "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/avt";
     const baseTmbUrl = "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/tmb";
+    const [hairImg, setHairImg] = useState('');
+    const [isBald, setIsBald] = useState(false);    // 삭발인지 아닌지
     
     const ref = useRef();
     const [a, setA] = useState('');
@@ -216,6 +219,35 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         });
     }, [avatar]);
 
+    // 뒷머리 삭발일 경우, 앞머리 아이템 없애기
+    useEffect(() => {
+        if (avatar.hairBack === 9) {
+            setAvatar(prev => ({ ...prev, hairFront: null }));
+            setIsSelect(true);
+            setIsBald(true);
+            setHairImg('bald');
+        } else {
+            if (isBald) {
+                setAvatar(prev => ({ ...prev, hairFront: 1 }));
+                setIsBald(false);
+            } else {
+                setHairImg(`front0${avatar.hairFront}`);
+                setIsSelect(true);
+            }
+        }
+
+        // if (!isBald) {
+        //     // setAvatar(prev => ({ ...prev, hairFront: 1 }));
+        //     // setIsSelect(true);
+        //     setHairImg(`front0${avatar.hairFront}`);
+        // }
+        // else {
+        //     setAvatar(prev => ({ ...prev, hairFront: 1 }));
+        //     setIsSelect(true);
+        //     setHairImg(`front0${avatar.hairFront}`);
+        // }
+    }, [avatar.hairFront, avatar.hairBack, isBald])
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
@@ -261,10 +293,23 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         />
                         {clothesItems.find(item => item.id === avatar.clothes) && (
                             <Image source={clothesItems.find(item => item.id === avatar.clothes).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 2}} />
-                        )}
-                        {hairBackItems.find(item => item.id === avatar.hairBack) && (
-                            <Image source={hairBackItems.find(item => item.id === avatar.hairBack).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 1}} />
                         )} */}
+                        <Image
+                            source={{uri: `${baseAvtUrl}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${hairImg}.PNG`}}
+                            style={{width: "100%", height: "100%",  position: "absolute", zIndex: 4}}
+                        />
+                        <Image
+                            source={{uri: `${baseAvtUrl}/facedefault.PNG`}}
+                            style={{width: "100%", height: "100%",  position: "absolute", zIndex: 3}}
+                        />
+                        <Image
+                            source={{uri: `${baseAvtUrl}/clothes/clothes0${avatar.clothes}.png`}}
+                            style={{width: "100%", height: "100%",  position: "absolute", zIndex: 2}}
+                        />
+                        <Image
+                            source={{uri: `${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`}}
+                            style={{width: "100%", height: "100%",  position: "absolute", zIndex: 1}}
+                        />
                         {/* <Image
                             source={{uri: 'https://.png'}} 
                             resizeMode="contain"
