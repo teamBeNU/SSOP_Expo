@@ -61,6 +61,7 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
         eyes: null,
         eyebrows: null,
         mouth: null,
+        mole: null,
         hairFront: null,
         hairBack: null,
         hairFrontColor: null,

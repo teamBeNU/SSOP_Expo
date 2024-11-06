@@ -164,6 +164,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
         eyes: null,
         eyebrows: null,
         mouth: null,
+        mole: null,
         hairFront: null,
         hairBack: null,
         hairFrontColor: null,

@@ -84,6 +84,7 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
         eyes: null,
         eyebrows: null,
         mouth: null,
+        mole: null,
         hairFront: null,
         hairBack: null,
         hairFrontColor: null,
