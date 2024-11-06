@@ -100,11 +100,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     useEffect(() => {
         if (isInit) {
             undo.current.push(avatar);
-
-            console.log("=============== init ================");
-            console.log("undo: ", undo);
-            console.log("redo: ", redo);
-            console.log("===============================");
             setIsInit(false);
         }
     }, [isInit])
@@ -170,11 +165,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             console.log("avatar", avatar)
             undo.current.push(avatar);
             redo.current = [];          // redo 초기화
-
-        
-            console.log("undo: ", undo);
-            console.log("redo: ", redo);
-            console.log("===============================");
             setIsRandom(false);
         }
     }, [isRandom]);
@@ -186,11 +176,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         redo.current.push(undo.current.pop());              // undo의 마지막 상태를 redo에 추가 (undo 마지막 상태 제거)
         const lastState = undo.current[undo.current.length - 1];  // 제거 후의 마지막 상태 가져오기
         setAvatar(prev => ({...prev, ...lastState}));       // 아바타 적용
-
-        console.log("=============== undo ================");
-        console.log("undo: ", undo);
-        console.log("redo: ", redo);
-        console.log("===============================");
     }
 
     // Redo
@@ -200,24 +185,12 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         let redoPop = redo.current.pop();               // redo의 마지막 상태 반환
         undo.current.push(redoPop);                     // undo에 추가
         setAvatar(prev => ({...prev, ...redoPop}));     // 아바타 적용
-
-        
-
-        console.log("=============== redo ================");
-        console.log("undo: ", undo);
-        console.log("redo: ", redo);
-        console.log("===============================");
     }
 
     // 아이템 선택
     const handleSelect = () => {
         undo.current.push(avatar);
         redo.current = [];          // redo 초기화
-
-        console.log("=============== handleSelect ================");
-        console.log("undo: ", undo);
-        console.log("redo: ", redo);
-        console.log("===============================");
     }
 
     useEffect(() => {
@@ -319,19 +292,19 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         )} */}
                         <Image
                             source={{uri: `${baseAvtUrl}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${hairImg}.PNG`}}
-                            style={{width: "100%", height: "100%",  position: "absolute", zIndex: 4}}
+                            style={[styles.avatarImg, {zIndex: 4}]}
                         />
                         <Image
                             source={{uri: `${baseAvtUrl}/facedefault.PNG`}}
-                            style={{width: "100%", height: "100%",  position: "absolute", zIndex: 3}}
+                            style={[styles.avatarImg, {zIndex: 3}]}
                         />
                         <Image
                             source={{uri: `${baseAvtUrl}/clothes/clothes0${avatar.clothes}.png`}}
-                            style={{width: "100%", height: "100%",  position: "absolute", zIndex: 2}}
+                            style={[styles.avatarImg, {zIndex: 2}]}
                         />
                         <Image
                             source={{uri: `${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`}}
-                            style={{width: "100%", height: "100%",  position: "absolute", zIndex: 1}}
+                            style={[styles.avatarImg, {zIndex: 1}]}
                         />
                         {/* <Image
                             source={{uri: 'https://.png'}} 

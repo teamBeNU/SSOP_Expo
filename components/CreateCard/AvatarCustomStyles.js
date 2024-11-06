@@ -113,7 +113,7 @@ export const styles = StyleSheet.create({
         bottom: 12,
     },
     avatarView: {
-        zIndex: -100,
+        // zIndex: -100,
         width: '100%',
         height: '100%',
         justifyContent: "center",
@@ -123,14 +123,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         width: "100%", 
         height: "100%",
-        zIndex: 3,
-    },
-    avatarSvg: {
-        position: 'absolute',
-        width: "100%", 
-        height: "100%",
-        justifyContent: "center",
-        alignItems: "center",
+        left: 6,
     },
     avatarBg: {
         position: 'static',
