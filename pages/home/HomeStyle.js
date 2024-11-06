@@ -48,7 +48,7 @@ export const styles = StyleSheet.create({
         shadowOpacity: 1,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 5, // Android 전용 그림자 설정
+        elevation: 10, // Android 전용 그림자 설정
         position: 'relative',
     },
     btn3: { // 내가 받은 카드 보기
@@ -123,7 +123,7 @@ export const styles = StyleSheet.create({
         borderColor: "rgba(244, 244, 244, 1.0)",
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 5, // 안드로이드 그림자
+        elevation: 10, // 안드로이드 그림자
     },
     container: {
         flex: 1,
