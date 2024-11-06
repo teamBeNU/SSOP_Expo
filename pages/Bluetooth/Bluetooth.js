@@ -2,15 +2,15 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, Alert, ActivityIndicator, Modal } from "react-native";
 import { styles } from './BluetoothStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation, useRoute } from '@react-navigation/native';
+import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import * as Progress from 'react-native-progress';
 import { theme } from "../../theme";
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import BluetoothRequestPermissions from "../../ble/BluetoothRequestPermissions.js";
-import useBLE from '../../ble/useBLE.js'
+import BluetoothRequestPermissions from "../../bluetoothClassic/BluetoothRequestPermissions.js";
+import useBluetoothClassic from '../../bluetoothClassic/UseBluetoothClassic.js'
 
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -119,7 +119,7 @@ function Step2Screen({ route }) {
 
   const [recipients, setRecipients] = useState([]);
   const [recipientStatuses, setRecipientStatuses] = useState({});
-  const { scanForPeripherals, connectToDevice, isConnected, sendData, successSend, allDevices } = useBLE();
+  const { scanForPeripherals, connectToDevice, isConnected, sendData, successSend, allDevices } = useBluetoothClassic();
   const [isScanning, setIsScanning] = useState(false);
 
   useEffect(() => {
@@ -137,7 +137,6 @@ function Step2Screen({ route }) {
   }, [allDevices]);
 
   const handlePressRecipient = async (id, cardId) => {
-
     setRecipientStatuses((prevStatuses) => ({
       ...prevStatuses,
       [id]: '요청 중...'
@@ -145,14 +144,15 @@ function Step2Screen({ route }) {
 
     try {
       // 디바이스 연결 시도
-      await connectToDevice(id);
+      const connectionStatus = await connectToDevice(id);
+      console.log("연결 상태:", connectionStatus);
 
-      if (isConnected) {
-        // 연결이 성공한 경우, cardId 전송 시도
-        await sendData(cardId);
+      if (connectionStatus) {
+        const sendResult = await sendData(cardId);
+        console.log("전송 결과:", sendResult);
 
-        // 4. 카드 ID 전송이 성공한 경우
-        if (successSend) {
+        // 카드 ID 전송 성공
+        if (sendResult) {
           setRecipientStatuses((prevStatuses) => ({
             ...prevStatuses,
             [id]: '공유 완료됨'
@@ -164,14 +164,13 @@ function Step2Screen({ route }) {
           }));
         }
       } else {
-        console.log('디바이스 연결 실패 이유 : ', error.toString());
         setRecipientStatuses((prevStatuses) => ({
           ...prevStatuses,
           [id]: '연결 실패'
         }));
       }
     } catch (error) {
-      console.log('오류 발생:', error.toString());
+      console.log('오류 발생:', error.message || error.toString());
       setRecipientStatuses((prevStatuses) => ({
         ...prevStatuses,
         [id]: '오류 발생'
