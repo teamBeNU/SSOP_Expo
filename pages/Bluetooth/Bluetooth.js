@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, Alert, ActivityIndicator, Modal } from "react-native";
 import { styles } from './BluetoothStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
@@ -55,9 +55,9 @@ function Step1Screen() {
   // 블루투스 권한 요청
   useEffect(() => {
     const checkPermissions = async () => {
-      console.log('권한 요청 시작');
+      console.log('Step1Screen - 권한 요청 시작');
       const permissionsGranted = await BluetoothRequestPermissions();
-      console.log('권한 요청 결과:', permissionsGranted);
+      console.log('Step1Screen - 권한 요청 결과:', permissionsGranted);
       setPermissionGranted(permissionsGranted); // 권한 상태 업데이트
     };
 
@@ -68,10 +68,10 @@ function Step1Screen() {
   const title = '블루투스로 보낼 프로필을 선택하세요.';
   const sub = '공유할 수 있는 카드가 없어요.';
 
-  const handleNext = () => {
+  const handleNext = (cardId) => {
     if (permissionGranted) {  // 상태로 설정된 permissionGranted를 직접 참조
       // 권한이 허용된 경우 Step2Screen으로 이동
-      navigation.navigate('Step2', { permissionGranted });
+      navigation.navigate('Step2', { permissionGranted, cardId });
     } else {
       Alert.alert('권한 요청', '권한이 거부되었습니다.');
       console.log('권한이 거부되었습니다.');
@@ -115,11 +115,11 @@ function Step1Screen() {
 }
 
 function Step2Screen({ route }) {
-  const { permissionGranted = false } = route.params || {};
+  const { permissionGranted = false, cardId } = route.params || {};
 
   const [recipients, setRecipients] = useState([]);
   const [recipientStatuses, setRecipientStatuses] = useState({});
-  const { scanForPeripherals, connectToDevice, allDevices } = useBLE();
+  const { scanForPeripherals, connectToDevice, isConnected, sendData, successSend, allDevices } = useBLE();
   const [isScanning, setIsScanning] = useState(false);
 
   useEffect(() => {
@@ -136,28 +136,48 @@ function Step2Screen({ route }) {
     setRecipients(allDevices || []);
   }, [allDevices]);
 
-  useEffect(() => {
-    setRecipientStatuses(
-      recipients.reduce((acc, recipient) => {
-        acc[recipient.userId] = recipient.status || '대기중';
-        return acc;
-      }, {})
-    );
-  }, [recipients]);
+  const handlePressRecipient = async (id, cardId) => {
 
-  const handlePressRecipient = async (id) => {
-    await connectToDevice(id); // 디바이스 연결
+    setRecipientStatuses((prevStatuses) => ({
+      ...prevStatuses,
+      [id]: '요청 중...'
+    }));
 
-    setRecipientStatuses((prevStatuses) => {
-      if (prevStatuses[id] === '공유 완료됨') {
-        return prevStatuses;
+    try {
+      // 디바이스 연결 시도
+      await connectToDevice(id);
+
+      if (isConnected) {
+        // 연결이 성공한 경우, cardId 전송 시도
+        await sendData(cardId);
+
+        // 4. 카드 ID 전송이 성공한 경우
+        if (successSend) {
+          setRecipientStatuses((prevStatuses) => ({
+            ...prevStatuses,
+            [id]: '공유 완료됨'
+          }));
+        } else {
+          setRecipientStatuses((prevStatuses) => ({
+            ...prevStatuses,
+            [id]: '전송 실패'
+          }));
+        }
+      } else {
+        console.log('디바이스 연결 실패 이유 : ', error.toString());
+        setRecipientStatuses((prevStatuses) => ({
+          ...prevStatuses,
+          [id]: '연결 실패'
+        }));
       }
-      return {
+    } catch (error) {
+      console.log('오류 발생:', error.toString());
+      setRecipientStatuses((prevStatuses) => ({
         ...prevStatuses,
-        [id]: '요청 중...'
-      };
-    });
-  };
+        [id]: '오류 발생'
+      }));
+    }
+  }
 
   return (
     <View style={{ flex: 1 }}>
@@ -174,7 +194,7 @@ function Step2Screen({ route }) {
           {recipients.map((recipient) => (
             <React.Fragment key={recipient.id}>
               <View>
-                <TouchableOpacity style={styles.namebox} onPress={() => handlePressRecipient(recipient.id)}>
+                <TouchableOpacity style={styles.namebox} onPress={() => handlePressRecipient(recipient.id, cardId)}>
                   <Text style={styles.name}>{recipient.name}</Text>
                   {recipientStatuses[recipient.id] && (
                     <Text style={recipientStatuses[recipient.id] === '요청 중...' ? styles.stateCall : styles.stateFinish}>
