@@ -2,7 +2,7 @@
   "expo": {
     "name": "SSOP",
     "slug": "SSOP",
-    "owner": "teamBENU",
+    "owner": "SSOP",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,12 +22,13 @@
     "android": {
       "package": "com.teambenu.ssop",
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"
       },
       "permissions": [
         "android.permission.READ_CONTACTS",
-        "android.permission.WRITE_CONTACTS"
+        "android.permission.WRITE_CONTACTS",
+        "INTERNET"
       ]
     },
     "web": {
@@ -41,6 +42,11 @@
           "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
         }
       ]
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "02a4dcf3-6d9f-4766-a97a-1009253c9ca9"
+      }
+    }
   }
 }
