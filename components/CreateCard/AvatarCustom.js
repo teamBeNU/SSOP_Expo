@@ -15,7 +15,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const baseTmbUrl = "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/tmb";
     const [hairImg, setHairImg] = useState('');
     const [isBald, setIsBald] = useState(false);    // 삭발인지 아닌지
-    
+
     const ref = useRef();
     const [a, setA] = useState('');
 
@@ -100,9 +100,14 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     useEffect(() => {
         if (isInit) {
             undo.current.push(avatar);
+
+            console.log("=============== init ================");
+            console.log("undo: ", undo);
+            console.log("redo: ", redo);
+            console.log("===============================");
             setIsInit(false);
         }
-    }, [avatar, isInit])
+    }, [isInit])
 
     // 카테고리 선택
     const handleCategory = (id) => {
@@ -161,10 +166,18 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     
     useEffect(() => {
         if (isRandom) {
+            console.log("dddd")
+            console.log("avatar", avatar)
             undo.current.push(avatar);
+            redo.current = [];          // redo 초기화
+
+        
+            console.log("undo: ", undo);
+            console.log("redo: ", redo);
+            console.log("===============================");
             setIsRandom(false);
         }
-    }, [avatar, isRandom]);
+    }, [isRandom]);
 
     // Undo
     const handleUndo = () => {
@@ -173,6 +186,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         redo.current.push(undo.current.pop());              // undo의 마지막 상태를 redo에 추가 (undo 마지막 상태 제거)
         const lastState = undo.current[undo.current.length - 1];  // 제거 후의 마지막 상태 가져오기
         setAvatar(prev => ({...prev, ...lastState}));       // 아바타 적용
+
+        console.log("=============== undo ================");
+        console.log("undo: ", undo);
+        console.log("redo: ", redo);
+        console.log("===============================");
     }
 
     // Redo
@@ -182,12 +200,24 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         let redoPop = redo.current.pop();               // redo의 마지막 상태 반환
         undo.current.push(redoPop);                     // undo에 추가
         setAvatar(prev => ({...prev, ...redoPop}));     // 아바타 적용
+
+        
+
+        console.log("=============== redo ================");
+        console.log("undo: ", undo);
+        console.log("redo: ", redo);
+        console.log("===============================");
     }
 
     // 아이템 선택
     const handleSelect = () => {
         undo.current.push(avatar);
         redo.current = [];          // redo 초기화
+
+        console.log("=============== handleSelect ================");
+        console.log("undo: ", undo);
+        console.log("redo: ", redo);
+        console.log("===============================");
     }
 
     useEffect(() => {
@@ -195,29 +225,33 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             handleSelect();
             setIsSelect(false);
         }
-    }, [avatar, isSelect]);
+    }, [isSelect]);
 
     // 컴포넌트 -> 이미지
     useEffect(() => {
-        // ref.current.capture().then(uri => {
-        //     console.log("do something with ", uri);
-        //     if(Platform.OS === 'ios') {
-        //         uri = `file://${uri}`;
-        //     }
-        //     setProfileImageUrl(uri);
-        //     });
-        // }, [avatar]);
-
-        // 이미지 확인용
-        ref.current.capture().then(uri => {
-            //     console.log("do something with ", uri);
-            if(Platform.OS === 'ios') {
-                uri = `file://${uri}`;
-            }
-            setProfileImageUrl(uri);
-            setA(uri);
-        });
-    }, [avatar]);
+        // 03.초마다 실행 타이머
+        const intervalId = setInterval(() => {
+            // ref.current.capture().then(uri => {
+            //     if(Platform.OS === 'ios') {
+            //         uri = `file://${uri}`;
+            //     }
+            //     setProfileImageUrl(uri);
+            //     });
+            // }, [avatar]);
+            ref.current.capture().then(uri => {
+                if (Platform.OS === 'ios') {
+                    uri = `file://${uri}`;
+                }
+                setProfileImageUrl(uri);
+                setA(uri);
+            });
+        }, 300); // 300ms = 0.3초
+    
+        // 클린업 함수: 컴포넌트가 unmount될 때 타이머 정리
+        return () => {
+            clearInterval(intervalId);
+        };
+    }, []); // avatar와 관계없이 한 번만 실행되도록 빈 배열
 
     // 뒷머리 삭발일 경우, 앞머리 아이템 없애기
     useEffect(() => {
@@ -235,17 +269,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 setIsSelect(true);
             }
         }
-
-        // if (!isBald) {
-        //     // setAvatar(prev => ({ ...prev, hairFront: 1 }));
-        //     // setIsSelect(true);
-        //     setHairImg(`front0${avatar.hairFront}`);
-        // }
-        // else {
-        //     setAvatar(prev => ({ ...prev, hairFront: 1 }));
-        //     setIsSelect(true);
-        //     setHairImg(`front0${avatar.hairFront}`);
-        // }
     }, [avatar.hairFront, avatar.hairBack, isBald])
 
     return (
@@ -567,11 +590,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         </View>
                     )}
                 </ScrollView>
-                {/* <TouchableOpacity onPress={handleNext}>
-                    <Text 
-                        style={[styles.btnNextText, {backgroundColor: "black"}, {padding: 10}, {width: 200}]}>임시 버튼: 다음으로 넘어가기
-                    </Text>
-                </TouchableOpacity> */}
             </View>
         </SafeAreaView>
     );
