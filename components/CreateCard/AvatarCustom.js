@@ -161,8 +161,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     
     useEffect(() => {
         if (isRandom) {
-            console.log("dddd")
-            console.log("avatar", avatar)
             undo.current.push(avatar);
             redo.current = [];          // redo 초기화
             setIsRandom(false);
@@ -180,11 +178,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     // Redo
     const handleRedo = () => {
-        if (redo.current.length === 0) return;  // redo가 비어 있으면 리턴
-
-        let redoPop = redo.current.pop();               // redo의 마지막 상태 반환
-        undo.current.push(redoPop);                     // undo에 추가
-        setAvatar(prev => ({...prev, ...redoPop}));     // 아바타 적용
+        if (redo.current.length > 0) {
+            let redoPop = redo.current.pop();               // redo의 마지막 상태 반환
+            undo.current.push(redoPop);                     // undo에 추가
+            setAvatar(prev => ({...prev, ...redoPop}));     // 아바타 적용
+        }
     }
 
     // 아이템 선택
