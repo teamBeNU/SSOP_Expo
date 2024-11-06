@@ -30,25 +30,13 @@
         "WRITE_CONTACTS", 
         "BLUETOOTH",
         "BLUETOOTH_ADMIN",
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION"
+        "ACCESS_FINE_LOCATION"
       ]
     },
     "web": {
       "favicon": "./assets/icon.png"
     },
     "plugins": [
-      [
-        "react-native-ble-plx",
-        {
-          "isBackgroundEnabled": true,
-          "modes": [
-            "peripheral",
-            "central"
-          ],
-          "bluetoothAlwaysPermission": "Allow $(PRODUCT_NAME) to connect to bluetooth devices"
-        }
-      ]
     ]
   }
 }
