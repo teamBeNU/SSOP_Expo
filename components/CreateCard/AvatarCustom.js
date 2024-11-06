@@ -8,7 +8,7 @@ import AutoAvatarIcon from "../../assets/icons/avatarCustom/fa-solid_dice-d6.svg
 import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
-import { eyesItems, eyebrowsItems, mouthItems, hairFrontItems, hairBackItems, clothesItems, accItems, bgItems, hairColors, bgColors } from "./avatarItems";
+import { eyesItems, eyebrowsItems, mouthItems, moleItems, hairFrontItems, hairBackItems, clothesItems, accItems, bgItems, hairColors, bgColors } from "./avatarItems";
 
 export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar}) {
     const baseAvtUrl = "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/avt";
@@ -34,6 +34,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         eyes: null,
         eyebrows: null,
         mouth: null,
+        mole: null,
         hairFront: null,
         hairBack: null,
         hairFrontColor: null,
@@ -52,6 +53,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         eyes: avatar.eyes,
         eyebrows: avatar.eyebrows,
         mouth: avatar.mouth,
+        mole: avatar.mole,
         hairFront: avatar.hairFront,
         hairBack: avatar.hairBack,
         hairFrontColor: avatar.hairFrontColor,
@@ -69,6 +71,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 eyes: 1,
                 eyebrows: 1,
                 mouth: 1,
+                mole: null,
                 hairFront: 1,
                 hairBack: 1,
                 hairFrontColor: 1,
@@ -84,6 +87,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 eyes: initAvatar.eyes,
                 eyebrows: initAvatar.eyebrows,
                 mouth: initAvatar.mouth,
+                mole: initAvatar.mole,
                 hairFront: initAvatar.hairFront,
                 hairBack: initAvatar.hairBack,
                 hairFrontColor: initAvatar.hairFrontColor,
@@ -115,6 +119,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             eyes: 1,
             eyebrows: 1,
             mouth: 1,
+            mole: null,
             hairFront: 1,
             hairBack: 1,
             hairFrontColor: 1,
@@ -134,6 +139,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         let randEyes = Math.floor(Math.random( ) * eyesItems.length) + 1;
         let randEyebrows = Math.floor(Math.random( ) * eyebrowsItems.length) + 1;
         let randMouth = Math.floor(Math.random( ) * mouthItems.length) + 1;
+        let randMole = Math.floor(Math.random( ) * moleItems.length) + 1;
         let randHairFront = Math.floor(Math.random( ) * hairFrontItems.length) + 1;
         let randHairBack = Math.floor(Math.random( ) * hairBackItems.length) + 1;
         let randHairColor = Math.floor(Math.random( ) * hairColors.length) + 1;
@@ -146,6 +152,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             eyes: randEyes,
             eyebrows: randEyebrows,
             mouth: randMouth,
+            mole: randMole,
             hairFront: randHairFront,
             hairBack: randHairBack,
             hairFrontColor: randHairColor,
@@ -288,22 +295,29 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         {clothesItems.find(item => item.id === avatar.clothes) && (
                             <Image source={clothesItems.find(item => item.id === avatar.clothes).image} style={{width: "100%", height: "100%",  position: "absolute", zIndex: 2}} />
                         )} */}
-                        <Image
+                        <Image      // 점
+                            source={{uri: `${baseAvtUrl}/mole/mole0${avatar.mole}.png`}}
+                            style={[styles.avatarImg, {zIndex: 5}]}
+                        />
+                        <Image      // 얼굴
                             source={{uri: `${baseAvtUrl}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${hairImg}.PNG`}}
                             style={[styles.avatarImg, {zIndex: 4}]}
                         />
-                        <Image
+                        <Image      // 기본 얼굴
                             source={{uri: `${baseAvtUrl}/facedefault.PNG`}}
                             style={[styles.avatarImg, {zIndex: 3}]}
                         />
-                        <Image
+                        <Image      // 옷
                             source={{uri: `${baseAvtUrl}/clothes/clothes0${avatar.clothes}.png`}}
                             style={[styles.avatarImg, {zIndex: 2}]}
                         />
-                        <Image
+                        <Image      // 뒷머리
                             source={{uri: `${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`}}
                             style={[styles.avatarImg, {zIndex: 1}]}
                         />
+                        <View       // 배경색
+                            style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === (avatar.bgColor || 1)).color}]}
+                        ></View>
                         {/* <Image
                             source={{uri: 'https://.png'}} 
                             resizeMode="contain"
@@ -314,7 +328,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                             resizeMode="contain"
                             style={styles.avatarImg}
                         /> */}
-                        <View style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === (avatar.bgColor || 1)).color}]}></View>
                     </View>
                 </ViewShot>
             </View>
@@ -404,6 +417,26 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                             <Image
                                                 source={{uri: `${baseTmbUrl}/mouth/mouth0${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.mouth === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>점</Text>
+                            <View style={styles.avatarItemList}>
+                                {moleItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        style={styles.avatarItems}
+                                        onPress={() => {
+                                            setAvatar(prev => ({...prev, mole: item.id}));
+                                            setIsSelect(true);
+                                        }}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/mole/mole0${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.mole === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
                                     </TouchableOpacity>

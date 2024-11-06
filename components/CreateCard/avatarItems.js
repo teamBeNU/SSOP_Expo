@@ -1,17 +1,4 @@
-// 얼굴 - 얼굴 형태
-// export const faceItems = [
-//     {id: 1, name: '얼굴1', image: require('../../assets/avatars/face/face/face-1.png')},
-//     {id: 2, name: '얼굴2', image: require('../../assets/avatars/face/face/face-1.png')},
-//     {id: 3, name: '얼굴3', image: require('../../assets/avatars/face/face/face-1.png')},
-// ]
-const baseTmbUrl = "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/tmb";
-
 // 이목구비 - 눈
-// export const eyesItems = [
-//     {id: 1, name: '눈1', image: {uri: `${baseTmbUrl}/eyes/eyes01.png`}},
-//     {id: 2, name: '눈2', image: require('../../assets/avatars/face/eyes/eyes-1.png')},
-//     {id: 3, name: '눈3', image: require('../../assets/avatars/face/eyes/eyes-1.png')},
-// ]
 export const eyesItems = [
     {id: 1, name: '눈1'},
     {id: 2, name: '눈2'},
@@ -22,11 +9,6 @@ export const eyesItems = [
 ]
 
 // 이목구비 - 눈썹
-// export const eyebrowsItems = [
-//     {id: 1, name: '눈썹1', image: require('../../assets/avatars/face/eyebrows/eyebrows-1.png')},
-//     {id: 2, name: '눈썹2', image: require('../../assets/avatars/face/eyebrows/eyebrows-1.png')},
-//     {id: 3, name: '눈썹3', image: require('../../assets/avatars/face/eyebrows/eyebrows-1.png')},
-// ]
 export const eyebrowsItems = [
     {id: 1, name: '눈썹1'},
     {id: 2, name: '눈썹2'},
@@ -40,12 +22,15 @@ export const mouthItems = [
     {id: 4, name: '입4'},
 ]
 
+// 이목구비 - 점
+export const moleItems = [
+    {id: 1, name: '왼쪽눈밑점'},
+    {id: 2, name: '오른쪽볼점'},
+    {id: 3, name: '왼쪽코윗점'},
+    {id: 4, name: '주근깨'},
+]
+
 // 헤어 - 앞머리
-// export const hairFrontItems = [
-//     {id: 1, name: '앞머리1', image: require('../../assets/avatars/hair/front/front-1.png')},
-//     {id: 2, name: '앞머리2', image: require('../../assets/avatars/hair/front/front-1.png')},
-//     {id: 3, name: '앞머리3', image: require('../../assets/avatars/hair/front/front-1.png')},
-// ]
 export const hairFrontItems = [
     {id: 1, name: '앞머리1'},
     {id: 2, name: '앞머리2'},
@@ -55,11 +40,6 @@ export const hairFrontItems = [
 ]
 
 // 헤어 - 뒷머리
-// export const hairBackItems = [
-//     {id: 1, name: '앞머리1', image: require('../../assets/avatars/hair/back/back-1.png')},
-//     {id: 2, name: '앞머리2', image: require('../../assets/avatars/hair/back/back-1.png')},
-//     {id: 3, name: '앞머리3', image: require('../../assets/avatars/hair/back/back-1.png')},
-// ]
 export const hairBackItems = [
     {id: 1, name: '장발직모'},
     {id: 2, name: '장발반곱슬'},
@@ -73,11 +53,6 @@ export const hairBackItems = [
 ]
 
 // 옷
-// export const clothesItems = [
-//     {id: 1, name: '옷1', image: require('../../assets/avatars/clothes/clothes-1.png')},
-//     {id: 2, name: '옷2', image: require('../../assets/avatars/clothes/clothes-1.png')},
-//     {id: 3, name: '옷3', image: require('../../assets/avatars/clothes/clothes-1.png')},
-// ]
 export const clothesItems = [
     {id: 1, name: '흰반팔티셔츠'},
     {id: 2, name: '흰셔츠'},
