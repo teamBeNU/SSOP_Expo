@@ -53,7 +53,7 @@ const KaKaoLogin = () => {
         const birthyear = profile.kakao_account.birthyear;
         const birthday = profile.kakao_account.birthday;
         const birth = `${birthyear}-${birthday.slice(0, 2)}-${birthday.slice(2, 4)}`;
-        const phoneNumber = profile.kakao_account.phoneNumber;
+        const phoneNumber = profile.kakao_account.phone_number;
 
         sendToSingnUpAPI(email, name, birth, phoneNumber);
       } else {
@@ -73,9 +73,11 @@ const KaKaoLogin = () => {
         },
         body: JSON.stringify({
           email: email,
+          password: email,
           user_name: name,
           user_birth: birth,
           user_phone: phoneNumber,
+          social_type: 'kakao'
         }),
       });
 

@@ -12,7 +12,7 @@ import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
@@ -141,6 +141,46 @@ const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
   }
 };   
 
+const API_URL_MOVE = 'http://43.202.52.64:8080/api/mysp';
+
+// 그룹에 카드 추가 API 호출 함수
+export const addCardsToGroup = async (groupId, selectedCards, navigation) => {
+  console.log(`추가할 그룹 ID: ${groupId}, 선택된 카드 목록:`, selectedCards);
+
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (!token) {
+      console.error('토큰이 없습니다.');
+      return;
+    }
+
+    const response = await fetch(`${API_URL_MOVE}?groupId=${groupId}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cardId: selectedCards }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      Toast.show({
+        text1: '이동 완료되었습니다.',
+        type: 'selectedToast',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
+      navigation.navigate('Group');
+    } else {
+      console.error('카드를 그룹에 추가하는 데 실패했습니다:', result.message);
+    }
+  } catch (error) {
+    console.error('API 호출 중 오류 발생:', error);
+  }
+};
+
 // 그룹 상세 페이지
 function DetailSpaceGroup({ route, navigation, groupName }) {
   const { groupId } = route.params || {};
@@ -149,9 +189,11 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
   const [viewOption, setViewOption] = useState('리스트형');
   const [members, setMembers] = useState(0); // 그룹 멤버 수 상태
   const [cardData, setCardData] = useState([]); // 카드 목록 상태
+  const [isCardDeleteModalVisible, setIsCardDeleteModalVisible] = useState(false);
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [selectedCardId, setSelectedCardId] = useState(null)
 
   const API_URL = 'http://43.202.52.64:8080/api/mysp'; // 그룹 정보 API 경로
 
@@ -205,14 +247,28 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
     setIsModalVisible(false);
     navigation.navigate('링크 복사');
   };
-
-  const handleDeleteGroup = () => {
-    setIsSpaceModalVisible(true);
+  
+  // 카드 삭제 모달
+  const handleDeleteRequest = (cardId) => {
+    setSelectedCardId(cardId);
+    setIsCardDeleteModalVisible(true); // 카드 삭제 모달 열기
   };
 
-  const handleChangeGroupName = () => {
-    setIsGroupNameChangeModalVisible(true);
+
+  // 카드 삭제
+  const handleConfirmDelete = () => {
+    if (selectedCardId !== null) {
+      const selectedCards = [selectedCardId];
+      deleteSelectedCards(selectedCards, setCardData, cardData);
+      setSelectedCardId(null);
+    }
+    setIsCardDeleteModalVisible(false); // 카드 삭제 모달 닫기
   };
+
+    // 그룹 이동
+    const handleMoveGroup = (cardId) => {
+      navigation.navigate('그룹 이동', { selectedCards: [cardId] });
+    };
 
   const handleNext = (cardId) => {
     console.log('cardid: ', cardId);
@@ -232,7 +288,11 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
         setViewOption={setViewOption}
         handleNext={handleNext}
         cardData={cardData}
+        onDeleteCard={handleDeleteRequest}
+        onMoveGroup={(id) => handleMoveGroup(id)}
       />
+
+      {/* 그룹 삭제 모달 */}
       <SpaceModal
         isVisible={isSpaceModalVisible}
         onClose={() => setIsSpaceModalVisible(false)}
@@ -241,6 +301,17 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
         btn1={'취소할래요'}
         btn2={'네, 삭제할래요'}
       />
+      {/* 카드 삭제 모달 */}
+      <SpaceModal
+        isVisible={isCardDeleteModalVisible}
+        onClose={() => setIsCardDeleteModalVisible(false)}
+        title={'카드를 삭제하시겠습니까?'}
+        sub={'이 작업은 되돌릴 수 없습니다.'}
+        btn1={'취소할래요'}
+        btn2={'네, 삭제할래요'}
+        onConfirm={handleConfirmDelete} // 카드 삭제 실행
+      />
+      {/* 그룹 이름 변경 모달 */}
       <SpaceNameChangeModal
         isVisible={isGroupNameChangeModalVisible}
         onClose={() => setIsGroupNameChangeModalVisible(false)}
@@ -248,6 +319,7 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
         btn1={'취소하기'}
         btn2={'수정하기'}
       />
+
       {/* 하단 버튼 영역 */}
       <View style={styles.bottomDetailContainer}>
         <Edit style={{ marginRight: 6 }} />

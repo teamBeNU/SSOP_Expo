@@ -36,10 +36,11 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
 	cardImgArea: {
-        height: 150,
+        height: 200,
         width: '100%',
         alignItems: 'center',
         flex: 1,
+        overflow: 'hidden'
     },
     cardTextArea: {
         borderRadius: 15,
@@ -47,6 +48,9 @@ export const styles = StyleSheet.create({
         gap: 12,
         paddingHorizontal: 12,
         paddingVertical: 14,
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
     },
     Info: {
         flexDirection: "row",

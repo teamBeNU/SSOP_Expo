@@ -16,7 +16,7 @@ import PinkPoint from "../../assets/icons/ic_pink_point.svg";
 import BluePoint from "../../assets/icons/ic_blue_point.svg";
 
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
-import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
 import SwapIcon from '../../assets/icons/ic_swap_regular.svg';
 import CloseIcon from '../../assets/icons/close.svg';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';

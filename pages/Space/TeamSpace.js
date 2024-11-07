@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useRoute } from '@react-navigation/native';
+import { useRoute, useFocusEffect } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
@@ -49,21 +49,30 @@ function TeamSpace({ navigation }) {
     }
   }, [token]);
 
-  useEffect(() => {
-    const refreshData = navigation.addListener('focus', () => {
-      fetchData();
-    });
+  // 화면이 포커스될 때마다 데이터 가져오기
+  useFocusEffect(
+    React.useCallback(() => {
+      const fetchData = async () => {
+        if (userId && token) {
+          const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
+          try {
+            const response = await axios.get(apiUrl, {
+              headers: { Authorization: `Bearer ${token}` },
+            });
+            setData(response.data);
+          } catch (error) {
+            console.error('teamsp - 내가 참여한 팀스페이스 목록 API 요청 에러:', error);
+          }
+        }
+      };
 
-    return refreshData;
-  }, [navigation]);
-
-  useEffect(() => {
-    // Navigation params에서 refresh 값을 확인하여 데이터 요청
-    const { refresh } = route.params || {};
-    if (refresh) {
       fetchData();
-    }
-  }, [route.params]);
+
+      return () => {
+        setData([]);
+      };
+    }, [userId, token])
+  );
 
   const fetchData = async () => {
     if (userId && token) {
@@ -117,18 +126,20 @@ function TeamSpace({ navigation }) {
     }
   }, [data]);
 
-  // 팀스페이스 상세 화면 이동
-  const handleNext = (teamId) => {
-    const selectedTeam = data.find(team => team.teamId === teamId);
+// TeamSpace 컴포넌트에서 상세 화면으로 이동할 때
+const handleNext = (teamId) => {
+  const selectedTeam = data.find(team => team.teamId === teamId);
 
-    // 카드 ID가 null인 경우
-    if (selectedTeam && selectedTeam.cardId === null) {
-      setSelectedTeam(selectedTeam);
-      setNullCardModal(true);
-    } else {
-      navigation.navigate('상세 팀스페이스', { teamId, userId, token });
-    }
-  };
+  // 카드 ID가 null인 경우
+  if (selectedTeam && selectedTeam.cardId === null) {
+    setSelectedTeam(selectedTeam);
+    setNullCardModal(true);
+  } else {
+    // 여기에서 params로 함수를 전달하지 않음
+    navigation.navigate('상세 팀스페이스', { teamId, userId, token });
+  }
+};
+
 
   const handleConfirmCard = () => {
     if (selectedTeam) {

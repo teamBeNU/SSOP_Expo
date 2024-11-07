@@ -12,7 +12,7 @@ import CardsView from '../../components/Bluetooth/CardsView.js';
 import DetailTeamSpaceScreen from "./DetailTeamSpaceScreen.js";
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import SelectIcon from '../../assets/icons/ic_done_small_line_blue.svg';
 import CloseIcon from '../../assets/icons/close.svg';

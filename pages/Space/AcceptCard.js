@@ -93,11 +93,11 @@ const fetchSavedCards = async () => {
     if (response.ok) {
       return result;  // 카드 데이터를 반환
     } else {
-      console.error('카드 데이터를 가져오는데 실패했습니다:', result.message);
+      //console.error('카드 데이터를 가져오는데 실패했습니다:', result.message);
       return [];
     }
   } catch (error) {
-    console.error('API 호출 중 오류 발생:', error);
+    //console.error('API 호출 중 오류 발생:', error);
     return [];
   }
 };
@@ -109,7 +109,7 @@ const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
   try {
     const token = await AsyncStorage.getItem('token');
     if (!token) {
-      console.error('토큰이 없습니다.');
+      //console.error('토큰이 없습니다.');
       return;
     }
 
@@ -131,12 +131,52 @@ const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
       setCardData(updatedCardData);
     } else {
       const result = await response.json();
-      console.error('카드 삭제에 실패했습니다:', result.message);
+      //console.error('카드 삭제에 실패했습니다:', result.message);
       showCustomToast('카드 삭제에 실패했습니다');
     }
   } catch (error) {
-    console.error('API 호출 중 오류 발생:', error);
+    //console.error('API 호출 중 오류 발생:', error);
     showCustomToast('카드 삭제 중 오류가 발생했습니다.');
+  }
+};
+
+const API_URL_MOVE = 'http://43.202.52.64:8080/api/mysp';
+
+// 그룹에 카드 추가 API 호출 함수
+export const addCardsToGroup = async (groupId, selectedCards, navigation) => {
+  console.log(`추가할 그룹 ID: ${groupId}, 선택된 카드 목록:`, selectedCards);
+
+  try {
+    const token = await AsyncStorage.getItem('token');
+    if (!token) {
+      //console.error('토큰이 없습니다.');
+      return;
+    }
+
+    const response = await fetch(`${API_URL_MOVE}?groupId=${groupId}`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ cardId: selectedCards }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      Toast.show({
+        text1: '이동 완료되었습니다.',
+        type: 'selectedToast',
+        position: 'bottom',
+        visibilityTime: 2000,
+      });
+      navigation.navigate('Group');
+    } else {
+      //console.error('카드를 그룹에 추가하는 데 실패했습니다:', result.message);
+    }
+  } catch (error) {
+    //console.error('API 호출 중 오류 발생:', error);
   }
 };
 
@@ -146,10 +186,10 @@ function DetailSpaceGroup({ navigation }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('리스트형');
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
-  const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [cardData, setCardData] = useState([]);  // 카드 데이터를 상태로 관리
   const [members, setMembers] = useState(0);  // members로 카드 개수를 저장
+  const [selectedCardId, setSelectedCardId] = useState(null)
 
   const fetchCardData = async () => {
     const result = await fetchSavedCards();
@@ -173,12 +213,25 @@ function DetailSpaceGroup({ navigation }) {
     navigation.navigate('링크 복사');
   };
 
-  const handleDeleteGroup = () => {
-    setIsSpaceModalVisible(true);
+  // 카드 삭제 모달
+  const handleDeleteRequest = (cardId) => {
+    setSelectedCardId(cardId); // 삭제할 카드 ID 설정
+    setIsSpaceModalVisible(true); // 모달 열기
   };
 
-  const handleChangeGroupName = () => {
-    setIsGroupNameChangeModalVisible(true);
+  // 카드 삭제
+  const handleConfirmDelete = () => {
+    if (selectedCardId !== null) {
+      const selectedCards = [selectedCardId];
+      deleteSelectedCards(selectedCards, setCardData, cardData);
+      setSelectedCardId(null); // 초기화
+    }
+    setIsSpaceModalVisible(false); // 모달 닫기
+  };
+
+  // 그룹 이동
+  const handleMoveGroup = (cardId) => {
+    navigation.navigate('그룹 이동', { selectedCards: [cardId] });
   };
 
   const handleNext = async (cardId) => {
@@ -199,22 +252,17 @@ function DetailSpaceGroup({ navigation }) {
         setViewOption={setViewOption}
         handleNext={handleNext}
         cardData={cardData} 
-        showFilterButton={false}
+        onDeleteCard={handleDeleteRequest}
+        onMoveGroup={(id) => handleMoveGroup(id)}
       />
       <SpaceModal
         isVisible={isSpaceModalVisible}
         onClose={() => setIsSpaceModalVisible(false)}
-        title={'그룹을 삭제하시겠습니까?'}
-        sub={'그룹 안에 있는 카드들도 삭제됩니다.'}
+        title={'프로필 카드를 삭제하시겠습니까?'}
+        sub={'이 작업은 되돌릴 수 없습니다.'}
         btn1={'취소할래요'}
         btn2={'네, 삭제할래요'}
-      />
-      <SpaceNameChangeModal
-        isVisible={isGroupNameChangeModalVisible}
-        onClose={() => setIsGroupNameChangeModalVisible(false)}
-        groupName={'그룹 이름을 작성하세요.'}
-        btn1={'취소하기'}
-        btn2={'수정하기'}
+        onConfirm={handleConfirmDelete}
       />
       {/* 하단 버튼 영역 */}
       <View style={styles.bottomDetailContainer}>
@@ -539,7 +587,7 @@ function ManageCardScreen({ navigation }) {
         try {
           const token = await AsyncStorage.getItem('token');
           if (!token) {
-            console.error('토큰이 없습니다.');
+            //console.error('토큰이 없습니다.');
             return;
           }
     
@@ -559,7 +607,7 @@ function ManageCardScreen({ navigation }) {
             //console.error('그룹 데이터를 받지 못했습니다.');
           }
         } catch (error) {
-          console.error('그룹 목록을 불러오는 중 오류가 발생했습니다:', error);
+          //console.error('그룹 목록을 불러오는 중 오류가 발생했습니다:', error);
         }
       };
 
@@ -587,10 +635,10 @@ function ManageCardScreen({ navigation }) {
             showCustomToast('새 그룹이 성공적으로 추가되었습니다.');
             setIsGroupNameChangeModalVisible(false);  // 모달 닫기
           } else {
-            console.error('그룹 추가에 실패했습니다:', result.message);
+            //console.error('그룹 추가에 실패했습니다:', result.message);
           }
         } catch (error) {
-          console.error('그룹 추가 중 오류가 발생했습니다:', error);
+          //console.error('그룹 추가 중 오류가 발생했습니다:', error);
         }
       };
 
@@ -632,7 +680,7 @@ function ManageCardScreen({ navigation }) {
           //console.error('카드를 그룹에 추가하는 데 실패했습니다:', result.message);
         }
       } catch (error) {
-        console.error('API 호출 중 오류 발생:', error);
+        //console.error('API 호출 중 오류 발생:', error);
       }
     };
  
