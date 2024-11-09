@@ -265,22 +265,24 @@ function DetailSpaceGroup({ navigation }) {
         onConfirm={handleConfirmDelete}
       />
       {/* 하단 버튼 영역 */}
-      <View style={styles.bottomDetailContainer}>
-        <Edit style={{ marginRight: 6 }} />
-        <TouchableOpacity onPress={() => navigation.navigate('카드 관리')}>
-          <Text style={styles.bottomTextBlue}>카드 관리</Text>
-        </TouchableOpacity>
-        <BottomLineIcon style={styles.bottomLine2} />
-        <Contact style={{ marginRight: 6 }} />
-        <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
-          <Text style={styles.bottomText}>연락처 저장</Text>
-        </TouchableOpacity>
-        <BottomLineIcon style={styles.bottomLine2} />
-        <Swap style={{ marginRight: 6 }} />
-        <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-          <Text style={styles.bottomTextBlue}>카드 교환</Text>
-        </TouchableOpacity>
-      </View>
+      {cardData.length > 0 && (
+        <View style={styles.bottomDetailContainer}>
+          <Edit style={{ marginRight: 6 }} />
+          <TouchableOpacity onPress={() => navigation.navigate('카드 관리')}>
+            <Text style={styles.bottomTextBlue}>카드 관리</Text>
+          </TouchableOpacity>
+          <BottomLineIcon style={styles.bottomLine2} />
+          <Contact style={{ marginRight: 6 }} />
+          <TouchableOpacity onPress={() => navigation.navigate('연락처 저장')}>
+            <Text style={styles.bottomText}>연락처 저장</Text>
+          </TouchableOpacity>
+          <BottomLineIcon style={styles.bottomLine2} />
+          <Swap style={{ marginRight: 6 }} />
+          <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+            <Text style={styles.bottomTextBlue}>카드 교환</Text>
+          </TouchableOpacity>
+        </View>
+      )}
 
       <ExchangeModal
         isVisible={isModalVisible}
