@@ -67,7 +67,7 @@ const CardsView = ({
   }, [cardData, selectedOption]);
 
   return (
-    <View style={styles.mainlayout}>
+    <View style={styles.mainlayout2}>
       {showTitle && title && (
         <Text style={styles.title}>{title}</Text>
       )}

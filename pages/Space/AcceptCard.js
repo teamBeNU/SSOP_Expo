@@ -396,6 +396,7 @@ function DetailSpaceGroup({ navigation }) {
                   showRadio={true}
                   selectedCards={selectedCards} // 선택된 카드 목록 전달
                   handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달
+                  showDate={true}
               />
               </View>
             </View>
@@ -526,6 +527,7 @@ function ManageCardScreen({ navigation }) {
                 showRadio={true}
                 selectedCards={selectedCards} // 선택된 카드 목록 전달
                 handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달
+                showDate={true}
               />
             </View>
           </View>
