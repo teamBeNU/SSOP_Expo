@@ -11,7 +11,7 @@ const UseBluetoothClassic = () => {
   const [isConnected, setIsConnected] = useState(false); // 디바이스 연결 여부
   const [successSend, setSuccessSend] = useState(false); // 데이터 전송 여부
   const [isScanning, setIsScanning] = useState(false); // 스캔 상태
-  
+
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
 
@@ -74,7 +74,7 @@ const UseBluetoothClassic = () => {
         BluetoothClassic.cancelDiscovery(); // 스캔 중지
         setIsScanning(false); // 스캔 종료 표시
         console.log("스캔 종료 (타임아웃)");
-      },10000);
+      }, 10000);
 
       // 타임아웃 및 스캔 종료 처리
       return () => {
@@ -127,11 +127,10 @@ const UseBluetoothClassic = () => {
     }
   }
 
-  async function sendData(cardId) {
-    console.log('받은 cardId : ', cardId)
+  async function sendData(deviceId, cardId) {
     try {
-      // 데이터 전송 시도
-      const result = await BluetoothClassic.writeToDevice(String(cardId));
+      const dataToSend = String(cardId);
+      const result = await BluetoothClassic.writeToDevice(deviceId, dataToSend); // 블루투스 연결할 디바이스, 전송할 데이터
       console.log('전송 성공:', result);
       return result;
     } catch (error) {
@@ -155,7 +154,7 @@ const UseBluetoothClassic = () => {
               'Authorization': `Bearer ${token}`,
             },
           });
-  
+
           if (response.ok) {
             console.log("카드 ID 저장 성공");
           } else {
@@ -164,7 +163,7 @@ const UseBluetoothClassic = () => {
         } else {
           console.log("유효한 카드 ID가 없습니다.");
         }
-  
+
         return data;
       } else {
         console.log("연결된 디바이스가 없습니다.");

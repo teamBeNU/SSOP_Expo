@@ -148,7 +148,7 @@ function Step2Screen({ route }) {
       console.log("연결 상태:", connectionStatus);
 
       if (connectionStatus) {
-        const sendResult = await sendData(cardId);
+        const sendResult = await sendData(id, cardId);
         console.log("전송 결과:", sendResult);
 
         // 카드 ID 전송 성공
