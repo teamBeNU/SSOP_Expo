@@ -14,6 +14,7 @@ import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import SelectCover from "./SelectCover";
+import { avatarCapture } from "../../utils/avatarCapture";
 
 export default function TemplateStudentSchool ({navigation, card_template, step, setStep}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -69,6 +70,8 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
     const ref_input3 = useRef();
     const ref_input4 = useRef();
     
+    const viewShotRef = useRef(null);       // 아바타 커스터마이징 캡쳐뷰
+
     const [isAvatarComplete, setIsAvatarComplete] = useState(false);
     const [isPictureComplete, setIsPictureComplete] = useState(false);
     
@@ -143,6 +146,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                 eyes: avatar.eyes,
                 eyebrows: avatar.eyebrows,
                 mouth: avatar.mouth,
+                mole: avatar.mole,
                 hairFront: avatar.hairFront,
                 hairBack: avatar.hairBack,
                 hairFrontColor: avatar.hairFrontColor,
@@ -350,7 +354,8 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                     <TouchableOpacity
                         style={{marginRight: 20}}
                         onPress={() => {
-                            setIsAvatarComplete(true);
+                            // setIsAvatarComplete(true);
+                            avatarCapture(viewShotRef, setProfileImageUrl);
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>
@@ -838,6 +843,8 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                             setProfileImageUrl={setProfileImageUrl} 
                             avatar={avatar}
                             setAvatar={setAvatar}
+                            viewShotRef={viewShotRef}
+                            profileimageurl={profile_image_url}
                         />
                     )}
                 </View>
