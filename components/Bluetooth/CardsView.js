@@ -153,58 +153,77 @@ const CardsView = ({
           )}
 
           {viewOption === '리스트형' && (
-            <View>
-              {sortedCardData.map((item, index) => (
-                <TouchableOpacity
-                  key={item.cardId || index}
-                  style={styles.radioCardWrapper}
-                  onPress={() => handleNext(item.cardId)} // Step2로 이동
-                >
-                  {/* showRadio가 true일 때 라디오 버튼 표시 */}
-                  {showRadio && (
-                    <View style={styles.radioButtonWrapper}>
-                      <CustomCardRadioButton
-                        selected={selectedCards.includes(item.cardId)} // 선택 여부 확인
-                        onPress={() => handleRadioSelect(item.cardId)} // 카드 선택 처리
-                      />
-                    </View>
-                  )}
+              <View>
+                  {sortedCardData.map((item, index) => (
+                      <TouchableOpacity
+                          key={item.cardId || index}
+                          style={styles.radioCardWrapper}
+                          onPress={() => {
+                              if (showRadio) {
+                                  handleRadioSelect(item.cardId); // 라디오 버튼 선택 처리
+                              } else {
+                                  handleNext(item.cardId); // Step2로 이동
+                              }
+                          }}
+                      >
+                          {/* showRadio가 true일 때 라디오 버튼 표시 */}
+                          {showRadio && (
+                              <View style={styles.radioButtonWrapper}>
+                                  <CustomCardRadioButton
+                                      selected={selectedCards.includes(item.cardId)} // 선택 여부 확인
+                                      onPress={() => handleRadioSelect(item.cardId)} // 카드 선택 처리
+                                  />
+                              </View>
+                          )}
 
-                  {/* 카드 본문 */}
-                  <View style={styles.ListContainer}>
-                    <View style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}>
-                      <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                        {item.card_cover === 'avatar' ? (
-                          <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor) }]}></View>
-                        ) : (
-                          <View style={styles.gray}>
-                            <Image
-                              source={{ uri: item.profile_image_url }}
-                              resizeMode="cover"
-                              style={{ width: 64, height: 64, borderRadius: 16 }}
-                            />
+                          {/* 카드 본문 */}
+                          <View style={styles.ListContainer}>
+                              <View style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}>
+                                  <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
+                                      {item.card_cover === 'avatar' ? (
+                                          <View
+                                              style={[
+                                                  styles.gray,
+                                                  { backgroundColor: getColor(item.avatar.bgColor) },
+                                              ]}
+                                          ></View>
+                                      ) : (
+                                          <View style={styles.gray}>
+                                              <Image
+                                                  source={{ uri: item.profile_image_url }}
+                                                  resizeMode="cover"
+                                                  style={{ width: 64, height: 64, borderRadius: 16 }}
+                                              />
+                                          </View>
+                                      )}
+                                  </View>
+                                  <View style={styles.infoContainer}>
+                                      <View style={styles.rowName}>
+                                          <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
+                                          <Text style={styles.Text16gray50}>
+                                              {calculateAge(item.cardOptional.card_birth)}
+                                          </Text>
+                                      </View>
+                                      <Text style={styles.Text14gray30}>
+                                          {item.cardEssential.card_introduction}
+                                      </Text>
+                                  </View>
+                              </View>
                           </View>
-                        )}
-                      </View>
-                      <View style={styles.infoContainer}>
-                        <View style={styles.rowName}>
-                          <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
-                          <Text style={styles.Text16gray50}>{calculateAge(item.cardOptional.card_birth)}</Text>
-                        </View>
-                        <Text style={styles.Text14gray30}>{item.cardEssential.card_introduction}</Text>
-                      </View>
-                    </View>
-                  </View>
-                </TouchableOpacity>
-              ))}
-              {showNewCardButton && (
-                <TouchableOpacity style={styles.newCardBtn} onPress={() => navigation.navigate('카드 만들기')}>
-                  <PlusCardIcon />
-                  <Text style={styles.Text14gray50}>새 카드 만들기</Text>
-                </TouchableOpacity>
-              )}
-            </View>
+                      </TouchableOpacity>
+                  ))}
+                  {showNewCardButton && (
+                      <TouchableOpacity
+                          style={styles.newCardBtn}
+                          onPress={() => navigation.navigate('카드 만들기')}
+                      >
+                          <PlusCardIcon />
+                          <Text style={styles.Text14gray50}>새 카드 만들기</Text>
+                      </TouchableOpacity>
+                  )}
+              </View>
           )}
+
         </View>
         <View style={styles.innerView}></View>
       </ScrollView>
