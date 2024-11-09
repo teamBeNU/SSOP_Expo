@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from 'react';
 import { View, Text, ScrollView, Image, Dimensions } from "react-native";
 import { styles } from './HomeStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
@@ -21,25 +21,25 @@ const cardHeight = (cardWidth * 125) / 162;
 const cardHeight2 = (cardWidth * 102) / 162;
 
 function Home({navigation}) {
+    const [parentSize, setParentSize] = useState({ width: 0, height: 0 });
+
     return (
-        <ScrollView showsVerticalScrollIndicator={false} style={{backgroundColor: theme.white}}>
+        <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
             <View style={styles.mainlayout}>
                 <View>
-                    {/* <TouchableOpacity style={styles.btn1} onPress={() => navigation.navigate('카드 만들기')}>
-                        <Text style={styles.Text23}>자신을 보여주는</Text>
-                        <Text style={styles.Text23}>가장 쉬운 방법</Text>
-                        <View style={styles.btnCard}>
-                            <Text style={styles.TextWhite}>카드 만들기</Text>
-                            <ArrowIconWhite style={{marginLeft: 4}}/>
-                        </View>
-                        <CreateCardIcon style={styles.icon1}/>
-                    </TouchableOpacity> */}
-                    <TouchableOpacity onPress={() => navigation.navigate('카드 만들기')}>
+                    <TouchableOpacity
+                        style={styles.touchableOpacity}
+                        onLayout={(event) => {
+                            const { width, height } = event.nativeEvent.layout;
+                            setParentSize({ width, height });
+                        }}
+                        onPress={() => navigation.navigate('카드 만들기')}
+                    >
                         <LinearGradient
-                            colors={['#C8FF79', '#AEFC3D']} // 그라디언트 색상
-                            start={{ x: 0, y: 0 }} // 시작점 (좌측 상단)
-                            end={{ x: 0, y: 1 }} // 끝점 (아래쪽)
-                            style={styles.btn1} // 그라디언트를 위한 스타일
+                            colors={['#C8FF79', '#AEFC3D']}
+                            start={{ x: 0, y: 0 }}
+                            end={{ x: 0, y: 1 }}
+                            style={styles.btn1}
                         >
                             <Text style={styles.Text23}>자신을 보여주는</Text>
                             <Text style={styles.Text23}>가장 쉬운 방법</Text>
@@ -47,7 +47,11 @@ function Home({navigation}) {
                                 <Text style={styles.TextWhite}>카드 만들기</Text>
                                 <ArrowIconWhite style={{ marginLeft: 4 }} />
                             </View>
-                            <CreateCardIcon style={styles.icon1} />
+                            <CreateCardIcon
+                                width={Math.max(parentSize.width * 0.7, 160)} 
+                                height={Math.max(parentSize.height * 0.7, 155)}
+                                style={styles.icon1}
+                            />
                         </LinearGradient>
                     </TouchableOpacity>
                 </View>

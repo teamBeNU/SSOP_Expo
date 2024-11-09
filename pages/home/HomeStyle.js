@@ -172,7 +172,7 @@ export const styles = StyleSheet.create({
     icon1: { // 카드 만들기 아이콘
         position: 'absolute',
         bottom: 0,
-        right: 30,
+        right: 0,
     },
     icon2: { // 블루투스, 링크, 팀스페이스 입장, 생성 아이콘
         position: 'absolute',
