@@ -2,7 +2,7 @@
   "expo": {
     "name": "SSOP",
     "slug": "SSOP",
-    "owner": "SSOP",
+    "owner": "teambenu",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -40,6 +40,14 @@
         "expo-contacts",
         {
           "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
         }
       ]
     ],
