@@ -2,7 +2,7 @@
   "expo": {
     "name": "SSOP",
     "slug": "SSOP",
-    "owner": "teamBENU",
+    "owner": "teambenu",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -27,16 +27,38 @@
       },
       "permissions": [
         "READ_CONTACTS",
-        "WRITE_CONTACTS", 
+        "WRITE_CONTACTS",
         "BLUETOOTH",
         "BLUETOOTH_ADMIN",
-        "ACCESS_FINE_LOCATION"
+        "ACCESS_FINE_LOCATION",
+        "android.permission.READ_CONTACTS",
+        "android.permission.WRITE_CONTACTS"
       ]
     },
     "web": {
       "favicon": "./assets/icon.png"
     },
     "plugins": [
-    ]
+      "expo-font",
+      [
+        "expo-contacts",
+        {
+          "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
+        }
+      ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "02a4dcf3-6d9f-4766-a97a-1009253c9ca9"
+      }
+    }
   }
 }
