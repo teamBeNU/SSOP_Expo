@@ -121,6 +121,8 @@ function Step2Screen({ route }) {
   const [recipientStatuses, setRecipientStatuses] = useState({});
   const { scanForPeripherals, connectToDevice, isConnected, sendData, successSend, allDevices } = useBluetoothClassic();
   const [isScanning, setIsScanning] = useState(false);
+  const [receivedData, setReceivedData] = useState([]);
+  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
     const startScanning = async () => {
@@ -178,6 +180,13 @@ function Step2Screen({ route }) {
     }
   }
 
+  // 데이터 수신 시 모달 표시
+  useEffect(() => {
+    if (receivedData) {
+      setIsModalVisible(true);
+    }
+  }, [receivedData]);
+
   return (
     <View style={{ flex: 1 }}>
       <Progress.Bar
@@ -206,6 +215,24 @@ function Step2Screen({ route }) {
             </React.Fragment>
           ))}
         </ScrollView>
+
+        {/* 수신된 데이터를 보여주는 모달 */}
+        <Modal
+          transparent={true}
+          visible={isModalVisible}
+          animationType="slide"
+          onRequestClose={() => setIsModalVisible(false)}
+        >
+          <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <View style={{ width: '80%', padding: 20, backgroundColor: 'white', borderRadius: 10 }}>
+              <Text style={{ marginBottom: 20 }}>새로운 데이터 수신</Text>
+              <Text>{receivedData}</Text>
+              <TouchableOpacity onPress={() => setIsModalVisible(false)} style={{ marginTop: 20 }}>
+                <Text style={{ color: 'blue' }}>확인</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </Modal>
       </View>
     </View>
   );
