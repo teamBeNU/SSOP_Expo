@@ -9,13 +9,6 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
 
   const checkPermissions = async () => {
     const { status } = await Contacts.requestPermissionsAsync();
-    // if (status === 'granted') {
-    //   setHasPermission(true);
-    //   return true;
-    // } else {
-    //   Alert.alert('Permission Needed', 'Contact access permission is required to use this feature.');
-    //   return false;
-    // }
     
     if (Platform.OS === 'android') {
       try {
@@ -62,12 +55,9 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
     }
   };
 
-  const handlePress = async () => {
-    console.log('handlePress called');
-  
+  const handlePress = async () => {  
     const permissionGranted = await checkPermissions();
-    console.log('Permission Granted:', permissionGranted);
-  
+      
     if (permissionGranted) {
       Alert.alert(
         '연락처 저장',
@@ -90,9 +80,17 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
     try {
       const contactId = await Contacts.addContactAsync(contact);
       if (contactId) {
-        Alert.alert('성공', '연락처가 저장되었습니다.');
         if (Platform.OS === 'android') {
-          Linking.openURL('content://contacts/people/'); 
+          Alert.alert(
+            '저장 완료',
+            '연락처로 이동하시겠습니까?',
+            [
+              { text: '아니오', onPress: () => console.log('Cancelled'), style: 'cancel' },
+              { text: '네', onPress: () => Linking.openURL('content://contacts/people/') },
+            ]
+          );
+        } else {
+          Alert.alert('성공', '연락처가 저장되었습니다.');
         }
       } else {
         Alert.alert('Failed', 'Contact could not be added.');

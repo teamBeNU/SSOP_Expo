@@ -32,6 +32,9 @@ const CheckCardDetail = () => {
     const [hasMemo, setHasMemo] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
 
+    const [horizontalScrollEnabled, setHorizontalScrollEnabled] = useState(true);
+
+
     // 메모
     // const handleNewMemo = () => {
     //     setIsEdit(false);
@@ -158,7 +161,6 @@ const CheckCardDetail = () => {
         });
 
     }, [moreMenu]);
-
     
    return (
     
@@ -173,6 +175,7 @@ const CheckCardDetail = () => {
                 showsHorizontalScrollIndicator={false}
                 snapToInterval={CARD_WIDTH + SPACING} 
                 decelerationRate="fast"
+                scrollEnabled={horizontalScrollEnabled}
                 onScroll={Animated.event(
                     [{ nativeEvent: { contentOffset: { x: scrollX } } }],
                     { useNativeDriver: false }
@@ -196,7 +199,10 @@ const CheckCardDetail = () => {
 
                     return (
                         <Animated.View key={index} style={[styles.cardWrapper, { transform: [{ scale }] }]}>
-                            <Card cardData={item}/>
+                            <Card cardData={item}
+                            onVerticalScrollStart={() => setHorizontalScrollEnabled(false)}
+                            onVerticalScrollEnd={() => setHorizontalScrollEnabled(true)}
+                            />
                         </Animated.View>
                     );
                 })}
