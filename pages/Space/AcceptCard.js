@@ -25,6 +25,8 @@ import FolderMove from '../../assets/icons/ic_folder-move.svg';
 import Add from '../../assets/icons/ic_folder-add.svg';
 import Trash from '../../assets/icons/ic_trash.svg';
 
+import { addContacts } from '../../components/MyCard/AddTel.js';
+
 import { theme } from "../../theme.js";
 
 const Stack = createStackNavigator();
@@ -317,7 +319,8 @@ function DetailSpaceGroup({ navigation }) {
     }, []);
     
     const handleSaveTel = () => {
-      showCustomToast('연락처가 저장되었습니다.');
+      addContacts(selectedCards);
+      //showCustomToast('연락처가 저장되었습니다.');
     };
   
     const handlePress = (cardId) => {
