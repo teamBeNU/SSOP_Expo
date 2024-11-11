@@ -349,7 +349,7 @@ function DetailSpaceGroup({ navigation }) {
         if (selectedCards.length === cardData.length) {
           setSelectedCards([]); // 모든 선택 해제
         } else {
-          setSelectedCards(cardData.map((card) => card.id)); // 모든 카드 선택
+          setSelectedCards(cardData.map((card) => card.cardId)); // 모든 카드 선택
         }
       };
 

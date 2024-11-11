@@ -553,7 +553,6 @@ export const styles = StyleSheet.create({
         height: 80,
     },
     dateText: {
-        paddingTop: 24,
         marginLeft: 4,
         fontFamily: "PretendardRegular",
         color: theme.gray30,
