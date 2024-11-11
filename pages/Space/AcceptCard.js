@@ -445,10 +445,10 @@ function DetailSpaceGroup({ navigation }) {
                         <Text style={styles.modalText}>연락처를 저장하시겠습니까?</Text>
                         <View style={styles.modalButtons}>
                             <TouchableOpacity onPress={() => setIsSaveModalVisible(false)} style={styles.cancelButton}>
-                                <Text style={styles.cancelText}>아니오</Text>
+                                <Text style={styles.cancelText}>괜찮아요</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={confirmSaveContacts} style={styles.confirmButton}>
-                                <Text style={styles.confirmText}>네</Text>
+                                <Text style={styles.confirmText}>네, 저장할래요</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
@@ -463,10 +463,10 @@ function DetailSpaceGroup({ navigation }) {
                         <Text style={styles.modalSubText}>연락처로 이동하시겠습니까?</Text>
                         <View style={styles.modalButtons}>
                             <TouchableOpacity onPress={() => setIsCompleteModalVisible(false)} style={styles.cancelButton}>
-                                <Text style={styles.cancelText}>아니오</Text>
+                                <Text style={styles.cancelText}>괜찮아요</Text>
                             </TouchableOpacity>
                             <TouchableOpacity onPress={handleNavigateToContacts} style={styles.confirmButton}>
-                                <Text style={styles.confirmText}>네</Text>
+                                <Text style={styles.confirmText}>네, 이동할래요</Text>
                             </TouchableOpacity>
                         </View>
                     </View>
