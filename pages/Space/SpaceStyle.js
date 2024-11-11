@@ -717,6 +717,16 @@ export const styles = StyleSheet.create({
         lineHeight: 19,
         letterSpacing: -0.32
     },
+    modalSubText: {
+        color: theme.gray50,
+        textAlign: 'center',
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 17,
+        letterSpacing: -0.14,
+        marginTop: -12
+    },
     modalButtons: {
         flexDirection: 'row',
         justifyContent: 'space-between',

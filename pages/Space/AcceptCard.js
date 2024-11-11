@@ -336,7 +336,7 @@ function DetailSpaceGroup({ navigation }) {
       if (Platform.OS === 'android') {
       setIsCompleteModalVisible(true); // 연락처로 이동 모달 표시
       } else {
-        setIsSuccessModalVisible(true);
+        setIsSuccessModalVisible(true); // 아이폰은 저장 완료 모달 표시
       }
     };
 
@@ -459,7 +459,8 @@ function DetailSpaceGroup({ navigation }) {
             <Modal visible={isCompleteModalVisible} transparent={true} animationType="fade">
                 <View style={styles.modalOverlay}>
                     <View style={styles.modalContent}>
-                        <Text style={styles.modalText}>연락처로 이동하시겠습니까?</Text>
+                        <Text style={styles.modalText}>연락처가 저장되었습니다.</Text>
+                        <Text style={styles.modalSubText}>연락처로 이동하시겠습니까?</Text>
                         <View style={styles.modalButtons}>
                             <TouchableOpacity onPress={() => setIsCompleteModalVisible(false)} style={styles.cancelButton}>
                                 <Text style={styles.cancelText}>아니오</Text>
