@@ -193,7 +193,7 @@ const AcceptCardView = ({
       <View style={styles.mainlayout}>
         {groupedCardData.length > 0 ? (
           groupedCardData.map(({ date, cards }) => (
-            <View key={date}>
+            <View key={date} style={{paddingTop: 24}}>
               {/* 날짜 헤더 */}
               <Text style={styles.dateText}>{date}</Text>
               <View>

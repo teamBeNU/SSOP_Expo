@@ -144,7 +144,7 @@ const CardsView = ({
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
           {sortedGroupedCardData.map((group, groupIndex) => (
-            <View key={groupIndex}>
+            <View key={groupIndex} style={{ paddingBottom: showDate ? 24 : 0 }}>
               {/* 날짜 표시 (showDate=true일 때만) */}
               {showDate && group.date && (
                 <Text style={styles.dateText}>{group.date}</Text>
