@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Modal, StyleSheet, Platform} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Modal, Linking, Platform} from "react-native";
 import { useNavigation, NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { styles } from './SpaceStyle';
