@@ -2,7 +2,7 @@
   "expo": {
     "name": "SSOP",
     "slug": "SSOP",
-    "owner": "hhhjae",
+    "owner": "teambenu",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -29,7 +29,16 @@
         "android.permission.READ_CONTACTS",
         "android.permission.WRITE_CONTACTS",
         "INTERNET"
-      ]
+      ],
+      "networkSecurityConfig": {
+        "domainConfig": [
+          {
+            "domain": "*",
+            "cleartextTrafficPermitted": true
+          }
+        ]
+      }
+
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -40,6 +49,14 @@
         "expo-contacts",
         {
           "contactsPermission": "Allow $(PRODUCT_NAME) to access your contacts."
+        }
+      ],
+      [
+        "expo-build-properties",
+        {
+          "android": {
+            "usesCleartextTraffic": true
+          }
         }
       ]
     ],
