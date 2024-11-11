@@ -692,4 +692,72 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)"
     },
+
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: 304,
+        paddingVertical: 32,
+        paddingHorizontal: 16,
+        gap: 24,
+        backgroundColor: '#fff',
+        borderRadius: 16,
+        alignItems: 'center',
+    },
+    modalText: {
+        color: theme.gray10,
+        textAlign: 'center',
+        fontFamily: 'PretendardMedium',
+        fontSize: 16,
+        fontWeight: '500',
+        lineHeight: 19,
+        letterSpacing: -0.32
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: 8,
+        width: '100%',
+    },
+    cancelButton: {
+        flex: 1,
+        height: 40,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        borderRadius: 8,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: theme.gray80
+    },
+    confirmButton: {
+        flex: 1,
+        height: 40,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        borderRadius: 8,
+        alignItems: 'center',
+        backgroundColor: theme.gray10
+    },
+    cancelText: {
+        color: theme.gray50,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 17,
+        letterSpacing: -0.14
+    },
+    confirmText: {
+        color: theme.white,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 17,
+        letterSpacing: -0.14
+    },
 })

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Modal, StyleSheet} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Modal, StyleSheet, Platform} from "react-native";
 import { useNavigation, NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { styles } from './SpaceStyle';
@@ -308,7 +308,11 @@ function DetailSpaceGroup({ navigation }) {
     const [selectedOption, setSelectedOption] = useState('최신순');
     const [viewOption, setViewOption] = useState('리스트형');
     const [cardData, setCardData] = useState([]);  // 카드 데이터를 상태로 관리
-  
+    
+    const [isSaveModalVisible, setIsSaveModalVisible] = useState(false); // 연락처 저장 모달 상태
+    const [isCompleteModalVisible, setIsCompleteModalVisible] = useState(false); // 연락처로 이동 모달 상태
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); // 아이폰용 완료 모달
+
     useEffect(() => {
       const fetchData = async () => {
         const savedCards = await fetchSavedCards();  // 받은 카드 목록 가져오기
@@ -319,8 +323,32 @@ function DetailSpaceGroup({ navigation }) {
     }, []);
     
     const handleSaveTel = () => {
-      addContacts(selectedCards);
+      setIsSaveModalVisible(true);
       //showCustomToast('연락처가 저장되었습니다.');
+    };
+
+    const confirmSaveContacts = async () => {
+      setIsSaveModalVisible(false); // 모달 닫기
+      await addContacts(selectedCards, showCompleteModal); // 연락처 저장 함수 호출
+    };
+
+    const showCompleteModal = () => {
+      if (Platform.OS === 'android') {
+      setIsCompleteModalVisible(true); // 연락처로 이동 모달 표시
+      } else {
+        setIsSuccessModalVisible(true);
+      }
+    };
+
+    const handleNavigateToContacts = () => {
+      setIsCompleteModalVisible(false); // 모달 닫기
+      if (Platform.OS === 'android') {
+          Linking.openURL('content://contacts/people/'); // 연락처로 이동
+      }
+    };
+
+    const handleCancel = () => {
+      setIsSaveModalVisible(false); // 모달 닫기
     };
   
     const handlePress = (cardId) => {
@@ -409,6 +437,54 @@ function DetailSpaceGroup({ navigation }) {
             <Text style={styles.bottomText}>연락처 저장</Text>
           </TouchableOpacity>
         </View>
+
+        {/* 연락처 저장 모달 */}
+        <Modal visible={isSaveModalVisible} transparent={true} animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>연락처를 저장하시겠습니까?</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity onPress={() => setIsSaveModalVisible(false)} style={styles.cancelButton}>
+                                <Text style={styles.cancelText}>아니오</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={confirmSaveContacts} style={styles.confirmButton}>
+                                <Text style={styles.confirmText}>네</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* 연락처로 이동 모달 */}
+            <Modal visible={isCompleteModalVisible} transparent={true} animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>연락처로 이동하시겠습니까?</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity onPress={() => setIsCompleteModalVisible(false)} style={styles.cancelButton}>
+                                <Text style={styles.cancelText}>아니오</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleNavigateToContacts} style={styles.confirmButton}>
+                                <Text style={styles.confirmText}>네</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* 아이폰용 저장 완료 모달 */}
+            <Modal visible={isSuccessModalVisible} transparent={true} animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>저장이 완료되었습니다.</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity onPress={() => setIsSuccessModalVisible(false)} style={styles.confirmButton}>
+                                <Text style={styles.confirmText}>확인</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
       </View>
     );
   }
