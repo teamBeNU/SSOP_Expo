@@ -9,6 +9,7 @@ import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../component
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
+import ExchangeModal from '../../components/Space/ExchangeModal.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -18,8 +19,8 @@ import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
-import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
-import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
+import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
+import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
 import Contact from '../../assets/icons/ic_contact_black.svg';
 import Edit from '../../assets/icons/ic_edit.svg';
 import Swap from '../../assets/icons/ic_swap.svg';
@@ -40,45 +41,6 @@ const showCustomToast = (text) => {
     visibilityTime: 2000,
   });
 };
-
-// 스왑 모달
-function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, title, option1Text, option1SubText, option1Icon: Option1Icon, option2Text, option2SubText, option2Icon: Option2Icon }) {
-  return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={isVisible}
-      onRequestClose={onClose}
-    >
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.modalContainer}>
-          <TouchableWithoutFeedback>
-            <View style={styles.modalView}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>{title}</Text>
-                <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
-                  <CloseIcon />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.row}>
-                <TouchableOpacity style={styles.btn2} onPress={onOption1Press}>
-                  <Text style={styles.Text18}>{option1Text}</Text>
-                  <Text style={styles.Text14}>{option1SubText}</Text>
-                  <Option1Icon style={styles.icon2} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn2} onPress={onOption2Press}>
-                  <Text style={styles.Text18}>{option2Text}</Text>
-                  <Text style={styles.Text14}>{option2SubText}</Text>
-                  <Option2Icon style={styles.icon2} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-      </TouchableWithoutFeedback>
-    </Modal>
-  );
-}
 
 // 그룹 상세 정보를 가져오는 공통 함수
 const fetchGroupDetails = async (groupId, token) => {
@@ -345,10 +307,10 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
         onClose={() => setIsModalVisible(false)}
         onOption1Press={handleBluetoothPress}
         onOption2Press={handleLinkSharePress}
-        title="카드 교환하기"
-        option1Text="블루투스 송신"
-        option1SubText="주변에 있다면 바로"
-        option2Text="링크 복사"
+        title="카드 공유하기"
+        option1Text="블루투스 공유"
+        option1SubText="주변에 있다면"
+        option2Text="링크 공유"
         option2SubText="연락처가 있다면"
         option1Icon={BluetoothIcon}
         option2Icon={LinkIcon}
