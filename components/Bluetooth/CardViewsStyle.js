@@ -4,6 +4,11 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     mainlayout: {
         flex: 1,
+        paddingHorizontal: 16,
+        backgroundColor: theme.white
+    },
+    mainlayout2: {
+        flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 16,
         backgroundColor: theme.white
@@ -546,5 +551,12 @@ export const styles = StyleSheet.create({
         right: 16,
         width: 80,
         height: 80,
+    },
+    dateText: {
+        marginLeft: 4,
+        fontFamily: "PretendardRegular",
+        color: theme.gray30,
+        fontSize: 14,
+        letterSpacing: -0.5,
     },
 })
