@@ -117,7 +117,8 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     useEffect(() => {
         if (isInit) {
-            undo.current.push(avatar);
+            console.log("초기화!")
+            //undo.current.push(avatar);
             setIsInit(false);
         }
     }, [isInit])
@@ -166,6 +167,12 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         // let randAcc = Math.floor(Math.random( ) * accItems.length) + 1;
         // let randBg = Math.floor(Math.random( ) * bgItem.length) + 1;
         let randBgColor = Math.floor(Math.random( ) * bgColors.length) + 1;
+
+        // 삭발 여부(삭발이면 앞머리 null)
+        if (randHairBack === 9) {
+            randHairFront = null;
+        }
+
         setAvatar((prev => ({...prev, 
             eyes: randEyes,
             eyebrows: randEyebrows,
@@ -195,39 +202,60 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         }
     }, [isRandom]);
 
+    // useEffect(() => {
+    //     console.log("11=============================");
+    //     console.log("아바타타타타타타: ", avatar)
+    //     console.log("Undo11: ", undo);
+    //     console.log("Redo11: ", redo);
+    //     console.log("=============================");
+    // }, [avatar])
+
     // Undo
     const handleUndo = () => {
-        console.log("=============================");
-        console.log("아바타: ", avatar);
-        console.log("Undo11: ", undo);
-        console.log("Redo11: ", redo);
+        // console.log("=============================");
+        // console.log("아바타: ", avatar);
+        // console.log("Undo11: ", undo);
+        // console.log("Redo11: ", redo);
         if (undo.current.length <= 1) return;   // undo가 비어 있으면 리턴
 
-        redo.current.push(undo.current.pop());              // undo의 마지막 상태를 redo에 추가 (undo 마지막 상태 제거)
+        let popItem = undo.current.pop();
+        console.log("pop: ", popItem);
+        redo.current.push(popItem);              // undo의 마지막 상태를 redo에 추가 (undo 마지막 상태 제거)
         const lastState = undo.current[undo.current.length - 1];  // 제거 후의 마지막 상태 가져오기
         setAvatar(prev => ({...prev, ...lastState}));       // 아바타 적용
 
-        // setIsUndo(true);
+        setIsUndo(true);
+
+        // console.log("리두-------------------------------");
+        // // console.log("아바타: ", avatar)
+        // console.log("Undo11: ", undo);
+        // console.log("Redo11: ", redo);
+        // console.log("-------------------------------");
 
         setIsFaceSelect(true);
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
         
-        console.log("Undo22: ", undo);
-        console.log("Redo22: ", redo);
+        // console.log("Undo22: ", undo);
+        // console.log("Redo22: ", redo);
         
-        console.log("=============================");
+        // console.log("=============================");
     }
 
     // Redo
     const handleRedo = () => {
+        // console.log("언두****************************");
+        // // console.log("아바타: ", avatar)
+        // console.log("Undo11: ", undo);
+        // console.log("Redo11: ", redo);
+        // console.log("******************************");
         if (redo.current.length > 0) {
             let redoPop = redo.current.pop();               // redo의 마지막 상태 반환
             undo.current.push(redoPop);                     // undo에 추가
             setAvatar(prev => ({...prev, ...redoPop}));     // 아바타 적용
 
-            // setIsRedo(true);
+            setIsRedo(true);
             
             setIsFaceSelect(true);
             setIsMoleSelect(true);
@@ -237,17 +265,56 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     }
 
     // 아이템 선택
-    const handleSelect = () => {
-        undo.current.push(avatar);
-        redo.current = [];          // redo 초기화
-    }
+    // const handleSelect = () => {
+    //     console.log("뭐야ㅑ야야야야야야야ㅑ")
+    //     console.log("handleSelect: ", avatar)
+    //     undo.current.push(avatar);
+    //     redo.current = [];          // redo 초기화
+    // }
 
     useEffect(() => {
         if (isSelect) {
-            handleSelect();
+            undo.current.push(avatar);
+            
+            if (isUndo || isRedo) {       // Undo 또는 Redo 버튼 누를 경우 redo 초기화 하면 안됨
+                setIsUndo(false);
+                setIsRedo(false);
+            } else {
+                redo.current = [];          // redo 초기화
+            }
+            // // handleSelect();
+            // undo.current.push(avatar);
+            // redo.current = [];          // redo 초기화
+
+            itemDuplication();      // 아이템 중복 선택 확인
+            //console.log("isSelect1111111111111")
             setIsSelect(false);
+            //console.log("isSelect2222222222 -> 실행안되야함")
         }
     }, [isSelect]);
+
+    // useEffect(() => {
+    //     //console.log("이즈 셀렉트: ", isSelect);
+    //     if (!isSelect) {  // isSelect 값이 false로 변경된 후 실행
+    //         console.log("isSelect 값이 false로 변경됨: ", isSelect);
+    //     } else {
+    //         console.log("이즈 셀렉트: ", isSelect);
+    //     }
+    // }, [isSelect]);
+
+    // 이전 아이템 중복 선택 (또는 삭발 시 앞머리 선택) -> undo에 저장X
+    const itemDuplication = () => {
+        // console.log("중복 삭제 전: ", undo);
+        // console.log("undo.current[undo.current.length - 1]: ", undo.current[undo.current.length - 1]);
+        // console.log("undo.current[undo.current.length - 2]: ", undo.current[undo.current.length - 2]);
+
+        // JSON.stringify 사용하여 객체를 문자열로 변환하여 비교
+        if (JSON.stringify(undo.current[undo.current.length - 1]) === JSON.stringify(undo.current[undo.current.length - 2])) {
+            console.log("중복 제거!!!!!")
+            undo.current.pop();
+        }
+        // console.log("중복 삭제 후: ", undo);
+    }
 
     // 컴포넌트 -> 이미지
     // useEffect(() => {
@@ -421,10 +488,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [isClothesSelect, setIsClothesSelect] = useState(false);      // 옷
     const [isHairBackSelect, setIsHairBackSelect] = useState(false);    // 뒷머리
 
-    // 이목구비(눈, 눈썹, 입) 변화
+    // 이목구비(눈, 눈썹, 입), 앞머리 변화
     useEffect(() => {
         if (isFaceSelect) {
-            console.log("avatar.hairBack: ", avatar.hairBack)
+            //console.log("avatar.hairBack: ", avatar.hairBack)
             const getHairFront = (avatar, isBald) => {
                 if (avatar.hairBack === 9) {
                     console.log('1')
@@ -456,6 +523,8 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             setHairFrontImg(hairFront);
             setNextFaceUri(faceUri);
             // setIsNextFaceLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
+            //console.log("안녕 isSelect: ", isSelect);
+            setIsSelect(true);
             setIsFaceSelect(false);
         }
     }, [isFaceSelect, avatar]);
@@ -464,13 +533,15 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         // setIsNextFaceLoaded(true);
         setCurrentFaceUri(nextFaceUri); // 새로운 이미지가 완전히 로드된 후 교체
         setNextFaceUri(null); // 임시 URI 초기화
-        console.log('handleNextFaceLoad')
+        //console.log('handleNextFaceLoad')
     };
 
     // 점 변화
     useEffect(() => {
         if (isMoleSelect) {
+            //console.log("점!")
             setNextMoleUri(`${baseAvtUrl}/mole/mole0${avatar.mole}.png`);
+            setIsSelect(true);
             // setIsNextMoleLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
             setIsMoleSelect(false);
         }
@@ -480,13 +551,15 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         // setIsNextMoleLoaded(true);
         setCurrentMoleUri(nextMoleUri); // 새로운 이미지가 완전히 로드된 후 교체
         setNextMoleUri(null); // 임시 URI 초기화
-        console.log('handleNextMoleLoad')
+        //console.log('handleNextMoleLoad')
     };
 
     // 옷 변화
     useEffect(() => {
         if (isClothesSelect) {
+            //console.log("옷!")
             setNextClothesUri(`${baseAvtUrl}/clothes/clothes0${avatar.clothes}.png`);
+            setIsSelect(true);
             // setIsNextClothesLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
             setIsClothesSelect(false);
         }
@@ -496,17 +569,25 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         // setIsNextClothesLoaded(true);
         setCurrentClothesUri(nextClothesUri); // 새로운 이미지가 완전히 로드된 후 교체
         setNextClothesUri(null); // 임시 URI 초기화
-        console.log('handleNextClothesLoad')
+        //console.log('handleNextClothesLoad')
     };
 
     // 뒷머리 변화
     useEffect(() => {
         if (isHairBackSelect) {
             if (avatar.hairBack !== 9) {
+                //console.log("뒷머리1")
                 setNextHairBackUri(`${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`);
+                
+            } else if (avatar.hairBack === 9) {
+                //console.log("뒷머리2")
+                setAvatar(prev => ({ ...prev, hairFront: null }));
+                
             }
             setIsFaceSelect(true);
+            // setIsSelect(true);
             // setIsNextHairBackLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
+            //console.log("뒷머리3")
             setIsHairBackSelect(false);
         }
     }, [isHairBackSelect, avatar]);
@@ -515,12 +596,24 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         // setIsNextHairBackLoaded(true);
         setCurrentHairBackUri(nextHairBackUri); // 새로운 이미지가 완전히 로드된 후 교체
         setNextHairBackUri(null); // 임시 URI 초기화
-        console.log('handleNextHairBackLoad')
+        //console.log('handleNextHairBackLoad')
     };
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
+                <TouchableOpacity
+                    style={{position: "absolute", zIndex: 10, right: 12, marginTop:20, backgroundColor:"red", padding: 10}}
+                    onPress={() => {
+                        console.log("55=======================================")
+                        console.log("아바타: ", avatar);
+                        console.log("undo: ", undo);
+                        console.log("redo: ", redo);
+                        console.log("=======================================")
+                    }}
+                >
+                    <Text>테스트 버튼</Text>
+                </TouchableOpacity>
                 <View style={styles.avatarDo}>
                     <TouchableOpacity onPress={() => handleUndo()}>
                         <UndoIcon />
@@ -722,7 +815,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar(prev => ({ ...prev, eyes: item.id }));
-                                            setIsSelect(true);
+                                            // setIsSelect(true);
                                             setIsFaceSelect(true);
                                         }}
                                     >
@@ -743,7 +836,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar(prev => ({...prev, eyebrows: item.id}));
-                                            setIsSelect(true);
+                                            //setIsSelect(true);
                                             setIsFaceSelect(true);
                                         }}
                                     >
@@ -764,7 +857,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar(prev => ({...prev, mouth: item.id}));
-                                            setIsSelect(true);
+                                            //setIsSelect(true);
                                             setIsFaceSelect(true);
                                         }}
                                     >
@@ -785,7 +878,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar(prev => ({...prev, mole: item.id}));
-                                            setIsSelect(true);
+                                            //setIsSelect(true);
                                             setIsMoleSelect(true);
                                         }}
                                     >
@@ -810,7 +903,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         style={[styles.colorChipOn, avatar.hairFrontColor === hc.id ? styles.colorChipOn : styles.colorChipOff]}
                                         onPress={() => {
                                             setAvatar(prev => ({...prev, hairFrontColor: hc.id, hairBackColor: hc.id}));
-                                            setIsSelect(true);
+                                            //setIsSelect(true);
                                         }}
                                     >
                                         <View style={[styles.colorChip, {backgroundColor: hc.color}]}></View>
@@ -825,7 +918,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar((prev => ({...prev, hairFront: item.id})))
-                                            setIsSelect(true);
+                                            // setIsSelect(true);
                                             setIsFaceSelect(true);
                                         }}
                                     >
@@ -846,7 +939,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar((prev => ({...prev, hairBack: item.id})))
-                                            setIsSelect(true);
+                                            // setIsSelect(true);
                                             setIsHairBackSelect(true);
                                         }}
                                     >
@@ -871,7 +964,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         style={styles.avatarItems}
                                         onPress={() => {
                                             setAvatar((prev => ({...prev, clothes: item.id})))
-                                            setIsSelect(true);
+                                            //setIsSelect(true);
                                             setIsClothesSelect(true);
                                         }}
                                     >
