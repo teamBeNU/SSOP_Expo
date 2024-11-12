@@ -896,7 +896,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     )}
                     {avaIndex === 2 && (        // 헤어
                         <View>
-                            <View style={styles.colorChipContainer}>
+                            {/* <View style={styles.colorChipContainer}>
                                 {hairColors.map(hc => (
                                     <TouchableOpacity 
                                         key={hc.id}
@@ -909,7 +909,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         <View style={[styles.colorChip, {backgroundColor: hc.color}]}></View>
                                     </TouchableOpacity>
                                 ))}
-                            </View>
+                            </View> */}
                             <Text style={styles.avatarItemText}>앞머리</Text>
                             <View style={styles.avatarItemList}>
                                 {hairFrontItems.map(item => (
