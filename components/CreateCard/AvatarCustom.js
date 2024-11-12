@@ -149,6 +149,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         redo.current = [];  // redo 초기화
 
         setIsFaceSelect(true);
+        setIsMoleCancel(true);
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
@@ -168,8 +169,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         // let randBg = Math.floor(Math.random( ) * bgItem.length) + 1;
         let randBgColor = Math.floor(Math.random( ) * bgColors.length) + 1;
 
-        // 삭발 여부(삭발이면 앞머리 null)
-        if (randHairBack === 9) {
+        if (randHairBack === 9) {       // 삭발 여부(삭발이면 앞머리 null)
             randHairFront = null;
         }
 
@@ -187,6 +187,8 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             //bg: randBg,
             bgColor: randBgColor,
         })));
+        setMoleSave(randMole);
+
         setIsRandom(true);
         setIsFaceSelect(true);
         setIsMoleSelect(true);
@@ -286,7 +288,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             // undo.current.push(avatar);
             // redo.current = [];          // redo 초기화
 
-            itemDuplication();      // 아이템 중복 선택 확인
+            // itemDuplication();      // 아이템 중복 선택 확인
             //console.log("isSelect1111111111111")
             setIsSelect(false);
             //console.log("isSelect2222222222 -> 실행안되야함")
@@ -489,6 +491,46 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [isHairBackSelect, setIsHairBackSelect] = useState(false);    // 뒷머리
 
     // 이목구비(눈, 눈썹, 입), 앞머리 변화
+    const [eyesSave, setEyesSave] = useState(); // 눈 저장
+    const [eyebrowsSave, setEyebrowsSave] = useState(); // 눈썹 저장
+    const [mouthSave, setMouthSave] = useState(); // 입 저장
+
+    const handleEye = (id) => {
+        if (eyesSave === id) {  // 중복 선택 X
+            console.log("눈 중복X")
+        } else {    // 눈 추가
+            console.log("눈 추가")
+            setAvatar(prev => ({...prev, eyes: id}));
+            setEyesSave(id);
+            setIsFaceSelect(true);
+        }
+        //setIsSelect(true);
+    }
+
+    const handleEyebrows = (id) => {
+        if (eyebrowsSave === id) {  // 중복 선택 X
+            console.log("눈썹 중복X")
+        } else {    // 눈썹 추가
+            console.log("눈썹 추가")
+            setAvatar(prev => ({...prev, eyebrows: id}));
+            setEyebrowsSave(id);
+            setIsFaceSelect(true);
+        }
+        //setIsSelect(true);
+    }
+
+    const handleMouth = (id) => {
+        if (mouthSave === id) {  // 중복 선택 X
+            console.log("입 중복X")
+        } else {    // 입 추가
+            console.log("입 추가")
+            setAvatar(prev => ({...prev, mouth: id}));
+            setMouthSave(id);
+            setIsFaceSelect(true);
+        }
+        //setIsSelect(true);
+    }
+
     useEffect(() => {
         if (isFaceSelect) {
             //console.log("avatar.hairBack: ", avatar.hairBack)
@@ -537,10 +579,39 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     };
 
     // 점 변화
+    const [moleSave, setMoleSave] = useState(); // 점 저장
+    const [isMoleCancel, setIsMoleCancel] = useState(false); // 점 취소
+
+    const handleMole = (id) => {
+        console.log('id: ', isMoleCancel)
+        console.log('molesave: ', moleSave)
+        if (moleSave === id) {  // 점 삭제
+            setAvatar(prev => ({...prev, mole: null}));
+            setIsMoleCancel(true);
+            setMoleSave(null);
+        } else {    // 점 추가
+            setAvatar(prev => ({...prev, mole: id}));
+            setIsMoleCancel(false);
+            setMoleSave(id);
+        }
+        //setIsSelect(true);
+        setIsMoleSelect(true);
+    }
+
     useEffect(() => {
+        console.log("isMole: ", isMoleCancel);
+        console.log("isMoleSelect: ", isMoleSelect);
         if (isMoleSelect) {
-            //console.log("점!")
-            setNextMoleUri(`${baseAvtUrl}/mole/mole0${avatar.mole}.png`);
+            console.log("11111111111")
+            if(isMoleCancel) {    // 점 취소
+                console.log("22222222222222222")
+                setNextMoleUri(``);
+                setCurrentMoleUri('');
+                setIsMoleCancel(false);
+            } else {
+                console.log("3333333333333")
+                setNextMoleUri(`${baseAvtUrl}/mole/mole0${avatar.mole}.png`);
+            }
             setIsSelect(true);
             // setIsNextMoleLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
             setIsMoleSelect(false);
@@ -555,6 +626,20 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     };
 
     // 옷 변화
+    const [clothesSave, setClothesSave] = useState(); // 옷 저장
+
+    const handleClothes = (id) => {
+        if (clothesSave === id) {  // 중복 선택 X
+            console.log("옷 중복X")
+        } else {    // 옷 추가
+            console.log("옷 추가")
+            setAvatar(prev => ({...prev, clothes: id}));
+            setClothesSave(id);
+            setIsClothesSelect(true);
+        }
+        //setIsSelect(true);
+    }
+
     useEffect(() => {
         if (isClothesSelect) {
             //console.log("옷!")
@@ -573,16 +658,28 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     };
 
     // 뒷머리 변화
+    const [hairBackSave, sethHairBackSave] = useState(); // 뒷머리 저장
+
+    const handleHairBack = (id) => {
+        if (hairBackSave === id) {  // 중복 선택 X
+            console.log("뒷머리 중복X")
+        } else {    // 뒷머리 추가
+            console.log("뒷머리 추가")
+            setAvatar(prev => ({...prev, hairBack: id}));
+            sethHairBackSave(id);
+            setIsHairBackSelect(true);
+        }
+        //setIsSelect(true);
+    }
+
     useEffect(() => {
         if (isHairBackSelect) {
             if (avatar.hairBack !== 9) {
                 //console.log("뒷머리1")
                 setNextHairBackUri(`${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`);
-                
             } else if (avatar.hairBack === 9) {
                 //console.log("뒷머리2")
                 setAvatar(prev => ({ ...prev, hairFront: null }));
-                
             }
             setIsFaceSelect(true);
             // setIsSelect(true);
@@ -650,7 +747,8 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     <View style={styles.avatarView}>
                         {/* 점 */}
                         <Image                  // 현재 이미지
-                            source={{ uri: currentMoleUri }}
+                            // source={{ uri: currentMoleUri }}
+                            source={currentMoleUri ? { uri: currentMoleUri } : null}
                             style={[styles.avatarImg, { zIndex: 8 }]}
                             fadeDuration={0}
                             // onLoad={() => setIsMoleLoad(true)}
@@ -661,7 +759,8 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         />
                         {nextMoleUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                             <Image
-                                source={{ uri: nextMoleUri }}
+                                // source={{ uri: nextMoleUri }}
+                                source={nextMoleUri ? { uri: nextMoleUri } : null}
                                 style={[styles.avatarImg, { zIndex: 7 }]}
                                 onLoad={handleNextMoleLoad}
                                 fadeDuration={0}
@@ -814,9 +913,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         key={item.id}
                                         style={styles.avatarItems}
                                         onPress={() => {
-                                            setAvatar(prev => ({ ...prev, eyes: item.id }));
-                                            // setIsSelect(true);
-                                            setIsFaceSelect(true);
+                                            handleEye(item.id);
+                                            // setAvatar(prev => ({ ...prev, eyes: item.id }));
+                                            // // setIsSelect(true);
+                                            // setIsFaceSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
@@ -835,9 +935,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         key={item.id}
                                         style={styles.avatarItems}
                                         onPress={() => {
-                                            setAvatar(prev => ({...prev, eyebrows: item.id}));
-                                            //setIsSelect(true);
-                                            setIsFaceSelect(true);
+                                            handleEyebrows(item.id);
+                                            // setAvatar(prev => ({...prev, eyebrows: item.id}));
+                                            // //setIsSelect(true);
+                                            // setIsFaceSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
@@ -856,9 +957,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         key={item.id}
                                         style={styles.avatarItems}
                                         onPress={() => {
-                                            setAvatar(prev => ({...prev, mouth: item.id}));
-                                            //setIsSelect(true);
-                                            setIsFaceSelect(true);
+                                            handleMouth(item.id);
+                                            // setAvatar(prev => ({...prev, mouth: item.id}));
+                                            // //setIsSelect(true);
+                                            // setIsFaceSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
@@ -877,9 +979,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         key={item.id}
                                         style={styles.avatarItems}
                                         onPress={() => {
-                                            setAvatar(prev => ({...prev, mole: item.id}));
-                                            //setIsSelect(true);
-                                            setIsMoleSelect(true);
+                                            handleMole(item.id);
+                                            // setAvatar(prev => ({...prev, mole: item.id}));
+                                            // //setIsSelect(true);
+                                            // setIsMoleSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
@@ -938,9 +1041,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         key={item.id}
                                         style={styles.avatarItems}
                                         onPress={() => {
-                                            setAvatar((prev => ({...prev, hairBack: item.id})))
-                                            // setIsSelect(true);
-                                            setIsHairBackSelect(true);
+                                            handleHairBack(item.id);
+                                            // setAvatar((prev => ({...prev, hairBack: item.id})))
+                                            // // setIsSelect(true);
+                                            // setIsHairBackSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
@@ -963,9 +1067,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         key={item.id}
                                         style={styles.avatarItems}
                                         onPress={() => {
-                                            setAvatar((prev => ({...prev, clothes: item.id})))
-                                            //setIsSelect(true);
-                                            setIsClothesSelect(true);
+                                            handleClothes(item.id);
+                                            // setAvatar((prev => ({...prev, clothes: item.id})))
+                                            // //setIsSelect(true);
+                                            // setIsClothesSelect(true);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
