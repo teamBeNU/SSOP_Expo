@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
@@ -36,6 +36,9 @@ export default function DetailTeamSpace() {
   const token = params.token;
 
   const [hostId, setHostId] = useState(null);
+  const onDataChangeRef = useRef(null);
+
+  onDataChangeRef.current = handleDataChange;
 
   const handleDataChange = (data) => {
     setHostId(data);
@@ -60,7 +63,7 @@ export default function DetailTeamSpace() {
       <Stack.Screen
         name="DetailTeamSpace"
         component={DetailTeamSpaceScreen}
-        initialParams={{ teamId, onDataChange: handleDataChange }}
+        initialParams={{ teamId, onDataChangeRef }}
         options={({ route }) => {
           const isHost = hostId === userId;
 
@@ -78,7 +81,7 @@ export default function DetailTeamSpace() {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => {navigation.navigate('카드 검색')}}><SearchIcon /></TouchableOpacity>
+                {/* <TouchableOpacity onPress={() => { navigation.navigate('카드 검색') }}><SearchIcon /></TouchableOpacity> */}
 
                 <TouchableOpacity>
                   <Menu>
