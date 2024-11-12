@@ -115,6 +115,8 @@ const UseBluetoothClassic = () => {
       // 연결 시도
       const device = await BluetoothClassic.connectToDevice(deviceId);
       if (device) {
+        setConnectedDevice(device); // 연결된 장치를 상태로 저장
+        console.log('장치 연결 성공:', device.name);
         return true;  // 연결 성공
       } else {
         return false; // 연결 실패
@@ -138,10 +140,12 @@ const UseBluetoothClassic = () => {
   }
 
   // 데이터 수신
-  async function receiveData(deviceId, cardId) {
+  async function receiveData(deviceId) {
     try {
       const connectedDevice = await connectToDevice(deviceId); // 데이터를 수신한 디바이스에 연결
       if (connectedDevice) {
+        const receivedData = await connectedDevice.read(); // cardId 읽기
+        const cardId = receivedData.toString();
         console.log("받은 카드 ID:", cardId);
 
         // 상대카드 저장 API 요청
@@ -163,7 +167,7 @@ const UseBluetoothClassic = () => {
             console.log("카드 ID 저장 실패:", response.data);
           }
         }
-        return cardId;
+        callback(cardId); // 수신된 카드 ID 반환
       } else {
         console.log("receiveData - 연결된 디바이스가 없습니다.");
       }

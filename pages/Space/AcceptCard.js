@@ -152,32 +152,43 @@ function DetailSpaceGroup({ navigation }) {
   const [cardData, setCardData] = useState([]);  // 카드 데이터를 상태로 관리
   const [members, setMembers] = useState(0);  // members로 카드 개수를 저장
 
+  // 카드 데이터 새로고침
+  const fetchCardData = async () => {
+    try {
+      const result = await fetchSavedCards();
+      setCardData(result);
+      setMembers(result.length);
+      console.log("카드 데이터 새로고침 완료:", result);
+    } catch (error) {
+      console.log("카드 데이터 가져오는 중 오류 발생:", error);
+    }
+  };
+
+  // 화면 포커스 시 카드 데이터 새로고침
   useFocusEffect(
     useCallback(() => {
-      const fetchCardData = async () => {
-        const result = await fetchSavedCards();
-        setCardData(result);
-        setMembers(result.length);
-      };
-      fetchCardData();
-    }, [])
+      if (deviceId) {
+        fetchCardData(); // 포커스될 때마다 카드 데이터 새로고침
+      }
+    }, [deviceId]) // deviceId 변경 시 새로고침
   );
 
-  // 수신한 데이터 처리
+  // 데이터 수신 후 카드 데이터 처리
   useEffect(() => {
-    const receiveBluetoothData = async () => {
-      try {
-        const receivedData = await receiveData();
-        console.log("수신된 데이터:", receivedData);
+    if (!deviceId) return;
 
-        setCardData(prevData => [...prevData, receivedData]);
+    const fetchData = async () => {
+      try {
+        const cardId = await receiveData(deviceId, fetchCardDataHandler);
+        console.log("받은 카드 ID:", cardId);
+        // 추가적인 데이터 처리
       } catch (error) {
         console.log("데이터 수신 중 오류 발생:", error);
       }
     };
 
-    receiveBluetoothData();
-  }, [receiveData]);
+    fetchData();
+  }, [deviceId, fetchCardData]);
 
   const handleBluetoothPress = () => {
     setIsModalVisible(false);
