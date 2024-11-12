@@ -75,10 +75,10 @@ function EditTeamSpace({ route, navigation }) {
     });
 
     // 팀 데이터 업데이트
-    const updatedGroups = teamData.filter((team) =>
-      !selectedGroups.includes(team.teamId) || isUserHost(team)
-    );
-    setTeamData(updatedGroups); // 삭제된 그룹 리스트로 상태 업데이트
+    // const updatedGroups = teamData.filter((team) =>
+    //   !selectedGroups.includes(team.teamId) || isUserHost(team)
+    // );
+    // setTeamData(updatedGroups); // 삭제된 그룹 리스트로 상태 업데이트
     setSelectedGroups([]); // 선택 초기화
     setIsSpaceModalVisible(false); // 모달 닫기
     showCustomToast('팀스페이스가 삭제되었어요.');
@@ -130,7 +130,7 @@ function EditTeamSpace({ route, navigation }) {
       headerRight: () => {
         const nonHostGroups = teamData.filter((team) => !isUserHost(team)); // 비호스트 팀 배열
         const nonHostGroupsCount = nonHostGroups.length;
-  
+
         return (
           <TouchableOpacity onPress={nonHostGroupsCount > 0 ? handleSelectAll : null}>
             {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
@@ -150,7 +150,7 @@ function EditTeamSpace({ route, navigation }) {
       <ScrollView>
         {/* 팀스페이스 리스트 */}
         <View>
-          {teamData.map((team) => (
+           {teamData.map((team) => (
             <TouchableOpacity
               key={team.teamId}
               onPress={() => handleGroupSelect(team.teamId)}

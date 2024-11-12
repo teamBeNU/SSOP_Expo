@@ -17,7 +17,6 @@ function TeamSpace({ navigation }) {
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState([]);
   const [inviteCode, setInviteCode] = useState([]);
-  const route = useRoute();
 
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
@@ -49,31 +48,6 @@ function TeamSpace({ navigation }) {
     }
   }, [token]);
 
-  // 화면이 포커스될 때마다 데이터 가져오기
-  useFocusEffect(
-    React.useCallback(() => {
-      const fetchData = async () => {
-        if (userId && token) {
-          const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
-          try {
-            const response = await axios.get(apiUrl, {
-              headers: { Authorization: `Bearer ${token}` },
-            });
-            setData(response.data);
-          } catch (error) {
-            console.error('teamsp - 내가 참여한 팀스페이스 목록 API 요청 에러:', error);
-          }
-        }
-      };
-
-      fetchData();
-
-      return () => {
-        setData([]);
-      };
-    }, [userId, token])
-  );
-
   const fetchData = async () => {
     if (userId && token) {
       const apiUrl = `${baseUrl}/teamsp/user?userId=${userId}`;
@@ -84,13 +58,20 @@ function TeamSpace({ navigation }) {
         setData(response.data);
         console.log('참여한 팀스페이스 목록:', response.data);
       } catch (error) {
-        console.error('내가 참여한 팀스페이스 목록 API 요청 에러:', error);
+        console.error('TeamSpace - 내가 참여한 팀스페이스 목록 API 요청 에러:', error);
       }
     }
   };
 
+  // 포커스될 때마다
+  useFocusEffect(
+    React.useCallback(() => {
+      fetchData();
+    }, [userId, token])
+  );
+
+  // 값이 바뀔 때마다
   useEffect(() => {
-    // userId가 업데이트될 때 fetchData 호출
     fetchData();
   }, [userId, token]);
 
@@ -126,20 +107,19 @@ function TeamSpace({ navigation }) {
     }
   }, [data]);
 
-// TeamSpace 컴포넌트에서 상세 화면으로 이동할 때
-const handleNext = (teamId) => {
-  const selectedTeam = data.find(team => team.teamId === teamId);
+  // TeamSpace 컴포넌트에서 상세 화면으로 이동할 때
+  const handleNext = (teamId) => {
+    const selectedTeam = data.find(team => team.teamId === teamId);
 
-  // 카드 ID가 null인 경우
-  if (selectedTeam && selectedTeam.cardId === null) {
-    setSelectedTeam(selectedTeam);
-    setNullCardModal(true);
-  } else {
-    // 여기에서 params로 함수를 전달하지 않음
-    navigation.navigate('상세 팀스페이스', { teamId, userId, token });
-  }
-};
-
+    // 카드 ID가 null인 경우
+    if (selectedTeam && selectedTeam.cardId === null) {
+      setSelectedTeam(selectedTeam);
+      setNullCardModal(true);
+    } else {
+      // 여기에서 params로 함수를 전달하지 않음
+      navigation.navigate('상세 팀스페이스', { teamId, userId, token });
+    }
+  };
 
   const handleConfirmCard = () => {
     if (selectedTeam) {
@@ -176,10 +156,9 @@ const handleNext = (teamId) => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        // 삭제된 후 업데이트된 데이터 저장
-        const updatedTeamData = data.filter((group) => group.teamId !== groupToDelete);
-        setData(updatedTeamData);
         setIsSpaceModalVisible(false);
+
+        fetchData(); // 삭제 성공하면 데이터 새로고침
 
         // 삭제할 팀 호스트 찾기
         const deletedGroupHostId = data.find(group => group.teamId === groupToDelete)?.hostId;
@@ -212,24 +191,17 @@ const handleNext = (teamId) => {
     }
   }, [isGroupNameChangeModalVisible, selectedGroup]);
 
-
   const handleUpdateGroupName = async (newName) => {
-
     const requestData = { team_name: newName };
 
     // 내가 참여한 팀스페이스 목록 API 호출
     const apiUrl = `${baseUrl}/teamsp?teamId=${selectedGroup.teamId}`;
-
     try {
-      const response = await axios.patch(apiUrl, requestData, {
+      await axios.patch(apiUrl, requestData, {
         headers: { Authorization: `Bearer ${token}` },
       });
 
-      setData((prevData) =>
-        prevData.map((group) =>
-          group.teamId === selectedGroup.teamId ? { ...group, team_name: newName } : group
-        )
-      );
+      fetchData(); // 이름 변경 성공하면 데이터 새로고침
       setIsGroupNameChangeModalVisible(false);
       showCustomToast('팀스페이스 이름이 수정되었어요.');
     } catch (error) {
@@ -266,19 +238,19 @@ const handleNext = (teamId) => {
           </View>
           <View style={styles.innerView}></View>
         </View>
-  
+
         {/* 카드 제출 안내 모달 */}
         <SpaceModal
           isVisible={nullCardModal}
           onClose={() => setNullCardModal(false)}
           title={'내 프로필 카드를 아직 생성하지 않았어요!'}
-          sub={selectedTeam && selectedTeam.hostId === userId ? 
+          sub={selectedTeam && selectedTeam.hostId === userId ?
             '카드를 생성해야 입장이 완료돼요' : '카드를 생성해야 팀스페이스를 볼 수 있어요.'}
           btn1={'나중에 하기'}
           btn2={'카드 추가하기'}
           onConfirm={handleConfirmCard}
         />
-  
+
         {/* 그룹 삭제 모달 */}
         <SpaceModal
           isVisible={isSpaceModalVisible}
@@ -293,7 +265,7 @@ const handleNext = (teamId) => {
           btn2={'네, 삭제할래요'}
           onConfirm={handleConfirmDelete}
         />
-  
+
         {/* 그룹 이름 변경 모달 */}
         <SpaceNameChangeModal
           isVisible={isGroupNameChangeModalVisible}
@@ -318,7 +290,7 @@ const handleNext = (teamId) => {
         </View>
       </View>
     )
-  );  
+  );
 }
 
 export default TeamSpace;
