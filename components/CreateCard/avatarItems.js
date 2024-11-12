@@ -57,12 +57,28 @@ export const clothesItems = [
     {id: 1, name: '흰반팔티셔츠'},
     {id: 2, name: '흰셔츠'},
     {id: 3, name: '검정맨투맨'},
-    {id: 4, name: '교복'},
-    {id: 5, name: '야구복'},
-    {id: 6, name: '조끼'},
+    {id: 4, name: '회색후드티'},
+    {id: 5, name: '학잠'},
+    {id: 6, name: '교복'},
+    {id: 7, name: '야구복'},
+    {id: 8, name: '초록조끼'},
 ]
 
 // 악세사리
+export const accItems = [
+    {id: 1, name: '귀걸이1', type: '귀걸이'},
+    {id: 2, name: '귀걸이2', type: '귀걸이'},
+    {id: 3, name: '귀걸이3', type: '귀걸이'},
+    {id: 4, name: '코피어싱1', type: '코피어싱'},
+    {id: 5, name: '코피어싱1', type: '코피어싱'},
+    {id: 6, name: '고양이', type: '어깨'},
+    {id: 7, name: '안경1', type: '안경'},
+    {id: 8, name: '안경2', type: '안경'},
+    {id: 9, name: '안경3', type: '안경'},
+    {id: 10, name: '핀1', type: '핀'},
+    {id: 11, name: '핀2', type: '핀'},
+]
+
 // import AccSvg1 from '../../assets/avatars/accessories/accessories-1.svg';
 
 // export const accItems = [
@@ -79,6 +95,11 @@ export const clothesItems = [
 // ]
 
 // 배경 오브젝트
+export const bgobjItems = [
+    {id: 1, name: '하트'},
+    {id: 2, name: '별'},
+    {id: 3, name: '버블'},
+]
 // import ObjectSvg1 from '../../assets/avatars/background/object-1.svg';
 
 // export const bgItems = [

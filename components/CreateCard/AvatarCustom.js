@@ -558,7 +558,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     useEffect(() => {
         if (isClothesSelect) {
             //console.log("옷!")
-            setNextClothesUri(`${baseAvtUrl}/clothes/clothes0${avatar.clothes}.png`);
+            setNextClothesUri(`${baseAvtUrl}/clothes/clothes${avatar.clothes}.png`);
             setIsSelect(true);
             // setIsNextClothesLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
             setIsClothesSelect(false);
@@ -970,7 +970,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/clothes/clothes0${item.id}.png`}}
+                                                source={{uri: `${baseTmbUrl}/clothes/tmb_clothes${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.clothes === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
