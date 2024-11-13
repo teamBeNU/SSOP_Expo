@@ -1,11 +1,16 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, Alert, PermissionsAndroid, Platform, Linking } from 'react-native';
+import { View, Text, TouchableOpacity, Alert, PermissionsAndroid, Platform, Linking, Modal } from 'react-native';
 import * as Contacts from 'expo-contacts';
 import SaveIcon from '../../assets/icons/ic_contact_small_line.svg';
 import ContactIcon from '../../assets/Card/ic_contact.svg';
+import { styles } from '../../pages/Space/SpaceStyle.js';
 
 const AddContact = ({ phoneNumber, firstName, type }) => {
   const [hasPermission, setHasPermission] = useState(false);
+
+  const [isSaveModalVisible, setIsSaveModalVisible] = useState(false); // 연락처 저장 모달 상태
+  const [isCompleteModalVisible, setIsCompleteModalVisible] = useState(false); // 연락처로 이동 모달 상태
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); // 아이폰용 완료 모달
 
   const checkPermissions = async () => {
     const { status } = await Contacts.requestPermissionsAsync();
@@ -59,14 +64,15 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
     const permissionGranted = await checkPermissions();
       
     if (permissionGranted) {
-      Alert.alert(
-        '연락처 저장',
-        '연락처를 저장하시겠습니까?',
-        [
-          { text: '아니오', onPress: () => console.log('Cancelled'), style: 'cancel' },
-          { text: '네', onPress: () => saveContact(phoneNumber, firstName) },
-        ]
-      );
+      // Alert.alert(
+      //   '연락처 저장',
+      //   '연락처를 저장하시겠습니까?',
+      //   [
+      //     { text: '아니오', onPress: () => console.log('Cancelled'), style: 'cancel' },
+      //     { text: '네', onPress: () => saveContact(phoneNumber, firstName) },
+      //   ]
+      // );
+      setIsSaveModalVisible(true);
     }
   };
   
@@ -81,16 +87,18 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
       const contactId = await Contacts.addContactAsync(contact);
       if (contactId) {
         if (Platform.OS === 'android') {
-          Alert.alert(
-            '저장 완료',
-            '연락처로 이동하시겠습니까?',
-            [
-              { text: '아니오', onPress: () => console.log('Cancelled'), style: 'cancel' },
-              { text: '네', onPress: () => Linking.openURL('content://contacts/people/') },
-            ]
-          );
+          // Alert.alert(
+          //   '저장 완료',
+          //   '연락처로 이동하시겠습니까?',
+          //   [
+          //     { text: '아니오', onPress: () => console.log('Cancelled'), style: 'cancel' },
+          //     { text: '네', onPress: () => Linking.openURL('content://contacts/people/') },
+          //   ]
+          // );
+          setIsCompleteModalVisible(true);
         } else {
-          Alert.alert('성공', '연락처가 저장되었습니다.');
+          // Alert.alert('성공', '연락처가 저장되었습니다.');
+          setIsSuccessModalVisible(true);
         }
       } else {
         Alert.alert('Failed', 'Contact could not be added.');
@@ -98,6 +106,13 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
     } catch (error) {
       Alert.alert('Error', 'An error occurred while adding the contact.');
       console.error('Error Adding Contact:', error);
+    }
+  };
+
+  const handleNavigateToContacts = () => {
+    setIsCompleteModalVisible(false); // 모달 닫기
+    if (Platform.OS === 'android') {
+        Linking.openURL('content://contacts/people/'); // 연락처로 이동
     }
   };
 
@@ -113,6 +128,55 @@ const AddContact = ({ phoneNumber, firstName, type }) => {
           <SaveIcon width={24} height={24} />
         )}
       </TouchableOpacity>
+
+      {/* 연락처 저장 모달 */}
+      <Modal visible={isSaveModalVisible} transparent={true} animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>연락처를 저장하시겠습니까?</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity onPress={() => setIsSaveModalVisible(false)} style={styles.cancelButton}>
+                                <Text style={styles.cancelText}>괜찮아요</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={() => { saveContact(phoneNumber, firstName); setIsSaveModalVisible(false);}} style={styles.confirmButton}>
+                                <Text style={styles.confirmText}>네, 저장할래요</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* 연락처로 이동 모달 */}
+            <Modal visible={isCompleteModalVisible} transparent={true} animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>연락처가 저장되었습니다.</Text>
+                        <Text style={styles.modalSubText}>연락처로 이동하시겠습니까?</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity onPress={() => setIsCompleteModalVisible(false)} style={styles.cancelButton}>
+                                <Text style={styles.cancelText}>괜찮아요</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleNavigateToContacts} style={styles.confirmButton}>
+                                <Text style={styles.confirmText}>네, 이동할래요</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* 아이폰용 저장 완료 모달 */}
+            <Modal visible={isSuccessModalVisible} transparent={true} animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>저장이 완료되었습니다.</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity onPress={() => setIsSuccessModalVisible(false)} style={styles.confirmButton}>
+                                <Text style={styles.confirmText}>확인</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
     </View>
   );
 };
