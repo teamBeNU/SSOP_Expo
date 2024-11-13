@@ -1,4 +1,4 @@
-import { View, ScrollView, Text, TouchableOpacity, Image, SafeAreaView, Platform } from "react-native";
+import { View, ScrollView, Text, TouchableOpacity, Image, SafeAreaView, Platform, Dimensions } from "react-native";
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import "react-native-gesture-handler";
 import ViewShot from "react-native-view-shot";
@@ -9,6 +9,8 @@ import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
 import { eyesItems, eyebrowsItems, mouthItems, moleItems, hairFrontItems, hairBackItems, clothesItems, accItems, bgItems, hairColors, bgColors } from "./avatarItems";
+
+const screenWidth = Dimensions.get('window').width; // 화면의 전체 너비
 
 export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar, viewShotRef, profileimageurl}) {
     const baseAvtUrl = "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/avt";
@@ -472,7 +474,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     // 현재 이미지 uri
     const [currentFaceUri, setCurrentFaceUri] = useState(`${baseAvtUrl}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${hairFrontImg}.PNG`);
-    const [currentMoleUri, setCurrentMoleUri] = useState(`${baseAvtUrl}/mole/mole0${avatar.mole}.png`);
+    const [currentMoleUri, setCurrentMoleUri] = useState(`${baseAvtUrl}/mole/mole${avatar.mole}.png`);
     const [currentClothesUri, setCurrentClothesUri] = useState(`${baseAvtUrl}/clothes/clothes${avatar.clothes}.png`);
     const [currentHairBackUri, setCurrentHairBackUri] = useState(`${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`);
     const [currentBgUri, setCurrentBgUri] = useState(`${baseAvtUrl}/bgobj/bgobj${avatar.bg}.png`);
@@ -624,7 +626,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 setIsMoleCancel(false);
             } else {
                 //console.log("점3333333333333: ", avatar.mole)
-                setNextMoleUri(`${baseAvtUrl}/mole/mole0${avatar.mole}.png`);
+                setNextMoleUri(`${baseAvtUrl}/mole/mole${avatar.mole}.png`);
             }
             setIsSelect(true);
             // setIsNextMoleLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
@@ -849,28 +851,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 <ViewShot 
                     ref={viewShotRef}
                     options={{ fileName: "card", format: "png", quality: 1 }}
+                    style={{ zIndex: -1 , backgroundColor:'red', height: screenWidth}}
                 >
                     <View style={styles.avatarView}>
-                        {/* 악세사리 */}
-                        {/* <Image                  // 현재 이미지
-                            source={currentBgUri ? { uri: currentBgUri } : null}
-                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 61 }]}
-                            fadeDuration={0}
-                            // onLoad={() => setIsMoleLoad(true)}
-                            onLoad={() => {
-                                //handleCapture();
-                                //setIsRandomLoad(true);
-                            }}
-                        />
-                        {nextBgUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                // source={{ uri: nextMoleUri }}
-                                source={nextBgUri ? { uri: nextBgUri } : null}
-                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 60 }]}
-                                onLoad={handleNextBgLoad}
-                                fadeDuration={0}
-                            />
-                        )} */}
+                        {/* <Text>dddddd</Text> */}
+                        {/* <View style={{position: 'absolute', width: '100%', height: '100%', justifyContent: "center", alignItems: "center", left: 6}}> */}
 
                         {/* 점 */}
                         <Image                  // 현재 이미지
@@ -933,7 +918,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         {/* 옷 */}
                         <Image                  // 현재 이미지
                             source={{ uri: currentClothesUri }}
-                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 31 }]}
+                            style={[styles.avatarClothes, { zIndex: 31 }]}
                             fadeDuration={0}
                             // onLoadEnd={() =>{setIsClothesLoad(true);}}
                             onLoad={() => {
@@ -944,7 +929,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         {nextClothesUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                             <Image
                                 source={{ uri: nextClothesUri }}
-                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 30 }]}
+                                style={[styles.avatarClothes, { zIndex: 30 }]}
                                 onLoad={handleNextClothesLoad}
                                 fadeDuration={0}
                             />
@@ -977,7 +962,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         {/* 배경 오브젝트 */}
                         <Image                  // 현재 이미지
                             source={currentBgUri ? { uri: currentBgUri } : null}
-                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 11 }]}
+                            style={[styles.avatarBgObj, { zIndex: 11 }]}
                             fadeDuration={0}
                             // onLoad={() => setIsMoleLoad(true)}
                             onLoad={() => {
@@ -989,11 +974,12 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                             <Image
                                 // source={{ uri: nextMoleUri }}
                                 source={nextBgUri ? { uri: nextBgUri } : null}
-                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 10 }]}
+                                style={[styles.avatarBgObj, { zIndex: 10 }]}
                                 onLoad={handleNextBgLoad}
                                 fadeDuration={0}
                             />
                         )}
+                        {/* </View> */}
 
                         <View       // 배경색
                             style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === (avatar.bgColor || 1)).color}]}

@@ -11,12 +11,27 @@ export const styles = StyleSheet.create({
         marginBottom: 100
     },
     avatarPosition: {
+        // backgroundColor:'red',
         left: 6,
-        top: 20,
+        top: 0,
     },
     molePosition: {
-        left: 4,
-        top: 24,
+        left: 0,
+        top: 0,
+
+        // position: "absolute",
+        // //width: "100%",
+        // // height: "100%",
+        // // backgroundColor:'yellow',
+        // left: 22,
+        // // top: 4
+    },
+    bgobjPosition: {
+        // left: 0,
+        // top: 0,
+
+        // position: "absolute",
+        // left: 22,
     },
 
     btnNext: {
@@ -122,15 +137,40 @@ export const styles = StyleSheet.create({
     },
     avatarView: {
         // zIndex: -100,
+
         width: '100%',
         height: '100%',
         justifyContent: "center",
         alignItems: "center",
+
+        // backgroundColor:'red',
+        // position:'relative',
+        // top: 100,
     },
     avatarImg: {
         position: 'absolute',
         width: "100%", 
         height: "100%",
+        // justifyContent: "center",
+        // alignItems: "center",
+        // backgroundColor:'green'
+        // left: 0
+    },
+    avatarClothes: {
+        position: 'absolute',
+        width: "100%", 
+        height: "100%",
+        //justifyContent: "center",
+        //alignItems: "center",
+        // backgroundColor:'green'
+        left: 6,
+        top: 0,
+    },
+    avatarBgObj: {
+        position: 'absolute',
+        // alignItems: "center",
+        width: "100%",
+        height: "80%",
     },
     avatarBg: {
         position: 'static',
@@ -142,6 +182,7 @@ export const styles = StyleSheet.create({
     avatarItemContainer: {
         flex: 1.3,
         backgroundColor: theme.white,
+        // backgroundColor: 'rgba(0,0,0,0.5)'
     },
     avatarItemCategory: {
         flexDirection: "row",
