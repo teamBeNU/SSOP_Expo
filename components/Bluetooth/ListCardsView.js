@@ -1,8 +1,6 @@
 import React from 'react';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { styles } from './ListCardsViewStyle';
-import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
-import { Menu, MenuTrigger, MenuOptions, MenuOption } from 'react-native-popup-menu';
 import { calculateAge } from '../../utils/calculateAge';
 
 const ListCardsView = ({ avatar, isHost, card_name, card_introduction, card_birth, showMenu = true, me, onChangeGroupName }) => {
@@ -32,21 +30,6 @@ const ListCardsView = ({ avatar, isHost, card_name, card_introduction, card_birt
                     </Text>
                 </View>
             </View>
-            {/* <View style={styles.menuContainer}>
-                {me && showMenu && (
-                    <Menu>
-                        <MenuTrigger>
-                            <MoreGrayIcon style={{ marginRight: 8 }} />
-                        </MenuTrigger>
-                        <MenuOptions
-                            optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
-                        >
-                            <MenuOption style={{ marginBottom: 10.5 }} text='삭제하기' onSelect={() => onChangeGroupName(userId)} />
-                            <MenuOption text='카드 수정하기' onSelect={() => onChangeGroupName(userId)} />
-                        </MenuOptions>
-                    </Menu>
-                )}
-            </View> */}
         </View>
     );
 };

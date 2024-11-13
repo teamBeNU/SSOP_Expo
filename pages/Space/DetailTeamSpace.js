@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
@@ -7,8 +7,10 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import CardsView from '../../components/Bluetooth/CardsView.js';
+import MySpaceDetailView from '../../components/Space/MySpaceDetailView.js';
 import DetailTeamSpaceScreen from "./DetailTeamSpaceScreen.js";
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -26,6 +28,7 @@ const Stack = createStackNavigator();
 export default function DetailTeamSpace() {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [data, setData] = useState([]);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const navigation = useNavigation();
   const route = useRoute();
   const params = route.params || {};
@@ -34,11 +37,17 @@ export default function DetailTeamSpace() {
   const teamId = params.teamId;
   const userId = params.userId;
   const token = params.token;
-
   const [hostId, setHostId] = useState(null);
 
-  const handleDataChange = (data) => {
-    setHostId(data);
+  const onDataChange = (newHostId) => {
+    setHostId(newHostId);
+  };
+
+  useEffect(() => {
+  }, [hostId]);
+
+  const handleDeleteButton = () => {
+    setIsDeleteModalVisible(true);
   };
 
   const handleDeleteSpace = async () => {
@@ -49,18 +58,24 @@ export default function DetailTeamSpace() {
       const response = await axios.delete(apiUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      setIsDeleteModalVisible(false); 
       navigation.navigate('TeamSpace', { refresh: true });
     } catch (error) {
-      console.error('상세 팀스페이스 삭제 API 요청 에러:', error.response ? error.response.data : error.message);
+      // console.error('상세 팀스페이스 삭제 API 요청 에러:', error.response ? error.response.data : error.message);
+      showCustomToast("카드를 제출하지 않으면 팀스페이스를 삭제할 수 없어요.")
     }
   };
+
+  // const onConfirm = () => {
+  //   handleDeleteSpace(); // 삭제 작업 API 호출
+  // };
 
   return (
     <Stack.Navigator>
       <Stack.Screen
         name="DetailTeamSpace"
         component={DetailTeamSpaceScreen}
-        initialParams={{ teamId, onDataChange: handleDataChange }}
+        initialParams={{ teamId, onDataChange }}
         options={({ route }) => {
           const isHost = hostId === userId;
 
@@ -78,7 +93,7 @@ export default function DetailTeamSpace() {
             ),
             headerRight: () => (
               <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => {navigation.navigate('카드 검색')}}><SearchIcon /></TouchableOpacity>
+                {/* <TouchableOpacity onPress={() => { navigation.navigate('카드 검색') }}><SearchIcon /></TouchableOpacity> */}
 
                 <TouchableOpacity>
                   <Menu>
@@ -88,14 +103,24 @@ export default function DetailTeamSpace() {
                         <>
                           <TouchableOpacity onPress={() => {
                           }}>
-                            <Text style={{ marginTop: 8, marginBottom: 16 }}>팀스페이스 변경하기</Text>
+                            <Text style={{ marginTop: 8, marginBottom: 16 }}>팀스페이스명 변경하기</Text>
                           </TouchableOpacity>
 
-                          <TouchableOpacity onPress={() => {
-                            handleDeleteSpace();
-                          }}>
+                          <TouchableOpacity onPress={handleDeleteButton}>
                             <Text style={{ marginBottom: 10.5 }}>팀스페이스 삭제하기</Text>
                           </TouchableOpacity>
+                          <SpaceModal
+                            isVisible={isDeleteModalVisible}
+                            onClose={() => setIsDeleteModalVisible(false)}
+                            title={'현재 팀스페이스를 나가시겠습니까?'}
+                            sub={
+                              <Text style={{ textAlign: 'center' }}>
+                                호스트가 나가면 {'\n'} 팀스페이스가 삭제됩니다.
+                              </Text>
+                            }
+                            btn1={'취소할래요'}
+                            btn2={'네, 나갈래요'}
+                          />
                         </>
                       )}
                       {!isHost &&
@@ -125,7 +150,10 @@ export default function DetailTeamSpace() {
             </TouchableOpacity>
           ),
         }} />
-      <Stack.Screen name="연락처 저장" component={SaveTellScreen}
+
+      <Stack.Screen name="연락처 저장"
+        component={SaveTellScreen}
+        initialParams={{ teamId }}
         options={{
           headerTitle: " ",
           headerLeft: ({ onPress }) => (
@@ -341,6 +369,77 @@ function Filter() {
 
 // 연락처 저장
 function SaveTellScreen({ navigation }) {
+
+  const route = useRoute();
+  const { teamId } = route.params;
+  const [data, setData] = useState([]);
+  const [cardId, setCardId] = useState(null); // 기존 카드 ID
+  const [cardIdData, setCardIdData] = useState([]); // 기존 카드 상세데이터
+  const [memberData, setMemberData] = useState([]); // 지정 템플릿 상세 데이터
+
+  const baseUrl = 'http://43.202.52.64:8080/api'
+
+  useEffect(() => {
+    if (!teamId) {
+      console.error("팀 ID가 전달되지 않았습니다.");
+      return null;
+    }
+
+    // 팀스페이스 참여 정보 API 호출
+    const apiUrl = `${baseUrl}/teamsp/member?teamId=${teamId}`;
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        setData(response.data);
+        setMemberData(response.data.members || []);
+        setCardId(response.data.cardIds || []);
+
+        console.log('SaveTellScreen - 참여 카드 목록:', response.data.cardIds);
+        console.log('SaveTellScreen - 참여 멤버 목록:', response.data.members);
+      })
+      .catch((error) => {
+        console.error('SaveTellScreen - 참여 멤버 목록 API 요청 에러:', error);
+      });
+  }, []);
+
+  useEffect(() => {
+    if (Array.isArray(cardId) && cardId.length > 0) {
+      const cardDetailsUrl = `${baseUrl}/card/view`;
+
+      // 카드 ID가 0보다 큰 경우에만 상세 정보 요청
+      const validCardIds = cardId.filter(id => id > 0);
+      const requests = validCardIds.map(id =>
+        axios.get(`${cardDetailsUrl}?cardId=${id}`)
+          .then(response => response.data)
+          .catch(error => {
+            console.error(`카드 ID ${id} 상세 정보 요청 에러:`, error.message);
+            return null;
+          })
+      );
+
+      Promise.all(requests)
+        .then(details => {
+          // 유효한 카드 상세 정보만 추가
+          setCardIdData(details.filter(detail => detail !== null));
+
+          // cardId에 0이 포함된 경우 members 데이터 추가
+          if (cardId.includes(0)) {
+            const members = data.members || [];
+            setMemberData(members);
+          } else {
+            // 카드 ID가 유효한 경우에만 카드 데이터를 설정
+            setMemberData(validCardIds);
+          }
+        });
+    }
+  }, [cardId, data.members]);
+
+  // 카드ID 상세 + membes 상세
+  const combinedData = {
+    cardIdData,
+    memberData,
+  };
+
   const showCustomToast = (text) => {
     Toast.show({
       text1: text,
@@ -394,16 +493,16 @@ function SaveTellScreen({ navigation }) {
           {selectedCards.length}개 선택됨
         </Text>
       ),
-      headerRight: () => (
-        <TouchableOpacity onPress={handleSelectAll}>
-          {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-          {selectedCards.length === cardData.length ? (
-            <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
-          ) : (
-            <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
-          )}
-        </TouchableOpacity>
-      ),
+      // headerRight: () => (
+      // <TouchableOpacity onPress={handleSelectAll}>
+      //   {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
+      //   {selectedCards.length === cardData.length ? (
+      //     <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
+      //   ) : (
+      //     <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
+      //   )}
+      // </TouchableOpacity>
+      // ),
     });
   }, [navigation, selectedCards]);  // 선택된 그룹 상태가 변경될 때마다 헤더 업데이트
 
@@ -419,8 +518,8 @@ function SaveTellScreen({ navigation }) {
                 setSelectedOption={setSelectedOption}
                 viewOption={viewOption}
                 setViewOption={setViewOption}
-                handleNext={handleNext}
-                cardData={cardData}
+                // handleNext={handleNext}
+                cardData={cardIdData} // 기존 카드 제출 시 연락처 데이터 연동만 해놓음 -> 지정 템플릿카드는 변수라 달라서 CardsView 코드 수정해야함
                 showRadio={true}
                 selectedCards={selectedCards} // 선택된 카드 목록 전달
                 handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달

@@ -9,7 +9,7 @@ import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import EditIcon from '../../assets/icons/ic_editcard.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
-import ShareIcon from '../../assets/icons/ic_share_small_line.svg';
+import ShareIcon from '../../assets/icons/ic_share_gray.svg';
 import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
 import { deleteCard } from './DeleteCardAPI.js';

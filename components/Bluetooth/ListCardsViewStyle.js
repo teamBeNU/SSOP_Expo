@@ -132,7 +132,7 @@ export const styles = StyleSheet.create({
     ListContainer: {
         paddingVertical: 12,
         paddingHorizontal: 20,
-        marginBottom: 12,
+        marginBottom: 8,
         backgroundColor: theme.white,
         borderColor: theme.gray95,
         borderRadius: 16,
@@ -152,8 +152,8 @@ export const styles = StyleSheet.create({
         right: -15
     },
     gray: {
-        width: 64,
-        height: 64,
+        width: 80,
+        height: 80,
         backgroundColor: theme.gray80,
         borderRadius: 16,
     },
@@ -184,15 +184,15 @@ export const styles = StyleSheet.create({
     },
     // 프로필 이미지
     listImage: {
-        width: 64,
-        height: 64,
+        width: 80,
+        height: 80,
         borderRadius: 12
     },
     host: {
         width: 38,
         height: 18,
         borderRadius: 8,
-        backgroundColor: '#00C2ED33',
+        backgroundColor: 'rgba(33, 33, 33, 0.80)',
         fontFamily: 'PretendardRegular',
         justifyContent: 'center',
         alignItems: 'center',
@@ -200,10 +200,9 @@ export const styles = StyleSheet.create({
         paddingVertical: 3,
     },
     hostText: {
-        color: theme.gray20,
+        color: theme.white,
         fontSize: 10,
         fontFamily: 'PretendardRegular',
         textAlign: 'center',
-        letterSpacing: -1,
     },
 })

@@ -70,10 +70,15 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                   <Text
                     style={[
                       {
-                        color: isFocused && (label === "마이스페이스" || label === "팀스페이스") ? theme.gray30 : theme.gray70,
+                        color:
+                          isFocused
+                            ? label === "마이스페이스" ? "#00C2ED"
+                              : label === "팀스페이스" ? "#FF85CB"
+                                : theme.gray70
+                            : theme.gray70,
                         fontFamily: 'PretendardRegular',
                         fontSize: 16,
-                        letterSpacing: -1,
+                        letterSpacing: -0.32,
                       },
                     ]} >
                     {label}
