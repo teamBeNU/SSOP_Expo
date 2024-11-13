@@ -120,7 +120,7 @@ function CreateCard({navigation}) {
                                     <Text style={styles.describe}>{item.description}</Text>
                                 </TouchableOpacity>
                             ))}
-                            </View>
+                        </View>
                     </View>
                     {card_template === "student" && (
                         <BottomSheet                 
