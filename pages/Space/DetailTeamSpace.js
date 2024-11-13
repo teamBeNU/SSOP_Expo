@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from '../../components/Space/MySpaceDetailView.js';
@@ -65,6 +66,10 @@ export default function DetailTeamSpace() {
     }
   };
 
+  // const onConfirm = () => {
+  //   handleDeleteSpace(); // 삭제 작업 API 호출
+  // };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -98,14 +103,24 @@ export default function DetailTeamSpace() {
                         <>
                           <TouchableOpacity onPress={() => {
                           }}>
-                            <Text style={{ marginTop: 8, marginBottom: 16 }}>팀스페이스 변경하기</Text>
+                            <Text style={{ marginTop: 8, marginBottom: 16 }}>팀스페이스명 변경하기</Text>
                           </TouchableOpacity>
 
-                          <TouchableOpacity onPress={() => {
-                            handleDeleteSpace();
-                          }}>
+                          <TouchableOpacity onPress={handleDeleteButton}>
                             <Text style={{ marginBottom: 10.5 }}>팀스페이스 삭제하기</Text>
                           </TouchableOpacity>
+                          <SpaceModal
+                            isVisible={isDeleteModalVisible}
+                            onClose={() => setIsDeleteModalVisible(false)}
+                            title={'현재 팀스페이스를 나가시겠습니까?'}
+                            sub={
+                              <Text style={{ textAlign: 'center' }}>
+                                호스트가 나가면 {'\n'} 팀스페이스가 삭제됩니다.
+                              </Text>
+                            }
+                            btn1={'취소할래요'}
+                            btn2={'네, 나갈래요'}
+                          />
                         </>
                       )}
                       {!isHost &&
