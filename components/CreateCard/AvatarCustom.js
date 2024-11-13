@@ -756,6 +756,52 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setNextBgUri(null); // 임시 URI 초기화
     };
 
+    // 악세사리 변화
+    // const [accSave, setAccSave] = useState(); // 악세사리 저장
+    // const [isAccCancel, setIsAccCancel] = useState(false); // 악세사리 취소
+
+    // const handleAcc = (id) => {
+    //     // console.log('id: ', isAccCancel)
+    //     // console.log('accsave: ', accSave)
+    //     if (accSave === id) {  // 악세사리 삭제
+    //         setAvatar(prev => ({...prev, acc: null}));
+    //         setIsAccCancel(true);
+    //         setAccSave(null);
+    //     } else {    // 악세사리 추가
+    //         setAvatar(prev => ({...prev, acc: id}));
+    //         setIsAccCancel(false);
+    //         setAccSave(id);
+    //     }
+    //     setIsAccSelect(true);
+    // }
+
+    // useEffect(() => {
+    //     // console.log("currentBgUri: ", currentBgUri)
+    //     // console.log("nextBgUri: ", nextBgUri)
+    //     // console.log("isBg: ", isBgCancel);
+    //     // console.log("isBgSelect: ", isBgSelect);
+    //     if (isAccSelect) {
+    //         //console.log("11111111111")
+    //         if(isAccCancel) {    // 악세사리 취소
+    //             //console.log("22222222222222222")
+    //             setNextAccUri('');
+    //             setCurrentAccUri('');
+    //             setIsAccCancel(false);
+    //         } else {
+    //             //console.log("3333333333333: ", avatar.bg)
+    //             setNextAccUri(`${baseAvtUrl}/bgobj/bgobj${avatar.bg}.png`);
+    //         }
+    //         setIsSelect(true);
+    //         setIsAccSelect(false);
+    //     }
+    // }, [isAccSelect, avatar]);
+
+    // const handleNextAccLoad = () => {
+    //     //console.log('handleNextAccLoad: ', nextAccUri)
+    //     setCurrentAccUri(nextAccUri); // 새로운 이미지가 완전히 로드된 후 교체
+    //     setNextAccUri(null); // 임시 URI 초기화
+    // };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
@@ -805,110 +851,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     options={{ fileName: "card", format: "png", quality: 1 }}
                 >
                     <View style={styles.avatarView}>
-                        {/* 점 */}
-                        <Image                  // 현재 이미지
-                            // source={{ uri: currentMoleUri }}
-                            source={currentMoleUri ? { uri: currentMoleUri } : null}
-                            style={[
-                                styles.avatarImg, 
-                                { 
-                                    zIndex: 10,
-                                    left: moleItems.find(item => item.id === avatar.mole)?.x, 
-                                    top: moleItems.find(item => item.id === avatar.mole)?.y,
-                                },
-                            ]}
-                            fadeDuration={0}
-                            // onLoad={() => setIsMoleLoad(true)}
-                            onLoad={() => {
-                                //handleCapture();
-                                //setIsRandomLoad(true);
-                            }}
-                        />
-                        {nextMoleUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                // source={{ uri: nextMoleUri }}
-                                source={nextMoleUri ? { uri: nextMoleUri } : null}
-                                style={[
-                                    styles.avatarImg, 
-                                    { 
-                                        zIndex: 9,
-                                        left: moleItems.find(item => item.id === avatar.mole)?.x, 
-                                        top: moleItems.find(item => item.id === avatar.mole)?.y,
-                                    },
-                                ]}
-                                onLoad={handleNextMoleLoad}
-                                fadeDuration={0}
-                            />
-                        )}
-
-                        {/* 얼굴 */}
-                        <Image                  // 현재 이미지
-                            source={{ uri: currentFaceUri }}
-                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 8 }]}
-                            fadeDuration={0}
-                            // onLoad={() => {setIsFaceLoad(true);}}
-                            onLoad={() => {
-                                //handleCapture();
-                                //setIsRandomLoad(true);
-                            }}
-                        />
-                        {nextFaceUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                source={{ uri: nextFaceUri }}
-                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 7 }]}
-                                onLoad={handleNextFaceLoad}
-                                fadeDuration={0}
-                            />
-                        )}
-
-                        {/* 옷 */}
-                        <Image                  // 현재 이미지
-                            source={{ uri: currentClothesUri }}
-                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 6 }]}
-                            fadeDuration={0}
-                            // onLoadEnd={() =>{setIsClothesLoad(true);}}
-                            onLoad={() => {
-                                //handleCapture();
-                                //setIsRandomLoad(true);
-                            }}
-                        />
-                        {nextClothesUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                source={{ uri: nextClothesUri }}
-                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 5 }]}
-                                onLoad={handleNextClothesLoad}
-                                fadeDuration={0}
-                            />
-                        )}
-
-                        {/* 뒷머리 */}
-                        {avatar.hairBack !== 9 && (
-                            <>
-                                <Image                  // 현재 이미지 
-                                    source={{ uri: currentHairBackUri }}
-                                    style={[styles.avatarImg, styles.avatarPosition, { zIndex: 4 }]}
-                                    fadeDuration={0}
-                                    // onLoad={() => setIsHairBackLoad(true)}
-                                    onLoad={() => {
-                                        //handleCapture();
-                                        //setIsRandomLoad(true);
-                                    }}
-                                />
-                                {nextHairBackUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                                    <Image
-                                        source={{ uri: nextHairBackUri }}
-                                        style={[styles.avatarImg, styles.avatarPosition, { zIndex: 3 }]}
-                                        onLoad={handleNextHairBackLoad}
-                                        fadeDuration={0}
-                                    />
-                                )}
-                            </>
-                        )}
-
-                        {/* 배경 오브젝트 */}
+                        {/* 악세사리 */}
                         <Image                  // 현재 이미지
                             source={currentBgUri ? { uri: currentBgUri } : null}
-                            style={[styles.avatarImg, styles.bgPosition, { zIndex: 2 }]}
+                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 61 }]}
                             fadeDuration={0}
                             // onLoad={() => setIsMoleLoad(true)}
                             onLoad={() => {
@@ -920,7 +866,130 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                             <Image
                                 // source={{ uri: nextMoleUri }}
                                 source={nextBgUri ? { uri: nextBgUri } : null}
-                                style={[styles.avatarImg, styles.bgPosition, { zIndex: 1 }]}
+                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 60 }]}
+                                onLoad={handleNextBgLoad}
+                                fadeDuration={0}
+                            />
+                        )}
+
+                        {/* 점 */}
+                        <Image                  // 현재 이미지
+                            // source={{ uri: currentMoleUri }}
+                            source={currentMoleUri ? { uri: currentMoleUri } : null}
+                            style={[styles.avatarImg, styles.molePosition, { zIndex: 51 }]}
+                            // style={[
+                            //     styles.avatarImg, 
+                            //     { 
+                            //         zIndex: 10,
+                            //         left: moleItems.find(item => item.id === avatar.mole)?.x, 
+                            //         top: moleItems.find(item => item.id === avatar.mole)?.y,
+                            //     },
+                            // ]}
+                            fadeDuration={0}
+                            // onLoad={() => setIsMoleLoad(true)}
+                            onLoad={() => {
+                                //handleCapture();
+                                //setIsRandomLoad(true);
+                            }}
+                        />
+                        {nextMoleUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                            <Image
+                                // source={{ uri: nextMoleUri }}
+                                source={nextMoleUri ? { uri: nextMoleUri } : null}
+                                style={[styles.avatarImg, styles.molePosition, { zIndex: 50 }]}
+                                // style={[
+                                //     styles.avatarImg, 
+                                //     { 
+                                //         zIndex: 9,
+                                //         left: moleItems.find(item => item.id === avatar.mole)?.x, 
+                                //         top: moleItems.find(item => item.id === avatar.mole)?.y,
+                                //     },
+                                // ]}
+                                onLoad={handleNextMoleLoad}
+                                fadeDuration={0}
+                            />
+                        )}
+
+                        {/* 얼굴 */}
+                        <Image                  // 현재 이미지
+                            source={{ uri: currentFaceUri }}
+                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 41 }]}
+                            fadeDuration={0}
+                            // onLoad={() => {setIsFaceLoad(true);}}
+                            onLoad={() => {
+                                //handleCapture();
+                                //setIsRandomLoad(true);
+                            }}
+                        />
+                        {nextFaceUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                            <Image
+                                source={{ uri: nextFaceUri }}
+                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 40 }]}
+                                onLoad={handleNextFaceLoad}
+                                fadeDuration={0}
+                            />
+                        )}
+
+                        {/* 옷 */}
+                        <Image                  // 현재 이미지
+                            source={{ uri: currentClothesUri }}
+                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 31 }]}
+                            fadeDuration={0}
+                            // onLoadEnd={() =>{setIsClothesLoad(true);}}
+                            onLoad={() => {
+                                //handleCapture();
+                                //setIsRandomLoad(true);
+                            }}
+                        />
+                        {nextClothesUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                            <Image
+                                source={{ uri: nextClothesUri }}
+                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 30 }]}
+                                onLoad={handleNextClothesLoad}
+                                fadeDuration={0}
+                            />
+                        )}
+
+                        {/* 뒷머리 */}
+                        {avatar.hairBack !== 9 && (
+                            <>
+                                <Image                  // 현재 이미지 
+                                    source={{ uri: currentHairBackUri }}
+                                    style={[styles.avatarImg, styles.avatarPosition, { zIndex: 21 }]}
+                                    fadeDuration={0}
+                                    // onLoad={() => setIsHairBackLoad(true)}
+                                    onLoad={() => {
+                                        //handleCapture();
+                                        //setIsRandomLoad(true);
+                                    }}
+                                />
+                                {nextHairBackUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                                    <Image
+                                        source={{ uri: nextHairBackUri }}
+                                        style={[styles.avatarImg, styles.avatarPosition, { zIndex: 20 }]}
+                                        onLoad={handleNextHairBackLoad}
+                                        fadeDuration={0}
+                                    />
+                                )}
+                            </>
+                        )}
+
+                        {/* 배경 오브젝트 */}
+                        <Image                  // 현재 이미지
+                            source={currentBgUri ? { uri: currentBgUri } : null}
+                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 11 }]}
+                            fadeDuration={0}
+                            // onLoad={() => setIsMoleLoad(true)}
+                            onLoad={() => {
+                                //handleCapture();
+                                //setIsRandomLoad(true);
+                            }}
+                        />
+                        {nextBgUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                            <Image
+                                // source={{ uri: nextMoleUri }}
+                                source={nextBgUri ? { uri: nextBgUri } : null}
+                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 10 }]}
                                 onLoad={handleNextBgLoad}
                                 fadeDuration={0}
                             />
@@ -929,44 +998,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         <View       // 배경색
                             style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === (avatar.bgColor || 1)).color}]}
                         ></View>
-
-                        {/* <Image      // 점
-                            source={{uri: `${baseAvtUrl}/mole/mole0${avatar.mole}.png`}}
-                            style={[styles.avatarImg, {zIndex: 5}]}
-                            fadeDuration={0}
-                        />
-                        <Image      // 얼굴
-                            source={{uri: `${baseAvtUrl}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${hairFrontImg}.PNG`}}
-                            style={[styles.avatarImg, {zIndex: 4}]}
-                            fadeDuration={0}
-                            onLoad={handleImageLoad}
-                        />
-                        <Image      // 기본 얼굴
-                            source={{uri: `${baseAvtUrl}/facedefault.PNG`}}
-                            style={[styles.avatarImg, {zIndex: 3}]}
-                            fadeDuration={0}
-                        />
-                        <Image      // 옷
-                            source={{uri: `${baseAvtUrl}/clothes/clothes0${avatar.clothes}.png`}}
-                            style={[styles.avatarImg, {zIndex: 2}]}
-                            fadeDuration={0}
-                        />
-                        <Image      // 뒷머리
-                            source={{uri: `${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`}}
-                            style={[styles.avatarImg, {zIndex: 1}]}
-                            fadeDuration={0}
-                        /> */}
-                        
-                        {/* <Image
-                            source={{uri: 'https://.png'}} 
-                            resizeMode="contain"
-                            style={styles.avatarImg}
-                        /> */}
-                        {/* <Image
-                            source={require("../../assets/avatars/sampleAva.png")} 
-                            resizeMode="contain"
-                            style={styles.avatarImg}
-                        /> */}
                     </View>
                 </ViewShot>
             </View>
@@ -1181,33 +1212,30 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         </View>
                     )}
                     {avaIndex === 4 && (        // 악세사리
-                        // 이미지 확인용
-                        <>
-                            {/* <Image 
-                                source={{ uri: a }} 
-                                style={{ width: 200, height: 200 }} 
-                                onError={(e) => console.log('Error loading image: ', e)}
-                            /> */}
-                        </>
-                        // <View>
-                        //     <Text style={styles.avatarItemText}>귀걸이</Text>
-                        //     <View style={styles.avatarItemList}>
-                        //         {accItems.map(item => (
-                        //             <TouchableOpacity
-                        //                 key={item.id}
-                        //                 onPress={(() => setAvatar((prev => ({...prev, acc: item.id}))))}
-                        //                 style={[
-                        //                     styles.avatarItems, 
-                        //                     avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                        //                 ]}
-                        //             >
-                        //                 <View style={styles.avatarItem}>
-                        //                     <Image source={item.image} style={{width: "100%", height: "100%"}} />
-                        //                 </View>    
-                        //             </TouchableOpacity>
-                        //         ))}
-                        //     </View>
-                        // </View>
+                        <View>
+                            <View style={styles.avatarItemList}>
+                                {accItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        style={styles.avatarItems}
+                                        onPress={() => {
+                                            //handleBg(item.id);
+                                            // setAvatar((prev => ({...prev, clothes: item.id})))
+                                            // //setIsSelect(true);
+                                            // setIsClothesSelect(true);
+                                        }}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/acc/tmb_acc${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <View style={styles.marginB100}></View>
+                        </View>
                     )}
                     {avaIndex === 5 && (        // 배경
                         <View>
@@ -1227,22 +1255,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 ))}
                             </View>
                             <Text style={styles.avatarItemText}>배경 오브젝트</Text>
-                            {/* <View style={styles.avatarItemList}>
-                                {bgItems.map(item => (
-                                    <TouchableOpacity
-                                        key={item.id}
-                                        onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
-                                        style={[
-                                            styles.avatarItems, 
-                                            avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff,
-                                        ]}
-                                    >
-                                        <View style={styles.avatarItem}>
-                                            <Image source={item.image} style={{width: "100%", height: "100%"}} />
-                                        </View>    
-                                    </TouchableOpacity>
-                                ))}
-                            </View> */}
                             <View style={styles.avatarItemList}>
                                 {bgItems.map(item => (
                                     <TouchableOpacity

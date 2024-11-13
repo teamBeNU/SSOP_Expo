@@ -14,9 +14,9 @@ export const styles = StyleSheet.create({
         left: 6,
         top: 20,
     },
-    bgPosition: {
+    molePosition: {
         left: 4,
-        top: 20
+        top: 24,
     },
 
     btnNext: {

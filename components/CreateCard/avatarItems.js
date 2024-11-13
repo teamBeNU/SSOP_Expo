@@ -66,17 +66,18 @@ export const clothesItems = [
 
 // 악세사리
 export const accItems = [
-    {id: 1, name: '귀걸이1', type: '귀걸이'},
-    {id: 2, name: '귀걸이2', type: '귀걸이'},
-    {id: 3, name: '귀걸이3', type: '귀걸이'},
+    {id: 1, name: '링귀걸이', type: '귀걸이'},
+    {id: 2, name: '귀피어싱1', type: '귀걸이'},
+    {id: 3, name: '귀피어싱2', type: '귀걸이'},
     {id: 4, name: '코피어싱1', type: '코피어싱'},
-    {id: 5, name: '코피어싱1', type: '코피어싱'},
+    {id: 5, name: '코피어싱2', type: '코피어싱'},
     {id: 6, name: '고양이', type: '어깨'},
-    {id: 7, name: '안경1', type: '안경'},
-    {id: 8, name: '안경2', type: '안경'},
-    {id: 9, name: '안경3', type: '안경'},
-    {id: 10, name: '핀1', type: '핀'},
-    {id: 11, name: '핀2', type: '핀'},
+    {id: 7, name: '헤드폰', type: '어깨'},
+    {id: 8, name: '실버안경', type: '안경'},
+    {id: 9, name: '검정안경', type: '안경'},
+    {id: 10, name: '빨간안경', type: '안경'},
+    {id: 11, name: '기본핀', type: '헤어핀'},
+    {id: 12, name: '별핀', type: '헤어핀'},
 ]
 
 // import AccSvg1 from '../../assets/avatars/accessories/accessories-1.svg';
