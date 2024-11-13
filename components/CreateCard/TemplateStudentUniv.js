@@ -363,7 +363,7 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                         style={{marginRight: 20}}
                         onPress={() => {
                             // setIsAvatarComplete(true);
-                            avatarCapture(viewShotRef, setProfileImageUrl);
+                            avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>

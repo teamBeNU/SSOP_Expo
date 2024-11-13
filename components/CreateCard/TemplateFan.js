@@ -340,7 +340,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
                         style={{marginRight: 20}}
                         onPress={() => {
                            // setIsAvatarComplete(true);
-                           avatarCapture(viewShotRef, setProfileImageUrl);
+                           avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>

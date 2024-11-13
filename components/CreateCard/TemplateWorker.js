@@ -341,7 +341,7 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
                         style={{marginRight: 20}}
                         onPress={() => {
                             // setIsAvatarComplete(true);
-                            avatarCapture(viewShotRef, setProfileImageUrl);
+                            avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>

@@ -805,7 +805,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={{position: "absolute", zIndex: 10, right: 12, marginTop:20, backgroundColor:"red", padding: 10}}
                     onPress={() => {
                         console.log("55=======================================")
@@ -816,7 +816,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     }}
                 >
                     <Text>테스트 버튼</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <View style={styles.avatarDo}>
                     <TouchableOpacity onPress={() => handleUndo()}>
                         <UndoIcon />
@@ -839,20 +839,20 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         <RestartIcon />
                     </TouchableOpacity>
                 </View>
-                {profileimageurl && (
+                {/* {profileimageurl && (
                     <Image 
                         source={{ uri: profileimageurl }} 
                         style={{ width: 200, height: 200, position: "absolute", zIndex: 100 }} 
                         onError={(e) => console.log('Error loading image: ', e)}
                     />
-                )}
+                )} */}
                 <ViewShot 
                     ref={viewShotRef}
                     options={{ fileName: "card", format: "png", quality: 1 }}
                 >
                     <View style={styles.avatarView}>
                         {/* 악세사리 */}
-                        <Image                  // 현재 이미지
+                        {/* <Image                  // 현재 이미지
                             source={currentBgUri ? { uri: currentBgUri } : null}
                             style={[styles.avatarImg, styles.avatarPosition, { zIndex: 61 }]}
                             fadeDuration={0}
@@ -870,7 +870,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 onLoad={handleNextBgLoad}
                                 fadeDuration={0}
                             />
-                        )}
+                        )} */}
 
                         {/* 점 */}
                         <Image                  // 현재 이미지

@@ -355,7 +355,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                         style={{marginRight: 20}}
                         onPress={() => {
                             // setIsAvatarComplete(true);
-                            avatarCapture(viewShotRef, setProfileImageUrl);
+                            avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>
