@@ -29,7 +29,7 @@ function CreateCard({navigation}) {
         { id: 'student', label: '학생', description: '학교에 다닌다면',  icon: <Student /> },
         { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker /> },
         { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', icon: <Fan /> },
-        { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', icon: <Free /> },
+        { id: 'free', label: '유형 믹스', description: '자유롭게 정보를\n선택하여 작성', icon: <Free /> },
     ]
 
     const handleSelectTemplate = (id) => {
@@ -102,7 +102,7 @@ function CreateCard({navigation}) {
             {step === 0 && (
                 <View>
                     <View>
-                        <Text style={styles.title}>당신의 정체성을 가장 잘 표현하는{"\n"}템플릿을 선택해 주세요.</Text>
+                        <Text style={styles.title}>당신의 정체성을 가장 잘 표현하는{"\n"}유형을 선택해 주세요.</Text>
                         <Text style={styles.subTitle}>정체성에 따라 작성할 수 있는 정보가 달라요.</Text>
                     </View>
                     <View style={styles.templates}>
