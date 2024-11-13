@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
         fontSize: 26,
         fontFamily: 'PretendardSemiBold',
         textAlign: 'center',
-        letterSpacing: -1,
+        letterSpacing: -0.52,
         marginBottom: 12,
     },
     Text16gray: {
@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'PretendardRegular',
         textAlign: 'center',
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         marginBottom: 56
         
     },
@@ -149,7 +149,7 @@ export const styles = StyleSheet.create({
         height: 18,
         borderRadius: 8,
         marginRight: 8,
-        backgroundColor: '#00C2ED33',
+        backgroundColor: 'rgba(33, 33, 33, 0.80)',
         fontFamily: 'PretendardRegular',
         justifyContent: 'center',
         alignItems: 'center',
@@ -157,23 +157,22 @@ export const styles = StyleSheet.create({
         paddingVertical: 3,
     },
     hostText: {
-        color: theme.gray20,
+        color: theme.white,
         fontSize: 10,
         fontFamily: 'PretendardRegular',
         textAlign: 'center',
-        letterSpacing: -1,
     },
     font16: {
         fontSize: 14,
         fontFamily: 'PretendardRegular',
         marginTop: 8,
-        letterSpacing: -1,
+        letterSpacing: -0.14,
         color: theme.gray30,
     },
     font18: {
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         color: theme.gray10,
     },
     people: {
@@ -488,6 +487,7 @@ export const styles = StyleSheet.create({
         color: theme.white,
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
+        letterSpacing: -0.32
     },
 
     // 모달

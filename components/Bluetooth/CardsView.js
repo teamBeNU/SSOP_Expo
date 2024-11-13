@@ -49,44 +49,71 @@ const CardsView = ({
   showTitle = true,
   showRadio = false,
   showNewCardButton = false,
-  selectedCards = [], // 선택된 카드 목록 상태
-  handleRadioSelect, // 카드 선택 상태 변경 함수
+  selectedCards = [],
+  handleRadioSelect,
+  showDate = false, // 날짜 표시 여부
 }) => {
+  const [sortedGroupedCardData, setSortedGroupedCardData] = useState([]);
 
-  const [sortedCardData, setSortedCardData] = useState([]); // 정렬된 카드 데이터를 저장
-
-  // 최신순 / 오래된 순 정렬 함수
-  const sortData = (data) => {
-    const dataCopy = [...(data || [])];
-    return selectedOption === '오래된 순' ? dataCopy : dataCopy.reverse(); 
+  // 날짜 형식 변환 함수
+  const formatDateWithDay = (dateString) => {
+    const days = ['일', '월', '화', '수', '목', '금', '토'];
+    const date = new Date(dateString);
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    const dayOfWeek = days[date.getDay()];
+    return `${month}.${day}.${dayOfWeek}`;
   };
 
-  // 데이터 정렬
+  // 카드 데이터를 날짜별로 그룹화
+  const groupByDate = (data) => {
+    const grouped = data.reduce((acc, item) => {
+      const date = item.savedAt.split('T')[0]; // 'YYYY-MM-DD' 추출
+      if (!acc[date]) {
+        acc[date] = [];
+      }
+      acc[date].push(item);
+      return acc;
+    }, {});
+
+    const sortedDates = Object.keys(grouped).sort((a, b) =>
+      selectedOption === '오래된 순' ? new Date(a) - new Date(b) : new Date(b) - new Date(a)
+    );
+
+    return sortedDates.map((date) => ({
+      date: formatDateWithDay(date),
+      cards: grouped[date],
+    }));
+  };
+
+  // 카드 데이터 정렬 및 그룹화
   useEffect(() => {
-    setSortedCardData(sortData(cardData)); // cardData 정렬하여 sortedCardData에 저장
-  }, [cardData, selectedOption]);
+    if (showDate) {
+      setSortedGroupedCardData(groupByDate(cardData)); // 날짜별 그룹화
+    } else {
+      const sortedData = [...(cardData || [])];
+      setSortedGroupedCardData([
+        { date: null, cards: selectedOption === '오래된 순' ? sortedData : sortedData.reverse() },
+      ]);
+    }
+  }, [cardData, selectedOption, showDate]);
 
   return (
-    <View style={styles.mainlayout}>
-      {showTitle && title && (
-        <Text style={styles.title}>{title}</Text>
-      )}
+    <View style={styles.mainlayout2}>
+      {/* 제목 표시 */}
+      {showTitle && title && <Text style={styles.title}>{title}</Text>}
 
       <View style={styles.container2}>
         <View style={styles.rowRange}>
-          {/* 격자형, 리스트형 토글 버튼 */}
+          {/* 격자형/리스트형 토글 버튼 */}
           <TouchableOpacity
             onPress={() => setViewOption(viewOption === '격자형' ? '리스트형' : '격자형')}
             style={styles.iconContainer}
           >
-            {viewOption === '격자형' ? (
-              <AllListIcon />
-            ) : (
-              <ListIcon />
-            )}
+            {viewOption === '격자형' ? <AllListIcon /> : <ListIcon />}
           </TouchableOpacity>
 
-          {/* 최신순, 오래된 순 옵션 */}
+          {/* 최신순/오래된 순 옵션 */}
           <Menu>
             <MenuTrigger>
               <View style={styles.optionButton}>
@@ -95,49 +122,116 @@ const CardsView = ({
               </View>
             </MenuTrigger>
             <MenuOptions
-                    optionsContainerStyle={{
-                    width: 'auto',
-                    paddingVertical: 16,
-                    paddingHorizontal: 24,
-                    borderRadius: 16,
-                  }}
+              optionsContainerStyle={{
+                width: 'auto',
+                paddingVertical: 16,
+                paddingHorizontal: 24,
+                borderRadius: 16,
+              }}
             >
               <MenuOption
                 style={{ marginBottom: 10.5 }}
                 onSelect={() => setSelectedOption('최신순')}
-                text='최신순'
+                text="최신순"
               />
-              <MenuOption
-                onSelect={() => setSelectedOption('오래된 순')}
-                text='오래된 순'
-              />
+              <MenuOption onSelect={() => setSelectedOption('오래된 순')} text="오래된 순" />
             </MenuOptions>
           </Menu>
         </View>
       </View>
 
+      {/* 카드 리스트 표시 */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          {viewOption === '격자형' && (
-            <View style={styles.gridContainer}>
-              {showPlusCard && <PlusCardButton navigation={navigation} />}
-              {/* 정렬된 카드 목록 렌더링 */}
-              {sortedCardData.map((item, index) => (
-                <View key={item.cardId || index} style={styles.cardWrapper}>
+          {sortedGroupedCardData.map((group, groupIndex) => (
+            <View key={groupIndex} style={{ paddingBottom: showDate ? 24 : 0 }}>
+              {/* 날짜 표시 (showDate=true일 때만) */}
+              {showDate && group.date && (
+                <Text style={styles.dateText}>{group.date}</Text>
+              )}
+
+              {/* 카드 렌더링 */}
+              <View style={viewOption === '격자형' ? styles.gridContainer : undefined}>
+                {viewOption === '격자형' && showPlusCard && (
+                  <PlusCardButton navigation={navigation} />
+                )}
+
+              {group.cards.map((item, index) => (
+                <TouchableOpacity
+                  key={item.cardId || index}
+                  style={
+                    viewOption === '격자형' ? styles.cardWrapper : styles.radioCardWrapper
+                  }
+                  onPress={() =>
+                    showRadio ? handleRadioSelect(item.cardId) : handleNext(item.cardId)
+                  }
+                >
+                  {/* 라디오 버튼 표시 */}
                   {showRadio && (
-                    <View style={styles.radioButtonContainer}>
-                      <CustomCardRadioButton2
-                        selected={selectedCards.includes(item.cardId)} // 선택 여부 확인
-                        onPress={() => handleRadioSelect(item.cardId)} // 카드 선택 처리
-                      />
+                    <View
+                      style={
+                        viewOption === '격자형'
+                          ? styles.radioButtonContainer
+                          : styles.radioButtonWrapper
+                      }
+                    >
+                      {viewOption === '격자형' ? (
+                        <CustomCardRadioButton2
+                          selected={selectedCards.includes(item.cardId)}
+                          onPress={() => handleRadioSelect(item.cardId)}
+                        />
+                      ) : (
+                        <CustomCardRadioButton
+                          selected={selectedCards.includes(item.cardId)}
+                          onPress={() => handleRadioSelect(item.cardId)}
+                        />
+                      )}
                     </View>
                   )}
 
                   {/* 카드 본문 */}
-                  <TouchableOpacity
-                    style={styles.btn2}
-                    onPress={() => showRadio ? handleRadioSelect(item.cardId) : handleNext(item.cardId)}
-                  >
+                  {viewOption === '리스트형' ? (
+                    <View style={styles.ListContainer}>
+                      <View
+                        style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}
+                      >
+                        <View
+                          style={[
+                            styles.gray,
+                            { backgroundColor: item.backgroundColor },
+                          ]}
+                        >
+                          {item.card_cover === 'avatar' ? (
+                            <View
+                              style={[
+                                styles.gray,
+                                { backgroundColor: getColor(item.avatar.bgColor) },
+                              ]}
+                            />
+                          ) : (
+                            <Image
+                              source={{ uri: item.profile_image_url }}
+                              resizeMode="cover"
+                              style={styles.gray}
+                            />
+                          )}
+                        </View>
+                        <View style={styles.infoContainer}>
+                          <View style={styles.rowName}>
+                            <Text style={styles.Text16gray10}>
+                              {item.cardEssential.card_name}
+                            </Text>
+                            <Text style={styles.Text16gray50}>
+                              {calculateAge(item.cardOptional.card_birth)}
+                            </Text>
+                          </View>
+                          <Text style={styles.Text14gray30}>
+                            {item.cardEssential.card_introduction}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  ) : (
                     <ShareCard
                       avatar={item.avatar}
                       card_name={item.cardEssential.card_name}
@@ -146,72 +240,31 @@ const CardsView = ({
                       card_cover={item.card_cover}
                       profile_image_url={item.profile_image_url}
                     />
-                  </TouchableOpacity>
-                </View>
-              ))}
-            </View>
-          )}
-
-          {viewOption === '리스트형' && (
-            <View>
-              {sortedCardData.map((item, index) => (
-                <TouchableOpacity
-                  key={item.cardId || index}
-                  style={styles.radioCardWrapper}
-                  onPress={() => handleNext(item.cardId)} // Step2로 이동
-                >
-                  {/* showRadio가 true일 때 라디오 버튼 표시 */}
-                  {showRadio && (
-                    <View style={styles.radioButtonWrapper}>
-                      <CustomCardRadioButton
-                        selected={selectedCards.includes(item.cardId)} // 선택 여부 확인
-                        onPress={() => handleRadioSelect(item.cardId)} // 카드 선택 처리
-                      />
-                    </View>
                   )}
-
-                  {/* 카드 본문 */}
-                  <View style={styles.ListContainer}>
-                    <View style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}>
-                      <View style={[styles.gray, { backgroundColor: item.backgroundColor }]}>
-                        {item.card_cover === 'avatar' ? (
-                          <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor) }]}></View>
-                        ) : (
-                          <View style={styles.gray}>
-                            <Image
-                              source={{ uri: item.profile_image_url }}
-                              resizeMode="cover"
-                              style={{ width: 64, height: 64, borderRadius: 16 }}
-                            />
-                          </View>
-                        )}
-                      </View>
-                      <View style={styles.infoContainer}>
-                        <View style={styles.rowName}>
-                          <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
-                          <Text style={styles.Text16gray50}>{calculateAge(item.cardOptional.card_birth)}</Text>
-                        </View>
-                        <Text style={styles.Text14gray30}>{item.cardEssential.card_introduction}</Text>
-                      </View>
-                    </View>
-                  </View>
                 </TouchableOpacity>
               ))}
-              {showNewCardButton && (
-                <TouchableOpacity style={styles.newCardBtn} onPress={() => navigation.navigate('카드 만들기')}>
-                  <PlusCardIcon />
-                  <Text style={styles.Text14gray50}>새 카드 만들기</Text>
-                </TouchableOpacity>
-              )}
+
+              </View>
             </View>
-          )}
+          ))}
         </View>
+
+        {/* 새 카드 만들기 버튼 */}
+        {showNewCardButton && viewOption !== '격자형' && (
+          <TouchableOpacity
+            style={styles.newCardBtn}
+            onPress={() => navigation.navigate('카드 만들기')}
+          >
+            <PlusCardIcon />
+            <Text style={styles.Text14gray50}>새 카드 만들기</Text>
+          </TouchableOpacity>
+        )}
+
         <View style={styles.innerView}></View>
       </ScrollView>
     </View>
   );
 };
-
 
 export default CardsView;
 

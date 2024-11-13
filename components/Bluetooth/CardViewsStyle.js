@@ -4,6 +4,11 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     mainlayout: {
         flex: 1,
+        paddingHorizontal: 16,
+        backgroundColor: theme.white
+    },
+    mainlayout2: {
+        flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 16,
         backgroundColor: theme.white
@@ -203,8 +208,8 @@ export const styles = StyleSheet.create({
     ListContainer: {
         flex: 1,
         flexDirection: 'column',
-        padding: 16,
-        marginTop: 12,
+        padding: 12,
+        marginTop: 8,
         backgroundColor: theme.white,
         borderColor: theme.gray95,
         borderWidth: 1,
@@ -219,8 +224,8 @@ export const styles = StyleSheet.create({
         elevation: 5,
     },
     gray: {
-        width: 64,
-        height: 64,
+        width: 80,
+        height: 80,
         backgroundColor: theme.gray80,
         borderRadius: 16,
     },
@@ -449,15 +454,15 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold'
     },
     // 프로필 이미지
-    gridImage: {       
+    gridImage: {
         width: '100%',
         height: undefined,
         aspectRatio: 1,
         borderRadius: 12
     },
     listImage: {
-        width: 64,
-        height: 64,
+        width: 80,
+        height: 80,
         borderRadius: 12
     },
     // 카드 상세보기 모달
@@ -466,20 +471,20 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // 배경에 반투명 검정색
-      },
-      modalContent: {
-        width: '80%', 
-        height: '50%',      
-      },
-      closeButton: {
+    },
+    modalContent: {
+        width: '80%',
+        height: '50%',
+    },
+    closeButton: {
         position: 'absolute',
         right: -8,
         top: 8,
         zIndex: 1
-      },
+    },
 
-      // 모달
-      modalContainer: {
+    // 모달
+    modalContainer: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         width: '100%',
@@ -511,7 +516,7 @@ export const styles = StyleSheet.create({
         marginHorizontal: 10,
         position: 'relative',
         marginTop: 35,
-        
+
         borderRadius: 16,
         backgroundColor: theme.white,
         shadowColor: "rgba(73, 81, 100, 0.09)",
@@ -546,5 +551,12 @@ export const styles = StyleSheet.create({
         right: 16,
         width: 80,
         height: 80,
+    },
+    dateText: {
+        marginLeft: 4,
+        fontFamily: "PretendardRegular",
+        color: theme.gray30,
+        fontSize: 14,
+        letterSpacing: -0.5,
     },
 })

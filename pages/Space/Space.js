@@ -8,6 +8,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
 import { NewGroupModal } from "../../components/Space/SpaceModal.js";
+import ExchangeModal from '../../components/Space/ExchangeModal.js';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
 import MySpace from "./MySpace.js";
@@ -19,52 +20,13 @@ import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
 import SwapIcon from '../../assets/icons/ic_swap_regular.svg';
 import CloseIcon from '../../assets/icons/close.svg';
-import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
-import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
-import EnterTeamSPIcon from '../../assets/HomeIcon/EnterTeamSPIcon.svg';
-import CreatTeamSPIcon from '../../assets/HomeIcon/CreatTeamSPIcon.svg';
+import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
+import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
+import EnterTeamSPIcon from '../../assets/HomeIcon/ic_teamspin.svg';
+import CreatTeamSPIcon from '../../assets/HomeIcon/ic_teamspnew.svg';
 
 const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
-
-// 스왑 모달
-function ExchangeModal({ isVisible, onClose, onOption1Press, onOption2Press, title, option1Text, option1SubText, option1Icon: Option1Icon, option2Text, option2SubText, option2Icon: Option2Icon }) {
-  return (
-    <Modal
-      animationType="fade"
-      transparent={true}
-      visible={isVisible}
-      onRequestClose={onClose}
-    >
-      <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.modalContainer}>
-          <TouchableWithoutFeedback>
-            <View style={styles.modalView}>
-              <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>{title}</Text>
-                <TouchableOpacity style={styles.closeIcon} onPress={onClose}>
-                  <CloseIcon />
-                </TouchableOpacity>
-              </View>
-              <View style={styles.row}>
-                <TouchableOpacity style={styles.btn2} onPress={onOption1Press}>
-                  <Text style={styles.Text18}>{option1Text}</Text>
-                  <Text style={styles.Text14}>{option1SubText}</Text>
-                  <Option1Icon style={styles.icon2} />
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.btn2} onPress={onOption2Press}>
-                  <Text style={styles.Text18}>{option2Text}</Text>
-                  <Text style={styles.Text14}>{option2SubText}</Text>
-                  <Option2Icon style={styles.icon2} />
-                </TouchableOpacity>
-              </View>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-      </TouchableWithoutFeedback>
-    </Modal>
-  );
-}
 
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   return (
@@ -108,10 +70,15 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                   <Text
                     style={[
                       {
-                        color: isFocused && (label === "마이스페이스" || label === "팀스페이스") ? theme.gray30 : theme.gray70,
+                        color:
+                          isFocused
+                            ? label === "마이스페이스" ? "#00C2ED"
+                              : label === "팀스페이스" ? "#FF85CB"
+                                : theme.gray70
+                            : theme.gray70,
                         fontFamily: 'PretendardRegular',
                         fontSize: 16,
-                        letterSpacing: -1,
+                        letterSpacing: -0.32,
                       },
                     ]} >
                     {label}
@@ -236,10 +203,10 @@ function MySpaceStack({ navigation }) {
         onClose={() => setIsModalVisible(false)}
         onOption1Press={handleBluetoothPress}
         onOption2Press={handleLinkSharePress}
-        title="카드 교환하기"
-        option1Text="블루투스 송신"
-        option1SubText="주변에 있다면 바로"
-        option2Text="링크 복사"
+        title="카드 공유하기"
+        option1Text="블루투스 공유"
+        option1SubText="주변에 있다면"
+        option2Text="링크 공유"
         option2SubText="연락처가 있다면"
         option1Icon={BluetoothIcon}
         option2Icon={LinkIcon}
@@ -301,11 +268,10 @@ function TeamSpaceStack({ navigation, teamData, userId }) {
         onOption2Press={handleCreateTeamSpPress}
         title="팀스페이스 추가하기"
         option1Text="팀스페이스 입장"
-        option1SubText="초대받았다면"
         option1Icon={EnterTeamSPIcon}
         option2Text="팀스페이스 생성"
-        option2SubText="초대하고 싶다면"
         option2Icon={CreatTeamSPIcon}
+        useAlternateHeight={true}
       />
     </>
   );

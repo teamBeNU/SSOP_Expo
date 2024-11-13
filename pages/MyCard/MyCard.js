@@ -5,7 +5,7 @@ import { styles } from './MyCardStyle';
 
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
-import SwapIcon from '../../assets/icons/ic_swap_regular_line.svg';
+import SwapIcon from '../../assets/icons/ic_swap_regular.svg';
 import MyCardsView from '../../pages/MyCard/MyCardsView.js';
   
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
@@ -81,7 +81,7 @@ function MyCard() {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity>
-                        <SwapIcon style={{ marginHorizontal: 23, marginVertical: 14}} />
+                        <SwapIcon style={{ marginHorizontal: 16, marginVertical: 16}} />
                     </TouchableOpacity>
                 ),
                 headerRight: () => (

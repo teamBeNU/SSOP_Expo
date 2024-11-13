@@ -34,7 +34,7 @@ function EnterTeamSp({ navigation, route }) {
 
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('리스트형')
-  const [hasCards, setHasCards] = useState(true); 
+  const [hasCards, setHasCards] = useState(true);
   const [cardData, setCardData] = useState([]);
 
   // AsyncStorage에서 토큰 가져오기
@@ -68,7 +68,7 @@ function EnterTeamSp({ navigation, route }) {
       const newStep = route.params.step || 1; // step 기본값 1
       setStep(newStep); // step 상태 업데이트
       console.log("받아온 초대코드 :", route.params.inviteCode);
-  
+
       const apiUrl = `${baseUrl}/teamsp/search?inviteCode=${route.params.inviteCode}`;
       axios
         .get(apiUrl, {
@@ -83,7 +83,7 @@ function EnterTeamSp({ navigation, route }) {
         });
     }
   }, [route.params, token]); // route.params를 의존성 배열에 추가
-  
+
   // 팀스페이스 입장 API 호출
   const handleEnterModal = () => {
     const apiUrl = `${baseUrl}/teamsp/enter`;
@@ -114,7 +114,7 @@ function EnterTeamSp({ navigation, route }) {
           setTeam_name(response.data.team_name);
           setTeam_comment(response.data.team_comment);
           setMemberCount(response.data.memberCount);
-          
+
           setIsModalVisible(true);
         })
         .catch((error) => {
@@ -140,10 +140,10 @@ function EnterTeamSp({ navigation, route }) {
     const apiUrl = `${baseUrl}/teamsp/submit-card?teamId=${data.teamId}`;
 
     axios
-      .post(apiUrl, { CardId: cardId }, {
+      .post(apiUrl, { cardId: cardId }, {
         headers: { Authorization: `Bearer ${token}` },
       })
-      .then((response) => {      
+      .then((response) => {
         console.log("Response:", response.data);
         console.log("제출한 카드 ID : ", cardId);
         setStep(3);
@@ -154,37 +154,37 @@ function EnterTeamSp({ navigation, route }) {
   };
 
   // 내 카드 데이터 호출
-const fetchCardData = async () => {
-  try {
-    const token = await AsyncStorage.getItem('token');
-    if (!token) {
-      console.error('토큰이 없습니다.');
-      return;
+  const fetchCardData = async () => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      if (!token) {
+        console.error('토큰이 없습니다.');
+        return;
+      }
+
+      const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+      setCardData(result);
+
+      if (result.length > 0) {
+        setHasCards(true);
+      } else {
+        setHasCards(false);
+      }
+    } catch (error) {
+      console.error('카드 데이터를 불러오는 중 오류가 발생했습니다:', error);
     }
+  };
 
-    const response = await fetch('http://43.202.52.64:8080/api/card/view/mine', {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    const result = await response.json();
-    setCardData(result);
-
-    if (result.length > 0) {
-      setHasCards(true);
-    } else {
-      setHasCards(false);
-    }
-  } catch (error) {
-    console.error('카드 데이터를 불러오는 중 오류가 발생했습니다:', error);
-  }
-};
-
-useEffect(() => {
-  fetchCardData();
-}, []);
+  useEffect(() => {
+    fetchCardData();
+  }, []);
 
   // 컴포넌트에서 페이지로 이동 함수
   const goToOriginal = () => {
@@ -321,10 +321,9 @@ useEffect(() => {
                   setSelectedOption={setSelectedOption}
                   viewOption={viewOption}
                   setViewOption={setViewOption}
-                  handleNext={handleNext}
+                  handleNext={handleCardSelect} // 제출 카드 선택
                   cardData={cardData}
                   title={"팀스페이스에 보여질 카드를 선택하세요."}
-                  onCardSelect={handleCardSelect} // 제출 카드 선택
                   showNewCardButton={true}
                   showPlusCard={true}
                 />
@@ -351,7 +350,7 @@ useEffect(() => {
               <View style={styles.flexSpacer} />
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, {marginBottom: 0}]} onPress={() => navigation.navigate('스페이스')}>
+                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('스페이스')}>
                   <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>

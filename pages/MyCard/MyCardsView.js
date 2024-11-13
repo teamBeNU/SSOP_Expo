@@ -6,7 +6,7 @@ import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import GridIcon from '../../assets/icons/ic_border_all.svg';
 import ListIcon from '../../assets/icons/ic_list.svg';
 import MyCardIcon from '../../assets/icons/ic_space.svg';
-import AddIcon from '../../assets/icons/ic_add_small_line.svg';
+import AddIcon from '../../assets/icons/ic_add_white.svg';
 import { GridCardView } from "../../components/MyCard/GridCardView";
 import { ListCardView } from "../../components/MyCard/ListCardView";
 import { styles } from './MyCardsViewStyle';
@@ -14,7 +14,7 @@ import { theme } from '../../theme';
 
 const CardsView = ({ cardData, refreshData }) => {
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('리스트형');
+  const [viewOption, setViewOption] = useState('그리드형');
   const [sortedCardData, setSortedCardData] = useState([]);
   const navigation = useNavigation();
 
