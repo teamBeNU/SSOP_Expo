@@ -8,6 +8,7 @@ import LinkIcon from '../../assets/Card/ic_link.svg';
 
 import { styles } from './CardStyle';
 import AddContact from './AddTel';
+import { theme } from '../../theme';
 
 const instaURL = `https://www.instagram.com/`;
 const xURL = `https://x.com/`;
@@ -103,7 +104,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
     };
     
     return (
-      <View style={styles.card}>
+      <View style={[styles.card, {borderColor: theme.gray95}]}>
         {renderTemplateSpecificInfo()}
       </View>
     );
