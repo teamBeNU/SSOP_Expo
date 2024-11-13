@@ -111,10 +111,19 @@ export default function App() {
         height: 40,
         width: '90%',
         paddingHorizontal: 16,
-        borderRadius: 8,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: theme.gray30
+
+        borderRadius: 8,
+        backgroundColor: "#484848",
+        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowOffset: {
+          width: 0,
+          height: 2
+        },
+        shadowRadius: 16,
+        shadowOpacity: 1,
+        elevation: 5,
       }}>
       <Text
         style={{
@@ -140,7 +149,7 @@ export default function App() {
       justifyContent: 'center',
       alignItems: 'center',
       borderRadius: 8,
-      backgroundColor: 'rgba(0, 0, 0, 0.70)',
+      backgroundColor: '#484848',
       alignSelf: 'center',
     }}>
       <Text style={{

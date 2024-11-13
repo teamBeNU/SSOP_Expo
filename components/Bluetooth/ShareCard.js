@@ -9,10 +9,12 @@ import { getTemplate } from '../../utils/templateMapping';
 
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 16 * 2 - 12) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
+const cardAspectRatio = 200 / 162; // 전체 카드 비율
+const textAreaAspectRatio = 51 / 162; // cardTextArea 비율
 
 export const ShareCard = ({ avatar, card_name, card_birth, card_template, card_cover, profile_image_url, isHost, dot }) => {
   return (
-    <View style={[styles.card, { backgroundColor: card_cover === 'avatar' ? getColor(avatar.bgColor) : getColor(card_cover), width: cardWidth }]}>
+    <View style={[styles.card, { backgroundColor: card_cover === 'avatar' ? getColor(avatar.bgColor) : getColor(card_cover), width: cardWidth, height: cardWidth * cardAspectRatio, }]}>
       <View style={styles.cardImgArea}>
         {card_cover === 'avatar' ? (
           <View style={{ backgroundColor: getColor(avatar.bgColor) }}>
@@ -31,7 +33,10 @@ export const ShareCard = ({ avatar, card_name, card_birth, card_template, card_c
           <Text style={styles.DetailcardFilterText}>호스트</Text>
         </View>
       )}
-      <View style={styles.cardTextArea}>
+      <View style={[styles.cardTextArea, { 
+        width: cardWidth, 
+        height: cardWidth * textAreaAspectRatio, // cardTextArea 높이 비율 설정
+      }]}>
         <View style={styles.Info}>
           <Text style={styles.name}>{card_name}</Text>
           <View style={styles.age}>
@@ -49,7 +54,7 @@ export const ShareCard = ({ avatar, card_name, card_birth, card_template, card_c
 export const PlusCardButton = () => {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity style={[styles.btn1, { width: cardWidth }]} onPress={() => navigation.navigate('카드 만들기')}>
+    <TouchableOpacity style={[styles.btn1, { width: cardWidth, height: cardWidth * cardAspectRatio, }]} onPress={() => navigation.navigate('카드 만들기')}>
       <PlusCardIcon />
       <Text style={styles.Text14}>새 카드 만들기</Text>
     </TouchableOpacity>
