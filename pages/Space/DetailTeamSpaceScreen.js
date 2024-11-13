@@ -91,7 +91,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
           // console.log("전체 데이터: ", response.data);
 
           // DrtailTeamSpace.jsx로 데이터 전달
-          if (onDataChange) {
+          if (response.data.hostId && onDataChange) {
             onDataChange(response.data.hostId);
           }
 

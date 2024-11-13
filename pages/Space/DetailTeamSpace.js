@@ -27,6 +27,7 @@ const Stack = createStackNavigator();
 export default function DetailTeamSpace() {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [data, setData] = useState([]);
+  const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const navigation = useNavigation();
   const route = useRoute();
   const params = route.params || {};
@@ -35,15 +36,17 @@ export default function DetailTeamSpace() {
   const teamId = params.teamId;
   const userId = params.userId;
   const token = params.token;
-
   const [hostId, setHostId] = useState(null);
 
-  const onDataChangeRef = useRef();
+  const onDataChange = (newHostId) => {
+    setHostId(newHostId);
+  };
 
-  onDataChangeRef.current = handleDataChange;
+  useEffect(() => {
+  }, [hostId]);
 
-  const handleDataChange = (data) => {
-    setHostId(data);
+  const handleDeleteButton = () => {
+    setIsDeleteModalVisible(true);
   };
 
   const handleDeleteSpace = async () => {
@@ -54,6 +57,7 @@ export default function DetailTeamSpace() {
       const response = await axios.delete(apiUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      setIsDeleteModalVisible(false); 
       navigation.navigate('TeamSpace', { refresh: true });
     } catch (error) {
       // console.error('상세 팀스페이스 삭제 API 요청 에러:', error.response ? error.response.data : error.message);
@@ -66,7 +70,7 @@ export default function DetailTeamSpace() {
       <Stack.Screen
         name="DetailTeamSpace"
         component={DetailTeamSpaceScreen}
-        initialParams={{ teamId, onDataChangeRef }} //onDataChangeRef 가 hostId
+        initialParams={{ teamId, onDataChange }}
         options={({ route }) => {
           const isHost = hostId === userId;
 
