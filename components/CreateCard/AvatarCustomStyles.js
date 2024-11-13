@@ -10,6 +10,14 @@ export const styles = StyleSheet.create({
     marginB100: {
         marginBottom: 100
     },
+    avatarPosition: {
+        left: 6,
+        top: 20,
+    },
+    bgPosition: {
+        left: 4,
+        top: 20
+    },
 
     btnNext: {
         position: 'absolute',
@@ -123,7 +131,7 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         width: "100%", 
         height: "100%",
-        left: 6,
+        left: 0,
     },
     avatarBg: {
         position: 'static',

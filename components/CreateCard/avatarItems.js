@@ -24,10 +24,10 @@ export const mouthItems = [
 
 // 이목구비 - 점
 export const moleItems = [
-    {id: 1, name: '왼쪽눈밑점'},
-    {id: 2, name: '오른쪽볼점'},
-    {id: 3, name: '왼쪽코윗점'},
-    {id: 4, name: '주근깨'},
+    {id: 1, name: '왼쪽눈밑점', x: -12, y: 24},
+    {id: 2, name: '오른쪽볼점', x: 0, y: 24},
+    {id: 3, name: '왼쪽코윗점', x: 4, y: 18},
+    {id: 4, name: '주근깨', x: 4, y: 24},
 ]
 
 // 헤어 - 앞머리
