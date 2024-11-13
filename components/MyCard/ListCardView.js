@@ -63,7 +63,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                       <Image 
                         source={{ uri: item.profile_image_url }} 
                         resizeMode="cover"
-                        style={{ width: 64, height: 64, borderRadius: 16, }}
+                        style={styles.gray}
                       />
                     </View>                 
                   }
@@ -97,7 +97,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                       <Image
                         source={{ uri: item.profile_image_url }}
                         resizeMode="cover"
-                        style={{ width: 64, height: 64, borderRadius: 16 }}
+                        style={styles.gray}
                       />
                     </View>
                    {/* )} */}

@@ -146,7 +146,7 @@ export const addCardsToGroup = async (groupId, selectedCards, navigation) => {
 // 받은 프로필 카드
 function DetailSpaceGroup({ navigation }) {
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('리스트형');
+  const [viewOption, setViewOption] = useState('격자형');
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [cardData, setCardData] = useState([]);  // 카드 데이터를 상태로 관리

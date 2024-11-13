@@ -36,7 +36,8 @@ export default function DetailTeamSpace() {
   const token = params.token;
 
   const [hostId, setHostId] = useState(null);
-  const onDataChangeRef = useRef(null);
+  
+  const onDataChangeRef = useRef();
 
   onDataChangeRef.current = handleDataChange;
 
@@ -54,7 +55,8 @@ export default function DetailTeamSpace() {
       });
       navigation.navigate('TeamSpace', { refresh: true });
     } catch (error) {
-      console.error('상세 팀스페이스 삭제 API 요청 에러:', error.response ? error.response.data : error.message);
+      // console.error('상세 팀스페이스 삭제 API 요청 에러:', error.response ? error.response.data : error.message);
+      showCustomToast("카드를 제출하지 않으면 팀스페이스를 삭제할 수 없어요.")
     }
   };
 
@@ -63,7 +65,7 @@ export default function DetailTeamSpace() {
       <Stack.Screen
         name="DetailTeamSpace"
         component={DetailTeamSpaceScreen}
-        initialParams={{ teamId, onDataChangeRef }}
+        initialParams={{ teamId, onDataChangeRef }} //onDataChangeRef 가 hostId
         options={({ route }) => {
           const isHost = hostId === userId;
 

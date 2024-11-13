@@ -9,9 +9,7 @@ import Toast from 'react-native-toast-message';
 import CloseIcon from '../../assets/icons/close.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
-import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import OutICon from '../../assets/icons/ic_out.svg';
-import TrashIcon from '../../assets/icons/ic_trash.svg';
 
 function EditTeamSpace({ route, navigation }) {
 
@@ -68,20 +66,21 @@ function EditTeamSpace({ route, navigation }) {
           },
         });
         console.log(`팀 ID ${teamId} 삭제 성공`);
+        // 팀 데이터 업데이트
+        const updatedGroups = teamData.filter((team) =>
+          !selectedGroups.includes(team.teamId) || isUserHost(team)
+        );
+        setTeamData(updatedGroups); // 삭제된 그룹 리스트로 상태 업데이트
+        setSelectedGroups([]); // 선택 초기화
+        setIsSpaceModalVisible(false); // 모달 닫기
+        showCustomToast('팀스페이스가 삭제되었어요.');
       } catch (error) {
-        console.error(`팀 ID ${teamId} 삭제 실패:`, error);
+        // console.error(`팀 ID ${teamId} 삭제 실패:`, error);
         showCustomToast(`팀 ID ${teamId} 삭제 중 오류가 발생했습니다.`);
+        showCustomToast("카드를 제출하지 않으면 팀스페이스를 삭제할 수 없어요.")
       }
     });
 
-    // 팀 데이터 업데이트
-    // const updatedGroups = teamData.filter((team) =>
-    //   !selectedGroups.includes(team.teamId) || isUserHost(team)
-    // );
-    // setTeamData(updatedGroups); // 삭제된 그룹 리스트로 상태 업데이트
-    setSelectedGroups([]); // 선택 초기화
-    setIsSpaceModalVisible(false); // 모달 닫기
-    showCustomToast('팀스페이스가 삭제되었어요.');
   };
 
   // 특정 팀스페이스가 선택되었는지 확인하는 함수
@@ -150,7 +149,7 @@ function EditTeamSpace({ route, navigation }) {
       <ScrollView>
         {/* 팀스페이스 리스트 */}
         <View>
-           {teamData.map((team) => (
+          {teamData.map((team) => (
             <TouchableOpacity
               key={team.teamId}
               onPress={() => handleGroupSelect(team.teamId)}
@@ -182,12 +181,6 @@ function EditTeamSpace({ route, navigation }) {
         <TouchableOpacity style={{ marginLeft: 6, alignItems: 'center', justifyContent: 'center' }}
           onPress={() => setIsSpaceModalVisible(true)}>
           <Text style={styles.bottomText}>팀스페이스 나가기</Text>
-        </TouchableOpacity>
-        <BottomLineIcon style={styles.bottomLine} />
-        <TrashIcon />
-        <TouchableOpacity style={{ marginLeft: 6, alignItems: 'center', justifyContent: 'center' }}
-          onPress={() => setIsSpaceModalVisible(true)}>
-          <Text style={styles.bottomText}>삭제</Text>
         </TouchableOpacity>
       </View>
 

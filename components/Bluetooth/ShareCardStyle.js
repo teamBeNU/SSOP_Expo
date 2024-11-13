@@ -130,9 +130,9 @@ export const styles = StyleSheet.create({
     },
     DetailcardFilterText: {
         fontFamily: "PretendardRegular",
+        textAlign: 'center',
         color: theme.white,
-        fontSize: 12,
-        letterSpacing: -0.5,
+        fontSize: 10
     },
 
     radioButtonContainer: {

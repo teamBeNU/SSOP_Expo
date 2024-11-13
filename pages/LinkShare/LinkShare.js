@@ -15,7 +15,7 @@ import HomeIcon from '../../assets/icons/ic_home_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import LinkShareImage from '../../assets/icons/LinkShareImage.svg';
-import ShareIcon from '../../assets/icons/ic_share.svg';
+import ShareIcon from '../../assets/icons/ic_share_white.svg';
 
 function Step1Screen({ navigation }) {
   // 카드 데이터 유무를 상태로 설정

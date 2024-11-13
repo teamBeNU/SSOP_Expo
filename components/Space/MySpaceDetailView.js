@@ -212,7 +212,7 @@ const MySpaceDetailView = ({
         <View>
           <View>
             {viewOption === '격자형' && (
-              <View>
+              <View style={{ paddingTop: Array.isArray(filteredData) && filteredData.length > 0 ? 2 : 10 }}>
                 <View style={[styles.row, styles.container]}>
                   {/* 필터링한 데이터 */}
                   {Array.isArray(filteredData) && filteredData.length > 0 ? (
@@ -299,7 +299,7 @@ const MySpaceDetailView = ({
             )}
 
             {viewOption === '리스트형' && (
-              <View>
+              <View style={{ paddingTop: Array.isArray(filteredData) && filteredData.length > 0 ? 8 : 16 }}>
                 {Array.isArray(filteredData) && filteredData.length > 0 ? (
                   filteredData.map((item) => (
                     <View key={item.cardId} style={styles.ListContainer}>

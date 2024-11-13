@@ -170,7 +170,8 @@ function TeamSpace({ navigation }) {
         }
       })
       .catch((error) => {
-        console.error('팀스페이스 삭제 API 요청 에러:', error.response.data);
+        // console.error('팀스페이스 삭제 API 요청 에러:', error.response.data);
+        showCustomToast("카드를 제출하지 않으면 팀스페이스를 삭제할 수 없어요.")
       });
   };
 

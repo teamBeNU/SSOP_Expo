@@ -10,8 +10,8 @@ import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
 import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
-import Contact from '../../assets/icons/ic_contact_small_line.svg';
-import Share from '../../assets/icons/ic_share_small_line.svg';
+import Contact from '../../assets/icons/ic_contact_black.svg';
+import Swap from '../../assets/icons/ic_swap.svg';
 
 // 상세 팀스페이스
 export default function DetailTeamSpaceScreen({ navigation }) {
@@ -39,7 +39,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('리스트형');
+  const [viewOption, setViewOption] = useState('격자형');
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const [hasCards, setHasCards] = useState(true);
@@ -311,7 +311,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
       {/* 하단 버튼 영역 */}
       <View style={styles.bottomDetailContainer}>
-        <Share />
+        <Swap />
         <TouchableOpacity style={{ marginLeft: 6 }}>
           <Text style={styles.bottomText} onPress={handleShareButtonPress}>팀스페이스 공유</Text>
         </TouchableOpacity>
