@@ -95,7 +95,7 @@ export const accItems = [
 // ]
 
 // 배경 오브젝트
-export const bgobjItems = [
+export const bgItems = [
     {id: 1, name: '하트'},
     {id: 2, name: '별'},
     {id: 3, name: '버블'},

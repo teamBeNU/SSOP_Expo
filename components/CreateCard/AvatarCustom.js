@@ -19,11 +19,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const ref = useRef();
     const [a, setA] = useState('');
-    const [isCapture, setIsCapture] = useState(false);
-    const [isMoleLoad, setIsMoleLoad] = useState(false);
-    const [isFaceLoad, setIsFaceLoad] = useState(false);
-    const [isClothesLoad, setIsClothesLoad] = useState(false);
-    const [isHairBackLoad, setIsHairBackLoad] = useState(false);
 
     const [avaIndex, setAvaIndex] = useState(1);
 
@@ -113,6 +108,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
+        setIsBgSelect(true);
     }, []);
 
     useEffect(() => {
@@ -148,11 +144,14 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsInit(true);
         redo.current = [];  // redo 초기화
 
-        setIsFaceSelect(true);
         setIsMoleCancel(true);
+        setIsBgCancel(true);
+
+        setIsFaceSelect(true);
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
+        setIsBgSelect(true);
     }
 
     // 랜덤 생성
@@ -166,7 +165,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         let randHairColor = Math.floor(Math.random( ) * hairColors.length) + 1;
         let randClothes = Math.floor(Math.random( ) * clothesItems.length) + 1;
         // let randAcc = Math.floor(Math.random( ) * accItems.length) + 1;
-        // let randBg = Math.floor(Math.random( ) * bgItem.length) + 1;
+        let randBg = Math.floor(Math.random( ) * bgItems.length) + 1;
         let randBgColor = Math.floor(Math.random( ) * bgColors.length) + 1;
 
         if (randHairBack === 9) {       // 삭발 여부(삭발이면 앞머리 null)
@@ -184,16 +183,19 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             hairBackColor: randHairColor,
             clothes: randClothes,
             //acc: randAcc,
-            //bg: randBg,
+            bg: randBg,
             bgColor: randBgColor,
         })));
         setMoleSave(randMole);
+        setBgSave(randBg);
 
         setIsRandom(true);
+
         setIsFaceSelect(true);
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
+        setIsBgSelect(true);
     }
     
     useEffect(() => {
@@ -238,6 +240,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
+        setIsBgSelect(true);
         
         // console.log("Undo22: ", undo);
         // console.log("Redo22: ", redo);
@@ -263,6 +266,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             setIsMoleSelect(true);
             setIsClothesSelect(true);
             setIsHairBackSelect(true);
+            setIsBgSelect(true);
         }
     }
 
@@ -469,26 +473,30 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     // 현재 이미지 uri
     const [currentFaceUri, setCurrentFaceUri] = useState(`${baseAvtUrl}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${hairFrontImg}.PNG`);
     const [currentMoleUri, setCurrentMoleUri] = useState(`${baseAvtUrl}/mole/mole0${avatar.mole}.png`);
-    const [currentClothesUri, setCurrentClothesUri] = useState(`${baseAvtUrl}/clothes/clothes0${avatar.clothes}.png`);
+    const [currentClothesUri, setCurrentClothesUri] = useState(`${baseAvtUrl}/clothes/clothes${avatar.clothes}.png`);
     const [currentHairBackUri, setCurrentHairBackUri] = useState(`${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`);
+    const [currentBgUri, setCurrentBgUri] = useState(`${baseAvtUrl}/bgobj/bgobj${avatar.bg}.png`);
 
     // 다음 이미지 uri
     const [nextFaceUri, setNextFaceUri] = useState(null);
     const [nextMoleUri, setNextMoleUri] = useState(null);
     const [nextClothesUri, setNextClothesUri] = useState(null);
     const [nextHairBackUri, setNextHairBackUri] = useState(null);
+    const [nextBgUri, setNextBgUri] = useState(null);
 
     // 다음 이미지 로드 여부
     const [isNextFaceLoaded, setIsNextFaceLoaded] = useState(false);
     const [isNextMoleLoaded, setIsNextMoleLoaded] = useState(false);
     const [isNextClothesLoaded, setIsNextClothesLoaded] = useState(false);
     const [isNextHairBackLoaded, setIsNextHairBackLoaded] = useState(false);
+    const [isNextBgLoaded, setIsNextBgLoaded] = useState(false);
     
     // 아이템 선택 여부
     const [isFaceSelect, setIsFaceSelect] = useState(false);            // 얼굴(눈, 눈썹, 입), 앞머리
     const [isMoleSelect, setIsMoleSelect] = useState(false);            // 점
     const [isClothesSelect, setIsClothesSelect] = useState(false);      // 옷
     const [isHairBackSelect, setIsHairBackSelect] = useState(false);    // 뒷머리
+    const [isBgSelect, setIsBgSelect] = useState(false);    // 배경 오브젝트
 
     // 이목구비(눈, 눈썹, 입), 앞머리 변화
     const [eyesSave, setEyesSave] = useState(); // 눈 저장
@@ -497,9 +505,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleEye = (id) => {
         if (eyesSave === id) {  // 중복 선택 X
-            console.log("눈 중복X")
+            //console.log("눈 중복X")
         } else {    // 눈 추가
-            console.log("눈 추가")
+            //console.log("눈 추가")
             setAvatar(prev => ({...prev, eyes: id}));
             setEyesSave(id);
             setIsFaceSelect(true);
@@ -509,9 +517,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleEyebrows = (id) => {
         if (eyebrowsSave === id) {  // 중복 선택 X
-            console.log("눈썹 중복X")
+            //console.log("눈썹 중복X")
         } else {    // 눈썹 추가
-            console.log("눈썹 추가")
+            //console.log("눈썹 추가")
             setAvatar(prev => ({...prev, eyebrows: id}));
             setEyebrowsSave(id);
             setIsFaceSelect(true);
@@ -521,9 +529,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleMouth = (id) => {
         if (mouthSave === id) {  // 중복 선택 X
-            console.log("입 중복X")
+            //console.log("입 중복X")
         } else {    // 입 추가
-            console.log("입 추가")
+            //console.log("입 추가")
             setAvatar(prev => ({...prev, mouth: id}));
             setMouthSave(id);
             setIsFaceSelect(true);
@@ -536,18 +544,18 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             //console.log("avatar.hairBack: ", avatar.hairBack)
             const getHairFront = (avatar, isBald) => {
                 if (avatar.hairBack === 9) {
-                    console.log('1')
+                    //console.log('1')
                     setAvatar(prev => ({ ...prev, hairFront: null }));
                     setIsBald(true);
                     return 'bald';
                 } else {
                     if (isBald) {
-                        console.log('2')
+                        //console.log('2')
                         setAvatar(prev => ({ ...prev, hairFront: 1 }));
                         setIsBald(false);
                         return 'front01';
                     } else {
-                        console.log('3')
+                        //console.log('3')
                         return `front0${avatar.hairFront}`;
                     }
                 }
@@ -583,8 +591,8 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [isMoleCancel, setIsMoleCancel] = useState(false); // 점 취소
 
     const handleMole = (id) => {
-        console.log('id: ', isMoleCancel)
-        console.log('molesave: ', moleSave)
+        //console.log('id: ', isMoleCancel)
+        //console.log('molesave: ', moleSave)
         if (moleSave === id) {  // 점 삭제
             setAvatar(prev => ({...prev, mole: null}));
             setIsMoleCancel(true);
@@ -599,17 +607,19 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     }
 
     useEffect(() => {
-        console.log("isMole: ", isMoleCancel);
-        console.log("isMoleSelect: ", isMoleSelect);
+        console.log("currentmoleuri: ", currentMoleUri)
+        console.log("nextmoleUri: ", nextMoleUri)
+        //console.log("isMole: ", isMoleCancel);
+        //console.log("isMoleSelect: ", isMoleSelect);
         if (isMoleSelect) {
-            console.log("11111111111")
+            console.log("점1111111111")
             if(isMoleCancel) {    // 점 취소
-                console.log("22222222222222222")
-                setNextMoleUri(``);
+                console.log("점22222222222222222")
+                setNextMoleUri('');
                 setCurrentMoleUri('');
                 setIsMoleCancel(false);
             } else {
-                console.log("3333333333333")
+                console.log("점3333333333333: ", avatar.mole)
                 setNextMoleUri(`${baseAvtUrl}/mole/mole0${avatar.mole}.png`);
             }
             setIsSelect(true);
@@ -619,10 +629,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     }, [isMoleSelect, avatar]);
 
     const handleNextMoleLoad = () => {
+        console.log('handleNextMoleLoad')
         // setIsNextMoleLoaded(true);
         setCurrentMoleUri(nextMoleUri); // 새로운 이미지가 완전히 로드된 후 교체
         setNextMoleUri(null); // 임시 URI 초기화
-        //console.log('handleNextMoleLoad')
     };
 
     // 옷 변화
@@ -630,9 +640,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleClothes = (id) => {
         if (clothesSave === id) {  // 중복 선택 X
-            console.log("옷 중복X")
+            //console.log("옷 중복X")
         } else {    // 옷 추가
-            console.log("옷 추가")
+            //console.log("옷 추가")
             setAvatar(prev => ({...prev, clothes: id}));
             setClothesSave(id);
             setIsClothesSelect(true);
@@ -662,9 +672,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleHairBack = (id) => {
         if (hairBackSave === id) {  // 중복 선택 X
-            console.log("뒷머리 중복X")
+            //console.log("뒷머리 중복X")
         } else {    // 뒷머리 추가
-            console.log("뒷머리 추가")
+            //console.log("뒷머리 추가")
             setAvatar(prev => ({...prev, hairBack: id}));
             sethHairBackSave(id);
             setIsHairBackSelect(true);
@@ -694,6 +704,52 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setCurrentHairBackUri(nextHairBackUri); // 새로운 이미지가 완전히 로드된 후 교체
         setNextHairBackUri(null); // 임시 URI 초기화
         //console.log('handleNextHairBackLoad')
+    };
+
+    // 배경 오브젝트 변화
+    const [bgSave, setBgSave] = useState(); // 배경 오브젝트 저장
+    const [isBgCancel, setIsBgCancel] = useState(false); // 배경 오브젝트 취소
+
+    const handleBg = (id) => {
+        console.log('id: ', isBgCancel)
+        console.log('Bgsave: ', bgSave)
+        if (bgSave === id) {  // 배경 오브젝트 삭제
+            setAvatar(prev => ({...prev, bg: null}));
+            setIsBgCancel(true);
+            setBgSave(null);
+        } else {    // 배경 오브젝트 추가
+            setAvatar(prev => ({...prev, bg: id}));
+            setIsBgCancel(false);
+            setBgSave(id);
+        }
+        setIsBgSelect(true);
+    }
+
+    useEffect(() => {
+        console.log("currentBgUri: ", currentBgUri)
+        console.log("nextBgUri: ", nextBgUri)
+        console.log("isBg: ", isBgCancel);
+        console.log("isBgSelect: ", isBgSelect);
+        if (isBgSelect) {
+            console.log("11111111111")
+            if(isBgCancel) {    // 배경 오브젝트 취소
+                console.log("22222222222222222")
+                setNextBgUri('');
+                setCurrentBgUri('');
+                setIsBgCancel(false);
+            } else {
+                console.log("3333333333333: ", avatar.bg)
+                setNextBgUri(`${baseAvtUrl}/bgobj/bgobj${avatar.bg}.png`);
+            }
+            setIsSelect(true);
+            setIsBgSelect(false);
+        }
+    }, [isBgSelect, avatar]);
+
+    const handleNextBgLoad = () => {
+        console.log('handleNextBgLoad: ', nextBgUri)
+        setCurrentBgUri(nextBgUri); // 새로운 이미지가 완전히 로드된 후 교체
+        setNextBgUri(null); // 임시 URI 초기화
     };
 
     return (
@@ -749,7 +805,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         <Image                  // 현재 이미지
                             // source={{ uri: currentMoleUri }}
                             source={currentMoleUri ? { uri: currentMoleUri } : null}
-                            style={[styles.avatarImg, { zIndex: 8 }]}
+                            style={[styles.avatarImg, { zIndex: 10 }]}
                             fadeDuration={0}
                             // onLoad={() => setIsMoleLoad(true)}
                             onLoad={() => {
@@ -761,7 +817,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                             <Image
                                 // source={{ uri: nextMoleUri }}
                                 source={nextMoleUri ? { uri: nextMoleUri } : null}
-                                style={[styles.avatarImg, { zIndex: 7 }]}
+                                style={[styles.avatarImg, { zIndex: 9 }]}
                                 onLoad={handleNextMoleLoad}
                                 fadeDuration={0}
                             />
@@ -770,7 +826,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         {/* 얼굴 */}
                         <Image                  // 현재 이미지
                             source={{ uri: currentFaceUri }}
-                            style={[styles.avatarImg, { zIndex: 6 }]}
+                            style={[styles.avatarImg, { zIndex: 8 }]}
                             fadeDuration={0}
                             // onLoad={() => {setIsFaceLoad(true);}}
                             onLoad={() => {
@@ -781,7 +837,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         {nextFaceUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                             <Image
                                 source={{ uri: nextFaceUri }}
-                                style={[styles.avatarImg, { zIndex: 5 }]}
+                                style={[styles.avatarImg, { zIndex: 7 }]}
                                 onLoad={handleNextFaceLoad}
                                 fadeDuration={0}
                             />
@@ -790,7 +846,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         {/* 옷 */}
                         <Image                  // 현재 이미지
                             source={{ uri: currentClothesUri }}
-                            style={[styles.avatarImg, { zIndex: 4 }]}
+                            style={[styles.avatarImg, { zIndex: 6 }]}
                             fadeDuration={0}
                             // onLoadEnd={() =>{setIsClothesLoad(true);}}
                             onLoad={() => {
@@ -801,7 +857,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         {nextClothesUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                             <Image
                                 source={{ uri: nextClothesUri }}
-                                style={[styles.avatarImg, { zIndex: 3 }]}
+                                style={[styles.avatarImg, { zIndex: 5 }]}
                                 onLoad={handleNextClothesLoad}
                                 fadeDuration={0}
                             />
@@ -812,7 +868,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                             <>
                                 <Image                  // 현재 이미지 
                                     source={{ uri: currentHairBackUri }}
-                                    style={[styles.avatarImg, { zIndex: 2 }]}
+                                    style={[styles.avatarImg, { zIndex: 4 }]}
                                     fadeDuration={0}
                                     // onLoad={() => setIsHairBackLoad(true)}
                                     onLoad={() => {
@@ -823,12 +879,33 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 {nextHairBackUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                                     <Image
                                         source={{ uri: nextHairBackUri }}
-                                        style={[styles.avatarImg, { zIndex: 1 }]}
+                                        style={[styles.avatarImg, { zIndex: 3 }]}
                                         onLoad={handleNextHairBackLoad}
                                         fadeDuration={0}
                                     />
                                 )}
                             </>
+                        )}
+
+                        {/* 배경 오브젝트 */}
+                        <Image                  // 현재 이미지
+                            source={currentBgUri ? { uri: currentBgUri } : null}
+                            style={[styles.avatarImg, { zIndex: 2 }]}
+                            fadeDuration={0}
+                            // onLoad={() => setIsMoleLoad(true)}
+                            onLoad={() => {
+                                //handleCapture();
+                                //setIsRandomLoad(true);
+                            }}
+                        />
+                        {nextBgUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                            <Image
+                                // source={{ uri: nextMoleUri }}
+                                source={nextBgUri ? { uri: nextBgUri } : null}
+                                style={[styles.avatarImg, { zIndex: 1 }]}
+                                onLoad={handleNextBgLoad}
+                                fadeDuration={0}
+                            />
                         )}
 
                         <View       // 배경색
@@ -1131,9 +1208,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     </TouchableOpacity>
                                 ))}
                             </View>
-                            <Text style={styles.avatarItemText}>오브젝트</Text>
-                            <View style={styles.avatarItemList}>
-                                {/* {bgItems.map(item => (
+                            <Text style={styles.avatarItemText}>배경 오브젝트</Text>
+                            {/* <View style={styles.avatarItemList}>
+                                {bgItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
                                         onPress={(() => setAvatar((prev => ({...prev, bg: item.id}))))}
@@ -1146,7 +1223,28 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                             <Image source={item.image} style={{width: "100%", height: "100%"}} />
                                         </View>    
                                     </TouchableOpacity>
-                                ))} */}
+                                ))}
+                            </View> */}
+                            <View style={styles.avatarItemList}>
+                                {bgItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        style={styles.avatarItems}
+                                        onPress={() => {
+                                            handleBg(item.id);
+                                            // setAvatar((prev => ({...prev, clothes: item.id})))
+                                            // //setIsSelect(true);
+                                            // setIsClothesSelect(true);
+                                        }}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/bgobj/tmb_bgobj${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
                             </View>
                             <View style={styles.marginB100}></View>
                         </View>
