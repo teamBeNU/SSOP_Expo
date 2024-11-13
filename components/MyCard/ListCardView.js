@@ -54,7 +54,7 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                   }}>
                 <View style={styles.row2}>
 
-                  {item.card_cover === 'avatar' ? 
+                  {/* {item.card_cover === 'avatar' ? 
                     <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor)}]}>
                     
                     </View>
@@ -66,7 +66,14 @@ export const ListCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                         style={{ width: 64, height: 64, borderRadius: 16, }}
                       />
                     </View>                 
-                  }
+                  } */}
+                  <View style={[styles.gray]}>
+                      <Image 
+                        source={{ uri: item.profile_image_url }} 
+                        resizeMode="cover"
+                        style={{ width: 64, height: 64, borderRadius: 16, }}
+                      />
+                    </View>       
                   
                   <View style={styles.infoContainer}>
                     <View style={styles.rowName}>
