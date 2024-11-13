@@ -78,9 +78,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
       // 팀스페이스 참여 정보 API 호출
       const apiUrl = `${baseUrl}/teamsp/member?teamId=${teamId}`;
       axios
-        .get(apiUrl, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        .get(apiUrl)
         .then((response) => {
           setData(response.data);
           setFilter(response.data.filter);
@@ -102,7 +100,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
           console.error('참여 멤버 목록 API 요청 에러:', error);
         });
     }
-  }, [userId, token]);
+  }, [userId]);
 
   useEffect(() => {
     if (Array.isArray(cardId) && cardId.length > 0) {

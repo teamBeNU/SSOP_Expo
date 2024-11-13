@@ -263,7 +263,7 @@ const MySpaceDetailView = ({
                             card_name={item.cardEssential.card_name}
                             card_birth={item.cardOptional.card_birth || ''}
                             dot=' · '
-                            card_template={item.cardEssential.card_template || '기타'}
+                            card_template={item.card_template || '기타'}
                           />
                         </TouchableOpacity>
                       ))
