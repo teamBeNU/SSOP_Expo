@@ -136,5 +136,5 @@ export const bgColors = [
     {id: 4, color: theme.cardBG04},
     {id: 5, color: theme.cardBG05},
     {id: 6, color: theme.cardBG06},
-    {id: 7, color: theme.gray30},
+    {id: 7, color: theme.gray40},
 ]

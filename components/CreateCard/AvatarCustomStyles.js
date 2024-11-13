@@ -240,7 +240,7 @@ export const styles = StyleSheet.create({
     },
     colorChipOn: {
         borderWidth: 2,
-        borderColor: theme.gray80,
+        borderColor: theme.green,
         borderRadius: 30,
         padding: 6,
     },
