@@ -148,7 +148,7 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
   const { groupId } = route.params || {};
 
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('리스트형');
+  const [viewOption, setViewOption] = useState('격자형');
   const [members, setMembers] = useState(0); // 그룹 멤버 수 상태
   const [cardData, setCardData] = useState([]); // 카드 목록 상태
   const [isCardDeleteModalVisible, setIsCardDeleteModalVisible] = useState(false);
