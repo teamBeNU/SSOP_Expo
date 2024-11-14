@@ -8,8 +8,6 @@ const UseBluetoothClassic = () => {
   const discoveredDevices = useRef(new Map()); // 장치를 저장할 Map
   const [allDevices, setAllDevices] = useState([]); // 연결 가능한 주변 Bluetooth 장치 목록
   const [connectedDevice, setConnectedDevice] = useState(null); // 연결된 장치
-  const [isConnected, setIsConnected] = useState(false); // 디바이스 연결 여부
-  const [successSend, setSuccessSend] = useState(false); // 데이터 전송 여부
   const [isScanning, setIsScanning] = useState(false); // 스캔 상태
 
   const baseUrl = 'http://43.202.52.64:8080/api'
@@ -117,6 +115,8 @@ const UseBluetoothClassic = () => {
       // 연결 시도
       const device = await BluetoothClassic.connectToDevice(deviceId);
       if (device) {
+        setConnectedDevice(device); // 연결된 장치를 상태로 저장
+        console.log('장치 연결 성공:', device.name);
         return true;  // 연결 성공
       } else {
         return false; // 연결 실패
@@ -140,47 +140,82 @@ const UseBluetoothClassic = () => {
   }
 
   // 데이터 수신
-  async function receiveData() {
+  async function receiveData(deviceId) {
     try {
+      const connectedDevice = await connectToDevice(deviceId); // 데이터를 수신한 디바이스에 연결
       if (connectedDevice) {
-        const data = await connectedDevice.Read(data);
-        console.log("받은 카드 ID:", data);
+        const receivedData = await connectedDevice.read(); // cardId 읽기
+        const cardId = receivedData.toString();
+        console.log("받은 카드 ID:", cardId);
 
         // 상대카드 저장 API 요청
-        if (data) {
-          const response = await axios.post(`${baseUrl}/card/save?cardId=${data}`, {
+        if (cardId) {
+          const response = await axios.post(`${baseUrl}/card/save?cardId=${cardId}`, {}, {
             headers: {
               'Content-Type': 'application/json',
               'Authorization': `Bearer ${token}`,
             },
           });
 
-          if (response.ok) {
-            console.log("카드 ID 저장 성공");
+          if (response.status === 200) {
+            if (response.data.added) {
+              console.log("카드 ID 저장 성공:", response.data.message); // "카드가 저장되었습니다" 
+            } else {
+              console.log("카드 ID 저장 실패:", response.data.message); // "이미 저장된 카드입니다"
+            }
           } else {
-            console.log("카드 ID 저장 실패:", response.statusText);
+            console.log("카드 ID 저장 실패:", response.data);
           }
-        } else {
-          console.log("유효한 카드 ID가 없습니다.");
         }
-
-        return data;
+        callback(cardId); // 수신된 카드 ID 반환
       } else {
-        console.log("연결된 디바이스가 없습니다.");
+        console.log("receiveData - 연결된 디바이스가 없습니다.");
       }
     } catch (error) {
-      console.log("데이터 읽기 오류:", error);
+      console.log("receiveData - 데이터 읽기 오류:", error);
     }
   }
+
+  // 데이터 수신 테스트 -> 상대카드 저장 성공
+  // async function receiveData() {
+  //   const testCardId = '60'; // 수신할 카드 ID
+  //   try {
+  //     console.log("token: ", token);
+  //     console.log("받은 카드 ID:", testCardId);
+
+  //     // 상대카드 저장 API 요청
+  //     if (testCardId) {
+  //       const response = await axios.post(`${baseUrl}/card/save?cardId=${testCardId}`, {}, {
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': `Bearer ${token}`,
+  //         },
+  //       });
+
+  //       if (response.status === 200) {
+  //         if (response.data.added) {
+  //           console.log("카드 ID 저장 성공:", response.data.message); // "카드가 저장되었습니다" 메시지 출력
+  //         } else {
+  //           console.log("카드 ID 저장 실패: 이미 저장된 카드입니다."); // "이미 저장된 카드" 오류 처리
+  //         }
+  //       } else {
+  //         console.log("카드 ID 저장 실패:", response.data); // 서버에서 반환된 실패 데이터 출력
+  //       }
+  //     } else {
+  //       console.log("receiveData - 유효한 카드 ID가 없습니다.");
+  //     }
+  //     return testCardId;
+  //   } catch (error) {
+  //     console.log("receiveData - 데이터 읽기 오류:", error);
+  //   }
+  // }
 
   return {
     allDevices,
     scanForPeripherals,
     connectedDevice,
     connectToDevice,
-    isConnected,
     sendData,
-    successSend,
     receiveData
   };
 };

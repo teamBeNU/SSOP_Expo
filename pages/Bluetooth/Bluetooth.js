@@ -119,7 +119,7 @@ function Step2Screen({ route }) {
 
   const [recipients, setRecipients] = useState([]);
   const [recipientStatuses, setRecipientStatuses] = useState({});
-  const { scanForPeripherals, connectToDevice, isConnected, sendData, successSend, allDevices } = useBluetoothClassic();
+  const { scanForPeripherals, connectToDevice, sendData, receiveData, allDevices } = useBluetoothClassic();
   const [isScanning, setIsScanning] = useState(false);
   const [receivedData, setReceivedData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
@@ -138,51 +138,54 @@ function Step2Screen({ route }) {
     setRecipients(allDevices || []);
   }, [allDevices]);
 
-  const handlePressRecipient = async (id, cardId) => {
+  const handlePressRecipient = async (deviceId, cardId) => {
     setRecipientStatuses((prevStatuses) => ({
       ...prevStatuses,
-      [id]: '요청 중...'
+      [deviceId]: '요청 중...'
     }));
 
     try {
       // 디바이스 연결 시도
-      const connectionStatus = await connectToDevice(id);
+      const connectionStatus = await connectToDevice(deviceId);
       console.log("연결 상태:", connectionStatus);
 
       if (connectionStatus) {
-        const sendResult = await sendData(id, cardId);
+        const sendResult = await sendData(deviceId, cardId);
         console.log("전송 결과:", sendResult);
 
         // 카드 ID 전송 성공
         if (sendResult) {
           setRecipientStatuses((prevStatuses) => ({
             ...prevStatuses,
-            [id]: '공유 완료됨'
+            [deviceId]: '공유 완료됨'
           }));
+
+          // 받은 데이터를 모달로 설정
+          setReceivedData(`기기 ID: ${deviceId} , 카드 ID: ${cardId}`);
         } else {
           setRecipientStatuses((prevStatuses) => ({
             ...prevStatuses,
-            [id]: '전송 실패'
+            [deviceId]: '전송 실패'
           }));
         }
       } else {
         setRecipientStatuses((prevStatuses) => ({
           ...prevStatuses,
-          [id]: '연결 실패'
+          [deviceId]: '연결 실패'
         }));
       }
     } catch (error) {
       console.log('오류 발생:', error.message || error.toString());
       setRecipientStatuses((prevStatuses) => ({
         ...prevStatuses,
-        [id]: '오류 발생'
+        [deviceId]: '오류 발생'
       }));
     }
   }
 
   // 데이터 수신 시 모달 표시
   useEffect(() => {
-    if (receivedData) {
+    if (receivedData.length > 0) {
       setIsModalVisible(true);
     }
   }, [receivedData]);
@@ -216,7 +219,7 @@ function Step2Screen({ route }) {
           ))}
         </ScrollView>
 
-        {/* 수신된 데이터를 보여주는 모달 */}
+        {/* 수신된 데이터를 보여주는 모달 - 테스트용*/}
         <Modal
           transparent={true}
           visible={isModalVisible}
@@ -227,8 +230,8 @@ function Step2Screen({ route }) {
             <View style={{ width: '80%', padding: 20, backgroundColor: 'white', borderRadius: 10 }}>
               <Text style={{ marginBottom: 20 }}>새로운 데이터 수신</Text>
               <Text>{receivedData}</Text>
-              <TouchableOpacity onPress={() => setIsModalVisible(false)} style={{ marginTop: 20 }}>
-                <Text style={{ color: 'blue' }}>확인</Text>
+              <TouchableOpacity style={{ marginTop: 20 }}>
+                <Text onPress={() => setIsModalVisible(false)} style={{ color: 'blue' }}>확인</Text>
               </TouchableOpacity>
             </View>
           </View>
