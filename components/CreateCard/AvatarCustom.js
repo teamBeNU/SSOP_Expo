@@ -1,5 +1,6 @@
 import { View, ScrollView, Text, TouchableOpacity, Image, SafeAreaView, Platform, Dimensions } from "react-native";
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { AWS_S3_AVATAR_URI, AWS_S3_AVATAR_THUMBNAIL_URI } from '@env';
 import "react-native-gesture-handler";
 import ViewShot from "react-native-view-shot";
 
@@ -13,8 +14,6 @@ import { eyesItems, eyebrowsItems, mouthItems, moleItems, hairFrontItems, hairBa
 const screenWidth = Dimensions.get('window').width; // 화면의 전체 너비
 
 export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar, viewShotRef, profileimageurl}) {
-    const baseAvtUrl = "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/avt";
-    const baseTmbUrl = "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/tmb";
     const [hairFrontImg, setHairFrontImg] = useState('front01');
     const [isBald, setIsBald] = useState(false);    // 삭발인지 아닌지
     const [isBgColor, setIsBgColor] = useState(false);      // 배경색 변했는지 여부
@@ -538,15 +537,15 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     // }, []);
 
     // 현재 이미지 uri
-    const [currentFaceUri, setCurrentFaceUri] = useState(`${baseAvtUrl}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${hairFrontImg}.PNG`);
-    const [currentMoleUri, setCurrentMoleUri] = useState(`${baseAvtUrl}/mole/mole${avatar.mole}.png`);
-    const [currentClothesUri, setCurrentClothesUri] = useState(`${baseAvtUrl}/clothes/clothes${avatar.clothes}.png`);
-    const [currentHairBackUri, setCurrentHairBackUri] = useState(`${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`);
-    const [currentAccEarUri, setCurrentAccEarUri] = useState(`${baseAvtUrl}/acc/accEar${avatar.accEar}.png`);
-    const [currentAccNoseUri, setCurrentAccNoseUri] = useState(`${baseAvtUrl}/acc/accNose${avatar.accNose}.png`);
-    const [currentAccGlassesUri, setCurrentAccGlassesUri] = useState(`${baseAvtUrl}/acc/accGlasses${avatar.accGlasses}.png`);
-    const [currentAccPinUri, setCurrentAccPinUri] = useState(`${baseAvtUrl}/acc/accPin${avatar.accPin}.png`);
-    const [currentBgUri, setCurrentBgUri] = useState(`${baseAvtUrl}/bgobj/bgobj${avatar.bg}.png`);
+    const [currentFaceUri, setCurrentFaceUri] = useState(`${AWS_S3_AVATAR_URI}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${hairFrontImg}.PNG`);
+    const [currentMoleUri, setCurrentMoleUri] = useState(`${AWS_S3_AVATAR_URI}/mole/mole${avatar.mole}.png`);
+    const [currentClothesUri, setCurrentClothesUri] = useState(`${AWS_S3_AVATAR_URI}/clothes/clothes${avatar.clothes}.png`);
+    const [currentHairBackUri, setCurrentHairBackUri] = useState(`${AWS_S3_AVATAR_URI}/hairback/hairback0${avatar.hairBack}.PNG`);
+    const [currentAccEarUri, setCurrentAccEarUri] = useState(`${AWS_S3_AVATAR_URI}/acc/accEar${avatar.accEar}.png`);
+    const [currentAccNoseUri, setCurrentAccNoseUri] = useState(`${AWS_S3_AVATAR_URI}/acc/accNose${avatar.accNose}.png`);
+    const [currentAccGlassesUri, setCurrentAccGlassesUri] = useState(`${AWS_S3_AVATAR_URI}/acc/accGlasses${avatar.accGlasses}.png`);
+    const [currentAccPinUri, setCurrentAccPinUri] = useState(`${AWS_S3_AVATAR_URI}/acc/accPin${avatar.accPin}.png`);
+    const [currentBgUri, setCurrentBgUri] = useState(`${AWS_S3_AVATAR_URI}/bgobj/bgobj${avatar.bg}.png`);
 
     // 다음 이미지 uri
     const [nextFaceUri, setNextFaceUri] = useState(null);
@@ -646,7 +645,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             };
     
             let hairFront = getHairFront(avatar, isBald);
-            let faceUri = `${baseAvtUrl}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}`;
+            let faceUri = `${AWS_S3_AVATAR_URI}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}`;
     
             if (hairFront === 'bald') {
                 faceUri += '_bald.PNG';
@@ -704,7 +703,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 setIsMoleCancel(false);
             } else {
                 //console.log("점3333333333333: ", avatar.mole)
-                setNextMoleUri(`${baseAvtUrl}/mole/mole${avatar.mole}.png`);
+                setNextMoleUri(`${AWS_S3_AVATAR_URI}/mole/mole${avatar.mole}.png`);
             }
             setIsSelect(true);
             // setIsNextMoleLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
@@ -770,7 +769,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
         if (isClothesSelect || isAccEtcSelect) {
             //console.log("옷!")
-            setNextClothesUri(`${baseAvtUrl}/clothes/clothes${avatar.clothes}${type}.png`);
+            setNextClothesUri(`${AWS_S3_AVATAR_URI}/clothes/clothes${avatar.clothes}${type}.png`);
             setIsSelect(true);
             // setIsNextClothesLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
             setIsClothesSelect(false);
@@ -779,7 +778,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
         // if (isAccEtcSelect) {
             
-        //     setNextClothesUri(`${baseAvtUrl}/clothes/clothes${avatar.clothes}${type}.png`);
+        //     setNextClothesUri(`${AWS_S3_AVATAR_URI}/clothes/clothes${avatar.clothes}${type}.png`);
         //     setIsSelect(true);
         //     setIsAccEtcSelect(false);
         // }
@@ -811,7 +810,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         if (isHairBackSelect) {
             if (avatar.hairBack !== 9) {
                 //console.log("뒷머리1")
-                setNextHairBackUri(`${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`);
+                setNextHairBackUri(`${AWS_S3_AVATAR_URI}/hairback/hairback0${avatar.hairBack}.PNG`);
             } else if (avatar.hairBack === 9) {
                 //console.log("뒷머리2")
                 setAvatar(prev => ({ ...prev, hairFront: null }));
@@ -864,7 +863,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 setIsBgCancel(false);
             } else {
                 //console.log("3333333333333: ", avatar.bg)
-                setNextBgUri(`${baseAvtUrl}/bgobj/bgobj${avatar.bg}.png`);
+                setNextBgUri(`${AWS_S3_AVATAR_URI}/bgobj/bgobj${avatar.bg}.png`);
             }
             setIsSelect(true);
             setIsBgSelect(false);
@@ -901,7 +900,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 setCurrentAccEarUri('');
                 setIsAccEarCancel(false);
             } else {
-                setNextAccEarUri(`${baseAvtUrl}/acc/accEar${avatar.accEar}.png`);
+                setNextAccEarUri(`${AWS_S3_AVATAR_URI}/acc/accEar${avatar.accEar}.png`);
             }
             setIsSelect(true);
             setIsAccEarSelect(false);
@@ -937,7 +936,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 setCurrentAccNoseUri('');
                 setIsAccNoseCancel(false);
             } else {
-                setNextAccNoseUri(`${baseAvtUrl}/acc/accNose${avatar.accNose}.png`);
+                setNextAccNoseUri(`${AWS_S3_AVATAR_URI}/acc/accNose${avatar.accNose}.png`);
             }
             setIsSelect(true);
             setIsAccNoseSelect(false);
@@ -973,7 +972,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 setCurrentAccGlassesUri('');
                 setIsAccGlassesCancel(false);
             } else {
-                setNextAccGlassesUri(`${baseAvtUrl}/acc/accGlasses${avatar.accGlasses}.png`);
+                setNextAccGlassesUri(`${AWS_S3_AVATAR_URI}/acc/accGlasses${avatar.accGlasses}.png`);
             }
             setIsSelect(true);
             setIsAccGlassesSelect(false);
@@ -1009,7 +1008,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 setCurrentAccPinUri('');
                 setIsAccPinCancel(false);
             } else {
-                setNextAccPinUri(`${baseAvtUrl}/acc/accPin${avatar.accPin}.png`);
+                setNextAccPinUri(`${AWS_S3_AVATAR_URI}/acc/accPin${avatar.accPin}.png`);
             }
             setIsSelect(true);
             setIsAccPinSelect(false);
@@ -1058,13 +1057,13 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         <RestartIcon />
                     </TouchableOpacity>
                 </View>
-                {/* {profileimageurl && (
+                {profileimageurl && (
                     <Image 
                         source={{ uri: profileimageurl }} 
                         style={{ width: 200, height: 200, position: "absolute", zIndex: 100 }} 
                         onError={(e) => console.log('Error loading image: ', e)}
                     />
-                )} */}
+                )}
                 <ViewShot 
                     ref={viewShotRef}
                     options={{ fileName: "card", format: "png", quality: 1 }}
@@ -1263,7 +1262,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/eyes/eyes0${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/eyes/eyes0${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.eyes === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1285,7 +1284,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/eyebrows/eyebrows0${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/eyebrows/eyebrows0${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.eyebrows === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             /> 
                                         </View>
@@ -1307,7 +1306,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/mouth/mouth0${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/mouth/mouth0${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.mouth === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1329,7 +1328,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/mole/mole0${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/mole/mole0${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.mole === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1369,7 +1368,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/hairfront/hairfront0${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/hairfront/hairfront0${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.hairFront === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>    
@@ -1391,7 +1390,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/hairback/hairback0${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/hairback/hairback0${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.hairBack === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1417,7 +1416,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/clothes/tmb_clothes${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/clothes/tmb_clothes${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.clothes === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1441,7 +1440,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/acc/tmb_accEar${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/acc/tmb_accEar${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.accEar === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1460,7 +1459,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/acc/tmb_accNose${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/acc/tmb_accNose${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.accNose === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1479,7 +1478,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/acc/tmb_accGlasses${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/acc/tmb_accGlasses${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.accGlasses === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1498,7 +1497,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/acc/tmb_accPin${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/acc/tmb_accPin${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.accPin === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1517,7 +1516,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/acc/tmb_accEtc${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/acc/tmb_accEtc${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.accEtc === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
@@ -1559,7 +1558,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/bgobj/tmb_bgobj${item.id}.png`}}
+                                                source={{uri: `${AWS_S3_AVATAR_THUMBNAIL_URI}/bgobj/tmb_bgobj${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.bg === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
