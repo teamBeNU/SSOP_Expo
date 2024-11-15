@@ -33,6 +33,10 @@ export const styles = StyleSheet.create({
         // position: "absolute",
         // left: 22,
     },
+    accEarPosition: {
+        // width: "90%",
+        left: 6,
+    },
 
     btnNext: {
         position: 'absolute',

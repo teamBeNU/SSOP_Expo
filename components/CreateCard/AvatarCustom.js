@@ -8,7 +8,7 @@ import AutoAvatarIcon from "../../assets/icons/avatarCustom/fa-solid_dice-d6.svg
 import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
-import { eyesItems, eyebrowsItems, mouthItems, moleItems, hairFrontItems, hairBackItems, clothesItems, accItems, bgItems, hairColors, bgColors } from "./avatarItems";
+import { eyesItems, eyebrowsItems, mouthItems, moleItems, hairFrontItems, hairBackItems, clothesItems, accEarItems, accNoseItems, accGlassesItems, accPinItems, accEtcItems, bgItems, bgColors } from "./avatarItems";
 
 const screenWidth = Dimensions.get('window').width; // 화면의 전체 너비
 
@@ -45,10 +45,15 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         hairFrontColor: null,
         hairBackColor: null,
         clothes: null,
-        acc: null,
+        accEar: null,
+        accNose: null,
+        accGlasses: null,
+        accPin: null,
+        accEtc: null,
         bg: null,
         bgColor: null,
     });
+
     // 실제로 사용할 avatar와 setAvatar 결정
     const avatar = externalAvatar ?? internalAvatar;
     const setAvatar = externalSetAvatar ?? SetinternalAvatar;
@@ -64,7 +69,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         hairFrontColor: avatar.hairFrontColor,
         hairBackColor: avatar.hairBackColor,
         clothes: avatar.clothes,
-        acc: avatar.acc,
+        accEar: avatar.accEar,
+        accNose: avatar.accNose,
+        accGlasses: avatar.accGlasses,
+        accPin: avatar.accPin,
+        accEtc: avatar.accEtc,
         bg: avatar.bg,
         bgColor: avatar.bgColor,
     });
@@ -82,7 +91,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 hairFrontColor: 1,
                 hairBackColor: 1,
                 clothes: 1,
-                acc: null,
+                accEar: null,
+                accNose: null,
+                accGlasses: null,
+                accPin: null,
+                accEtc: null,
                 bg: null,
                 bgColor: 1,
             })));
@@ -98,7 +111,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 hairFrontColor: initAvatar.hairFrontColor,
                 hairBackColor: initAvatar.hairBackColor,
                 clothes: initAvatar.clothes,
-                acc: initAvatar.acc,
+                accEar: initAvatar.accEar,
+                accNose: initAvatar.accNose,
+                accGlasses: initAvatar.accGlasses,
+                accPin: initAvatar.accPin,
+                accEtc: initAvatar.accEtc,
                 bg: initAvatar.bg,
                 bgColor: initAvatar.bgColor,
             })));
@@ -110,6 +127,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
+        setIsAccEarSelect(true);
+        setIsAccNoseSelect(true);
+        setIsAccGlassesSelect(true);
+        setIsAccPinSelect(true);
         setIsBgSelect(true);
     }, []);
 
@@ -126,7 +147,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setAvaIndex(id);
     }
 
-    // 초기화
+    // 초기화 버튼
     const handleReset = () => {
         setAvatar((prev => ({...prev, 
             eyes: 1,
@@ -138,7 +159,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             hairFrontColor: 1,
             hairBackColor: 1,
             clothes: 1,
-            acc: null,
+            accEar: null,
+            accNose: null,
+            accGlasses: null,
+            accPin: null,
+            accEtc: null,
             bg: null,
             bgColor: 1,
         })));
@@ -146,13 +171,33 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsInit(true);
         redo.current = [];  // redo 초기화
 
+        setEyesSave(1);
+        setEyebrowsSave(1);
+        setMouthSave(1);
+        setMoleSave(null);
+        setClothesSave(1);
+        sethHairBackSave(1);
+        setAccEarSave(null);
+        setAccNoseSave(null);
+        setAccGlassesSave(null);
+        setAccPinSave(null);
+        setBgSave(null);
+        
         setIsMoleCancel(true);
+        setIsAccEarCancel(true);
+        setIsAccNoseCancel(true);
+        setIsAccGlassesCancel(true);
+        setIsAccPinCancel(true);
         setIsBgCancel(true);
 
         setIsFaceSelect(true);
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
+        setIsAccEarSelect(true);
+        setIsAccNoseSelect(true);
+        setIsAccGlassesSelect(true);
+        setIsAccPinSelect(true);
         setIsBgSelect(true);
     }
 
@@ -164,9 +209,13 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         let randMole = Math.floor(Math.random( ) * moleItems.length) + 1;
         let randHairFront = Math.floor(Math.random( ) * hairFrontItems.length) + 1;
         let randHairBack = Math.floor(Math.random( ) * hairBackItems.length) + 1;
-        let randHairColor = Math.floor(Math.random( ) * hairColors.length) + 1;
+        // let randHairColor = Math.floor(Math.random( ) * hairColors.length) + 1;
         let randClothes = Math.floor(Math.random( ) * clothesItems.length) + 1;
-        // let randAcc = Math.floor(Math.random( ) * accItems.length) + 1;
+        let randAccEar = Math.floor(Math.random( ) * accEarItems.length) + 1;
+        let randAccNose = Math.floor(Math.random( ) * accNoseItems.length) + 1;
+        let randAccGlasses = Math.floor(Math.random( ) * accGlassesItems.length) + 1;
+        let randAccPin = Math.floor(Math.random( ) * accPinItems.length) + 1;
+        let randAccEtc = Math.floor(Math.random( ) * accEtcItems.length) + 1;
         let randBg = Math.floor(Math.random( ) * bgItems.length) + 1;
         let randBgColor = Math.floor(Math.random( ) * bgColors.length) + 1;
 
@@ -181,14 +230,27 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             mole: randMole,
             hairFront: randHairFront,
             hairBack: randHairBack,
-            hairFrontColor: randHairColor,
-            hairBackColor: randHairColor,
+            // hairFrontColor: randHairColor,
+            // hairBackColor: randHairColor,
             clothes: randClothes,
-            //acc: randAcc,
+            accEar: randAccEar,
+            accNose: randAccNose,
+            accGlasses: randAccGlasses,
+            accPin: randAccPin,
+            accEtc: randAccEtc,
             bg: randBg,
             bgColor: randBgColor,
         })));
+        setEyesSave(randEyes);
+        setEyebrowsSave(randEyebrows);
+        setMouthSave(randMouth);
         setMoleSave(randMole);
+        setClothesSave(randClothes);
+        sethHairBackSave(randHairBack);
+        setAccEarSave(randAccEar);
+        setAccNoseSave(randAccNose);
+        setAccGlassesSave(randAccGlasses);
+        setAccPinSave(randAccPin);
         setBgSave(randBg);
 
         setIsRandom(true);
@@ -197,6 +259,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
+        setIsAccEarSelect(true);
+        setIsAccNoseSelect(true);
+        setIsAccGlassesSelect(true);
+        setIsAccPinSelect(true);
         setIsBgSelect(true);
     }
     
@@ -207,14 +273,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             setIsRandom(false);
         }
     }, [isRandom]);
-
-    // useEffect(() => {
-    //     console.log("11=============================");
-    //     console.log("아바타타타타타타: ", avatar)
-    //     console.log("Undo11: ", undo);
-    //     console.log("Redo11: ", redo);
-    //     console.log("=============================");
-    // }, [avatar])
 
     // Undo
     const handleUndo = () => {
@@ -242,6 +300,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsMoleSelect(true);
         setIsClothesSelect(true);
         setIsHairBackSelect(true);
+        setIsAccEarSelect(true);
+        setIsAccNoseSelect(true);
+        setIsAccGlassesSelect(true);
+        setIsAccPinSelect(true);
         setIsBgSelect(true);
         
         // console.log("Undo22: ", undo);
@@ -268,6 +330,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             setIsMoleSelect(true);
             setIsClothesSelect(true);
             setIsHairBackSelect(true);
+            setIsAccEarSelect(true);
+            setIsAccNoseSelect(true);
+            setIsAccGlassesSelect(true);
+            setIsAccPinSelect(true);
             setIsBgSelect(true);
         }
     }
@@ -301,28 +367,19 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         }
     }, [isSelect]);
 
-    // useEffect(() => {
-    //     //console.log("이즈 셀렉트: ", isSelect);
-    //     if (!isSelect) {  // isSelect 값이 false로 변경된 후 실행
-    //         console.log("isSelect 값이 false로 변경됨: ", isSelect);
-    //     } else {
-    //         console.log("이즈 셀렉트: ", isSelect);
-    //     }
-    // }, [isSelect]);
-
     // 이전 아이템 중복 선택 (또는 삭발 시 앞머리 선택) -> undo에 저장X
-    const itemDuplication = () => {
-        // console.log("중복 삭제 전: ", undo);
-        // console.log("undo.current[undo.current.length - 1]: ", undo.current[undo.current.length - 1]);
-        // console.log("undo.current[undo.current.length - 2]: ", undo.current[undo.current.length - 2]);
+    // const itemDuplication = () => {
+    //     // console.log("중복 삭제 전: ", undo);
+    //     // console.log("undo.current[undo.current.length - 1]: ", undo.current[undo.current.length - 1]);
+    //     // console.log("undo.current[undo.current.length - 2]: ", undo.current[undo.current.length - 2]);
 
-        // JSON.stringify 사용하여 객체를 문자열로 변환하여 비교
-        if (JSON.stringify(undo.current[undo.current.length - 1]) === JSON.stringify(undo.current[undo.current.length - 2])) {
-            console.log("중복 제거!!!!!")
-            undo.current.pop();
-        }
-        // console.log("중복 삭제 후: ", undo);
-    }
+    //     // JSON.stringify 사용하여 객체를 문자열로 변환하여 비교
+    //     if (JSON.stringify(undo.current[undo.current.length - 1]) === JSON.stringify(undo.current[undo.current.length - 2])) {
+    //         console.log("중복 제거!!!!!")
+    //         undo.current.pop();
+    //     }
+    //     // console.log("중복 삭제 후: ", undo);
+    // }
 
     // 컴포넌트 -> 이미지
     // useEffect(() => {
@@ -477,6 +534,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [currentMoleUri, setCurrentMoleUri] = useState(`${baseAvtUrl}/mole/mole${avatar.mole}.png`);
     const [currentClothesUri, setCurrentClothesUri] = useState(`${baseAvtUrl}/clothes/clothes${avatar.clothes}.png`);
     const [currentHairBackUri, setCurrentHairBackUri] = useState(`${baseAvtUrl}/hairback/hairback0${avatar.hairBack}.PNG`);
+    const [currentAccEarUri, setCurrentAccEarUri] = useState(`${baseAvtUrl}/acc/accEar${avatar.accEar}.png`);
+    const [currentAccNoseUri, setCurrentAccNoseUri] = useState(`${baseAvtUrl}/acc/accNose${avatar.accNose}.png`);
+    const [currentAccGlassesUri, setCurrentAccGlassesUri] = useState(`${baseAvtUrl}/acc/accGlasses${avatar.accGlasses}.png`);
+    const [currentAccPinUri, setCurrentAccPinUri] = useState(`${baseAvtUrl}/acc/accPin${avatar.accPin}.png`);
     const [currentBgUri, setCurrentBgUri] = useState(`${baseAvtUrl}/bgobj/bgobj${avatar.bg}.png`);
 
     // 다음 이미지 uri
@@ -484,6 +545,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [nextMoleUri, setNextMoleUri] = useState(null);
     const [nextClothesUri, setNextClothesUri] = useState(null);
     const [nextHairBackUri, setNextHairBackUri] = useState(null);
+    const [nextAccEarUri, setNextAccEarUri] = useState(null);
+    const [nextAccNoseUri, setNextAccNoseUri] = useState(null);
+    const [nextAccGlassesUri, setNextAccGlassesUri] = useState(null);
+    const [nextAccPinUri, setNextAccPinUri] = useState(null);
     const [nextBgUri, setNextBgUri] = useState(null);
 
     // 다음 이미지 로드 여부
@@ -491,6 +556,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [isNextMoleLoaded, setIsNextMoleLoaded] = useState(false);
     const [isNextClothesLoaded, setIsNextClothesLoaded] = useState(false);
     const [isNextHairBackLoaded, setIsNextHairBackLoaded] = useState(false);
+    const [isNextAccEarLoaded, setIsNextAccEarLoaded] = useState(false);
+    const [isNextAccNoseLoaded, setIsNextAccNoseLoaded] = useState(false);
+    const [isNextAccGlassesLoaded, setIsNextAccGlassesLoaded] = useState(false);
+    const [isNextAccPinLoaded, setIsNextAccPinLoaded] = useState(false);
     const [isNextBgLoaded, setIsNextBgLoaded] = useState(false);
     
     // 아이템 선택 여부
@@ -498,6 +567,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [isMoleSelect, setIsMoleSelect] = useState(false);            // 점
     const [isClothesSelect, setIsClothesSelect] = useState(false);      // 옷
     const [isHairBackSelect, setIsHairBackSelect] = useState(false);    // 뒷머리
+    const [isAccEarSelect, setIsAccEarSelect] = useState(false);        // 악세사리 - 귀걸이
+    const [isAccNoseSelect, setIsAccNoseSelect] = useState(false);        // 악세사리 - 코 피어싱
+    const [isAccGlassesSelect, setIsAccGlassesSelect] = useState(false);        // 악세사리 - 안경
+    const [isAccPinSelect, setIsAccPinSelect] = useState(false);        // 악세사리 - 머리핀
     const [isBgSelect, setIsBgSelect] = useState(false);    // 배경 오브젝트
 
     // 이목구비(눈, 눈썹, 입), 앞머리 변화
@@ -589,10 +662,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     };
 
     // 점 변화
-    const [molePosition, setMolePosition] = useState({      // 점 위치
-        x: '',
-        y: '',
-    })
     const [moleSave, setMoleSave] = useState(); // 점 저장
     const [isMoleCancel, setIsMoleCancel] = useState(false); // 점 취소
 
@@ -645,6 +714,8 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [clothesSave, setClothesSave] = useState(); // 옷 저장
 
     const handleClothes = (id) => {
+        console.log("클로즈:", clothesSave)
+        console.log("클로즈 id:", id)
         if (clothesSave === id) {  // 중복 선택 X
             //console.log("옷 중복X")
         } else {    // 옷 추가
@@ -758,56 +829,154 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setNextBgUri(null); // 임시 URI 초기화
     };
 
-    // 악세사리 변화
-    // const [accSave, setAccSave] = useState(); // 악세사리 저장
-    // const [isAccCancel, setIsAccCancel] = useState(false); // 악세사리 취소
+    // 악세사리(귀걸이) 변화
+    const [accEarSave, setAccEarSave] = useState(); // 악세사리 저장
+    const [isAccEarCancel, setIsAccEarCancel] = useState(false); // 악세사리 취소
 
-    // const handleAcc = (id) => {
-    //     // console.log('id: ', isAccCancel)
-    //     // console.log('accsave: ', accSave)
-    //     if (accSave === id) {  // 악세사리 삭제
-    //         setAvatar(prev => ({...prev, acc: null}));
-    //         setIsAccCancel(true);
-    //         setAccSave(null);
-    //     } else {    // 악세사리 추가
-    //         setAvatar(prev => ({...prev, acc: id}));
-    //         setIsAccCancel(false);
-    //         setAccSave(id);
-    //     }
-    //     setIsAccSelect(true);
-    // }
+    const handleAccEar = (id) => {
+        if (accEarSave === id) {  // 악세사리 삭제
+            setAvatar(prev => ({...prev, accEar: null}));
+            setIsAccEarCancel(true);
+            setAccEarSave(null);
+        } else {    // 악세사리 추가
+            setAvatar(prev => ({...prev, accEar: id}));
+            setIsAccEarCancel(false);
+            setAccEarSave(id);
+        }
+        setIsAccEarSelect(true);
+    }
 
-    // useEffect(() => {
-    //     // console.log("currentBgUri: ", currentBgUri)
-    //     // console.log("nextBgUri: ", nextBgUri)
-    //     // console.log("isBg: ", isBgCancel);
-    //     // console.log("isBgSelect: ", isBgSelect);
-    //     if (isAccSelect) {
-    //         //console.log("11111111111")
-    //         if(isAccCancel) {    // 악세사리 취소
-    //             //console.log("22222222222222222")
-    //             setNextAccUri('');
-    //             setCurrentAccUri('');
-    //             setIsAccCancel(false);
-    //         } else {
-    //             //console.log("3333333333333: ", avatar.bg)
-    //             setNextAccUri(`${baseAvtUrl}/bgobj/bgobj${avatar.bg}.png`);
-    //         }
-    //         setIsSelect(true);
-    //         setIsAccSelect(false);
-    //     }
-    // }, [isAccSelect, avatar]);
+    useEffect(() => {
+        if (isAccEarSelect) {
+            if(isAccEarCancel) {    // 악세사리 취소
+                setNextAccEarUri('');
+                setCurrentAccEarUri('');
+                setIsAccEarCancel(false);
+            } else {
+                setNextAccEarUri(`${baseAvtUrl}/acc/accEar${avatar.accEar}.png`);
+            }
+            setIsSelect(true);
+            setIsAccEarSelect(false);
+        }
+    }, [isAccEarSelect, avatar]);
 
-    // const handleNextAccLoad = () => {
-    //     //console.log('handleNextAccLoad: ', nextAccUri)
-    //     setCurrentAccUri(nextAccUri); // 새로운 이미지가 완전히 로드된 후 교체
-    //     setNextAccUri(null); // 임시 URI 초기화
-    // };
+    const handleNextAccEarLoad = () => {
+        setCurrentAccEarUri(nextAccEarUri); // 새로운 이미지가 완전히 로드된 후 교체
+        setNextAccEarUri(null); // 임시 URI 초기화
+    };
+
+    // 악세사리(코 피어싱) 변화
+    const [accNoseSave, setAccNoseSave] = useState(); // 악세사리 저장
+    const [isAccNoseCancel, setIsAccNoseCancel] = useState(false); // 악세사리 취소
+
+    const handleAccNose = (id) => {
+        if (accNoseSave === id) {  // 악세사리 삭제
+            setAvatar(prev => ({...prev, accNose: null}));
+            setIsAccNoseCancel(true);
+            setAccNoseSave(null);
+        } else {    // 악세사리 추가
+            setAvatar(prev => ({...prev, accNose: id}));
+            setIsAccNoseCancel(false);
+            setAccNoseSave(id);
+        }
+        setIsAccNoseSelect(true);
+    }
+
+    useEffect(() => {
+        if (isAccNoseSelect) {
+            if(isAccNoseCancel) {    // 악세사리 취소
+                setNextAccNoseUri('');
+                setCurrentAccNoseUri('');
+                setIsAccNoseCancel(false);
+            } else {
+                setNextAccNoseUri(`${baseAvtUrl}/acc/accNose${avatar.accNose}.png`);
+            }
+            setIsSelect(true);
+            setIsAccNoseSelect(false);
+        }
+    }, [isAccNoseSelect, avatar]);
+
+    const handleNextAccNoseLoad = () => {
+        setCurrentAccNoseUri(nextAccNoseUri); // 새로운 이미지가 완전히 로드된 후 교체
+        setNextAccNoseUri(null); // 임시 URI 초기화
+    };
+
+    // 악세사리(안경) 변화
+    const [accGlassesSave, setAccGlassesSave] = useState(); // 악세사리 저장
+    const [isAccGlassesCancel, setIsAccGlassesCancel] = useState(false); // 악세사리 취소
+
+    const handleAccGlasses = (id) => {
+        if (accGlassesSave === id) {  // 악세사리 삭제
+            setAvatar(prev => ({...prev, accGlasses: null}));
+            setIsAccGlassesCancel(true);
+            setAccGlassesSave(null);
+        } else {    // 악세사리 추가
+            setAvatar(prev => ({...prev, accGlasses: id}));
+            setIsAccGlassesCancel(false);
+            setAccGlassesSave(id);
+        }
+        setIsAccGlassesSelect(true);
+    }
+
+    useEffect(() => {
+        if (isAccGlassesSelect) {
+            if(isAccGlassesCancel) {    // 악세사리 취소
+                setNextAccGlassesUri('');
+                setCurrentAccGlassesUri('');
+                setIsAccGlassesCancel(false);
+            } else {
+                setNextAccGlassesUri(`${baseAvtUrl}/acc/accGlasses${avatar.accGlasses}.png`);
+            }
+            setIsSelect(true);
+            setIsAccGlassesSelect(false);
+        }
+    }, [isAccGlassesSelect, avatar]);
+
+    const handleNextAccGlassesLoad = () => {
+        setCurrentAccGlassesUri(nextAccGlassesUri); // 새로운 이미지가 완전히 로드된 후 교체
+        setNextAccGlassesUri(null); // 임시 URI 초기화
+    };
+
+    // 악세사리(머리핀) 변화
+    const [accPinSave, setAccPinSave] = useState(); // 악세사리 저장
+    const [isAccPinCancel, setIsAccPinCancel] = useState(false); // 악세사리 취소
+
+    const handleAccPin = (id) => {
+        if (accPinSave === id) {  // 악세사리 삭제
+            setAvatar(prev => ({...prev, accPin: null}));
+            setIsAccPinCancel(true);
+            setAccPinSave(null);
+        } else {    // 악세사리 추가
+            setAvatar(prev => ({...prev, accPin: id}));
+            setIsAccPinCancel(false);
+            setAccPinSave(id);
+        }
+        setIsAccPinSelect(true);
+    }
+
+    useEffect(() => {
+        if (isAccPinSelect) {
+            if(isAccPinCancel) {    // 악세사리 취소
+                setNextAccPinUri('');
+                setCurrentAccPinUri('');
+                setIsAccPinCancel(false);
+            } else {
+                setNextAccPinUri(`${baseAvtUrl}/acc/accPin${avatar.accPin}.png`);
+            }
+            setIsSelect(true);
+            setIsAccPinSelect(false);
+        }
+    }, [isAccPinSelect, avatar]);
+
+    const handleNextAccPinLoad = () => {
+        setCurrentAccPinUri(nextAccPinUri); // 새로운 이미지가 완전히 로드된 후 교체
+        setNextAccPinUri(null); // 임시 URI 초기화
+    };
 
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
-                {/* <TouchableOpacity
+                <TouchableOpacity
                     style={{position: "absolute", zIndex: 10, right: 12, marginTop:20, backgroundColor:"red", padding: 10}}
                     onPress={() => {
                         console.log("55=======================================")
@@ -818,7 +987,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     }}
                 >
                     <Text>테스트 버튼</Text>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
                 <View style={styles.avatarDo}>
                     <TouchableOpacity onPress={() => handleUndo()}>
                         <UndoIcon />
@@ -854,42 +1023,76 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     style={{ zIndex: -1 , backgroundColor:'red', height: screenWidth}}
                 >
                     <View style={styles.avatarView}>
-                        {/* <Text>dddddd</Text> */}
-                        {/* <View style={{position: 'absolute', width: '100%', height: '100%', justifyContent: "center", alignItems: "center", left: 6}}> */}
-
+                        
+                        {/* 악세사리 - 귀걸이 */}
+                        <Image                  // 현재 이미지
+                            source={currentAccEarUri ? { uri: currentAccEarUri } : null}
+                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 67 }]}
+                            fadeDuration={0}
+                        />
+                        {nextAccEarUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                            <Image
+                                source={nextAccEarUri ? { uri: nextAccEarUri } : null}
+                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 66 }]}
+                                onLoad={handleNextAccEarLoad}
+                                fadeDuration={0}
+                            />
+                        )}
+                        {/* 악세사리 - 코 피어싱 */}
+                        <Image                  // 현재 이미지
+                            source={currentAccNoseUri ? { uri: currentAccNoseUri } : null}
+                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 65 }]}
+                            fadeDuration={0}
+                        />
+                        {nextAccNoseUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                            <Image
+                                source={nextAccNoseUri ? { uri: nextAccNoseUri } : null}
+                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 64 }]}
+                                onLoad={handleNextAccNoseLoad}
+                                fadeDuration={0}
+                            />
+                        )}
+                        {/* 악세사리 - 안경 */}
+                        <Image                  // 현재 이미지
+                            source={currentAccGlassesUri ? { uri: currentAccGlassesUri } : null}
+                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 63 }]}
+                            fadeDuration={0}
+                        />
+                        {nextAccGlassesUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                            <Image
+                                source={nextAccGlassesUri ? { uri: nextAccGlassesUri } : null}
+                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 62 }]}
+                                onLoad={handleNextAccGlassesLoad}
+                                fadeDuration={0}
+                            />
+                        )}
+                        {/* 악세사리 - 머리핀 */}
+                        <Image                  // 현재 이미지
+                            source={currentAccPinUri ? { uri: currentAccPinUri } : null}
+                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 61 }]}
+                            fadeDuration={0}
+                        />
+                        {nextAccPinUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                            <Image
+                                source={nextAccPinUri ? { uri: nextAccPinUri } : null}
+                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 60 }]}
+                                onLoad={handleNextAccPinLoad}
+                                fadeDuration={0}
+                            />
+                        )}
+                        
                         {/* 점 */}
                         <Image                  // 현재 이미지
                             // source={{ uri: currentMoleUri }}
                             source={currentMoleUri ? { uri: currentMoleUri } : null}
                             style={[styles.avatarImg, styles.molePosition, { zIndex: 51 }]}
-                            // style={[
-                            //     styles.avatarImg, 
-                            //     { 
-                            //         zIndex: 10,
-                            //         left: moleItems.find(item => item.id === avatar.mole)?.x, 
-                            //         top: moleItems.find(item => item.id === avatar.mole)?.y,
-                            //     },
-                            // ]}
                             fadeDuration={0}
-                            // onLoad={() => setIsMoleLoad(true)}
-                            onLoad={() => {
-                                //handleCapture();
-                                //setIsRandomLoad(true);
-                            }}
                         />
                         {nextMoleUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                             <Image
                                 // source={{ uri: nextMoleUri }}
                                 source={nextMoleUri ? { uri: nextMoleUri } : null}
                                 style={[styles.avatarImg, styles.molePosition, { zIndex: 50 }]}
-                                // style={[
-                                //     styles.avatarImg, 
-                                //     { 
-                                //         zIndex: 9,
-                                //         left: moleItems.find(item => item.id === avatar.mole)?.x, 
-                                //         top: moleItems.find(item => item.id === avatar.mole)?.y,
-                                //     },
-                                // ]}
                                 onLoad={handleNextMoleLoad}
                                 fadeDuration={0}
                             />
@@ -900,11 +1103,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                             source={{ uri: currentFaceUri }}
                             style={[styles.avatarImg, styles.avatarPosition, { zIndex: 41 }]}
                             fadeDuration={0}
-                            // onLoad={() => {setIsFaceLoad(true);}}
-                            onLoad={() => {
-                                //handleCapture();
-                                //setIsRandomLoad(true);
-                            }}
                         />
                         {nextFaceUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                             <Image
@@ -920,11 +1118,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                             source={{ uri: currentClothesUri }}
                             style={[styles.avatarClothes, { zIndex: 31 }]}
                             fadeDuration={0}
-                            // onLoadEnd={() =>{setIsClothesLoad(true);}}
-                            onLoad={() => {
-                                //handleCapture();
-                                //setIsRandomLoad(true);
-                            }}
                         />
                         {nextClothesUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                             <Image
@@ -942,11 +1135,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                     source={{ uri: currentHairBackUri }}
                                     style={[styles.avatarImg, styles.avatarPosition, { zIndex: 21 }]}
                                     fadeDuration={0}
-                                    // onLoad={() => setIsHairBackLoad(true)}
-                                    onLoad={() => {
-                                        //handleCapture();
-                                        //setIsRandomLoad(true);
-                                    }}
                                 />
                                 {nextHairBackUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                                     <Image
@@ -964,11 +1152,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                             source={currentBgUri ? { uri: currentBgUri } : null}
                             style={[styles.avatarBgObj, { zIndex: 11 }]}
                             fadeDuration={0}
-                            // onLoad={() => setIsMoleLoad(true)}
-                            onLoad={() => {
-                                //handleCapture();
-                                //setIsRandomLoad(true);
-                            }}
                         />
                         {nextBgUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
                             <Image
@@ -979,7 +1162,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                 fadeDuration={0}
                             />
                         )}
-                        {/* </View> */}
 
                         <View       // 배경색
                             style={[styles.avatarBg, {backgroundColor: bgColors.find(color => color.id === (avatar.bgColor || 1)).color}]}
@@ -1199,22 +1381,77 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     )}
                     {avaIndex === 4 && (        // 악세사리
                         <View>
+                            <Text style={styles.avatarItemText}>귀걸이</Text>
                             <View style={styles.avatarItemList}>
-                                {accItems.map(item => (
+                                {accEarItems.map(item => (
                                     <TouchableOpacity
                                         key={item.id}
                                         style={styles.avatarItems}
                                         onPress={() => {
-                                            //handleBg(item.id);
-                                            // setAvatar((prev => ({...prev, clothes: item.id})))
-                                            // //setIsSelect(true);
-                                            // setIsClothesSelect(true);
+                                            handleAccEar(item.id);
                                         }}
                                     >
                                         <View style={styles.avatarItem}>
                                             <Image
-                                                source={{uri: `${baseTmbUrl}/acc/tmb_acc${item.id}.png`}}
-                                                style={[styles.avatarItemImg, avatar.acc === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                                source={{uri: `${baseTmbUrl}/acc/tmb_accEar${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.accEar === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>코 피어싱</Text>
+                            <View style={styles.avatarItemList}>
+                                {accNoseItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        style={styles.avatarItems}
+                                        onPress={() => {
+                                            handleAccNose(item.id);
+                                        }}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/acc/tmb_accNose${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.accNose === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>안경</Text>
+                            <View style={styles.avatarItemList}>
+                                {accGlassesItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        style={styles.avatarItems}
+                                        onPress={() => {
+                                            handleAccGlasses(item.id);
+                                        }}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/acc/tmb_accGlasses${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.accGlasses === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>머리핀</Text>
+                            <View style={styles.avatarItemList}>
+                                {accPinItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        style={styles.avatarItems}
+                                        onPress={() => {
+                                            handleAccPin(item.id);
+                                        }}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/acc/tmb_accPin${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.accPin === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
                                     </TouchableOpacity>

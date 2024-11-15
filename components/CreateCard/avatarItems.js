@@ -24,10 +24,10 @@ export const mouthItems = [
 
 // 이목구비 - 점
 export const moleItems = [
-    {id: 1, name: '왼쪽눈밑점', x: -12, y: 24},
-    {id: 2, name: '오른쪽볼점', x: 0, y: 24},
-    {id: 3, name: '왼쪽코윗점', x: 4, y: 18},
-    {id: 4, name: '주근깨', x: 4, y: 24},
+    {id: 1, name: '왼쪽눈밑점'},
+    {id: 2, name: '오른쪽볼점'},
+    {id: 3, name: '왼쪽코윗점'},
+    {id: 4, name: '주근깨'},
 ]
 
 // 헤어 - 앞머리
@@ -64,36 +64,37 @@ export const clothesItems = [
     {id: 8, name: '초록조끼'},
 ]
 
-// 악세사리
-export const accItems = [
-    {id: 1, name: '링귀걸이', type: '귀걸이'},
-    {id: 2, name: '귀피어싱1', type: '귀걸이'},
-    {id: 3, name: '귀피어싱2', type: '귀걸이'},
-    {id: 4, name: '코피어싱1', type: '코피어싱'},
-    {id: 5, name: '코피어싱2', type: '코피어싱'},
-    {id: 6, name: '고양이', type: '어깨'},
-    {id: 7, name: '헤드폰', type: '어깨'},
-    {id: 8, name: '실버안경', type: '안경'},
-    {id: 9, name: '검정안경', type: '안경'},
-    {id: 10, name: '빨간안경', type: '안경'},
-    {id: 11, name: '기본핀', type: '헤어핀'},
-    {id: 12, name: '별핀', type: '헤어핀'},
+// 악세사리 - 귀걸이
+export const accEarItems = [
+    {id: 1, name: '링귀걸이'},
+    {id: 2, name: '귀피어싱1'},
+    {id: 3, name: '귀피어싱2'},
 ]
 
-// import AccSvg1 from '../../assets/avatars/accessories/accessories-1.svg';
+// 악세사리 - 코 피어싱
+export const accNoseItems = [
+    {id: 1, name: '코피어싱1'},
+    {id: 2, name: '코피어싱2'},
+]
 
-// export const accItems = [
-//     {id: 1, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-//     {id: 2, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-//     {id: 3, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-//     {id: 4, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-//     {id: 5, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-//     {id: 6, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-//     {id: 7, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-//     {id: 8, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-//     {id: 9, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-//     {id: 10, name: '피어싱', svg: (props) => <AccSvg1 {...props} />},
-// ]
+// 악세사리 - 안경
+export const accGlassesItems = [
+    {id: 1, name: '실버안경'},
+    {id: 2, name: '검정안경'},
+    {id: 3, name: '빨간안경'},
+]
+
+// 악세사리 - 머리핀
+export const accPinItems = [
+    {id: 1, name: '긴핀'},
+    {id: 2, name: '별핀'},
+]
+
+// 악세사리 - 기타
+export const accEtcItems = [
+    {id: 1, name: '고양이'},
+    {id: 2, name: '헤드폰'},
+]
 
 // 배경 오브젝트
 export const bgItems = [
@@ -101,31 +102,17 @@ export const bgItems = [
     {id: 2, name: '별'},
     {id: 3, name: '버블'},
 ]
-// import ObjectSvg1 from '../../assets/avatars/background/object-1.svg';
-
-// export const bgItems = [
-//     {id: 1, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-//     {id: 2, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-//     {id: 3, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-//     {id: 4, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-//     {id: 5, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-//     {id: 6, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-//     {id: 7, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-//     {id: 8, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-//     {id: 9, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-//     {id: 10, name: '하트', svg: (props) => <ObjectSvg1 {...props} />},
-// ]
 
 // 헤어 컬러
-export const hairColors = [
-    {id: 1, color: "#363432"},
-    {id: 2, color: "#4F3D3D"},
-    {id: 3, color: "#8A6543"},
-    {id: 4, color: "#CBA37F"},
-    {id: 5, color: "#FBDD90"},
-    {id: 6, color: "#EB7777"},
-    {id: 7, color: "#7798EB"},
-]
+// export const hairColors = [
+//     {id: 1, color: "#363432"},
+//     {id: 2, color: "#4F3D3D"},
+//     {id: 3, color: "#8A6543"},
+//     {id: 4, color: "#CBA37F"},
+//     {id: 5, color: "#FBDD90"},
+//     {id: 6, color: "#EB7777"},
+//     {id: 7, color: "#7798EB"},
+// ]
 
 // 배경 컬러
 import { theme } from '../../theme';
