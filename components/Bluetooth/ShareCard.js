@@ -12,31 +12,38 @@ const cardWidth = (screenWidth - 16 * 2 - 12) / 2; // 화면 양쪽 마진 16, �
 const cardAspectRatio = 200 / 162; // 전체 카드 비율
 const textAreaAspectRatio = 51 / 162; // cardTextArea 비율
 
-export const ShareCard = ({ avatar, card_name, card_birth, card_template, card_cover, profile_image_url, isHost, dot }) => {
+export const ShareCard = ({ card_name, card_birth, card_template, card_cover, profile_image_url, isHost }) => {
   return (
-    <View style={[styles.card, { backgroundColor: card_cover === 'avatar' ? getColor(avatar.bgColor) : getColor(card_cover), width: cardWidth, height: cardWidth * cardAspectRatio, }]}>
+    <View
+      style={[
+        styles.card,
+        {
+          width: cardWidth,
+          height: cardWidth * cardAspectRatio,
+        },
+      ]}
+    >
       <View style={styles.cardImgArea}>
-        {card_cover === 'avatar' ? (
-          <View style={{ backgroundColor: getColor(avatar.bgColor) }}>
-            {/* avatar 렌더링 로직 */}
-          </View>
-        ) : (
-          <Image
-            source={{ uri: profile_image_url }} // profile_image_url이 존재할 경우 이미지 렌더링
-            resizeMode="cover"
-            style={styles.cardImgArea} // 이미지 스타일 적용
-          />
-        )}
+        <Image
+          source={{ uri: profile_image_url }}
+          resizeMode="cover"
+          style={styles.cardImgArea} // 이미지 스타일 적용
+        />
       </View>
       {isHost && (
         <View style={styles.DetailcardHost}>
           <Text style={styles.DetailcardFilterText}>호스트</Text>
         </View>
       )}
-      <View style={[styles.cardTextArea, { 
-        width: cardWidth, 
-        height: cardWidth * textAreaAspectRatio, // cardTextArea 높이 비율 설정
-      }]}>
+      <View
+        style={[
+          styles.cardTextArea,
+          {
+            width: cardWidth,
+            height: cardWidth * textAreaAspectRatio,
+          },
+        ]}
+      >
         <View style={styles.Info}>
           <Text style={styles.name}>{card_name}</Text>
           <View style={styles.age}>
@@ -49,7 +56,6 @@ export const ShareCard = ({ avatar, card_name, card_birth, card_template, card_c
     </View>
   );
 };
-
 
 export const PlusCardButton = () => {
   const navigation = useNavigation();

@@ -100,7 +100,12 @@ const AcceptCardView = ({
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
+    <ScrollView showsVerticalScrollIndicator={false} 
+    contentContainerStyle={{
+      flexGrow: 1,
+      minHeight: '100%', // 화면 높이만큼 최소 높이를 보장
+    }}
+    style={styles.backgroundColor}>
       <View style={styles.backgroundColor2}>
         <Text style={[styles.detailtitle, { marginBottom: 8 }]}>{title}</Text>
         {sub ? <Text style={[styles.subteamsp, { marginBottom: 8 }]}>{sub}</Text> : null}
@@ -184,23 +189,13 @@ const AcceptCardView = ({
                     <View key={item.cardId} style={styles.ListContainer}>
                       <TouchableOpacity onPress={() => handleNext(item.cardId)}>
                         <View style={styles.row2}>
-                          {item.card_cover === 'avatar' ? (
-                            <View
-                              style={[
-                                styles.gray,
-                                { backgroundColor: getColor(item.avatar.bgColor) },
-                              ]}
+                          <View style={styles.gray}>
+                            <Image
+                              source={{ uri: item.profile_image_url }} // 항상 profile_image_url 렌더링
+                              resizeMode="cover"
+                              style={styles.gray} // 스타일 유지
                             />
-                          ) : (
-                            <View style={styles.gray}>
-                              <Image
-                                source={{ uri: item.profile_image_url }}
-                                resizeMode="cover"
-                                style={styles.gray}
-                              />
-                            </View>
-                          )}
-
+                          </View>
                           <View style={styles.infoContainer}>
                             <View style={styles.rowName}>
                               <Text style={styles.Text16gray10}>

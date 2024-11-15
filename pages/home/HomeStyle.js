@@ -76,7 +76,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 25,
-        backgroundColor: "#FF85CB",
+        backgroundColor: theme.gray20,
         shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
