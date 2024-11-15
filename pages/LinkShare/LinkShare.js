@@ -210,30 +210,6 @@ function Step2Screen({ route, navigation}) {
           <View style={styles.linkShareContainer}>
           <LinkShareImage/>
             <View>
-              <Modal
-              animationType="fade"
-              transparent={true}
-              visible={isModalVisible}
-              onRequestClose={() => {
-                setIsModalVisible(!isModalVisible);
-              }}>
-              <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
-                <View style={styles.shareModalContainer}>
-                  <TouchableWithoutFeedback>
-                    <View style={styles.ShareModalView}>
-                      <TouchableOpacity onPress={() => { copyLinkShare(); setIsModalVisible(false); }}>
-                        <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
-                      </TouchableOpacity>
-                      <View style={styles.line} />
-                      <TouchableOpacity onPress={() => { handleLinkSharePress(); setIsModalVisible(false)}}>
-                        <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
-                      </TouchableOpacity>
-                    </View>
-                  </TouchableWithoutFeedback>
-                </View>
-              </TouchableWithoutFeedback>
-            </Modal>
-
             </View>
           </View>
         </View>
@@ -241,7 +217,7 @@ function Step2Screen({ route, navigation}) {
           <TouchableOpacity style={[styles.btnTestBox, {marginTop: 10}]} onPress={navigateToLinkReceiver}>
             <Text style={styles.btnTest}>다른 사람이 보낸 링크 저장 (시연을 위한 임시 버튼)</Text>
           </TouchableOpacity >
-          <TouchableOpacity style={[styles.btnNext, {marginTop: 10}]} onPress={handleShareButtonPress}>
+          <TouchableOpacity style={[styles.btnNext, {marginTop: 10}]}  onPress={handleLinkSharePress}>
             <ShareIcon style={{marginRight: 8}}/>
             <Text style={styles.btnText}>링크 공유하기</Text>
           </TouchableOpacity >

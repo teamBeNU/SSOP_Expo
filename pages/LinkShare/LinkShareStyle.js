@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     shareContainer:{      
         flex: 1,  
         backgroundColor: theme.white,
+        pointerEvents: 'box-none'
     },
     title: { // 글씨 
         marginTop: 30,
