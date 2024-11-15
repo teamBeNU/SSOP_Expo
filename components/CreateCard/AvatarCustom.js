@@ -131,6 +131,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsAccNoseSelect(true);
         setIsAccGlassesSelect(true);
         setIsAccPinSelect(true);
+        setIsAccEtcSelect(true);
         setIsBgSelect(true);
     }, []);
 
@@ -181,6 +182,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setAccNoseSave(null);
         setAccGlassesSave(null);
         setAccPinSave(null);
+        setAccEtcSave(null);
         setBgSave(null);
         
         setIsMoleCancel(true);
@@ -188,6 +190,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsAccNoseCancel(true);
         setIsAccGlassesCancel(true);
         setIsAccPinCancel(true);
+        setIsAccEtcCancel(true);
         setIsBgCancel(true);
 
         setIsFaceSelect(true);
@@ -198,6 +201,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsAccNoseSelect(true);
         setIsAccGlassesSelect(true);
         setIsAccPinSelect(true);
+        setIsAccEtcSelect(true);
         setIsBgSelect(true);
     }
 
@@ -251,6 +255,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setAccNoseSave(randAccNose);
         setAccGlassesSave(randAccGlasses);
         setAccPinSave(randAccPin);
+        setAccEtcSave(randAccEtc);
         setBgSave(randBg);
 
         setIsRandom(true);
@@ -263,6 +268,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsAccNoseSelect(true);
         setIsAccGlassesSelect(true);
         setIsAccPinSelect(true);
+        setIsAccEtcSelect(true);
         setIsBgSelect(true);
     }
     
@@ -304,6 +310,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setIsAccNoseSelect(true);
         setIsAccGlassesSelect(true);
         setIsAccPinSelect(true);
+        setIsAccEtcSelect(true);
         setIsBgSelect(true);
         
         // console.log("Undo22: ", undo);
@@ -334,6 +341,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             setIsAccNoseSelect(true);
             setIsAccGlassesSelect(true);
             setIsAccPinSelect(true);
+            setIsAccEtcSelect(true);
             setIsBgSelect(true);
         }
     }
@@ -571,6 +579,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     const [isAccNoseSelect, setIsAccNoseSelect] = useState(false);        // 악세사리 - 코 피어싱
     const [isAccGlassesSelect, setIsAccGlassesSelect] = useState(false);        // 악세사리 - 안경
     const [isAccPinSelect, setIsAccPinSelect] = useState(false);        // 악세사리 - 머리핀
+    const [isAccEtcSelect, setIsAccEtcSelect] = useState(false);        // 악세사리 - 기타
     const [isBgSelect, setIsBgSelect] = useState(false);    // 배경 오브젝트
 
     // 이목구비(눈, 눈썹, 입), 앞머리 변화
@@ -710,8 +719,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         setNextMoleUri(null); // 임시 URI 초기화
     };
 
-    // 옷 변화
+    // 옷 변화 (+ 악세사리 기타)
     const [clothesSave, setClothesSave] = useState(); // 옷 저장
+    const [accEtcSave, setAccEtcSave] = useState(); // 악세사리 저장
+    const [isAccEtcCancel, setIsAccEtcCancel] = useState(false); // 악세사리 취소
 
     const handleClothes = (id) => {
         console.log("클로즈:", clothesSave)
@@ -727,15 +738,52 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         //setIsSelect(true);
     }
 
+    const handleAccEtc = (id) => {
+        //console.log('id: ', isMoleCancel)
+        //console.log('molesave: ', moleSave)
+        if (accEtcSave === id) {  // 악세사리 삭제
+            setAvatar(prev => ({...prev, accEtc: null}));
+            setIsAccEtcCancel(true);
+            setAccEtcSave(null);
+        } else {    // 악세사리 추가
+            setAvatar(prev => ({...prev, accEtc: id}));
+            setIsAccEtcCancel(false);
+            setAccEtcSave(id);
+        }
+        //setIsSelect(true);
+        setIsAccEtcSelect(true);
+    }
+
     useEffect(() => {
-        if (isClothesSelect) {
+        let type = "";
+        switch(accEtcSave) {
+            case 1:     // 고양이
+                type = "_cat";
+                break;
+            case 2:     // 헤드폰
+                type = "_headphon";
+                break;
+            default:
+                type = "";
+                break;
+        }
+
+        if (isClothesSelect || isAccEtcSelect) {
             //console.log("옷!")
-            setNextClothesUri(`${baseAvtUrl}/clothes/clothes${avatar.clothes}.png`);
+            setNextClothesUri(`${baseAvtUrl}/clothes/clothes${avatar.clothes}${type}.png`);
             setIsSelect(true);
             // setIsNextClothesLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
             setIsClothesSelect(false);
+            setIsAccEtcSelect(false);
         }
-    }, [isClothesSelect, avatar]);
+
+        // if (isAccEtcSelect) {
+            
+        //     setNextClothesUri(`${baseAvtUrl}/clothes/clothes${avatar.clothes}${type}.png`);
+        //     setIsSelect(true);
+        //     setIsAccEtcSelect(false);
+        // }
+    }, [isClothesSelect, setIsAccEtcSelect, avatar]);
 
     const handleNextClothesLoad = () => {
         // setIsNextClothesLoaded(true);
@@ -1452,6 +1500,25 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                             <Image
                                                 source={{uri: `${baseTmbUrl}/acc/tmb_accPin${item.id}.png`}}
                                                 style={[styles.avatarItemImg, avatar.accPin === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
+                                            />
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
+                            <Text style={styles.avatarItemText}>기타</Text>
+                            <View style={styles.avatarItemList}>
+                                {accEtcItems.map(item => (
+                                    <TouchableOpacity
+                                        key={item.id}
+                                        style={styles.avatarItems}
+                                        onPress={() => {
+                                            handleAccEtc(item.id);
+                                        }}
+                                    >
+                                        <View style={styles.avatarItem}>
+                                            <Image
+                                                source={{uri: `${baseTmbUrl}/acc/tmb_accEtc${item.id}.png`}}
+                                                style={[styles.avatarItemImg, avatar.accEtc === item.id ? styles.itemSelectOn : styles.itemSelectOff]}
                                             />
                                         </View>
                                     </TouchableOpacity>
