@@ -20,7 +20,7 @@ import HostFreeFalse from "./HostFreeFalse";
 
 import CoverAvatar from "../../assets/createCard/coverAvatar.svg";
 import CoverPicture from "../../assets/createCard/coverPicture.svg";
-import AvatarCustom from "../CreateCard/AvatarCustom";
+import AvatarCustom from "../Avatar/AvatarCustom";
 import SelectCover from "../CreateCard/SelectCover";
 
 export default function HostTemplate({ navigation, goToOriginal, data }) {

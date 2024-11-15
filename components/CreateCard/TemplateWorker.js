@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
-import AvatarCustom from "./AvatarCustom";
+import AvatarCustom from "../Avatar/AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
