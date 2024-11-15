@@ -2,9 +2,8 @@ export const avatarCapture = async (viewShotRef, setProfileImageUrl, setIsAvatar
     if (viewShotRef.current) {
         try {
             const uri = await viewShotRef.current.capture();
-            console.log('Captured URI:', uri);
             setProfileImageUrl(uri);
-            //setIsAvatarComplete(true);
+            setIsAvatarComplete(true);
         } catch (error) {
             console.error('Capture failed:', error);
         }
