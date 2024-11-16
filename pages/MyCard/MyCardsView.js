@@ -12,7 +12,7 @@ import { ListCardView } from "../../components/MyCard/ListCardView";
 import { styles } from './MyCardsViewStyle';
 import { theme } from '../../theme';
 
-const CardsView = ({ cardData, refreshData }) => {
+const CardsView = ({ cardData, setCardData, refreshData, returnViewOption }) => {
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('그리드형');
   const [sortedCardData, setSortedCardData] = useState([]);
@@ -27,6 +27,7 @@ const CardsView = ({ cardData, refreshData }) => {
   // 데이터 정렬
   useEffect(() => {
     setSortedCardData(sortData(cardData));
+    setViewOption(returnViewOption)
   }, [cardData, selectedOption]);
 
   const toggleViewOption = () => {
@@ -68,7 +69,7 @@ const CardsView = ({ cardData, refreshData }) => {
       {viewOption === '그리드형' ? (
         <GridCardView cardData={sortedCardData} />
       ) : (
-        <ListCardView cardData={sortedCardData} refreshData={refreshData} />
+        <ListCardView cardData={sortedCardData} setCardData={setCardData} refreshData={refreshData} />
       )}
 
       <TouchableOpacity style={styles.newCardBtn} onPress={() => { navigation.navigate('카드 만들기'); }}>

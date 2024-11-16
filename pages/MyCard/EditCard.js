@@ -16,13 +16,13 @@ import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
 
 function EditCard() {
     const route = useRoute();
-    const {card, index} = route.params;
+    const {card, index, cardId} = route.params;
 
     //기본 정보
-    const [name, setName] = useState(card.cardEssential.card_name);
+    const [name, setName] = useState(card.cardEssential.card_name ? card.cardEssential.card_name : '');
     const [MBTI, setMBTI] = useState(card.cardOptional.card_MBTI ? card.cardOptional.card_MBTI : '');
     const [birth, setBirth] = useState(card.cardOptional.card_bSecret === true ? card.cardOptional.card_birth : '');
-    const [introduce, setIntroduce] = useState(card.cardEssential.card_introduction);
+    const [introduce, setIntroduce] = useState(card.cardEssential.card_introduction ? card.cardEssential.card_introduction : '');
     const [isSecret, setIsSecret] = useState(card.cardOptional.card_bSecret === true ? true : false);
 
     const [tel, setTel] = useState(card.cardOptional.card_tel ? card.cardOptional.card_tel : '');

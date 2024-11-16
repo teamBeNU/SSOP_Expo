@@ -182,6 +182,59 @@ export const styles = StyleSheet.create({
         top: 16,
         right: 0,
     },
+    //modal style
+        modalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        justifyContent: 'flex-end',
+        },
+        modalView: {
+        //height: 232,
+        backgroundColor: 'white',
+        borderTopLeftRadius: 16,
+        borderTopRightRadius: 16,
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+        paddingBottom: 24
+        },
+        modalTitle: {
+        flexDirection: 'row',
+        paddingVertical: 16,
+        paddingHorizontal: 8,
+        justifyContent: 'center',
+        alignItems: 'center',
+        position: 'relative',
+        color: theme.gray10,
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontWeight: '400',
+        lineHeight: 19,
+        letterSpacing: -0.32
+        },
+        modalContent: {
+        paddingVertical: 12,
+        paddingHorizontal: 24,
+        width: '100%',
+        justifyContent: 'space-between',
+        },
+        button: {
+        height: 48,
+        borderRadius: 8,
+        paddingVertical: 14,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: theme.gray10,
+        },
+        modalFont: {
+        fontFamily: 'PretendardRegular',
+        color: theme.gray10,
+        fontSize: 16,
+        fontWeight: 400,
+        lineHeight: 19,
+        letterSpacing: -0.32,
+        flex: 1,
+        },
 
     // 그리드형
     btn1: {

@@ -105,7 +105,7 @@ function MyCard() {
         <View style={{flex: 1}}> 
             {hasCard ? (
             <View style={{flex: 1}} >
-                <MyCardsView cardData={cardData} refreshData={fetchData}/>
+                <MyCardsView cardData={cardData} setCardData= {setCardData} refreshData={fetchData}/>
                
             </View>
         ) : (
