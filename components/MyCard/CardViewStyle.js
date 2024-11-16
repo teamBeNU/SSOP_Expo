@@ -114,7 +114,7 @@ export const styles = StyleSheet.create({
         width: Dimensions.get('window').width - 32,
         paddingVertical: 12,
         paddingHorizontal: 20,
-        marginBottom: 12,
+        marginBottom: 8,
         backgroundColor: theme.white,
         borderColor: theme.gray95,
         borderWidth: 1,
