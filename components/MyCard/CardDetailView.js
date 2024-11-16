@@ -415,7 +415,7 @@ const CardDetailView = () => {
                                         <View style={styles.modalContent}>
                                             <TouchableOpacity onPress={() => {
                                                 setIsModalVisible(false);
-                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex], index: currentCardIndex});}}>
+                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex], isDetail: true});}}>
                                             <Text style={styles.modalTitle}>정보 수정할래요</Text>
                                             </TouchableOpacity>
                                             <View style={styles.line} />

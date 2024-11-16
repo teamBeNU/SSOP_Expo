@@ -19,11 +19,34 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
     const navigation = useNavigation();
     const [isCoverModalVisible, setIsCoverModalVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
-
+    const [currentCardData, setCurrentCardData] = useState(null);
 
     const handleNext = (cardId) => {
       navigation.navigate('카드 상세보기', { cardId });
     };
+
+    const handleEdit = async(cardId) => {
+      const token = await AsyncStorage.getItem('token');
+
+      try {
+          const response = await axios.get(`http://43.202.52.64:8080/api/card/view?cardId=${cardId}`, {
+              headers: {
+                  Authorization: `Bearer ${token}`,
+              },
+          });    
+
+          const result = response.data; 
+          navigation.navigate('카드 정보 수정', {card: result});
+          // console.log('rr ', result);
+
+          // setCurrentCardData(result);
+      } catch (error) {
+      Alert.alert(error.response?.data?.message || error.message || 'Request failed');
+      }
+      //console.log('cd ', currentCardData);
+      //navigation.navigate('카드 정보 수정', {card: currentCardData});
+    };
+
 
     //이미지 커버 수정
     const [profile_image_url, setProfileImageUrl] = useState(null);
@@ -288,7 +311,8 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                               <TouchableWithoutFeedback
                                   onPress={() => {
                                   setIsModalVisible(false);
-                                  navigation.navigate('카드 정보 수정', {cardId: currentCardId});
+                                  handleEdit(currentCardId);
+                                  // navigation.navigate('카드 정보 수정', {cardId: currentCardId});
                                   }}>
                               <Text style={styles.modalTitle}>정보 수정할래요</Text>
                               </TouchableWithoutFeedback>
