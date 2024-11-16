@@ -1023,7 +1023,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
-                <TouchableOpacity
+                {/* <TouchableOpacity
                     style={{position: "absolute", zIndex: 10, right: 12, marginTop:20, backgroundColor:"red", padding: 10}}
                     onPress={() => {
                         console.log("55=======================================")
@@ -1034,7 +1034,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     }}
                 >
                     <Text>테스트 버튼</Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
                 <View style={styles.avatarDo}>
                     <TouchableOpacity onPress={() => handleUndo()}>
                         <UndoIcon />
@@ -1067,7 +1067,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                 <ViewShot 
                     ref={viewShotRef}
                     options={{ fileName: "card", format: "png", quality: 1 }}
-                    style={{ zIndex: -1 , backgroundColor:'red', height: screenWidth}}
+                    style={{ zIndex: -1 , backgroundColor:'red', height: screenWidth*0.94}}
                 >
                     <View style={styles.avatarView}>
                         
