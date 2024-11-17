@@ -6,7 +6,7 @@ import { styles } from './MyCardStyle';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 import SwapIcon from '../../assets/icons/ic_swap_regular.svg';
-import MyCardsView from '../../pages/MyCard/MyCardsView.js';
+import CardsView from '../../pages/MyCard/MyCardsView.js';
   
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
@@ -105,7 +105,7 @@ function MyCard() {
         <View style={{flex: 1}}> 
             {hasCard ? (
             <View style={{flex: 1}} >
-                <MyCardsView cardData={cardData} setCardData= {setCardData} refreshData={fetchData}/>
+                <CardsView cardData={cardData} setCardData= {setCardData} refreshData={fetchData}/>
                
             </View>
         ) : (

@@ -27,7 +27,7 @@ const CardsView = ({ cardData, setCardData, refreshData, returnViewOption }) => 
   // 데이터 정렬
   useEffect(() => {
     setSortedCardData(sortData(cardData));
-    setViewOption(returnViewOption)
+    //setViewOption(returnViewOption)
   }, [cardData, selectedOption]);
 
   const toggleViewOption = () => {
