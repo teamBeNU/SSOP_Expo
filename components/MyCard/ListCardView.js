@@ -15,14 +15,14 @@ import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import {deleteCard} from './DeleteCardAPI.js';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 
-export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, setSelectedCards, refreshData }) => {
+export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, setSelectedCards, refreshData, selectedOption }) => {
     const navigation = useNavigation();
     const [isCoverModalVisible, setIsCoverModalVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [currentCardData, setCurrentCardData] = useState(null);
 
     const handleNext = (cardId) => {
-      navigation.navigate('카드 상세보기', { cardId });
+      navigation.navigate('카드 상세보기', { cardId, selectedOption });
     };
 
     const handleEdit = async(cardId) => {
@@ -37,14 +37,9 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
 
           const result = response.data; 
           navigation.navigate('카드 정보 수정', {card: result});
-          // console.log('rr ', result);
-
-          // setCurrentCardData(result);
       } catch (error) {
       Alert.alert(error.response?.data?.message || error.message || 'Request failed');
       }
-      //console.log('cd ', currentCardData);
-      //navigation.navigate('카드 정보 수정', {card: currentCardData});
     };
 
 
@@ -93,7 +88,6 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
     useEffect(() => {
         if (isPictureComplete) {
             handleSubmit(currentCardId);
-            console.log("card ", currentCardId, "\n data : ", cardData[currentCardId]);
             setIsPictureComplete(false);
             setCurrentCardId(null);
         }
@@ -170,8 +164,6 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
             fetchData();
         }, [])
     );
-
-
 
     return (
         <ScrollView horizontal={false} contentContainerStyle={{ width: '100%' }} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>

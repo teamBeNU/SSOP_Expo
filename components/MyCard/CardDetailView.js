@@ -22,7 +22,7 @@ const CardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef(null);
     const route = useRoute();
-    const { cardId, refresh } = route.params;
+    const { cardId, refresh, selectedOption } = route.params;
 
     const [cardData, setCardData] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -212,7 +212,14 @@ const CardDetailView = () => {
             });
 
             const result = await response.json();
-            setCardData(result);
+
+            const sortData = (data) => {
+                const dataCopy = [...(data || [])];
+                return selectedOption === '오래된 순' ? dataCopy : dataCopy.reverse();
+              };
+
+            setCardData(sortData(result));
+
             const cardIndex = result.findIndex(card => card.cardId === cardId);
             if (cardIndex !== -1) {
                 setCurrentCardIndex(cardIndex);

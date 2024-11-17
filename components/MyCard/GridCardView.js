@@ -9,11 +9,11 @@ import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
-export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCards}) => {
+export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCards, selectedOption}) => {
     const navigation = useNavigation(); 
 
     const handleNext = (cardId) => {
-      navigation.navigate('카드 상세보기', { cardId });
+      navigation.navigate('카드 상세보기', { cardId, selectedOption });
     };
 
     return (

@@ -67,9 +67,9 @@ const CardsView = ({ cardData, setCardData, refreshData, returnViewOption }) => 
       </View>
 
       {viewOption === '그리드형' ? (
-        <GridCardView cardData={sortedCardData} />
+        <GridCardView cardData={sortedCardData} selectedOption={selectedOption} />
       ) : (
-        <ListCardView cardData={sortedCardData} setCardData={setCardData} refreshData={refreshData} />
+        <ListCardView cardData={sortedCardData} setCardData={setCardData} refreshData={refreshData} selectedOption={selectedOption} />
       )}
 
       <TouchableOpacity style={styles.newCardBtn} onPress={() => { navigation.navigate('카드 만들기'); }}>
