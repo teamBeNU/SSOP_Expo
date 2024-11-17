@@ -80,7 +80,7 @@ function MyCard() {
         if (hasCard) {
             navigation.setOptions({
                 headerLeft: () => (
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('내 카드 보내기')}>
                         <SwapIcon style={{ marginHorizontal: 16, marginVertical: 16}} />
                     </TouchableOpacity>
                 ),
