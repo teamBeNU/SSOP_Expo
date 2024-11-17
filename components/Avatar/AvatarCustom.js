@@ -144,6 +144,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     // 카테고리 선택
     const handleCategory = (id) => {
+        this.scrollView.scrollTo({ y: 0, animated: false });        // 스크롤 최상단으로 이동
         setAvaIndex(id);
     }
 
@@ -1244,7 +1245,10 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         <Text style={avaIndex === 5 ? styles.avatarItemCategoryTextOn : styles.avatarItemCategoryTextOff}>배경</Text>
                     </TouchableOpacity>
                 </View>
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <ScrollView 
+                    showsVerticalScrollIndicator={false}
+                    ref={ref => (this.scrollView = ref)}
+                >
                     {avaIndex === 1 && (        // 이목구비
                         <View>
                             <Text style={styles.avatarItemText}>눈</Text>
