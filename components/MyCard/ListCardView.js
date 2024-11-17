@@ -14,11 +14,14 @@ import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-m
 import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import {deleteCard} from './DeleteCardAPI.js';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
+import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 
 export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, setSelectedCards, refreshData, selectedOption }) => {
     const navigation = useNavigation();
     const [isCoverModalVisible, setIsCoverModalVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isShareModalVisible, setIsShareModalVisible] = useState(false);
     const [currentCardData, setCurrentCardData] = useState(null);
 
     const handleNext = (cardId) => {
@@ -42,6 +45,48 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
       }
     };
 
+    const handleBluetoothPress = () => {
+      setIsShareModalVisible(false);
+      navigation.navigate('내 카드 보내기');
+  };
+
+  const handleLinkSharePress = async () => {
+      setIsShareModalVisible(false);
+
+      const result = await Share.share({
+          title: `SSOP`, // android 단독
+          message: `SSOP: Share SOcial Profile card\nhttp://ssop2024.notion.site`,
+      });
+
+      if (result.action === Share.sharedAction) {
+          if (result.activityType) {
+          // shared with activity type of result.activityType
+          } else {
+          // shared
+          }
+      } else if (result.action === Share.dismissedAction) {
+          // dismissed
+      }
+
+      // const link = await createLink();
+
+      // if (link) {
+      // const result = await Share.share({
+      //     title: `SSOP`, // android 단독
+      //     message: `SSOP: Share SOcial Profile card`,
+      // });
+
+      // if (result.action === Share.sharedAction) {
+      //     if (result.activityType) {
+      //     // shared with activity type of result.activityType
+      //     } else {
+      //     // shared
+      //     }
+      // } else if (result.action === Share.dismissedAction) {
+      //     // dismissed
+      // }
+      // }
+  };
 
     //이미지 커버 수정
     const [profile_image_url, setProfileImageUrl] = useState(null);
@@ -274,7 +319,7 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                   <MenuOptions
                     optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
                   >
-                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 공유하기' onSelect={() => {}} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 공유하기' onSelect={() => setIsShareModalVisible(true)} />
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 수정하기' onSelect={() => {setIsModalVisible(true); setCurrentCardId(item.cardId);}} />
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기' onSelect={() => deleteCard(item.cardId, navigation, '내 카드', refreshData)} />
                   </MenuOptions>
@@ -300,22 +345,22 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                           </TouchableWithoutFeedback>
 
                           <View style={styles.modalContent}>
-                              <TouchableWithoutFeedback
+                              <TouchableOpacity
                                   onPress={() => {
                                   setIsModalVisible(false);
                                   handleEdit(currentCardId);
                                   // navigation.navigate('카드 정보 수정', {cardId: currentCardId});
                                   }}>
                               <Text style={styles.modalTitle}>정보 수정할래요</Text>
-                              </TouchableWithoutFeedback>
+                              </TouchableOpacity>
                               <View style={styles.line} />
-                              <TouchableWithoutFeedback onPress={() => {
+                              <TouchableOpacity onPress={() => {
                                   setIsModalVisible(false);
                                   setIsCoverModalVisible(true);
                                   //navigation.navigate('카드 커버 수정', {card: cardData});
                                   }}>
                               <Text style={styles.modalTitle}>표지 수정할래요</Text>
-                              </TouchableWithoutFeedback>
+                              </TouchableOpacity>
                           </View>
                       </View>
                 </View>
@@ -357,7 +402,7 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                         </View>
                     </View>
                   </View>
-              </Modal>
+              </Modal>                
             </View>
           ))}
           </View>

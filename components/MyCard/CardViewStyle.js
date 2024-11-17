@@ -318,5 +318,92 @@ export const styles = StyleSheet.create({
         top: 12,
         left: 11,
         zIndex: 10
-    }
+    },
+
+    //공유모달
+    shareModalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.4)',
+    justifyContent: 'flex-end',
+    },
+    shareModalView: {
+    height: 304,
+    backgroundColor: 'white',
+    borderTopLeftRadius: 16,
+    borderTopRightRadius: 16,
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0,
+    },
+    modalTitle: {
+    flexDirection: 'row',
+    paddingVertical: 16,
+    paddingHorizontal: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    position: 'relative',
+    color: theme.gray10,
+    fontFamily: 'PretendardRegular',
+    fontSize: 16,
+    fontWeight: '400',
+    lineHeight: 19,
+    letterSpacing: -0.32
+    },
+    modalFont: {
+    fontFamily: 'PretendardRegular',
+    color: theme.gray10,
+    fontSize: 16,
+    fontWeight: 400,
+    lineHeight: 19,
+    letterSpacing: -0.32,
+    flex: 1,
+    },
+    modalRow: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    marginTop: 25,
+    gap: 8
+    },
+    btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
+    width: 160,
+    height: 180,
+    elevation: 5,
+    position: 'relative',
+    borderRadius: 16,
+    backgroundColor: theme.white,
+    shadowColor: "rgba(73, 81, 100, 0.09)",
+    shadowOffset: {
+            width: 0,
+            height: 2
+    },
+    shadowRadius: 16,
+    shadowOpacity: 1,
+    borderWidth: 1,
+    borderColor: "rgba(244, 244, 244, 1.0)",
+    elevation: 5,
+    position: 'relative',
+    },
+    Text14: {
+    marginLeft: 16,
+    fontFamily: "PretendardRegular",
+    fontSize: 14,
+    letterSpacing: -1,
+    },
+    Text18: {
+    marginTop: 20,
+    marginLeft: 16,
+    fontFamily: "PretendardSemiBold",
+    fontSize: 18,
+    letterSpacing: -1,
+    marginBottom: 8,
+    },
+    icon2: { // 블루투스, 링크, 팀스페이스 입장, 생성 아이콘
+    position: 'absolute',
+    bottom: 16,
+    right: 16,
+    width: 80,
+    height: 80,
+    },
+            
 })
