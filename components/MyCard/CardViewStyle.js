@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet, Platform } from 'react-native';
 import { theme } from "../../theme";
+import { textStyles } from "../../textStyles";
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
@@ -112,8 +113,7 @@ export const styles = StyleSheet.create({
     // 리스트형 카드 스타일
     ListContainer: {
         width: Dimensions.get('window').width - 32,
-        paddingVertical: 12,
-        paddingHorizontal: 20,
+        padding: 12,
         marginBottom: 8,
         backgroundColor: theme.white,
         borderColor: theme.gray95,
@@ -150,6 +150,7 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardSemibold",
         color: theme.gray10,
         fontSize: 16,
+        fontWeight: '600',
         letterSpacing: -0.32
     },
     Text16gray50: {
@@ -157,11 +158,17 @@ export const styles = StyleSheet.create({
         color: theme.gray50,
         fontSize: 16,
     },
+    Text16gray60: {
+        fontFamily: "Pretendard",
+        color: theme.gray60,
+        fontSize: 16,
+        fontWeight: '400',
+        letterSpacing: -0.32
+    },
     Text14gray30: {
         marginTop: 8,
-        fontFamily: "Pretendard",
         color: theme.gray30,
-        fontSize: 14,
+        ...textStyles.body14
     }, 
     Text14gray50: {
         fontFamily: "Pretendard",
@@ -181,6 +188,10 @@ export const styles = StyleSheet.create({
         zIndex: 30,
         top: 16,
         right: 0,
+    },
+    menuText: {
+    color: theme.gray10,
+    ...textStyles.body16
     },
     //modal style
         modalContainer: {
@@ -289,7 +300,6 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '600',
         letterSpacing: -0.32,
-        lineHeight: 19,
         marginRight: 4,
     },
     age: {
@@ -299,9 +309,8 @@ export const styles = StyleSheet.create({
         fontSize: 14,
     },
     ageText: {
-        fontFamily: "PretendardRegular",
         color: theme.gray60,
-        letterSpacing: -0.44,
+        ...textStyles.body14,
         marginRight: 4,
     },
 

@@ -1,21 +1,18 @@
-import { Image, ScrollView, Text, View, Dimensions, Modal, TouchableWithoutFeedback, Alert } from 'react-native';
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import * as ImagePicker from 'expo-image-picker';
-import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TouchableOpacity } from "react-native-gesture-handler";
-import { getColor } from '../../utils/bgColorMapping';
-import { calculateAge } from '../../utils/calculateAge';
-import { styles } from './CardViewStyle';
+import { useFocusEffect, useNavigation } from '@react-navigation/native';
 import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
+import React, { useCallback, useEffect, useState } from 'react';
+import { Alert, Dimensions, Image, Modal, ScrollView, Text, TouchableWithoutFeedback, View } from 'react-native';
+import { TouchableOpacity } from "react-native-gesture-handler";
+import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
 import NotSelectedIcon from '../../assets/icons/ic_radioBtn_all.svg';
 import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import MoreGrayIcon from '../../assets/icons/ic_more_regular_gray_line.svg';
-import {deleteCard} from './DeleteCardAPI.js';
-import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
-import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
-import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
+import { calculateAge } from '../../utils/calculateAge';
+import { styles } from './CardViewStyle';
+import { deleteCard } from './DeleteCardAPI.js';
 
 export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, setSelectedCards, refreshData, selectedOption }) => {
     const navigation = useNavigation();
@@ -270,7 +267,7 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                     <View style={styles.rowName}>
                       <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
                       {item.cardOptional.card_birth ? (
-                      <Text style={styles.Text16gray50}>{calculateAge(item.cardOptional.card_birth)}</Text>
+                      <Text style={styles.Text16gray60}>{calculateAge(item.cardOptional.card_birth)}</Text>
                       ) : null}                        
                     </View>
                     <Text style={styles.Text14gray30}>{item.cardEssential.card_introduction}</Text>
@@ -303,7 +300,7 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                     <View style={styles.rowName}>
                       <Text style={styles.Text16gray10}>{item.cardEssential.card_name}</Text>
                       {item.cardOptional.card_birth ? (
-                        <Text style={styles.Text16gray50}>{calculateAge(item.cardOptional.card_birth)}</Text>
+                        <Text style={styles.Text16gray60}>{calculateAge(item.cardOptional.card_birth)}</Text>
                       ) : null}
                     </View>
                     <Text style={styles.Text14gray30}>{item.cardEssential.card_introduction}</Text>
@@ -319,9 +316,9 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                   <MenuOptions
                     optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}
                   >
-                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 공유하기' onSelect={() => setIsShareModalVisible(true)} />
-                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 수정하기' onSelect={() => {setIsModalVisible(true); setCurrentCardId(item.cardId);}} />
-                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기' onSelect={() => deleteCard(item.cardId, navigation, '내 카드', refreshData)} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 공유하기'  textStyle={styles.menuText} onSelect={() => setIsShareModalVisible(true)} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 수정하기'  textStyle={styles.menuText} onSelect={() => {setIsModalVisible(true); setCurrentCardId(item.cardId);}} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기'  textStyle={styles.menuText} onSelect={() => deleteCard(item.cardId, navigation, '내 카드', refreshData)} />
                   </MenuOptions>
                 </Menu>
               </View>
