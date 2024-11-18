@@ -3,15 +3,14 @@ import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
-import { View, Text, ScrollView, TouchableOpacity, Modal, Alert, TouchableWithoutFeedback } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Alert, TouchableWithoutFeedback } from "react-native";
 import { styles } from './SpaceStyle.js';
-import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
 import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
-import Contact from '../../assets/icons/ic_contact_small_line.svg';
-import Share from '../../assets/icons/ic_share_small_line.svg';
+import Contact from '../../assets/icons/ic_contact_black.svg';
+import Swap from '../../assets/icons/ic_swap.svg';
 
 // 상세 팀스페이스
 export default function DetailTeamSpaceScreen({ navigation }) {
@@ -39,9 +38,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('리스트형');
-  const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
-  const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
+  const [viewOption, setViewOption] = useState('격자형');
   const [hasCards, setHasCards] = useState(true);
 
   // AsyncStorage에서 토큰 가져오기
@@ -78,9 +75,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
       // 팀스페이스 참여 정보 API 호출
       const apiUrl = `${baseUrl}/teamsp/member?teamId=${teamId}`;
       axios
-        .get(apiUrl, {
-          headers: { Authorization: `Bearer ${token}` },
-        })
+        .get(apiUrl)
         .then((response) => {
           setData(response.data);
           setFilter(response.data.filter);
@@ -93,7 +88,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
           // console.log("전체 데이터: ", response.data);
 
           // DrtailTeamSpace.jsx로 데이터 전달
-          if (onDataChange) {
+          if (response.data.hostId && onDataChange) {
             onDataChange(response.data.hostId);
           }
 
@@ -102,7 +97,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
           console.error('참여 멤버 목록 API 요청 에러:', error);
         });
     }
-  }, [userId, token]);
+  }, [userId]);
 
   useEffect(() => {
     if (Array.isArray(cardId) && cardId.length > 0) {
@@ -198,26 +193,8 @@ export default function DetailTeamSpaceScreen({ navigation }) {
     }
   };
 
-
   const handleShareButtonPress = () => {
     setIsModalVisible(true);
-  };
-
-  const handleDeleteGroup = (id) => {
-    setGroupToDelete(id);
-    setIsSpaceModalVisible(true);
-  };
-
-  const handleConfirmDelete = () => {
-    // groupToDelete에 해당하는 그룹 삭제
-    setTeamData((prevData) => prevData.filter((group) => group.id !== groupToDelete));
-    setGroupToDelete(null);  // 삭제할 그룹 ID 초기화
-    setIsSpaceModalVisible(false);  // 모달 닫기
-    showCustomToast('그룹이 성공적으로 삭제되었어요.');
-  };
-
-  const handleChangeGroupName = () => {
-    setIsGroupNameChangeModalVisible(true);
   };
 
   // 복사
@@ -292,26 +269,9 @@ export default function DetailTeamSpaceScreen({ navigation }) {
         selectedFilters={selectedFilters}
       />
 
-      <SpaceModal
-        isVisible={isSpaceModalVisible}
-        onClose={() => setIsSpaceModalVisible(false)}
-        title={'선택한 팀스페이스를 삭제하시겠습니까?'}
-        sub={'모든 정보가 삭제되며 되돌릴 수 없습니다.'}
-        btn1={'취소할래요'}
-        btn2={'네, 삭제할래요'}
-      />
-
-      <SpaceNameChangeModal
-        isVisible={isGroupNameChangeModalVisible}
-        onClose={() => setIsGroupNameChangeModalVisible(false)}
-        groupName={'그룹 이름을 작성하세요.'}
-        btn1={'취소하기'}
-        btn2={'수정하기'}
-      />
-
       {/* 하단 버튼 영역 */}
       <View style={styles.bottomDetailContainer}>
-        <Share />
+        <Swap />
         <TouchableOpacity style={{ marginLeft: 6 }}>
           <Text style={styles.bottomText} onPress={handleShareButtonPress}>팀스페이스 공유</Text>
         </TouchableOpacity>

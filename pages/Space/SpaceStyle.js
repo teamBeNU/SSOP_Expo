@@ -64,7 +64,7 @@ export const styles = StyleSheet.create({
         fontSize: 26,
         fontFamily: 'PretendardSemiBold',
         textAlign: 'center',
-        letterSpacing: -1,
+        letterSpacing: -0.52,
         marginBottom: 12,
     },
     Text16gray: {
@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontFamily: 'PretendardRegular',
         textAlign: 'center',
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         marginBottom: 56
         
     },
@@ -149,7 +149,7 @@ export const styles = StyleSheet.create({
         height: 18,
         borderRadius: 8,
         marginRight: 8,
-        backgroundColor: '#00C2ED33',
+        backgroundColor: 'rgba(33, 33, 33, 0.80)',
         fontFamily: 'PretendardRegular',
         justifyContent: 'center',
         alignItems: 'center',
@@ -157,23 +157,22 @@ export const styles = StyleSheet.create({
         paddingVertical: 3,
     },
     hostText: {
-        color: theme.gray20,
+        color: theme.white,
         fontSize: 10,
         fontFamily: 'PretendardRegular',
         textAlign: 'center',
-        letterSpacing: -1,
     },
     font16: {
         fontSize: 14,
         fontFamily: 'PretendardRegular',
         marginTop: 8,
-        letterSpacing: -1,
+        letterSpacing: -0.14,
         color: theme.gray30,
     },
     font18: {
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         color: theme.gray10,
     },
     people: {
@@ -488,6 +487,7 @@ export const styles = StyleSheet.create({
         color: theme.white,
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
+        letterSpacing: -0.32
     },
 
     // 모달
@@ -691,5 +691,83 @@ export const styles = StyleSheet.create({
         elevation: 1,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)"
+    },
+
+    modalOverlay: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        width: 304,
+        paddingVertical: 32,
+        paddingHorizontal: 16,
+        gap: 24,
+        backgroundColor: '#fff',
+        borderRadius: 16,
+        alignItems: 'center',
+    },
+    modalText: {
+        color: theme.gray10,
+        textAlign: 'center',
+        fontFamily: 'PretendardMedium',
+        fontSize: 16,
+        fontWeight: '500',
+        lineHeight: 19,
+        letterSpacing: -0.32
+    },
+    modalSubText: {
+        color: theme.gray50,
+        textAlign: 'center',
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 17,
+        letterSpacing: -0.14,
+        marginTop: -12
+    },
+    modalButtons: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: 8,
+        width: '100%',
+    },
+    cancelButton: {
+        flex: 1,
+        height: 40,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        borderRadius: 8,
+        alignItems: 'center',
+        borderWidth: 1,
+        borderColor: theme.gray80
+    },
+    confirmButton: {
+        flex: 1,
+        height: 40,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        borderRadius: 8,
+        alignItems: 'center',
+        backgroundColor: theme.gray10
+    },
+    cancelText: {
+        color: theme.gray50,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 17,
+        letterSpacing: -0.14
+    },
+    confirmText: {
+        color: theme.white,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 17,
+        letterSpacing: -0.14
     },
 })

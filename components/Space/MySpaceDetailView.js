@@ -212,7 +212,7 @@ const MySpaceDetailView = ({
         <View>
           <View>
             {viewOption === '격자형' && (
-              <View>
+              <View style={{ paddingTop: Array.isArray(filteredData) && filteredData.length > 0 ? 2 : 10 }}>
                 <View style={[styles.row, styles.container]}>
                   {/* 필터링한 데이터 */}
                   {Array.isArray(filteredData) && filteredData.length > 0 ? (
@@ -221,7 +221,9 @@ const MySpaceDetailView = ({
                         key={item.cardId}
                         style={styles.btn1}
                         onPress={() => {
-                          if (item.cardId === undefined) {
+                          if (item.userId === null) {
+                            handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                          } else {
                             const matchingMember = sortedMemberData.find(member => member.userId === item.userId);
                             if (matchingMember) {
                               setSelectedMemberData(matchingMember);
@@ -229,19 +231,17 @@ const MySpaceDetailView = ({
                             } else {
                               console.log('해당 사용자의 카드를 조회할 수 없습니다.');
                             }
-                          } else {
-                            handleCardDetail(item.cardId); // 기존 카드 제출일 경우
                           }
                         }}
                       >
                         <ShareCard
-                            avatar={item.avatar}
-                            profile_image_url={item.profile_image_url}
-                            isHost={hostId == item.userId}
-                            card_name={item.memberEssential.card_name}
-                            card_birth={item.memberOptional.card_birth || ''}
-                            dot=' · '
-                            card_template={item.memberEssential.card_template || '기타'}
+                          avatar={item.avatar}
+                          profile_image_url={item.profile_image_url}
+                          isHost={hostId == item.userId}
+                          card_name={item.card_name}
+                          card_birth={item.card_birth || ''}
+                          dot=' · '
+                          card_template={item.card_template || '기타'}
                         />
                       </TouchableOpacity>
                     ))
@@ -258,12 +258,12 @@ const MySpaceDetailView = ({
                         >
                           <ShareCard
                             avatar={item.avatar}
-                            profile_image_url={item.memberEssential.profile_image_url}
+                            profile_image_url={item.profile_image_url}
                             isHost={hostId == item.userId}
-                            card_name={item.memberEssential.card_name}
-                            card_birth={item.memberOptional.card_birth || ''}
+                            card_name={item.cardEssential.card_name}
+                            card_birth={item.cardOptional.card_birth || ''}
                             dot=' · '
-                            card_template={item.memberEssential.card_template || '기타'}
+                            card_template={item.card_template || '기타'}
                           />
                         </TouchableOpacity>
                       ))
@@ -299,13 +299,15 @@ const MySpaceDetailView = ({
             )}
 
             {viewOption === '리스트형' && (
-              <View>
+              <View style={{ paddingTop: Array.isArray(filteredData) && filteredData.length > 0 ? 8 : 16 }}>
                 {Array.isArray(filteredData) && filteredData.length > 0 ? (
                   filteredData.map((item) => (
                     <View key={item.cardId} style={styles.ListContainer}>
                       <TouchableOpacity
                         onPress={() => {
-                          if (item.cardId === undefined) {
+                          if (item.userId === null) {
+                            handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                          } else {
                             const matchingMember = sortedMemberData.find(member => member.userId === item.userId);
                             if (matchingMember) {
                               setSelectedMemberData(matchingMember);
@@ -313,8 +315,6 @@ const MySpaceDetailView = ({
                             } else {
                               console.log('해당 사용자의 카드를 조회할 수 없습니다.');
                             }
-                          } else {
-                            handleCardDetail(item.cardId); // 기존 카드 제출일 경우
                           }
                         }}
                       >
@@ -329,7 +329,6 @@ const MySpaceDetailView = ({
                           card_name={item.card_name}
                           card_introduction={item.card_introduction}
                           card_birth={item.card_birth || ''}
-                          card_template={item.card_template}
                           me={userId == item.userId}
                         />
                       </TouchableOpacity>
@@ -354,7 +353,6 @@ const MySpaceDetailView = ({
                             card_name={item.cardEssential.card_name}
                             card_introduction={item.cardEssential.card_introduction}
                             card_birth={item.cardOptional.card_birth || ''}
-                            card_template={item.cardEssential.card_template}
                             me={userId == item.userId}
                           />
                         </TouchableOpacity>
@@ -382,7 +380,6 @@ const MySpaceDetailView = ({
                               card_name={item.memberEssential.card_name}
                               card_introduction={item.memberEssential.card_introduction}
                               card_birth={item.memberOptional.card_birth || ''}
-                              card_template={item.memberEssential.card_template}
                               me={userId == item.userId}
                               userId={userId}
                             />

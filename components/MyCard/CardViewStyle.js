@@ -132,8 +132,8 @@ export const styles = StyleSheet.create({
         overflow: Platform.OS === 'android' ? 'hidden' : 'visible',
     },
     gray: {
-        width: 64,
-        height: 64,
+        width: 80,
+        height: 80,
         backgroundColor: theme.gray80,
         borderRadius: 16,
     },

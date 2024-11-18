@@ -13,7 +13,6 @@ import Contact from '../../assets/icons/ic_contact_small_line.svg';
 import Edit from '../../assets/icons/ic_edit.svg';
 import FolderMove from '../../assets/icons/ic_folder-move.svg';
 import Add from '../../assets/icons/ic_folder-add.svg';
-import Swap from '../../assets/icons/ic_swap.svg';
 import Trash from '../../assets/icons/ic_trash.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
