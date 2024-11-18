@@ -2,8 +2,8 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
-import React, { useContext } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import React, { useContext, useEffect } from 'react';
+import { Image, Text, TextInput, TouchableOpacity, View, Alert, Linking } from 'react-native';
 import "react-native-gesture-handler";
 import {
   Menu,
@@ -18,7 +18,6 @@ import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import { AuthProvider, AuthContext } from './AuthContext';
-import * as Linking from 'expo-linking';
 
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
@@ -85,6 +84,39 @@ const linking = {
 };
 
 export default function App() {
+  // 딥링크 처리 로직
+  useEffect(() => {
+    const handleDeepLink = async ({ url }) => {
+      console.log("딥링크 URL:", url);
+  
+      const cardId = extractCardId(url);
+      if (cardId) {
+        console.log("딥링크로 전달된 cardId:", cardId);
+        saveCard(cardId); // cardId로 필요한 작업 수행
+      } else {
+        console.error("cardId가 포함되지 않았습니다.");
+      }
+    };
+  
+    // 딥링크 초기 URL 처리
+    const handleInitialLink = async () => {
+      const url = await Linking.getInitialURL();
+      if (url) {
+        handleDeepLink({ url });
+      }
+    };
+  
+    handleInitialLink();
+  
+    // 리스너 추가
+    const subscription = Linking.addListener("url", handleDeepLink);
+  
+    return () => {
+      subscription.remove(); // 리스너 정리
+    };
+  }, []);
+  
+  
   // 폰트 로드
   const [fontsLoaded] = useFonts({
     Pretendard : PretendardRegular,

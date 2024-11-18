@@ -128,13 +128,7 @@ function Step2Screen({ route, navigation}) {
   const { link } = route.params;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [cardInfo, setCardInfo] = useState(null);  // 카드 정보를 상태로 저장
-
-  // // 링크 복사
-  // const copyLinkShare = async () => {
-  //   await Clipboard.setStringAsync(link);
-  //   Alert.alert('클립보드에 복사되었습니다.');
-  // };
-
+  
     // 링크 복사
     const copyLinkShare = async () => {
       await Clipboard.setStringAsync(link);
@@ -182,17 +176,12 @@ function Step2Screen({ route, navigation}) {
       console.error('링크 공유 중 오류가 발생했습니다:', error);
     }
   };
-
-  const handleShareButtonPress = () => {
-    setIsModalVisible(true);
-  };
-
-    // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
-    const navigateToLinkReceiver = () => {
-      const testLink = 'https://ssop.com/api/link/6ce24551-df95-4789-85ff-eb2949fc3ee1'; // 임시 링크
-      console.log("네비게이션을 통해 전달된 링크:", testLink);
-      navigation.navigate('LinkReceiverScreen', { link: testLink });
-    };
+      // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
+      const navigateToLinkReceiver = () => {
+        const testLink = 'https://ssop.com/api/link/6ce24551-df95-4789-85ff-eb2949fc3ee1'; // 임시 링크
+        console.log("네비게이션을 통해 전달된 링크:", testLink);
+        navigation.navigate('LinkReceiverScreen', { link: testLink });
+      };
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -214,7 +203,7 @@ function Step2Screen({ route, navigation}) {
           </View>
         </View>
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={[styles.btnTestBox, {marginTop: 10}]} onPress={navigateToLinkReceiver}>
+         <TouchableOpacity style={[styles.btnTestBox, {marginTop: 10}]} onPress={navigateToLinkReceiver}>
             <Text style={styles.btnTest}>다른 사람이 보낸 링크 저장 (시연을 위한 임시 버튼)</Text>
           </TouchableOpacity >
           <TouchableOpacity style={[styles.btnNext, {marginTop: 10}]}  onPress={handleLinkSharePress}>
