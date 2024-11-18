@@ -226,6 +226,7 @@ function SignUp() {
         navigation.setOptions({
           headerLeft: handleHeaderLeft,
           headerTitle: handleHeaderTitle,
+          headerTitleAlign: 'center',
         });
       }, [navigation, step]);
 

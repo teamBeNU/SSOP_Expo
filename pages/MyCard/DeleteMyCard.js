@@ -43,6 +43,7 @@ const confirmDelete = async () => {
   useLayoutEffect(() => {
     navigation.setOptions({
         headerTitle: `${selectedCards.length}개 선택됨`,
+        headerTitleAlign: 'center',
         headerRight: () => (
             <RadioButton 
                 selected={selectedCards.length === cardData.length} 

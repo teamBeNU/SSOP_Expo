@@ -200,6 +200,7 @@ export default function App() {
         component={SignIn}
         options={{
           headerTitle: "로그인",
+          headerTitleAlign: 'center',
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <CloseIcon style={{ marginLeft: 8  }}/>
@@ -283,6 +284,7 @@ export default function App() {
           component={EditCard}
           options={{
             headerTitle: "카드 정보 수정하기",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
