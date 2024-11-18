@@ -282,7 +282,7 @@ export default function App() {
           name="카드 정보 수정"
           component={EditCard}
           options={{
-            headerTitle: "카드 정보 수정",
+            headerTitle: "카드 정보 수정하기",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
