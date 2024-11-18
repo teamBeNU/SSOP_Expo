@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Alert, Modal, TouchableWithoutFeedback, Share } from "react-native";
+import { View, Text, ScrollView, Alert, Share } from "react-native";
 import { styles } from './LinkShareStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { createStackNavigator } from '@react-navigation/stack';
@@ -16,6 +16,46 @@ import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import LinkShareImage from '../../assets/icons/LinkShareImage.svg';
 import ShareIcon from '../../assets/icons/ic_share_white.svg';
+
+// Branch 링크 생성 함수
+const createBranchLink = async (backendLink, cardId) => {
+  try {
+    const branchApiKey = "key_live_mrl5i4OwDxCg5dtSw4f0JmletweC8nnH";
+
+    const response = await fetch("https://api2.branch.io/v1/url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        branch_key: branchApiKey,
+        campaign: "share_card",
+        feature: "redirect",
+        data: {
+          cardId: cardId, // 반드시 cardId 추가
+          original_link: backendLink, // 백엔드에서 생성한 링크 포함
+          $android_url: `ssop://open`, // 앱 딥링크
+          $ios_url: `ssop://open`,
+          $fallback_url: "https://ssop2024.notion.site", // 앱이 없을 경우 노션 링크로 이동
+        },
+      }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log("생성된 Branch 링크:", result.url);
+      return result.url; // 생성된 Branch 링크 반환
+    } else {
+      console.error("Branch 링크 생성 실패:", result);
+      Alert.alert("링크 생성 실패", "다시 시도해 주세요.");
+    }
+  } catch (error) {
+    console.error("링크 생성 중 오류:", error);
+    Alert.alert("오류", "링크 생성 중 문제가 발생했습니다.");
+  }
+};
+
 
 function Step1Screen({ navigation }) {
   // 카드 데이터 유무를 상태로 설정
@@ -55,39 +95,39 @@ function Step1Screen({ navigation }) {
 
     // 카드 선택 후 링크를 생성하고 Step2로 이동
     const handleNext = async (selectedCardId) => {
-      console.log("선택된 카드 ID:", selectedCardId);
       try {
-        const token = await AsyncStorage.getItem('token');
-        if (!token) {
-          console.error('토큰이 없습니다.');
-          return;
-        }
-        const response = await fetch('http://43.202.52.64:8080/api/link/create', {
-          method: 'POST',
+        const token = await AsyncStorage.getItem("token");
+        if (!token) throw new Error("토큰 없음");
+    
+        // 백엔드에서 링크 생성
+        const response = await fetch("http://43.202.52.64:8080/api/link/create", {
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ cardId: selectedCardId }),
         });
-
+    
         const result = await response.json();
-        console.log("서버 응답 데이터:", result); 
-        
+    
         if (response.ok) {
-          navigation.navigate('Step2', { link: result.link });
+          // Branch 링크 생성
+          const branchLink = await createBranchLink(result.link, selectedCardId);
+          navigation.navigate("Step2", { link: branchLink });
         } else {
-          console.error('링크 생성 실패:', result.message);
+          console.error("링크 생성 실패:", result.message);
         }
       } catch (error) {
-        console.error('링크 생성 중 오류가 발생했습니다:', error);
+        console.error("링크 생성 중 오류:", error);
       }
     };
+    
 
-  // 컴포넌트가 처음 렌더링될 때 데이터 가져오기
   useEffect(() => {
-    fetchCardData();  // 카드 데이터 가져오기
+    fetchCardData();
   }, []);
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -129,40 +169,40 @@ function Step2Screen({ route, navigation}) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [cardInfo, setCardInfo] = useState(null);  // 카드 정보를 상태로 저장
   
-    // 링크 복사
-    const copyLinkShare = async () => {
-      await Clipboard.setStringAsync(link);
-      Alert.alert('클립보드에 복사되었습니다.');
+    // // 링크 복사
+    // const copyLinkShare = async () => {
+    //   await Clipboard.setStringAsync(link);
+    //   Alert.alert('클립보드에 복사되었습니다.');
     
-      try {
-        // 링크에서 token 추출
-        const token = link.split('/').pop();
+    //   try {
+    //     // 링크에서 token 추출
+    //     const token = link.split('/').pop();
         
-        const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
+    //     const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`, {
+    //       method: 'GET',
+    //       headers: {
+    //         'Content-Type': 'application/json',
+    //       },
+    //     });
     
-        const result = await response.json();
-        if (response.ok) {
-          const cardInfoText = `
-            userId: ${result.userId}
-            cardId: ${result.cardId}
-            이름: ${result.cardEssential.card_name}
-            소개: ${result.cardEssential.card_introduction}
-          `;
+    //     const result = await response.json();
+    //     if (response.ok) {
+    //       const cardInfoText = `
+    //         userId: ${result.userId}
+    //         cardId: ${result.cardId}
+    //         이름: ${result.cardEssential.card_name}
+    //         소개: ${result.cardEssential.card_introduction}
+    //       `;
     
-          // 카드 정보를 Alert에 띄우기
-          Alert.alert("카드 정보", cardInfoText);
-        } else {
-          //console.error('카드 정보 가져오기 실패:', result.message);
-        }
-      } catch (error) {
-        //console.error('카드 정보 가져오는 중 오류가 발생했습니다:', error);
-      }
-    };
+    //       // 카드 정보를 Alert에 띄우기
+    //       Alert.alert("카드 정보", cardInfoText);
+    //     } else {
+    //       //console.error('카드 정보 가져오기 실패:', result.message);
+    //     }
+    //   } catch (error) {
+    //     //console.error('카드 정보 가져오는 중 오류가 발생했습니다:', error);
+    //   }
+    // };
     
     
   const handleLinkSharePress = async () => {
@@ -178,7 +218,7 @@ function Step2Screen({ route, navigation}) {
   };
       // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
       const navigateToLinkReceiver = () => {
-        const testLink = 'https://ssop.com/api/link/6ce24551-df95-4789-85ff-eb2949fc3ee1'; // 임시 링크
+        const testLink = 'https://ssopbenu.app.link/y8mIipHdDOb'; // 임시 링크
         console.log("네비게이션을 통해 전달된 링크:", testLink);
         navigation.navigate('LinkReceiverScreen', { link: testLink });
       };
@@ -261,40 +301,43 @@ function LinkReceiverScreen({ route, navigation }) {
     }
   };
 
-
+  // // 웹뷰가 로드될 때마다 URL을 확인해 token을 추출하고 저장
+  // const handleWebViewNavigationStateChange = async (newNavState) => {
+  //   const { url } = newNavState;
+  //   console.log("웹뷰 로드된 URL:", url);
   
-
-  // 웹뷰가 로드될 때마다 URL을 확인해 token을 추출하고 저장
-  const handleWebViewNavigationStateChange = async (newNavState) => {
-    const { url } = newNavState;
-    console.log("웹뷰 로드된 URL:", url);
+  //   const token = extractToken(url);
+  //   console.log("추출된 토큰:", token);
   
+  //   if (token) {
+  //     // 토큰으로부터 카드 정보를 조회
+  //     const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`);
+  //     const cardInfo = await response.json();
+  
+  //     const cardId = cardInfo.cardId;  // cardId를 추출
+  //     console.log("저장할 카드 ID:", cardId);
+  
+  //     if (cardId) {
+  //       saveCard(token, cardId); 
+  //     } else {
+  //       console.error("유효한 cardId를 찾을 수 없습니다.");
+  //     }
+  //   }
+  // };
+
+  const handleNavigationChange = async ({ url }) => {
     const token = extractToken(url);
-    console.log("추출된 토큰:", token);
-  
     if (token) {
-      // 토큰으로부터 카드 정보를 조회
       const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`);
-      const cardInfo = await response.json();
-  
-      const cardId = cardInfo.cardId;  // cardId를 추출
-      console.log("저장할 카드 ID:", cardId);
-  
-      if (cardId) {
-        saveCard(token, cardId); 
-      } else {
-        console.error("유효한 cardId를 찾을 수 없습니다.");
-      }
+      const cardData = await response.json();
+      await saveCard(cardData.cardId);
     }
   };
 
   return (
-    <View style={{ flex: 1 }}>
-      <WebView
-        source={{ uri: link }}
-        onNavigationStateChange={handleWebViewNavigationStateChange}  // 페이지 로드가 끝날 때 호출
-      />
-    </View>
+    <WebView 
+      source={{ uri: link }} onNavigationStateChange={handleNavigationChange} 
+    />
   );
 }
 

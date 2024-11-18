@@ -71,16 +71,15 @@ import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
 import { theme } from './theme';
 
 const linking = {
-  prefixes: ['https://ssop.com', 'ssop://'],
+  prefixes: ['https://ssopbenu.app.link', 'ssop://'],
   config: {
     screens: {
       CardDetails: 'card/:cardId',
       Step1: 'step1',
       Step2: 'step2',
-      LinkReceiverScreen: 'api/link/:token', 
+      LinkReceiverScreen: 'api/link/:token',
     },
   },
-
 };
 
 export default function App() {
@@ -89,30 +88,37 @@ export default function App() {
     const handleDeepLink = async ({ url }) => {
       console.log("딥링크 URL:", url);
   
+      const extractCardId = (url) => {
+        try {
+          const parsedUrl = new URL(url);
+          const cardId = parsedUrl.searchParams.get("cardId");
+          console.log("추출된 cardId:", cardId);
+          return cardId;
+        } catch (error) {
+          console.error("URL 파싱 중 오류:", error);
+          return null;
+        }
+      };
+  
       const cardId = extractCardId(url);
       if (cardId) {
-        console.log("딥링크로 전달된 cardId:", cardId);
-        saveCard(cardId); // cardId로 필요한 작업 수행
+        console.log("저장할 cardId:", cardId);
+        await saveCard(cardId); // 저장 로직
       } else {
-        console.error("cardId가 포함되지 않았습니다.");
+        //console.error("cardId를 추출할 수 없습니다.");
       }
     };
   
-    // 딥링크 초기 URL 처리
-    const handleInitialLink = async () => {
-      const url = await Linking.getInitialURL();
-      if (url) {
-        handleDeepLink({ url });
-      }
-    };
+    // 이벤트 리스너 등록
+    const subscription = Linking.addEventListener("url", handleDeepLink);
   
-    handleInitialLink();
-  
-    // 리스너 추가
-    const subscription = Linking.addListener("url", handleDeepLink);
+    // 초기 URL 확인
+    Linking.getInitialURL().then((url) => {
+      if (url) handleDeepLink({ url });
+    });
   
     return () => {
-      subscription.remove(); // 리스너 정리
+      subscription.remove(); // 이벤트 리스너 제거
     };
   }, []);
   
