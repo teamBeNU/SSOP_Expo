@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
     },
 
     MyPageMain: {
-        paddingHorizontal: 16,
+        // paddingHorizontal: 16,
         flex: 1,
         backgroundColor: theme.gray99,
         paddingTop: 12,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import "react-native-gesture-handler";
-import { styles } from "../../components/CreateCard/AvatarCustomStyles.js";
+import { styles } from "../../components/Avatar/AvatarCustomStyles.js";
 import ViewShot from "react-native-view-shot";
 import { View, ScrollView, Text, TouchableOpacity, Image, Dimensions, Platform } from "react-native";
 import { useRoute } from '@react-navigation/native';
@@ -9,7 +9,7 @@ import AutoAvatarIcon from "../../assets/icons/avatarCustom/ic_auto.svg";
 import UndoIcon from "../../assets/icons/avatarCustom/ic_undo_small_line.svg";
 import RedoIcon from "../../assets/icons/avatarCustom/ic_redo_small_line.svg";
 import RestartIcon from "../../assets/icons/avatarCustom/ic_restart_small_line.svg";
-import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "../../components/CreateCard/avatarItems";
+import { accItems, faceItems, hairItems, objectItems, hairColors, bgColors } from "../../components/Avatar/avatarItems";
 
 function EditCardCover() {
     const route = useRoute();
