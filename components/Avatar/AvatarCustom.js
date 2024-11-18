@@ -332,7 +332,22 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         console.log("pop: ", popItem);
         redo.current.push(popItem);              // undo의 마지막 상태를 redo에 추가 (undo 마지막 상태 제거)
         const lastState = undo.current[undo.current.length - 1];  // 제거 후의 마지막 상태 가져오기
+        console.log("lastState: ", lastState);
         setAvatar(prev => ({...prev, ...lastState}));       // 아바타 적용
+
+        setEyesSave(lastState.eyes);
+        setEyebrowsSave(lastState.eyebrows);
+        setMouthSave(lastState.mouth);
+        setMoleSave(lastState.mole);
+        setClothesSave(lastState.clothes);
+        setHairFrontSave(lastState.hairFront);
+        sethHairBackSave(lastState.hairBack);
+        setAccEarSave(lastState.accEar);
+        setAccNoseSave(lastState.accNose);
+        setAccGlassesSave(lastState.accGlasses);
+        setAccPinSave(lastState.accPin);
+        setAccEtcSave(lastState.accEtc);
+        setBgSave(lastState.bg);
 
         //setIsUndo(true);
 
@@ -370,8 +385,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
             let redoPop = redo.current.pop();               // redo의 마지막 상태 반환
             undo.current.push(redoPop);                     // undo에 추가
             setAvatar(prev => ({...prev, ...redoPop}));     // 아바타 적용
+            console.log('redo: ', redoPop)
 
-            //setIsRedo(true);
+            setIsRedo(true);
             
             setIsFaceSelect(true);
             setIsMoleSelect(true);
@@ -687,10 +703,11 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     useEffect(() => {
         if (isFaceSelect) {
             console.log('ㄲㄲㄲㄲ')
-            if (isRandom && avatar.hairBack === 9) {        // 랜덤 -> 삭발일때
+            if ((isRandom || isRedo) && avatar.hairBack === 9) {        // 랜덤 or redo -> 삭발일때
                 console.log('ㄴㄴㄴㄴㄴㄴㄴ')
                 setNextFaceUri(`${AWS_S3_AVATAR_URI}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_bald.PNG`); 
                 setIsRandom(false);
+                setIsRedo(false);
             } else {
                 console.log('aaaaaa')
                 setNextFaceUri(`${AWS_S3_AVATAR_URI}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_front0${avatar.hairFront}.PNG`);
@@ -782,19 +799,13 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     }
 
     useEffect(() => {
-        // console.log("currentmoleuri: ", currentMoleUri)
-        // console.log("nextmoleUri: ", nextMoleUri)
-        //console.log("isMole: ", isMoleCancel);
-        //console.log("isMoleSelect: ", isMoleSelect);
         if (isMoleSelect) {
-            //console.log("점1111111111")
-            if(isMoleCancel) {    // 점 취소
-                //console.log("점22222222222222222")
+            if(isMoleCancel || avatar.mole === null) {    // 점 취소
                 setNextMoleUri('');
                 setCurrentMoleUri('');
                 setIsMoleCancel(false);
             } else {
-                //console.log("점3333333333333: ", avatar.mole)
+                console.log(`${AWS_S3_AVATAR_URI}/mole/mole${avatar.mole}.png`)
                 setNextMoleUri(`${AWS_S3_AVATAR_URI}/mole/mole${avatar.mole}.png`);
             }
             //setIsSelect(true);
@@ -862,7 +873,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         }
 
         if (isClothesSelect || isAccEtcSelect) {
-            //console.log("옷!")
+            // console.log("옷!")
             setNextClothesUri(`${AWS_S3_AVATAR_URI}/clothes/clothes${avatar.clothes}${type}.png`);
             //setIsSelect(true);
             // setIsNextClothesLoaded(false); // 새로운 이미지가 로드될 때까지 로드 상태 초기화
