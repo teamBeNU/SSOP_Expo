@@ -39,7 +39,7 @@ function Login({ route = {} }) {
                   <Text style={styles.kakaoText}>카카오로 시작하기</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.email} onPress={() => navigation.navigate('회원가입')}>
-                    <MainIcon style={{margin: 8}}/>
+                    <MainIcon style={{margin: 12}}/>
                     <Text style={styles.emailText}>이메일로 시작하기</Text>
                 </TouchableOpacity>   
                 <TouchableOpacity style={styles.login} onPress={() => navigation.navigate('이메일로그인')}>

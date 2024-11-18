@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
+import { textStyles } from '../../textStyles';
 
 const { height:HEIGHT } = Dimensions.get('window');
 
@@ -46,7 +47,6 @@ export const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 16,
     flexDirection: 'row',
-    gap: 8,
     justifyContent: 'center',
     alignItems: 'center',
     borderRadius: 8,
@@ -54,11 +54,7 @@ export const styles = StyleSheet.create({
     },
     emailText: {
     color: 'white',
-    fontFamily: 'PretendardRegular',
-    fontSize: 16,
-    fontWeight: '600',
-    lineHeight: 19,
-    letterSpacing: -0.32,
+    ...textStyles.headline16
     },
     kakao: {
     height: 48,
@@ -74,11 +70,7 @@ export const styles = StyleSheet.create({
     },
     kakaoText: {
     color: theme.gray10,
-    fontFamily: 'PretendardRegular',
-    fontSize: 16,
-    fontWeight: '600',
-    lineHeight: 19,
-    letterSpacing: -0.32,
+    ...textStyles.headline16
     },
     login: {
     height: 48,
@@ -93,10 +85,9 @@ export const styles = StyleSheet.create({
     loginText: {
     width: 120,
     color: theme.gray60,
-    fontFamily: 'PretendardRegular',
+    fontFamily: 'PretendardMedium',
     fontSize: 16,
-    fontWeight: '600',
-    lineHeight: 19,
+    fontWeight: '500',
     letterSpacing: -0.32,
     textDecorationLine: 'underline',
     textDecorationColor: theme.gray60,
@@ -111,12 +102,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'PretendardRegular',
     color: theme.gray40,
-    fontSize: 14,
-    fontWeight: '400',
-    lineHeight: 17,
-    letterSpacing: -0.14,
+    ...textStyles.body14
     },
     input: {
     width: '100%',
@@ -126,7 +113,12 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: theme.gray95,
     borderRadius: 8,
-    placeholderTextColo: theme.gray60,
+    placeholderTextColor: theme.gray60,
+    ...textStyles.body15
+    },
+    textholderTest:{
+    placeholderTextColor: theme.gray60,
+    ...textStyles.body15
     },
     textContainer: {
     position: 'absolute',
@@ -146,25 +138,18 @@ export const styles = StyleSheet.create({
     flexDirection: 'row',
     },
     pwChange: {
-    fontFamily: 'PretendardSemiBold',
     color: theme.gray60,
-    fontSize: 14,
-    fontWeight: '600',
-    lineHeight: 17,
-    letterSpacing: -0.14,
+    ...textStyles.headline14
     },
     join:{
-    fontFamily: 'PretendardSemiBold',
-    color: theme.gray40,
-    fontSize: 14,
-    fontWeight: '600',
-    lineHeight: 17,
-    letterSpacing: -0.14,
+    color: theme.gray60,
+    ...textStyles.headline14
     },
     lineContainer:{
     flexDirection: 'row',
     alignItems: 'center',
-    marginTop: 64
+    marginTop: 64,
+    gap: 16
     },
     line:{
     flex: 1,
@@ -172,12 +157,7 @@ export const styles = StyleSheet.create({
     backgroundColor: theme.gray90
     },
     text:{
-    fontFamily: 'PretendardRegular',
     color: theme.gray60,
-    fontSize: 15,
-    fontWeight: '400',
-    lineHeight: 18,
-    letterSpacing: -0.15,
-    marginHorizontal: 16,
+    ...textStyles.body15
     }
 });
