@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Alert, Animated, Dimensions, Modal, ScrollView, Share, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -13,6 +13,8 @@ import ShareIcon from '../../assets/icons/ic_share_gray.svg';
 import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
 import { deleteCard } from './DeleteCardAPI.js';
+import { theme } from '../../theme.js';
+import { textStyles } from '../../textStyles.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
@@ -414,7 +416,7 @@ const CardDetailView = () => {
                             <View style={styles.modalContainer}>
                                     <View style={styles.modalView}>
                                         <View style={styles.modalTitle}>
-                                            <Text style={{...styles.modalFont, fontWeight: '500', textAlign: 'center'}}>프로필 카드 수정하기</Text>
+                                            <Text style={{color:theme.gray10, ...textStyles.body16m, textAlign: 'center', flex:1}}>프로필 카드 수정하기</Text>
                                             <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                                                 <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
                                             </TouchableOpacity>

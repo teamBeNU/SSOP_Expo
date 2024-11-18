@@ -4,7 +4,7 @@ import { Alert, Share, Text, TouchableOpacity, View, TouchableWithoutFeedback, M
 import { styles } from './MyCardStyle';
 
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
-import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 import SwapIcon from '../../assets/icons/ic_swap_regular.svg';
 import CardsView from '../../pages/MyCard/MyCardsView.js';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
@@ -192,12 +192,14 @@ function MyCard() {
                
             </View>
         ) : (
-            <View style={styles.emptyContainer}>
-                <Text style={styles.noCard}>만든 카드가 없어요.</Text>
-                <TouchableOpacity style={styles.newContainer} onPress={() => navigation.navigate('카드 만들기')}>
-                    <Text style={styles.newCard}>새 카드 만들기</Text>
-                    <RightIcon />
-                </TouchableOpacity>
+            <View style={[styles.container, {flex: 1, justifyContent: 'center',}]}>
+                <View style={styles.emptyContainer}>
+                    <Text style={styles.noCard}>만든 카드가 없어요.</Text>
+                    <TouchableOpacity style={styles.newContainer} onPress={() => navigation.navigate('카드 만들기')}>
+                        <Text style={styles.newCard}>새 카드 만들기</Text>
+                        <RightIcon />
+                    </TouchableOpacity>
+                </View>
             </View>
         )}
         </View>

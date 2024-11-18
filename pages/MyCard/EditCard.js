@@ -21,7 +21,7 @@ function EditCard() {
     //기본 정보
     const [name, setName] = useState(card.cardEssential.card_name);
     const [MBTI, setMBTI] = useState(card.cardOptional.card_MBTI ? card.cardOptional.card_MBTI : '');
-    const [birth, setBirth] = useState(card.cardOptional.card_bSecret === true ? card.cardOptional.card_birth : '');
+    const [birth, setBirth] = useState(card.cardOptional.card_birth ? card.cardOptional.card_birth : '');
     const [introduce, setIntroduce] = useState(card.cardEssential.card_introduction);
     const [isSecret, setIsSecret] = useState(card.cardOptional.card_bSecret === true ? true : false);
 
@@ -272,6 +272,10 @@ function EditCard() {
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
             >
+            <ScrollView 
+            contentContainerStyle={{ flexGrow: 1 }} 
+            keyboardShouldPersistTaps="handled" 
+            showsVerticalScrollIndicator={false} >
             <View style={{marginBottom: 120}}>
 
                 <Text style={styles.title}>나에 대한 기본 정보 수정하기</Text>
@@ -344,11 +348,11 @@ function EditCard() {
                 </TouchableOpacity>
                 </View>
                 </View>
-
+                </ScrollView>
                 <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
                 <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>
-
+                
             </KeyboardAvoidingView>
             )}
 
