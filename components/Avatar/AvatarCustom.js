@@ -1210,77 +1210,97 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                     <View style={styles.avatarView}>
                         
                         {/* 악세사리 - 귀걸이 */}
-                        <Image                  // 현재 이미지
-                            source={currentAccEarUri ? { uri: currentAccEarUri } : null}
-                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 67 }]}
-                            fadeDuration={0}
-                        />
-                        {nextAccEarUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                source={nextAccEarUri ? { uri: nextAccEarUri } : null}
-                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 66 }]}
-                                onLoad={handleNextAccEarLoad}
-                                fadeDuration={0}
-                            />
+                        {(avatar.accEar !== null && avatar.accEar !== 0) && (
+                            <>
+                                <Image                  // 현재 이미지
+                                    source={currentAccEarUri ? { uri: currentAccEarUri } : null}
+                                    style={[styles.avatarImg, styles.avatarPosition, { zIndex: 67 }]}
+                                    fadeDuration={0}
+                                />
+                                {nextAccEarUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                                    <Image
+                                        source={nextAccEarUri ? { uri: nextAccEarUri } : null}
+                                        style={[styles.avatarImg, styles.avatarPosition, { zIndex: 66 }]}
+                                        onLoad={handleNextAccEarLoad}
+                                        fadeDuration={0}
+                                    />
+                                )}
+                            </>
                         )}
                         {/* 악세사리 - 코 피어싱 */}
-                        <Image                  // 현재 이미지
-                            source={currentAccNoseUri ? { uri: currentAccNoseUri } : null}
-                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 65 }]}
-                            fadeDuration={0}
-                        />
-                        {nextAccNoseUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                source={nextAccNoseUri ? { uri: nextAccNoseUri } : null}
-                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 64 }]}
-                                onLoad={handleNextAccNoseLoad}
-                                fadeDuration={0}
-                            />
+                        {(avatar.accNose !== null && avatar.accNose !== 0) && (
+                            <>
+                                <Image                  // 현재 이미지
+                                    source={currentAccNoseUri ? { uri: currentAccNoseUri } : null}
+                                    style={[styles.avatarImg, styles.avatarPosition, { zIndex: 65 }]}
+                                    fadeDuration={0}
+                                />
+                                {nextAccNoseUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                                    <Image
+                                        source={nextAccNoseUri ? { uri: nextAccNoseUri } : null}
+                                        style={[styles.avatarImg, styles.avatarPosition, { zIndex: 64 }]}
+                                        onLoad={handleNextAccNoseLoad}
+                                        fadeDuration={0}
+                                    />
+                                )}
+                            </>
                         )}
                         {/* 악세사리 - 안경 */}
-                        <Image                  // 현재 이미지
-                            source={currentAccGlassesUri ? { uri: currentAccGlassesUri } : null}
-                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 63 }]}
-                            fadeDuration={0}
-                        />
-                        {nextAccGlassesUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                source={nextAccGlassesUri ? { uri: nextAccGlassesUri } : null}
-                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 62 }]}
-                                onLoad={handleNextAccGlassesLoad}
-                                fadeDuration={0}
-                            />
+                        {(avatar.accGlasses !== null && avatar.accGlasses !== 0) && (
+                            <>
+                                <Image                  // 현재 이미지
+                                    source={currentAccGlassesUri ? { uri: currentAccGlassesUri } : null}
+                                    style={[styles.avatarImg, styles.avatarPosition, { zIndex: 63 }]}
+                                    fadeDuration={0}
+                                />
+                                {nextAccGlassesUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                                    <Image
+                                        source={nextAccGlassesUri ? { uri: nextAccGlassesUri } : null}
+                                        style={[styles.avatarImg, styles.avatarPosition, { zIndex: 62 }]}
+                                        onLoad={handleNextAccGlassesLoad}
+                                        fadeDuration={0}
+                                    />
+                                )}
+                            </>
                         )}
                         {/* 악세사리 - 머리핀 */}
-                        <Image                  // 현재 이미지
-                            source={currentAccPinUri ? { uri: currentAccPinUri } : null}
-                            style={[styles.avatarImg, styles.avatarPosition, { zIndex: 61 }]}
-                            fadeDuration={0}
-                        />
-                        {nextAccPinUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                source={nextAccPinUri ? { uri: nextAccPinUri } : null}
-                                style={[styles.avatarImg, styles.avatarPosition, { zIndex: 60 }]}
-                                onLoad={handleNextAccPinLoad}
-                                fadeDuration={0}
-                            />
+                        {(avatar.accPin !== null && avatar.accPin !== 0) && (
+                            <>
+                                <Image                  // 현재 이미지
+                                    source={currentAccPinUri ? { uri: currentAccPinUri } : null}
+                                    style={[styles.avatarImg, styles.avatarPosition, { zIndex: 61 }]}
+                                    fadeDuration={0}
+                                />
+                                {nextAccPinUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                                    <Image
+                                        source={nextAccPinUri ? { uri: nextAccPinUri } : null}
+                                        style={[styles.avatarImg, styles.avatarPosition, { zIndex: 60 }]}
+                                        onLoad={handleNextAccPinLoad}
+                                        fadeDuration={0}
+                                    />
+                                )}
+                            </>
                         )}
                         
                         {/* 점 */}
-                        <Image                  // 현재 이미지
-                            // source={{ uri: currentMoleUri }}
-                            source={currentMoleUri ? { uri: currentMoleUri } : null}
-                            style={[styles.avatarImg, styles.molePosition, { zIndex: 51 }]}
-                            fadeDuration={0}
-                        />
-                        {nextMoleUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                // source={{ uri: nextMoleUri }}
-                                source={nextMoleUri ? { uri: nextMoleUri } : null}
-                                style={[styles.avatarImg, styles.molePosition, { zIndex: 50 }]}
-                                onLoad={handleNextMoleLoad}
+                        {(avatar.mole !== null && avatar.mole !== 0) && (
+                            <>
+                                <Image                  // 현재 이미지
+                                // source={{ uri: currentMoleUri }}
+                                source={currentMoleUri ? { uri: currentMoleUri } : null}
+                                style={[styles.avatarImg, styles.molePosition, { zIndex: 51 }]}
                                 fadeDuration={0}
-                            />
+                                />
+                                {nextMoleUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                                    <Image
+                                        // source={{ uri: nextMoleUri }}
+                                        source={nextMoleUri ? { uri: nextMoleUri } : null}
+                                        style={[styles.avatarImg, styles.molePosition, { zIndex: 50 }]}
+                                        onLoad={handleNextMoleLoad}
+                                        fadeDuration={0}
+                                    />
+                                )}
+                            </>
                         )}
 
                         {/* 얼굴 */}
@@ -1333,19 +1353,23 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         )}
 
                         {/* 배경 오브젝트 */}
-                        <Image                  // 현재 이미지
-                            source={currentBgUri ? { uri: currentBgUri } : null}
-                            style={[styles.avatarBgObj, { zIndex: 11 }]}
-                            fadeDuration={0}
-                        />
-                        {nextBgUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
-                            <Image
-                                // source={{ uri: nextMoleUri }}
-                                source={nextBgUri ? { uri: nextBgUri } : null}
-                                style={[styles.avatarBgObj, { zIndex: 10 }]}
-                                onLoad={handleNextBgLoad}
-                                fadeDuration={0}
-                            />
+                        {(avatar.bg !== null && avatar.bg !== 0) && (
+                            <>
+                                <Image                  // 현재 이미지
+                                    source={currentBgUri ? { uri: currentBgUri } : null}
+                                    style={[styles.avatarBgObj, { zIndex: 11 }]}
+                                    fadeDuration={0}
+                                />
+                                {nextBgUri && (       // 다음 이미지가 로드될 때까지 숨김 상태
+                                    <Image
+                                        // source={{ uri: nextMoleUri }}
+                                        source={nextBgUri ? { uri: nextBgUri } : null}
+                                        style={[styles.avatarBgObj, { zIndex: 10 }]}
+                                        onLoad={handleNextBgLoad}
+                                        fadeDuration={0}
+                                    />
+                                )}
+                            </>
                         )}
 
                         <View       // 배경색
