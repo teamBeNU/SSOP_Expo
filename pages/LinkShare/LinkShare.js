@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Alert, Share } from "react-native";
+import { View, Text, ScrollView, Alert, Share, Linking } from "react-native";
 import { styles } from './LinkShareStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { createStackNavigator } from '@react-navigation/stack';
@@ -33,10 +33,10 @@ const createBranchLink = async (backendLink, cardId) => {
         feature: "redirect",
         data: {
           cardId: cardId, // 반드시 cardId 추가
-          original_link: backendLink, // 백엔드에서 생성한 링크 포함
-          $android_url: `ssop://open`, // 앱 딥링크
-          $ios_url: `ssop://open`,
-          $fallback_url: "https://ssop2024.notion.site", // 앱이 없을 경우 노션 링크로 이동
+          original_link: `${backendLink}?cardId=${cardId}`, // cardId 포함
+          $android_url: `ssop://open?cardId=${cardId}`, // Android 딥링크
+          $ios_url: `ssop://open?cardId=${cardId}`, // iOS 딥링크
+          $fallback_url: "https://ssop2024.notion.site",
         },
       }),
     });
@@ -168,42 +168,6 @@ function Step2Screen({ route, navigation}) {
   const { link } = route.params;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [cardInfo, setCardInfo] = useState(null);  // 카드 정보를 상태로 저장
-  
-    // // 링크 복사
-    // const copyLinkShare = async () => {
-    //   await Clipboard.setStringAsync(link);
-    //   Alert.alert('클립보드에 복사되었습니다.');
-    
-    //   try {
-    //     // 링크에서 token 추출
-    //     const token = link.split('/').pop();
-        
-    //     const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`, {
-    //       method: 'GET',
-    //       headers: {
-    //         'Content-Type': 'application/json',
-    //       },
-    //     });
-    
-    //     const result = await response.json();
-    //     if (response.ok) {
-    //       const cardInfoText = `
-    //         userId: ${result.userId}
-    //         cardId: ${result.cardId}
-    //         이름: ${result.cardEssential.card_name}
-    //         소개: ${result.cardEssential.card_introduction}
-    //       `;
-    
-    //       // 카드 정보를 Alert에 띄우기
-    //       Alert.alert("카드 정보", cardInfoText);
-    //     } else {
-    //       //console.error('카드 정보 가져오기 실패:', result.message);
-    //     }
-    //   } catch (error) {
-    //     //console.error('카드 정보 가져오는 중 오류가 발생했습니다:', error);
-    //   }
-    // };
-    
     
   const handleLinkSharePress = async () => {
     setIsModalVisible(false);
@@ -218,7 +182,7 @@ function Step2Screen({ route, navigation}) {
   };
       // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
       const navigateToLinkReceiver = () => {
-        const testLink = 'https://ssopbenu.app.link/y8mIipHdDOb'; // 임시 링크
+        const testLink = 'https://ssopbenu.app.link/BwY741bWDOb'; // 임시 링크
         console.log("네비게이션을 통해 전달된 링크:", testLink);
         navigation.navigate('LinkReceiverScreen', { link: testLink });
       };
@@ -257,86 +221,65 @@ function Step2Screen({ route, navigation}) {
 }
 
 function LinkReceiverScreen({ route, navigation }) {
-  const { link } = route.params;  // 공유 링크에서 받은 전체 링크
+  const { link } = route.params;
 
-  // 링크에서 token 추출 함수
-  const extractToken = (url) => {
-    const tokenMatch = url ? url.match(/\/([a-f0-9-]+)$/) : null;  // URL이 존재할 경우에만 매칭
-    const token = tokenMatch ? tokenMatch[1] : null;
-    console.log("추출된 토큰:", token);  // 토큰 로그로 확인
-    return token;
-  };
-
-  // 카드 저장 함수
-  const saveCard = async (token, cardId) => {
+  // URL에서 cardId 추출 함수
+  const extractCardId = (url) => {
     try {
-      const authToken = await AsyncStorage.getItem('token');
-      if (!authToken) {
-        console.error("사용자 인증 토큰이 없습니다.");
-        return;
-      }
-
-      const response = await fetch(`http://43.202.52.64:8080/api/card/save?cardId=${cardId}`, {  // cardId를 쿼리 파라미터로 추가
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token }),  // token만 body에 포함
-      });
-
-      const result = await response.json();
-      console.log("서버 응답 결과:", result);
-
-      if (response.ok) {
-        Alert.alert("카드가 성공적으로 저장되었습니다!");
-        //navigation.navigate("받은 프로필 카드");
-      } else {
-        console.log("카드 저장 실패:", result.message || "알 수 없는 오류");
-        Alert.alert("카드 저장에 실패했습니다:", result.message || "알 수 없는 오류");
-      }
+      const parsedUrl = new URL(url);
+      const cardId = parsedUrl.searchParams.get("cardId");
+      console.log("추출된 cardId:", cardId);
+      return cardId;
     } catch (error) {
-      console.log("카드 저장 중 오류가 발생했습니다:", error);
-      Alert.alert("카드 저장 중 오류가 발생했습니다.");
+      console.error("URL 파싱 중 오류:", error);
+      return null;
     }
   };
 
-  // // 웹뷰가 로드될 때마다 URL을 확인해 token을 추출하고 저장
-  // const handleWebViewNavigationStateChange = async (newNavState) => {
-  //   const { url } = newNavState;
-  //   console.log("웹뷰 로드된 URL:", url);
-  
-  //   const token = extractToken(url);
-  //   console.log("추출된 토큰:", token);
-  
-  //   if (token) {
-  //     // 토큰으로부터 카드 정보를 조회
-  //     const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`);
-  //     const cardInfo = await response.json();
-  
-  //     const cardId = cardInfo.cardId;  // cardId를 추출
-  //     console.log("저장할 카드 ID:", cardId);
-  
-  //     if (cardId) {
-  //       saveCard(token, cardId); 
-  //     } else {
-  //       console.error("유효한 cardId를 찾을 수 없습니다.");
-  //     }
-  //   }
-  // };
-
-  const handleNavigationChange = async ({ url }) => {
-    const token = extractToken(url);
-    if (token) {
-      const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`);
-      const cardData = await response.json();
-      await saveCard(cardData.cardId);
+  // 초기 URL에서 cardId 추출
+  useEffect(() => {
+    if (link) {
+      const cardId = extractCardId(link);
+      if (cardId) {
+        console.log("초기 링크에서 추출된 cardId:", cardId);
+        // 저장 로직 추가
+      } else {
+        console.error("초기 링크에서 cardId를 추출할 수 없습니다.");
+      }
     }
-  };
+  }, [link]);
+
+  // 딥링크 URL 처리
+  useEffect(() => {
+    const handleDeepLink = ({ url }) => {
+      const cardId = extractCardId(url);
+      if (cardId) {
+        console.log("딥링크에서 추출된 cardId:", cardId);
+        // 저장 로직 추가
+      } else {
+        console.error("딥링크에서 cardId를 추출할 수 없습니다.");
+      }
+    };
+
+    // Linking 이벤트 리스너 등록
+    const subscription = Linking.addEventListener("url", handleDeepLink);
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   return (
-    <WebView 
-      source={{ uri: link }} onNavigationStateChange={handleNavigationChange} 
+    <WebView
+      source={{ uri: link }}
+      onNavigationStateChange={({ url }) => {
+        const cardId = extractCardId(url);
+        if (cardId) {
+          console.log("웹뷰에서 추출된 cardId:", cardId);
+        } else {
+          console.error("웹뷰에서 cardId를 추출할 수 없습니다.");
+        }
+      }}
     />
   );
 }

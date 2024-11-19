@@ -18,6 +18,7 @@ import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import { AuthProvider, AuthContext } from './AuthContext';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
@@ -74,51 +75,96 @@ const linking = {
   prefixes: ['https://ssopbenu.app.link', 'ssop://'],
   config: {
     screens: {
+      LinkReceiverScreen: 'receiver/:cardId',
       CardDetails: 'card/:cardId',
       Step1: 'step1',
       Step2: 'step2',
-      LinkReceiverScreen: 'api/link/:token',
     },
   },
 };
 
-export default function App() {
-  // 딥링크 처리 로직
-  useEffect(() => {
-    const handleDeepLink = async ({ url }) => {
-      console.log("딥링크 URL:", url);
-  
-      const extractCardId = (url) => {
-        try {
-          const parsedUrl = new URL(url);
-          const cardId = parsedUrl.searchParams.get("cardId");
-          console.log("추출된 cardId:", cardId);
-          return cardId;
-        } catch (error) {
-          console.error("URL 파싱 중 오류:", error);
-          return null;
-        }
-      };
-  
-      const cardId = extractCardId(url);
-      if (cardId) {
-        console.log("저장할 cardId:", cardId);
-        await saveCard(cardId); // 저장 로직
-      } else {
-        //console.error("cardId를 추출할 수 없습니다.");
+const saveCard = async (cardId) => {
+  try {
+    const token = await AsyncStorage.getItem("token");
+    if (!token) {
+      console.error("사용자 인증 토큰이 없습니다.");
+      return;
+    }
+
+    const response = await fetch(
+      `http://43.202.52.64:8080/api/card/save?cardId=${cardId}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      }
+    );
+
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log("카드가 성공적으로 저장되었습니다:", result);
+      Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
+    } else {
+      console.error("카드 저장 실패:", result.message || "알 수 없는 오류");
+      Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
+    }
+  } catch (error) {
+    console.error("카드 저장 중 오류가 발생했습니다:", error);
+    Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
+  }
+};
+
+const handleDeepLink = async (url) => {
+  try {
+    console.log("딥링크 URL:", url);
+
+    const extractCardId = (url) => {
+      try {
+        const parsedUrl = new URL(url);
+        const cardId = parsedUrl.searchParams.get("cardId");
+        console.log("추출된 cardId:", cardId);
+        return cardId;
+      } catch (error) {
+        console.error("URL 파싱 중 오류:", error);
+        return null;
       }
     };
-  
-    // 이벤트 리스너 등록
-    const subscription = Linking.addEventListener("url", handleDeepLink);
-  
-    // 초기 URL 확인
+
+    const cardId = extractCardId(url);
+    if (cardId) {
+      console.log("저장할 cardId:", cardId);
+      await saveCard(cardId);
+    } else {
+      console.warn("cardId가 URL에 포함되어 있지 않습니다:", url);
+    }
+  } catch (error) {
+    console.error("딥링크 처리 중 오류:", error);
+  }
+};
+
+export default function App() {
+  useEffect(() => {
+    // 앱이 처음 실행되었을 때 URL 확인
     Linking.getInitialURL().then((url) => {
-      if (url) handleDeepLink({ url });
+      if (url) {
+        console.log("앱이 딥링크로 실행되었습니다:", url);
+        handleDeepLink(url);
+      } else {
+        console.log("초기 딥링크 URL이 없습니다.");
+      }
     });
-  
+
+    // 실행 중인 상태에서 딥링크 이벤트 처리
+    const subscription = Linking.addEventListener("url", ({ url }) => {
+      console.log("실행 중 딥링크를 감지했습니다:", url);
+      handleDeepLink(url);
+    });
+
     return () => {
-      subscription.remove(); // 이벤트 리스너 제거
+      subscription.remove(); // 이벤트 리스너 정리
     };
   }, []);
   
