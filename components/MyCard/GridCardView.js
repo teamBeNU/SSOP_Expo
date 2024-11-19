@@ -6,14 +6,15 @@ import { getTemplate } from '../../utils/templateMapping';
 import { styles } from './CardViewStyle';
 import NotSelectedIcon from '../../assets/icons/ic_radioBtn_notSelect.svg';
 import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
+import { theme } from '../../theme';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
-export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCards}) => {
+export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCards, selectedOption}) => {
     const navigation = useNavigation(); 
 
     const handleNext = (cardId) => {
-      navigation.navigate('카드 상세보기', { cardId });
+      navigation.navigate('카드 상세보기', { cardId, selectedOption });
     };
 
     return (
@@ -110,13 +111,13 @@ export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
               <View style={styles.cardTextArea}>
                 <View style={styles.Info}> 
                     <Text style={styles.name}>{item.cardEssential.card_name}</Text>
-                    <Text style={styles.ageText}>·</Text>
+                    <Text style={[styles.ageText, {color: theme.gray80}]}>·</Text>
                     <View style={styles.age}>
                         {item.cardOptional.card_birth ? 
                         <Text style={styles.ageText}>{calculateAge(item.cardOptional.card_birth)}</Text>
                           : null}
                           {item.cardOptional.card_birth ? 
-                          <Text style={styles.ageText}>·</Text>
+                          <Text style={[styles.ageText, {color: theme.gray80}]}>·</Text>
                           : null}
                         {item.card_template ? <Text style={styles.ageText}>{getTemplate(item.card_template)}</Text> : null}
                     </View>

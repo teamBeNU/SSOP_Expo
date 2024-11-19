@@ -1,14 +1,13 @@
-import React, { useCallback,useState } from 'react';
-import { Alert, Linking, Text, TouchableOpacity, View, ScrollView } from 'react-native';
+import React, { useCallback } from 'react';
+import { Alert, Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import LinkIcon from '../../assets/Card/ic_link.svg';
+import MailIcon from '../../assets/Card/ic_mail.svg';
 import InstaLogo from '../../assets/Card/logo_insta.svg';
 import XLogo from '../../assets/Card/logo_x.svg';
-import ContactIcon from '../../assets/Card/ic_contact.svg';
-import MailIcon from '../../assets/Card/ic_mail.svg';
-import LinkIcon from '../../assets/Card/ic_link.svg';
 
-import { styles } from './CardStyle';
-import AddContact from './AddTel';
 import { theme } from '../../theme';
+import AddContact from './AddTel';
+import { styles } from './CardStyle';
 
 const instaURL = `https://www.instagram.com/`;
 const xURL = `https://x.com/`;
@@ -34,6 +33,8 @@ const OpenURLButton = ({url, children}) => {
 
 export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }) => {
     const renderTemplateSpecificInfo = () => {
+        //console.log('data : ', );
+
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
             case 'studentSchool':
@@ -44,7 +45,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                     showsVerticalScrollIndicator={false}
                     onTouchStart={onVerticalScrollStart}
                     onTouchEnd={onVerticalScrollEnd}>
-                        <CardOptional1 cardData={cardData}/>
+                        {((cardData.cardOptional.card_birth !== '' || !cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI !== '') && <CardOptional1 cardData={cardData}/>}
                         {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : ((cardData.cardOptional.card_birth === "" && cardData.cardOptional.card_MBTI === "") ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <StudentOptional cardData={cardData}/>
                         <CardOptional2 cardData={cardData}/>    
@@ -58,7 +59,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                     showsVerticalScrollIndicator={false}
                     onTouchStart={onVerticalScrollStart}
                     onTouchEnd={onVerticalScrollEnd}>
-                        <CardOptional1 cardData={cardData} />
+                        {((cardData.cardOptional.card_birth !== '' || !cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI !== '') && <CardOptional1 cardData={cardData}/>}
                         {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <WorkerOptional cardData={cardData} />
                         <CardOptional2 cardData={cardData}/>    
@@ -72,8 +73,10 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                     showsVerticalScrollIndicator={false}
                     onTouchStart={onVerticalScrollStart}
                     onTouchEnd={onVerticalScrollEnd}>
-                        <CardOptional1 cardData={cardData}/>
-                        {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
+                       {((cardData.cardOptional.card_birth !== '' || !cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI !== '') && <CardOptional1 cardData={cardData}/>}
+                        
+                        {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : 
+                        (((cardData.cardOptional.card_birth === '' || cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
                         <FanOptional cardData={cardData} />
                         <CardOptional2 cardData={cardData}/>    
                         <CardOptional3 cardData={cardData}/>   
@@ -86,7 +89,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                         showsVerticalScrollIndicator={false}
                         onTouchStart={onVerticalScrollStart}
                         onTouchEnd={onVerticalScrollEnd}>
-                            <CardOptional1 cardData={cardData}/>
+                           {((cardData.cardOptional.card_birth !== '' || !cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI !== '') && <CardOptional1 cardData={cardData}/>}
 
                             {!Object.values(cardData.student).every(value => value === "") ? <View style={{...styles.line, marginTop: 0}} /> : null}
 
@@ -113,20 +116,19 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
 const CardOptional1 = ({cardData}) => {
     return (
         <View style={{gap: 24, width: '100%'}}>
-        {cardData.cardOptional.card_birth ? (
-            <View style={styles.info}>                             
-                <Text style={[styles.topic, {fontSize: 14}]}>생년월일</Text>                             
-                <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>                         
+        {cardData.cardOptional.card_birth !== "" && !cardData.cardOptional.card_bSecret && (
+            <View style={styles.info}>
+                <Text style={[styles.topic, { fontSize: 14 }]}>생년월일</Text>
+                <Text style={styles.content}>{cardData.cardOptional.card_birth}</Text>
             </View>
-        ) : null}
-        {cardData.cardOptional.card_MBTI ? (
-            <View>
-            <View style={styles.info}>                             
-                <Text style={styles.topic}>MBTI</Text>                             
-                <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>                         
+        )}
+
+        {cardData.cardOptional.card_MBTI !== "" && (
+            <View style={styles.info}>
+                <Text style={styles.topic}>MBTI</Text>
+                <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>
             </View>
-            </View>
-        ) : null}
+        )}
         </View>
     );
 }
@@ -134,7 +136,9 @@ const CardOptional1 = ({cardData}) => {
 const CardOptional2 = ({cardData}) => {
     return (
         <View style={{gap: 24, width: '100%'}}>
-            {(cardData.cardOptional.card_tel || cardData.cardOptional.card_email || cardData.cardOptional.card_sns_insta || cardData.cardOptional.card_SNS_X) && (
+            { ((cardData.cardOptional.card_birth === '' || cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '') &&
+            (cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) &&
+            (cardData.cardOptional.card_tel || cardData.cardOptional.card_email || cardData.cardOptional.card_sns_insta || cardData.cardOptional.card_SNS_X) ? null : (
             <View style={{...styles.line, marginTop: 0}} />
             )}
             {cardData.cardOptional.card_tel ? (
@@ -149,8 +153,12 @@ const CardOptional2 = ({cardData}) => {
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>이메일</Text>                            
                 <TouchableOpacity style={styles.grayBox} onPress={() => Linking.openURL(`mailto:${cardData.cardOptional.card_email}`)}>
-                    <Text style={styles.grayBoxText}>{cardData.cardOptional.card_email}</Text>
-                    <MailIcon />
+                <Text style={styles.grayBoxText}>
+                {cardData.cardOptional.card_email.length > 15 
+                ? cardData.cardOptional.card_email.slice(0, 15) + '...' 
+                : cardData.cardOptional.card_email
+                }</Text>                    
+                <MailIcon />
                 </TouchableOpacity>
                 </View>
             ) : null }
@@ -295,7 +303,7 @@ const WorkerOptional = ({cardData}) => {
 
 const FanOptional = ({cardData}) => {
     return (
-    <View style={(cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
+    <View style={((cardData.cardOptional.card_birth === '' || cardData.card.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
         {cardData.card_template === 'free' && cardData.fan.card_fan_genre ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>장르</Text>                             

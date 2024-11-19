@@ -1,18 +1,16 @@
-import { useFocusEffect, useNavigation } from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useLayoutEffect, useState } from "react";
-import { Text, TouchableOpacity, View, Alert, Modal } from 'react-native';
+import { Modal, Text, TouchableOpacity, View } from 'react-native';
 import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
-import { deleteCard } from '../../components/MyCard/DeleteCardAPI';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import GridIcon from '../../assets/icons/ic_border_all.svg';
 import ListIcon from '../../assets/icons/ic_list.svg';
-import { GridCardView } from "../../components/MyCard/GridCardView";
-import { ListCardView } from "../../components/MyCard/ListCardView";
-import { styles } from './MyCardsViewStyle';
 import NotSelectedIcon from '../../assets/icons/ic_radioBtn_all.svg';
 import SelectedIcon from '../../assets/icons/ic_radioBtn_select.svg';
 import TrashIcon from '../../assets/icons/ic_trash.svg';
+import { deleteCard } from '../../components/MyCard/DeleteCardAPI';
+import { GridCardView } from "../../components/MyCard/GridCardView";
+import { ListCardView } from "../../components/MyCard/ListCardView";
+import { styles } from './MyCardsViewStyle';
 
 const DeleteMyCard = ({ route, navigation }) => {
   const { cardData } = route.params;
@@ -45,6 +43,7 @@ const confirmDelete = async () => {
   useLayoutEffect(() => {
     navigation.setOptions({
         headerTitle: `${selectedCards.length}개 선택됨`,
+        headerTitleAlign: 'center',
         headerRight: () => (
             <RadioButton 
                 selected={selectedCards.length === cardData.length} 
@@ -79,9 +78,11 @@ const confirmDelete = async () => {
 
       {viewOption === '그리드형' ? <GridCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards}/> : <ListCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />}
 
-      <TouchableOpacity style={styles.delteBtn} onPress={handleDelete}>
+      <TouchableOpacity style={styles.delteBtnContainer} onPress={handleDelete}>
+        <View style={styles.delteBtn}>
         <TrashIcon />
         <Text style={styles.delteBtnText}>삭제</Text>
+        </View>
       </TouchableOpacity>
 
       <Modal transparent={true} visible={modalVisible} animationType="slide">

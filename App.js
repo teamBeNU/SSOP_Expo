@@ -3,7 +3,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
 import React, { useContext } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, Text, TextInput, TouchableOpacity, View, StatusBar  } from 'react-native';
 import "react-native-gesture-handler";
 import {
   Menu,
@@ -190,6 +190,12 @@ export default function App() {
   return (
   <AuthProvider>
     <MenuProvider>
+    <StatusBar 
+        barStyle="dark-content" // 텍스트 색상
+        backgroundColor="white" // 배경색
+        // translucent={true} // 투명한 시스템 바
+      />
+
       <NavigationContainer linking={linking}>
         <Stack.Navigator>
          <Stack.Screen name="AppContent" component={AppContent} options={{ headerShown: false }} />
@@ -200,6 +206,7 @@ export default function App() {
         component={SignIn}
         options={{
           headerTitle: "로그인",
+          headerTitleAlign: 'center',
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <CloseIcon style={{ marginLeft: 8  }}/>
@@ -282,7 +289,8 @@ export default function App() {
           name="카드 정보 수정"
           component={EditCard}
           options={{
-            headerTitle: "카드 정보 수정",
+            headerTitle: "카드 정보 수정하기",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>

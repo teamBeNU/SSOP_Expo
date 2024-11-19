@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useRef, useContext} from "react";
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions, KeyboardAvoidingView, Platform } from "react-native";
 import { AuthContext } from "../../AuthContext.js";
 import { theme } from "../../theme";
 import { styles } from "./SignUpStyle.js";
@@ -226,6 +226,7 @@ function SignUp() {
         navigation.setOptions({
           headerLeft: handleHeaderLeft,
           headerTitle: handleHeaderTitle,
+          headerTitleAlign: 'center',
         });
       }, [navigation, step]);
 
@@ -354,15 +355,15 @@ function SignUp() {
                     <View style={styles.checkContainer}>
                       <View style={styles.check}>
                       {hasEnglish ? <BlueCheckIcon/> : <CheckIcon />}
-                      <Text>영문 포함</Text>  
+                      <Text style={styles.checkText}>영문 포함</Text>  
                       </View>
                       <View style={styles.check}>
                       {hasNum ? <BlueCheckIcon/> : <CheckIcon />}
-                      <Text>숫자 포함</Text>  
+                      <Text style={styles.checkText}>숫자 포함</Text>  
                       </View>
                       <View style={styles.check}>
                       {hasLeng ? <BlueCheckIcon/> : <CheckIcon />}
-                      <Text>6-20자 이내</Text>  
+                      <Text style={styles.checkText}>6-20자 이내</Text>  
                     </View>
                   </View>
                 </View> 
@@ -373,10 +374,14 @@ function SignUp() {
             )}
 
             {step === 3 && (
+                <KeyboardAvoidingView
+                style={{ flex: 1 }} // 전체 화면을 flex로 채우기
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // iOS와 Android에 맞는 동작 설정
+              >
               <View style={styles.container}>
               <Text style={styles.title}>이름과 생년월일을 입력하세요.</Text>
                  <View style={styles.inputContainer}>
-                     <Text style={styles.inputTitle}>이름*</Text>
+                     <Text style={[styles.inputTitle, {color: theme.gray30, fontWeight: '600 '}]}>이름*</Text>
                      <TextInput 
                          style={[styles.input, !isFull.name && styles.inputError]}
                          placeholder="이름을 입력하세요."
@@ -393,10 +398,10 @@ function SignUp() {
                      )}
                  </View>
                  <View style={[styles.inputContainer, !isFull.name ? {marginTop: 15}: {marginTop: 40}]}>
-                     <Text style={styles.inputTitle}>생년월일*</Text>
+                 <Text style={[styles.inputTitle, {color: theme.gray30, fontWeight: '600 '}]}>생년월일*</Text>
                      <View style={styles.birthContainer}>
                          <TextInput
-                             style={[styles.inputBirth, styles.inputBirthText, styles.marginR8, !isFull.birth && styles.inputError]}
+                             style={[styles.input, !isFull.birth && styles.inputError]}        
                              placeholder="YYYY/MM/DD"
                              placeholderTextColor={theme.gray60}
                              keyboardType="numeric"
@@ -436,13 +441,14 @@ function SignUp() {
                  <Text style={styles.nextText}>다음으로</Text>
              </TouchableOpacity>                
          </View>
+         </KeyboardAvoidingView>
             )}
 
             {step === 4 && ( 
               <View style={styles.container}>
               <Text style={styles.title}>연락처를 입력해 주세요.</Text>
               <View style={styles.inputContainer}>
-                  <Text style={styles.inputTitle}>연락처</Text>
+              <Text style={[styles.inputTitle, {color: theme.gray30, fontWeight: '600 '}]}>연락처*</Text>
                   <TextInput
                   style={styles.input} 
                   placeholder="연락처를 입력하세요."
@@ -496,20 +502,20 @@ function SignUp() {
           )}
 
           {step === 6 && (
-          <ScrollView showsVerticalScrollIndicator={false} style={{...styles.container, paddingTop: 24}}>
+          <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
           <Text style={styles.agreeContent}>{serviceAgreeText}</Text>
           </ScrollView>                     
           )}
 
           {step === 7 && (
-          <ScrollView showsVerticalScrollIndicator={false} style={{...styles.container, paddingTop: 24}}>
+          <ScrollView showsVerticalScrollIndicator={false} style={styles.scrollContainer}>
           <Text style={{paddingBottom: 100}}>{infoAgreeText}</Text>
           </ScrollView>
           )}
 
           {step === 8 && (
             <View style={styles.container}>
-            <Text style={styles.title}>회원가입이 완료되었습니다!{`\n`}환영합니다.</Text>
+            <Text style={[styles.title, {lineHeight: 33}]}>회원가입이 완료되었습니다!{`\n`}환영합니다.</Text>
             <SignUpDone style={{marginTop: 72}}/>
 
             <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>

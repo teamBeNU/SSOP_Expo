@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Alert, Animated, Dimensions, Modal, ScrollView, Share, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
 import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
 import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -13,6 +13,8 @@ import ShareIcon from '../../assets/icons/ic_share_gray.svg';
 import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
 import { deleteCard } from './DeleteCardAPI.js';
+import { theme } from '../../theme.js';
+import { textStyles } from '../../textStyles.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
@@ -22,7 +24,7 @@ const CardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef(null);
     const route = useRoute();
-    const { cardId, refresh } = route.params;
+    const { cardId, refresh, selectedOption } = route.params;
 
     const [cardData, setCardData] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -212,7 +214,14 @@ const CardDetailView = () => {
             });
 
             const result = await response.json();
-            setCardData(result);
+
+            const sortData = (data) => {
+                const dataCopy = [...(data || [])];
+                return selectedOption === '오래된 순' ? dataCopy : dataCopy.reverse();
+              };
+
+            setCardData(sortData(result));
+
             const cardIndex = result.findIndex(card => card.cardId === cardId);
             if (cardIndex !== -1) {
                 setCurrentCardIndex(cardIndex);
@@ -407,7 +416,7 @@ const CardDetailView = () => {
                             <View style={styles.modalContainer}>
                                     <View style={styles.modalView}>
                                         <View style={styles.modalTitle}>
-                                            <Text style={{...styles.modalFont, fontWeight: '500', textAlign: 'center'}}>프로필 카드 수정하기</Text>
+                                            <Text style={{color:theme.gray10, ...textStyles.body16m, textAlign: 'center', flex:1}}>프로필 카드 수정하기</Text>
                                             <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                                                 <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
                                             </TouchableOpacity>
@@ -415,7 +424,7 @@ const CardDetailView = () => {
                                         <View style={styles.modalContent}>
                                             <TouchableOpacity onPress={() => {
                                                 setIsModalVisible(false);
-                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex], index: currentCardIndex});}}>
+                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex], isDetail: true});}}>
                                             <Text style={styles.modalTitle}>정보 수정할래요</Text>
                                             </TouchableOpacity>
                                             <View style={styles.line} />
