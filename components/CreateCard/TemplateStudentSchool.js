@@ -8,12 +8,13 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
 import DropDown from "./DropDown";
-import AvatarCustom from "./AvatarCustom";
+import AvatarCustom from "../Avatar/AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import SelectCover from "./SelectCover";
+import { avatarCapture } from "../../utils/avatarCapture";
 
 export default function TemplateStudentSchool ({navigation, card_template, step, setStep}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -69,6 +70,8 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
     const ref_input3 = useRef();
     const ref_input4 = useRef();
     
+    const viewShotRef = useRef(null);       // 아바타 커스터마이징 캡쳐뷰
+
     const [isAvatarComplete, setIsAvatarComplete] = useState(false);
     const [isPictureComplete, setIsPictureComplete] = useState(false);
     
@@ -91,12 +94,17 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
         eyes: null,
         eyebrows: null,
         mouth: null,
+        mole: null,
         hairFront: null,
         hairBack: null,
         hairFrontColor: null,
         hairBackColor: null,
         clothes: null,
-        acc: null,
+        accEar: null,
+        accNose: null,
+        accGlasses: null,
+        accPin: null,
+        accEtc: null,
         bg: null,
         bgColor: null,
     })
@@ -142,12 +150,17 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                 eyes: avatar.eyes,
                 eyebrows: avatar.eyebrows,
                 mouth: avatar.mouth,
+                mole: avatar.mole,
                 hairFront: avatar.hairFront,
                 hairBack: avatar.hairBack,
                 hairFrontColor: avatar.hairFrontColor,
                 hairBackColor: avatar.hairBackColor,
                 clothes: avatar.clothes,
-                acc: avatar.acc,
+                accEar: avatar.accEar,
+                accNose: avatar.accNose,
+                accGlasses: avatar.accGlasses,
+                accPin: avatar.accPin,
+                accEtc: avatar.accEtc,
                 bg: avatar.bg,
                 bgColor: avatar.bgColor,
             };
@@ -349,7 +362,8 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                     <TouchableOpacity
                         style={{marginRight: 20}}
                         onPress={() => {
-                            setIsAvatarComplete(true);
+                            // setIsAvatarComplete(true);
+                            avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
                         }}
                     >
                         <Text style={styles.avatarNext}>완료</Text>
@@ -837,6 +851,8 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                             setProfileImageUrl={setProfileImageUrl} 
                             avatar={avatar}
                             setAvatar={setAvatar}
+                            viewShotRef={viewShotRef}
+                            profileimageurl={profile_image_url}
                         />
                     )}
                 </View>

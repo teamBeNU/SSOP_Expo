@@ -51,7 +51,7 @@ import FAQ from './pages/MyPage/Service/FAQ';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import Space from './pages/Space/Space';
 import DeleteMyCard from './pages/MyCard/DeleteMyCard';
-import AvatarCustom from './components/CreateCard/AvatarCustom';
+import AvatarCustom from './components/Avatar/AvatarCustom';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';

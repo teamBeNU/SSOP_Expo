@@ -48,7 +48,16 @@
         "android.permission.READ_CONTACTS",
         "android.permission.WRITE_CONTACTS",
         "INTERNET"
-      ]
+      ],
+      "networkSecurityConfig": {
+        "domainConfig": [
+          {
+            "domain": "*",
+            "cleartextTrafficPermitted": true
+          }
+        ]
+      }
+
     },
     "web": {
       "favicon": "./assets/icon.png"
