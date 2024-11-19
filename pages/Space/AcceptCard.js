@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Modal, Linking, Platform} from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, StatusBar, Modal, Linking, Platform} from "react-native";
 import { useNavigation, NavigationContainer, useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { styles } from './SpaceStyle';
@@ -771,6 +771,13 @@ function ManageCardScreen({ navigation }) {
 
 function AcceptCard() {
     return (
+      <>
+       <StatusBar 
+        barStyle="dark-content" // 텍스트 색상
+        backgroundColor="#F4F4F4" // 배경색
+        // translucent={true} // 투명한 시스템 바
+      />
+
       <Stack.Navigator>
           <Stack.Screen name="Group" component={DetailSpaceGroup} 
           options={{
@@ -819,6 +826,7 @@ function AcceptCard() {
             ),
           }}/>
       </Stack.Navigator>
+      </>
     );
   }
   export default AcceptCard;

@@ -3,7 +3,7 @@ import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
-import { View, Text, TouchableOpacity, Modal, Alert, TouchableWithoutFeedback } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Alert, TouchableWithoutFeedback, StatusBar } from "react-native";
 import { styles } from './SpaceStyle.js';
 import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
@@ -222,7 +222,11 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
   return (
     <View style={styles.backgroundColor}>
-
+      <StatusBar 
+        barStyle="dark-content" // 텍스트 색상
+        backgroundColor="#F4F4F4" // 배경색
+        // translucent={true} // 투명한 시스템 바
+      />
       {/* 공유 버튼을 눌렀을 때 표시되는 모달 */}
       <Modal
         animationType="fade"

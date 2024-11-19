@@ -1,5 +1,5 @@
 import React, { useState, useRef, useContext } from "react";
-import { View, Text, TextInput, Alert, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions } from "react-native";
+import { View, Text, TextInput, Alert, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions, KeyboardAvoidingView, Platform } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './LoginStyle.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -63,6 +63,10 @@ function SignIn() {
     };
 
     return(
+      <KeyboardAvoidingView
+      style={{ flex: 1 }} // 전체 화면을 flex로 채우기
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'} // iOS와 Android에 맞는 동작 설정
+    >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={{...styles.container, paddingTop: 4,}}>
            <View style={styles.inputContainer}>
@@ -82,7 +86,7 @@ function SignIn() {
             <View style={{...styles.input, ...styles.pwInput}}>
                 <TextInput
                 ref={ref_input}
-                style={{width:  Dimensions.get('window').width - 96}} 
+                style={{width:  Dimensions.get('window').width - 96, ...styles.textholderText}} 
                 placeholder="영문과 숫자 포함, 6-20자 이내의 문자"
                 maxLength={20}
                 secureTextEntry = {showPw ? false : true}
@@ -126,6 +130,7 @@ function SignIn() {
 
         </View>
         </TouchableWithoutFeedback>
+        </KeyboardAvoidingView>
     )
  }
 

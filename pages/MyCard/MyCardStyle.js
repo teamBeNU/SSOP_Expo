@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet, Platform, StatusBar } from 'react-native';
 import { theme } from "../../theme";
+import { textStyles } from '../../textStyles';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 const MAX_CARD_HEIGHT = HEIGHT * 0.6;
@@ -87,19 +88,13 @@ export const styles = StyleSheet.create({
         borderRadius: 39,
         },
         emptyContainer: {
-        backgroundColor: 'white',
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 16,
+        gap: 8,
         },
         noCard: {
         color: theme.gray60,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: '600',
-        lineHeight: 19,
-        letterSpacing: -0.32,
+        ...textStyles.headline16
         },
         newContainer: {
         flexDirection: 'row',
@@ -110,11 +105,8 @@ export const styles = StyleSheet.create({
         },
         newCard: {
         color:theme.skyblue,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: '600',
-        lineHeight: 19,
-        letterSpacing: -0.32,
+        textAlign: 'center',
+        ...textStyles.headline16
         },
         cardScrollView: {
         height: Math.min(WIDTH * 1.2, HEIGHT * 0.6),
@@ -158,11 +150,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'relative',
         color: theme.gray10,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: '400',
-        lineHeight: 19,
-        letterSpacing: -0.32
+        ...textStyles.headline16
         },
         modalContent: {
         paddingVertical: 12,
