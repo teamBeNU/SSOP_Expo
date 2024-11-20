@@ -802,12 +802,10 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom 
-                            setProfileImageUrl={setProfileImageUrl} 
+                        <AvatarCustom
                             avatar={avatar}
                             setAvatar={setAvatar}
                             viewShotRef={viewShotRef}
-                            profileimageurl={profile_image_url}
                         />
                     )}
                 </View>

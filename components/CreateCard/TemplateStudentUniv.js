@@ -875,12 +875,10 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom 
-                            setProfileImageUrl={setProfileImageUrl} 
+                        <AvatarCustom
                             avatar={avatar}
                             setAvatar={setAvatar}
                             viewShotRef={viewShotRef}
-                            profileimageurl={profile_image_url}
                         />
                     )}
                 </View>

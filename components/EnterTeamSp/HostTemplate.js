@@ -985,13 +985,10 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           {step === 8 && (
             <View style={{ marginLeft: -16, marginTop: -16 }}>
               {card_cover === "avatar" && (
-                // <AvatarCustom setProfileImageUrl={setProfileImageUrl} avatar={null} setAvatar={null} />
-                <AvatarCustom 
-                  setProfileImageUrl={setProfileImageUrl} 
-                  avatar={null}
-                  setAvatar={null}
+                <AvatarCustom
+                  avatar={avatar}
+                  setAvatar={setAvatar}
                   viewShotRef={viewShotRef}
-                  profileimageurl={profile_image_url}
                 />
               )}
             </View>
