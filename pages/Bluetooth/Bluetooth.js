@@ -121,6 +121,7 @@ function Bluetooth({ navigation }) {
       <Stack.Screen name="Step1" component={Step1Screen}
         options={{
           title: "카드 보내기",
+          headerTitleAlign: 'center',
           headerLeft: ({ onPress }) => (
             <TouchableOpacity onPress={onPress}>
               <CloseIcon style={{ marginLeft: 8 }} />
