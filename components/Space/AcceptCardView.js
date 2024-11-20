@@ -38,18 +38,21 @@ const AcceptCardView = ({
 
   // 생년월일 -> 나이 계산
   const calculateAge = (birthDate) => {
+    if (!birthDate) return ''; // birthDate가 없으면 빈 문자열 반환
+  
     const today = new Date();
     const [year, month, day] = birthDate.split('/').map(Number);
-
+  
     let age = today.getFullYear() - year;
     const monthDiff = today.getMonth() + 1 - month;
-
+  
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < day)) {
       age--;
     }
-
+  
     return age;
   };
+  
 
   // 날짜 형식 변환 함수
   const formatDateWithDay = (dateString) => {

@@ -119,7 +119,7 @@ function MySpace({ navigation }) {
         return;
       }
 
-      const response = await fetch(`${API_URL}?groupId=${groupId}`, {
+      const response = await fetch(`http://43.202.52.64:8080/api/mysp/delete-group?groupId=${groupId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,

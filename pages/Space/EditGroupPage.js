@@ -76,7 +76,7 @@ function EditGroupPage({ route, navigation }) {
       }
 
       for (const groupId of selectedGroups) {
-        await fetch(`${API_URL}?groupId=${groupId}`, {
+        await fetch(`http://43.202.52.64:8080/api/mysp/delete-group?groupId=${groupId}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,

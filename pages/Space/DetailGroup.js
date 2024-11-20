@@ -68,7 +68,7 @@ const fetchGroupDetails = async (groupId, token) => {
 const API_URL_DELETE = 'http://43.202.52.64:8080/api/card/delete';
 
 // 카드 삭제 API 호출 함수
-const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
+const deleteSelectedCards = async (groupId, selectedCards, setCardData) => {
   try {
     const token = await AsyncStorage.getItem('token');
     if (!token) {
@@ -76,32 +76,35 @@ const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
       return;
     }
 
-    const queryString = selectedCards.map((id) => `cardIds=${id}`).join('&');
-    const url = `${API_URL_DELETE}?${queryString}`;
+    // 각 카드에 대해 삭제 요청
+    await Promise.all(
+      selectedCards.map(async (cardId) => {
+        const response = await fetch(
+          `http://43.202.52.64:8080/api/mysp/delete-card?groupId=${groupId}&cardId=${cardId}`,
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+        if (!response.ok) {
+          const result = await response.json();
+          console.error(`카드 삭제 실패 (${cardId}):`, result.message);
+        }
+      })
+    );
 
-    if (response.ok) {
-      showCustomToast('카드를 성공적으로 삭제하였습니다.');
+    showCustomToast('카드가 성공적으로 삭제되었습니다.');
 
-      // 삭제된 카드를 제외한 나머지 카드로 상태 업데이트
-      const updatedCardData = (cardData || []).filter(card => !selectedCards.includes(card.cardId));
-      setCardData(updatedCardData);
-    } else {
-      const result = await response.json();
-      console.error('카드 삭제에 실패했습니다:', result.message);
-      showCustomToast('카드 삭제에 실패했습니다');
-    }
+    // 삭제된 카드를 제외한 나머지 카드로 상태 업데이트
+    setCardData((prevData) => prevData.filter((card) => !selectedCards.includes(card.cardId)));
   } catch (error) {
     console.error('API 호출 중 오류 발생:', error);
     showCustomToast('카드 삭제 중 오류가 발생했습니다.');
   }
-};   
+};
 
 const API_URL_MOVE = 'http://43.202.52.64:8080/api/mysp';
 
@@ -221,12 +224,12 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
   const handleConfirmDelete = () => {
     if (selectedCardId !== null) {
       const selectedCards = [selectedCardId];
-      deleteSelectedCards(selectedCards, setCardData, cardData);
+      deleteSelectedCards(groupId, selectedCards, setCardData);
       setSelectedCardId(null);
     }
-    setIsCardDeleteModalVisible(false); // 카드 삭제 모달 닫기
+    setIsCardDeleteModalVisible(false); // 모달 닫기
   };
-
+  
     // 그룹 이동
     const handleMoveGroup = (cardId) => {
       navigation.navigate('그룹 이동', { selectedCards: [cardId] });
@@ -815,7 +818,7 @@ function ManageCardScreen({ route, navigation }) {
             return;
           }
 
-          const response = await fetch(`${API_URL}?groupId=${groupId}`, {
+          const response = await fetch(`http://43.202.52.64:8080/api/mysp/delete-group?groupId=${groupId}`, {
             method: 'DELETE',
             headers: {
               Authorization: `Bearer ${token}`,
@@ -988,5 +991,3 @@ function ManageCardScreen({ route, navigation }) {
     }
     
     export default DetailGroup;
-    
-    

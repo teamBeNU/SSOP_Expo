@@ -7,19 +7,17 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: 'white',
         overflow: 'hidden',
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowColor: "rgb(73, 81, 100)",
         shadowOffset: {
             width: 0,
             height: 2
         },
         shadowRadius: 16,
-        shadowOpacity: 1,
+        shadowOpacity: 0.09,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)"
 	},
     btn1: { // 새 카드 만들기
-        width: 158,
-        height: 200,
         borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
@@ -29,6 +27,13 @@ export const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderColor: theme.gray95,
         marginTop: 12,
+        shadowColor: "rgb(73, 81, 100)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 16,
+        shadowOpacity: 0.09,
     },
     
     avatar: {
@@ -45,7 +50,6 @@ export const styles = StyleSheet.create({
     cardTextArea: {
         borderRadius: 16,
         backgroundColor: "white",
-        gap: 12,
         paddingHorizontal: 12,
         paddingVertical: 14,
         position: 'absolute',
