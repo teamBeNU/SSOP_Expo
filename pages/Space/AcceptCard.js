@@ -285,6 +285,17 @@ function DetailSpaceGroup({ navigation }) {
   
       fetchData();  // 컴포넌트가 로드될 때 데이터 가져오기
     }, []);
+
+    // 연락처 있는 카드만 보이기
+    // useEffect(() => {
+    //   const fetchData = async () => {
+    //     const savedCards = await fetchSavedCards(); // 받은 카드 목록 가져오기
+    //     const filteredCards = savedCards.filter(card => card.cardOptional && card.cardOptional.card_tel); // card_tel이 있는 카드만 필터링
+    //     setCardData(filteredCards); // 필터링된 카드 데이터 저장
+    //   };
+    
+    //   fetchData(); // 컴포넌트가 로드될 때 데이터 가져오기
+    // }, []);
     
     const handleSaveTel = () => {
       setIsSaveModalVisible(true);

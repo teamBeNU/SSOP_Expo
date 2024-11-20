@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
-import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
 import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import { theme } from "../../theme";
 import Toast from 'react-native-toast-message';
 import { MySpaceGroup } from "../../components/Space/SpaceList.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
-import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 import MySpaceIcon from '../../assets/icons/ic_myspace.svg'
   
 const API_URL = 'http://43.202.52.64:8080/api/mysp'; 

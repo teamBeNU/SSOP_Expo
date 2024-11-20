@@ -4,17 +4,19 @@ import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Alert, Animated, Dimensions, Modal, ScrollView, Share, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
-import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import EditIcon from '../../assets/icons/ic_editcard.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_gray.svg';
+import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
+import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
 import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
 import { deleteCard } from './DeleteCardAPI.js';
 import { theme } from '../../theme.js';
 import { textStyles } from '../../textStyles.js';
+
+import ExchangeModal from '../../components/Space/ExchangeModal.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
@@ -356,41 +358,19 @@ const CardDetailView = () => {
                         </View>
                     </TouchableOpacity>
 
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={isShareModalVisible}
-                        onRequestClose={() => {
-                            setIsShareModalVisible(false); 
-                        }}
-                    >
-                        <TouchableWithoutFeedback onPress={() => setIsShareModalVisible(false)}>
-                            <View style={styles.shareModalContainer}>
-                                    <View style={styles.shareModalView}>
-                                        <View style={styles.modalTitle}>
-                                            <Text style={{...styles.modalFont, textAlign: 'center'}}>카드 교환하기</Text>
-                                            <TouchableOpacity onPress={() => setIsShareModalVisible(false)}>
-                                                <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
-                                            </TouchableOpacity>
-                                        </View>
-                                        <View style={styles.row}>
-                                            <TouchableOpacity style={styles.btn2} onPress={handleBluetoothPress}>
-                                            <Text style={styles.Text18}>블루투스 송신</Text>
-                                            <Text style={styles.Text14}>주변에 있다면 바로</Text>
-                                            <BluetoothIcon style={styles.icon2} />
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={styles.btn2} onPress={handleLinkSharePress}>
-                                            <Text style={styles.Text18}>링크 공유</Text>
-                                            <Text style={styles.Text14}>연락처가 있다면</Text>
-                                            <LinkIcon style={styles.icon2} />
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                
-                            </View>
-                        </TouchableWithoutFeedback>
-
-                    </Modal>
+                    <ExchangeModal
+                        isVisible={isShareModalVisible}
+                        onClose={() => setIsShareModalVisible(false)}
+                        onOption1Press={handleBluetoothPress}
+                        onOption2Press={handleLinkSharePress}
+                        title="카드 공유하기"
+                        option1Text="블루투스 공유"
+                        option1SubText="주변에 있다면"
+                        option2Text="링크 공유"
+                        option2SubText="연락처가 있다면"
+                        option1Icon={BluetoothIcon}
+                        option2Icon={LinkIcon}
+                    />
                 </View>
 
                 <View style={styles.verticalLine} />

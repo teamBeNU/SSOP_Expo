@@ -104,10 +104,6 @@ const AcceptCardView = ({
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} 
-    contentContainerStyle={{
-      flexGrow: 1,
-      minHeight: '100%', // 화면 높이만큼 최소 높이를 보장
-    }}
     style={styles.backgroundColor}>
       <View style={styles.backgroundColor2}>
         <Text style={[styles.detailtitle, { marginBottom: 8 }]}>{title}</Text>

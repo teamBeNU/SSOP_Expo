@@ -66,10 +66,8 @@ const fetchGroupDetails = async (groupId, token) => {
   }
 };
 
-const API_URL_DELETE = 'http://43.202.52.64:8080/api/card/delete';
-
 // 카드 삭제 API 호출 함수
-const deleteSelectedCards = async (groupId, selectedCards, setCardData) => {
+const deleteSelectedCards = async (groupId, selectedCards, setCardData, setMembers) => {
   try {
     const token = await AsyncStorage.getItem('token');
     if (!token) {
@@ -101,11 +99,15 @@ const deleteSelectedCards = async (groupId, selectedCards, setCardData) => {
 
     // 삭제된 카드를 제외한 나머지 카드로 상태 업데이트
     setCardData((prevData) => prevData.filter((card) => !selectedCards.includes(card.cardId)));
+
+    // 멤버 수 감소
+    setMembers((prevMembers) => prevMembers - selectedCards.length);
   } catch (error) {
     console.error('API 호출 중 오류 발생:', error);
     showCustomToast('카드 삭제 중 오류가 발생했습니다.');
   }
 };
+
 
 const API_URL_MOVE = 'http://43.202.52.64:8080/api/mysp';
 
@@ -222,10 +224,10 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
 
 
   // 카드 삭제
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (selectedCardId !== null) {
       const selectedCards = [selectedCardId];
-      deleteSelectedCards(groupId, selectedCards, setCardData);
+      await deleteSelectedCards(groupId, selectedCards, setCardData, setMembers); // setMembers 전달
       setSelectedCardId(null);
     }
     setIsCardDeleteModalVisible(false); // 모달 닫기
@@ -347,14 +349,21 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
       getData();
     }, [groupId]);
 
-    const showCustomToast = (text) => {
-      Toast.show({
-        text1: text,
-        type: 'selectedToast',
-        position: 'bottom',
-        visibilityTime: 2000,
-      });
-    };
+    // 연락처가 있는 카드만 보이기
+    // useEffect(() => {
+    //   const getData = async () => {
+    //     const token = await AsyncStorage.getItem('token');
+    //     if (token && groupId) {
+    //       const data = await fetchGroupDetails(groupId, token);
+    //       // card_tel이 있는 카드만 필터링
+    //       const filteredData = data.filter(
+    //         (card) => card.cardOptional && card.cardOptional.card_tel
+    //       );
+    //       setCardData(filteredData); // 필터링된 데이터만 설정
+    //     }
+    //   };
+    //   getData();
+    // }, [groupId]);
     
     const handleSaveTel = () => {
       setIsSaveModalVisible(true);
@@ -565,10 +574,15 @@ function ManageCardScreen({ route, navigation }) {
 
   // 모달에서 확인 버튼 클릭 시 카드 삭제
   const handleConfirmDelete = async () => {
-    await deleteSelectedCards(selectedCards, setCardData, cardData);  // 카드 삭제 함수 호출 시 setCardData와 cardData 전달
-    setSelectedCards([]);  // 선택된 카드 초기화
-    setIsSpaceModalVisible(false);  // 모달 닫기
-  };
+    if (!Array.isArray(selectedCards) || selectedCards.length === 0) {
+      showCustomToast('삭제할 카드가 선택되지 않았습니다.');
+      return;
+    }
+  
+    await deleteSelectedCards(groupId, selectedCards, setCardData, setMembers); // setMembers 전달
+    setSelectedCards([]); // 선택 초기화
+    setIsSpaceModalVisible(false); // 모달 닫기
+  };  
 
   // 카드 선택/해제 처리 함수
   const handleRadioSelect = (cardId) => {
