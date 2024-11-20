@@ -48,7 +48,7 @@ function Home({navigation}) {
                                 <ArrowIconWhite style={{ marginLeft: 4 }} />
                             </View>
                             <Image
-                                source={require('../../assets/HomeIcon/homeBanner.png')} // 경로에 맞게 수정
+                                source={require('../../assets/HomeIcon/homeBanner.png')}
                                 style={styles.icon1}
                             />
                         </LinearGradient>
@@ -66,7 +66,7 @@ function Home({navigation}) {
                 <View>
                     
                 <Text style={styles.title}>
-                    <Text style={styles.title}>프로필 카드 교환하기</Text>
+                    <Text style={styles.title}>프로필 카드 공유하기</Text>
                 </Text>
                 <View style={styles.container}>
                     <View style={styles.row}>
@@ -87,7 +87,7 @@ function Home({navigation}) {
                     </View>
                 </View>
 
-                <Text style={styles.title}>교환할 사람이 많을 땐</Text>
+                <Text style={styles.title}>사람이 많을 땐 팀스페이스로</Text>
                 <View style={styles.container}>
                     <View style={styles.row}>
                         <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 입장')}>
