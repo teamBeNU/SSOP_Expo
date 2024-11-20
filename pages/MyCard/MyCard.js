@@ -2,14 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useCallback, useLayoutEffect, useState, useEffect } from 'react';
 import { Alert, Share, Text, TouchableOpacity, View, TouchableWithoutFeedback, Modal  } from "react-native";
 import { styles } from './MyCardStyle';
+import ExchangeModal from '../../components/Space/ExchangeModal.js';
 
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 import SwapIcon from '../../assets/icons/ic_swap_regular.svg';
 import CardsView from '../../pages/MyCard/MyCardsView.js';
-import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
-import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
-import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
+import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
+
 
 import { useFocusEffect, useNavigation } from '@react-navigation/native';
 
@@ -158,40 +159,19 @@ function MyCard() {
             <View style={{flex: 1}} >
                 <CardsView cardData={cardData} setCardData= {setCardData} refreshData={fetchData} viewOption={viewOption} setViewOption={setViewOption} selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
 
-                <Modal
-                    animationType="fade"
-                    transparent={true}
-                    visible={isShareModalVisible}
-                    onRequestClose={() => {
-                        setIsShareModalVisible(false); 
-                    }}
-                >
-                    <TouchableWithoutFeedback onPress={() => setIsShareModalVisible(false)}>
-                        <View style={styles.shareModalContainer}>
-                                <View style={styles.shareModalView}>
-                                    <View style={styles.modalTitle}>
-                                        <Text style={{...styles.modalFont, textAlign: 'center'}}>카드 교환하기</Text>
-                                        <TouchableOpacity onPress={() => setIsShareModalVisible(false)}>
-                                            <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
-                                        </TouchableOpacity>
-                                    </View>
-                                    <View style={styles.row}>
-                                        <TouchableOpacity style={styles.btn2} onPress={handleBluetoothPress}>
-                                        <Text style={styles.Text18}>블루투스 송신</Text>
-                                        <Text style={styles.Text14}>주변에 있다면 바로</Text>
-                                        <BluetoothIcon style={styles.icon2} />
-                                        </TouchableOpacity>
-                                        <TouchableOpacity style={styles.btn2} onPress={handleLinkSharePress}>
-                                        <Text style={styles.Text18}>링크 공유</Text>
-                                        <Text style={styles.Text14}>연락처가 있다면</Text>
-                                        <LinkIcon style={styles.icon2} />
-                                        </TouchableOpacity>
-                                    </View>
-                                </View>
-                            
-                        </View>
-                    </TouchableWithoutFeedback>
-                </Modal>
+                    <ExchangeModal
+                        isVisible={isShareModalVisible}
+                        onClose={() => setIsShareModalVisible(false)}
+                        onOption1Press={handleBluetoothPress}
+                        onOption2Press={handleLinkSharePress}
+                        title="카드 공유하기"
+                        option1Text="블루투스 공유"
+                        option1SubText="주변에 있다면"
+                        option2Text="링크 공유"
+                        option2SubText="연락처가 있다면"
+                        option1Icon={BluetoothIcon}
+                        option2Icon={LinkIcon}
+                    />
                
             </View>
         ) : (

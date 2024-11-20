@@ -38,18 +38,21 @@ const AcceptCardView = ({
 
   // 생년월일 -> 나이 계산
   const calculateAge = (birthDate) => {
+    if (!birthDate) return ''; // birthDate가 없으면 빈 문자열 반환
+  
     const today = new Date();
     const [year, month, day] = birthDate.split('/').map(Number);
-
+  
     let age = today.getFullYear() - year;
     const monthDiff = today.getMonth() + 1 - month;
-
+  
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < day)) {
       age--;
     }
-
+  
     return age;
   };
+  
 
   // 날짜 형식 변환 함수
   const formatDateWithDay = (dateString) => {
@@ -100,7 +103,8 @@ const AcceptCardView = ({
   };
 
   return (
-    <ScrollView showsVerticalScrollIndicator={false} style={styles.backgroundColor}>
+    <ScrollView showsVerticalScrollIndicator={false} 
+    style={styles.backgroundColor}>
       <View style={styles.backgroundColor2}>
         <Text style={[styles.detailtitle, { marginBottom: 8 }]}>{title}</Text>
         {sub ? <Text style={[styles.subteamsp, { marginBottom: 8 }]}>{sub}</Text> : null}
@@ -184,23 +188,13 @@ const AcceptCardView = ({
                     <View key={item.cardId} style={styles.ListContainer}>
                       <TouchableOpacity onPress={() => handleNext(item.cardId)}>
                         <View style={styles.row2}>
-                          {item.card_cover === 'avatar' ? (
-                            <View
-                              style={[
-                                styles.gray,
-                                { backgroundColor: getColor(item.avatar.bgColor) },
-                              ]}
+                          <View style={styles.gray}>
+                            <Image
+                              source={{ uri: item.profile_image_url }} // 항상 profile_image_url 렌더링
+                              resizeMode="cover"
+                              style={styles.gray} // 스타일 유지
                             />
-                          ) : (
-                            <View style={styles.gray}>
-                              <Image
-                                source={{ uri: item.profile_image_url }}
-                                resizeMode="cover"
-                                style={styles.gray}
-                              />
-                            </View>
-                          )}
-
+                          </View>
                           <View style={styles.infoContainer}>
                             <View style={styles.rowName}>
                               <Text style={styles.Text16gray10}>

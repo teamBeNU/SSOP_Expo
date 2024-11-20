@@ -1,5 +1,15 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { theme } from "../../theme";
+
+// 화면 너비 가져오기
+const screenWidth = Dimensions.get('window').width;
+
+// 카드 레이아웃 계산
+const paddingHorizontal = 16; // 전체적인 좌우 패딩
+const cardSpacing = 8; // 카드 간 간격
+const cardWidth = (screenWidth - paddingHorizontal * 2 - cardSpacing) / 2; // 카드 너비
+const cardAspectRatio = 200 / 160; // 카드 비율 (160x200)
+const cardHeight = cardWidth * cardAspectRatio; // 카드 높이 계산
 
 export const styles = StyleSheet.create({
     // CardFront
@@ -7,19 +17,17 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: 'white',
         overflow: 'hidden',
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowColor: "rgb(73, 81, 100)",
         shadowOffset: {
             width: 0,
             height: 2
         },
         shadowRadius: 16,
-        shadowOpacity: 1,
+        shadowOpacity: 0.09,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)"
 	},
     btn1: { // 새 카드 만들기
-        width: 158,
-        height: 200,
         borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
@@ -29,6 +37,13 @@ export const styles = StyleSheet.create({
         borderWidth: 1.5,
         borderColor: theme.gray95,
         marginTop: 12,
+        shadowColor: "rgb(73, 81, 100)",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowRadius: 16,
+        shadowOpacity: 0.09,
     },
     
     avatar: {
@@ -45,7 +60,6 @@ export const styles = StyleSheet.create({
     cardTextArea: {
         borderRadius: 16,
         backgroundColor: "white",
-        gap: 12,
         paddingHorizontal: 12,
         paddingVertical: 14,
         position: 'absolute',

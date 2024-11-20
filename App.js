@@ -2,9 +2,10 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
-import React, { useContext } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View, StatusBar  } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { Image, Text, TextInput, TouchableOpacity, View, Alert, Linking } from 'react-native';
 import "react-native-gesture-handler";
+import { SpaceModal } from "./components/Space/SpaceModal.js";
 import {
   Menu,
   MenuOption,
@@ -17,8 +18,9 @@ import NotiIcon from './assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
+import HomeLogo from './assets/HomeIcon/logo_line.svg'
 import { AuthProvider, AuthContext } from './AuthContext';
-import * as Linking from 'expo-linking';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
@@ -72,19 +74,117 @@ import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
 import { theme } from './theme';
 
 const linking = {
-  prefixes: ['https://ssop.com', 'ssop://'],
+  prefixes: ['https://ssopbenu.app.link', 'ssop://'],
   config: {
     screens: {
+      Home: "/", // 앱의 초기 화면
+      LinkReceiverScreen: 'receiver/:cardId',
       CardDetails: 'card/:cardId',
-      Step1: 'step1',
-      Step2: 'step2',
-      LinkReceiverScreen: 'api/link/:token', 
     },
   },
-
 };
 
 export default function App() {
+  // 모달 상태 및 카드 정보 관리
+  const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
+  const [cardName, setCardName] = useState(null);
+  const [cardId, setCardId] = useState(null);
+
+  // 카드 저장 함수
+  const saveCard = async (cardId) => {
+    try {
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        console.error("사용자 인증 토큰이 없습니다.");
+        return;
+      }
+
+      const response = await fetch(
+        `http://43.202.52.64:8080/api/card/save?cardId=${cardId}`,
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log("카드가 성공적으로 저장되었습니다:", result);
+        Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
+        setIsSpaceModalVisible(false); // 모달 닫기
+      } else {
+        console.error("카드 저장 실패:", result.message || "알 수 없는 오류");
+        Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
+      }
+    } catch (error) {
+      console.error("카드 저장 중 오류가 발생했습니다:", error);
+      Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
+    }
+  };
+
+  const handleDeepLink = async (url) => {
+    console.log("딥링크 URL:", url);
+    const extractCardId = (url) => {
+      try {
+        const parsedUrl = new URL(url);
+        return parsedUrl.searchParams.get("cardId");
+      } catch (error) {
+        console.error("URL 파싱 중 오류:", error);
+        return null;
+      }
+    };
+
+    const cardId = extractCardId(url);
+    if (cardId) {
+      console.log("추출된 cardId:", cardId);
+
+      // 카드 정보 가져오기
+      const token = await AsyncStorage.getItem("token");
+      if (!token) {
+        console.error("사용자 인증 토큰이 없습니다.");
+        return;
+      }
+
+      const response = await fetch(`http://43.202.52.64:8080/api/card/view?cardId=${cardId}`, {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const result = await response.json();
+      if (response.ok) {
+        setCardName(result.cardEssential.card_name);
+        setCardId(cardId);
+        setIsSpaceModalVisible(true); // 모달 표시
+      } else {
+        console.error("카드 정보 가져오기 실패:", result.message || "알 수 없는 오류");
+      }
+    }
+  };
+
+  useEffect(() => {
+    // 앱이 처음 실행되었을 때 URL 확인
+    const checkInitialURL = async () => {
+      const initialURL = await Linking.getInitialURL();
+      if (initialURL) {
+        handleDeepLink(initialURL);
+      }
+    };
+
+    checkInitialURL();
+
+    // 실행 중인 상태에서 딥링크 이벤트 처리
+    const subscription = Linking.addEventListener("url", ({ url }) => {
+      handleDeepLink(url);
+    });
+
+    return () => subscription.remove();
+  }, []);
+  
+  
   // 폰트 로드
   const [fontsLoaded] = useFonts({
     Pretendard : PretendardRegular,
@@ -190,12 +290,6 @@ export default function App() {
   return (
   <AuthProvider>
     <MenuProvider>
-    <StatusBar 
-        barStyle="dark-content" // 텍스트 색상
-        backgroundColor="white" // 배경색
-        // translucent={true} // 투명한 시스템 바
-      />
-
       <NavigationContainer linking={linking}>
         <Stack.Navigator>
          <Stack.Screen name="AppContent" component={AppContent} options={{ headerShown: false }} />
@@ -206,7 +300,6 @@ export default function App() {
         component={SignIn}
         options={{
           headerTitle: "로그인",
-          headerTitleAlign: 'center',
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <CloseIcon style={{ marginLeft: 8  }}/>
@@ -295,8 +388,7 @@ export default function App() {
           name="카드 정보 수정"
           component={EditCard}
           options={{
-            headerTitle: "카드 정보 수정하기",
-            headerTitleAlign: 'center',
+            headerTitle: "카드 정보 수정",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -469,6 +561,14 @@ export default function App() {
           <Stack.Screen name="마이스페이스 카드 검색" component={MySpSearchCard} options={{ headerShown: false }}/>
           <Stack.Screen name="팀스페이스 카드 검색" component={TeamSpSearchCard} options={{ headerShown: false }}/>
       </Stack.Navigator>
+      <SpaceModal
+        isVisible={isSpaceModalVisible}
+        onClose={() => setIsSpaceModalVisible(false)}
+        title={`${cardName} 님의 카드를 받으시겠습니까?`}
+        btn1="안 받을래요"
+        btn2="네, 받을래요"
+        onConfirm={() => saveCard(cardId)} // 카드 저장 로직 연결
+      />
     </NavigationContainer>
     <Toast config={customToast} />
     </MenuProvider>
@@ -543,9 +643,14 @@ const Tab = createBottomTabNavigator();
           headerStyle: {
             backgroundColor: theme.white
           },
+          headerLeft: () => (
+            <View>
+              <HomeLogo style={{ marginLeft: 32.5 }} />
+            </View>
+          ),
           headerRight: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('전체 카드 검색') }}>
-              <SearchIcon style={{ marginRight: 8 }} />
+              <SearchIcon style={{ marginRight: 20 }} />
             </TouchableOpacity>
           ),
         }}  />
