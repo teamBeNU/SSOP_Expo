@@ -398,9 +398,8 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleEye = (id) => {
         if (eyesSave === id) {  // 중복 선택 X
-            //console.log("눈 중복X")
+            return;
         } else {    // 눈 추가
-            console.log("눈")
             setAvatar(prev => ({...prev, eyes: id}));
             setEyesSave(id);
             setIsUndo(true);
@@ -410,7 +409,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleEyebrows = (id) => {
         if (eyebrowsSave === id) {  // 중복 선택 X
-            //console.log("눈썹 중복X")
+            return;
         } else {    // 눈썹 추가
             setAvatar(prev => ({...prev, eyebrows: id}));
             setEyebrowsSave(id);
@@ -421,7 +420,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleMouth = (id) => {
         if (mouthSave === id) {  // 중복 선택 X
-            //console.log("입 중복X")
+            return;
         } else {    // 입 추가
             setAvatar(prev => ({...prev, mouth: id}));
             setMouthSave(id);
@@ -432,7 +431,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleHairFront = (id) => {
         if (hairFrontSave === id) {  // 중복 선택 X
-            // console.log("앞머리 중복X", hairFrontSave)
+            return;
         } else {    // 앞머리 추가
             if (avatar.hairBack === 9) {
                 setAvatar(prev => ({...prev, hairFront: null}));
@@ -448,29 +447,28 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     useEffect(() => {
         if (isFaceSelect) {
-            console.log('ㄱㄱㄱㄱㄱㄱㄱ')
             if ((isRandom || isRedo) && avatar.hairBack === 9) {        // 랜덤 or redo -> 삭발일때
-                console.log('ㄴㄴㄴㄴㄴㄴㄴㄴ')
                 setNextFaceUri(`${AWS_S3_AVATAR_URI}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_bald.PNG`); 
                 setIsRandom(false);
                 setIsRedo(false);
             } else {
                 if (avatar.hairBack === 9) {
-                    console.log('ㄷㄷㄷㄷㄷ')
                     setNextFaceUri(`${AWS_S3_AVATAR_URI}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_bald.PNG`);
                 } else {
-                    console.log('ㄹㄹㄹㄹㄹㄹㄹㄹ')
                     setNextFaceUri(`${AWS_S3_AVATAR_URI}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_front0${avatar.hairFront}.PNG`);
                 }
-                console.log('ㅁㅁㅁㅁㅁㅁㅁ')
             }
             setIsFaceSelect(false);
         }
     }, [isFaceSelect, avatar]);
 
+    const handleCurrentFaceLoad = () => {
+        setNextFaceUri(null); // 임시 URI 초기화
+    };
+
     const handleNextFaceLoad = () => {
         setCurrentFaceUri(nextFaceUri); // 새로운 이미지가 완전히 로드된 후 교체
-        setNextFaceUri(null); // 임시 URI 초기화
+        // setNextFaceUri(null); // 임시 URI 초기화
     };
 
     // 점 변화
@@ -516,7 +514,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleClothes = (id) => {
         if (clothesSave === id) {  // 중복 선택 X
-            //console.log("옷 중복X")
+            return;
         } else {    // 옷 추가
             setAvatar(prev => ({...prev, clothes: id}));
             setClothesSave(id);
@@ -570,7 +568,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
 
     const handleHairBack = (id) => {
         if (hairBackSave === id) {  // 중복 선택 X
-            //console.log("뒷머리 중복X")
+            return;
         } else {    // 뒷머리 추가
             if (id === 9) {     // 삭발
                 setAvatar(prev => ({ ...prev, hairFront: null }));
@@ -597,15 +595,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
         }
     }, [isHairBackSelect, avatar]);
 
-    const handleCurrentFaceLoad = () => {
-        setNextHairBackUri(null); // 임시 URI 초기화
-        console.log('handleCurrentFaceLoad')
-    };
-
     const handleNextHairBackLoad = () => {
         setCurrentHairBackUri(nextHairBackUri); // 새로운 이미지가 완전히 로드된 후 교체
-        // setNextHairBackUri(null); // 임시 URI 초기화
-        console.log('handleNextHairBackLoad')
+        setNextHairBackUri(null); // 임시 URI 초기화
     };
 
     // 배경 오브젝트 변화
@@ -825,13 +817,13 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         <RestartIcon />
                     </TouchableOpacity>
                 </View>
-                {profileimageurl && (
+                {/* {profileimageurl && (
                     <Image 
                         source={{ uri: profileimageurl }} 
                         style={{ width: 200, height: 200, position: "absolute", zIndex: 100 }} 
                         onError={(e) => console.log('Error loading image: ', e)}
                     />
-                )}
+                )} */}
                 <ViewShot 
                     ref={viewShotRef}
                     options={{ fileName: "card", format: "png", quality: 1 }}
@@ -1312,6 +1304,7 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                                         style={[styles.colorChipOn, avatar.bgColor === bc.id ? styles.colorChipOn : styles.colorChipOff]}
                                         onPress={() => {
                                             setAvatar((prev => ({...prev, bgColor: bc.id})));
+                                            setIsUndo(true);
                                         }}
                                     ><View style={[styles.colorChip, {backgroundColor: bc.color}]}></View>
                                     </TouchableOpacity>
