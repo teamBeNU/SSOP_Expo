@@ -39,16 +39,16 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderRadius: 16,
         backgroundColor: theme.white,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowColor: "rgb(73, 81, 100)",
         shadowOffset: {
             width: 0,
             height: 2
         },
         shadowRadius: 16,
-        shadowOpacity: 1,
+        shadowOpacity: 0.05,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 10, // Android 전용 그림자 설정
+        elevation: 3, // Android 전용 그림자 설정
         position: 'relative',
     },
     btn3: { // 내가 받은 카드 보기
@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
         paddingRight: 20,
         borderRadius: 16,
         backgroundColor: "#E9FAFE",
-        shadowColor: 'rgba(5, 38, 155, 0.05)',
+        shadowColor: 'rgba(73, 81, 100, 0.09)',
         shadowOffset: { width: -2, height: -2 },
         shadowRadius: 9.8,
         shadowOpacity: 1,

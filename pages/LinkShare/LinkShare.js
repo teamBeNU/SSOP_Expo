@@ -211,7 +211,7 @@ function Step2Screen({ route, navigation}) {
             <Text style={styles.btnTest}>다른 사람이 보낸 링크 저장 (시연을 위한 임시 버튼)</Text>
           </TouchableOpacity >
           <TouchableOpacity style={[styles.btnNext, {marginTop: 10}]}  onPress={handleLinkSharePress}>
-            <ShareIcon style={{marginRight: 8}}/>
+            <ShareIcon style={{marginRight: 8, marginTop: 2}}/>
             <Text style={styles.btnText}>링크 공유하기</Text>
           </TouchableOpacity >
         </View>
