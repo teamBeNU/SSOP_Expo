@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, ScrollView, Image, Dimensions } from "react-native";
+import React, { useState, useEffect } from 'react';
+import { View, Text, ScrollView, Image, Dimensions, Linking, Alert } from "react-native";
 import { styles } from './HomeStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
+import { SpaceModal } from "../../components/Space/SpaceModal.js";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
-import CreateCardIcon from '../../assets/HomeIcon/homeBanner.png';
 import ArrowIconWhite from '../../assets/HomeIcon/ic_arrow_white.svg';
 import ArrowIcon from '../../assets/HomeIcon/ic_arrow.svg';
-import Folderback from '../../assets/HomeIcon/folderback.svg'
 import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
 import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
 import EnterTeamSPIcon from '../../assets/HomeIcon/ic_teamspin.svg';
 import CreatTeamSPIcon from '../../assets/HomeIcon/ic_teamspnew.svg';
-import FolderIcon from'../../assets/icons/ic_group_small.svg';
-import { theme } from "../../theme";
 
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 16 * 2 - 4) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
@@ -22,6 +20,107 @@ const cardHeight2 = (cardWidth * 102) / 162;
 
 function Home({navigation}) {
     const [parentSize, setParentSize] = useState({ width: 0, height: 0 });
+    const [cardId, setCardId] = useState(null);
+    const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
+    const [cardName, setCardName] = useState("");
+  
+    const saveCard = async (cardId) => {
+      try {
+        const token = await AsyncStorage.getItem("token");
+        if (!token) {
+          Alert.alert("오류", "사용자 인증 토큰이 없습니다.");
+          return;
+        }
+  
+        const response = await fetch(
+          `http://43.202.52.64:8080/api/card/save?cardId=${cardId}`,
+          {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+  
+        const result = await response.json();
+  
+        if (response.ok) {
+          Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
+          setIsSpaceModalVisible(false); // 모달 닫기
+        } else {
+          Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
+        }
+      } catch (error) {
+        Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
+      }
+    };
+  
+    const handleDeepLink = async (url) => {
+      try {
+        const extractCardId = (url) => {
+          try {
+            const parsedUrl = new URL(url);
+            return parsedUrl.searchParams.get("cardId");
+          } catch (error) {
+            console.error("URL 파싱 중 오류:", error);
+            return null;
+          }
+        };
+  
+        const cardId = extractCardId(url);
+        if (cardId) {
+          console.log("추출된 cardId:", cardId);
+  
+          // 카드 정보 가져오기
+          const token = await AsyncStorage.getItem("token");
+          if (!token) {
+            Alert.alert("오류", "사용자 인증 토큰이 없습니다.");
+            return;
+          }
+  
+          const response = await fetch(
+            `http://43.202.52.64:8080/api/card/view?cardId=${cardId}`,
+            {
+              method: "GET",
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+  
+          const result = await response.json();
+  
+          if (response.ok) {
+            setCardName(result.cardEssential.card_name);
+            setCardId(cardId);
+            setIsSpaceModalVisible(true); // 모달 표시
+          } else {
+            console.error("카드 정보 가져오기 실패:", result.message || "알 수 없는 오류");
+          }
+        }
+      } catch (error) {
+        console.error("딥링크 처리 중 오류:", error);
+      }
+    };
+  
+    useEffect(() => {
+      // 앱이 처음 실행되었을 때 URL 확인
+      const checkInitialURL = async () => {
+        const initialURL = await Linking.getInitialURL();
+        if (initialURL) {
+          console.log("앱이 딥링크로 실행되었습니다:", initialURL);
+          handleDeepLink(initialURL);
+        }
+      };
+  
+      checkInitialURL();
+  
+      // 실행 중인 상태에서 딥링크 감지
+      const subscription = Linking.addEventListener("url", ({ url }) => {
+        handleDeepLink(url);
+      });
+  
+      return () => subscription.remove();
+    }, []);
 
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
@@ -107,6 +206,14 @@ function Home({navigation}) {
                 <View style={{marginTop: 80}}></View>
                 </View>  
             </View>
+            <SpaceModal
+                isVisible={isSpaceModalVisible}
+                onClose={() => setIsSpaceModalVisible(false)}
+                title={`${cardName} 님의 카드를 받으시겠습니까?`}
+                btn1="안 받을래요"
+                btn2="네, 받을래요"
+                onConfirm={() => saveCard(cardId)} // 연결된 카드 저장 로직
+            />
         </ScrollView>
     );
   }
