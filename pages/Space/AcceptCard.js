@@ -370,6 +370,7 @@ function DetailSpaceGroup({ navigation }) {
                 {selectedCards.length}개 선택됨
               </Text>
             ),
+            headerTitleAlign: 'center',
             headerRight: () => (
               <TouchableOpacity onPress={handleSelectAll}>
                 {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
@@ -544,6 +545,7 @@ function ManageCardScreen({ navigation }) {
           {selectedCards.length}개 선택됨
         </Text>
       ),
+      headerTitleAlign: 'center',
       headerRight: () => (
         <TouchableOpacity onPress={handleSelectAll}>
           {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
@@ -812,6 +814,7 @@ function AcceptCard() {
           <Stack.Screen name="연락처 저장" component={SaveTellScreen}
           options={{
             headerTitle: " ",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 23 }}/>
@@ -821,6 +824,7 @@ function AcceptCard() {
           <Stack.Screen name="카드 관리" component={ManageCardScreen}
           options={{
             headerTitle: " ",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 23 }}/>
@@ -830,6 +834,7 @@ function AcceptCard() {
           <Stack.Screen name="그룹 이동" component={MoveGroupScreen}
           options={{
             headerTitle: "그룹 이동",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 23 }}/>

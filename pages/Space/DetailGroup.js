@@ -438,6 +438,7 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
                 {selectedCards.length}개 선택됨
               </Text>
             ),
+            headerTitleAlign: 'center',
             headerRight: () => (
               <TouchableOpacity onPress={handleSelectAll}>
                 {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
@@ -620,6 +621,7 @@ function ManageCardScreen({ route, navigation }) {
           {selectedCards.length}개 선택됨
         </Text>
       ),
+      headerTitleAlign: 'center',
       headerRight: () => (
         <TouchableOpacity onPress={handleSelectAll}>
           {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
@@ -1046,6 +1048,7 @@ function ManageCardScreen({ route, navigation }) {
               initialParams={{ groupId }}
               options={{
                 headerTitle: " ",
+                headerTitleAlign: 'center',
                 headerLeft: ({ onPress }) => (
                   <TouchableOpacity onPress={onPress}>
                     <CloseIcon style={{ marginLeft: 23 }} />
@@ -1059,6 +1062,7 @@ function ManageCardScreen({ route, navigation }) {
               initialParams={{ groupId }}
               options={{
                 headerTitle: " ",
+                headerTitleAlign: 'center',
                 headerLeft: ({ onPress }) => (
                   <TouchableOpacity onPress={onPress}>
                     <CloseIcon style={{ marginLeft: 23 }} />
@@ -1071,6 +1075,7 @@ function ManageCardScreen({ route, navigation }) {
               component={MoveGroupScreen}
               options={{
                 headerTitle: "그룹 이동",
+                headerTitleAlign: 'center',
                 headerLeft: ({ onPress }) => (
                   <TouchableOpacity onPress={onPress}>
                     <CloseIcon style={{ marginLeft: 23 }} />

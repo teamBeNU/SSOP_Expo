@@ -19,11 +19,14 @@ function MyCard() {
     const [moreMenu, setMoreMenu] = useState(false);
     const [isShareModalVisible, setIsShareModalVisible] = useState(false);
 
+    const [viewOption, setViewOption] = useState('그리드형'); // 초기값 '그리드형'
+    const [selectedOption, setSelectedOption] = useState('최신순');
+
     const navigation = useNavigation();
 
     const handleDelete = () => {
         setMoreMenu(false);
-        navigation.navigate('내 카드 삭제', {cardData});
+        navigation.navigate('내 카드 삭제', {cardData, viewOption, selectedOption });
     };
 
     const handleBluetoothPress = () => {
@@ -153,7 +156,7 @@ function MyCard() {
         <View style={{flex: 1}}> 
             {hasCard ? (
             <View style={{flex: 1}} >
-                <CardsView cardData={cardData} setCardData= {setCardData} refreshData={fetchData}/>
+                <CardsView cardData={cardData} setCardData= {setCardData} refreshData={fetchData} viewOption={viewOption} setViewOption={setViewOption} selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
 
                 <Modal
                     animationType="fade"

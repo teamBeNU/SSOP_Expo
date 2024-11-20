@@ -297,6 +297,7 @@ export default function App() {
         component={ChangePw}
         options={{
           headerTitle: "비밀번호 변경",
+          headerTitleAlign: 'center',
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <CloseIcon style={{ marginLeft: 8  }}/>
@@ -306,6 +307,7 @@ export default function App() {
          />
          <Stack.Screen name="카카오 로그인" component={KaKaoLogin} 
          options={{headerTitle: "카카오 로그인",
+          headerTitleAlign: 'center',
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -319,6 +321,7 @@ export default function App() {
           component={CheckCardDetail}
           options={{
             headerTitle: "",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -331,6 +334,7 @@ export default function App() {
           component={CardDetailView}
           options={{
             headerTitle: "",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -343,6 +347,7 @@ export default function App() {
           component={DeleteMyCard}
           options={{
             headerTitle: "",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -356,6 +361,7 @@ export default function App() {
           component={CreateTeamSp}
           options={{ 
             headerTitle: "팀스페이스 생성",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -392,6 +398,7 @@ export default function App() {
           component={AvatarCustom}
           options={{
             headerTitle: "아바타 커스터마이징",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -404,6 +411,7 @@ export default function App() {
           component={CreateCard} 
           options={{ 
             headerTitle: "카드 생성",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -416,6 +424,7 @@ export default function App() {
           component={EnterTeamSp} 
           options={{ 
             headerTitle: "팀스페이스 입장",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -435,6 +444,7 @@ export default function App() {
           />
           <Stack.Screen name="알림" component={Notify} 
           options={{
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -444,6 +454,7 @@ export default function App() {
         <Stack.Screen name="MY 계정관리" component={UserAccount} 
           options={{
             headerTitle: "계정관리",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -453,6 +464,7 @@ export default function App() {
         <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
           options={{
             headerTitle: "이름 및 생년월일 변경",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -462,6 +474,7 @@ export default function App() {
         <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
           options={{
             headerTitle: "연락처 변경",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -471,6 +484,7 @@ export default function App() {
         <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
           options={{
             headerTitle: "비밀번호 변경",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -480,6 +494,7 @@ export default function App() {
         <Stack.Screen name="MY 자주 묻는 질문" component={FAQ} 
           options={{
             headerTitle: "자주 묻는 질문",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -489,6 +504,7 @@ export default function App() {
         <Stack.Screen name="MY 서비스 방침 이용약관" component={ServiceAgree} 
           options={{
             headerTitle: "서비스 방침 이용약관",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
@@ -600,6 +616,7 @@ const Tab = createBottomTabNavigator();
         <Tab.Screen name="홈" component={Home} options={{
           tabBarLabel: '홈',
           headerTitle: ' ',
+          headerTitleAlign: 'center',
           headerStyle: {
             backgroundColor: theme.white
           },
@@ -618,10 +635,11 @@ const Tab = createBottomTabNavigator();
         options={{ 
           tabBarLabel: '스페이스', 
           headerTitle: 'Space', 
+          headerTitleAlign: 'center',
           headerShown: false
           }} />
         <Tab.Screen name="내 카드" component={MyCard} options={{ 
-          tabBarLabel: '내 카드', headerTitle: "",
+          tabBarLabel: '내 카드', headerTitle: "", 
           headerTitleAlign: 'center',
           headerTitleStyle: {
             fontFamily: 'PretendardRegular',
@@ -636,8 +654,8 @@ const Tab = createBottomTabNavigator();
             borderBottomColor: theme.gray90,
           },
           }} />
-          <Tab.Screen name="알림" component={Notify}/>
-        <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지' }} />
+          <Tab.Screen name="알림" component={Notify} options={{headerTitleAlign: 'center',}}/>
+        <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지', headerTitleAlign: 'center',  }} />
       </Tab.Navigator>
     );
   }

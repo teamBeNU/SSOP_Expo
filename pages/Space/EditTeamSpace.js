@@ -126,6 +126,7 @@ function EditTeamSpace({ route, navigation }) {
           {selectedGroups.length}개 선택됨
         </Text>
       ),
+      headerTitleAlign: 'center',
       headerRight: () => {
         const nonHostGroups = teamData.filter((team) => !isUserHost(team)); // 비호스트 팀 배열
         const nonHostGroupsCount = nonHostGroups.length;

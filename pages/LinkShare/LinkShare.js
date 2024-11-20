@@ -292,6 +292,7 @@ function LinkShare({ navigation }) {
       <Stack.Screen name="Step1" component={Step1Screen} 
       options={{
         title: "링크 복사",
+        headerTitleAlign: 'center',
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <CloseIcon style={{ marginLeft: 8  }}/>
@@ -301,6 +302,7 @@ function LinkShare({ navigation }) {
       <Stack.Screen name="Step2" component={Step2Screen} 
       options={{
         title: "링크 복사",
+        headerTitleAlign: 'center',
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -315,6 +317,7 @@ function LinkShare({ navigation }) {
       <Stack.Screen name="LinkReceiverScreen" component={LinkReceiverScreen} 
       options={{
         title: "카드 저장",
+        headerTitleAlign: 'center',
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <LeftArrowIcon style={{ marginLeft: 8  }}/>

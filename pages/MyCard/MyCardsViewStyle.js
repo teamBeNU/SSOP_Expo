@@ -71,23 +71,18 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: theme.gray20,
     backgroundColor: theme.gray20,
     position: 'absolute',
     marginTop: 14,
     bottom: 16,
-
-    elevation: 5,
-    shadowColor: "rgba(73, 81, 100, 0.09)",
+    elevation: 3,
+    shadowColor: 'rgb(73, 81, 100)',
     shadowOffset: {
-      width: 0,
-      height: 2
+     width: 4,
+     height: 4,
     },
+    shadowOpacity: 0.09,
     shadowRadius: 16,
-    shadowOpacity: 1,
-    borderWidth: 1,
-    borderColor: "rgba(244, 244, 244, 1.0)"
   },
   newCardText: {
     color: theme.white,
