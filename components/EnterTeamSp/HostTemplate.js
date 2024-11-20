@@ -986,8 +986,8 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
             <View style={{ marginLeft: -16, marginTop: -16 }}>
               {card_cover === "avatar" && (
                 <AvatarCustom
-                  avatar={avatar}
-                  setAvatar={setAvatar}
+                  avatar={null}
+                  setAvatar={null}
                   viewShotRef={viewShotRef}
                 />
               )}
