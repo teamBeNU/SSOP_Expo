@@ -22,6 +22,46 @@ const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
 const SPACING = -20;
 
+// Branch 링크 생성 함수
+const createBranchLink = async (backendLink, cardId) => {
+    try {
+      const branchApiKey = "key_live_mrl5i4OwDxCg5dtSw4f0JmletweC8nnH";
+  
+      const response = await fetch("https://api2.branch.io/v1/url", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_key: branchApiKey,
+          campaign: "share_card",
+          feature: "redirect",
+          data: {
+            cardId: cardId, // 반드시 cardId 추가
+            original_link: `${backendLink}?cardId=${cardId}`, // cardId 포함
+            $android_url: `ssop://open?cardId=${cardId}`, // Android 딥링크
+            $ios_url: `ssop://open?cardId=${cardId}`, // iOS 딥링크
+            $fallback_url: "https://ssop2024.notion.site",
+          },
+        }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log("생성된 Branch 링크:", result.url);
+        return result.url; // 생성된 Branch 링크 반환
+      } else {
+        console.error("Branch 링크 생성 실패:", result);
+        Alert.alert("링크 생성 실패", "다시 시도해 주세요.");
+      }
+    } catch (error) {
+      console.error("링크 생성 중 오류:", error);
+      Alert.alert("오류", "링크 생성 중 문제가 발생했습니다.");
+    }
+  };
+  
+
 const CardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef(null);
@@ -77,41 +117,49 @@ const CardDetailView = () => {
       
     const handleLinkSharePress = async () => {
         setIsShareModalVisible(false);
-
-        const result = await Share.share({
-            title: `SSOP`, // android 단독
-            message: `SSOP: Share SOcial Profile card\nhttp://ssop2024.notion.site`,
-        });
-
-        if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-            // shared with activity type of result.activityType
-            } else {
-            // shared
+      
+        try {
+          const token = await AsyncStorage.getItem("token");
+          if (!token) {
+            Alert.alert("오류", "유효하지 않은 토큰입니다.");
+            return;
+          }
+      
+          const currentCardId = cardData[currentCardIndex].cardId;
+      
+          // 백엔드에서 링크 생성
+          const response = await fetch("http://43.202.52.64:8080/api/link/create", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ cardId: currentCardId }),
+          });
+      
+          const result = await response.json();
+      
+          if (response.ok) {
+            // Branch 링크 생성
+            const branchLink = await createBranchLink(result.link, currentCardId);
+      
+            if (branchLink) {
+              // 링크 공유
+              await Share.share({
+                title: "SSOP",
+                message: `SSOP: Share Social Profile card\n${branchLink}`,
+              });
             }
-        } else if (result.action === Share.dismissedAction) {
-            // dismissed
+          } else {
+            console.error("링크 생성 실패:", result.message);
+            Alert.alert("오류", "링크 생성에 실패했습니다.");
+          }
+        } catch (error) {
+          console.error("링크 생성 중 오류:", error);
+          Alert.alert("오류", "링크 생성 중 문제가 발생했습니다.");
         }
-
-        // const link = await createLink();
-
-        // if (link) {
-        // const result = await Share.share({
-        //     title: `SSOP`, // android 단독
-        //     message: `SSOP: Share SOcial Profile card`,
-        // });
-
-        // if (result.action === Share.sharedAction) {
-        //     if (result.activityType) {
-        //     // shared with activity type of result.activityType
-        //     } else {
-        //     // shared
-        //     }
-        // } else if (result.action === Share.dismissedAction) {
-        //     // dismissed
-        // }
-        // }
-    };
+      };
+      
 
     const [profile_image_url, setProfileImageUrl] = useState(null);
     const [isPictureComplete, setIsPictureComplete] = useState(false);
@@ -197,6 +245,11 @@ const CardDetailView = () => {
     };
 
       const handleShare = () => {
+        // 현재 선택된 카드의 cardId 가져오기
+        const currentCardId = cardData[currentCardIndex]?.cardId;
+        console.log("공유하기를 눌렀을 때 선택된 cardId:", currentCardId);
+
+        // 공유 모달 열기
         setIsShareModalVisible(true);
       }
 
