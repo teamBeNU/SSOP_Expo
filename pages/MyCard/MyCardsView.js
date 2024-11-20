@@ -11,8 +11,8 @@ import { GridCardView } from "../../components/MyCard/GridCardView";
 import { ListCardView } from "../../components/MyCard/ListCardView";
 import { styles } from './MyCardsViewStyle';
 
-const CardsView = ({ cardData, setCardData, refreshData, returnViewOption, viewOption, setViewOption }) => {
-  const [selectedOption, setSelectedOption] = useState('최신순');
+const CardsView = ({ cardData, setCardData, refreshData, returnViewOption, viewOption, setViewOption,selectedOption, setSelectedOption }) => {
+  //const [selectedOption, setSelectedOption] = useState('최신순');
   //const [viewOption, setViewOption] = useState('그리드형');
   const [sortedCardData, setSortedCardData] = useState([]);
   const navigation = useNavigation();
