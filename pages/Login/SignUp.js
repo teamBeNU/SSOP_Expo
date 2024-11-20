@@ -217,9 +217,9 @@ function SignUp() {
       };
 
       const handleHeaderTitle = () => {
-        if (step === 6) return navigation.setOptions({headerTitle: "서비스 이용약관"});
-        else if (step === 7) return navigation.setOptions({headerTitle: "개인정보 처리방침"});
-        else return navigation.setOptions({headerTitle: "회원가입"});
+        if (step === 6) return navigation.setOptions({headerTitle: "서비스 이용약관", headerTitleAlign: 'center',});
+        else if (step === 7) return navigation.setOptions({headerTitle: "개인정보 처리방침", headerTitleAlign: 'center',});
+        else return navigation.setOptions({headerTitle: "회원가입", headerTitleAlign: 'center',});
       };
       
       useEffect(() => {
