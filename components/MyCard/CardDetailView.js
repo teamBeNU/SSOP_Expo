@@ -1,28 +1,72 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
+import axios from 'axios';
+import * as ImagePicker from 'expo-image-picker';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Alert, Animated, Dimensions, Modal, ScrollView, Share, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
-import * as ImagePicker from 'expo-image-picker';
-import axios from 'axios';
-import BluetoothIcon from '../../assets/HomeIcon/BluetoothIcon.svg';
-import LinkIcon from '../../assets/HomeIcon/LinkIcon.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import EditIcon from '../../assets/icons/ic_editcard.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_gray.svg';
+import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
+import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
 import { Card } from "../../components/MyCard/Card";
 import { styles } from '../../pages/MyCard/MyCardStyle.js';
 import { deleteCard } from './DeleteCardAPI.js';
+import { theme } from '../../theme.js';
+import { textStyles } from '../../textStyles.js';
+
+import ExchangeModal from '../../components/Space/ExchangeModal.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
 const SPACING = -20;
 
+// Branch 링크 생성 함수
+const createBranchLink = async (backendLink, cardId) => {
+    try {
+      const branchApiKey = "key_live_mrl5i4OwDxCg5dtSw4f0JmletweC8nnH";
+  
+      const response = await fetch("https://api2.branch.io/v1/url", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          branch_key: branchApiKey,
+          campaign: "share_card",
+          feature: "redirect",
+          data: {
+            cardId: cardId, // 반드시 cardId 추가
+            original_link: `${backendLink}?cardId=${cardId}`, // cardId 포함
+            $android_url: `ssop://open?cardId=${cardId}`, // Android 딥링크
+            $ios_url: `ssop://open?cardId=${cardId}`, // iOS 딥링크
+            $fallback_url: "https://ssop2024.notion.site",
+          },
+        }),
+      });
+  
+      const result = await response.json();
+  
+      if (response.ok) {
+        console.log("생성된 Branch 링크:", result.url);
+        return result.url; // 생성된 Branch 링크 반환
+      } else {
+        console.error("Branch 링크 생성 실패:", result);
+        Alert.alert("링크 생성 실패", "다시 시도해 주세요.");
+      }
+    } catch (error) {
+      console.error("링크 생성 중 오류:", error);
+      Alert.alert("오류", "링크 생성 중 문제가 발생했습니다.");
+    }
+  };
+  
+
 const CardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef(null);
     const route = useRoute();
-    const { cardId, refresh } = route.params;
+    const { cardId, refresh, selectedOption } = route.params;
 
     const [cardData, setCardData] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
@@ -73,41 +117,49 @@ const CardDetailView = () => {
       
     const handleLinkSharePress = async () => {
         setIsShareModalVisible(false);
-
-        const result = await Share.share({
-            title: `SSOP`, // android 단독
-            message: `SSOP: Share SOcial Profile card\nhttp://ssop2024.notion.site`,
-        });
-
-        if (result.action === Share.sharedAction) {
-            if (result.activityType) {
-            // shared with activity type of result.activityType
-            } else {
-            // shared
+      
+        try {
+          const token = await AsyncStorage.getItem("token");
+          if (!token) {
+            Alert.alert("오류", "유효하지 않은 토큰입니다.");
+            return;
+          }
+      
+          const currentCardId = cardData[currentCardIndex].cardId;
+      
+          // 백엔드에서 링크 생성
+          const response = await fetch("http://43.202.52.64:8080/api/link/create", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ cardId: currentCardId }),
+          });
+      
+          const result = await response.json();
+      
+          if (response.ok) {
+            // Branch 링크 생성
+            const branchLink = await createBranchLink(result.link, currentCardId);
+      
+            if (branchLink) {
+              // 링크 공유
+              await Share.share({
+                title: "SSOP",
+                message: `SSOP: Share Social Profile card\n${branchLink}`,
+              });
             }
-        } else if (result.action === Share.dismissedAction) {
-            // dismissed
+          } else {
+            console.error("링크 생성 실패:", result.message);
+            Alert.alert("오류", "링크 생성에 실패했습니다.");
+          }
+        } catch (error) {
+          console.error("링크 생성 중 오류:", error);
+          Alert.alert("오류", "링크 생성 중 문제가 발생했습니다.");
         }
-
-        // const link = await createLink();
-
-        // if (link) {
-        // const result = await Share.share({
-        //     title: `SSOP`, // android 단독
-        //     message: `SSOP: Share SOcial Profile card`,
-        // });
-
-        // if (result.action === Share.sharedAction) {
-        //     if (result.activityType) {
-        //     // shared with activity type of result.activityType
-        //     } else {
-        //     // shared
-        //     }
-        // } else if (result.action === Share.dismissedAction) {
-        //     // dismissed
-        // }
-        // }
-    };
+      };
+      
 
     const [profile_image_url, setProfileImageUrl] = useState(null);
     const [isPictureComplete, setIsPictureComplete] = useState(false);
@@ -198,6 +250,11 @@ const CardDetailView = () => {
     };
 
       const handleShare = () => {
+        // 현재 선택된 카드의 cardId 가져오기
+        const currentCardId = cardData[currentCardIndex]?.cardId;
+        console.log("공유하기를 눌렀을 때 선택된 cardId:", currentCardId);
+
+        // 공유 모달 열기
         setIsShareModalVisible(true);
       }
 
@@ -217,7 +274,14 @@ const CardDetailView = () => {
             });
 
             const result = await response.json();
-            setCardData(result);
+
+            const sortData = (data) => {
+                const dataCopy = [...(data || [])];
+                return selectedOption === '오래된 순' ? dataCopy : dataCopy.reverse();
+              };
+
+            setCardData(sortData(result));
+
             const cardIndex = result.findIndex(card => card.cardId === cardId);
             if (cardIndex !== -1) {
                 setCurrentCardIndex(cardIndex);
@@ -362,41 +426,19 @@ const CardDetailView = () => {
                         </View>
                     </TouchableOpacity>
 
-                    <Modal
-                        animationType="fade"
-                        transparent={true}
-                        visible={isShareModalVisible}
-                        onRequestClose={() => {
-                            setIsShareModalVisible(false); 
-                        }}
-                    >
-                        <TouchableWithoutFeedback onPress={() => setIsShareModalVisible(false)}>
-                            <View style={styles.shareModalContainer}>
-                                    <View style={styles.shareModalView}>
-                                        <View style={styles.modalTitle}>
-                                            <Text style={{...styles.modalFont, textAlign: 'center'}}>카드 교환하기</Text>
-                                            <TouchableOpacity onPress={() => setIsShareModalVisible(false)}>
-                                                <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
-                                            </TouchableOpacity>
-                                        </View>
-                                        <View style={styles.row}>
-                                            <TouchableOpacity style={styles.btn2} onPress={handleBluetoothPress}>
-                                            <Text style={styles.Text18}>블루투스 송신</Text>
-                                            <Text style={styles.Text14}>주변에 있다면 바로</Text>
-                                            <BluetoothIcon style={styles.icon2} />
-                                            </TouchableOpacity>
-                                            <TouchableOpacity style={styles.btn2} onPress={handleLinkSharePress}>
-                                            <Text style={styles.Text18}>링크 공유</Text>
-                                            <Text style={styles.Text14}>연락처가 있다면</Text>
-                                            <LinkIcon style={styles.icon2} />
-                                            </TouchableOpacity>
-                                        </View>
-                                    </View>
-                                
-                            </View>
-                        </TouchableWithoutFeedback>
-
-                    </Modal>
+                    <ExchangeModal
+                        isVisible={isShareModalVisible}
+                        onClose={() => setIsShareModalVisible(false)}
+                        onOption1Press={handleBluetoothPress}
+                        onOption2Press={handleLinkSharePress}
+                        title="카드 공유하기"
+                        option1Text="블루투스 공유"
+                        option1SubText="주변에 있다면"
+                        option2Text="링크 공유"
+                        option2SubText="연락처가 있다면"
+                        option1Icon={BluetoothIcon}
+                        option2Icon={LinkIcon}
+                    />
                 </View>
 
                 <View style={styles.verticalLine} />
@@ -422,7 +464,7 @@ const CardDetailView = () => {
                             <View style={styles.modalContainer}>
                                     <View style={styles.modalView}>
                                         <View style={styles.modalTitle}>
-                                            <Text style={{...styles.modalFont, fontWeight: '500', textAlign: 'center'}}>프로필 카드 수정하기</Text>
+                                            <Text style={{color:theme.gray10, ...textStyles.body16m, textAlign: 'center', flex:1}}>프로필 카드 수정하기</Text>
                                             <TouchableOpacity onPress={() => setIsModalVisible(false)}>
                                                 <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
                                             </TouchableOpacity>
@@ -430,7 +472,7 @@ const CardDetailView = () => {
                                         <View style={styles.modalContent}>
                                             <TouchableOpacity onPress={() => {
                                                 setIsModalVisible(false);
-                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex], index: currentCardIndex});}}>
+                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex], isDetail: true});}}>
                                             <Text style={styles.modalTitle}>정보 수정할래요</Text>
                                             </TouchableOpacity>
                                             <View style={styles.line} />

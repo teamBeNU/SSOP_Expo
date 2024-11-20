@@ -22,6 +22,7 @@ function Memo() {
     useEffect(() => {
         navigation.setOptions({
           headerTitle: isEdit ? '메모 수정' : '메모 작성' ,
+          headerTitleAlign: 'center',
         });
         if(memo) setNewMemo(memo);
         if(isEdit) setTextLeng(memo.length);

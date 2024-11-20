@@ -1,19 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
-import { ShareCard, DetailSpaceCard } from "../../components/Bluetooth/ShareCard.js";
 import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
-import { theme } from "../../theme";
 import Toast from 'react-native-toast-message';
 import { MySpaceGroup } from "../../components/Space/SpaceList.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import AvatarSample1 from '../../assets/icons/AbatarSample1.svg'
-import AvatarSample2 from '../../assets/icons/AbatarSample2.svg'
 import MySpaceIcon from '../../assets/icons/ic_myspace.svg'
   
 const API_URL = 'http://43.202.52.64:8080/api/mysp'; 
@@ -119,7 +112,7 @@ function MySpace({ navigation }) {
         return;
       }
 
-      const response = await fetch(`${API_URL}?groupId=${groupId}`, {
+      const response = await fetch(`http://43.202.52.64:8080/api/mysp/delete-group?groupId=${groupId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -168,7 +161,7 @@ function MySpace({ navigation }) {
     <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
       <View style={styles.container2}>
         <View style={styles.container3}>
-          <MySpaceIcon style={{ marginRight: 10 }} />
+          <MySpaceIcon style={{ marginRight: 7, marginTop: 4 }} />
           <Text style={styles.Text26}>마이스페이스</Text>
         </View>
         <Text style={styles.Text16gray}>주고받은 프로필 카드를 여기서 확인하세요.</Text>

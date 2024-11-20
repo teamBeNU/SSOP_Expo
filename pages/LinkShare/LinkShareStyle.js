@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
     shareContainer:{      
         flex: 1,  
         backgroundColor: theme.white,
+        pointerEvents: 'box-none'
     },
     title: { // 글씨 
         marginTop: 30,
@@ -104,20 +105,17 @@ export const styles = StyleSheet.create({
     },
     btnNext: {
         justifyContent: 'center',
-        alignContent: 'center',
         width: '100%',
-        height: 48,
         borderRadius: 16,
         fontFamily: 'PretendardRegular',
         backgroundColor: theme.gray10,
         flexDirection: 'row',
-        paddingVertical: 14.5
+        paddingVertical: 14
     },
     btnTestBox: {
         justifyContent: 'center',
         alignContent: 'center',
         width: '100%',
-        height: 48,
         borderRadius: 16,
         fontFamily: 'PretendardRegular',
         flexDirection: 'row',
@@ -135,17 +133,17 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: "rgba(202, 202, 202, 1.0)",
-        marginTop: 10,
     },
     btnText:{
         color: theme.white,
         fontSize: 16,
-        fontFamily: 'PretendardSemiBold'
+        fontFamily: 'PretendardSemiBold',
+        textAlign: 'center',
     },
     btnTest:{
         color: theme.gray10,
         fontSize: 15,
-        fontFamily: 'PretendardSemiBold'
+        fontFamily: 'PretendardSemiBold',
     },
     btnTextWhite:{
         textAlign: 'center',

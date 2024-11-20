@@ -348,16 +348,19 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
+                headerTitleAlign: 'center',
                 headerRight: null,
             });
         } else if (step === 6) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
+                headerTitleAlign: 'center',
                 headerRight: null,
             });
         } else if (step === 7) {
             navigation.setOptions({
                 headerTitle: '아바타 커스터마이징',
+                headerTitleAlign: 'center',
                 headerRight: () => (
                     <TouchableOpacity
                         style={{marginRight: 20}}
@@ -372,6 +375,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
         } else if (step === 8) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
+                headerTitleAlign: 'center',
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {navigation.goBack();}}>
                         <CloseIcon style={{ marginLeft: 8 }}/>

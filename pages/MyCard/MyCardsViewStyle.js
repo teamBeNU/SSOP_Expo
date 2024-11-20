@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
+import { textStyles } from '../../textStyles';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
@@ -22,7 +23,6 @@ export const styles = StyleSheet.create({
     fontFamily: 'PretendardSemiBold',
     fontSize: 26,
     fontWeight: '600',
-    lineHeight: 31,
     letterSpacing: -0.52,
   },
   container2: {
@@ -36,10 +36,11 @@ export const styles = StyleSheet.create({
     gap: 6,
   },
   range: { //최신순 정렬
-    color: theme.gray30,
-    fontFamily: "PretendardRegular",
+    color: theme.gray50,
+    fontFamily: "PretendardMedium",
     fontSize: 13,
-    letterSpacing: -1,
+    fontWeight: '500',
+    letterSpacing: -0.13,
   },
   viewToggleContainer: {
     borderWidth: 1,
@@ -70,30 +71,24 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     gap: 4,
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: theme.gray20,
     backgroundColor: theme.gray20,
     position: 'absolute',
     marginTop: 14,
     bottom: 16,
-
-    elevation: 5,
-    shadowColor: "rgba(73, 81, 100, 0.09)",
+    elevation: 3,
+    shadowColor: 'rgb(73, 81, 100)',
     shadowOffset: {
-      width: 0,
-      height: 2
+     width: 4,
+     height: 4,
     },
+    shadowOpacity: 0.09,
     shadowRadius: 16,
-    shadowOpacity: 1,
-    borderWidth: 1,
-    borderColor: "rgba(244, 244, 244, 1.0)"
   },
   newCardText: {
     color: theme.white,
-    fontFamily: 'PretendardRegular',
+    fontFamily: 'PretendardMedium',
     fontSize: 14,
     fontWeight: '500',
-    lineHeight: 17,
     letterSpacing: -0.14
   },
   //라디오 버튼 스타일
@@ -111,13 +106,11 @@ export const styles = StyleSheet.create({
     letterSpacing: -0.12
   },
   //삭제 버튼
-  delteBtn: {
+  delteBtnContainer: {
     width: WIDTH,
-    height: 56,
+    height: 60,
     paddingHorizontal: 8,
     paddingVertical: 20,
-    flexDirection: 'row',
-    gap: 6,
     justifyContent: 'center',
     alignItems: 'center',
     borderTopWidth: 1,
@@ -131,14 +124,18 @@ export const styles = StyleSheet.create({
     shadowRadius: 16,
     elevation: 5,
   },
+  delteBtn: {
+    flexDirection: 'row',
+    gap: 6,
+    height: 20,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexShrink: 0
+  },
   delteBtnText: {
     color: theme.gray10,
-    fontFamily: 'PretendardRegular',
-    fontSize: 16,
-    fontWeight: '500',
-    letterSpacing: -0.32,
-    textAlign: 'center',
-    height: 19
+    ...textStyles.body16,
+    fontWeight: '500'
   },
 
   // 삭제 모달 스타일

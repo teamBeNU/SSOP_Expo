@@ -21,6 +21,7 @@ export default function ServiceAgree ({navigation, route}) {
         }
         navigation.setOptions({
             headerTitle: title,
+            headerTitleAlign: 'center',
         });
     }, []);
 

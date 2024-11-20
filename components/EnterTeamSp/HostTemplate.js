@@ -378,6 +378,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
     if (step === 8) {
       navigation.setOptions({
         headerTitle: '아바타 커스터마이징',
+        headerTitleAlign: 'center',
         headerLeft: handleHeaderLeft,
         headerRight: () => (
           <TouchableOpacity
@@ -393,6 +394,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
     } else {
         navigation.setOptions({
           headerTitle: '카드 생성',
+          headerTitleAlign: 'center',
           headerLeft: handleHeaderLeft
         });
     }

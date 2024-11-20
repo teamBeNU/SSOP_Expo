@@ -201,20 +201,13 @@ const CardsView = ({
                             { backgroundColor: item.backgroundColor },
                           ]}
                         >
-                          {item.card_cover === 'avatar' ? (
-                            <View
-                              style={[
-                                styles.gray,
-                                { backgroundColor: getColor(item.avatar.bgColor) },
-                              ]}
-                            />
-                          ) : (
+                          <View style={styles.gray}>
                             <Image
                               source={{ uri: item.profile_image_url }}
                               resizeMode="cover"
                               style={styles.gray}
                             />
-                          )}
+                          </View>
                         </View>
                         <View style={styles.infoContainer}>
                           <View style={styles.rowName}>

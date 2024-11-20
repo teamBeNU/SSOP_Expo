@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native"
 import { theme } from "../../theme"
+import { textStyles } from "../../textStyles";
 
 const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -12,6 +13,7 @@ export const styles = StyleSheet.create({
     },
     title: {
     height: 60,
+    color: theme.gray10,
     fontFamily: 'PretendardSemiBold',
     fontSize: 20,
     fontWeight: '600',
@@ -26,12 +28,8 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    fontFamily: 'PretendardRegular',
     color: theme.gray40,
-    fontSize: 14,
-    fontWeight: '400',
-    lineHeight: 17,
-    letterSpacing: -0.14,
+    ...textStyles.body14
     },
     input: {
     width: '100%',
@@ -41,7 +39,8 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: theme.gray95,
     borderRadius: 8,
-    placeholderTextColo: theme.gray60,
+    placeholderTextColor: theme.gray60,
+    ...textStyles.body15
     },
     nextBtn: {
     width: '100%',
@@ -58,11 +57,7 @@ export const styles = StyleSheet.create({
     },
     nextText: {
     color: 'white',
-    fontFamily: 'PretendardSemiBold',
-    fontSize: 16,
-    fontWeight: '600',
-    lineHeight: 19,
-    letterSpacing: -0.32,
+    ...textStyles.headline16 
     },
     request: {
     color: theme.skyblue,
@@ -114,6 +109,13 @@ export const styles = StyleSheet.create({
     gap: 4,
     justifyContent: 'center',
     alignItems: 'center',
+    },
+    checkText: {
+    color: theme.gray60,
+    fontFamily: 'PretendardRegular',
+    fontSize: 14,
+    fontWeight: '400',
+    letterSpacing: -0.28
     },
     warning: {
     marginTop: 8,
@@ -184,11 +186,7 @@ export const styles = StyleSheet.create({
         fontSize: 16,
     },
     agreeContainer: {
-        marginTop: 36,
-        gap: 16,
-    },
-    agreeContainer: {
-        gap: 16
+        marginTop: 32,
     },
     agreeAll: {
         height: 56,
@@ -201,28 +199,21 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray90,
     },
     agreeAllText:{
-        color: 'black',
-        fontFamily: 'PretendardSemiBold',
-        fontSize: 18,
-        fontWeight: '600',
-        lineHeight: 21,
-        letterSpacing: -0.36,
+        color: theme.gray10,
+        ...textStyles.headline18
     },
     agreeDetail: {
         height: 40,
         flexDirection: 'row',
         justifyContent: 'space-between',
-        gap: 8,
+        alignItems: 'center',
+        gap: 8, 
     },
     agreeDetailText: {
         textAlign: 'left',
         width: SCREEN_WIDTH - 108,
-        color: 'black',
-        fontFamily: 'PretendardRegular',
-        fontSize: 14,
-        fontWeight: '400',
-        lineHeight: 17,
-        letterSpacing: -0.14,
+        color: theme.gray10,
+        ...textStyles.body14 
     },
     agreeContent: {
         color: 'black',
@@ -232,5 +223,11 @@ export const styles = StyleSheet.create({
         lineHeight: 21, 
         letterSpacing: -0.14,
         paddingBottom: 100
+    },
+    scrollContainer: {
+        flex: 1,
+        backgroundColor: 'white',
+        paddingTop: 8,
+        paddingHorizontal: 16,
     }
 })

@@ -23,13 +23,13 @@
     "@urql/core": "^5.0.3",
     "axios": "^1.7.7",
     "cacache": "^18.0.3",
-    "expo": "^51.0.38",
+    "expo": "~51.0.39",
     "expo-auth-session": "~5.5.2",
     "expo-build-properties": "~0.12.5",
     "expo-clipboard": "~6.0.3",
     "expo-constants": "^16.0.2",
     "expo-contacts": "~13.0.4",
-    "expo-dev-client": "~4.0.28",
+    "expo-dev-client": "~4.0.29",
     "expo-image-picker": "~15.0.7",
     "expo-linear-gradient": "~13.0.2",
     "expo-sharing": "~12.0.1",
@@ -42,6 +42,7 @@
     "minipass": "^7.1.1",
     "react": "18.2.0",
     "react-native": "0.74.5",
+    "react-native-branch": "^6.4.0",
     "react-native-dotenv": "^3.4.11",
     "react-native-dropdown-picker": "^5.4.6",
     "react-native-flip-card": "^3.5.7",
@@ -64,8 +65,7 @@
     "ssri": "^10.0.6",
     "strip-ansi": "^7.1.0",
     "whatwg-url": "^14.0.0",
-    "wrap-ansi": "^9.0.0",
-    "expo-build-properties": "~0.12.5"
+    "wrap-ansi": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0",

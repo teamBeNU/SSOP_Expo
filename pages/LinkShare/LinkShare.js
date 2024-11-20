@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, Alert, Modal, TouchableWithoutFeedback, Share } from "react-native";
+import { View, Text, ScrollView, Alert, Share, Linking } from "react-native";
 import { styles } from './LinkShareStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { createStackNavigator } from '@react-navigation/stack';
@@ -16,6 +16,46 @@ import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import LinkShareImage from '../../assets/icons/LinkShareImage.svg';
 import ShareIcon from '../../assets/icons/ic_share_white.svg';
+
+// Branch 링크 생성 함수
+const createBranchLink = async (backendLink, cardId) => {
+  try {
+    const branchApiKey = "key_live_mrl5i4OwDxCg5dtSw4f0JmletweC8nnH";
+
+    const response = await fetch("https://api2.branch.io/v1/url", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        branch_key: branchApiKey,
+        campaign: "share_card",
+        feature: "redirect",
+        data: {
+          cardId: cardId, // 반드시 cardId 추가
+          original_link: `${backendLink}?cardId=${cardId}`, // cardId 포함
+          $android_url: `ssop://open?cardId=${cardId}`, // Android 딥링크
+          $ios_url: `ssop://open?cardId=${cardId}`, // iOS 딥링크
+          $fallback_url: "https://ssop2024.notion.site",
+        },
+      }),
+    });
+
+    const result = await response.json();
+
+    if (response.ok) {
+      console.log("생성된 Branch 링크:", result.url);
+      return result.url; // 생성된 Branch 링크 반환
+    } else {
+      console.error("Branch 링크 생성 실패:", result);
+      Alert.alert("링크 생성 실패", "다시 시도해 주세요.");
+    }
+  } catch (error) {
+    console.error("링크 생성 중 오류:", error);
+    Alert.alert("오류", "링크 생성 중 문제가 발생했습니다.");
+  }
+};
+
 
 function Step1Screen({ navigation }) {
   // 카드 데이터 유무를 상태로 설정
@@ -55,39 +95,39 @@ function Step1Screen({ navigation }) {
 
     // 카드 선택 후 링크를 생성하고 Step2로 이동
     const handleNext = async (selectedCardId) => {
-      console.log("선택된 카드 ID:", selectedCardId);
       try {
-        const token = await AsyncStorage.getItem('token');
-        if (!token) {
-          console.error('토큰이 없습니다.');
-          return;
-        }
-        const response = await fetch('http://43.202.52.64:8080/api/link/create', {
-          method: 'POST',
+        const token = await AsyncStorage.getItem("token");
+        if (!token) throw new Error("토큰 없음");
+    
+        // 백엔드에서 링크 생성
+        const response = await fetch("http://43.202.52.64:8080/api/link/create", {
+          method: "POST",
           headers: {
             Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({ cardId: selectedCardId }),
         });
-
+    
         const result = await response.json();
-        console.log("서버 응답 데이터:", result); 
-        
+    
         if (response.ok) {
-          navigation.navigate('Step2', { link: result.link });
+          // Branch 링크 생성
+          const branchLink = await createBranchLink(result.link, selectedCardId);
+          navigation.navigate("Step2", { link: branchLink });
         } else {
-          console.error('링크 생성 실패:', result.message);
+          console.error("링크 생성 실패:", result.message);
         }
       } catch (error) {
-        console.error('링크 생성 중 오류가 발생했습니다:', error);
+        console.error("링크 생성 중 오류:", error);
       }
     };
+    
 
-  // 컴포넌트가 처음 렌더링될 때 데이터 가져오기
   useEffect(() => {
-    fetchCardData();  // 카드 데이터 가져오기
+    fetchCardData();
   }, []);
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -128,48 +168,6 @@ function Step2Screen({ route, navigation}) {
   const { link } = route.params;
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [cardInfo, setCardInfo] = useState(null);  // 카드 정보를 상태로 저장
-
-  // // 링크 복사
-  // const copyLinkShare = async () => {
-  //   await Clipboard.setStringAsync(link);
-  //   Alert.alert('클립보드에 복사되었습니다.');
-  // };
-
-    // 링크 복사
-    const copyLinkShare = async () => {
-      await Clipboard.setStringAsync(link);
-      Alert.alert('클립보드에 복사되었습니다.');
-    
-      try {
-        // 링크에서 token 추출
-        const token = link.split('/').pop();
-        
-        const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`, {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        });
-    
-        const result = await response.json();
-        if (response.ok) {
-          const cardInfoText = `
-            userId: ${result.userId}
-            cardId: ${result.cardId}
-            이름: ${result.cardEssential.card_name}
-            소개: ${result.cardEssential.card_introduction}
-          `;
-    
-          // 카드 정보를 Alert에 띄우기
-          Alert.alert("카드 정보", cardInfoText);
-        } else {
-          //console.error('카드 정보 가져오기 실패:', result.message);
-        }
-      } catch (error) {
-        //console.error('카드 정보 가져오는 중 오류가 발생했습니다:', error);
-      }
-    };
-    
     
   const handleLinkSharePress = async () => {
     setIsModalVisible(false);
@@ -182,17 +180,12 @@ function Step2Screen({ route, navigation}) {
       console.error('링크 공유 중 오류가 발생했습니다:', error);
     }
   };
-
-  const handleShareButtonPress = () => {
-    setIsModalVisible(true);
-  };
-
-    // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
-    const navigateToLinkReceiver = () => {
-      const testLink = 'https://ssop.com/api/link/6ce24551-df95-4789-85ff-eb2949fc3ee1'; // 임시 링크
-      console.log("네비게이션을 통해 전달된 링크:", testLink);
-      navigation.navigate('LinkReceiverScreen', { link: testLink });
-    };
+      // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
+      const navigateToLinkReceiver = () => {
+        const testLink = 'https://ssopbenu.app.link/isPooJFFGOb'; // 임시 링크
+        console.log("네비게이션을 통해 전달된 링크:", testLink);
+        navigation.navigate('LinkReceiverScreen', { link: testLink });
+      };
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -210,39 +203,15 @@ function Step2Screen({ route, navigation}) {
           <View style={styles.linkShareContainer}>
           <LinkShareImage/>
             <View>
-              <Modal
-              animationType="fade"
-              transparent={true}
-              visible={isModalVisible}
-              onRequestClose={() => {
-                setIsModalVisible(!isModalVisible);
-              }}>
-              <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
-                <View style={styles.shareModalContainer}>
-                  <TouchableWithoutFeedback>
-                    <View style={styles.ShareModalView}>
-                      <TouchableOpacity onPress={() => { copyLinkShare(); setIsModalVisible(false); }}>
-                        <Text style={styles.ShareModalText}>링크 복사하기</Text>                   
-                      </TouchableOpacity>
-                      <View style={styles.line} />
-                      <TouchableOpacity onPress={() => { handleLinkSharePress(); setIsModalVisible(false)}}>
-                        <Text style={styles.ShareModalText}>링크 공유하기</Text>                   
-                      </TouchableOpacity>
-                    </View>
-                  </TouchableWithoutFeedback>
-                </View>
-              </TouchableWithoutFeedback>
-            </Modal>
-
             </View>
           </View>
         </View>
         <View style={styles.btnContainer}>
-          <TouchableOpacity style={[styles.btnTestBox, {marginTop: 10}]} onPress={navigateToLinkReceiver}>
+         <TouchableOpacity style={[styles.btnTestBox, {marginTop: 10}]} onPress={navigateToLinkReceiver}>
             <Text style={styles.btnTest}>다른 사람이 보낸 링크 저장 (시연을 위한 임시 버튼)</Text>
           </TouchableOpacity >
-          <TouchableOpacity style={[styles.btnNext, {marginTop: 10}]} onPress={handleShareButtonPress}>
-            <ShareIcon style={{marginRight: 8}}/>
+          <TouchableOpacity style={[styles.btnNext, {marginTop: 10}]}  onPress={handleLinkSharePress}>
+            <ShareIcon style={{marginRight: 8, marginTop: 2}}/>
             <Text style={styles.btnText}>링크 공유하기</Text>
           </TouchableOpacity >
         </View>
@@ -252,84 +221,66 @@ function Step2Screen({ route, navigation}) {
 }
 
 function LinkReceiverScreen({ route, navigation }) {
-  const { link } = route.params;  // 공유 링크에서 받은 전체 링크
+  const { link } = route.params;
 
-  // 링크에서 token 추출 함수
-  const extractToken = (url) => {
-    const tokenMatch = url ? url.match(/\/([a-f0-9-]+)$/) : null;  // URL이 존재할 경우에만 매칭
-    const token = tokenMatch ? tokenMatch[1] : null;
-    console.log("추출된 토큰:", token);  // 토큰 로그로 확인
-    return token;
-  };
-
-  // 카드 저장 함수
-  const saveCard = async (token, cardId) => {
+  // URL에서 cardId 추출 함수
+  const extractCardId = (url) => {
     try {
-      const authToken = await AsyncStorage.getItem('token');
-      if (!authToken) {
-        console.error("사용자 인증 토큰이 없습니다.");
-        return;
-      }
-
-      const response = await fetch(`http://43.202.52.64:8080/api/card/save?cardId=${cardId}`, {  // cardId를 쿼리 파라미터로 추가
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${authToken}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ token }),  // token만 body에 포함
-      });
-
-      const result = await response.json();
-      console.log("서버 응답 결과:", result);
-
-      if (response.ok) {
-        Alert.alert("카드가 성공적으로 저장되었습니다!");
-        //navigation.navigate("받은 프로필 카드");
-      } else {
-        console.log("카드 저장 실패:", result.message || "알 수 없는 오류");
-        Alert.alert("카드 저장에 실패했습니다:", result.message || "알 수 없는 오류");
-      }
+      const parsedUrl = new URL(url);
+      const cardId = parsedUrl.searchParams.get("cardId");
+      console.log("추출된 cardId:", cardId);
+      return cardId;
     } catch (error) {
-      console.log("카드 저장 중 오류가 발생했습니다:", error);
-      Alert.alert("카드 저장 중 오류가 발생했습니다.");
+      console.error("URL 파싱 중 오류:", error);
+      return null;
     }
   };
 
-
-  
-
-  // 웹뷰가 로드될 때마다 URL을 확인해 token을 추출하고 저장
-  const handleWebViewNavigationStateChange = async (newNavState) => {
-    const { url } = newNavState;
-    console.log("웹뷰 로드된 URL:", url);
-  
-    const token = extractToken(url);
-    console.log("추출된 토큰:", token);
-  
-    if (token) {
-      // 토큰으로부터 카드 정보를 조회
-      const response = await fetch(`http://43.202.52.64:8080/api/link/${token}`);
-      const cardInfo = await response.json();
-  
-      const cardId = cardInfo.cardId;  // cardId를 추출
-      console.log("저장할 카드 ID:", cardId);
-  
+  // 초기 URL에서 cardId 추출
+  useEffect(() => {
+    if (link) {
+      const cardId = extractCardId(link);
       if (cardId) {
-        saveCard(token, cardId); 
+        console.log("초기 링크에서 추출된 cardId:", cardId);
+        // 저장 로직 추가
       } else {
-        console.error("유효한 cardId를 찾을 수 없습니다.");
+        console.error("초기 링크에서 cardId를 추출할 수 없습니다.");
       }
     }
-  };
+  }, [link]);
+
+  // 딥링크 URL 처리
+  useEffect(() => {
+    const handleDeepLink = ({ url }) => {
+      const cardId = extractCardId(url);
+      if (cardId) {
+        console.log("딥링크에서 추출된 cardId:", cardId);
+        // 저장 로직 추가
+      } else {
+        console.error("딥링크에서 cardId를 추출할 수 없습니다.");
+      }
+    };
+
+    // Linking 이벤트 리스너 등록
+    const subscription = Linking.addEventListener("url", handleDeepLink);
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
 
   return (
-    <View style={{ flex: 1 }}>
-      <WebView
-        source={{ uri: link }}
-        onNavigationStateChange={handleWebViewNavigationStateChange}  // 페이지 로드가 끝날 때 호출
-      />
-    </View>
+    <WebView
+      source={{ uri: link }}
+      onNavigationStateChange={({ url }) => {
+        const cardId = extractCardId(url);
+        if (cardId) {
+          console.log("웹뷰에서 추출된 cardId:", cardId);
+        } else {
+          console.error("웹뷰에서 cardId를 추출할 수 없습니다.");
+        }
+      }}
+    />
   );
 }
 
@@ -341,6 +292,7 @@ function LinkShare({ navigation }) {
       <Stack.Screen name="Step1" component={Step1Screen} 
       options={{
         title: "링크 복사",
+        headerTitleAlign: 'center',
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <CloseIcon style={{ marginLeft: 8  }}/>
@@ -350,6 +302,7 @@ function LinkShare({ navigation }) {
       <Stack.Screen name="Step2" component={Step2Screen} 
       options={{
         title: "링크 복사",
+        headerTitleAlign: 'center',
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <LeftArrowIcon style={{ marginLeft: 8  }}/>
@@ -364,6 +317,7 @@ function LinkShare({ navigation }) {
       <Stack.Screen name="LinkReceiverScreen" component={LinkReceiverScreen} 
       options={{
         title: "카드 저장",
+        headerTitleAlign: 'center',
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <LeftArrowIcon style={{ marginLeft: 8  }}/>

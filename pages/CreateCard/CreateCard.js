@@ -66,6 +66,7 @@ function CreateCard({navigation}) {
         if (step === 0) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
+                headerTitleAlign: 'center',
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {navigation.goBack();}}>
                         <CloseIcon style={{ marginLeft: 8 }}/>

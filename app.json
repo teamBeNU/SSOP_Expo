@@ -1,7 +1,9 @@
 {
   "expo": {
+    "sdkVersion": "51.0.0",
     "name": "SSOP",
     "slug": "SSOP",
+    "scheme": "ssop",
     "owner": "teambenu",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -21,6 +23,24 @@
     },
     "android": {
       "package": "com.teambenu.ssop",
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "ssopbenu.app.link",
+              "pathPattern": ".*"
+            },
+            {
+              "scheme": "ssop",
+              "host": "app",
+              "pathPattern": ".*"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
+        }
+      ],
       "adaptiveIcon": {
         "foregroundImage": "./assets/icon.png",
         "backgroundColor": "#ffffff"

@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet, Platform, StatusBar } from 'react-native';
 import { theme } from "../../theme";
+import { textStyles } from '../../textStyles';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 const MAX_CARD_HEIGHT = HEIGHT * 0.6;
@@ -69,13 +70,21 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 39,
-        //ios shadow
-        shadowColor: 'rgba(0, 0, 0, 0.08)',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 4,
-        shadowRadius: 4,
-        //android shadow
-        elevation: 4,
+        // //ios shadow
+        // shadowColor: 'rgba(0, 0, 0, 0.08)',
+        // shadowOffset: { width: 0, height: 1 },
+        // shadowOpacity: 4,
+        // shadowRadius: 4,
+        // //android shadow
+        // elevation: 4,
+        elevation: 3,
+        shadowColor: 'rgb(73, 81, 100)',
+        shadowOffset: {
+          width: 4,
+          height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         },
         blackBtn: {
         width: 40,
@@ -87,19 +96,13 @@ export const styles = StyleSheet.create({
         borderRadius: 39,
         },
         emptyContainer: {
-        backgroundColor: 'white',
-        flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        gap: 16,
+        gap: 8,
         },
         noCard: {
         color: theme.gray60,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: '600',
-        lineHeight: 19,
-        letterSpacing: -0.32,
+        ...textStyles.headline16
         },
         newContainer: {
         flexDirection: 'row',
@@ -110,24 +113,29 @@ export const styles = StyleSheet.create({
         },
         newCard: {
         color:theme.skyblue,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: '600',
-        lineHeight: 19,
-        letterSpacing: -0.32,
+        textAlign: 'center',
+        ...textStyles.headline16
         },
         cardScrollView: {
         height: Math.min(WIDTH * 1.2, HEIGHT * 0.6),
         marginTop: 60,
         paddingHorizontal: 42, //42
         alignItems: 'center',
-        //ios shadow
-        shadowColor: 'rgba(0, 0, 0, 0.08)',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 4,
-        shadowRadius: 4,
-        //android shadow
-        elevation: 4,
+        // //ios shadow
+        // shadowColor: 'rgba(0, 0, 0, 0.08)',
+        // shadowOffset: { width: 0, height: 1 },
+        // shadowOpacity: 4,
+        // shadowRadius: 4,
+        // //android shadow
+        // elevation: 4,
+        elevation: 3,
+        shadowColor: 'rgb(73, 81, 100)',
+        shadowOffset: {
+         width: 4,
+         height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         },
         cardWrapper: {
         width: WIDTH * 0.84,
@@ -158,11 +166,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'relative',
         color: theme.gray10,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: '400',
-        lineHeight: 19,
-        letterSpacing: -0.32
+        ...textStyles.headline16
         },
         modalContent: {
         paddingVertical: 12,
@@ -240,16 +244,24 @@ export const styles = StyleSheet.create({
         position: 'relative',
         borderRadius: 16,
         backgroundColor: theme.white,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        // shadowColor: "rgba(73, 81, 100, 0.09)",
+        // shadowOffset: {
+        //         width: 0,
+        //         height: 2
+        // },
+        // shadowRadius: 16,
+        // shadowOpacity: 1,
+        elevation: 3,
+        shadowColor: 'rgb(73, 81, 100)',
         shadowOffset: {
-                width: 0,
-                height: 2
+         width: 4,
+         height: 4,
         },
+        shadowOpacity: 0.09,
         shadowRadius: 16,
-        shadowOpacity: 1,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 5,
+        // elevation: 5,
         position: 'relative',
         },
         Text14: {

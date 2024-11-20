@@ -76,7 +76,7 @@ function EditGroupPage({ route, navigation }) {
       }
 
       for (const groupId of selectedGroups) {
-        await fetch(`${API_URL}?groupId=${groupId}`, {
+        await fetch(`http://43.202.52.64:8080/api/mysp/delete-group?groupId=${groupId}`, {
           method: 'DELETE',
           headers: {
             Authorization: `Bearer ${token}`,
@@ -169,6 +169,7 @@ function EditGroupPage({ route, navigation }) {
           {selectedGroups.length}개 선택됨
         </Text>
       ),
+      headerTitleAlign: 'center',
       headerRight: () => (
         <TouchableOpacity onPress={handleSelectAll}>
           {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
