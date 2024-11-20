@@ -125,7 +125,7 @@ const handleDeepLink = async (url) => {
       try {
         const parsedUrl = new URL(url);
         const cardId = parsedUrl.searchParams.get("cardId");
-        console.log("추출된 cardId:", cardId);
+        //console.log("추출된 cardId:", cardId);
         return cardId;
       } catch (error) {
         console.error("URL 파싱 중 오류:", error);
@@ -135,10 +135,10 @@ const handleDeepLink = async (url) => {
 
     const cardId = extractCardId(url);
     if (cardId) {
-      console.log("저장할 cardId:", cardId);
+      //console.log("저장할 cardId:", cardId);
       await saveCard(cardId);
     } else {
-      console.warn("cardId가 URL에 포함되어 있지 않습니다:", url);
+      //console.warn("cardId가 URL에 포함되어 있지 않습니다:", url);
     }
   } catch (error) {
     console.error("딥링크 처리 중 오류:", error);
