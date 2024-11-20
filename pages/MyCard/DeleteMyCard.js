@@ -13,9 +13,9 @@ import { ListCardView } from "../../components/MyCard/ListCardView";
 import { styles } from './MyCardsViewStyle';
 
 const DeleteMyCard = ({ route, navigation }) => {
-  const { cardData } = route.params;
+  const { cardData, setCardData, viewOption } = route.params;
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형');
+  //const [viewOption, setViewOption] = useState('격자형');
   const [selectedCards, setSelectedCards] = useState([]);
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -76,7 +76,7 @@ const confirmDelete = async () => {
        </View>
       </View>
 
-      {viewOption === '그리드형' ? <GridCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards}/> : <ListCardView cardData={cardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />}
+      {viewOption === '그리드형' ? <GridCardView cardData={cardData} setCardData={setCardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards}/> : <ListCardView cardData={cardData} setCardData={setCardData} deleteMode={true} selectedCards={selectedCards} setSelectedCards={setSelectedCards} />}
 
       <TouchableOpacity style={styles.delteBtnContainer} onPress={handleDelete}>
         <View style={styles.delteBtn}>
