@@ -13,21 +13,13 @@ import { eyesItems, eyebrowsItems, mouthItems, moleItems, hairFrontItems, hairBa
 
 const screenWidth = Dimensions.get('window').width; // 화면의 전체 너비
 
-export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar, setAvatar: externalSetAvatar, viewShotRef, profileimageurl}) {
-    const [hairFrontImg, setHairFrontImg] = useState('front01');
-    const [isBald, setIsBald] = useState(false);    // 삭발인지 아닌지
-    const [isBgColor, setIsBgColor] = useState(false);      // 배경색 변했는지 여부
-
-    const ref = useRef();
-    const [a, setA] = useState('');
-
+export default function AvatarCustom({avatar: externalAvatar, setAvatar: externalSetAvatar, viewShotRef}) {
     const [avaIndex, setAvaIndex] = useState(1);
 
     // undo, redo
     let undo = useRef([]);
     let redo = useRef([]);
 
-    const [isSelect, setIsSelect] = useState(false);        // 아이템 선택 여부
     const [isRandom, setIsRandom] = useState(false);        // 랜덤 생성 선택 여부
     const [isUndo, setIsUndo] = useState(false);            // undo 여부
     const [isRedo, setIsRedo] = useState(false);            // redo 여부
@@ -357,9 +349,9 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     }
 
     // 현재 이미지 uri
-    const [currentFaceUri, setCurrentFaceUri] = useState(`${AWS_S3_AVATAR_URI}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${hairFrontImg}.PNG`);
+    const [currentFaceUri, setCurrentFaceUri] = useState(`${AWS_S3_AVATAR_URI}/face/eye0${avatar.eyes}_brow0${avatar.eyebrows}_mouth0${avatar.mouth}_${avatar.hairFront}.PNG`);
     const [currentMoleUri, setCurrentMoleUri] = useState(`${AWS_S3_AVATAR_URI}/mole/mole${avatar.mole}.png`);
-    const [currentClothesUri, setCurrentClothesUri] = useState(`${AWS_S3_AVATAR_URI}/clothes/clothes${avatar.clothes}.png`);
+    const [currentClothesUri, setCurrentClothesUri] = useState(`${AWS_S3_AVATAR_URI}/clothes/clothes${avatar.clothes}${avatar.accEtc === 1 ? '_cat' : avatar.accEtc === 2 ? '_headphon' : ''}.png`);
     const [currentHairBackUri, setCurrentHairBackUri] = useState(`${AWS_S3_AVATAR_URI}/hairback/hairback0${avatar.hairBack}.PNG`);
     const [currentAccEarUri, setCurrentAccEarUri] = useState(`${AWS_S3_AVATAR_URI}/acc/accEar${avatar.accEar}.png`);
     const [currentAccNoseUri, setCurrentAccNoseUri] = useState(`${AWS_S3_AVATAR_URI}/acc/accNose${avatar.accNose}.png`);
@@ -783,18 +775,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.avatarContainer}>
-                {/* <TouchableOpacity
-                    style={{position: "absolute", zIndex: 10, right: 12, marginTop:20, backgroundColor:"red", padding: 10}}
-                    onPress={() => {
-                        console.log("55=======================================")
-                        console.log("아바타: ", avatar);
-                        console.log("undo: ", undo);
-                        console.log("redo: ", redo);
-                        console.log("=======================================")
-                    }}
-                >
-                    <Text>테스트 버튼</Text>
-                </TouchableOpacity> */}
                 <View style={styles.avatarDo}>
                     <TouchableOpacity onPress={() => handleUndo()}>
                         <UndoIcon />
@@ -817,13 +797,6 @@ export default function AvatarCustom({setProfileImageUrl, avatar: externalAvatar
                         <RestartIcon />
                     </TouchableOpacity>
                 </View>
-                {/* {profileimageurl && (
-                    <Image 
-                        source={{ uri: profileimageurl }} 
-                        style={{ width: 200, height: 200, position: "absolute", zIndex: 100 }} 
-                        onError={(e) => console.log('Error loading image: ', e)}
-                    />
-                )} */}
                 <ViewShot 
                     ref={viewShotRef}
                     options={{ fileName: "card", format: "png", quality: 1 }}
