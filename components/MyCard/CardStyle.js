@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
+import { textStyles } from '../../textStyles';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 const MAX_CARD_HEIGHT = HEIGHT * 0.6;
@@ -43,6 +44,7 @@ export const styles = StyleSheet.create({
     basicInfo: {
         flexDirection: "row",
         alignItems: 'flex-end',
+        height: 29,
         gap: 8
     },
     name: {
@@ -51,7 +53,6 @@ export const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: "600",
         letterSpacing: -0.48,
-        lineHeight: 26,
     },
     age: {
         color: 'rgba(0, 0, 0, 0.50)',
@@ -60,23 +61,14 @@ export const styles = StyleSheet.create({
         fontSize: 24, 
         fontWeight: "300",
         letterSpacing: -0.48,
-        lineHeight: 29
     },
     sub: {
         color: theme.gray10,
-        fontFamily: 'PretendardSemiBold',
-        fontSize: 16,
-        fontWeight: "500",
-        letterSpacing: -0.32,
-        lineHeight: 19,
+       ...textStyles.headline16
     },
     sub2: {
         color: theme.gray30,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: "400",
-        letterSpacing: -0.32,
-        lineHeight: 19,
+        ...textStyles.body16,
         marginTop: -4
     },
 
@@ -97,20 +89,12 @@ export const styles = StyleSheet.create({
     topic: {
         width: 55,
         color: theme.gray50,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: '400',
-        lineHeight: 19,
-        letterSpacing: -0.14,
+        ...textStyles.body16
     },
     content: {
         maxWidth: '80%',
         color: theme.gray10,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: '400',
-        lineHeight: 19,
-        letterSpacing: -0.32,
+        ...textStyles.body16,
         flexWrap: 'wrap',
     },
     grayBox: {  
@@ -126,11 +110,7 @@ export const styles = StyleSheet.create({
     },  
     grayBoxText: {
         color: theme.gray10,
-        fontFamily: 'PretendardRegular',
-        fontSize: 16,
-        fontWeight: '400',
-        lineHeight: 19,
-        letterSpacing: -0.32,
+        ...textStyles.body16,
         flexWrap: 'wrap',
     },
     line: {
