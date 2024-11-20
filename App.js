@@ -17,6 +17,7 @@ import NotiIcon from './assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
+import HomeLogo from './assets/HomeIcon/logo_line.svg'
 import { AuthProvider, AuthContext } from './AuthContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -602,9 +603,14 @@ const Tab = createBottomTabNavigator();
           headerStyle: {
             backgroundColor: theme.white
           },
+          headerLeft: () => (
+            <View>
+              <HomeLogo style={{ marginLeft: 32.5 }} />
+            </View>
+          ),
           headerRight: () => (
             <TouchableOpacity onPress={() => { navigation.navigate('전체 카드 검색') }}>
-              <SearchIcon style={{ marginRight: 8 }} />
+              <SearchIcon style={{ marginRight: 20 }} />
             </TouchableOpacity>
           ),
         }}  />
