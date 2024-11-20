@@ -4,7 +4,7 @@ import { styles } from './HomeStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
 
-import CreateCardIcon from '../../assets/HomeIcon/img_banner.svg';
+import CreateCardIcon from '../../assets/HomeIcon/homeBanner.png';
 import ArrowIconWhite from '../../assets/HomeIcon/ic_arrow_white.svg';
 import ArrowIcon from '../../assets/HomeIcon/ic_arrow.svg';
 import Folderback from '../../assets/HomeIcon/folderback.svg'
@@ -47,9 +47,8 @@ function Home({navigation}) {
                                 <Text style={styles.TextWhite}>카드 만들기</Text>
                                 <ArrowIconWhite style={{ marginLeft: 4 }} />
                             </View>
-                            <CreateCardIcon
-                                width={Math.max(parentSize.width * 0.7, 160)} 
-                                height={Math.max(parentSize.height * 0.7, 155)}
+                            <Image
+                                source={require('../../assets/HomeIcon/homeBanner.png')} // 경로에 맞게 수정
                                 style={styles.icon1}
                             />
                         </LinearGradient>

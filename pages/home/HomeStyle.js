@@ -17,10 +17,9 @@ export const styles = StyleSheet.create({
         letterSpacing: -1,
     },        
     btn1: { // 카드 만들기 버튼 
-        paddingVertical: 29,
-        paddingHorizontal: 16,
+        paddingVertical: 30,
+        paddingHorizontal: 30,
         flexDirection: 'column',
-        height: 160,
         borderRadius: 16,
         overflow: 'hidden',
         backgroundColor: theme.green,
@@ -170,6 +169,8 @@ export const styles = StyleSheet.create({
         letterSpacing: -1,
     },
     icon1: { // 카드 만들기 아이콘
+        width: '100%',
+        height: '155%',
         position: 'absolute',
         bottom: 0,
         right: 0,
