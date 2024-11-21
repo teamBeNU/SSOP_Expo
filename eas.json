@@ -12,7 +12,6 @@
       }
     },
     "preview": {
-      "buildType": "apk",
       "distribution": "internal",
       "env": {
         "AWS_S3_AVATAR_URI": "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/avt",
