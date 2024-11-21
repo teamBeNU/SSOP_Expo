@@ -15,8 +15,8 @@
       "buildType": "apk",
       "distribution": "internal",
       "env": {
-        "API_URL": "https://your-backend-url.com",
-        "S3_BASE_URL": "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com"
+        "AWS_S3_AVATAR_URI": "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/avt",
+        "AWS_S3_AVATAR_THUMBNAIL_URI": "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/avatar/tmb"
       }
     },
     "production": {
