@@ -77,7 +77,7 @@ const CardDetailView = () => {
     const [editAvatar, setEditAvatar] = useState([]);
 
     const [moreMenu, setMoreMenu] = useState(false);
-
+    const [cardCover, setCardCover] = useState('');
 
     const navigation = useNavigation();
 
@@ -191,7 +191,7 @@ const CardDetailView = () => {
             mediaTypes: ImagePicker.MediaTypeOptions.Images,    // 어떤 타입의 파일 업로드할지 (이미지만 받기 위해 Images로 설정)
             allowsEditing: true,    // 이미지 업로드 전에 자르기 등의 편집 가능 여부 설정
             quality: 1,     // 이미지 압축 여부(1: 가장 높은 품질)
-            // aspect: [1, 1]    // 이미지 비율
+            aspect: [1, 1]    // 이미지 비율
         });
 
         if (!result.canceled) {     // 이미지 업로드
@@ -203,6 +203,7 @@ const CardDetailView = () => {
     useEffect(() => {
         if (isPictureComplete) {
             handleSubmit();
+            setIsPictureComplete(false);
         }
     }, [isPictureComplete]);
 
@@ -214,12 +215,16 @@ const CardDetailView = () => {
             Alert.alert('이미지 URL이 설정되지 않았습니다.');
             return;
         }
-    
+
+        const editCardData = {
+            card_cover: "picture"
+        }
+
+        formData.append('card', {name: 'card', string: JSON.stringify(editCardData), type: 'application/json',});
+
         const filename = localUri.split('/').pop();
         const fileMatch = /\.(\w+)$/.exec(filename);
         const type = fileMatch ? `image/${fileMatch[1]}` : 'image';
-
-        formData.append('card', {name: 'card', string: '{}', type: 'application/json',});
 
         formData.append('image', {
             uri: localUri,
@@ -299,13 +304,23 @@ const CardDetailView = () => {
     useEffect(() => {
         if (cardData.length > 0 && currentCardIndex !== null) {
             const currentCard = cardData[currentCardIndex];
+            setCardCover(currentCard.card_cover)
             if (currentCard.avatar) {
                 setEditAvatar({
-                    face: currentCard.avatar.face ? currentCard.avatar.face : null,
-                    hair: currentCard.avatar.hair ? currentCard.avatar.hair : null,
-                    hairColor: currentCard.avatar.hairColor? currentCard.avatar.hairColor : null,
+                    eyes: currentCard.avatar.eyes ? currentCard.avatar.eyes : null,
+                    eyebrows: currentCard.avatar.eyebrows ? currentCard.avatar.eyebrows : null,
+                    mouth: currentCard.avatar.mouth ? currentCard.avatar.mouth : null,
+                    mole: currentCard.avatar.mole ? currentCard.avatar.mole : null,
+                    hairFront: currentCard.avatar.hairFront ? currentCard.avatar.hairFront : null,
+                    hairBack: currentCard.avatar.hairBack ? currentCard.avatar.hairBack : null,
+                    hairFrontColor: currentCard.avatar.hairFrontColor? currentCard.avatar.hairFrontColor : null,
+                    hairBackColor: currentCard.avatar.hairBackColor? currentCard.avatar.hairBackColor : null,
                     clothes: currentCard.avatar.clothes ? currentCard.avatar.clothes : null,
-                    acc: currentCard.avatar.acc ? currentCard.avatar.acc : null,
+                    accEar: currentCard.avatar.accEar ? currentCard.avatar.accEar : null,
+                    accNose: currentCard.avatar.accNose ? currentCard.avatar.accNose : null,
+                    accGlasses: currentCard.avatar.accGlasses ? currentCard.avatar.accGlasses : null,
+                    accPin: currentCard.avatar.accPin ? currentCard.avatar.accPin : null,
+                    accEtc: currentCard.avatar.accEtc ? currentCard.avatar.accEtc : null,
                     bg: currentCard.avatar.bg ? currentCard.avatar.bg : null,
                     bgColor: currentCard.avatar.bgColor ? currentCard.avatar.bgColor : null,
                 });
@@ -502,7 +517,7 @@ const CardDetailView = () => {
                                             <View style={styles.line} />
                                             <TouchableOpacity onPress={() => {
                                                 setIsCoverModalVisible(false);
-                                                navigation.navigate('아바타 커스터마이징');
+                                                navigation.navigate('아바타커스터마이징 수정', {editAvatar: editAvatar, cardId: cardData[currentCardIndex].cardId, cardCover: cardCover});//, cardCover: cardData[currentCardIndex].card_cover
                                                 }}>
                                             <Text style={styles.modalTitle}>아바타 커스터마이징 후 등록</Text>
                                             </TouchableOpacity>

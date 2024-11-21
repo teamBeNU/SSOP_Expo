@@ -396,18 +396,18 @@ export default function App() {
             )
           }}
         />
-        {/* <Stack.Screen 
-          name="카드 커버 수정"
+        <Stack.Screen 
+          name="아바타커스터마이징 수정"
           component={EditCardCover}
           options={{
-            headerTitle: "카드 커버 수정",
+            headerTitle: "아바타커스터마이징 수정",
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             )
           }}
-        /> */}
+        />
         <Stack.Screen 
           name="아바타 커스터마이징"
           component={AvatarCustom}

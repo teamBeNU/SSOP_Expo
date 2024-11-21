@@ -351,7 +351,6 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
                     <TouchableOpacity
                         style={{marginRight: 20}}
                         onPress={() => {
-                            // setIsAvatarComplete(true);
                             avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
                         }}
                     >
@@ -807,12 +806,10 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom 
-                            setProfileImageUrl={setProfileImageUrl} 
+                        <AvatarCustom
                             avatar={avatar}
                             setAvatar={setAvatar}
                             viewShotRef={viewShotRef}
-                            profileimageurl={profile_image_url}
                         />
                     )}
                 </View>

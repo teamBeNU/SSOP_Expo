@@ -365,7 +365,6 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                     <TouchableOpacity
                         style={{marginRight: 20}}
                         onPress={() => {
-                            // setIsAvatarComplete(true);
                             avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
                         }}
                     >
@@ -851,12 +850,10 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom 
-                            setProfileImageUrl={setProfileImageUrl} 
+                        <AvatarCustom
                             avatar={avatar}
                             setAvatar={setAvatar}
                             viewShotRef={viewShotRef}
-                            profileimageurl={profile_image_url}
                         />
                     )}
                 </View>

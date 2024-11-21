@@ -373,7 +373,6 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                     <TouchableOpacity
                         style={{marginRight: 20}}
                         onPress={() => {
-                            // setIsAvatarComplete(true);
                             avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
                         }}
                     >
@@ -880,12 +879,10 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom 
-                            setProfileImageUrl={setProfileImageUrl} 
+                        <AvatarCustom
                             avatar={avatar}
                             setAvatar={setAvatar}
                             viewShotRef={viewShotRef}
-                            profileimageurl={profile_image_url}
                         />
                     )}
                 </View>
