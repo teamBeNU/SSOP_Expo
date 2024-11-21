@@ -12,7 +12,12 @@
       }
     },
     "preview": {
-      "distribution": "internal"
+      "buildType": "apk",
+      "distribution": "internal",
+      "env": {
+        "API_URL": "https://your-backend-url.com",
+        "S3_BASE_URL": "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com"
+      }
     },
     "production": {
       "distribution": "store"
