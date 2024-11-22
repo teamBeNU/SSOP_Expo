@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
-import { Alert, Linking, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Linking, ScrollView, Text, TouchableOpacity, View, Image } from 'react-native';
 import LinkIcon from '../../assets/Card/ic_link.svg';
 import MailIcon from '../../assets/Card/ic_mail.svg';
-import InstaLogo from '../../assets/Card/logo_insta.svg';
-import XLogo from '../../assets/Card/logo_x.svg';
+import InstaLogo from '../../assets/icons/logo_insta.png';
+import XLogo from '../../assets/icons/logo_x.png';
 
 import { theme } from '../../theme';
 import AddContact from './AddTel';
@@ -183,7 +183,6 @@ const CardOptional1 = ({cardData}) => {
                 <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>
             </View>
         )}
-
         {isOptional1(cardData) && (isTemplateOptional(cardData) || isOptional2(cardData) || isOptional3(cardData)) && <View style={{...styles.line, marginTop: 0}} />}
         </View>
     );
@@ -236,14 +235,15 @@ const CardOptional2 = ({cardData}) => {
                 <View style={styles.SNScontainer}>
                     {cardData.cardOptional.card_sns_insta ? (
                         <View style={styles.grayBox}>
-                        <InstaLogo />
+                        <Image source={InstaLogo} style={{ width: 16, height: 16 }} resizeMode="contain" />
+
                         <OpenURLButton url={ instaURL + cardData.cardOptional.card_sns_insta + '/' }>{cardData.cardOptional.card_sns_insta}</OpenURLButton>
                         <LinkIcon />
                         </View>
                     ) : null }
                     {cardData.cardOptional.card_sns_x ? (
                         <View style={styles.grayBox}>
-                        <XLogo />
+                        <Image source={XLogo} style={{ width: 16, height: 16 }} resizeMode="contain" />
                         <OpenURLButton url={xURL + cardData.cardOptional.card_sns_x}>{cardData.cardOptional.card_sns_x}</OpenURLButton>
                         <LinkIcon />
                         </View>
