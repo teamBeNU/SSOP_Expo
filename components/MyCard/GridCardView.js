@@ -10,7 +10,7 @@ import { theme } from '../../theme';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
-export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCards, selectedOption}) => {
+export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCards, selectedOption, refreshData}) => {
     const navigation = useNavigation(); 
 
     const handleNext = (cardId) => {

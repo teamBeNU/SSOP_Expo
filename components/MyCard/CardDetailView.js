@@ -81,6 +81,20 @@ const CardDetailView = () => {
 
     const navigation = useNavigation();
 
+    // const [sortedCardData, setSortedCardData] = useState([]);
+
+    // // 최신순 / 오래된 순 정렬 함수
+    // const sortData = (data) => {
+    //     const dataCopy = [...(data || [])];
+    //     return selectedOption === '오래된 순' ? dataCopy : dataCopy.reverse();
+    // };
+
+    // // 데이터 정렬
+    // useEffect(() => {
+    //     setSortedCardData(sortData(cardData));
+    //     //setViewOption(returnViewOption)
+    // }, [cardData, selectedOption]);
+
     const handleBluetoothPress = () => {
         setIsShareModalVisible(false);
         navigation.navigate('내 카드 보내기');
@@ -282,7 +296,8 @@ const CardDetailView = () => {
 
             setCardData(sortData(result));
 
-            const cardIndex = result.findIndex(card => card.cardId === cardId);
+            const cardIndex = cardData.findIndex(card => card.cardId === cardId);
+           
             if (cardIndex !== -1) {
                 setCurrentCardIndex(cardIndex);
                 scrollViewRef.current.scrollTo({
