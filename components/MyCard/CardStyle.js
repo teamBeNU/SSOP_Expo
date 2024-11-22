@@ -145,14 +145,16 @@ export const styles = StyleSheet.create({
         position: 'relative',
         paddingVertical: 16,
         paddingHorizontal: 24,
-        shadowColor: 'rgba(0, 0, 0, 0.05)',
-        shadowOffset: {
-        width: 4,
-        height: 4,
-        },
-        shadowOpacity: 1,
-        shadowRadius: 12,
+        // Android - Shadow
         elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     
 });
