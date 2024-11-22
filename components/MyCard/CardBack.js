@@ -31,12 +31,72 @@ const OpenURLButton = ({url, children}) => {
       );
   };
 
+    const isOptional1 = (cardData) => (
+    (cardData.cardOptional.card_birth !== "" || !cardData.cardOptional.card_bSecret) && 
+    cardData.cardOptional.card_MBTI !== "");
+    const isOptional2 =(cardData) =>  (
+        cardData.cardOptional.card_tel !== "" || 
+        cardData.cardOptional.card_email !== "" ||
+        cardData.cardOptional.card_sns_insta !== "" ||
+        cardData.cardOptional.card_sns_x !== ""
+    );
+    const isOptional3 =(cardData) =>  (
+        cardData.cardOptional.card_hobby !== "" ||
+        cardData.cardOptional.card_music !== "" ||
+        cardData.cardOptional.card_movie !== "" ||
+        cardData.cardOptional.card_address !== ""
+    );
+    
+    const isTemplateOptional = (cardData) => {
+       // console.log(cardData.student);
+        switch (cardData.card_template) {
+            case 'studentSchool':
+                return !(cardData.student.card_student_id === undefined &&
+                        cardData.student.card_student_role === undefined &&
+                        cardData.student.card_student_club === undefined &&
+                        cardData.student.card_student_major === undefined);
+            case 'studentUniv':
+                return !(cardData.student.card_student_id === undefined &&
+                        cardData.student.card_student_role === undefined &&
+                        cardData.student.card_student_club === undefined &&
+                        cardData.student.card_student_status === undefined);
+            case 'worker':
+                return !(cardData.worker.card_worker_position === undefined &&
+                        cardData.worker.card_worker_department === undefined);
+            case 'fan':
+                return !(cardData.fan.card_fan_second === undefined &&
+                        cardData.fan.card_fan_reason === undefined);
+            case 'free':
+                return !(Object.values(cardData.student).every(value => value === "") &&
+                        Object.values(cardData.worker).every(value => value === "") &&
+                        Object.values(cardData.fan).every(value => value === ""));
+            default:
+                return true;
+        }
+    };
+
 export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }) => {
+    const templateLine = () => {
+        return (isTemplateOptional(cardData) && (isOptional2(cardData) || isOptional3(cardData)) &&  <View style={{...styles.line, marginTop: 0}} />);
+    };
+
     const renderTemplateSpecificInfo = () => {
         //console.log ('card : ', cardData);
         switch (cardData.card_template) {
-            case 'student': //학교 학년 + 전공
             case 'studentSchool':
+                return (
+                    <ScrollView 
+                    contentContainerStyle={styles.textArea} 
+                    showsVerticalScrollIndicator={false}
+                    onTouchStart={onVerticalScrollStart}
+                    onTouchEnd={onVerticalScrollEnd}>
+                        {isOptional1(cardData) && <CardOptional1 cardData={cardData}/>}
+                        {isTemplateOptional(cardData) && <StudentOptional cardData={cardData}/>}
+                        { templateLine() }
+                        {isOptional2(cardData) && <CardOptional2 cardData={cardData}/>}    
+                        {isOptional3(cardData) && <CardOptional3 cardData={cardData}/>}
+                    </ScrollView>
+                );
             case 'studentUniv': 
                 return (
                     <ScrollView 
@@ -44,11 +104,11 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                     showsVerticalScrollIndicator={false}
                     onTouchStart={onVerticalScrollStart}
                     onTouchEnd={onVerticalScrollEnd}>
-                        {((cardData.cardOptional.card_birth !== '' || !cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI !== '') && <CardOptional1 cardData={cardData}/>}
-                        {(cardData.student.card_student_grade === undefined && cardData.student.card_student_role === undefined && cardData.student.card_student_club === undefined && cardData.student.card_student_major === undefined) ? null : ((cardData.cardOptional.card_birth === "" && cardData.cardOptional.card_MBTI === "") ? null : <View style={{...styles.line, marginTop: 0}}/>)}
-                        <StudentOptional cardData={cardData}/>
-                        <CardOptional2 cardData={cardData}/>    
-                        <CardOptional3 cardData={cardData}/>
+                        {isOptional1(cardData) && <CardOptional1 cardData={cardData}/>}
+                        {isTemplateOptional(cardData) && <StudentOptional cardData={cardData}/>}
+                        { templateLine() }
+                        {isOptional2(cardData) && <CardOptional2 cardData={cardData}/>}    
+                        {isOptional3(cardData) && <CardOptional3 cardData={cardData}/>}
                     </ScrollView>
                 );
             case 'worker': //회사 직무
@@ -58,11 +118,11 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                     showsVerticalScrollIndicator={false}
                     onTouchStart={onVerticalScrollStart}
                     onTouchEnd={onVerticalScrollEnd}>
-                        {((cardData.cardOptional.card_birth !== '' || !cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI !== '') && <CardOptional1 cardData={cardData}/>}
-                        {(cardData.worker.card_worker_position === undefined && cardData.worker.card_worker_department === undefined) ? null : ((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
-                        <WorkerOptional cardData={cardData} />
-                        <CardOptional2 cardData={cardData}/>    
-                        <CardOptional3 cardData={cardData}/>      
+                        {isOptional1(cardData) && <CardOptional1 cardData={cardData}/>}
+                        {isTemplateOptional(cardData) && <WorkerOptional cardData={cardData} />}
+                        { templateLine() }
+                        {isOptional2(cardData) && <CardOptional2 cardData={cardData}/>}    
+                        {isOptional3(cardData) && <CardOptional3 cardData={cardData}/> }     
                     </ScrollView>
                 );
             case 'fan': //덕질 장르, 최애
@@ -72,13 +132,11 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                     showsVerticalScrollIndicator={false}
                     onTouchStart={onVerticalScrollStart}
                     onTouchEnd={onVerticalScrollEnd}>
-                       {((cardData.cardOptional.card_birth !== '' || !cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI !== '') && <CardOptional1 cardData={cardData}/>}
-                        
-                        {(cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) ? null : 
-                        (((cardData.cardOptional.card_birth === '' || cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '') ? null : <View style={{...styles.line, marginTop: 0}}/>)}
-                        <FanOptional cardData={cardData} />
-                        <CardOptional2 cardData={cardData}/>    
-                        <CardOptional3 cardData={cardData}/>   
+                        {isOptional1(cardData) && <CardOptional1 cardData={cardData}/>}
+                        {isTemplateOptional(cardData) && <FanOptional cardData={cardData} />}
+                        { templateLine() }
+                        {isOptional2(cardData) && <CardOptional2 cardData={cardData}/>}    
+                        {isOptional3(cardData) && <CardOptional3 cardData={cardData}/>}   
                     </ScrollView>
                 );
                 case 'free': 
@@ -88,16 +146,13 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                         showsVerticalScrollIndicator={false}
                         onTouchStart={onVerticalScrollStart}
                         onTouchEnd={onVerticalScrollEnd}>
-                           {((cardData.cardOptional.card_birth !== '' || !cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI !== '') && <CardOptional1 cardData={cardData}/>}
-
-                            {!Object.values(cardData.student).every(value => value === "") ? <View style={{...styles.line, marginTop: 0}} /> : null}
-
+                            {isOptional1(cardData) && <CardOptional1 cardData={cardData}/>}
                             {!Object.values(cardData.student).every(value => value === "") ? <StudentOptional cardData={cardData} /> : null}
                             {!Object.values(cardData.worker).every(value => value === "") ? <WorkerOptional cardData={cardData} /> : null}
                             {!Object.values(cardData.fan).every(value => value === "") ? <FanOptional cardData={cardData} /> : null}
-
-                            <CardOptional2 cardData={cardData}/>    
-                            <CardOptional3 cardData={cardData}/>   
+                            { templateLine() }
+                            {isOptional2(cardData) && <CardOptional2 cardData={cardData}/>}    
+                            {isOptional3(cardData) && <CardOptional3 cardData={cardData}/> } 
                         </ScrollView>
                     );
                 default:
@@ -128,76 +183,32 @@ const CardOptional1 = ({cardData}) => {
                 <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>
             </View>
         )}
+
+        {isOptional1(cardData) && (isTemplateOptional(cardData) || isOptional2(cardData) || isOptional3(cardData)) && <View style={{...styles.line, marginTop: 0}} />}
         </View>
     );
 }
 
 const CardOptional2 = ({cardData}) => {
-    const optional2Line = () => {
-        // 공통 항목 조건 (생일, 비공개 상태, MBTI 없음)
-        const isCommonCondition = (cardData.cardOptional.card_birth === '' || cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '';
-    
-        // 템플릿별 조건을 설정
-        switch(cardData.card_template) {
-            case 'studentSchool':
-            case 'studentUniv':
-                // 'student' 템플릿에 대한 조건
-                if (isCommonCondition &&
-                    cardData.student.card_student_id === undefined && 
-                    cardData.student.card_student_club === undefined && 
-                    cardData.student.card_student_role === undefined && 
-                    cardData.student.card_student_status === undefined) {
-                    return false;
-                }
-                break;
-    
-            case 'worker':
-                // 'worker' 템플릿에 대한 조건
-                if (isCommonCondition &&
-                    cardData.worker.card_worker_position === undefined && 
-                    cardData.worker.card_worker_department === undefined) {
-                    return false;
-                }
-                break;
-    
-            case 'fan':
-                // 'fan' 템플릿에 대한 조건
-                if (isCommonCondition &&
-                    cardData.fan.card_fan_second === undefined && 
-                    cardData.fan.card_fan_reason === undefined) {
-                    return false;
-                }
-                break;
-    
-            case 'free':
-                // 'free' 템플릿에 대한 조건
-                if (isCommonCondition &&
-                    (cardData.student.card_student_id === "" && 
-                     cardData.student.card_student_club === "" && 
-                     cardData.student.card_student_role === "" && 
-                     cardData.student.card_student_status === "" &&
-                     cardData.worker.card_worker_position === "" && 
-                     cardData.worker.card_worker_department === "" && 
-                     cardData.fan.card_fan_second === "" && 
-                     cardData.fan.card_fan_reason === "")) {
-                    return false;
-                }
-                break;
-    
-            default:
-                return true;
-        }
-    
-        return true;
-    };
+    // const optional2Line = () => {
+    //     const isOptional2 = (
+    //         cardData.cardOptional.card_tel !== "" || 
+    //         cardData.cardOptional.card_email !== "" ||
+    //         cardData.cardOptional.card_sns_insta !== "" ||
+    //         cardData.cardOptional.card_sns_x !== ""
+    //     );
+    //     const isOptional3 = (
+    //         cardData.cardOptional.card_hobby !== "" ||
+    //         cardData.cardOptional.card_music !== "" ||
+    //         cardData.cardOptional.card_movie !== "" ||
+    //         cardData.cardOptional.card_address !== ""
+    //     );    
 
+    //     //console.log(isOptional2);
+    //     return (isOptional2 && isOptional3);
+    // };
     return (
         <View style={{gap: 24, width: '100%'}}>
-            { 
-            optional2Line() ? (
-                <View style={{...styles.line, marginTop: 0}} />
-            ) : null
-        }
             {cardData.cardOptional.card_tel ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>번호</Text>                             
@@ -240,6 +251,7 @@ const CardOptional2 = ({cardData}) => {
                 </View>
                 </View>
             ) : null }
+            { (isOptional2(cardData) && isOptional3(cardData)) && <View style={{...styles.line, marginTop: 0}} />}
         </View>
     );
 }
@@ -247,9 +259,6 @@ const CardOptional2 = ({cardData}) => {
 const CardOptional3 = ({cardData}) => {
     return (
         <View style={{gap: 24, width: '100%'}}>
-            {(cardData.cardOptional.card_hobby || cardData.cardOptional.card_music || cardData.cardOptional.card_movie || cardData.cardOptional.card_address) && (
-            <View style={{...styles.line, marginTop: 0}} />
-            )}
             {cardData.cardOptional.card_hobby ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>취미</Text>                             
@@ -280,8 +289,9 @@ const CardOptional3 = ({cardData}) => {
 }
 
 const StudentOptional = ({cardData}) => {
+    //console.log(cardData.student);
     return (
-    <View style={((cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'})}>
+    <View style={(((cardData.cardOptional.card_birth === '' || cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'})}>
             {cardData.card_template === 'free' && cardData.student.card_student_school ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학교</Text>                             
@@ -312,11 +322,19 @@ const StudentOptional = ({cardData}) => {
                 <Text style={styles.content}>{cardData.student.card_student_club}</Text>                         
             </View>
             ) : null }
-            {cardData.student.card_student_major ? (
+            {cardData.card_template === 'studentUniv' && cardData.student.card_student_status ? (
                 <View>
                 <View style={styles.info}>                             
                     <Text style={[styles.topic,  { fontSize: 14 }]}>재학상태</Text>                             
                     <Text style={styles.content}>{cardData.student.card_student_status}</Text>                         
+                </View>
+                </View>
+            ) : null }
+            {cardData.card_template === 'studentSchool' && cardData.student.card_student_major ? (
+                <View>
+                <View style={styles.info}>                             
+                    <Text style={[styles.topic,  { fontSize: 14 }]}>전공</Text>                             
+                    <Text style={styles.content}>{cardData.student.card_student_major}</Text>                         
                 </View>
                 </View>
             ) : null }
