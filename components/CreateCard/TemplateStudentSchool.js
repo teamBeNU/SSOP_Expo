@@ -15,6 +15,7 @@ import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import SelectCover from "./SelectCover";
 import { avatarCapture } from "../../utils/avatarCapture";
+import MyPageModal from "../../components/MyPage/MyPageModal";
 
 export default function TemplateStudentSchool ({navigation, card_template, step, setStep}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -45,6 +46,18 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
     const [card_student_id, setCardStudentId] = useState(null);     // 학번
     const [card_student_club, setCardStudentClub] = useState(null);     // 동아리
     const [card_student_role, setCardStudentRole] = useState(null);     // 역할
+
+    // 모달
+    const [modalVisible, setModalVisible] = useState(false);    // 홈 버튼 클릭 시 모달 여부
+
+    const handleBtn1 = () => {    // 모달 - '계속 만들래요'
+        setModalVisible(false);
+    };
+
+    const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
+        setModalVisible(false);
+        navigation.goBack();
+    };
 
     // 드롭다운
     const [dropDownOpen, setDropDownOpen] = useState(false);
@@ -341,25 +354,28 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                     }}>
                         <LeftArrowIcon style={{ marginLeft: 8 }}/>
                     </TouchableOpacity>
-                )
+                ),
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => {setModalVisible(true);}}>
+                        <HomeIcon style={{marginRight: 20}}/>
+                    </TouchableOpacity>
+                ),
             });
         }
     
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
-                headerTitle: '카드 정보 작성',
+                headerTitle: '카드 정보 작성하기',
                 headerTitleAlign: 'center',
-                headerRight: null,
             });
         } else if (step === 6) {
             navigation.setOptions({
-                headerTitle: '카드 생성',
+                headerTitle: '카드 커버 선택하기',
                 headerTitleAlign: 'center',
-                headerRight: null,
             });
         } else if (step === 7) {
             navigation.setOptions({
-                headerTitle: '아바타 커스터마이징',
+                headerTitle: '아바타 커스터마이징하기',
                 headerTitleAlign: 'center',
                 headerRight: () => (
                     <TouchableOpacity
@@ -374,7 +390,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
             });
         } else if (step === 8) {
             navigation.setOptions({
-                headerTitle: '카드 생성',
+                headerTitle: '카드 만들기',
                 headerTitleAlign: 'center',
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {navigation.goBack();}}>
@@ -878,7 +894,21 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                         </TouchableOpacity>
                     </View>
                 </View>
-            )}      
+            )}
+
+            {modalVisible && (
+                <MyPageModal 
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    handleBtn1={handleBtn1}
+                    handleBtn2={handleBtn2}
+                    modalTitle={`카드 만들기를 취소하고${"\n"}홈으로 돌아가시겠어요?`}
+                    modalText={'지금까지 작성한 작업이 없어져요.'}
+                    btn1={'계속 만들래요'}
+                    btn2={'네 돌아갈래요'}
+                    btnMargin={26.5}
+                />
+            )}
         </View>
     );
 }

@@ -18,7 +18,7 @@ import SelectTextInput from "./FreeTemplate/SelectTextInput";
 import DropDown from "./DropDown";
 import SelectCover from "./SelectCover";
 import { avatarCapture } from "../../utils/avatarCapture";
-import MyPageModal from "../../components/MyPage/MyPageModal"
+import MyPageModal from "../../components/MyPage/MyPageModal";
 
 const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -470,9 +470,8 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
             });
         } else if (step === 5) {
             navigation.setOptions({
-                headerTitle: '카드 생성',
+                headerTitle: '카드 커버 선택하기',
                 headerTitleAlign: 'center',
-                headerRight: null,
             });
         } else if (step === 6) {
             navigation.setOptions({
@@ -489,7 +488,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                     </TouchableOpacity>
                 ),
             });
-        } else if ( step === 7) {
+        } else if (step === 7) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
                 headerTitleAlign: 'center',
@@ -1038,7 +1037,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                     btn2={'네 돌아갈래요'}
                     btnMargin={26.5}
                 />
-            )}     
+            )}
         </View>
     );
 }
