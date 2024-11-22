@@ -58,7 +58,7 @@ export const styles = StyleSheet.create({
         marginRight: 8,
     },
     btn1Text: {
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 14,
         fontStyle: "normal",
         fontWeight: "400",
