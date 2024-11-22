@@ -15,7 +15,7 @@ import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import DownArrow from "./FreeTemplate/DownArrow";
 import SelectBtn from "./FreeTemplate/SelectBtn";
 import SelectTextInput from "./FreeTemplate/SelectTextInput";
-import DropDown from "./DropDown";
+import DropDownOption from "./DropDownOption";
 import SelectCover from "./SelectCover";
 import { avatarCapture } from "../../utils/avatarCapture";
 import MyPageModal from "../../components/MyPage/MyPageModal";
@@ -133,8 +133,22 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
     };
 
     // 드롭다운
+    const [dropDownMbti1Open, setDropDownMbti1Open] = useState(false);
+    const [dropDownMbti2Open, setDropDownMbti2Open] = useState(false);
     const [dropDownGradeOpen, setDropDownGradeOpen] = useState(false);
     const [dropDownStatusOpen, setDropDownStatusOpen] = useState(false);
+    const [mbti1Items, setMbti1Items] = useState([
+        { label: 'EN', value: 'EN' },
+        { label: 'ES', value: 'ES' },
+        { label: 'IN', value: 'IN' },
+        { label: 'IS', value: 'IS' },
+    ]);
+    const [mbti2Items, setMbti2Items] = useState([
+        { label: 'TJ', value: 'TJ' },
+        { label: 'TP', value: 'TP' },
+        { label: 'FJ', value: 'FJ' },
+        { label: 'FP', value: 'FP' },
+    ]);
     const [gradeItems, setGradeItems] = useState([
         { label: '1학년', value: '1학년' },
         { label: '2학년', value: '2학년' },
@@ -308,11 +322,16 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
     }
 
     // mbti
-    const handleMBTI = (input) => {
-        // 영어만 입력되도록 정규식 필터 적용
-        const filteredText = input.replace(/[^a-zA-Z]/g, '');
-        setCardMbti(filteredText.toUpperCase());
-    }
+    const [mbti1, setMbit1] = useState(null);
+    const [mbti2, setMbit2] = useState(null);
+
+    useEffect(() => {
+        let mbti = '';
+        if (mbti1 !== null && mbti2 !== null) { 
+            mbti = mbti1 + mbti2;
+        }
+        setCardMbti(mbti);
+    }, [mbti1, mbti2]);
     
     // 생년월일 '/' 자동 추가
     useEffect(() => {
@@ -464,9 +483,6 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
                 headerTitleAlign: 'center',
-                // headerLeft: () => {
-                //     setStep(step - 1);
-                // }
             });
         } else if (step === 5) {
             navigation.setOptions({
@@ -569,20 +585,30 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                         )}
                                     </View>
                                     <View style={styles.inputContainer}>
-                                        <Text style={styles.inputText}>MBTI</Text>
-                                        <TextInput
-                                            style={styles.customInput}
-                                            placeholder="MBTI를 입력해 주세요."
-                                            placeholderTextColor={theme.gray60}
-                                            keyboardType="default"
-                                            value={card_mbti}
-                                            onChangeText={handleMBTI}
-                                            maxLength={4}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input4.current.focus()}
-                                            ref={ref_input3}
-                                            blurOnSubmit={false}
-                                        />
+                                        <Text style={[styles.inputText, styles.zIndex2]}>MBTI</Text>
+                                        <View style={[styles.dropDownContainerZIndex1, styles.flexDirectionRow]}>
+                                            <DropDownOption
+                                                dropDownOpen={dropDownMbti1Open}
+                                                dropDownValue={mbti1}
+                                                setDropDownOpen={setDropDownMbti1Open}
+                                                setDropDownValue={setMbit1}
+                                                items={mbti1Items}
+                                                setItems={setMbti1Items}
+                                                placeholder={'앞 2자리'}
+                                                isError={true}
+                                            />
+                                            <View style={styles.marginR8}></View>
+                                            <DropDownOption
+                                                dropDownOpen={dropDownMbti2Open}
+                                                dropDownValue={mbti2}
+                                                setDropDownOpen={setDropDownMbti2Open}
+                                                setDropDownValue={setMbit2}
+                                                items={mbti2Items}
+                                                setItems={setMbti2Items}
+                                                placeholder={'뒤 2자리'}
+                                                isError={true}
+                                            />
+                                        </View>
                                     </View>
                                     <View style={styles.line}></View>
                                     <Text style={styles.birthTitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
@@ -816,8 +842,8 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                                     return (
                                                         <View key={item.key} style={[styles.inputContainer, styles.marginH16]}>
                                                             <Text style={[styles.inputText, styles.zIndex2]}>{item.name}</Text>
-                                                            <View style={dropDownGradeOpen ? styles.dropDownContainerZIndex1 : styles.dropDownContainer}>
-                                                                <DropDown
+                                                            <View style={dropDownGradeOpen ? styles.dropDownContainerZIndex2 : styles.dropDownContainer}>
+                                                                <DropDownOption
                                                                     dropDownOpen={dropDownGradeOpen}
                                                                     dropDownValue={card_student_grade}
                                                                     setDropDownOpen={setDropDownGradeOpen}
@@ -835,7 +861,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                                         <View key={item.key} style={[styles.inputContainer, styles.marginH16]}>
                                                             <Text style={[styles.inputText, styles.zIndex2]}>{item.name}</Text>
                                                             <View style={dropDownStatusOpen ? styles.dropDownContainerZIndex1 : styles.dropDownContainer}>
-                                                                <DropDown
+                                                                <DropDownOption
                                                                     dropDownOpen={dropDownStatusOpen}
                                                                     dropDownValue={card_student_status}
                                                                     setDropDownOpen={setDropDownStatusOpen}

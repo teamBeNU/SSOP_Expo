@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import DropDownPicker from 'react-native-dropdown-picker';
 import { theme } from '../../theme';
 
-export default function DropDown ({
+export default function DropDownOption ({
     dropDownOpen,
     setDropDownOpen,
     dropDownValue,
@@ -12,6 +12,13 @@ export default function DropDown ({
     placeholder,
     isError
 }) {
+    const handleValueChange = (value) => {
+        if (value() === dropDownValue) {
+            setDropDownValue(null);
+        } else {
+            setDropDownValue(value);
+        }
+    };
 
     return (
         <DropDownPicker
@@ -19,7 +26,7 @@ export default function DropDown ({
             value={dropDownValue}
             items={items}
             setOpen={setDropDownOpen}
-            setValue={setDropDownValue}
+            setValue={handleValueChange}
             setItems={setItems}
             placeholder={placeholder}
             listMode="SCROLLVIEW"   // FlatList -> ScrollView로 변경(ScrollView 에러 안나려면 작성해야함..)

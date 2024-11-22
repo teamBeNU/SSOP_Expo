@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
 import DropDown from "./DropDown";
+import DropDownOption from "./DropDownOption";
 import AvatarCustom from "../Avatar/AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -60,6 +61,8 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
     };
 
     // 드롭다운
+    const [dropDownMbti1Open, setDropDownMbti1Open] = useState(false);
+    const [dropDownMbti2Open, setDropDownMbti2Open] = useState(false);
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const [teenGradeItems, setTeenGradeItems] = useState([
         { label: '1학년', value: '1학년' },
@@ -68,6 +71,18 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
         { label: '4학년', value: '4학년' },
         { label: '5학년', value: '5학년' },
         { label: '6학년', value: '6학년' }
+    ]);
+    const [mbti1Items, setMbti1Items] = useState([
+        { label: 'EN', value: 'EN' },
+        { label: 'ES', value: 'ES' },
+        { label: 'IN', value: 'IN' },
+        { label: 'IS', value: 'IS' },
+    ]);
+    const [mbti2Items, setMbti2Items] = useState([
+        { label: 'TJ', value: 'TJ' },
+        { label: 'TP', value: 'TP' },
+        { label: 'FJ', value: 'FJ' },
+        { label: 'FP', value: 'FP' },
     ]);
     
     const [isFull, setIsFull] = useState({
@@ -222,11 +237,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
     }
 
     // mbti
-    const handleMBTI = (input) => {
-        // 영어만 입력되도록 정규식 필터 적용
-        const filteredText = input.replace(/[^a-zA-Z]/g, '');
-        setCardMbti(filteredText.toUpperCase());
-    }
+    const [mbti1, setMbit1] = useState(null);
+    const [mbti2, setMbit2] = useState(null);
+
+    useEffect(() => {
+        let mbti = '';
+        if (mbti1 !== null && mbti2 !== null) { 
+            mbti = mbti1 + mbti2;
+        }
+        setCardMbti(mbti);
+    }, [mbti1, mbti2]);
 
     // 생년월일 '/' 자동 추가
     useEffect(() => {
@@ -470,19 +490,29 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                     </View>
                                     <View style={styles.inputContainer}>
                                         <Text style={styles.inputText}>MBTI</Text>
-                                        <TextInput
-                                            style={styles.customInput}
-                                            placeholder="MBTI를 입력해 주세요."
-                                            placeholderTextColor={theme.gray60}
-                                            keyboardType="default"
-                                            value={card_mbti}
-                                            onChangeText={handleMBTI}
-                                            maxLength={4}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input4.current.focus()}
-                                            ref={ref_input3}
-                                            blurOnSubmit={false}
-                                        />
+                                        <View style={[styles.dropDownContainerZIndex1, styles.flexDirectionRow]}>
+                                            <DropDownOption
+                                                dropDownOpen={dropDownMbti1Open}
+                                                dropDownValue={mbti1}
+                                                setDropDownOpen={setDropDownMbti1Open}
+                                                setDropDownValue={setMbit1}
+                                                items={mbti1Items}
+                                                setItems={setMbti1Items}
+                                                placeholder={'앞 2자리'}
+                                                isError={true}
+                                            />
+                                            <View style={styles.marginR8}></View>
+                                            <DropDownOption
+                                                dropDownOpen={dropDownMbti2Open}
+                                                dropDownValue={mbti2}
+                                                setDropDownOpen={setDropDownMbti2Open}
+                                                setDropDownValue={setMbit2}
+                                                items={mbti2Items}
+                                                setItems={setMbti2Items}
+                                                placeholder={'뒤 2자리'}
+                                                isError={true}
+                                            />
+                                        </View>
                                     </View>
                                     <View style={styles.line}></View>
                                     <Text style={styles.birthTitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
