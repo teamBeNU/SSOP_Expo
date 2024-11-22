@@ -25,30 +25,34 @@ export const styles = StyleSheet.create({
         overflow: 'hidden',
         backgroundColor: theme.green,
         position: 'relative',
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
-            width: 0,
-            height: 2
+            width: 4,
+            height: 4,
         },
+        shadowOpacity: 0.09,
         shadowRadius: 16,
-        shadowOpacity: 1,
-        elevation: 10,
     },
     btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
         paddingVertical: 16,
         paddingHorizontal: 16,
         borderRadius: 16,
         backgroundColor: theme.white,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
-            width: 0,
-            height: 2
+            width: 4,
+            height: 4,
         },
+        shadowOpacity: 0.09,
         shadowRadius: 16,
-        shadowOpacity: 1,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 10, // Android 전용 그림자 설정
         position: 'relative',
     },
     btn3: { // 내가 받은 카드 보기
@@ -58,11 +62,16 @@ export const styles = StyleSheet.create({
         paddingRight: 20,
         borderRadius: 16,
         backgroundColor: "#E9FAFE",
-        shadowColor: 'rgba(5, 38, 155, 0.05)',
-        shadowOffset: { width: -2, height: -2 },
-        shadowRadius: 9.8,
-        shadowOpacity: 1,
-        elevation: 10, // Android 전용 그림자 설정
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -112,18 +121,20 @@ export const styles = StyleSheet.create({
         height: 40,
         borderRadius: 25,
         backgroundColor: "#FFFFFF",
-        shadowColor: "rgba(151, 160, 181, 0.14)",
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
-            width: 0,
-            height: 0
+            width: 4,
+            height: 4,
         },
-        shadowRadius: 4.8,
-        shadowOpacity: 1,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         borderWidth: 1.3,
         borderColor: "rgba(244, 244, 244, 1.0)",
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 10, // 안드로이드 그림자
     },
     container: {
         flex: 1,

@@ -204,15 +204,15 @@ export const styles = StyleSheet.create({
         // alignItems: 'center',
 
         // Android - Shadow
-        elevation: 5,
+        elevation: 3,
         // IOS - Shadow
-        shadowColor: '#000',
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 12,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     people: {
         marginTop: 12,
@@ -432,13 +432,17 @@ export const styles = StyleSheet.create({
         height: SCREEN_WIDTH * 0.8 * 1.2,
         justifyContent: 'center',
         alignItems: 'center',
+        
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
-            width: 0,
-            height: 2,
+            width: 4,
+            height: 4,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
 
         // 그림자가 안보여서 임시 border
         borderWidth: 1,

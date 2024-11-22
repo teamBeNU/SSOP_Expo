@@ -2,24 +2,24 @@ import { StyleSheet } from 'react-native';
 import { theme } from "../../theme";
 
 export const styles = StyleSheet.create({
-    mainlayout:{      
-        flex: 1,  
+    mainlayout: {
+        flex: 1,
         paddingTop: 8,
         paddingHorizontal: 16,
         backgroundColor: theme.white
     },
-    editgrouplayout:{      
-        flex: 1,  
+    editgrouplayout: {
+        flex: 1,
         paddingTop: 24,
         paddingHorizontal: 16,
         backgroundColor: theme.white
     },
-    backgroundColor:{
-        flex: 1, 
+    backgroundColor: {
+        flex: 1,
         backgroundColor: theme.white
     },
-    backgroundColor2:{
-        paddingTop: 40, 
+    backgroundColor2: {
+        paddingTop: 40,
         paddingBottom: 16,
         paddingHorizontal: 16,
         backgroundColor: theme.gray95
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         letterSpacing: -1,
     },
-    DownArrowIcon: { 
+    DownArrowIcon: {
         marginTop: 8,
         marginBottom: 12,
     },
@@ -55,7 +55,7 @@ export const styles = StyleSheet.create({
         letterSpacing: -1,
         marginTop: 17
     },
-    DownArrowIcon2: { 
+    DownArrowIcon2: {
         marginRight: 24,
         marginTop: 17.5
     },
@@ -74,7 +74,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         letterSpacing: -0.32,
         marginBottom: 56
-        
+
     },
 
     // 마이스페이스 그룹
@@ -85,9 +85,9 @@ export const styles = StyleSheet.create({
         paddingLeft: 8,
     },
     groupWrapper: {
-        flexDirection: 'row', 
-        width: '100%', 
-      },
+        flexDirection: 'row',
+        width: '100%',
+    },
     peopleGroup: {
         fontSize: 12,
         fontFamily: 'PretendardRegular',
@@ -104,15 +104,15 @@ export const styles = StyleSheet.create({
         paddingVertical: 18.5,
         paddingHorizontal: 16,
         // Android - Shadow
-        elevation: 5,
+        elevation: 3,
         // IOS - Shadow
-        shadowColor: "rgba(73, 81, 100, 0.07)",
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
-            width: 0,
-            height: 2
+            width: 4,
+            height: 4,
         },
-        shadowRadius: 12,
-        shadowOpacity: 1,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         marginBottom: 12,
     },
 
@@ -132,14 +132,16 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         alignItems: 'center',
         justifyContent: 'center',
-        shadowColor: "rgba(0, 0, 0, 0.03)",
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
-            width: 0,
-            height: 2
+            width: 4,
+            height: 4,
         },
-        shadowRadius: 2,
-        shadowOpacity: 1,
-        elevation: 5,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         position: 'relative',
     },
 
@@ -193,73 +195,73 @@ export const styles = StyleSheet.create({
         paddingTop: 14,
         width: '100%',
         // Android - Shadow
-        elevation: 5,
+        elevation: 3,
         // IOS - Shadow
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowColor: rgb(73, 81, 100),
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
+        marginBottom: 12,
+    },
+
+    // 탭 바 디자인
+    containerTabBar: {
+        position: 'absolute',
+        bottom: 20,
+        left: 0,
+        right: 0,
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    tabContainer: {
+        zIndex: 10,
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: theme.white,
+        borderRadius: 12,
+        shadowColor: "rgba(73, 81, 100, 0.07)",
         shadowOffset: {
             width: 0,
             height: 2
         },
-        shadowRadius: 16,
+        shadowRadius: 12,
         shadowOpacity: 1,
-        marginBottom: 12,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)"
     },
-    
-    // 탭 바 디자인
-  containerTabBar: {
-    position: 'absolute',
-    bottom: 20, 
-    left: 0,
-    right: 0,
-    backgroundColor:  'rgba(0, 0, 0, 0)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  tabContainer: {
-    zIndex: 10,
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: theme.white,
-    borderRadius: 12,
-    shadowColor: "rgba(73, 81, 100, 0.07)",
-    shadowOffset: {
-        width: 0,
-        height: 2
+    tab: {
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        alignItems: 'center',
+        borderRadius: 8,
     },
-    shadowRadius: 12,
-    shadowOpacity: 1,
-    borderWidth: 1,
-    borderColor: "rgba(244, 244, 244, 1.0)"
-  },
-  tab: {
-    paddingHorizontal: 20,
-    paddingVertical: 10,
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-  activeTab: {
-    backgroundColor: theme.white,
-    marginHorizontal: 2,
-    marginVertical: 2,
-  },
-  inactiveTab: {
-    backgroundColor: theme.white,
-    marginHorizontal: 2,
-    marginVertical: 2,
-  },
-  divider: {
-    width: 1,
-    height: '33%', 
-    backgroundColor: theme.gray80, 
-    marginHorizontal: 0, 
-  },
+    activeTab: {
+        backgroundColor: theme.white,
+        marginHorizontal: 2,
+        marginVertical: 2,
+    },
+    inactiveTab: {
+        backgroundColor: theme.white,
+        marginHorizontal: 2,
+        marginVertical: 2,
+    },
+    divider: {
+        width: 1,
+        height: '33%',
+        backgroundColor: theme.gray80,
+        marginHorizontal: 0,
+    },
 
     // 카드가 없을 때
     emptyContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-     },
+    },
     noCard: {
         color: theme.gray60,
         fontFamily: 'Pretendard',
@@ -277,7 +279,7 @@ export const styles = StyleSheet.create({
         gap: 4,
     },
     newCard: {
-        color:theme.skyblue,
+        color: theme.skyblue,
         fontFamily: 'Pretendard',
         fontWeight: '500',
         fontSize: 16,
@@ -326,18 +328,21 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 39,
-        //ios shadow
-        shadowColor: 'rgba(0, 0, 0, 0.08)',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 4,
-        shadowRadius: 4,
-        //android shadow
-        elevation: 4,
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         marginBottom: 8,
     },
     line: {
         marginTop: 32,
-        borderBottomWidth:1,
+        borderBottomWidth: 1,
         borderBottomColor: theme.gray90,
     },
 
@@ -360,8 +365,8 @@ export const styles = StyleSheet.create({
     personRow: {
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between', 
-        flex: 1, 
+        justifyContent: 'space-between',
+        flex: 1,
     },
     positionFilter: {
         marginTop: 24,
@@ -389,7 +394,7 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         letterSpacing: -1,
     },
-    cardLayout:{   
+    cardLayout: {
         flex: 1,
         paddingVertical: 8,
         paddingHorizontal: 16,
@@ -403,38 +408,38 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         letterSpacing: -1
     },
-    elementContainer:{
-        display:'flex',        
-        alignItems: 'flex-start', 
+    elementContainer: {
+        display: 'flex',
+        alignItems: 'flex-start',
         marginTop: 16,
         paddingHorizontal: 16,
         flexDirection: 'row',
-        flexWrap: 'wrap', 
+        flexWrap: 'wrap',
         gap: 8,
     },
-    defaultElement:{    
-        display:'flex',   
+    defaultElement: {
+        display: 'flex',
         paddingVertical: 8,
         paddingHorizontal: 12,
         fontFamily: 'PretendardRegular',
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: theme.gray80, 
+        borderColor: theme.gray80,
         color: theme.gray50,
         backgroundColor: theme.gray95,
     },
-    element:{    
-        display:'flex',   
+    element: {
+        display: 'flex',
         paddingVertical: 8,
         paddingHorizontal: 12,
         fontFamily: 'PretendardRegular',
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: theme.gray90, 
+        borderColor: theme.gray90,
         color: theme.gray20,
         backgroundColor: theme.white,
     },
-    selectedElement:{ 
+    selectedElement: {
         paddingVertical: 8,
         paddingHorizontal: 12,
         borderRadius: 16,
@@ -443,12 +448,12 @@ export const styles = StyleSheet.create({
         color: theme.skyblue,
         fontFamily: 'PretendardSemiBold'
     },
-    selectedText:{
+    selectedText: {
         color: theme.skyblue,
         fontFamily: 'PretendardSemiBold'
     },
 
-     buttonContainer: {
+    buttonContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         position: 'absolute',
@@ -521,23 +526,24 @@ export const styles = StyleSheet.create({
     btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
         width: 160,
         height: 180,
-        elevation: 5,
         marginHorizontal: 10,
         position: 'relative',
         marginTop: 35,
-        
+
         borderRadius: 16,
         backgroundColor: theme.white,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
-            width: 0,
-            height: 2
+            width: 4,
+            height: 4,
         },
+        shadowOpacity: 0.09,
         shadowRadius: 16,
-        shadowOpacity: 1,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 5,
         position: 'relative',
     },
     Text14: {
@@ -572,7 +578,7 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         width: '100%',
-        justifyContent:'center',
+        justifyContent: 'center',
         alignItems: 'center',
     },
     ShareModalView: {
@@ -596,7 +602,7 @@ export const styles = StyleSheet.create({
         color: theme.gray60,
     },
     line: {
-        borderBottomWidth:1,
+        borderBottomWidth: 1,
         borderBottomColor: theme.gray90,
         marginBottom: 27,
     },
@@ -606,8 +612,8 @@ export const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 12,
-      },
-      radio: {
+    },
+    radio: {
         height: 16,
         width: 16,
         borderRadius: 12,
@@ -615,22 +621,22 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray80,
         alignItems: 'center',
         justifyContent: 'center',
-      },
-      radioSelected: {
+    },
+    radioSelected: {
         borderColor: '#7F7F7F',
         backgroundColor: '#7F7F7F',
-      },
-      radioInner: {
+    },
+    radioInner: {
         backgroundColor: '#7F7F7F',
-      },
-      label: {
+    },
+    label: {
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
         letterSpacing: -1,
         marginTop: 21.5,
-      },
+    },
 
-      // 하단
+    // 하단
     bottomContainer: {
         flexDirection: 'row',
         justifyContent: 'center',
@@ -681,14 +687,16 @@ export const styles = StyleSheet.create({
         paddingVertical: 21.5,
         borderRadius: 12,
         backgroundColor: "#FFFFFF",
-        shadowColor: "rgba(73, 81, 100, 0.07)",
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
-            width: 0,
-            height: 2
+            width: 4,
+            height: 4,
         },
-        shadowRadius: 12,
-        shadowOpacity: 1,
-        elevation: 1,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)"
     },

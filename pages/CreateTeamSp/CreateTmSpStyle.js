@@ -161,15 +161,15 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
 
         // Android - Shadow
-        elevation: 5,
+        elevation: 3,
         // IOS - Shadow
-        shadowColor: '#000',
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 12,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     text: {
         fontSize: 12,
@@ -253,15 +253,15 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 30,
         // Android - Shadow
-        elevation: 5,
+        elevation: 3,
         // IOS - Shadow
-        shadowColor: '#000',
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 12,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     // 초대코드
     inviteCodeContainer: {

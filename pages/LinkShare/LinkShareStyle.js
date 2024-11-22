@@ -69,14 +69,16 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: theme.gray95,
-        shadowColor: "rgba(0, 0, 0, 0.03)",
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
         shadowOffset: {
-            width: 0,
-            height: 2
+            width: 4,
+            height: 4,
         },
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 5,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         position: 'relative',
         borderStyle: 'solid',
         borderWidth: 1,

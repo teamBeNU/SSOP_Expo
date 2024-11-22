@@ -70,13 +70,16 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: 'white',
         borderRadius: 39,
-        //ios shadow
-        shadowColor: 'rgba(0, 0, 0, 0.08)',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 4,
-        shadowRadius: 4,
-        //android shadow
-        elevation: 4,
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: rgb(73, 81, 100),
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         },
         blackBtn: {
         width: 40,
