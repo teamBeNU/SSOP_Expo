@@ -392,7 +392,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
             month: isMonthValid,
             day: isDayValid,
         });
-        
+
         return {
             year: isYearValid,
             month: isMonthValid,
@@ -542,11 +542,11 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
     return (
         <View style={{flex:1}}>
             {step === 1 && (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
+                // <KeyboardAvoidingView
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -581,11 +581,11 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                             keyboardType="default"
                                             value={card_introduction}
                                             onChangeText={setCardIntroduction}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input3.current.focus()}
+                                            returnKeyType="done"
+                                            // onSubmitEditing={() => ref_input3.current.focus()}
                                             ref={ref_input2}
-                                            blurOnSubmit={false}
-                                        />
+                                            blurOnSubmit={true}
+tr                                        />
                                         {!isFull.introduction && (
                                             <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
                                         )}
@@ -629,7 +629,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                             value={card_birth}
                                             onChangeText={setCardBirth}
                                             returnKeyType="done"
-                                            ref={ref_input4}
+                                            // ref={ref_input4}
                                             blurOnSubmit={true}
                                         />
                                         {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
@@ -654,16 +654,16 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    {/* </TouchableWithoutFeedback> */}
-                </KeyboardAvoidingView>
+                    // </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 2 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -742,16 +742,16 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 3 && (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    {/* <TouchableWithoutFeedback onPress={Keyboard.dismiss}> */}
+                // <KeyboardAvoidingView
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <SafeAreaView style={styles.selectViewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -921,16 +921,16 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                 </TouchableOpacity>
                             </View>
                         </SafeAreaView>
-                    {/* </TouchableWithoutFeedback> */}
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 4 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -1008,8 +1008,8 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 5 && (

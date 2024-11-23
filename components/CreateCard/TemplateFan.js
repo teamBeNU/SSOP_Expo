@@ -470,7 +470,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
                                             keyboardType="default"
                                             value={card_introduction}
                                             onChangeText={setCardIntroduction}
-                                            returnKeyType="next"
+                                            returnKeyType="done"
                                             // onSubmitEditing={() => ref_input3.current.focus()}
                                             ref={ref_input2}
                                             blurOnSubmit={true}

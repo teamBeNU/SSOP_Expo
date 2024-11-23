@@ -522,7 +522,7 @@ export const styles = StyleSheet.create({
     selectViewContainer: {
         flex: 1,
         paddingBottom: 48+16,   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
-        marginHorizontal: -16
+        // marginHorizontal: -16
     }, 
     selectContaienr: {
         paddingTop: 31-8,
