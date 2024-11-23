@@ -19,6 +19,7 @@ import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import HomeLogo from './assets/HomeIcon/logo_line.svg'
+import HomeIcon from './assets/icons/ic_home_regular_line.svg';
 import { AuthProvider, AuthContext } from './AuthContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -70,6 +71,7 @@ import AcceptCard from './pages/Space/AcceptCard';
 import HomeSearchCard from './pages/SearchCard/HomeSearchCard';
 import MySpSearchCard from './pages/SearchCard/MySpSearchCard';
 import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
+import LinkReceive from './pages/LinkShare/LinkReceive.js';
 
 import { theme } from './theme';
 
@@ -78,7 +80,7 @@ const linking = {
   config: {
     screens: {
       Home: "/", // 앱의 초기 화면
-      LinkReceiverScreen: 'receiver/:cardId',
+      LinkReceive: 'receiver/:cardId',
       CardDetails: 'card/:cardId',
     },
   },
@@ -560,6 +562,19 @@ export default function App() {
           <Stack.Screen name="전체 카드 검색" component={HomeSearchCard} options={{ headerShown: false }}/>
           <Stack.Screen name="마이스페이스 카드 검색" component={MySpSearchCard} options={{ headerShown: false }}/>
           <Stack.Screen name="팀스페이스 카드 검색" component={TeamSpSearchCard} options={{ headerShown: false }}/>
+          <Stack.Screen name="카드 저장" component={LinkReceive}
+            options={({ navigation }) => ({
+            headerTitleAlign: 'center',
+            headerLeft: () => (
+              <View>
+                <HomeLogo style={{ marginLeft: 32.5 }} />
+              </View>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.navigate('홈')}>
+                <HomeIcon style={{ marginRight: 8 }} />
+              </TouchableOpacity>
+            ), })}/>
       </Stack.Navigator>
       <SpaceModal
         isVisible={isSpaceModalVisible}
