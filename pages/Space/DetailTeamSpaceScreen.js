@@ -3,7 +3,7 @@ import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
-import { View, Text, TouchableOpacity, Modal, Alert, TouchableWithoutFeedback, StatusBar } from "react-native";
+import { View, Text, TouchableOpacity, Modal, Alert, TouchableWithoutFeedback, StatusBar, Share } from "react-native";
 import { styles } from './SpaceStyle.js';
 import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
@@ -28,6 +28,7 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState([]);
+  const [teamName, setTeamName] = useState();
   const [inviteCode, setInviteCode] = useState(null);
 
   const [cardId, setCardId] = useState(null); // 기존 카드 ID
@@ -206,26 +207,27 @@ export default function DetailTeamSpaceScreen({ navigation }) {
 
   const shareLinkCode = async () => {
     try {
-      const isAvailable = await Sharing.isAvailableAsync();
-      if (!isAvailable) {
-        Alert.alert('링크를 공유할 수 없습니다.');
-        return;
-      }
-
-      await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=4', {
-        dialogTitle: '네 세계에 쏩 빠지다, SSOP 카드로 서로에게 스며들다',
+      const result = await Share.share({
+        title: '네 세계에 쏩 빠지다, SSOP 카드로 서로에게 스며들다',
+        message: `https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=4`,
       });
+
+      if (result.activityType) {
+        console.log('특정 앱에서 공유 완료');
+      } else {
+        console.log('공유 완료');
+      }
     } catch (error) {
-      Alert.alert('Error sharing', error.message);
-    }
+      console.error('공유 오류:', error);
+    }      
   };
 
   return (
     <View style={styles.backgroundColor}>
-      <StatusBar 
+      <StatusBar
         barStyle="dark-content" // 텍스트 색상
         backgroundColor="#F4F4F4" // 배경색
-        // translucent={true} // 투명한 시스템 바
+      // translucent={true} // 투명한 시스템 바
       />
       {/* 공유 버튼을 눌렀을 때 표시되는 모달 */}
       <Modal
