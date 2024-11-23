@@ -275,7 +275,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
         }
     }
 
-    const isBirthCorrect = (b) => {
+    const validateBirth = (b) => {
         const birth = b.split('/');
 
         const year = birth[0];
@@ -292,6 +292,12 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
             month: isMonthValid,
             day: isDayValid,
         });
+        
+        return {
+            year: isYearValid,
+            month: isMonthValid,
+            day: isDayValid,
+        };
     }
 
     // 생년월일 비밀
@@ -315,10 +321,10 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
             const isBirthFull = card_birth != null && card_birth !== '';
 
             setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull, birth: isBirthFull })));
-            isBirthCorrect(card_birth);
+            const birthValidity = validateBirth(card_birth);
 
             if (isNameFull && isIntroductionFull) {
-                if(!isBirthFull || (isBirthFull && isBirthValid.year && isBirthValid.month && isBirthValid.day)) {
+                if(!isBirthFull || (isBirthFull && birthValidity.year && birthValidity.month && birthValidity.day)) {
                     setStep(2);
                 }
             }

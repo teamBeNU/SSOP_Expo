@@ -274,7 +274,7 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
         }
     }
 
-    const isBirthCorrect = (b) => {
+    const validateBirth = (b) => {
         const birth = b.split('/');
 
         const year = birth[0];
@@ -291,6 +291,12 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
             month: isMonthValid,
             day: isDayValid,
         });
+        
+        return {
+            year: isYearValid,
+            month: isMonthValid,
+            day: isDayValid,
+        };
     }
 
     // 생년월일 비밀
@@ -314,15 +320,10 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
             const isBirthFull = card_birth != null && card_birth !== '';
             
             setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull, birth: isBirthFull })));
-            isBirthCorrect(card_birth);
-
-            console.log('isNameFull', isNameFull);
-            console.log('isIntroductionFull', isIntroductionFull);
-            console.log('isBirthFull', isBirthFull);
-            console.log('isBirthValid', isBirthValid);
+            const birthValidity = validateBirth(card_birth);
             
             if (isNameFull && isIntroductionFull) {
-                if(!isBirthFull || (isBirthFull && isBirthValid.year && isBirthValid.month && isBirthValid.day)) {
+                if(!isBirthFull || (isBirthFull && birthValidity.year && birthValidity.month && birthValidity.day)) {
                     setStep(2);
                 }
             }
