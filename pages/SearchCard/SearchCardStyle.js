@@ -36,7 +36,6 @@ export const styles = StyleSheet.create({
         color: theme.gray60,
         fontSize: 16,
         fontFamily: 'PretendardRegular',
-        fontWeight: 500,
         textAlign: 'center',
         marginVertical: '80%'
     },
@@ -121,8 +120,8 @@ export const styles = StyleSheet.create({
         shadowRadius: 16,
     },
     listImage: {
-        width: 64,
-        height: 64,
+        width: 80,
+        height: 80,
         borderRadius: 12
     },
     gridContainer: {

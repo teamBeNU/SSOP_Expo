@@ -12,7 +12,6 @@ import SearchIcon from '../../assets/icons/ic_search_small_line.svg';
 import DeleteIcon from '../../assets/icons/ic_delete_all.svg';
 import SearchMySpace from './SearchMySpace.js';
 import SearchTeamSp from './SearchTeamSp.js';
-import PinkPoint from "../../assets/icons/ic_pink_point.svg";
 import BluePoint from "../../assets/icons/ic_blue_point.svg";
 
 const Tab = createMaterialTopTabNavigator();
@@ -75,21 +74,21 @@ function SearchCard() {
                 : options.title !== undefined
                   ? options.title
                   : route.name;
-  
+
             const isFocused = state.index === index;
-  
+
             const onPress = () => {
               const event = navigation.emit({
                 type: 'tabPress',
                 target: route.key,
                 canPreventDefault: true,
               });
-  
+
               if (!isFocused && !event.defaultPrevented) {
                 navigation.navigate(route.name);
               }
             };
-  
+
             return (
               <React.Fragment key={index}>
                 <TouchableOpacity
@@ -100,8 +99,7 @@ function SearchCard() {
                   ]}
                 >
                   <View style={{ gap: 6, flexDirection: 'row', alignItems: 'center' }}>
-                    {label === "마이스페이스" && isFocused && <BluePoint />}
-                    {label === "팀스페이스" && isFocused && <PinkPoint />}
+                    {isFocused && <BluePoint />}
                     <Text
                       style={[
                         {
@@ -136,23 +134,23 @@ function SearchCard() {
             placeholder="이름을 입력하세요"
             value={searchWord}
             onChangeText={handleSearchInputChange} />
-             {searchWord.length > 0 && ( // 검색어가 있을 때만 DeleteIcon을 보여줌
-                <TouchableOpacity onPress={() => handleSearchInputChange('')}>
-                    <DeleteIcon style={styles.deleteIcon} />
-                </TouchableOpacity>
-            )}
+          {searchWord.length > 0 && ( // 검색어가 있을 때만 DeleteIcon을 보여줌
+            <TouchableOpacity onPress={() => handleSearchInputChange('')}>
+              <DeleteIcon style={styles.deleteIcon} />
+            </TouchableOpacity>
+          )}
           <TouchableOpacity><SearchIcon style={styles.searchIcon} /></TouchableOpacity>
         </View>
       </View>
 
       <Tab.Navigator
-                tabBarPosition="bottom"
-                tabBar={(props) => <CustomTabBar {...props} />}>
-                <Tab.Screen name="마이스페이스"
-                children={() => <SearchMySpace MySpSearch={mySpSearch} />} />
-                <Tab.Screen name="팀스페이스"
-                children={() => <SearchTeamSp TeamSpSearch={teamSpSearch} />} />
-            </Tab.Navigator>
+        tabBarPosition="bottom"
+        tabBar={(props) => <CustomTabBar {...props} />}>
+        <Tab.Screen name="마이스페이스"
+          children={() => <SearchMySpace MySpSearch={mySpSearch} />} />
+        <Tab.Screen name="팀스페이스"
+          children={() => <SearchTeamSp TeamSpSearch={teamSpSearch} />} />
+      </Tab.Navigator>
 
     </View>
   )
