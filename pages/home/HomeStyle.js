@@ -28,7 +28,7 @@ export const styles = StyleSheet.create({
         // Android - Shadow
         elevation: 3,
         // IOS - Shadow
-        shadowColor: rgb(73, 81, 100),
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
             width: 4,
             height: 4,
@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
         // Android - Shadow
         elevation: 3,
         // IOS - Shadow
-        shadowColor: rgb(73, 81, 100),
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
             width: 4,
             height: 4,
@@ -65,7 +65,7 @@ export const styles = StyleSheet.create({
         // Android - Shadow
         elevation: 3,
         // IOS - Shadow
-        shadowColor: rgb(73, 81, 100),
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
             width: 4,
             height: 4,
@@ -124,7 +124,7 @@ export const styles = StyleSheet.create({
         // Android - Shadow
         elevation: 3,
         // IOS - Shadow
-        shadowColor: rgb(73, 81, 100),
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
             width: 4,
             height: 4,
