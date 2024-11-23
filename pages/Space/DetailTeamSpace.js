@@ -4,30 +4,23 @@ import axios from "axios";
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { styles } from './SpaceStyle';
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
+import { Menu, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import CardsView from '../../components/Bluetooth/CardsView.js';
-import MySpaceDetailView from '../../components/Space/MySpaceDetailView.js';
 import DetailTeamSpaceScreen from "./DetailTeamSpaceScreen.js";
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
-import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
 import SelectIcon from '../../assets/icons/ic_done_small_line_blue.svg';
 import CloseIcon from '../../assets/icons/close.svg';
-import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
-import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 import { theme } from "../../theme.js";
 
-const Tab = createMaterialTopTabNavigator();
 const Stack = createStackNavigator();
 
 export default function DetailTeamSpace() {
   const baseUrl = 'http://43.202.52.64:8080/api'
-  const [data, setData] = useState([]);
   const [isDeleteModalVisible, setIsDeleteModalVisible] = useState(false);
   const navigation = useNavigation();
   const route = useRoute();
@@ -58,17 +51,13 @@ export default function DetailTeamSpace() {
       const response = await axios.delete(apiUrl, {
         headers: { Authorization: `Bearer ${token}` },
       });
-      setIsDeleteModalVisible(false); 
+      setIsDeleteModalVisible(false);
       navigation.navigate('TeamSpace', { refresh: true });
     } catch (error) {
       // console.error('상세 팀스페이스 삭제 API 요청 에러:', error.response ? error.response.data : error.message);
       showCustomToast("카드를 제출하지 않으면 팀스페이스를 삭제할 수 없어요.")
     }
   };
-
-  // const onConfirm = () => {
-  //   handleDeleteSpace(); // 삭제 작업 API 호출
-  // };
 
   return (
     <Stack.Navigator>
