@@ -122,22 +122,22 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 
     // 학생템플릿 - 선택된 항목
     const handleVisibilityStud = (visibility) => {
-        setStudent(visibility);
+        setTimeout(() => setStudent(visibility), 0);
     };
 
     const handleVisibilityWorker = (visibility) => {
-        setWorker(visibility);
+        setTimeout(() => setWorker(visibility), 0);
     };
 
     const handleVisibilityFan = (visibility) => {
-        setFan(visibility);
+        setTimeout(() => setFan(visibility), 0);
     };
 
     // 학생템플릿 - 역할 선택된 리스트
     const handleRoleUpdate = (roles) => {
-        setSelectedRoles(roles);
+        setTimeout(() => setSelectedRoles(roles), 0);
     };
-    const [sampleData, setSampleData]  = useState({});
+    const [sampleData, setSampleData] = useState({});
 
     const showCustomToast = (text) => {
         Toast.show({
