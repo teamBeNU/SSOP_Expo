@@ -446,11 +446,11 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
     return (
         <View style={{flex:1}}>
             {step === 1 && (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -485,10 +485,10 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                             keyboardType="default"
                                             value={card_introduction}
                                             onChangeText={setCardIntroduction}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input3.current.focus()}
+                                            returnKeyType="done"
+                                            // onSubmitEditing={() => ref_input3.current.focus()}
                                             ref={ref_input2}
-                                            blurOnSubmit={false}
+                                            blurOnSubmit={true}
                                         />
                                         {!isFull.introduction && (
                                             <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
@@ -533,7 +533,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                             value={card_birth}
                                             onChangeText={setCardBirth}
                                             returnKeyType="done"
-                                            ref={ref_input4}
+                                            // ref={ref_input4}
                                             blurOnSubmit={true}
                                         />
                                         {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
@@ -558,16 +558,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 2 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -646,16 +646,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 3 && (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container} 
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView
+                //     behavior="padding"
+                //     style={styles.container} 
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -709,16 +709,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 4 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -796,16 +796,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 5 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -883,8 +883,8 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 6 && (

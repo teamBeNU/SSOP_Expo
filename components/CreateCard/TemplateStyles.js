@@ -78,7 +78,9 @@ export const styles = StyleSheet.create({
 
     viewContainer: {
         flex: 1,
-        paddingBottom: 48+16   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
+        paddingBottom: 48+16,   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
+        paddingHorizontal: 16,
+        backgroundColor: theme.white,
     },
     informContainer: {
         marginTop: 48,
@@ -204,6 +206,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
+        marginHorizontal: 16,
     },
     btnContainer2: {
         // // position: 'absolute',

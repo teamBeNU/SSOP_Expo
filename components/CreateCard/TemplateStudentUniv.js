@@ -455,11 +455,11 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
     return (
         <View style={{flex:1}}>
             {step === 1 && (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -494,10 +494,10 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                                             keyboardType="default"
                                             value={card_introduction}
                                             onChangeText={setCardIntroduction}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input3.current.focus()}
+                                            returnKeyType="done"
+                                            // onSubmitEditing={() => ref_input3.current.focus()}
                                             ref={ref_input2}
-                                            blurOnSubmit={false}
+                                            blurOnSubmit={true}
                                         />
                                         {!isFull.introduction && (
                                             <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
@@ -542,7 +542,7 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                                             value={card_birth}
                                             onChangeText={setCardBirth}
                                             returnKeyType="done"
-                                            ref={ref_input4}
+                                            // ref={ref_input4}
                                             blurOnSubmit={true}
                                         />
                                         {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
@@ -567,16 +567,16 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    // </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 2 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -655,16 +655,16 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    // </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 3 && (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <View>
                                 <ScrollView 
@@ -739,16 +739,16 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    // </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 4 && (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -803,7 +803,6 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                                 </View>
                                 <View style={styles.inputContainer}>
                                     <Text style={styles.inputText}>재학상태</Text>
-                                    <Text>{card_student_status === null ? 'null' : card_student_status}</Text>
                                     <View style={styles.dropDownContainer}>
                                         <DropDownOption
                                             dropDownOpen={dropDownOpen}
@@ -818,7 +817,7 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                                     </View>
                                 </View>
                             </ScrollView>
-                            <View style={[styles.btnContainer2]}>
+                            <View style={[styles.btnContainer]}>
                                 <TouchableOpacity 
                                     style={styles.btnNext}
                                     onPress={handleNext}
@@ -827,16 +826,16 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    // </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 5 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -914,8 +913,8 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                    // </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 6 && (
