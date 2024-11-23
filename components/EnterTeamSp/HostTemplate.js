@@ -5,6 +5,8 @@ import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyb
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
+import CustomModal from "../CreateCard/Modal/CustomModal";
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 import * as ImagePicker from 'expo-image-picker';
@@ -254,6 +256,16 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
 
   const optionsCount = [hasStudentOptional, hasWorkerOptional, hasFanOptional].filter(Boolean).length;
 
+  // 모달
+  const [modalVisible, setModalVisible] = useState(false);    // 홈 버튼 클릭 시 모달 여부
+  const handleBtn1 = () => {    // 모달 - '계속 만들래요'
+    setModalVisible(false);
+  };
+  const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
+    setModalVisible(false);
+    navigation.goBack();
+  };
+
   const handleNext = () => {
     if (step === 1) { // 기본 정보
       const newEmptyName = card_name.trim() === '';
@@ -395,7 +407,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
         navigation.setOptions({
           headerTitle: '카드 생성',
           headerTitleAlign: 'center',
-          headerLeft: handleHeaderLeft
+          headerLeft: handleHeaderLeft,
+          headerRight: () => (
+              <TouchableOpacity onPress={() => {setModalVisible(true);}}>
+                  <HomeIcon style={{marginRight: 20}}/>
+              </TouchableOpacity>
+          ),
         });
     }
   }, [navigation, step]);
@@ -1014,6 +1031,21 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
                 </TouchableOpacity>
               </View>
             </View>
+          )}
+
+          {/* 홈 버튼 모달 */}
+          {modalVisible && (
+            <CustomModal 
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              handleBtn1={handleBtn1}
+              handleBtn2={handleBtn2}
+              modalTitle={`카드 만들기를 취소하고${"\n"}홈으로 돌아가시겠어요?`}
+              modalText={'지금까지 작성한 작업이 없어져요.'}
+              btn1={'계속 만들래요'}
+              btn2={'네 돌아갈래요'}
+              btnMargin={26.5}
+            />
           )}
         </View>
       </View >
