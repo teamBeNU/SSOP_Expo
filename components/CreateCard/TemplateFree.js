@@ -18,7 +18,7 @@ import SelectTextInput from "./FreeTemplate/SelectTextInput";
 import DropDownOption from "./DropDownOption";
 import SelectCover from "./SelectCover";
 import { avatarCapture } from "../../utils/avatarCapture";
-import MyPageModal from "../../components/MyPage/MyPageModal";
+import CustomModal from "./Modal/CustomModal";
 
 const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -1058,7 +1058,7 @@ tr                                        />
             )} 
 
             {modalVisible && (
-                <MyPageModal 
+                <CustomModal 
                     modalVisible={modalVisible}
                     setModalVisible={setModalVisible}
                     handleBtn1={handleBtn1}

@@ -16,7 +16,7 @@ import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import SelectCover from "./SelectCover";
 import { avatarCapture } from "../../utils/avatarCapture";
-import MyPageModal from "../../components/MyPage/MyPageModal";
+import CustomModal from "./Modal/CustomModal";
 
 export default function TemplateStudentUniv ({navigation, card_template, step, setStep}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -963,7 +963,7 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
             )}   
 
             {modalVisible && (
-                <MyPageModal 
+                <CustomModal 
                     modalVisible={modalVisible}
                     setModalVisible={setModalVisible}
                     handleBtn1={handleBtn1}
