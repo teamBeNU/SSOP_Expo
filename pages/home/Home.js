@@ -46,13 +46,14 @@ function Home({navigation}) {
         const result = await response.json();
   
         if (response.ok) {
-          Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
+          //Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
           setIsSpaceModalVisible(false); // 모달 닫기
+          navigation.navigate("받은 프로필 카드"); // 받은 프로필 카드 페이지로 이동
         } else {
-          Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
+          //Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
         }
       } catch (error) {
-        Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
+        //Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
       }
     };
   
@@ -208,7 +209,10 @@ function Home({navigation}) {
             </View>
             <SpaceModal
                 isVisible={isSpaceModalVisible}
-                onClose={() => setIsSpaceModalVisible(false)}
+                onClose={() => {
+                  setIsSpaceModalVisible(false); // 모달 닫기
+                  navigation.navigate("홈"); // 홈 화면으로 이동
+                }}
                 title={`${cardName} 님의 카드를 받으시겠습니까?`}
                 btn1="안 받을래요"
                 btn2="네, 받을래요"
