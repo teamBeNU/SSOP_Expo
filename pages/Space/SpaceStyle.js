@@ -64,8 +64,7 @@ export const styles = StyleSheet.create({
         fontSize: 26,
         fontFamily: 'PretendardSemiBold',
         textAlign: 'center',
-        letterSpacing: -0.52,
-        marginBottom: 12,
+        letterSpacing: -0.52
     },
     Text16gray: {
         color: theme.gray60,
@@ -73,6 +72,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         textAlign: 'center',
         letterSpacing: -0.32,
+        marginTop: 16,
         marginBottom: 56
 
     },

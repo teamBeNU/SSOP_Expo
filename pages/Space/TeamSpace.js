@@ -214,7 +214,7 @@ function TeamSpace({ navigation }) {
     data.length > 0 ? (
       <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
         <View style={styles.container2}>
-          <View style={{ flexDirection: 'row', gap: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems:'center', gap: 10 }}>
             <TeamSp />
             <Text style={styles.Text26}>팀스페이스</Text>
           </View>
