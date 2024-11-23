@@ -22,11 +22,11 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold'
     },
     largetitle: {
-        marginTop: '15%',
-        fontSize: 24,
+        fontSize: 22,
         lineHeight: 33,
-        textAlign: 'center',
+        letterSpacing: -0.44,
         fontFamily: 'PretendardSemiBold',
+        color: theme.gray10
     },
     subtitle: {
         marginTop: 8,
@@ -37,13 +37,15 @@ export const styles = StyleSheet.create({
     font16: {
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
-        marginLeft: 4
+        marginLeft: 4,
+        color: theme.gray10
     },
     font18: {
         fontSize: 18,
         fontFamily: 'PretendardSemiBold',
         lineHeight: 24,
-        marginLeft: 8
+        marginLeft: 8,
+        color: theme.gray10
     },
     nameContainer: {
         marginTop: 32,
@@ -171,11 +173,21 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.09,
         shadowRadius: 16,
     },
+    gray60text : {
+        fontSize: 16,
+        fontFamily: 'Pretendard',
+        marginTop: 14,
+        letterSpacing: -0.32,
+        color: theme.gray30
+    },
     text: {
-        fontSize: 12,
+        fontSize: 14,
         fontFamily: 'Pretendard',
         textAlign: 'center',
-        marginTop: 4
+        marginTop: 4,
+        color: theme.gray30,
+        lineHeight: 18.3,
+        letterSpacing: -0.13
     },
     selectedItem: {
         backgroundColor: '#ccc',
@@ -247,7 +259,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         marginRight: 16
     },
-    // 템플릿 예시 확인
+    // 템플릿 예시 확인ㅎㄱ묘
     cardShadow: {
         justifyContent: 'center',
         alignItems: 'center',
@@ -283,7 +295,8 @@ export const styles = StyleSheet.create({
     },
     // 공유하기 버튼, 사진
     shareContainer: {
-        marginTop: 68,
+        marginTop: 88,
+        display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
     },

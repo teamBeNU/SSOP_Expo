@@ -96,7 +96,7 @@ export default function StudentTemplate({ onRoleUpdate, onVisibilityUpdate }) {
 
         {visibility.showRole && (
           <View style={styles.roleView}>
-            <Text style={[styles.font16, { marginLeft: 0 }]}>역할 선택지를 입력해보세요.</Text>
+            <Text style={[styles.font16, { marginLeft: 0 }]}>역할 선택지를 입력해 보세요.</Text>
             <Text style={styles.subtitle}>
               역할은 팀 내에서 개인이 맡는 포지션을 말해요.{'\n'}
               등록해두면 필터링으로 편하게 파악할 수 있어요.
