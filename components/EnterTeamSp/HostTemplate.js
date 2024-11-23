@@ -5,6 +5,7 @@ import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyb
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import CustomModal from "../CreateCard/Modal/CustomModal";
 import * as Progress from 'react-native-progress';
@@ -389,7 +390,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   useEffect(() => {
     if (step === 8) {
       navigation.setOptions({
-        headerTitle: '아바타 커스터마이징',
+        headerTitle: '아바타 커스터마이징하기',
         headerTitleAlign: 'center',
         headerLeft: handleHeaderLeft,
         headerRight: () => (
@@ -403,17 +404,43 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           </TouchableOpacity>
         ),
       });
+    } else if (step === 6) {
+      navigation.setOptions({
+        headerTitle: '카드 커버 선택하기',
+        headerTitleAlign: 'center',
+        headerLeft: handleHeaderLeft,
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {setModalVisible(true);}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
+    } else if (step === 9) {
+      navigation.setOptions({
+        headerTitle: '팀스페이스 입장 하기',
+        headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {navigation.goBack();}}>
+            <CloseIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {navigation.navigate('홈');}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
     } else {
-        navigation.setOptions({
-          headerTitle: '카드 생성',
-          headerTitleAlign: 'center',
-          headerLeft: handleHeaderLeft,
-          headerRight: () => (
-              <TouchableOpacity onPress={() => {setModalVisible(true);}}>
-                  <HomeIcon style={{marginRight: 20}}/>
-              </TouchableOpacity>
-          ),
-        });
+      navigation.setOptions({
+        headerTitle: '카드 정보 작성하기',
+        headerTitleAlign: 'center',
+        headerLeft: handleHeaderLeft,
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {setModalVisible(true);}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
     }
   }, [navigation, step]);
 
