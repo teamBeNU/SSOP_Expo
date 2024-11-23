@@ -216,9 +216,9 @@ const MySpaceDetailView = ({
                 <View style={[styles.row, styles.container]}>
                   {/* 필터링한 데이터 */}
                   {Array.isArray(filteredData) && filteredData.length > 0 ? (
-                    filteredData.map((item) => (
+                    filteredData.map((item, index) => (
                       <TouchableOpacity
-                        key={item.cardId}
+                        key={item.cardId || `fallback-${index}`}
                         style={styles.btn1}
                         onPress={() => {
                           if (item.userId === null) {
@@ -301,8 +301,8 @@ const MySpaceDetailView = ({
             {viewOption === '리스트형' && (
               <View style={{ paddingTop: Array.isArray(filteredData) && filteredData.length > 0 ? 8 : 16 }}>
                 {Array.isArray(filteredData) && filteredData.length > 0 ? (
-                  filteredData.map((item) => (
-                    <View key={item.cardId} style={styles.ListContainer}>
+                  filteredData.map((item, index) => (
+                    <View key={item.cardId || `fallback-${index}`} style={styles.ListContainer}>
                       <TouchableOpacity
                         onPress={() => {
                           if (item.userId === null) {
