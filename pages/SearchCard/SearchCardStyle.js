@@ -36,7 +36,6 @@ export const styles = StyleSheet.create({
         color: theme.gray60,
         fontSize: 16,
         fontFamily: 'PretendardRegular',
-        fontWeight: 500,
         textAlign: 'center',
         marginVertical: '80%'
     },
@@ -109,18 +108,20 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.white,
         borderColor: theme.gray95,
         borderRadius: 16,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
-            width: 2,
-            height: 2
+            width: 4,
+            height: 4,
         },
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 5,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     listImage: {
-        width: 64,
-        height: 64,
+        width: 80,
+        height: 80,
         borderRadius: 12
     },
     gridContainer: {

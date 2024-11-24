@@ -160,8 +160,8 @@ function MySpace({ navigation }) {
   return (
     <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
       <View style={styles.container2}>
-        <View style={styles.container3}>
-          <MySpaceIcon style={{ marginRight: 7, marginTop: 4 }} />
+        <View style={{flexDirection: 'row', alignItems:'center', gap: 10}}>
+          <MySpaceIcon/>
           <Text style={styles.Text26}>마이스페이스</Text>
         </View>
         <Text style={styles.Text16gray}>주고받은 프로필 카드를 여기서 확인하세요.</Text>
