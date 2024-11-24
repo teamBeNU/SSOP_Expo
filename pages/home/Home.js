@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Dimensions, Linking, Alert, Platform, PermissionsAndroid} from "react-native";
+import { View, Text, Image, ScrollView, Dimensions, Linking, Alert, Platform, PermissionsAndroid} from "react-native";
 import { styles } from './HomeStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -7,7 +7,7 @@ import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from 'react-native-toast-message';
 
-import CreateCardIcon from '../../assets/HomeIcon/img_banner.svg';
+import CreateCardIcon from '../../assets/HomeIcon/homeBanner.png';
 import ArrowIconWhite from '../../assets/HomeIcon/ic_arrow_white.svg';
 import ArrowIcon from '../../assets/HomeIcon/ic_arrow.svg';
 import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
@@ -19,33 +19,6 @@ const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 16 * 2 - 4) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
 const cardHeight = (cardWidth * 125) / 162;
 const cardHeight2 = (cardWidth * 102) / 162;
-
-const requestPermissions = async () => {
-    if (Platform.OS === 'android') {
-        try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-                {
-                    title: '파일 접근 권한 요청',
-                    message: '이 앱이 파일을 읽을 수 있도록 권한을 부여해 주세요.',
-                    buttonNegative: '거부',
-                    buttonPositive: '허용',
-                }
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log('파일 읽기 권한이 허용되었습니다.');
-                return true;
-            } else {
-                console.log('파일 읽기 권한이 거부되었습니다.');
-                return false;
-            }
-        } catch (err) {
-            console.warn(err);
-            return false;
-        }
-    }
-    return false;
-};
 
 const getFile = async () => {
     const permissionGranted = await requestPermissions();
@@ -219,9 +192,8 @@ function Home({ navigation }) {
                                 <Text style={styles.TextWhite}>카드 만들기</Text>
                                 <ArrowIconWhite style={{ marginLeft: 4 }} />
                             </View>
-                            <CreateCardIcon
-                                width={Math.max(parentSize.width * 0.7, 160)}
-                                height={Math.max(parentSize.height * 0.7, 155)}
+                            <Image
+                                source={require('../../assets/HomeIcon/homeBanner.png')} // 경로에 맞게 수정
                                 style={styles.icon1}
                             />
                         </LinearGradient>
@@ -239,7 +211,7 @@ function Home({ navigation }) {
                 <View>
 
                     <Text style={styles.title}>
-                        <Text style={styles.title}>프로필 카드 교환하기</Text>
+                        <Text style={styles.title}>프로필 카드 공유하기</Text>
                     </Text>
                     <View style={styles.container}>
                         <View style={styles.row}>
@@ -260,7 +232,7 @@ function Home({ navigation }) {
                         </View>
                     </View>
 
-                    <Text style={styles.title}>교환할 사람이 많을 땐</Text>
+                    <Text style={styles.title}>사람이 많을 땐 팀스페이스로</Text>
                     <View style={styles.container}>
                         <View style={styles.row}>
                             <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 입장')}>

@@ -201,7 +201,7 @@ function Step2Screen({ route, navigation}) {
           <Text style={styles.title}>링크가 생성되었어요.</Text>
           <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
           <View style={styles.linkShareContainer}>
-          <LinkShareImage/>
+          <LinkShareImage width="300" height='300'/>
             <View>
             </View>
           </View>
