@@ -200,7 +200,13 @@ function EnterTeamSp({ navigation, route }) {
   }, [navigation, step]);
 
   const handleHeaderLeft = (onPress) => {
-    if (step < 6) {
+    if (step === 1) {
+      return (
+        <TouchableOpacity onPress={handleBack}>
+          <CloseIcon style={{ marginLeft: 8 }} />
+        </TouchableOpacity>
+      );
+    } else if (step < 6) {
       return (
         <TouchableOpacity onPress={handleBack}>
           <LeftArrowIcon style={{ marginLeft: 8 }} />
