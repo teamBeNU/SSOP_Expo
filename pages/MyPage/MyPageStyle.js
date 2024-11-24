@@ -32,17 +32,18 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         marginBottom: 24,
         borderRadius: 16,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
+        // Android - Shadow
+        elevation: 3,
         // IOS - Shadow
-        shadowColor: '#000',
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 12,
-        borderWidth: 1,
-        borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 5,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     userName: {
         fontFamily: "PretendardSemiBold",
@@ -88,17 +89,18 @@ export const styles = StyleSheet.create({
         padding: 16,
         borderRadius: 16,
         marginHorizontal: 16,
+        borderWidth: 1,
+        borderColor: "rgba(244, 244, 244, 1.0)",
+        // Android - Shadow
+        elevation: 3,
         // IOS - Shadow
-        shadowColor: '#000',
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.05,
-        shadowRadius: 12,
-        borderWidth: 1,
-        borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 5,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     infoBtn: {
         justifyContent: "space-between",
@@ -117,7 +119,7 @@ export const styles = StyleSheet.create({
     logoutContainer: {
         marginVertical: 20,
         width: '30%',
-        marginHorizontal: 16, 
+        // marginHorizontal: 16, 
     },
     logoutText: {
         fontFamily: "PretendardRegular",

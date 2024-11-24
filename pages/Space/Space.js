@@ -65,22 +65,14 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
                 ]}
               >
                 <View style={{ gap: 6, flexDirection: 'row', alignItems: 'center' }}>
-                  {label === "마이스페이스" && isFocused && <BluePoint />}
-                  {label === "팀스페이스" && isFocused && <BluePoint />}
+                  {isFocused && <BluePoint />}
                   <Text
-                    style={[
-                      {
-                        color:
-                          isFocused
-                            ? label === "마이스페이스" ? "#00C2ED"
-                              : label === "팀스페이스" ? "#00C2ED"
-                                : theme.gray70
-                            : theme.gray70,
-                        fontFamily: 'PretendardRegular',
-                        fontSize: 16,
-                        letterSpacing: -0.32,
-                      },
-                    ]} >
+                    style={{
+                      color: isFocused ? theme.skyblue : theme.gray70,
+                      fontFamily: 'PretendardRegular',
+                      fontSize: 16,
+                      letterSpacing: -0.32,
+                    }} >
                     {label}
                   </Text>
                 </View>

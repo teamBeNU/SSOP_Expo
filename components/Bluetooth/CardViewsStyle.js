@@ -157,8 +157,17 @@ export const styles = StyleSheet.create({
         width: '44%',
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 5,
         position: 'relative',
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     innerView: {
         marginTop: 120,
@@ -213,14 +222,16 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray95,
         borderWidth: 1,
         borderRadius: 16,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
-            width: 0,
-            height: 0
+            width: 4,
+            height: 4,
         },
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 5,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     gray: {
         width: 80,
@@ -511,24 +522,23 @@ export const styles = StyleSheet.create({
     btnShare: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
         width: 160,
         height: 180,
-        elevation: 5,
         marginHorizontal: 10,
         position: 'relative',
         marginTop: 35,
-
         borderRadius: 16,
         backgroundColor: theme.white,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 16,
-        shadowOpacity: 1,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 5,
-        position: 'relative',
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     Text18: {
         marginTop: 20,

@@ -78,7 +78,9 @@ export const styles = StyleSheet.create({
 
     viewContainer: {
         flex: 1,
-        paddingBottom: 48+16   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
+        paddingBottom: 48+16,   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
+        paddingHorizontal: 16,
+        backgroundColor: theme.white,
     },
     informContainer: {
         marginTop: 48,
@@ -204,6 +206,7 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderStyle: "solid",
+        marginHorizontal: 16,
     },
     btnContainer2: {
         // // position: 'absolute',
@@ -303,6 +306,10 @@ export const styles = StyleSheet.create({
         marginRight: "63%",
         zIndex: -1,
     },
+    dropDownContainerZIndex2: {
+        marginRight: "63%",
+        zIndex: 2,
+    }, 
     dropDownContainerZIndex1: {
         marginRight: "63%",
         zIndex: 1,
@@ -407,13 +414,16 @@ export const styles = StyleSheet.create({
         height: SCREEN_WIDTH*0.8*1.2,
         justifyContent: 'center',
         alignItems: 'center',
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
-            width: 0,
-            height: 2,
+            width: 4,
+            height: 4,
         },
-        shadowOpacity: 0.25,
-        shadowRadius: 3.84,
-        elevation: 5,
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
 
         // 그림자가 안보여서 임시 border
         borderWidth: 1,
@@ -515,7 +525,7 @@ export const styles = StyleSheet.create({
     selectViewContainer: {
         flex: 1,
         paddingBottom: 48+16,   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
-        marginHorizontal: -16
+        // marginHorizontal: -16
     }, 
     selectContaienr: {
         paddingTop: 31-8,

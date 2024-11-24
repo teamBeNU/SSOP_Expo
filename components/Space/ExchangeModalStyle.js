@@ -38,17 +38,19 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderRadius: 16,
         backgroundColor: theme.white,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowRadius: 16,
-        shadowOpacity: 1,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 10, // Android 전용 그림자 설정
         position: 'relative',
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     icon2: { // 블루투스, 링크, 팀스페이스 입장, 생성 아이콘
         position: 'absolute',
@@ -72,17 +74,19 @@ export const styles = StyleSheet.create({
         height: 40,
         borderRadius: 25,
         backgroundColor: "#FFFFFF",
-        shadowColor: "rgba(151, 160, 181, 0.14)",
-        shadowOffset: {
-            width: 0,
-            height: 0
-        },
-        shadowRadius: 4.8,
-        shadowOpacity: 1,
         borderWidth: 1.3,
         borderColor: "rgba(244, 244, 244, 1.0)",
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 10, // 안드로이드 그림자
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
 })
