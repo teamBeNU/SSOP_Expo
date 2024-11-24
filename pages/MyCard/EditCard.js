@@ -16,7 +16,7 @@ import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
 
 function EditCard() {
     const route = useRoute();
-    const {card, isDetail} = route.params;
+    const {card, isDetail, index} = route.params;
 
     //기본 정보
     const [name, setName] = useState(card.cardEssential.card_name);
@@ -200,7 +200,8 @@ function EditCard() {
       };
 
       const handleGoBack = () => {
-        navigation.goBack();
+        //navigation.goBack();
+        navigation.navigate('카드 상세보기', { index });
       };
 
     const handleHeaderLeft = (onPress) => {
