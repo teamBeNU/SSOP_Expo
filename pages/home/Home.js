@@ -5,6 +5,7 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
 import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from 'react-native-toast-message';
 
 import ArrowIconWhite from '../../assets/HomeIcon/ic_arrow_white.svg';
 import ArrowIcon from '../../assets/HomeIcon/ic_arrow.svg';
@@ -24,6 +25,16 @@ function Home({navigation}) {
     const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
     const [cardName, setCardName] = useState("");
   
+    // Toast 표시 함수
+    const showCustomToast = (text) => {
+      Toast.show({
+        text1: text,
+        type: 'selectedToast',
+        position: 'bottom',
+        visibilityTime: 2000, // 2초간 표시
+      });
+    };
+
     const saveCard = async (cardId) => {
       try {
         const token = await AsyncStorage.getItem("token");
@@ -47,6 +58,7 @@ function Home({navigation}) {
   
         if (response.ok) {
           //Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
+          showCustomToast('카드가 성공적으로 저장되었습니다.');
           setIsSpaceModalVisible(false); // 모달 닫기
           navigation.navigate("받은 프로필 카드"); // 받은 프로필 카드 페이지로 이동
         } else {
@@ -71,7 +83,7 @@ function Home({navigation}) {
   
         const cardId = extractCardId(url);
         if (cardId) {
-          console.log("추출된 cardId:", cardId);
+          console.log("추출된 cardId home.js:", cardId);
   
           // 카드 정보 가져오기
           const token = await AsyncStorage.getItem("token");
@@ -108,7 +120,7 @@ function Home({navigation}) {
       const checkInitialURL = async () => {
         const initialURL = await Linking.getInitialURL();
         if (initialURL) {
-          console.log("앱이 딥링크로 실행되었습니다:", initialURL);
+          console.log("앱이 딥링크로 실행되었습니다 home.js:", initialURL);
           handleDeepLink(initialURL);
         }
       };
@@ -216,7 +228,8 @@ function Home({navigation}) {
                 title={`${cardName} 님의 카드를 받으시겠습니까?`}
                 btn1="안 받을래요"
                 btn2="네, 받을래요"
-                onConfirm={() => saveCard(cardId)} // 연결된 카드 저장 로직
+                onConfirm={() => {
+                  saveCard(cardId)}} // 연결된 카드 저장 로직
             />
         </ScrollView>
     );

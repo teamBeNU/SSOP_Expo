@@ -92,100 +92,70 @@ export default function App() {
   const [cardName, setCardName] = useState(null);
   const [cardId, setCardId] = useState(null);
 
-  // 카드 저장 함수
-  const saveCard = async (cardId) => {
-    try {
-      const token = await AsyncStorage.getItem("token");
-      if (!token) {
-        console.error("사용자 인증 토큰이 없습니다.");
-        return;
-      }
-
-      const response = await fetch(
-        `http://43.202.52.64:8080/api/card/save?cardId=${cardId}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const result = await response.json();
-
-      if (response.ok) {
-        console.log("카드가 성공적으로 저장되었습니다:", result);
-        Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
-        setIsSpaceModalVisible(false); // 모달 닫기
-      } else {
-        console.error("카드 저장 실패:", result.message || "알 수 없는 오류");
-        Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
-      }
-    } catch (error) {
-      console.error("카드 저장 중 오류가 발생했습니다:", error);
-      Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
-    }
-  };
-
   const handleDeepLink = async (url) => {
-    console.log("딥링크 URL:", url);
+    console.log("딥링크 URL app.js:", url);
+  
     const extractCardId = (url) => {
       try {
         const parsedUrl = new URL(url);
-        return parsedUrl.searchParams.get("cardId");
+        const cardId = parsedUrl.searchParams.get("cardId");
+        console.log("추출된 cardId app.js:", cardId);
+        return cardId;
       } catch (error) {
         console.error("URL 파싱 중 오류:", error);
         return null;
       }
     };
-
+  
     const cardId = extractCardId(url);
     if (cardId) {
-      console.log("추출된 cardId:", cardId);
-
-      // 카드 정보 가져오기
+      console.log("딥링크에서 추출된 cardId:", cardId);
+  
+      // 전역 네비게이션 객체를 사용하여 화면으로 이동
       const token = await AsyncStorage.getItem("token");
       if (!token) {
         console.error("사용자 인증 토큰이 없습니다.");
         return;
       }
-
-      const response = await fetch(`http://43.202.52.64:8080/api/card/view?cardId=${cardId}`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
+  
+      const response = await fetch(
+        `http://43.202.52.64:8080/api/card/view?cardId=${cardId}`,
+        {
+          method: "GET",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+  
       const result = await response.json();
       if (response.ok) {
-        setCardName(result.cardEssential.card_name);
-        setCardId(cardId);
-        setIsSpaceModalVisible(true); // 모달 표시
+        // AppContent 또는 Home에서 모달 띄우기
+        navigation.navigate("홈", { cardId, cardName: result.cardEssential.card_name });
       } else {
         console.error("카드 정보 가져오기 실패:", result.message || "알 수 없는 오류");
       }
     }
   };
-
+  
   useEffect(() => {
-    // 앱이 처음 실행되었을 때 URL 확인
+    // 앱 처음 실행 시 URL 확인
     const checkInitialURL = async () => {
       const initialURL = await Linking.getInitialURL();
       if (initialURL) {
         handleDeepLink(initialURL);
       }
     };
-
+  
     checkInitialURL();
-
+  
     // 실행 중인 상태에서 딥링크 이벤트 처리
     const subscription = Linking.addEventListener("url", ({ url }) => {
       handleDeepLink(url);
     });
-
+  
     return () => subscription.remove();
   }, []);
   
+
   
   // 폰트 로드
   const [fontsLoaded] = useFonts({
@@ -576,14 +546,14 @@ export default function App() {
               </TouchableOpacity>
             ), })}/>
       </Stack.Navigator>
-      <SpaceModal
+      {/* <SpaceModal
         isVisible={isSpaceModalVisible}
         onClose={() => setIsSpaceModalVisible(false)}
         title={`${cardName} 님의 카드를 받으시겠습니까?`}
         btn1="안 받을래요"
         btn2="네, 받을래요"
         onConfirm={() => saveCard(cardId)} // 카드 저장 로직 연결
-      />
+      /> */}
     </NavigationContainer>
     <Toast config={customToast} />
     </MenuProvider>

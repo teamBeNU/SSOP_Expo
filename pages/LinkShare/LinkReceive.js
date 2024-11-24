@@ -7,7 +7,7 @@ const extractCardId = (url) => {
   try {
     const parsedUrl = new URL(url);
     const cardId = parsedUrl.searchParams.get("cardId");
-    console.log("추출된 cardId:", cardId);
+    console.log("추출된 cardId LinkReceive.js:", cardId);
     return cardId;
   } catch (error) {
     console.error("URL 파싱 중 오류:", error);
@@ -36,7 +36,7 @@ const LinkReceive = ({ route }) => {
     const handleDeepLink = ({ url }) => {
       const cardId = extractCardId(url);
       if (cardId) {
-        console.log("딥링크에서 추출된 cardId:", cardId);
+        console.log("딥링크에서 추출된 cardId LinkReceive.js:", cardId);
         // 저장 로직 추가
       } else {
         console.error("딥링크에서 cardId를 추출할 수 없습니다.");
