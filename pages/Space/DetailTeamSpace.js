@@ -145,6 +145,7 @@ export default function DetailTeamSpace() {
         initialParams={{ teamId }}
         options={{
           headerTitle: " ",
+          headerTitleAlign: 'center',
           headerLeft: ({ onPress }) => (
             <TouchableOpacity onPress={onPress}>
               <CloseIcon style={{ marginLeft: 23 }} />
@@ -482,6 +483,7 @@ function SaveTellScreen({ navigation }) {
           {selectedCards.length}개 선택됨
         </Text>
       ),
+      headerTitleAlign: 'center',
       // headerRight: () => (
       // <TouchableOpacity onPress={handleSelectAll}>
       //   {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}

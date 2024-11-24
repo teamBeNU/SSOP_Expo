@@ -61,6 +61,14 @@ export const styles = StyleSheet.create({
         fontWeight: "600",
     },
 
+    avatarNext: {
+        color: theme.skyblue,
+        fontFamily: "PretendardSemiBold",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "600",
+    },
+
     container: {
         width: SCREEN_WIDTH,
         height: SCREEN_HEIGHT,

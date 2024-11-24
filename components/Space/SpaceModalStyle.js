@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native"
 import { theme } from "../../theme"
 
-const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
+const windowWidth = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
     centeredView: {
@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
       backgroundColor: 'rgba(0, 0, 0, 0.4)'
     },
     modalView: {
+      width: windowWidth - 32,
       backgroundColor: 'white',
       borderRadius: 16,
       paddingVertical: 32,
@@ -22,25 +23,26 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardSemiBold",
         fontSize: 16,
         color: "black",
-        letterSpacing: -1,
+        letterSpacing: -0.32,
     },
     modalSubText: {
         fontFamily: "PretendardRegular",
         fontSize: 14,
         color: theme.gray50,
         marginTop: 12,
+        letterSpacing: -0.14,
     },
     Btn: {
         flexDirection: "row",
         justifyContent: "space-between",
         marginTop: 24,
+        width: '100%'
     },
     yesBtn: {
+        width: '49%',
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: theme.white,
-        width: 132,
-        height: 40,
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray80,
@@ -51,14 +53,13 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         color: theme.gray50,
         textAlign: "center",
-        letterSpacing: -1,
+        letterSpacing: -0.14,
     },
     noBtn: {
+        width: '49%',
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "black",
-        width: 132,
-        height: 40,
         paddingVertical: 8,
         paddingHorizontal: 16,
         borderRadius: 8,
@@ -68,15 +69,17 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         color: theme.white,
         textAlign: "center",
-        letterSpacing: -1,
+        letterSpacing: -0.14,
     },
     textInput: {
+        width: windowWidth - 64,
         justifyContent: "center",
         alignItems: "center",
-        width: 276,
         paddingVertical: 14.5,
         paddingHorizontal: 16,
         backgroundColor: theme.gray95,
         borderRadius: 8,
+        letterSpacing: -0.15,
     },
+
   });

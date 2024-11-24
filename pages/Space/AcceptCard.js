@@ -285,6 +285,17 @@ function DetailSpaceGroup({ navigation }) {
   
       fetchData();  // 컴포넌트가 로드될 때 데이터 가져오기
     }, []);
+
+    // 연락처 있는 카드만 보이기
+    // useEffect(() => {
+    //   const fetchData = async () => {
+    //     const savedCards = await fetchSavedCards(); // 받은 카드 목록 가져오기
+    //     const filteredCards = savedCards.filter(card => card.cardOptional && card.cardOptional.card_tel); // card_tel이 있는 카드만 필터링
+    //     setCardData(filteredCards); // 필터링된 카드 데이터 저장
+    //   };
+    
+    //   fetchData(); // 컴포넌트가 로드될 때 데이터 가져오기
+    // }, []);
     
     const handleSaveTel = () => {
       setIsSaveModalVisible(true);
@@ -359,6 +370,7 @@ function DetailSpaceGroup({ navigation }) {
                 {selectedCards.length}개 선택됨
               </Text>
             ),
+            headerTitleAlign: 'center',
             headerRight: () => (
               <TouchableOpacity onPress={handleSelectAll}>
                 {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
@@ -533,6 +545,7 @@ function ManageCardScreen({ navigation }) {
           {selectedCards.length}개 선택됨
         </Text>
       ),
+      headerTitleAlign: 'center',
       headerRight: () => (
         <TouchableOpacity onPress={handleSelectAll}>
           {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
@@ -801,6 +814,7 @@ function AcceptCard() {
           <Stack.Screen name="연락처 저장" component={SaveTellScreen}
           options={{
             headerTitle: " ",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 23 }}/>
@@ -810,6 +824,7 @@ function AcceptCard() {
           <Stack.Screen name="카드 관리" component={ManageCardScreen}
           options={{
             headerTitle: " ",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 23 }}/>
@@ -819,6 +834,7 @@ function AcceptCard() {
           <Stack.Screen name="그룹 이동" component={MoveGroupScreen}
           options={{
             headerTitle: "그룹 이동",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 23 }}/>

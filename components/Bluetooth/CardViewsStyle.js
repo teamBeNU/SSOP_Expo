@@ -181,7 +181,6 @@ export const styles = StyleSheet.create({
         gap: 16,
     },
     emptyContainer2: {
-        paddingTop: 200,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',

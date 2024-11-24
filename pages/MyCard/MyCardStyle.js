@@ -116,13 +116,21 @@ export const styles = StyleSheet.create({
         marginTop: 60,
         paddingHorizontal: 42, //42
         alignItems: 'center',
-        //ios shadow
-        shadowColor: 'rgba(0, 0, 0, 0.08)',
-        shadowOffset: { width: 0, height: 1 },
-        shadowOpacity: 4,
-        shadowRadius: 4,
-        //android shadow
-        elevation: 4,
+        // //ios shadow
+        // shadowColor: 'rgba(0, 0, 0, 0.08)',
+        // shadowOffset: { width: 0, height: 1 },
+        // shadowOpacity: 4,
+        // shadowRadius: 4,
+        // //android shadow
+        // elevation: 4,
+        elevation: 3,
+        shadowColor: 'rgb(73, 81, 100)',
+        shadowOffset: {
+         width: 4,
+         height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         },
         cardWrapper: {
         width: WIDTH * 0.84,
@@ -231,16 +239,24 @@ export const styles = StyleSheet.create({
         position: 'relative',
         borderRadius: 16,
         backgroundColor: theme.white,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        // shadowColor: "rgba(73, 81, 100, 0.09)",
+        // shadowOffset: {
+        //         width: 0,
+        //         height: 2
+        // },
+        // shadowRadius: 16,
+        // shadowOpacity: 1,
+        elevation: 3,
+        shadowColor: 'rgb(73, 81, 100)',
         shadowOffset: {
-                width: 0,
-                height: 2
+         width: 4,
+         height: 4,
         },
+        shadowOpacity: 0.09,
         shadowRadius: 16,
-        shadowOpacity: 1,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
-        elevation: 5,
+        // elevation: 5,
         position: 'relative',
         },
         Text14: {

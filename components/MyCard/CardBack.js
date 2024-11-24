@@ -33,8 +33,7 @@ const OpenURLButton = ({url, children}) => {
 
 export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }) => {
     const renderTemplateSpecificInfo = () => {
-        //console.log('data : ', );
-
+        //console.log ('card : ', cardData);
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
             case 'studentSchool':
@@ -104,7 +103,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }
                 default:
                 return null;
         }
-    };
+    };    
     
     return (
       <View style={[styles.card, {borderColor: theme.gray95}]}>
@@ -134,13 +133,71 @@ const CardOptional1 = ({cardData}) => {
 }
 
 const CardOptional2 = ({cardData}) => {
+    const optional2Line = () => {
+        // 공통 항목 조건 (생일, 비공개 상태, MBTI 없음)
+        const isCommonCondition = (cardData.cardOptional.card_birth === '' || cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '';
+    
+        // 템플릿별 조건을 설정
+        switch(cardData.card_template) {
+            case 'studentSchool':
+            case 'studentUniv':
+                // 'student' 템플릿에 대한 조건
+                if (isCommonCondition &&
+                    cardData.student.card_student_id === undefined && 
+                    cardData.student.card_student_club === undefined && 
+                    cardData.student.card_student_role === undefined && 
+                    cardData.student.card_student_status === undefined) {
+                    return false;
+                }
+                break;
+    
+            case 'worker':
+                // 'worker' 템플릿에 대한 조건
+                if (isCommonCondition &&
+                    cardData.worker.card_worker_position === undefined && 
+                    cardData.worker.card_worker_department === undefined) {
+                    return false;
+                }
+                break;
+    
+            case 'fan':
+                // 'fan' 템플릿에 대한 조건
+                if (isCommonCondition &&
+                    cardData.fan.card_fan_second === undefined && 
+                    cardData.fan.card_fan_reason === undefined) {
+                    return false;
+                }
+                break;
+    
+            case 'free':
+                // 'free' 템플릿에 대한 조건
+                if (isCommonCondition &&
+                    (cardData.student.card_student_id === "" && 
+                     cardData.student.card_student_club === "" && 
+                     cardData.student.card_student_role === "" && 
+                     cardData.student.card_student_status === "" &&
+                     cardData.worker.card_worker_position === "" && 
+                     cardData.worker.card_worker_department === "" && 
+                     cardData.fan.card_fan_second === "" && 
+                     cardData.fan.card_fan_reason === "")) {
+                    return false;
+                }
+                break;
+    
+            default:
+                return true;
+        }
+    
+        return true;
+    };
+
     return (
         <View style={{gap: 24, width: '100%'}}>
-            { ((cardData.cardOptional.card_birth === '' || cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '') &&
-            (cardData.fan.card_fan_second === undefined && cardData.fan.card_fan_reason === undefined) &&
-            (cardData.cardOptional.card_tel || cardData.cardOptional.card_email || cardData.cardOptional.card_sns_insta || cardData.cardOptional.card_SNS_X) ? null : (
-            <View style={{...styles.line, marginTop: 0}} />
-            )}
+            { 
+            optional2Line() ? (
+                <View style={{...styles.line, marginTop: 0}} />
+            ) : null
+        }
             {cardData.cardOptional.card_tel ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>번호</Text>                             
@@ -258,8 +315,8 @@ const StudentOptional = ({cardData}) => {
             {cardData.student.card_student_major ? (
                 <View>
                 <View style={styles.info}>                             
-                    <Text style={styles.topic}>전공</Text>                             
-                    <Text style={styles.content}>{cardData.student.card_student_major}</Text>                         
+                    <Text style={[styles.topic,  { fontSize: 14 }]}>재학상태</Text>                             
+                    <Text style={styles.content}>{cardData.student.card_student_status}</Text>                         
                 </View>
                 </View>
             ) : null }

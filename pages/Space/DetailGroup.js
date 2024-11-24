@@ -28,6 +28,7 @@ import Add from '../../assets/icons/ic_folder-add.svg';
 import FolderMove from '../../assets/icons/ic_folder-move.svg';
 import Trash from '../../assets/icons/ic_trash.svg';
 
+import { addContacts } from '../../components/MyCard/AddTel.js';
 
 import { theme } from "../../theme.js";
 
@@ -65,10 +66,8 @@ const fetchGroupDetails = async (groupId, token) => {
   }
 };
 
-const API_URL_DELETE = 'http://43.202.52.64:8080/api/card/delete';
-
 // 카드 삭제 API 호출 함수
-const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
+const deleteSelectedCards = async (groupId, selectedCards, setCardData, setMembers) => {
   try {
     const token = await AsyncStorage.getItem('token');
     if (!token) {
@@ -76,32 +75,39 @@ const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
       return;
     }
 
-    const queryString = selectedCards.map((id) => `cardIds=${id}`).join('&');
-    const url = `${API_URL_DELETE}?${queryString}`;
+    // 각 카드에 대해 삭제 요청
+    await Promise.all(
+      selectedCards.map(async (cardId) => {
+        const response = await fetch(
+          `http://43.202.52.64:8080/api/mysp/delete-card?groupId=${groupId}&cardId=${cardId}`,
+          {
+            method: 'DELETE',
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-    const response = await fetch(url, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${token}`,
-      },
-    });
+        if (!response.ok) {
+          const result = await response.json();
+          console.error(`카드 삭제 실패 (${cardId}):`, result.message);
+        }
+      })
+    );
 
-    if (response.ok) {
-      showCustomToast('카드를 성공적으로 삭제하였습니다.');
+    showCustomToast('카드가 성공적으로 삭제되었습니다.');
 
-      // 삭제된 카드를 제외한 나머지 카드로 상태 업데이트
-      const updatedCardData = (cardData || []).filter(card => !selectedCards.includes(card.cardId));
-      setCardData(updatedCardData);
-    } else {
-      const result = await response.json();
-      console.error('카드 삭제에 실패했습니다:', result.message);
-      showCustomToast('카드 삭제에 실패했습니다');
-    }
+    // 삭제된 카드를 제외한 나머지 카드로 상태 업데이트
+    setCardData((prevData) => prevData.filter((card) => !selectedCards.includes(card.cardId)));
+
+    // 멤버 수 감소
+    setMembers((prevMembers) => prevMembers - selectedCards.length);
   } catch (error) {
     console.error('API 호출 중 오류 발생:', error);
     showCustomToast('카드 삭제 중 오류가 발생했습니다.');
   }
-};   
+};
+
 
 const API_URL_MOVE = 'http://43.202.52.64:8080/api/mysp';
 
@@ -148,7 +154,7 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
   const { groupId } = route.params || {};
 
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('리스트형');
+  const [viewOption, setViewOption] = useState('격자형');
   const [members, setMembers] = useState(0); // 그룹 멤버 수 상태
   const [cardData, setCardData] = useState([]); // 카드 목록 상태
   const [isCardDeleteModalVisible, setIsCardDeleteModalVisible] = useState(false);
@@ -218,15 +224,15 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
 
 
   // 카드 삭제
-  const handleConfirmDelete = () => {
+  const handleConfirmDelete = async () => {
     if (selectedCardId !== null) {
       const selectedCards = [selectedCardId];
-      deleteSelectedCards(selectedCards, setCardData, cardData);
+      await deleteSelectedCards(groupId, selectedCards, setCardData, setMembers); // setMembers 전달
       setSelectedCardId(null);
     }
-    setIsCardDeleteModalVisible(false); // 카드 삭제 모달 닫기
+    setIsCardDeleteModalVisible(false); // 모달 닫기
   };
-
+  
     // 그룹 이동
     const handleMoveGroup = (cardId) => {
       navigation.navigate('그룹 이동', { selectedCards: [cardId] });
@@ -328,6 +334,10 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
     const [selectedOption, setSelectedOption] = useState('최신순');
     const [viewOption, setViewOption] = useState('리스트형');
 
+    const [isSaveModalVisible, setIsSaveModalVisible] = useState(false); // 연락처 저장 모달 상태
+    const [isCompleteModalVisible, setIsCompleteModalVisible] = useState(false); // 연락처로 이동 모달 상태
+    const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); // 아이폰용 완료 모달
+
     useEffect(() => {
       const getData = async () => {
         const token = await AsyncStorage.getItem('token');
@@ -339,17 +349,49 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
       getData();
     }, [groupId]);
 
-    const showCustomToast = (text) => {
-      Toast.show({
-        text1: text,
-        type: 'selectedToast',
-        position: 'bottom',
-        visibilityTime: 2000,
-      });
-    };
+    // 연락처가 있는 카드만 보이기
+    // useEffect(() => {
+    //   const getData = async () => {
+    //     const token = await AsyncStorage.getItem('token');
+    //     if (token && groupId) {
+    //       const data = await fetchGroupDetails(groupId, token);
+    //       // card_tel이 있는 카드만 필터링
+    //       const filteredData = data.filter(
+    //         (card) => card.cardOptional && card.cardOptional.card_tel
+    //       );
+    //       setCardData(filteredData); // 필터링된 데이터만 설정
+    //     }
+    //   };
+    //   getData();
+    // }, [groupId]);
     
     const handleSaveTel = () => {
-      showCustomToast('연락처가 저장되었습니다.');
+      setIsSaveModalVisible(true);
+      //showCustomToast('연락처가 저장되었습니다.');
+    };
+
+    const confirmSaveContacts = async () => {
+      setIsSaveModalVisible(false); // 모달 닫기
+      await addContacts(selectedCards, showCompleteModal); // 연락처 저장 함수 호출
+    };
+
+    const showCompleteModal = () => {
+      if (Platform.OS === 'android') {
+      setIsCompleteModalVisible(true); // 연락처로 이동 모달 표시
+      } else {
+        setIsSuccessModalVisible(true); // 아이폰은 저장 완료 모달 표시
+      }
+    };
+
+    const handleNavigateToContacts = () => {
+      setIsCompleteModalVisible(false); // 모달 닫기
+      if (Platform.OS === 'android') {
+          Linking.openURL('content://contacts/people/'); // 연락처로 이동
+      }
+    };
+
+    const handleCancel = () => {
+      setIsSaveModalVisible(false); // 모달 닫기
     };
   
     const handlePress = (cardId) => {
@@ -396,6 +438,7 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
                 {selectedCards.length}개 선택됨
               </Text>
             ),
+            headerTitleAlign: 'center',
             headerRight: () => (
               <TouchableOpacity onPress={handleSelectAll}>
                 {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
@@ -439,6 +482,55 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
             <Text style={styles.bottomText}>연락처 저장</Text>
           </TouchableOpacity>
         </View>
+
+                {/* 연락처 저장 모달 */}
+                <Modal visible={isSaveModalVisible} transparent={true} animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>연락처를 저장하시겠습니까?</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity onPress={() => setIsSaveModalVisible(false)} style={styles.cancelButton}>
+                                <Text style={styles.cancelText}>괜찮아요</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={confirmSaveContacts} style={styles.confirmButton}>
+                                <Text style={styles.confirmText}>네, 저장할래요</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* 연락처로 이동 모달 */}
+            <Modal visible={isCompleteModalVisible} transparent={true} animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>연락처가 저장되었습니다.</Text>
+                        <Text style={styles.modalSubText}>연락처로 이동하시겠습니까?</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity onPress={() => setIsCompleteModalVisible(false)} style={styles.cancelButton}>
+                                <Text style={styles.cancelText}>괜찮아요</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity onPress={handleNavigateToContacts} style={styles.confirmButton}>
+                                <Text style={styles.confirmText}>네, 이동할래요</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
+
+            {/* 아이폰용 저장 완료 모달 */}
+            <Modal visible={isSuccessModalVisible} transparent={true} animationType="fade">
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContent}>
+                        <Text style={styles.modalText}>저장이 완료되었습니다.</Text>
+                        <View style={styles.modalButtons}>
+                            <TouchableOpacity onPress={() => setIsSuccessModalVisible(false)} style={styles.confirmButton}>
+                                <Text style={styles.confirmText}>확인</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
       </View>
     );
   }
@@ -483,10 +575,15 @@ function ManageCardScreen({ route, navigation }) {
 
   // 모달에서 확인 버튼 클릭 시 카드 삭제
   const handleConfirmDelete = async () => {
-    await deleteSelectedCards(selectedCards, setCardData, cardData);  // 카드 삭제 함수 호출 시 setCardData와 cardData 전달
-    setSelectedCards([]);  // 선택된 카드 초기화
-    setIsSpaceModalVisible(false);  // 모달 닫기
-  };
+    if (!Array.isArray(selectedCards) || selectedCards.length === 0) {
+      showCustomToast('삭제할 카드가 선택되지 않았습니다.');
+      return;
+    }
+  
+    await deleteSelectedCards(groupId, selectedCards, setCardData, setMembers); // setMembers 전달
+    setSelectedCards([]); // 선택 초기화
+    setIsSpaceModalVisible(false); // 모달 닫기
+  };  
 
   // 카드 선택/해제 처리 함수
   const handleRadioSelect = (cardId) => {
@@ -524,6 +621,7 @@ function ManageCardScreen({ route, navigation }) {
           {selectedCards.length}개 선택됨
         </Text>
       ),
+      headerTitleAlign: 'center',
       headerRight: () => (
         <TouchableOpacity onPress={handleSelectAll}>
           {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
@@ -815,7 +913,7 @@ function ManageCardScreen({ route, navigation }) {
             return;
           }
 
-          const response = await fetch(`${API_URL}?groupId=${groupId}`, {
+          const response = await fetch(`http://43.202.52.64:8080/api/mysp/delete-group?groupId=${groupId}`, {
             method: 'DELETE',
             headers: {
               Authorization: `Bearer ${token}`,
@@ -950,6 +1048,7 @@ function ManageCardScreen({ route, navigation }) {
               initialParams={{ groupId }}
               options={{
                 headerTitle: " ",
+                headerTitleAlign: 'center',
                 headerLeft: ({ onPress }) => (
                   <TouchableOpacity onPress={onPress}>
                     <CloseIcon style={{ marginLeft: 23 }} />
@@ -963,6 +1062,7 @@ function ManageCardScreen({ route, navigation }) {
               initialParams={{ groupId }}
               options={{
                 headerTitle: " ",
+                headerTitleAlign: 'center',
                 headerLeft: ({ onPress }) => (
                   <TouchableOpacity onPress={onPress}>
                     <CloseIcon style={{ marginLeft: 23 }} />
@@ -975,6 +1075,7 @@ function ManageCardScreen({ route, navigation }) {
               component={MoveGroupScreen}
               options={{
                 headerTitle: "그룹 이동",
+                headerTitleAlign: 'center',
                 headerLeft: ({ onPress }) => (
                   <TouchableOpacity onPress={onPress}>
                     <CloseIcon style={{ marginLeft: 23 }} />
@@ -988,5 +1089,3 @@ function ManageCardScreen({ route, navigation }) {
     }
     
     export default DetailGroup;
-    
-    

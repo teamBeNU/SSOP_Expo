@@ -331,6 +331,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
                 headerTitle: '카드 정보 작성',
+                headerTitleAlign: 'center',
                 // headerLeft: () => {
                 //     setStep(step - 1);
                 // }
@@ -338,16 +339,17 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
         } else if (step === 6) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
+                headerTitleAlign: 'center',
                 headerRight: null,
             });
         } else if (step === 7) {
             navigation.setOptions({
                 headerTitle: '아바타 커스터마이징',
+                headerTitleAlign: 'center',
                 headerRight: () => (
                     <TouchableOpacity
                         style={{marginRight: 20}}
                         onPress={() => {
-                           // setIsAvatarComplete(true);
                            avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
                         }}
                     >
@@ -358,6 +360,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
         } else if ( step === 8) {
             navigation.setOptions({
                 headerTitle: '카드 생성',
+                headerTitleAlign: 'center',
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {navigation.goBack();}}>
                         <CloseIcon style={{ marginLeft: 8 }}/>
@@ -802,12 +805,10 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
             {step === 7 && (
                 <View>
                     {card_cover === "avatar" && (
-                        <AvatarCustom 
-                            setProfileImageUrl={setProfileImageUrl} 
+                        <AvatarCustom
                             avatar={avatar}
                             setAvatar={setAvatar}
                             viewShotRef={viewShotRef}
-                            profileimageurl={profile_image_url}
                         />
                     )}
                 </View>

@@ -22,6 +22,7 @@ import CoverAvatar from "../../assets/createCard/coverAvatar.svg";
 import CoverPicture from "../../assets/createCard/coverPicture.svg";
 import AvatarCustom from "../Avatar/AvatarCustom";
 import SelectCover from "../CreateCard/SelectCover";
+import { avatarCapture } from "../../utils/avatarCapture";
 
 export default function HostTemplate({ navigation, goToOriginal, data, isHost }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
@@ -377,12 +378,13 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
     if (step === 8) {
       navigation.setOptions({
         headerTitle: '아바타 커스터마이징',
+        headerTitleAlign: 'center',
         headerLeft: handleHeaderLeft,
         headerRight: () => (
           <TouchableOpacity
             style={{ marginRight: 20 }}
             onPress={() => {
-              setIsAvatarComplete(true);
+              avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
             }}
           >
             <Text style={styles.avatarNext}>완료</Text>
@@ -390,10 +392,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
         ),
       });
     } else {
-      navigation.setOptions({
-        headerTitle: '카드 생성',
-        headerLeft: handleHeaderLeft
-      });
+        navigation.setOptions({
+          headerTitle: '카드 생성',
+          headerTitleAlign: 'center',
+          headerLeft: handleHeaderLeft
+        });
     }
   }, [navigation, step]);
 
@@ -449,6 +452,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
   const freeA3Ref = useRef(null);
   const freeA4Ref = useRef(null);
   const freeA5Ref = useRef(null);
+  
+  const viewShotRef = useRef(null);       // 아바타 커스터마이징 캡쳐뷰
 
   // 이미지 권한 요청을 위한 hooks
   const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
@@ -982,7 +987,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
           {step === 8 && (
             <View style={{ marginLeft: -16, marginTop: -16 }}>
               {card_cover === "avatar" && (
-                <AvatarCustom setProfileImageUrl={setProfileImageUrl} avatar={null} setAvatar={null} />
+                <AvatarCustom
+                  avatar={null}
+                  setAvatar={null}
+                  viewShotRef={viewShotRef}
+                />
               )}
             </View>
           )}
