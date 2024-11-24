@@ -174,6 +174,7 @@ function EditTeamSpace({ route, navigation }) {
             </TouchableOpacity>
           ))}
         </View>
+        <View style={{ marginBottom: 48 }} />
       </ScrollView>
 
       {/* 하단 버튼 영역 */}
