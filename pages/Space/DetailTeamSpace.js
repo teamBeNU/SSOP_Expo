@@ -59,6 +59,11 @@ export default function DetailTeamSpace() {
     }
   };
 
+  const onConfirm = () => {
+    handleDeleteSpace(); // 삭제 작업 API 호출
+    showCustomToast('팀스페이스가 삭제되었어요.')
+  };
+
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -109,6 +114,7 @@ export default function DetailTeamSpace() {
                             }
                             btn1={'취소할래요'}
                             btn2={'네, 나갈래요'}
+                            onConfirm={onConfirm}
                           />
                         </>
                       )}
