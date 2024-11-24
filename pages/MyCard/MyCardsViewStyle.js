@@ -87,8 +87,6 @@ export const styles = StyleSheet.create({
     shadowOpacity: 0.09,
     shadowOpacity: 0.09,
     shadowRadius: 16,
-    borderWidth: 1,
-    borderColor: "rgba(244, 244, 244, 1.0)"
   },
   newCardText: {
     color: theme.white,
