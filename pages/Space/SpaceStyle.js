@@ -147,8 +147,6 @@ export const styles = StyleSheet.create({
 
     // 팀스페이스 카드
     host: {
-        width: 38,
-        height: 18,
         borderRadius: 8,
         marginRight: 8,
         backgroundColor: 'rgba(33, 33, 33, 0.80)',
