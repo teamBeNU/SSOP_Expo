@@ -119,7 +119,7 @@ export const styles = StyleSheet.create({
     logoutContainer: {
         marginVertical: 20,
         width: '30%',
-        marginHorizontal: 16, 
+        // marginHorizontal: 16, 
     },
     logoutText: {
         fontFamily: "PretendardRegular",

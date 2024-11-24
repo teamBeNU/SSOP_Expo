@@ -8,6 +8,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "./TemplateStyles";
 import { theme } from "../../theme";
 import DropDown from "./DropDown";
+import DropDownOption from "./DropDownOption";
 import AvatarCustom from "../Avatar/AvatarCustom";
 import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -15,6 +16,7 @@ import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import SelectCover from "./SelectCover";
 import { avatarCapture } from "../../utils/avatarCapture";
+import CustomModal from "./Modal/CustomModal";
 
 export default function TemplateStudentSchool ({navigation, card_template, step, setStep}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -46,7 +48,21 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
     const [card_student_club, setCardStudentClub] = useState(null);     // 동아리
     const [card_student_role, setCardStudentRole] = useState(null);     // 역할
 
+    // 모달
+    const [modalVisible, setModalVisible] = useState(false);    // 홈 버튼 클릭 시 모달 여부
+
+    const handleBtn1 = () => {    // 모달 - '계속 만들래요'
+        setModalVisible(false);
+    };
+
+    const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
+        setModalVisible(false);
+        navigation.goBack();
+    };
+
     // 드롭다운
+    const [dropDownMbti1Open, setDropDownMbti1Open] = useState(false);
+    const [dropDownMbti2Open, setDropDownMbti2Open] = useState(false);
     const [dropDownOpen, setDropDownOpen] = useState(false);
     const [teenGradeItems, setTeenGradeItems] = useState([
         { label: '1학년', value: '1학년' },
@@ -55,6 +71,18 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
         { label: '4학년', value: '4학년' },
         { label: '5학년', value: '5학년' },
         { label: '6학년', value: '6학년' }
+    ]);
+    const [mbti1Items, setMbti1Items] = useState([
+        { label: 'EN', value: 'EN' },
+        { label: 'ES', value: 'ES' },
+        { label: 'IN', value: 'IN' },
+        { label: 'IS', value: 'IS' },
+    ]);
+    const [mbti2Items, setMbti2Items] = useState([
+        { label: 'TJ', value: 'TJ' },
+        { label: 'TP', value: 'TP' },
+        { label: 'FJ', value: 'FJ' },
+        { label: 'FP', value: 'FP' },
     ]);
     
     const [isFull, setIsFull] = useState({
@@ -209,11 +237,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
     }
 
     // mbti
-    const handleMBTI = (input) => {
-        // 영어만 입력되도록 정규식 필터 적용
-        const filteredText = input.replace(/[^a-zA-Z]/g, '');
-        setCardMbti(filteredText.toUpperCase());
-    }
+    const [mbti1, setMbit1] = useState(null);
+    const [mbti2, setMbit2] = useState(null);
+
+    useEffect(() => {
+        let mbti = '';
+        if (mbti1 !== null && mbti2 !== null) { 
+            mbti = mbti1 + mbti2;
+        }
+        setCardMbti(mbti);
+    }, [mbti1, mbti2]);
 
     // 생년월일 '/' 자동 추가
     useEffect(() => {
@@ -257,7 +290,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
         }
     }
 
-    const isBirthCorrect = (b) => {
+    const validateBirth = (b) => {
         const birth = b.split('/');
 
         const year = birth[0];
@@ -274,6 +307,12 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
             month: isMonthValid,
             day: isDayValid,
         });
+
+        return {
+            year: isYearValid,
+            month: isMonthValid,
+            day: isDayValid,
+        };
     }
 
     // 생년월일 비밀
@@ -297,10 +336,10 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
             const isBirthFull = card_birth != null && card_birth !== '';
 
             setIsFull((prev => ({ ...prev, name: isNameFull, introduction: isIntroductionFull, birth: isBirthFull })));
-            isBirthCorrect(card_birth);
+            const birthValidity = validateBirth(card_birth);
 
             if (isNameFull && isIntroductionFull) {
-                if(!isBirthFull || (isBirthFull && isBirthValid.year && isBirthValid.month && isBirthValid.day)) {
+                if(!isBirthFull || (isBirthFull && birthValidity.year && birthValidity.month && birthValidity.day)) {
                     setStep(2);
                 }
             }
@@ -341,25 +380,28 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                     }}>
                         <LeftArrowIcon style={{ marginLeft: 8 }}/>
                     </TouchableOpacity>
-                )
+                ),
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => {setModalVisible(true);}}>
+                        <HomeIcon style={{marginRight: 20}}/>
+                    </TouchableOpacity>
+                ),
             });
         }
     
         if (step === 1 || step === 2 || step === 3 || step === 4 || step === 5) {
             navigation.setOptions({
-                headerTitle: '카드 정보 작성',
+                headerTitle: '카드 정보 작성하기',
                 headerTitleAlign: 'center',
-                headerRight: null,
             });
         } else if (step === 6) {
             navigation.setOptions({
-                headerTitle: '카드 생성',
+                headerTitle: '카드 커버 선택하기',
                 headerTitleAlign: 'center',
-                headerRight: null,
             });
         } else if (step === 7) {
             navigation.setOptions({
-                headerTitle: '아바타 커스터마이징',
+                headerTitle: '아바타 커스터마이징하기',
                 headerTitleAlign: 'center',
                 headerRight: () => (
                     <TouchableOpacity
@@ -374,7 +416,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
             });
         } else if (step === 8) {
             navigation.setOptions({
-                headerTitle: '카드 생성',
+                headerTitle: '카드 만들기',
                 headerTitleAlign: 'center',
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {navigation.goBack();}}>
@@ -404,11 +446,11 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
     return (
         <View style={{flex:1}}>
             {step === 1 && (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -443,10 +485,10 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                             keyboardType="default"
                                             value={card_introduction}
                                             onChangeText={setCardIntroduction}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input3.current.focus()}
+                                            returnKeyType="done"
+                                            // onSubmitEditing={() => ref_input3.current.focus()}
                                             ref={ref_input2}
-                                            blurOnSubmit={false}
+                                            blurOnSubmit={true}
                                         />
                                         {!isFull.introduction && (
                                             <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
@@ -454,19 +496,29 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                     </View>
                                     <View style={styles.inputContainer}>
                                         <Text style={styles.inputText}>MBTI</Text>
-                                        <TextInput
-                                            style={styles.customInput}
-                                            placeholder="MBTI를 입력해 주세요."
-                                            placeholderTextColor={theme.gray60}
-                                            keyboardType="default"
-                                            value={card_mbti}
-                                            onChangeText={handleMBTI}
-                                            maxLength={4}
-                                            returnKeyType="next"
-                                            onSubmitEditing={() => ref_input4.current.focus()}
-                                            ref={ref_input3}
-                                            blurOnSubmit={false}
-                                        />
+                                        <View style={[styles.dropDownContainerZIndex1, styles.flexDirectionRow]}>
+                                            <DropDownOption
+                                                dropDownOpen={dropDownMbti1Open}
+                                                dropDownValue={mbti1}
+                                                setDropDownOpen={setDropDownMbti1Open}
+                                                setDropDownValue={setMbit1}
+                                                items={mbti1Items}
+                                                setItems={setMbti1Items}
+                                                placeholder={'앞 2자리'}
+                                                isError={true}
+                                            />
+                                            <View style={styles.marginR8}></View>
+                                            <DropDownOption
+                                                dropDownOpen={dropDownMbti2Open}
+                                                dropDownValue={mbti2}
+                                                setDropDownOpen={setDropDownMbti2Open}
+                                                setDropDownValue={setMbit2}
+                                                items={mbti2Items}
+                                                setItems={setMbti2Items}
+                                                placeholder={'뒤 2자리'}
+                                                isError={true}
+                                            />
+                                        </View>
                                     </View>
                                     <View style={styles.line}></View>
                                     <Text style={styles.birthTitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
@@ -481,7 +533,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                             value={card_birth}
                                             onChangeText={setCardBirth}
                                             returnKeyType="done"
-                                            ref={ref_input4}
+                                            // ref={ref_input4}
                                             blurOnSubmit={true}
                                         />
                                         {isFull.birth && (!isBirthValid.year || !isBirthValid.month || !isBirthValid.day) && (
@@ -506,16 +558,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 2 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -594,16 +646,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 3 && (
-                <KeyboardAvoidingView
-                    behavior="padding"
-                    style={styles.container} 
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView
+                //     behavior="padding"
+                //     style={styles.container} 
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -657,16 +709,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 4 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -744,16 +796,16 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 5 && (
-                <KeyboardAvoidingView 
-                    behavior="padding"
-                    style={styles.container}
-                >
-                    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+                // <KeyboardAvoidingView 
+                //     behavior="padding"
+                //     style={styles.container}
+                // >
+                //     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
                         <View style={styles.viewContainer}>
                             <ScrollView 
                                 contentContainerStyle={{ flexGrow: 1 }}
@@ -831,8 +883,8 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 </TouchableOpacity>
                             </View>
                         </View>
-                    </TouchableWithoutFeedback>
-                </KeyboardAvoidingView>
+                //     </TouchableWithoutFeedback>
+                // </KeyboardAvoidingView>
             )}
 
             {step === 6 && (
@@ -878,7 +930,21 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                         </TouchableOpacity>
                     </View>
                 </View>
-            )}      
+            )}
+
+            {modalVisible && (
+                <CustomModal 
+                    modalVisible={modalVisible}
+                    setModalVisible={setModalVisible}
+                    handleBtn1={handleBtn1}
+                    handleBtn2={handleBtn2}
+                    modalTitle={`카드 만들기를 취소하고${"\n"}홈으로 돌아가시겠어요?`}
+                    modalText={'지금까지 작성한 작업이 없어져요.'}
+                    btn1={'계속 만들래요'}
+                    btn2={'네 돌아갈래요'}
+                    btnMargin={26.5}
+                />
+            )}
         </View>
     );
 }

@@ -7,6 +7,7 @@ import { View, Text, TextInput, Modal, TouchableOpacity, TouchableWithoutFeedbac
 import * as Progress from 'react-native-progress';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import HomeIcon from '../../assets/icons/ic_home_gray.svg';
 import People from '../../assets/icons/ic_people_small_fill.svg';
 
 import AvatarSample1 from '../../assets/icons/AbatarSample1';
@@ -201,7 +202,13 @@ function EnterTeamSp({ navigation, route }) {
   }, [navigation, step]);
 
   const handleHeaderLeft = (onPress) => {
-    if (step < 6) {
+    if (step === 1) {
+      return (
+        <TouchableOpacity onPress={handleBack}>
+          <CloseIcon style={{ marginLeft: 8 }} />
+        </TouchableOpacity>
+      );
+    } else if (step < 6) {
       return (
         <TouchableOpacity onPress={handleBack}>
           <LeftArrowIcon style={{ marginLeft: 8 }} />
@@ -225,6 +232,25 @@ function EnterTeamSp({ navigation, route }) {
         break;
     }
   };
+
+  useEffect(() => {
+    if (step === 4) {
+      navigation.setOptions({
+        headerTitle: '카드 만들기',
+        headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {navigation.goBack();}}>
+            <CloseIcon style={{marginLeft: 8}}/>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {navigation.navigate('홈');}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
+    }
+  })
 
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

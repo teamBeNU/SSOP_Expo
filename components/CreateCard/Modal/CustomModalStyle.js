@@ -1,7 +1,5 @@
-import { StyleSheet, Dimensions } from "react-native"
-import { theme } from "../../theme"
-
-const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
+import { StyleSheet } from "react-native"
+import { theme } from "../../../theme"
 
 export const styles = StyleSheet.create({
     centeredView: {
@@ -83,4 +81,4 @@ export const styles = StyleSheet.create({
         textAlign: "center",
         letterSpacing: -0.14,
     },
-  });
+});
