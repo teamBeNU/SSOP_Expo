@@ -35,16 +35,16 @@ const OpenURLButton = ({url, children}) => {
     (cardData.cardOptional.card_birth !== "" || !cardData.cardOptional.card_bSecret) && 
     cardData.cardOptional.card_MBTI !== "");
     const isOptional2 =(cardData) =>  (
-        cardData.cardOptional.card_tel !== "" || 
-        cardData.cardOptional.card_email !== "" ||
-        cardData.cardOptional.card_sns_insta !== "" ||
-        cardData.cardOptional.card_sns_x !== ""
+        cardData.cardOptional.card_tel !== "" || cardData.cardOptional.card_tel !== null ||
+        cardData.cardOptional.card_email !== "" || cardData.cardOptional.card_email !== null ||
+        cardData.cardOptional.card_sns_insta !== "" || cardData.cardOptional.card_sns_insta !== null ||
+        cardData.cardOptional.card_sns_x !== "" || cardData.cardOptional.card_sns_x !== null
     );
     const isOptional3 =(cardData) =>  (
-        cardData.cardOptional.card_hobby !== "" ||
-        cardData.cardOptional.card_music !== "" ||
-        cardData.cardOptional.card_movie !== "" ||
-        cardData.cardOptional.card_address !== ""
+        cardData.cardOptional.card_hobby !== "" || cardData.cardOptional.card_hobby !== null ||
+        cardData.cardOptional.card_music !== "" || cardData.cardOptional.card_music !== null ||
+        cardData.cardOptional.card_movie !== "" || cardData.cardOptional.card_movie !== null ||
+        cardData.cardOptional.card_address !== "" || cardData.cardOptional.card_address !== null
     );
     
     const isTemplateOptional = (cardData) => {
