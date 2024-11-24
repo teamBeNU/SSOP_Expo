@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Clipboard from 'expo-clipboard';
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Modal } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Modal, Share } from "react-native";
 import Toast from "react-native-toast-message";
 import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
 import { RadioButton } from 'react-native-paper';
@@ -13,12 +13,12 @@ import * as Progress from 'react-native-progress';
 import * as Sharing from 'expo-sharing';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import Select from "../../assets/teamSp/select.svg";
-import ShareImage from '../../assets/icons/LinkShareImage.svg'
+import ShareImage from '../../assets/teamSp/EnterEndCard.svg'
 import ShareIcon from '../../assets/icons/ic_share_blue.svg';
 import StudentTemplate from "./StudentTemplate";
 import WorkerTemplate from "./WorkerTemplate";
 import FanTemplate from "./FanTemplate";
-import { cardSampleData,getSampleData } from "../../utils/cardSampleData";
+import { cardSampleData, getSampleData } from "../../utils/cardSampleData";
 
 export default function TeamSpTemplate({ navigation, goToOriginal, teamName, teamComment, card_template,
     // 학생
@@ -122,22 +122,22 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 
     // 학생템플릿 - 선택된 항목
     const handleVisibilityStud = (visibility) => {
-        setStudent(visibility);
+        setTimeout(() => setStudent(visibility), 0);
     };
 
     const handleVisibilityWorker = (visibility) => {
-        setWorker(visibility);
+        setTimeout(() => setWorker(visibility), 0);
     };
 
     const handleVisibilityFan = (visibility) => {
-        setFan(visibility);
+        setTimeout(() => setFan(visibility), 0);
     };
 
     // 학생템플릿 - 역할 선택된 리스트
     const handleRoleUpdate = (roles) => {
-        setSelectedRoles(roles);
+        setTimeout(() => setSelectedRoles(roles), 0);
     };
-    const [sampleData, setSampleData]  = useState({});
+    const [sampleData, setSampleData] = useState({});
 
     const showCustomToast = (text) => {
         Toast.show({
@@ -154,7 +154,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                 ...getSampleData(defaultText, connectText, extraText, student, worker, fan, cardCover, card_template),
                 plus: plusList.filter(item => item.selected).map(item => item.free),
             };
-    
+
             setSampleData(data);
             const anyStudentVisible = Object.values(student).some(value => value === true);
             const anyWorkerVisible = Object.values(worker).some(value => value === true);
@@ -216,7 +216,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                     setRequestData(newRequestData);
                     setStep(2); // Step 2로 이동
                 } catch (error) {
-                    console.error('newRequestData 생성 중 에러:', error);
+                    console.error('TeamSpTemplate - newRequestData 생성 중 에러:', error);
                 }
             }
         } else if (step === 2) {
@@ -321,26 +321,30 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
         try {
             const stringInviteCode = String(inviteCode);
             await Clipboard.setStringAsync(stringInviteCode);
-            Alert.alert("클립보드에 복사되었습니다.");
+            showCustomToast("클립보드에 복사되었습니다.");
         } catch (error) {
             console.error("클립보드 복사 실패:", error);
-            Alert.alert("클립보드 복사 중 오류가 발생했습니다.");
+            showCustomToast("클립보드 복사 중 오류가 발생했습니다.");
         }
     };
 
     const shareInviteCode = async () => {
         try {
-            const isAvailable = await Sharing.isAvailableAsync();
-            if (!isAvailable) {
-                Alert.alert('링크를 공유할 수 없습니다.');
-                return;
-            }
-
-            await Sharing.shareAsync('https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=4', {
-                dialogTitle: '네 세계에 쏩 빠지다, SSOP 카드로 서로에게 스며들다',
+            const result = await Share.share({
+                title: '네 세계에 쏩 빠지다, SSOP 카드로 서로에게 스며들다',
+                message: `https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=4`, // 카드 ID를 메시지로 전달
             });
+            if (result.action === Share.sharedAction) {
+                if (result.activityType) {
+                    console.log('특정 앱에서 공유 완료');
+                } else {
+                    console.log('공유 완료');
+                }
+            } else if (result.action === Share.dismissedAction) {
+                console.log('공유 취소');
+            }
         } catch (error) {
-            Alert.alert('Error sharing', error.message);
+            console.error('공유 오류:', error);
         }
     };
 
@@ -502,7 +506,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                 <View style={styles.plusContainer}>
                                     <TextInput
                                         style={[styles.nameInput, { flex: 1 }]}
-                                        placeholder='직접 입력하여 추가'
+                                        placeholder='직접 입력하여 추가하기'
                                         maxLength={5}
                                         value={plus}
                                         onChangeText={text => setPlus(text)}
@@ -535,17 +539,17 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                     <View style={styles.coverContainer}>
 
                                         <View style={styles.coverRadioBtn}>
-                                            <RadioButton value="free" color={theme.skyblue} />
+                                            <RadioButton value="free" color={theme.skyblue} uncheckedColor={theme.gray80} />
                                             <Text>자유</Text>
                                         </View>
 
                                         <View style={styles.coverRadioBtn}>
-                                            <RadioButton value="avatar" color={theme.skyblue} />
+                                            <RadioButton value="avatar" color={theme.skyblue} uncheckedColor={theme.gray80} />
                                             <Text>아바타만 허용</Text>
                                         </View>
 
                                         <View style={styles.coverRadioBtn}>
-                                            <RadioButton value="picture" color={theme.skyblue} />
+                                            <RadioButton value="picture" color={theme.skyblue} uncheckedColor={theme.gray80} />
                                             <Text>사진만 허용</Text>
                                         </View>
 
@@ -564,11 +568,11 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                     {/* 템플릿 예시 */}
                     {step === 2 && (
                         <View style={{ height: '100%' }} >
-                            <Text style={styles.title}> 팀원들이 제출할 템플릿은 {'\n'} 이렇게 구성되겠네요. </Text>
+                            <Text style={styles.title}>팀원들이 제출할 카드는{'\n'}이렇게 구성되겠네요. </Text>
                             <View style={styles.cardShadow}>
                                 <Card cardData={sampleData} />
                             </View>
-                            <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 탭하여 뒷면을 확인하세요. </Text>
+                            <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 터치하여 뒷면을 확인하세요. </Text>
 
                             <View style={[styles.btnContainer, { marginBottom: -28 }]}>
                                 <TouchableOpacity style={styles.btnNext} onPress={handleCheck} >
@@ -607,57 +611,19 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                     {/* 초대 코드 */}
                     {step === 3 && (
                         <View style={{ height: '100%' }}>
-                            <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
-                                {'\n'} 바로 초대해 보세요. </Text>
+                            <Text style={[styles.largetitle, { marginTop: 30 }]}>
+                                팀스페이스를 다 만들었어요!
+                                {'\n'}이제 팀스페이스에 보여질{'\n'}내 카드를 등록하세요.
+                            </Text>
+                            <Text style={styles.gray60text}>카드를 등록해야 팀스페이스를 볼 수 있어요.</Text>
 
                             <View style={styles.shareContainer}>
                                 <ShareImage />
-                                <View style={styles.shareBox}>
-                                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={handleShareButtonPress}>
-                                        <ShareIcon /><Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
-                                    </TouchableOpacity>
-                                    <Modal
-                                        animationType="fade"
-                                        transparent={true}
-                                        visible={isModalVisible}
-                                        onRequestClose={() => {
-                                            setIsModalVisible(!isModalVisible);
-                                        }}>
-                                        <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
-                                            <View style={styles.shareModalContainer}>
-                                                <TouchableWithoutFeedback>
-                                                    <View style={styles.ShareModalView}>
-                                                        <TouchableOpacity
-                                                            onPress={() => {
-                                                                copyInviteCode();
-                                                                setIsModalVisible(false);
-                                                            }}
-                                                        >
-                                                            <Text style={[styles.ShareModalText, { lineHeight: 20 }]}>
-                                                                초대 링크 및 초대코드 복사하기 {"\n"}
-                                                                <Text style={styles.nameLeng}>초대코드 : {inviteCode}</Text>
-                                                            </Text>
-                                                        </TouchableOpacity>
-
-                                                        <View style={{ borderBottomWidth: 1, borderBottomColor: theme.gray90 }} />
-
-                                                        <TouchableOpacity onPress={shareInviteCode}>
-                                                            <Text style={styles.ShareModalText}>초대 링크 및 초대코드 공유하기</Text>
-                                                        </TouchableOpacity>
-                                                    </View>
-                                                </TouchableWithoutFeedback>
-                                            </View>
-                                        </TouchableWithoutFeedback>
-                                    </Modal>
-                                </View>
                             </View>
 
                             <View style={[styles.btnContainer, { marginBottom: -16 }]}>
                                 <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('팀스페이스 입장', { step: 2, inviteCode: inviteCode })}>
-                                    <Text style={styles.btnText}> 카드 생성하기 </Text>
-                                </TouchableOpacity>
-                                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
-                                    <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
+                                    <Text style={styles.btnText}> 카드 등록하기 </Text>
                                 </TouchableOpacity>
                             </View>
 

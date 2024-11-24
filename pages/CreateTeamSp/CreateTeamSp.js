@@ -142,8 +142,8 @@ function CreateTeamSp({ navigation }) {
   const items = [
     { id: 'student', label: '학생', description: '학교에 다닌다면', icon: <Student /> },
     { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker /> },
-    { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', icon: <Fan /> },
-    { id: 'free', label: '자유 생성', description: '내 마음대로 카드를\n만들고 싶다면', icon: <Free /> },
+    { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠 등\n누군가의 팬이라면', icon: <Fan /> },
+    { id: 'free', label: '유형 믹스', description: '자유롭게 정보를\n선택하여 작성', icon: <Free /> },
   ]
 
   //step4 - 템플릿 선택
@@ -158,10 +158,10 @@ function CreateTeamSp({ navigation }) {
     try {
       const stringInviteCode = String(inviteCode);
       await Clipboard.setStringAsync(stringInviteCode);
-      Alert.alert("클립보드에 복사되었습니다.");
+      showCustomToast("클립보드에 복사되었습니다.");
     } catch (error) {
       console.error("클립보드 복사 실패:", error);
-      Alert.alert("클립보드 복사 중 오류가 발생했습니다.");
+      showCustomToast("클립보드 복사 중 오류가 발생했습니다.");
     }
   };
 
@@ -169,7 +169,7 @@ function CreateTeamSp({ navigation }) {
     try {
       const isAvailable = await Sharing.isAvailableAsync();
       if (!isAvailable) {
-        Alert.alert('Sharing is not available on this device');
+        showCustomToast('');
         return;
       }
 
@@ -177,7 +177,7 @@ function CreateTeamSp({ navigation }) {
         dialogTitle: 'SSOP Share TEST',
       });
     } catch (error) {
-      Alert.alert('Error sharing', error.message);
+      showCustomToast('Error sharing', error.message);
     }
   };
 
@@ -276,7 +276,7 @@ function CreateTeamSp({ navigation }) {
                 <RadioButton.Group onValueChange={status => setIsTemplate(status)} value={isTemplate}>
                   <TouchableOpacity onPress={() => setIsTemplate("yes")}>
                     <View style={[styles.RadioBtn, isTemplate !== "yes" && styles.nonSelect]} >
-                      <RadioButton value="yes" color={theme.skyblue} />
+                      <RadioButton value="yes" color={theme.skyblue} uncheckedColor={theme.gray80} />
                       <Text style={styles.font18}> 템플릿을 지정할래요 {"\n"}
                         <Text style={styles.name}> 제출 받아야 할 필수정보가 있다면 추천해요.</Text> </Text>
                     </View>
@@ -284,7 +284,7 @@ function CreateTeamSp({ navigation }) {
 
                   <TouchableOpacity onPress={() => setIsTemplate("no")}>
                     <View style={[styles.RadioBtn, isTemplate !== "no" && styles.nonSelect]}>
-                      <RadioButton value="no" color={theme.skyblue} />
+                      <RadioButton value="no" color={theme.skyblue} uncheckedColor={theme.gray80} />
                       <Text style={styles.font18}>자유롭게 제출하게 할래요 {"\n"}
                         <Text style={styles.name}>구성원들이 자유롭게 카드를 작성하여 제출해요.</Text> </Text>
                     </View>
@@ -360,7 +360,7 @@ function CreateTeamSp({ navigation }) {
           {/* 템플릿 성격 선택 */}
           {step === 5 && (
             <View>
-              <Text style={styles.largetitle}> 팀스페이스 성격에 제일 가까운 {'\n'} 템플릿을 선택하세요. </Text>
+              <Text style={[styles.largetitle, { marginTop: '15%',textAlign: 'center'}]}> 팀스페이스 성격에 제일 가까운 {'\n'} 템플릿을 선택하세요. </Text>
 
               <View style={styles.container}>
                 <View style={styles.row}>

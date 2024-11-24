@@ -75,14 +75,20 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     marginTop: 14,
     bottom: 16,
+
+    // Android - Shadow
     elevation: 3,
-    shadowColor: 'rgb(73, 81, 100)',
+    // IOS - Shadow
+    shadowColor: 'rgba(73, 81, 100)',
     shadowOffset: {
-     width: 4,
-     height: 4,
+        width: 4,
+        height: 4,
     },
     shadowOpacity: 0.09,
+    shadowOpacity: 0.09,
     shadowRadius: 16,
+    borderWidth: 1,
+    borderColor: "rgba(244, 244, 244, 1.0)"
   },
   newCardText: {
     color: theme.white,
@@ -115,14 +121,16 @@ export const styles = StyleSheet.create({
     alignItems: 'center',
     borderTopWidth: 1,
     borderTopColor: theme.gray95,
-    shadowColor: 'rgba(73, 81, 100, 0.09)',
+    // Android - Shadow
+    elevation: 3,
+    // IOS - Shadow
+    shadowColor: 'rgba(73, 81, 100)',
     shadowOffset: {
-      width: 0,
-      height: 2,
+        width: 4,
+        height: 4,
     },
-    shadowOpacity: 1,
+    shadowOpacity: 0.09,
     shadowRadius: 16,
-    elevation: 5,
   },
   delteBtn: {
     flexDirection: 'row',

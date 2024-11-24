@@ -282,7 +282,7 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
           <View>
           {cardData.map((item) => (
             <View key={item.cardId} style={styles.ListContainer}>
-              <TouchableOpacity onPress={() => handleNext(item.cardId)}>
+              <TouchableWithoutFeedback onPress={() => handleNext(item.cardId)}>
                 <View style={styles.row2}>
                   {/* {item.card_cover === 'avatar' ? (
                     <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor) }]}>
@@ -306,7 +306,7 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                     <Text style={styles.Text14gray30}>{item.cardEssential.card_introduction}</Text>
                   </View>
                 </View>
-              </TouchableOpacity>
+              </TouchableWithoutFeedback>
               
               <View style={styles.menuContainer} pointerEvents="box-none">
                 <Menu>

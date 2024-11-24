@@ -5,11 +5,14 @@ import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyb
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
+import CustomModal from "../CreateCard/Modal/CustomModal";
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 import * as ImagePicker from 'expo-image-picker';
 
-import EnterEndCard from '../../assets/teamSp/EnterEndCard';
+import EnterEndCard from '../../assets/icons/LinkShareImage.svg'
 import HostStudentTrue from "./HostStudentTrue";
 import HostStudentFalse from "./HostStudentFalse";
 import HostWorkerTrue from "./HostWorkerTrue";
@@ -24,7 +27,7 @@ import AvatarCustom from "../Avatar/AvatarCustom";
 import SelectCover from "../CreateCard/SelectCover";
 import { avatarCapture } from "../../utils/avatarCapture";
 
-export default function HostTemplate({ navigation, goToOriginal, data }) {
+export default function HostTemplate({ navigation, goToOriginal, data, isHost }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
   const [step, setStep] = useState(1);
@@ -80,7 +83,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   const [emptyMusic, setEmptyMusic] = useState(false);
   const [emptyMovie, setEmptyMovie] = useState(false);
   const [emptyAddress, setEmptyAddress] = useState(false);
-  
+
   const [profile_image_url, setProfileImageUrl] = useState(null);
   const [isPictureComplete, setIsPictureComplete] = useState(false);
   const [isAvatarComplete, setIsAvatarComplete] = useState(false);
@@ -216,11 +219,11 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
       const localUri = profile_image_url;
       const filename = localUri.split('/').pop();
       const fileMatch = /\.(\w+)$/.exec(filename);
-      const type = fileMatch ? `image/${fileMatch[1]}` : 'image'  
+      const type = fileMatch ? `image/${fileMatch[1]}` : 'image'
       formData.append('image', {
-          uri: localUri,
-          name: filename,
-          type: type
+        uri: localUri,
+        name: filename,
+        type: type
       });
     }
 
@@ -253,6 +256,16 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   const hasFanOptional = fanOptional !== undefined;
 
   const optionsCount = [hasStudentOptional, hasWorkerOptional, hasFanOptional].filter(Boolean).length;
+
+  // 모달
+  const [modalVisible, setModalVisible] = useState(false);    // 홈 버튼 클릭 시 모달 여부
+  const handleBtn1 = () => {    // 모달 - '계속 만들래요'
+    setModalVisible(false);
+  };
+  const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
+    setModalVisible(false);
+    navigation.goBack();
+  };
 
   const handleNext = () => {
     if (step === 1) { // 기본 정보
@@ -354,14 +367,14 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           setStep(7); // 호스트가 지정한 아바타/사진으로 안내
         }
     } else if (step === 6) { // 아바타/사진 선택
-      if(card_cover === "avatar") {   // card cover가 avatar인 경우
+      if (card_cover === "avatar") {   // card cover가 avatar인 경우
         setStep(8);
       } else if (card_cover === "picture" && profile_image_url) { // card cover가 picture 인 경우(step 8이 없음)
         handleSubmit();
         setStep(9);
       }
     } else if (step === 7) { // 커버 아바타 안내 / 사진 업로드
-      if(card_cover === "avatar") {   // card cover가 avatar인 경우
+      if (card_cover === "avatar") {   // card cover가 avatar인 경우
         setStep(8);
       } else if (card_cover === "picture" && profile_image_url) { // card cover가 picture 인 경우(step 8이 없음)
         handleSubmit();
@@ -377,12 +390,12 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   useEffect(() => {
     if (step === 8) {
       navigation.setOptions({
-        headerTitle: '아바타 커스터마이징',
+        headerTitle: '아바타 커스터마이징하기',
         headerTitleAlign: 'center',
         headerLeft: handleHeaderLeft,
         headerRight: () => (
           <TouchableOpacity
-            style={{marginRight: 20}}
+            style={{ marginRight: 20 }}
             onPress={() => {
               avatarCapture(viewShotRef, setProfileImageUrl, setIsAvatarComplete);
             }}
@@ -391,12 +404,43 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           </TouchableOpacity>
         ),
       });
+    } else if (step === 6) {
+      navigation.setOptions({
+        headerTitle: '카드 커버 선택하기',
+        headerTitleAlign: 'center',
+        headerLeft: handleHeaderLeft,
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {setModalVisible(true);}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
+    } else if (step === 9) {
+      navigation.setOptions({
+        headerTitle: '팀스페이스 입장 하기',
+        headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {navigation.goBack();}}>
+            <CloseIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {navigation.navigate('홈');}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
     } else {
-        navigation.setOptions({
-          headerTitle: '카드 생성',
-          headerTitleAlign: 'center',
-          headerLeft: handleHeaderLeft
-        });
+      navigation.setOptions({
+        headerTitle: '카드 정보 작성하기',
+        headerTitleAlign: 'center',
+        headerLeft: handleHeaderLeft,
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {setModalVisible(true);}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
     }
   }, [navigation, step]);
 
@@ -421,7 +465,7 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
         setStep(5);
         break;
       case 8:
-        if(coverInit === "free") {    // 호스트가 지정한 커버가 free일 경우
+        if (coverInit === "free") {    // 호스트가 지정한 커버가 free일 경우
           setStep(6);
         } else if (coverInit === "avatar") {    // 호스트가 지정한 커버가 avatar일 경우
           setStep(7);
@@ -497,11 +541,11 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
   }
 
   useEffect(() => {
-    if(isAvatarComplete && profile_image_url) {
+    if (isAvatarComplete && profile_image_url) {
       handleNext();
       setIsAvatarComplete(false);
     }
-    if(isPictureComplete && profile_image_url) {
+    if (isPictureComplete && profile_image_url) {
       handleNext();
       setIsPictureComplete(false);
     }
@@ -999,21 +1043,49 @@ export default function HostTemplate({ navigation, goToOriginal, data }) {
           {/* 팀스페이스 입장 완료 */}
           {step === 9 && (
             <View style={{ height: '100%' }}>
-              <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
+              <Text style={styles.font22}>
+                {isHost
+                  ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해보세요.`
+                  : `팀스페이스 입장이 완료되었어요!\n다른 구성원을 확인해 보세요.`
+                } </Text>
 
               <View style={{ alignItems: 'center', marginTop: 135 }}>
                 <EnterEndCard />
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('스페이스')}>
-                  <Text style={styles.btnText}> 팀스페이스 확인 </Text>
+                <TouchableOpacity
+                  style={[styles.btnNext, { marginBottom: 0 }]}
+                  onPress={() => navigation.navigate('스페이스')}
+                >
+                  <Text style={styles.btnText}>팀스페이스 확인</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
-                  <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
-                </TouchableOpacity>
+
+                {isHost && (
+                  <TouchableOpacity
+                    style={[styles.btnWhite, { marginTop: 8 }]}
+                    onPress={() => navigation.navigate('홈')}
+                  >
+                    <Text style={styles.btnTextBlack}>홈화면으로</Text>
+                  </TouchableOpacity>
+                )}
               </View>
             </View>
+          )}
+
+          {/* 홈 버튼 모달 */}
+          {modalVisible && (
+            <CustomModal 
+              modalVisible={modalVisible}
+              setModalVisible={setModalVisible}
+              handleBtn1={handleBtn1}
+              handleBtn2={handleBtn2}
+              modalTitle={`카드 만들기를 취소하고${"\n"}홈으로 돌아가시겠어요?`}
+              modalText={'지금까지 작성한 작업이 없어져요.'}
+              btn1={'계속 만들래요'}
+              btn2={'네 돌아갈래요'}
+              btnMargin={26.5}
+            />
           )}
         </View>
       </View >

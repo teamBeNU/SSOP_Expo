@@ -39,7 +39,7 @@ const DeleteMyCard = ({ route, navigation }) => {
 
   // 삭제 확인 함수
   const confirmDelete = async () => {
-    await deleteCard(selectedCards, navigation); // 카드 삭제 처리 로직 추가
+    await deleteCard(selectedCards, navigation, '내 카드'); // 카드 삭제 처리 로직 추가
     setModalVisible(false);
   };
 

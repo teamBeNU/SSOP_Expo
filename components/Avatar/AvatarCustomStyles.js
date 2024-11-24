@@ -83,7 +83,6 @@ export const styles = StyleSheet.create({
         height: 104,
         backgroundColor: "rgba(255, 255, 255, 0.80)",
         borderRadius: 26,
-        elevation: 4,
         justifyContent: "space-between",
         alignItems: "center",
         paddingVertical: 20,
@@ -92,6 +91,16 @@ export const styles = StyleSheet.create({
         top: '50%',
         right: 12,
         transform: [{ translateY: -52 }],  // 요소를 세로 방향으로 부모 요소의 중앙으로 이동. translateY는 y축 방향의 이동(52: avatarDo의 height/2)
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     avatarAuto: {
         zIndex: 10,
@@ -99,7 +108,6 @@ export const styles = StyleSheet.create({
         height: 36,
         backgroundColor: theme.gray10,
         borderRadius: 26,
-        elevation: 4,
         justifyContent: "center",
         alignItems: "center",
         paddingVertical: 6,
@@ -107,6 +115,16 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         left: 16,
         bottom: 12,
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     avatarAutoBtn: {
         flexDirection: "row",
@@ -131,14 +149,6 @@ export const styles = StyleSheet.create({
         height: 40,
         backgroundColor: "rgba(255, 255, 255, 0.80)",
         borderRadius: 26,
-        elevation: 4,
-        // shadowColor: "#000",
-        // shadowOffset: {
-        //     width: 10,
-        //     height: 40,
-        // },
-        // shadowOpacity: 0.5,
-        // shadowRadius: 12,
         justifyContent: "center",
         alignItems: "center",
         paddingVertical: 8,
@@ -146,6 +156,16 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         right: 12,
         bottom: 12,
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
     },
     avatarView: {
         // zIndex: -100,
