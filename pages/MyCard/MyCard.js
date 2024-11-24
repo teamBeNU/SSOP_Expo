@@ -27,7 +27,7 @@ function MyCard() {
 
     const handleDelete = () => {
         setMoreMenu(false);
-        navigation.navigate('내 카드 삭제', {cardData, viewOption, selectedOption });
+        navigation.navigate('내 카드 삭제', {cardData, viewOption, selectedOption, refreshData: fetchData });
     };
 
     const handleBluetoothPress = () => {
