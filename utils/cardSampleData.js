@@ -1,3 +1,5 @@
+import { avatarSample } from '../assets/Card/avatarSample.png';
+
 export const cardSampleData = {
     // 필수 입력
     cardEssential : {
@@ -60,7 +62,7 @@ export const cardSampleData = {
     },
 
     //사진
-    profile_image_url : "https://placehold.co/600x400?text=SSOP"
+    profile_image_url : avatarSample
   };
 
   export const getSampleData = (defaultText, connectText, extraText, student, worker, fan, cardCover, template) => {
@@ -74,16 +76,16 @@ export const cardSampleData = {
         cardOptional: {}
     };
 
-    // 커버 추가
-    if (cardCover === 'free') {
-        data.avatar = cardSampleData.avatar;
-    }
-    if(cardCover === 'avatar') {
-        data.avatar = cardSampleData.avatar;
-    } 
-    if (cardCover === 'picture') {
-        data.profile_image_url = cardSampleData.profile_image_url;
-    }
+    // // 커버 추가
+    // if (cardCover === 'free') {
+    //     data.cover = avatarSample;
+    // }
+    // if(cardCover === 'avatar') {
+    //     data.cover = avatarSample;
+    // } 
+    // if (cardCover === 'picture') {
+    //     data.cover = avatarSample;
+    // }
 
     // 기본 정보 추가
     if (defaultText.showAge) {
