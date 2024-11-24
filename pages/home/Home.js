@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Image, Dimensions, Platform, PermissionsAndroid } from "react-native";
+import { View, Text, ScrollView, Image, Dimensions, Platform, PermissionsAndroid, Alert } from "react-native";
 import { styles } from './HomeStyle';
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
 
 import { parseHTMLData } from '../../utils/parseHTMLData';
-import * as FileSystem from 'expo-file-system';
-// import * as MediaLibrary from 'expo-media-library';
-// import * as RNFS from 'react-native-fs';
 
 import CreateCardIcon from '../../assets/HomeIcon/img_banner.svg';
 import ArrowIconWhite from '../../assets/HomeIcon/ic_arrow_white.svg';
@@ -55,33 +52,6 @@ const getFile = async () => {
         console.log('파일 권한이 거부되었습니다.');
         return;
     }
-
-    // const filePath = `${RNFS.ExternalStorageDirectoryPath}/Download/bluetooth_content_share.html`;
-    const filePath = `/storage/emulated/0/Download/bluetooth_content_share.html`;
-
-    try {
-        const fileExists = await FileSystem.readDirectoryAsync(FileSystem.documentDirectory);
-        if (fileExists) {
-            const fileContent = await FileSystem.readAsStringAsync(filePath);
-            console.log('파일 내용:', fileContent);
-        } else {
-            console.log('파일이 존재하지 않습니다.');
-        }
-    } catch (error) {
-        console.error('파일 읽기 오류:', error);
-
-        //   const fileExists = await RNFS.exists(filePath);
-        //   if (fileExists) {
-        //     const content = await RNFS.readFile(filePath, 'utf8');
-        //     setFileContent(content);  // 상태 업데이트
-        //     } else {
-        //       console.log('파일이 존재하지 않습니다.');
-        //     }
-        //   } catch (error) {
-        //     console.error('파일 읽기 오류:', error);
-    }
-
-
 }
 
 function Home({ navigation }) {
