@@ -76,13 +76,15 @@ const CardsView = ({
       return acc;
     }, {});
 
+    // 날짜별 정렬 (최신순 또는 오래된 순)
     const sortedDates = Object.keys(grouped).sort((a, b) =>
       selectedOption === '오래된 순' ? new Date(a) - new Date(b) : new Date(b) - new Date(a)
     );
 
+    // 각 그룹 안의 카드도 최신순으로 정렬
     return sortedDates.map((date) => ({
       date: formatDateWithDay(date),
-      cards: grouped[date],
+      cards: grouped[date].sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt)), // 최신순 정렬
     }));
   };
 
