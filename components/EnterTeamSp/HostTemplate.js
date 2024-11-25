@@ -227,6 +227,10 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
       });
     }
 
+    console.log('templateData: ', templateData)
+    console.log('requestData: ', requestData)
+    console.log('formData: ', formData)
+
     try {
       const response = await axios.post(
         `${baseUrl}/teamsp/member/create/${data.teamId}`,
@@ -819,12 +823,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                 <Text style={[styles.subtitle, { marginLeft: 16 }]}>더 보여주고 싶은 정보만 선택하여 입력하세요. </Text>
 
                 {optionsCount >= 2 ? (
-                  <HostFreeFalse onDataChange={handleTemplateData} />
+                  <HostFreeFalse onData={templateData} onDataChange={handleTemplateData} />
                 ) : (
                   <>
-                    {hasStudentOptional && <HostStudentFalse studentOptional={studentOptional} onDataChange={handleTemplateData} />}
-                    {hasWorkerOptional && <HostWorkerFalse workerOptional={workerOptional} onDataChange={handleTemplateData} />}
-                    {hasFanOptional && <HostFanFalse fanOptional={fanOptional} onDataChange={handleTemplateData} />}
+                    {hasStudentOptional && <HostStudentFalse studentOptional={studentOptional} onData={templateData} onDataChange={handleTemplateData} />}
+                    {hasWorkerOptional && <HostWorkerFalse workerOptional={workerOptional} onData={templateData} onDataChange={handleTemplateData} />}
+                    {hasFanOptional && <HostFanFalse fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} />}
                   </>
                 )}
 

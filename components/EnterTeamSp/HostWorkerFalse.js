@@ -3,12 +3,12 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostWorkerFalse({ workerOptional, onDataChange }) {
+export default function HostWorkerFalse({ workerOptional, onData, onDataChange }) {
 
-    const [card_company, setCompany] = useState('');
-    const [card_job, setJob] = useState('');
-    const [card_position, setPosition] = useState('');
-    const [card_part, setPart] = useState('');
+    const [card_company, setCompany] = useState(onData.card_company);
+    const [card_job, setJob] = useState(onData.card_job);
+    const [card_position, setPosition] = useState(onData.card_position);
+    const [card_part, setPart] = useState(onData.card_part);
 
     const [showCompany, setShowCompany] = useState(0);
     const [showJob, setShowJob] = useState(0);
