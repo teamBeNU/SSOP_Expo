@@ -8,6 +8,7 @@ import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import CustomModal from "../CreateCard/Modal/CustomModal";
+import DropDown from "./DropDown";
 import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 import * as ImagePicker from 'expo-image-picker';
@@ -102,6 +103,32 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
       ...data,     // 새로운 데이터 추가
     }));
   };
+
+  // mbti
+  const [dropDownMbti1Open, setDropDownMbti1Open] = useState(false);
+  const [dropDownMbti2Open, setDropDownMbti2Open] = useState(false);
+  const [mbti1Items, setMbti1Items] = useState([
+    { label: 'EN', value: 'EN' },
+    { label: 'ES', value: 'ES' },
+    { label: 'IN', value: 'IN' },
+    { label: 'IS', value: 'IS' },
+  ]);
+  const [mbti2Items, setMbti2Items] = useState([
+    { label: 'TJ', value: 'TJ' },
+    { label: 'TP', value: 'TP' },
+    { label: 'FJ', value: 'FJ' },
+    { label: 'FP', value: 'FP' },
+  ]);
+    
+  const [mbti1, setMbit1] = useState(null);
+  const [mbti2, setMbit2] = useState(null);
+  useEffect(() => {
+    let mbti = '';
+    if (mbti1 !== null && mbti2 !== null) { 
+        mbti = mbti1 + mbti2;
+    }
+    setMBTI(mbti);
+  }, [mbti1, mbti2]);
 
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
@@ -562,10 +589,6 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
   const maxSteps = 9;
   const initialProgress = 0.4285;
 
-  useEffect(() =>{
-    console.log('templateData!!!!!!: ', templateData)
-  }, [templateData])
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View>
@@ -628,7 +651,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                   {showMBTI ?
                     <Text style={styles.nameBold}>MBTI <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>MBTI</Text>}
-                  <TextInput
+                  {/* <TextInput
                     style={[styles.nameInput, showMBTI && emptyMbti && styles.inputEmpty]}
                     placeholder="MBTI를 입력하세요."
                     keyboardType="default"
@@ -636,7 +659,32 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                     value={card_MBTI}
                     onChangeText={text => setMBTI(text.toUpperCase())}  // 입력 값을 대문자
                     ref={MBTIRef}
-                  />
+                  /> */}
+                  <View style={[styles.dropDownContainerZIndex1, styles.flexDirectionRow]}>
+                    <DropDown
+                      dropDownOpen={dropDownMbti1Open}
+                      dropDownValue={mbti1}
+                      setDropDownOpen={setDropDownMbti1Open}
+                      setDropDownValue={setMbit1}
+                      items={mbti1Items}
+                      setItems={setMbti1Items}
+                      placeholder={'앞 2자리'}
+                      isError={!emptyMbti}
+                      showMbti={showMBTI}
+                    />
+                    <View style={styles.marginR8}></View>
+                    <DropDown
+                      dropDownOpen={dropDownMbti2Open}
+                      dropDownValue={mbti2}
+                      setDropDownOpen={setDropDownMbti2Open}
+                      setDropDownValue={setMbit2}
+                      items={mbti2Items}
+                      setItems={setMbti2Items}
+                      placeholder={'뒤 2자리'}
+                      isError={!emptyMbti}
+                      showMbti={showMBTI}
+                    />
+                  </View>
                   {showMBTI && emptyMbti && (
                     <Text style={styles.inputEmptyText}> MBTI를 입력해 주세요.</Text>
                   )}

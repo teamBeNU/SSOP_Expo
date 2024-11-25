@@ -222,6 +222,14 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     // 호스트 지정 템플릿
+    // mbti
+    dropDownContainerZIndex1: {
+        marginRight: "63%",
+        zIndex: 1,
+    }, 
+    flexDirectionRow: {
+        flexDirection: "row",
+    },
     // 생년월일
     birthInput: {
         // width: (Dimensions.get('window').width - 48) / 2,
