@@ -182,7 +182,7 @@ function Step2Screen({ route, navigation}) {
   };
       // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
       const navigateToLinkReceiver = () => {
-        const testLink = 'https://ssopbenu.app.link/isPooJFFGOb'; // 임시 링크
+        const testLink = 'https://ssopbenu.app.link/FWEQVZZoLOb'; // 임시 링크
         console.log("네비게이션을 통해 전달된 링크:", testLink);
         navigation.navigate('카드 저장', { link: testLink });
       };

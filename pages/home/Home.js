@@ -148,26 +148,6 @@ function Home({ navigation }) {
         getFile();
     }, [])
 
-
-    // API 요청 함수
-    // const sendApiRequest = async (cardId) => {
-    //     try {
-    //         const response = await axios.post(`${baseUrl}/card/save?cardId=${cardId}`, {}, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${token}`,
-    //             },
-    //         });
-    //         if (response.status === 200) {
-    //             console.log("카드 ID 저장 성공:", response.data.message);
-    //         } else {
-    //             console.log("카드 ID 저장 실패:", response.data.message);
-    //         }
-    //     } catch (error) {
-    //         console.error('API 요청 오류:', error);
-    //     }
-    // };
-
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
             <View style={styles.mainlayout}>
