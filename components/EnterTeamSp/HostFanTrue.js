@@ -3,14 +3,14 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostFanTrue({ fanOptional, onDataChange }) {
+export default function HostFanTrue({ fanOptional, onData, onDataChange }) {
 
     const [isEmpty, setIsEmpty] = useState(false);
 
-    const [card_genre, setGenre] = useState('');
-    const [card_favorite, setFavorite] = useState('');
-    const [card_second, setSecond] = useState('');
-    const [card_reason, setReason] = useState('');
+    const [card_genre, setGenre] = useState(onData?.card_genre || '');
+    const [card_favorite, setFavorite] = useState(onData?.card_favorite || '');
+    const [card_second, setSecond] = useState(onData?.card_second || '');
+    const [card_reason, setReason] = useState(onData?.card_reason || '');
 
     const [showGenre, setShowGenre] = useState(1);
     const [showFavorite, setShowFavorite] = useState(1);

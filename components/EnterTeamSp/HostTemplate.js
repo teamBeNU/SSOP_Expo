@@ -97,7 +97,10 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
 
   // 하위 템플릿 컴포넌트에서 데이터를 받아오는 콜백 함수
   const handleTemplateData = (data) => {
-    setTemplateData(data);
+    setTemplateData((prevData) => ({
+      ...prevData, // 이전 데이터 유지
+      ...data,     // 새로운 데이터 추가
+    }));
   };
 
   // AsyncStorage에서 토큰 가져오기
@@ -559,6 +562,10 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
   const maxSteps = 9;
   const initialProgress = 0.4285;
 
+  useEffect(() =>{
+    console.log('templateData!!!!!!: ', templateData)
+  }, [templateData])
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View>
@@ -800,9 +807,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                 <Text style={styles.title}>호스트가 지정한 정보를 입력해 주세요.</Text>
                 <Text style={styles.subtitle}>필수로 입력해야 하는 정보예요. </Text>
 
-                {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} onDataChange={handleTemplateData} />}
-                {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onDataChange={handleTemplateData} />}
-                {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onDataChange={handleTemplateData} />}
+                {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} onData={templateData} onDataChange={handleTemplateData} />}
+                {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onData={templateData} onDataChange={handleTemplateData} />}
+                {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} />}
 
               </ScrollView>
 
@@ -1065,14 +1072,14 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                   <Text style={styles.btnText}>팀스페이스 확인</Text>
                 </TouchableOpacity>
 
-                {isHost && (
+                {/* {isHost && (
                   <TouchableOpacity
                     style={[styles.btnWhite, { marginTop: 8 }]}
                     onPress={() => navigation.navigate('홈')}
                   >
                     <Text style={styles.btnTextBlack}>홈화면으로</Text>
                   </TouchableOpacity>
-                )}
+                )} */}
               </View>
             </View>
           )}

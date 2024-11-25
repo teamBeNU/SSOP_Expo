@@ -5,10 +5,10 @@ import "react-native-gesture-handler";
 
 export default function HostWorkerFalse({ workerOptional, onData, onDataChange }) {
 
-    const [card_company, setCompany] = useState(onData.card_company);
-    const [card_job, setJob] = useState(onData.card_job);
-    const [card_position, setPosition] = useState(onData.card_position);
-    const [card_part, setPart] = useState(onData.card_part);
+    const [card_company, setCompany] = useState(onData?.card_company || '');
+    const [card_job, setJob] = useState(onData?.card_job || '');
+    const [card_position, setPosition] = useState(onData?.card_position || '');
+    const [card_part, setPart] = useState(onData?.card_part || '');
 
     const [showCompany, setShowCompany] = useState(0);
     const [showJob, setShowJob] = useState(0);
