@@ -317,7 +317,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
       const month = card_birth.slice(5, 7);
       const day = card_birth.slice(8, 10);
 
-      const isBirthFull = year !== '' && month !== '' && day !== '';
+      const isBirthFull = card_birth != null && card_birth !== '';
 
       const isLeapYear = (year) => {    // 윤년 구하기
         return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0));
@@ -352,7 +352,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
 
       if (!newEmptyName && !newEmptyIntroduction &&
         (!showBirth || !newEmptyBirth) &&
-        (!showMBTI || !newEmptyMbti)
+        (!showMBTI || !newEmptyMbti) &&
+        (!isBirthFull || (isBirthFull && isYearCorrect && isMonthCorrect && isDayCorrect))
       )
         setStep(2);
 
@@ -700,7 +701,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                     <Text style={styles.nameBold}>생년월일 8자리 <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>생년월일 8자리</Text>}
                   <TextInput
-                    style={[styles.birthInput, styles.birthInputbox, styles.marginR8, showBirth && emptyBirth && styles.inputEmpty]}
+                    style={[styles.birthInput, styles.birthInputbox, styles.marginR8, (!emptyBirth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day)) && styles.inputEmpty]}
                     placeholder="YYYY/MM/DD"
                     placeholderTextColor={theme.gray60}
                     keyboardType="numeric"
