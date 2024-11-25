@@ -88,16 +88,18 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
   const [profile_image_url, setProfileImageUrl] = useState(null);
   const [isPictureComplete, setIsPictureComplete] = useState(false);
   const [isAvatarComplete, setIsAvatarComplete] = useState(false);
-  const [coverInit, setCoverInit] = useState(null);   // 호스트가 지정한 커버 (free, avtar, picture)
-
+  
   const [isBirthCorrect, setIsBirthCorrect] = useState({ year: true, month: true, day: true });
 
   const currentYear = new Date().getFullYear();
 
+  // 처음 선택한 카드 커버 저장
+  const [coverInit, setCoverInit] = useState(null);   // 호스트가 지정한 커버 (free, avtar, picture)
+
+  // 하위 템플릿 데이터
   const [templateData, setTemplateData] = useState({}); // 하위 템플릿에서 전달된 데이터를 저장하는 곳
 
-  // 하위 템플릿 컴포넌트에서 데이터를 받아오는 콜백 함수
-  const handleTemplateData = (data) => {
+  const handleTemplateData = (data) => {    // 하위 템플릿 컴포넌트에서 데이터를 받아오는 콜백 함수
     setTemplateData((prevData) => ({
       ...prevData, // 이전 데이터 유지
       ...data,     // 새로운 데이터 추가
@@ -395,7 +397,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
         (!showMovie || !newEmptyMovie) &&
         (!showAddress || !newEmptyAddress)
       )
-        if (card_cover === "free") {
+        if (coverInit === "free") {
           setStep(6) // 아바타와 사진 중 택 1
         }
         else {
@@ -851,7 +853,10 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
           {/* 템플릿 정보 - 필수 */}
           {step === 3 && (
             <View style={{ height: '100%' }}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+              <ScrollView
+                showsVerticalScrollIndicator={false}
+                contentContainerStyle={{ flexGrow: 1 }}
+              >
 
                 <Text style={styles.title}>호스트가 지정한 정보를 입력해 주세요.</Text>
                 <Text style={styles.subtitle}>필수로 입력해야 하는 정보예요. </Text>
@@ -1044,7 +1049,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
           {/* 커버 아바타 안내 / 사진선택 */}
           {step === 7 && (
             <View style={{ height: '100%' }}>
-              {card_cover === "avatar" && (
+              {coverInit === "avatar" && (
                 <View>
                   <Text style={styles.coverTitle}>호스트가 카드 커버를{'\n'}아바타로 지정했어요.</Text>
                   <View
@@ -1059,7 +1064,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                 </View>
               )}
 
-              {card_cover === "picture" && (
+              {coverInit === "picture" && (
                 <>
                   <Text style={styles.coverTitle}>호스트가 카드 커버를{'\n'}사진으로 지정했어요.</Text>
                   <View
@@ -1075,13 +1080,13 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
 
               )}
               <View style={styles.btnContainer}>
-                {card_cover === "avatar" && (
-                  <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                {coverInit === "avatar" && (
+                  <TouchableOpacity style={styles.btnNext} onPress={() => {setCover("avatar"); handleNext();}}>
                     <Text style={styles.btnText}> 아바타 커스터마이징하러 가기 </Text>
                   </TouchableOpacity>
                 )}
-                {card_cover === "picture" && (
-                  <TouchableOpacity style={styles.btnNext} onPress={() => handleImagePicker()}>
+                {coverInit === "picture" && (
+                  <TouchableOpacity style={styles.btnNext} onPress={() => {setCover("picture"); handleImagePicker()}}>
                     <Text style={styles.btnText}> 사진 선택하기 </Text>
                   </TouchableOpacity>
                 )}
