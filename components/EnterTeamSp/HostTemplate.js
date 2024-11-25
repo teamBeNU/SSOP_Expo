@@ -703,7 +703,14 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                     <Text style={styles.nameBold}>생년월일 8자리 <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>생년월일 8자리</Text>}
                   <TextInput
-                    style={[styles.birthInput, styles.birthInputbox, styles.marginR8, (!emptyBirth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day)) && styles.inputEmpty]}
+                    style={[
+                      styles.birthInput,
+                      styles.birthInputbox,
+                      styles.marginR8,
+                      showBirth && emptyBirth && styles.inputEmpty,
+                      showBirth && !emptyBirth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) && styles.inputEmpty,
+                      !showBirth && !emptyBirth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) && styles.inputEmpty,
+                    ]}
                     placeholder="YYYY/MM/DD"
                     placeholderTextColor={theme.gray60}
                     keyboardType="numeric"
@@ -729,13 +736,13 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                   {showBirth && emptyBirth ? (
                     <Text style={styles.inputEmptyText}>생년월일을 입력해 주세요.</Text>
                   ) : (
-                    <View></View>
+                    !emptyBirth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) ? (
+                      <Text style={styles.inputEmptyText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
+                    ) : (
+                      <View></View>
+                    )
                   )}
-                  {!emptyBirth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) ? (
-                    <Text style={styles.inputEmptyText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
-                  ) : (
-                    <View></View>
-                  )}
+                  
                 </View>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
