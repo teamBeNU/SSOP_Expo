@@ -224,7 +224,8 @@ export const styles = StyleSheet.create({
     // 호스트 지정 템플릿
     // 생년월일
     birthInput: {
-        width: (Dimensions.get('window').width - 48) / 2,
+        // width: (Dimensions.get('window').width - 48) / 2,
+        width: '100%',
         height: 48,
         paddingVertical: 8,
         paddingHorizontal: 16,
