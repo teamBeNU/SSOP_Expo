@@ -180,12 +180,6 @@ function Step2Screen({ route, navigation}) {
       console.error('링크 공유 중 오류가 발생했습니다:', error);
     }
   };
-      // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
-      const navigateToLinkReceiver = () => {
-        const testLink = 'https://ssopbenu.app.link/FWEQVZZoLOb'; // 임시 링크
-        console.log("네비게이션을 통해 전달된 링크:", testLink);
-        navigation.navigate('카드 저장', { link: testLink });
-      };
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -207,9 +201,6 @@ function Step2Screen({ route, navigation}) {
           </View>
         </View>
         <View style={styles.btnContainer}>
-         <TouchableOpacity style={[styles.btnTestBox, {marginTop: 10}]} onPress={navigateToLinkReceiver}>
-            <Text style={styles.btnTest}>다른 사람이 보낸 링크 저장 (시연을 위한 임시 버튼)</Text>
-          </TouchableOpacity >
           <TouchableOpacity style={[styles.btnNext, {marginTop: 10}]}  onPress={handleLinkSharePress}>
             <ShareIcon style={{marginRight: 8, marginTop: 2}}/>
             <Text style={styles.btnText}>링크 공유하기</Text>

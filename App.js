@@ -5,10 +5,6 @@ import { useFonts } from 'expo-font';
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, Alert, Linking } from 'react-native';
 import "react-native-gesture-handler";
-import { decode } from 'base-64';
-import { ungzip } from 'react-native-zip-stream';
-import pako from 'pako';
-import { SpaceModal } from "./components/Space/SpaceModal.js";
 import {
   Menu,
   MenuOption,
@@ -74,7 +70,6 @@ import AcceptCard from './pages/Space/AcceptCard';
 import HomeSearchCard from './pages/SearchCard/HomeSearchCard';
 import MySpSearchCard from './pages/SearchCard/MySpSearchCard';
 import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
-import LinkReceive from './pages/LinkShare/LinkReceive.js';
 
 import { theme } from './theme';
 
@@ -91,96 +86,53 @@ const linking = {
 
 export default function App() {
   // 모달 상태 및 카드 정보 관리
-  const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
-  const [cardName, setCardName] = useState(null);
   const [cardId, setCardId] = useState(null);
 
-  // **1. Card ID 추출 함수**  
+  // Card ID 추출
   const extractCardId = (url) => {
     try {
       const parsedUrl = new URL(url);
-  
-      // `https://` 링크에서 `cardId` 추출
+
+      // HTTPS 링크에서 cardId 추출
       if (parsedUrl.protocol === "https:") {
         const cardId = parsedUrl.searchParams.get("cardId");
         console.log("HTTPS 링크에서 추출된 cardId:", cardId);
         return cardId;
       }
-  
-      // `ssop://` 링크에서 `_branch_referrer` 처리
+
+      // ssop:// 링크에서 cardId 추출
       if (parsedUrl.protocol === "ssop:") {
-        const branchReferrer = parsedUrl.searchParams.get("_branch_referrer");
-        if (branchReferrer) {
-          console.log("ssop:// 링크에서 _branch_referrer:", branchReferrer);
-  
-          try {
-            // Base64 디코딩 후 JSON 파싱
-            const decodedBase64 = decode(branchReferrer);
-            const jsonData = JSON.parse(decodedBase64);
-            console.log("Decoded _branch_referrer JSON:", jsonData);
-            return jsonData.cardId || null;
-          } catch (error) {
-            console.error("ssop:// 링크 _branch_referrer 파싱 중 오류:", error);
-          }
-        }
+        const cardId = parsedUrl.searchParams.get("cardId");
+        console.log("ssop:// 링크에서 추출된 cardId:", cardId);
+        return cardId;
       }
-  
+
       return null;
     } catch (error) {
       console.error("URL 파싱 중 오류:", error);
       return null;
     }
   };
-  
 
-  // **2. 딥링크 처리 함수**
+  // 딥링크 처리 함수
   const handleDeepLink = async (url) => {
     console.log("딥링크 URL app.js:", url);
-  
+
     const cardId = extractCardId(url);
     if (cardId) {
       console.log("딥링크에서 추출된 cardId:", cardId);
-  
+
       // 사용자 인증 토큰 확인
       const token = await AsyncStorage.getItem("token");
       if (!token) {
-        console.error("사용자 인증 토큰이 없습니다.");
-        Alert.alert("오류", "로그인이 필요합니다.");
+        //console.error("사용자 인증 토큰이 없습니다.");
+        //Alert.alert("오류", "로그인이 필요합니다.");
         return;
       }
-  
-      // API 요청
-      try {
-        const response = await fetch(
-          `http://43.202.52.64:8080/api/card/view?cardId=${cardId}`,
-          {
-            method: "GET",
-            headers: { Authorization: `Bearer ${token}` },
-          }
-        );
-  
-        if (response.ok) {
-          const result = await response.json();
-          console.log("카드 정보 가져오기 성공:", result);
-  
-          // 네비게이션 이동 (홈 화면으로 이동)
-          navigation.navigate("홈", { cardId, cardName: result.cardEssential.card_name });
-        } else {
-          const error = await response.json();
-          console.error("카드 정보 가져오기 실패:", error.message || "알 수 없는 오류");
-          Alert.alert("오류", error.message || "카드 정보를 가져오지 못했습니다.");
-        }
-      } catch (error) {
-        console.error("API 요청 중 오류:", error);
-        Alert.alert("오류", "카드 정보를 가져오는 중 문제가 발생했습니다.");
-      }
-    } else {
-      console.log("딥링크에서 cardId를 찾을 수 없습니다.");
     }
   };
-  
 
-  // **3. 초기 URL 확인 및 딥링크 이벤트 처리**
+  // 초기 URL 확인 및 딥링크 이벤트 처리
   useEffect(() => {
     const checkInitialURL = async () => {
       const initialURL = await Linking.getInitialURL();
@@ -188,21 +140,20 @@ export default function App() {
         console.log("앱 처음 실행 시 딥링크 감지:", initialURL);
         handleDeepLink(initialURL);
       }
-    };
-  
+    };0
+
     checkInitialURL();
-  
+
     // 딥링크 이벤트 리스너 등록
     const subscription = Linking.addEventListener("url", ({ url }) => {
       console.log("앱 실행 중 딥링크 감지:", url);
       handleDeepLink(url);
     });
-  
+
     return () => {
       subscription.remove(); // 이벤트 리스너 해제
     };
   }, []);
-  
 
   
   // 폰트 로드
@@ -580,19 +531,6 @@ export default function App() {
           <Stack.Screen name="전체 카드 검색" component={HomeSearchCard} options={{ headerShown: false }}/>
           <Stack.Screen name="마이스페이스 카드 검색" component={MySpSearchCard} options={{ headerShown: false }}/>
           <Stack.Screen name="팀스페이스 카드 검색" component={TeamSpSearchCard} options={{ headerShown: false }}/>
-          <Stack.Screen name="카드 저장" component={LinkReceive}
-            options={({ navigation }) => ({
-            headerTitleAlign: 'center',
-            headerLeft: () => (
-              <View>
-                <HomeLogo style={{ marginLeft: 32.5 }} />
-              </View>
-            ),
-            headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('홈')}>
-                <HomeIcon style={{ marginRight: 8 }} />
-              </TouchableOpacity>
-            ), })}/>
       </Stack.Navigator>
       {/* <SpaceModal
         isVisible={isSpaceModalVisible}
