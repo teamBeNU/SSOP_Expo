@@ -234,19 +234,22 @@ const CardOptional2 = ({cardData}) => {
                 <Text style={{...styles.topic, paddingTop: 8}}>SNS</Text>                             
                 <View style={styles.SNScontainer}>
                     {cardData.cardOptional.card_sns_insta ? (
+                        <OpenURLButton url={instaURL + cardData.cardOptional.card_sns_insta + '/'} >
                         <View style={styles.grayBox}>
                         <Image source={InstaLogo} style={{ width: 16, height: 16 }} resizeMode="contain" />
-
-                        <OpenURLButton url={ instaURL + cardData.cardOptional.card_sns_insta + '/' }>{cardData.cardOptional.card_sns_insta}</OpenURLButton>
+                        <Text>{cardData.cardOptional.card_sns_insta}</Text>
                         <LinkIcon />
                         </View>
+                        </OpenURLButton>
                     ) : null }
                     {cardData.cardOptional.card_sns_x ? (
+                        <OpenURLButton url={xURL + cardData.cardOptional.card_sns_x}>
                         <View style={styles.grayBox}>
                         <Image source={XLogo} style={{ width: 16, height: 16 }} resizeMode="contain" />
-                        <OpenURLButton url={xURL + cardData.cardOptional.card_sns_x}>{cardData.cardOptional.card_sns_x}</OpenURLButton>
+                        <Text>{cardData.cardOptional.card_sns_x}</Text>
                         <LinkIcon />
                         </View>
+                        </OpenURLButton>
                     ) : null }
                 </View>
                 </View>
