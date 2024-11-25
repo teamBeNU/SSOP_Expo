@@ -810,7 +810,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                 {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} onData={templateData} onDataChange={handleTemplateData} />}
                 {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onData={templateData} onDataChange={handleTemplateData} />}
                 {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} />}
-
+                
+                <View style={{ marginBottom: 150 }} />
               </ScrollView>
 
               <View style={styles.btnContainer}>

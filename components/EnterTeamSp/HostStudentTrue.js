@@ -245,7 +245,7 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange 
                 </View>
             )}
             {/* 키보드에 가려진 부분 스크롤 */}
-            <View style={{ marginBottom: 150 }} />
+            {/* <View style={{ marginBottom: 150 }} /> */}
 
         </View>
     )

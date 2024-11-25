@@ -585,7 +585,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                             // onSubmitEditing={() => ref_input3.current.focus()}
                                             ref={ref_input2}
                                             blurOnSubmit={true}
-tr                                        />
+                                        />
                                         {!isFull.introduction && (
                                             <Text style={styles.inputErrorText}>한줄소개를 입력해 주세요.</Text>
                                         )}
