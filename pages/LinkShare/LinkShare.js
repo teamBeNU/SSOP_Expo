@@ -10,6 +10,7 @@ import * as Progress from 'react-native-progress';
 import * as Clipboard from 'expo-clipboard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from "../../theme";
+import { BRANCH_API_KEY } from '@env';
 
 import HomeIcon from '../../assets/icons/ic_home_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -20,22 +21,20 @@ import ShareIcon from '../../assets/icons/ic_share_white.svg';
 // Branch 링크 생성 함수
 const createBranchLink = async (backendLink, cardId) => {
   try {
-    const branchApiKey = "key_live_mrl5i4OwDxCg5dtSw4f0JmletweC8nnH";
-
     const response = await fetch("https://api2.branch.io/v1/url", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        branch_key: branchApiKey,
+        branch_key: BRANCH_API_KEY, // 환경 변수 사용
         campaign: "share_card",
         feature: "redirect",
         data: {
-          cardId: cardId, // 반드시 cardId 추가
-          original_link: `${backendLink}?cardId=${cardId}`, // cardId 포함
-          $android_url: `ssop://open?cardId=${cardId}`, // Android 딥링크
-          $ios_url: `ssop://open?cardId=${cardId}`, // iOS 딥링크
+          cardId: cardId,
+          original_link: `${backendLink}?cardId=${cardId}`,
+          $android_url: `ssop://open?cardId=${cardId}`,
+          $ios_url: `ssop://open?cardId=${cardId}`,
           $fallback_url: "https://ssop2024.notion.site",
         },
       }),
@@ -45,7 +44,7 @@ const createBranchLink = async (backendLink, cardId) => {
 
     if (response.ok) {
       console.log("생성된 Branch 링크:", result.url);
-      return result.url; // 생성된 Branch 링크 반환
+      return result.url;
     } else {
       console.error("Branch 링크 생성 실패:", result);
       Alert.alert("링크 생성 실패", "다시 시도해 주세요.");
