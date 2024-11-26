@@ -28,6 +28,16 @@ function Home({ navigation }) {
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [cardName, setCardName] = useState("");
 
+    // Toast 표시 함수
+    const showCustomToast = (text) => {
+      Toast.show({
+        text1: text,
+        type: 'selectedToast',
+        position: 'bottom',
+        visibilityTime: 2000, // 2초간 표시
+      });
+    };
+
   const saveCard = async (cardId) => {
     try {
       const token = await AsyncStorage.getItem("token");
@@ -50,13 +60,15 @@ function Home({ navigation }) {
       const result = await response.json();
 
       if (response.ok) {
-        Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
+        //Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
+        showCustomToast('카드가 성공적으로 저장되었습니다.');
         setIsSpaceModalVisible(false); // 모달 닫기
+        navigation.navigate("받은 프로필 카드"); // 받은 프로필 카드 페이지로 이동
       } else {
-        Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
+        //Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
       }
     } catch (error) {
-      Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
+      //Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
     }
   };
 
@@ -74,7 +86,7 @@ function Home({ navigation }) {
 
       const cardId = extractCardId(url);
       if (cardId) {
-        console.log("추출된 cardId:", cardId);
+        console.log("추출된 cardId home.js:", cardId);
 
         // 카드 정보 가져오기
         const token = await AsyncStorage.getItem("token");
@@ -105,6 +117,26 @@ function Home({ navigation }) {
       console.error("딥링크 처리 중 오류:", error);
     }
   };
+
+  useEffect(() => {
+    // 앱이 처음 실행되었을 때 URL 확인
+    const checkInitialURL = async () => {
+      const initialURL = await Linking.getInitialURL();
+      if (initialURL) {
+        console.log("앱이 딥링크로 실행되었습니다 home.js:", initialURL);
+        handleDeepLink(initialURL);
+      }
+    };
+
+    checkInitialURL();
+
+    // 실행 중인 상태에서 딥링크 감지
+    const subscription = Linking.addEventListener("url", ({ url }) => {
+      handleDeepLink(url);
+    });
+
+    return () => subscription.remove();
+  }, []);
 
   return (
     <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
@@ -193,13 +225,17 @@ function Home({ navigation }) {
 
       {/* 링크 공유 */}
       <SpaceModal
-        isVisible={isSpaceModalVisible}
-        onClose={() => setIsSpaceModalVisible(false)}
-        title={`${cardName} 님의 카드를 받으시겠습니까?`}
-        btn1="안 받을래요"
-        btn2="네, 받을래요"
-        onConfirm={() => saveCard(cardId)} // 연결된 카드 저장 로직
-      />
+                isVisible={isSpaceModalVisible}
+                onClose={() => {
+                  setIsSpaceModalVisible(false); // 모달 닫기
+                  navigation.navigate("홈"); // 홈 화면으로 이동
+                }}
+                title={`${cardName} 님의 카드를 받으시겠습니까?`}
+                btn1="안 받을래요"
+                btn2="네, 받을래요"
+                onConfirm={() => {
+                  saveCard(cardId)}} // 연결된 카드 저장 로직
+            />
     </ScrollView>
   );
 }
