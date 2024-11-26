@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+import { jwtDecode } from 'jwt-decode';
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation, useFocusEffect } from '@react-navigation/native'; // useFocusEffect 임포트
 import { styles } from './NotifyStyle';
@@ -11,16 +12,40 @@ import { parseHTMLData } from '../../utils/parseHTMLData.js';
 
 function Notify() {
   const baseUrl = 'http://43.202.52.64:8080/api'
+  const [token, setToken] = useState(null);
+  const [userId, setUserId] = useState(null);
 
   const [notiData, setNotiData] = useState([]);
   const [hasNotify, setHasNotify] = useState(true);
   const navigation = useNavigation();
 
+  // AsyncStorage에서 토큰 가져오기
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const storedToken = await AsyncStorage.getItem('token');
+        setToken(storedToken);
+      } catch (error) {
+        console.error('토큰 가져오기 실패:', error);
+      }
+    };
+
+    fetchToken();
+  }, []);
+
+  useEffect(() => {
+    if (token) {
+      // JWT에서 userId 추출
+      const decodedToken = jwtDecode(token);
+      setUserId(decodedToken.userId);
+    }
+  }, [token]);
+
   // 알림 목록을 가져오는 함수
   const fetchNotifications = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-  
+
       if (!token) {
         throw new Error('Token not found');
       }
@@ -28,7 +53,7 @@ function Notify() {
       const base64Payload = token.split('.')[1];
       const payload = JSON.parse(atob(base64Payload));
       const userId = payload.userId;
-  
+
       if (!userId) {
         throw new Error('User ID not found in token');
       }
@@ -53,32 +78,10 @@ function Notify() {
     }
   };
 
-  // API 요청 함수
-  const sendApiRequest = async (cardId) => {
-
-    const token = await AsyncStorage.getItem("token");
-    try {
-      const response = await axios.post(`${baseUrl}/card/save?cardId=${cardId}`, {}, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      if (response.status === 200) {
-        console.log("카드 ID 저장 성공:", response.data.message);
-      } else {
-        console.log("카드 ID 저장 실패:", response.data.message);
-      }
-    } catch (error) {
-      console.error('Notify - 블루투스 CardID API 요청 오류:', error);
-    }
-  };
-
-
   // 화면이 처음 로드될 때 알림 목록 가져오기
   useEffect(() => {
     fetchNotifications();
-    sendApiRequest();
+    handleRequest();
   }, []);
 
   // 화면이 포커싱될 때마다 알림 목록 새로고침
@@ -87,6 +90,33 @@ function Notify() {
       fetchNotifications();
     }, [])
   );
+
+  // 알림 요청 함수
+  const handleRequest = async (cardName) => {
+    try {
+      const token = await AsyncStorage.getItem('token'); // 토큰 가져오기
+
+      if (!token) {
+        console.error('Token is missing');
+        return;
+      }
+
+      const requestData = { card_name: cardName }; // 요청 데이터 정의
+      const apiUrl = `http://43.202.52.64:8080/api/notifications?userId=2`;
+
+      const response = await axios.post(apiUrl, requestData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      console.log('Notification sent successfully:', response.data);
+      // 필요하면 사용자에게 성공 메시지 표시
+      // showCustomToast('카드를 성공적으로 받았습니다.');
+    } catch (error) {
+      console.error('Error accepting notification:', error.message);
+      // 사용자에게 오류 메시지 표시
+      // showCustomToast('카드를 받는 중 오류가 발생했습니다.');
+    }
+  };
 
   // 알림 거절 함수
   const handleRefuse = async (notification_id) => {
@@ -113,9 +143,25 @@ function Notify() {
   };
 
   // 알림 수락 함수
-  const handleAccept = async (notification_id) => {
+  const handleAccept = async (cardId, notification_id) => {
     try {
       const token = await AsyncStorage.getItem('token');
+
+      try {
+        const response1 = await axios.post(`${baseUrl}/card/save?cardId=${cardId}`, {}, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`,
+          },
+        });
+        if (response1.status === 200) {
+          console.log("카드 ID 저장 성공:", response1.data.message);
+        } else {
+          console.log("카드 ID 저장 실패:", response1.data.message);
+        }
+      } catch (error) {
+        console.error('Notify - 블루투스 CardID API 요청 오류:', error);
+      }
 
       const response = await fetch(`http://43.202.52.64:8080/api/notifications/${notification_id}/accept`, {
         method: 'POST',
@@ -124,16 +170,14 @@ function Notify() {
         },
       });
 
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-
       setNotiData(notiData.map(card =>
         card.notification_id === notification_id
           ? { ...card, accepted: true }
           : card
       ));
-      showCustomToast('카드를 받았습니다.');
+      
+      // showCustomToast('카드를 받았습니다.');
+      
     } catch (error) {
       console.error('Error accepting notification:', error);
       showCustomToast('카드를 받는 중 오류가 발생했습니다.');
