@@ -147,39 +147,64 @@ function Notify() {
     try {
       const token = await AsyncStorage.getItem('token');
 
+      if (!token) {
+        console.error('Token is missing');
+        return;
+      }
+
+      // 첫 번째 요청: 카드 저장
       try {
-        const response1 = await axios.post(`${baseUrl}/card/save?cardId=${cardId}`, {}, {
+        const response1 = await axios.post(`${baseUrl}/card/save?cardId=150`, {}, {
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
+            Authorization: `Bearer ${token}`,
           },
         });
+
         if (response1.status === 200) {
           console.log("카드 ID 저장 성공:", response1.data.message);
         } else {
           console.log("카드 ID 저장 실패:", response1.data.message);
         }
       } catch (error) {
-        console.error('Notify - 블루투스 CardID API 요청 오류:', error);
+        console.error('Notify - 블루투스 CardID API 요청 오류:', error.response?.data || error.message);
       }
 
-      const response = await fetch(`http://43.202.52.64:8080/api/notifications/${notification_id}/accept`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      // 두 번째 요청: 알림 수락
+      // try {
+      //   const response = await fetch(`http://43.202.52.64:8080/api/notifications/${notification_id}/accept`, {
+      //     method: 'POST',
+      //     headers: {
+      //       Authorization: `Bearer ${token}`,
+      //     },
+      //   });
 
-      setNotiData(notiData.map(card =>
-        card.notification_id === notification_id
-          ? { ...card, accepted: true }
-          : card
-      ));
-      
-      // showCustomToast('카드를 받았습니다.');
-      
+      //   const responseData = await response.json(); // JSON 데이터 파싱
+
+      //   if (!response.ok) {
+      //     console.error('알림 수락 요청 실패:', {
+      //       status: response.status,
+      //       statusText: response.statusText,
+      //       data: responseData,
+      //     });
+      //     throw new Error(`알림 수락 실패: ${response.status} - ${response.statusText}`);
+      //   }
+
+      //   console.log('알림 수락 성공:', responseData);
+
+      //   // 상태 업데이트
+      //   setNotiData((prevNotiData) =>
+      //     prevNotiData.map((card) =>
+      //       card.notification_id === notification_id
+      //         ? { ...card, accepted: true }
+      //         : card
+      //     )
+      //   );
+      // } catch (error) {
+      //   console.error('알림 수락 요청 중 오류:', error.message);
+      // }
     } catch (error) {
-      console.error('Error accepting notification:', error);
+      console.error('전체 처리 오류:', error.message);
       showCustomToast('카드를 받는 중 오류가 발생했습니다.');
     }
   };
