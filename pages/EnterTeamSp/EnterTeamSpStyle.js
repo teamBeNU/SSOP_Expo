@@ -1,5 +1,6 @@
 import { StyleSheet, Dimensions } from "react-native"
 import { theme } from "../../theme"
+import { colorMapping } from "../../utils/bgColorMapping";
 
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
@@ -61,6 +62,14 @@ export const styles = StyleSheet.create({
         fontSize: 22,
         lineHeight: 33,
         fontFamily: 'PretendardSemiBold'
+    },
+    subFont16: {
+        colorMapping: theme.gray50,
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontWeight: '400',
+        lineHeight: 24,
+        letterSpacing: -0.32
     },
     nameContainer: {
         marginTop: 32,
@@ -428,26 +437,27 @@ export const styles = StyleSheet.create({
         // alignItems: 'center',
     },
     coverImg: {
-        width: SCREEN_WIDTH * 0.8,
-        height: SCREEN_WIDTH * 0.8 * 1.2,
+        // width: SCREEN_WIDTH * 0.8,
+        // height: SCREEN_WIDTH * 0.8 * 1.2,
+        width: 264,
+        height: 320,
         justifyContent: 'center',
         alignItems: 'center',
-        
-        // Android - Shadow
-        elevation: 3,
-        // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
-        shadowOffset: {
-            width: 4,
-            height: 4,
-        },
-        shadowOpacity: 0.09,
-        shadowRadius: 16,
+        // // Android - Shadow
+        // elevation: 3,
+        // // IOS - Shadow
+        // shadowColor: 'rgba(73, 81, 100)',
+        // shadowOffset: {
+        //     width: 4,
+        //     height: 4,
+        // },
+        // shadowOpacity: 0.09,
+        // shadowRadius: 16,
 
-        // 그림자가 안보여서 임시 border
-        borderWidth: 1,
-        borderColor: theme.gray90,
-        borderRadius: 10
+        // // 그림자가 안보여서 임시 border
+        // borderWidth: 1,
+        // borderColor: theme.gray90,
+        // borderRadius: 10
     },
     circles: {
         flexDirection: "row",
