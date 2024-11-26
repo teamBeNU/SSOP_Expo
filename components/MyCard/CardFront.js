@@ -92,7 +92,7 @@ export const CardFront = ({ cardData, onFlip, isSample }) => {
                     : cardData.cardCover === 'avatar'
                     ? '아바타 커버'
                     : cardData.cardCover === 'picture'
-                    ? '이미지 커버'
+                    ? '사진 커버'
                     : null}
                 </Text>
                 </View>
