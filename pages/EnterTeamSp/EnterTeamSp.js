@@ -39,6 +39,9 @@ function EnterTeamSp({ navigation, route }) {
   const [hasCards, setHasCards] = useState(true);
   const [cardData, setCardData] = useState([]);
 
+  // 팀스페이스 스텝
+  const [teamStep, setTeamStep] = useState(1);
+
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
     const fetchToken = async () => {
@@ -130,6 +133,7 @@ function EnterTeamSp({ navigation, route }) {
       setStep(4)
     } else if (step === 4) {
       setStep(5)
+      setTeamStep(2);
     }
   }
 
@@ -251,16 +255,42 @@ function EnterTeamSp({ navigation, route }) {
       });
     }
   })
-
+console.log('hoststep: ', teamStep)
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View style={{ backgroundColor: theme.white, flex: 1 }}>
+      <View style={{ flex: 1 }}>
 
         {/* progressBar */}
-        {isTemplate ? (
+        {/* {isTemplate ? (
           step !== 5 && (
             <Progress.Bar
               progress={step === 4 ? 0.2857 : step / 7}
+              width={null}
+              height={2}
+              color={theme.green}
+              borderWidth={0}
+            />
+          )
+        ) : (
+          <Progress.Bar
+            progress={step / 3}
+            width={null}
+            height={2}
+            color={theme.green}
+            borderWidth={0}
+          />
+        )} */}
+        {isTemplate ? (
+          step >= 4 && (
+            // <Progress.Bar
+            //   progress={step === 4 ? 0.2857 : step / 7}
+            //   width={null}
+            //   height={2}
+            //   color={theme.green}
+            //   borderWidth={0}
+            // />
+            <Progress.Bar
+              progress={teamStep / 8}
               width={null}
               height={2}
               color={theme.green}
@@ -282,7 +312,8 @@ function EnterTeamSp({ navigation, route }) {
           </View>
         )}
 
-        <View style={step === 2 ? styles.noPaddingMainlayout : styles.mainlayout}>
+        {/* <View style={[{flex:1}, step === 2 ? styles.noPaddingMainlayout : styles.mainlayout]}> */}
+        <View style={(step === 2 || step === 5) ? styles.noPaddingMainlayout : styles.mainlayout}>
 
           {/* 초대코드 입력 */}
           {step === 1 && (
@@ -407,11 +438,18 @@ function EnterTeamSp({ navigation, route }) {
               </TouchableOpacity>
             </View>
           )}
+          {/* 호스트 지정 템플릿으로 이동 */}
+          {step === 5 && (
+            <HostTemplate navigation={navigation} goToOriginal={goToOriginal} data={data} isHost={isHost} teamStep={teamStep} setTeamStep={setTeamStep} />
+          )}
         </View>
         {/* 호스트 지정 템플릿으로 이동 */}
-        {step === 5 && (
-          <HostTemplate navigation={navigation} goToOriginal={goToOriginal} data={data} isHost={isHost} />
-        )}
+        {/* {step === 5 && (
+          // <HostTemplate navigation={navigation} goToOriginal={goToOriginal} data={data} isHost={isHost} />
+          <View style={{backgroundColor: 'green'}}>
+            <Text>ddddd</Text>
+          </View>
+        )} */}
       </View>
     </TouchableWithoutFeedback>
   );

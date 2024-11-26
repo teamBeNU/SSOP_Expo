@@ -28,7 +28,7 @@ import AvatarCustom from "../Avatar/AvatarCustom";
 import SelectCover from "../CreateCard/SelectCover";
 import { avatarCapture } from "../../utils/avatarCapture";
 
-export default function HostTemplate({ navigation, goToOriginal, data, isHost }) {
+export default function HostTemplate({ navigation, goToOriginal, data, isHost, teamStep, setTeamStep }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
   const [step, setStep] = useState(1);
@@ -481,6 +481,21 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
     }
   }, [navigation, step]);
 
+  // 스텝 바뀔 때마다 상위 컴포넌트의 step인 teamStep 변경
+  useEffect(() => {
+    if (step === 6) {
+      setTeamStep(7);
+    } else {
+      setTeamStep(step+1);
+    }
+  }, [step]);
+
+  useEffect(() => {
+    
+    console.log('step: ', step);
+    console.log("teamStep: ", teamStep);
+  }, [step])
+
   const handleHeaderLeft = (onPress) => {
     if (step < 9) {
       return (
@@ -496,7 +511,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
       case 1:
         break;
       case 5:
-        setStep(3);
+        setStep(4);
         break;
       case 7:
         setStep(5);
@@ -593,16 +608,16 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
   const initialProgress = 0.4285;
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-      <View>
-        <Progress.Bar
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <View style={{flex:1}}>
+        {/* <Progress.Bar
           progress={initialProgress + (step - 1) / maxSteps}
           width={null}
           height={2}
           color={theme.green}
           borderWidth={0}
           marginTop={-16}
-        />
+        /> */}
 
         {/* 자유템플릿 선택지 추가란 때문 */}
         <View style={step === 4 ? { paddingVertical: 8, marginBottom: -12 } : { paddingVertical: 8, paddingHorizontal: 16, marginBottom: -12 }}>
@@ -627,6 +642,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                     onChangeText={setName}
                     ref={nameRef}
                     onSubmitEditing={() => introductionRef.current.focus()}
+                    blurOnSubmit={false}
                   />
                   {emptyName && (
                     <Text style={styles.inputEmptyText}> 이름을 입력해 주세요.</Text>
@@ -640,9 +656,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                     style={[styles.nameInput, emptyIntroduction && styles.inputEmpty]}
                     placeholder="나에 대해 간단히 알려주세요."
                     keyboardType="default"
+                    returnKeyType='done'
                     value={card_introduction}
                     onChangeText={setIntroduction}
                     ref={introductionRef}
+                    blurOnSubmit={true}
                   />
                   {emptyIntroduction && (
                     <Text style={styles.inputEmptyText}> 한줄소개를 입력해 주세요.</Text>
@@ -729,9 +747,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                       setBirth(formatted);
                     }}
                     maxLength={10}
-                    returnKeyType="next"
+                    returnKeyType="done"
                     ref={birthRef}
-                    blurOnSubmit={false}
+                    blurOnSubmit={true}
                   />
                   {showBirth && emptyBirth ? (
                     <Text style={styles.inputEmptyText}>생년월일을 입력해 주세요.</Text>
@@ -746,7 +764,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                 </View>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
-                <View style={{ marginBottom: 300 }} />
+                <View style={{ marginBottom: 150 }} />
 
               </ScrollView>
 
@@ -761,7 +779,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
           {/* 카드 뒷면 - 연락처/이메일/인스타/X */}
           {step === 2 && (
             <View style={{ height: '100%' }}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+              <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}
+                                >
 
                 <Text style={styles.title}>내 연락처와 SNS 계정을 알려주세요.</Text>
                 <Text style={styles.subtitle}>자세하게 작성할수록 좋아요.</Text>
@@ -775,11 +794,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                     style={[styles.nameInput, showTel && emptyTel && styles.inputEmpty]}
                     placeholder="전화번호를 입력해 주세요."
                     keyboardType="numeric"
-                    returnKeyType='done'
+                    returnKeyType='next'
                     value={card_tel}
                     onChangeText={setTel}
                     ref={telRef}
                     onSubmitEditing={() => emailRef.current.focus()}
+                    blurOnSubmit={false}
                   />
                   {showTel && emptyTel && (
                     <Text style={styles.inputEmptyText}> 전화번호를 입력해 주세요.</Text>
@@ -795,10 +815,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                     style={[styles.nameInput, showEmail && emptyEmail && styles.inputEmpty]}
                     placeholder="이메일 주소를 입력해 주세요."
                     keyboardType="email"
+                    returnKeyType='next'
                     value={card_email}
                     onChangeText={setEmail}
                     ref={emailRef}
                     onSubmitEditing={() => instaRef.current.focus()}
+                    blurOnSubmit={false}
                   />
                   {showEmail && emptyEmail && (
                     <Text style={styles.inputEmptyText}> 이메일을 입력해 주세요.</Text>
@@ -816,10 +838,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                     style={[styles.nameInput, showInsta && emptyInsta && styles.inputEmpty]}
                     placeholder="인스타그램 계정을 입력해주세요."
                     keyboardType="default"
+                    returnKeyType='next'
                     value={card_Insta}
                     onChangeText={setInsta}
                     ref={instaRef}
                     onSubmitEditing={() => xRef.current.focus()}
+                    blurOnSubmit={false}
                   />
                   {showInsta && emptyInsta && (
                     <Text style={styles.inputEmptyText}> 인스타그램 계정을 입력해 주세요.</Text>
@@ -835,9 +859,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                     style={[styles.nameInput, showX && emptyX && styles.inputEmpty]}
                     placeholder="X 계정을 입력해 주세요."
                     keyboardType="default"
+                    returnKeyType='done'
                     value={card_X}
                     onChangeText={setX}
                     ref={xRef}
+                    blurOnSubmit={true}
                   />
                   {showX && emptyX && (
                     <Text style={styles.inputEmptyText}> X 계정을 입력해 주세요.</Text>
@@ -845,7 +871,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                 </View>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
-                <View style={{ marginBottom: 300 }} />
+                <View style={{ marginBottom: 150 }} />
 
               </ScrollView>
 
@@ -1162,6 +1188,6 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
           )}
         </View>
       </View >
-    </TouchableWithoutFeedback >
+    // </TouchableWithoutFeedback >
   )
 }

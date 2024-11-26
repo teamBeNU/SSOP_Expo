@@ -4,6 +4,12 @@ import { theme } from "../../theme"
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
+    viewContainer: {
+        flex: 1,
+        paddingBottom: 48+16,   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
+        paddingHorizontal: 16,
+        backgroundColor: theme.white,
+    },
     mainlayout: {
         backgroundColor: theme.white,
         flex: 1, // 디바이스 세로 100%
