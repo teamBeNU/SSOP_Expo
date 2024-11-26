@@ -16,7 +16,7 @@ import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard"
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
-import CardSample from '../../assets/teamSp/bg_gradation';
+import CardSample from '../../assets/teamSp/bg_gradation.svg';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation, route }) {
@@ -392,12 +392,15 @@ function EnterTeamSp({ navigation, route }) {
           {step === 4 && (
             <View style={styles.stepContainer}>
               <Text style={styles.font22}>
-                호스트가 템플릿을 지정했어요.
-                {"\n"}팀스페이스에 보여질
-                {"\n"}카드를 새로 만들어 봐요!
+                이제 팀스페이스에 보일
+                {"\n"}프로필 카드를 새로 만들어 볼까요?
+              </Text>
+              <Text style={[styles.subFont16, {marginTop: 14}]}>
+              호스트가 필수 제출 항목을 지정했기 때문에 
+              {"\n"}카드를 새로 만들어 등록해야 해요.
               </Text>
               <View style={styles.container}>
-                <CardSample />
+                <CardSample width={400} height={400} />
               </View>
 
               <View style={styles.flexSpacer} />

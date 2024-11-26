@@ -177,8 +177,8 @@ function Step2Screen({ route, navigation}) {
     setIsModalVisible(false);
     try {
       await Share.share({
-        title: 'SSOP',
-        message: `SSOP: Share Social Profile card\n${link}`,
+        //title: 'SSOP',
+        message: `SSOP: 자기소개와 인간관계 보조 플랫폼\n\n${link}`,
       });
     } catch (error) {
       console.error('링크 공유 중 오류가 발생했습니다:', error);
