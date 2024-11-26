@@ -80,7 +80,6 @@ function EnterTeamSp({ navigation, route }) {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          console.log(response.data);
           setData(response.data);
           setIsHost(true); // 호스트임을 표시
         })
@@ -116,7 +115,7 @@ function EnterTeamSp({ navigation, route }) {
           headers: { Authorization: `Bearer ${token}` },
         })
         .then((response) => {
-          console.log(response.data);
+          // console.log(response.data);
           setTeam_name(response.data.team_name);
           setTeam_comment(response.data.team_comment);
           setMemberCount(response.data.memberCount);
@@ -151,8 +150,8 @@ function EnterTeamSp({ navigation, route }) {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        console.log("Response:", response.data);
-        console.log("제출한 카드 ID : ", cardId);
+        // console.log("Response:", response.data);
+        // console.log("제출한 카드 ID : ", cardId);
         setStep(3);
       })
       .catch((error) => {

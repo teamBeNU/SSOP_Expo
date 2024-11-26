@@ -232,7 +232,7 @@ export const styles = StyleSheet.create({
     dropDownContainerZIndex1: {
         marginRight: "63%",
         zIndex: 1,
-    }, 
+    },
     flexDirectionRow: {
         flexDirection: "row",
     },
@@ -416,9 +416,31 @@ export const styles = StyleSheet.create({
         marginRight: "63%",
         zIndex: 1,
     },
+    // 믹스
     dropDownContainer: {
         marginRight: "63%",
         zIndex: 0
+    },
+    dropDownContainerZIndex2: {
+        marginRight: "63%",
+        zIndex: 20,
+    },
+    inputContainer: {
+        marginBottom: 40,
+    },
+    marginH16: {
+        marginHorizontal: 16,
+    }, 
+    inputText: {
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        color: theme.gray40,
+        fontStyle: "normal",
+        fontWeight: "400",
+        marginBottom: 8,
+    },
+    zIndex2: {
+        zIndex: -2
     },
     // 아바타
     coverTitle: {

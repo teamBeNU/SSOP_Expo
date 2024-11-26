@@ -5,13 +5,9 @@ import "react-native-gesture-handler";
 import DownArrow from "../CreateCard/FreeTemplate/DownArrow";
 import FreeSelectBtn from "./FreeSelectBtn";
 import SelectTextInput from "../CreateCard/FreeTemplate/SelectTextInput";
+import DropDown from "./DropDown";
 
 export default function HostFreeFalse({ onData, onDataChange }) {
-
-    console.log('onData: ', onData)
-    console.log('onData.card_genre: ', onData.card_genre)
-    console.log('onData.card_school: ', onData.card_school)
-    console.log('onData.card_grade: ', onData.card_grade)
 
     const [card_school, setCardStudentSchool] = useState(onData?.card_school || '');   // 학교
     const [card_grade, setCardStudentGrade] = useState(onData?.card_grade || '');   // 학년
@@ -104,6 +100,25 @@ export default function HostFreeFalse({ onData, onDataChange }) {
         { key: 'second', name: '차애', isClick: isClick.second, isBtnActive: isBtnActive.second, cardValue: card_second, setCardValue: setCardFanSecond },
         { key: 'reason', name: '입덕계기', isClick: isClick.reason, isBtnActive: isBtnActive.reason, cardValue: card_reason, setCardValue: setCardFanReason },
     ]
+
+    // 드롭다운
+    const [gradeDropDownOpen, setGradeDropDownOpen] = useState(false);
+    const [statusDropDownOpen, setStatusDropDownOpen] = useState(false);
+
+    const [gradeItems, setGradeItems] = useState([
+        { label: '1학년', value: '1학년' },
+        { label: '2학년', value: '2학년' },
+        { label: '3학년', value: '3학년' },
+        { label: '4학년', value: '4학년' },
+        { label: '추가학기', value: '추가학기' },
+        { label: '그 외', value: '그 외' },
+    ]);
+    const [statusItems, setStatusItems] = useState([
+        { label: '재학', value: '재학' },
+        { label: '휴학', value: '휴학' },
+        { label: '졸업 예정', value: '졸업 예정' },
+        { label: '졸업', value: '졸업' },
+    ]);
 
     // 상위 컴포넌트(HostTemplate)로 데이터를 전달
     useEffect(() => {
@@ -208,7 +223,7 @@ export default function HostFreeFalse({ onData, onDataChange }) {
                 <View style={styles.selectInputContainer}>
                     {isClickTrue ?
                         <View style={styles.selectTextInputContainer}>
-                            {studentItems.map(item => (
+                            {/* {studentItems.map(item => (
                                 item.isClick && (
                                     (item.key === "grade" || item.key === "status") ?
                                         null :
@@ -240,6 +255,72 @@ export default function HostFreeFalse({ onData, onDataChange }) {
                                         setCardValue={item.setCardValue}
                                     />
                                 )
+                            ))} */}
+                            {studentItems.filter(item => item.isClick).map(item => {
+                                if(item.key === "grade") {
+                                    return (
+                                        <View key={item.key} style={[styles.inputContainer, styles.marginH16]}>
+                                            <Text style={[styles.inputText, styles.zIndex2]}>{item.name}</Text>
+                                            <View style={[gradeDropDownOpen ? styles.dropDownContainerZIndex2 : styles.dropDownContainer]}>
+                                                <DropDown
+                                                    dropDownOpen={gradeDropDownOpen}
+                                                    dropDownValue={card_grade}
+                                                    setDropDownOpen={setGradeDropDownOpen}
+                                                    setDropDownValue={setCardStudentGrade}
+                                                    items={gradeItems}
+                                                    setItems={setGradeItems}
+                                                    placeholder={'학년'}
+                                                    isError={null}
+                                                    show={false}
+                                                />
+                                            </View>
+                                        </View>
+                                    );
+                                } else if(item.key === "status") {
+                                    return (
+                                        <View key={item.key} style={[styles.inputContainer, styles.marginH16]}>
+                                            <Text style={[styles.inputText, styles.zIndex2]}>{item.name}</Text>
+                                            <View style={[statusDropDownOpen ? styles.dropDownContainerZIndex1 : styles.dropDownContainer]}>
+                                                <DropDown
+                                                    dropDownOpen={statusDropDownOpen}
+                                                    dropDownValue={card_status}
+                                                    setDropDownOpen={setStatusDropDownOpen}
+                                                    setDropDownValue={setCardStudentStatus}
+                                                    items={statusItems}
+                                                    setItems={setStatusItems}
+                                                    placeholder={'재학상태'}
+                                                    isError={null}
+                                                    show={false}
+                                                />
+                                            </View>
+                                        </View>
+                                    );
+                                } else {
+                                    return (
+                                        <SelectTextInput
+                                            key={item.key}
+                                            name={item.name}
+                                            cardValue={item.cardValue}
+                                            setCardValue={item.setCardValue}
+                                        />
+                                    );
+                                }
+                            })}
+                            {workerItems.filter(item => item.isClick).map(item => (
+                                <SelectTextInput
+                                    key={item.key}
+                                    name={item.name}
+                                    cardValue={item.cardValue}
+                                    setCardValue={item.setCardValue}
+                                />
+                            ))}
+                            {fanItems.filter(item => item.isClick).map(item => (
+                                <SelectTextInput
+                                    key={item.key}
+                                    name={item.name}
+                                    cardValue={item.cardValue}
+                                    setCardValue={item.setCardValue}
+                                />
                             ))}
                         </View>
                         : <Text style={styles.selectTitle}>선택지를 추가하면 여기에 작성란이 생겨요.</Text>

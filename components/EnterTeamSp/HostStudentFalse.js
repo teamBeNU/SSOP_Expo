@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import DropDown from "../CreateCard/DropDown";
+import DropDown from "./DropDown";
 import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
@@ -102,7 +102,8 @@ export default function HostStudentFalse({ studentOptional, onData, onDataChange
                             items={gradeItems}
                             setItems={setGradeItems}
                             placeholder={'학년'}
-                            isError={true}
+                            isError={null}
+                            show={showGrade}
                         />
                     </View>
                 </View>
@@ -164,7 +165,8 @@ export default function HostStudentFalse({ studentOptional, onData, onDataChange
                             items={statusItems}
                             setItems={setStatusItems}
                             placeholder={'재학상태'}
-                            isError={true}
+                            isError={null}
+                            show={showStatus}
                         />
                     </View>
                 </View>

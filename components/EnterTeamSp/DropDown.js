@@ -11,11 +11,11 @@ export default function DropDown ({
     setItems,
     placeholder,
     isError,
-    showMbti
+    show
 }) {
     const handleValueChange = (value) => {
-      console.log(showMbti)
-        if (!showMbti && value() === dropDownValue) {
+      console.log(show)
+        if (!show && value() === dropDownValue) {
             setDropDownValue(null);
         } else {
             setDropDownValue(value);
@@ -34,7 +34,7 @@ export default function DropDown ({
             listMode="SCROLLVIEW"   // FlatList -> ScrollView로 변경(ScrollView 에러 안나려면 작성해야함..)
             style={{
                 borderWidth: 1,
-                borderColor: showMbti ? (isError ? theme.gray90 : theme.red) : theme.gray90,
+                borderColor: show ? (isError ? theme.gray90 : theme.red) : theme.gray90,
                 borderRadius: 16,
             }}
             dropDownContainerStyle={{

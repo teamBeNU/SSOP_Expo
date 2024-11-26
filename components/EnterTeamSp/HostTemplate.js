@@ -209,7 +209,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
         card_hobby: card_hobby,
         card_music: card_music,
         card_movie: card_movie,
-        ard_address: card_address,
+        card_address: card_address,
         card_free_A1: card_free_A1,
         card_free_A2: card_free_A2,
         card_free_A3: card_free_A3,
@@ -259,10 +259,6 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
       });
     }
 
-    console.log('templateData: ', templateData)
-    console.log('requestData: ', requestData)
-    console.log('formData: ', formData)
-
     try {
       const response = await axios.post(
         `${baseUrl}/teamsp/member/create/${data.teamId}`,
@@ -302,6 +298,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
     setModalVisible(false);
     navigation.goBack();
   };
+
+  const [isNextClick, setIsNextClick] = useState(false);    // step이 3일 때(템플릿 필수) 다음으로 버튼 클릭 여부
 
   const handleNext = () => {
     if (step === 1) { // 기본 정보
@@ -378,7 +376,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
         setStep(3);
 
     } else if (step === 3) { // 템플릿 필수
-      setStep(4);
+      // setStep(4);
+      setIsNextClick(true);
     } else if (step === 4) { // 템플릿 자유
       setStep(5);
     } else if (step === 5) { // 추가 정보
@@ -485,16 +484,10 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   useEffect(() => {
     if (step === 6) {
       setTeamStep(7);
-    } else {
+    } else if (step) {
       setTeamStep(step+1);
     }
   }, [step]);
-
-  useEffect(() => {
-    
-    console.log('step: ', step);
-    console.log("teamStep: ", teamStep);
-  }, [step])
 
   const handleHeaderLeft = (onPress) => {
     if (step < 9) {
@@ -691,7 +684,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                       setItems={setMbti1Items}
                       placeholder={'앞 2자리'}
                       isError={!emptyMbti}
-                      showMbti={showMBTI}
+                      show={showMBTI}
                     />
                     <View style={styles.marginR8}></View>
                     <DropDown
@@ -703,7 +696,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                       setItems={setMbti2Items}
                       placeholder={'뒤 2자리'}
                       isError={!emptyMbti}
-                      showMbti={showMBTI}
+                      show={showMBTI}
                     />
                   </View>
                   {showMBTI && emptyMbti && (
@@ -894,9 +887,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 <Text style={styles.title}>호스트가 지정한 정보를 입력해 주세요.</Text>
                 <Text style={styles.subtitle}>필수로 입력해야 하는 정보예요. </Text>
 
-                {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} onData={templateData} onDataChange={handleTemplateData} />}
-                {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onData={templateData} onDataChange={handleTemplateData} />}
-                {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} />}
+                {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setStep={setStep} />}
+                {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setStep={setStep} />}
+                {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setStep={setStep} />}
                 
                 <View style={{ marginBottom: 150 }} />
               </ScrollView>
