@@ -12,7 +12,7 @@ import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 import * as ImagePicker from 'expo-image-picker';
 
-import EnterEndCard from '../../assets/icons/LinkShareImage.svg'
+import EnterEndCard from '../../assets/Login/graphic_done.svg'
 import HostStudentTrue from "./HostStudentTrue";
 import HostStudentFalse from "./HostStudentFalse";
 import HostWorkerTrue from "./HostWorkerTrue";
@@ -1049,8 +1049,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                   : `팀스페이스 입장이 완료되었어요!\n다른 구성원을 확인해 보세요.`
                 } </Text>
 
-              <View style={{ alignItems: 'center', marginTop: 135 }}>
-                <EnterEndCard />
+              <View style={{ alignItems: 'center', marginTop: 100 }}>
+                <EnterEndCard width="300" height='300'/>
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>

@@ -360,6 +360,7 @@ export default function App() {
           component={EditCard}
           options={{
             headerTitle: "카드 정보 수정",
+            headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>

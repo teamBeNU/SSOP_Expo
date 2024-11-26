@@ -268,25 +268,25 @@ function EditCard() {
                 <View style={[styles.container,{paddingTop: 8}]}>
                     <View style={[styles.btnContainer]}>
                         <TouchableOpacity style={[styles.editBtn]} onPress={() => setStep(1)}>
-                            <Text style={[styles.editTitle]}>내 기본 정보 추가 혹은 수정하기</Text>
+                            <Text style={[styles.editTitle]}>내 기본 정보</Text>
                             <RightArrowIcon style={[styles.rightArrow]}/>
                             <Text style={[styles.editSub]}>이름, 한줄소개, MBTI, 생년월일</Text>
                         </TouchableOpacity>
                         <View style={[styles.line]} />
                         <TouchableOpacity style={[styles.editBtn]} onPress={() => setStep(2)}>
-                            <Text style={[styles.editTitle]}>연락수단 추가 혹은 수정하기</Text>
+                            <Text style={[styles.editTitle]}>연락수단</Text>
                             <RightArrowIcon style={[styles.rightArrow]}/>
                             <Text style={[styles.editSub]}>전화번호, 이메일, Instagram, X</Text>
                         </TouchableOpacity>
                         <View style={[styles.line]} />
                         <TouchableOpacity style={[styles.editBtn]} onPress={handleTemplateStep}>
-                            <Text style={[styles.editTitle]}>정체성 정보 추가 혹은 수정하기</Text>
+                            <Text style={[styles.editTitle]}>정체성 정보</Text>
                             <RightArrowIcon style={[styles.rightArrow]}/>
                             <Text style={[styles.editSub]}>학생, 직장인, 팬, 자유</Text>
                         </TouchableOpacity>
                         <View style={[styles.line]} />
                         <TouchableOpacity style={[styles.editBtn]} onPress={() => setStep(8)}>
-                            <Text style={[styles.editTitle]}>기타 정보 추가 혹은 수정하기</Text>
+                            <Text style={[styles.editTitle]}>기타 정보</Text>
                             <RightArrowIcon style={[styles.rightArrow]}/>
                             <Text style={[styles.editSub]}>취미, 인생 음악, 인생 영화, 거주지</Text>
                         </TouchableOpacity>

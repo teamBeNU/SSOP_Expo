@@ -30,8 +30,8 @@ function Login({ route = {} }) {
                 <Text style={styles.ssop}>SSOP에 오신 걸 환영해요!</Text>
             </View>
             
-            <View style={{...styles.cardicon, position: 'absolute', top: (HEIGHT / 6), zIndex: -100}}>
-                <DisplayFrame height={390}/>
+            <View style={{...styles.cardicon, position: 'absolute', top: (HEIGHT / 5), zIndex: -100}}>
+                <DisplayFrame height={450}/>
             </View>
 
             <View style={styles.emailContainer}>
