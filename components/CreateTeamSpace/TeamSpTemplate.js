@@ -628,7 +628,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             <View style={styles.cardShadow}>
                                 <Card cardData={requestData} isSample={true}/>
                             </View>
-                            <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 터치하여 뒷면을 확인하세요. </Text>
+                            {/* <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 터치하여 뒷면을 확인하세요. </Text> */}
 
                             <View style={[styles.btnContainer, { marginBottom: -28 }]}>
                                 <TouchableOpacity style={styles.btnNext} onPress={handleCheck} >
