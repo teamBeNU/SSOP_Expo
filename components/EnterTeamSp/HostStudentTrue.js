@@ -2,22 +2,40 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import Select from "../../assets/teamSp/select.svg";
-import DropDown from "../CreateCard/DropDown";
+import DropDown from "./DropDown";
 import "react-native-gesture-handler";
 
-export default function HostStudentTrue({ studentOptional, onDataChange }) {
+export default function HostStudentTrue({ studentOptional, onData, onDataChange, isNextClick, setIsNextClick, setStep }) {
 
-    const [isEmpty, setIsEmpty] = useState(false);
+    const [isEmpty, setIsEmpty] = useState({
+        school: true,
+        grade: true,
+        studNum: true,
+        major: true,
+        club: true,
+        role: true,
+        status: true,
+    });
+    const [isOk, setIsOk] = useState({
+        school: true,
+        grade: true,
+        studNum: true,
+        major: true,
+        club: true,
+        role: true,
+        status: true,
+    });
+
     const [gradeDropDownOpen, setGradeDropDownOpen] = useState(false);
     const [statusDropDownOpen, setStatusDropDownOpen] = useState(false);
 
-    const [card_school, setSchool] = useState('');
-    const [card_grade, setGrade] = useState('');
-    const [card_studNum, setStudNum] = useState('');
-    const [card_major, setMajor] = useState('');
-    const [card_club, setClub] = useState('');
-    const [card_role, setRole] = useState('');
-    const [card_status, setStatus] = useState('');
+    const [card_school, setSchool] = useState(onData?.card_school || '');
+    const [card_grade, setGrade] = useState(onData?.card_grade || '');
+    const [card_studNum, setStudNum] = useState(onData?.card_studNum || '');
+    const [card_major, setMajor] = useState(onData?.card_major || '');
+    const [card_club, setClub] = useState(onData?.card_club || '');
+    const [card_role, setRole] = useState(onData?.card_role || '');
+    const [card_status, setStatus] = useState(onData?.card_status || '');
     
     const [showSchool, setShowSchool] = useState(1);
     const [showGrade, setShowGrade] = useState(1);
@@ -102,23 +120,88 @@ export default function HostStudentTrue({ studentOptional, onDataChange }) {
     const majorRef = useRef(null);
     const clubRef = useRef(null);
 
+    // 질문 입력했는지 여부
+    useEffect(() => {
+        setIsNextClick(false);
+        setIsEmpty({
+            school: card_school === '' ? true : false,
+            grade: card_grade === '' ? true : false,
+            studNum: card_studNum === '' ? true : false,
+            major: card_major === '' ? true : false,
+            club: card_club === '' ? true : false,
+            role: card_role === '' ? true : false,
+            status: card_status === '' ? true : false,
+        });
+    }, []);
+    
+    const handleEmpty = (key, value) => {
+        setIsEmpty((prev) => ({ ...prev, [key]: value === '' || value === null }));
+    };
+
+    useEffect(() => {
+        setIsEmpty((prev) => ({ ...prev, grade: card_grade === '' || card_grade === null }));
+    }, [card_grade]);
+
+    useEffect(() => {
+        setIsEmpty((prev) => ({ ...prev, role: card_role === '' || card_role === null }));
+    }, [card_role]);
+
+    useEffect(() => {
+        setIsEmpty((prev) => ({ ...prev, status: card_status === '' || card_status === null }));
+    }, [card_status]);
+    
+    // 다음으로 버튼
+    useEffect(() => {
+        if (isNextClick) {
+            let schoolOk = !showSchool || !isEmpty.school;
+            let gradeOk = !showGrade || !isEmpty.grade;
+            let studNumOk = !showStudNum || !isEmpty.studNum;
+            let majorOk = !showMajor || !isEmpty.major;
+            let clubOk = !showClub || !isEmpty.club;
+            let roleOk = !(showRole.length !== 0) || !isEmpty.role;
+            let statusOk = !showStatus || !isEmpty.status;
+
+            // console.log('showSchool: ', showSchool)
+            // console.log('isEmpty.school: ', isEmpty.school)
+            // console.log('schoolOk: ', schoolOk)
+    
+            setIsOk({
+                school: schoolOk,
+                grade: gradeOk,
+                studNum: studNumOk,
+                major: majorOk,
+                club: clubOk,
+                role: roleOk,
+                status: statusOk,
+            })
+
+            if (schoolOk && gradeOk && studNumOk && majorOk && clubOk && roleOk && statusOk) {
+                setStep(4);
+            }
+    
+            setIsNextClick(false);
+        }
+    }, [isNextClick, showSchool, showGrade, showStudNum, showMajor, showClub, showRole, showStatus, isEmpty]);
+    
     return (
         <View>
             {/* 학교 */}
             {showSchool && (
                 <View style={styles.nameContainer}>
+                    {/* <Text>{isEmpty.school?'true':'false'}</Text>
+                    <Text>{isOk.school?'true':'false'}</Text> */}
                     <Text style={styles.nameBold}>학교명<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && emptySchool && styles.inputEmpty]}
+                        style={[styles.nameInput, !isOk.school && styles.inputEmpty]}
                         placeholder="학교명을 입력해 주세요."
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_school}
-                        onChangeText={setSchool}
+                        onChangeText={(text) => {setSchool(text); handleEmpty('school', text);}}
                         ref={schoolRef}
                         onSubmitEditing={() => gradeRef.current.focus()}
                     />
-                    {isEmpty && emptySchool && (
+                    {!isOk.school && (
                         <Text style={styles.inputEmptyText}> 학교명을 입력해 주세요.</Text>
                     )}
                 </View>
@@ -129,15 +212,15 @@ export default function HostStudentTrue({ studentOptional, onDataChange }) {
                 <View style={styles.nameContainer}>
                     <Text style={styles.nameBold}>전공<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && emptyMajor && styles.inputEmpty]}
+                        style={[styles.nameInput, !isOk.major && styles.inputEmpty]}
                         placeholder="전공을 입력해 주세요."
                         keyboardType="default"
                         returnKeyType='done'
                         value={card_major}
-                        onChangeText={setMajor}
+                        onChangeText={(text) => {setMajor(text); handleEmpty('major', text);}}
                         ref={majorRef}
                     />
-                    {isEmpty && emptyMajor && (
+                    {!isOk.major && (
                         <Text style={styles.inputEmptyText}> 전공을 입력해 주세요.</Text>
                     )}
                 </View>
@@ -145,7 +228,7 @@ export default function HostStudentTrue({ studentOptional, onDataChange }) {
 
             {/* 학년 */}
             {showGrade && (
-                <View style={[styles.nameContainer, { zIndex: 1 }, !isFull.grade && { marginBottom: 15 }]}>
+                <View style={[styles.nameContainer, { zIndex: 1 }]}>
                     <Text style={styles.nameBold}>학년<Text style={styles.nameBold}> *</Text></Text>
                     <View style={[styles.dropDownContainerZIndex1]}>
                         <DropDown
@@ -156,10 +239,11 @@ export default function HostStudentTrue({ studentOptional, onDataChange }) {
                             items={gradeItems}
                             setItems={setGradeItems}
                             placeholder={'학년'}
-                            isError={isFull.grade}
+                            isError={isOk.grade}
+                            show={showGrade}
                         />
                     </View>
-                    {!isFull.grade && (
+                    {!isOk.grade && (
                         <Text style={styles.inputEmptyText}>학년을 입력해 주세요.</Text>
                     )}
                 </View>
@@ -170,16 +254,16 @@ export default function HostStudentTrue({ studentOptional, onDataChange }) {
                 <View style={styles.nameContainer}>
                     <Text style={styles.nameBold}>학생번호<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && emptyStudNum && styles.inputEmpty]}
+                        style={[styles.nameInput, !isOk.studNum && styles.inputEmpty]}
                         placeholder="학번을 입력해 주세요. 예) 23학번"
                         keyboardType="numeric"
                         returnKeyType='done'
                         value={card_studNum}
-                        onChangeText={setStudNum}
+                        onChangeText={(text) => {setStudNum(text); handleEmpty('studNum', text);}}
                         ref={studNumRef}
                         onSubmitEditing={() => majorRef.current.focus()}
                     />
-                    {isEmpty && emptyStudNum && (
+                    {!isOk.studNum && (
                         <Text style={styles.inputEmptyText}> 학생번호를 입력해 주세요.</Text>
                     )}
                 </View>
@@ -190,14 +274,14 @@ export default function HostStudentTrue({ studentOptional, onDataChange }) {
                 <View style={styles.nameContainer}>
                     <Text style={styles.nameBold}>동아리<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && emptyClub && styles.inputEmpty]}
+                        style={[styles.nameInput, !isOk.club && styles.inputEmpty]}
                         placeholder="소속 동아리를 입력해 주세요."
                         keyboardType="default"
                         value={card_club}
-                        onChangeText={setClub}
+                        onChangeText={(text) => {setClub(text); handleEmpty('club', text);}}
                         ref={clubRef}
                     />
-                    {isEmpty && emptyClub && (
+                    {!isOk.club && (
                         <Text style={styles.inputEmptyText}> 동아리를 입력해 주세요.</Text>
                     )}
                 </View>
@@ -222,7 +306,9 @@ export default function HostStudentTrue({ studentOptional, onDataChange }) {
                             </TouchableOpacity>
                         ))}
                     </View>
-
+                    {!isOk.role && (
+                        <Text style={styles.inputEmptyText}>재학상태를 입력해 주세요.</Text>
+                    )}
                 </View>
             )}
 
@@ -239,13 +325,17 @@ export default function HostStudentTrue({ studentOptional, onDataChange }) {
                             items={statusItems}
                             setItems={setStatusItems}
                             placeholder={'재학상태'}
-                            isError={true}
+                            isError={isOk.status}
+                            show={showStatus}
                         />
                     </View>
+                    {!isOk.status && (
+                        <Text style={styles.inputEmptyText}>재학상태를 입력해 주세요.</Text>
+                    )}
                 </View>
             )}
             {/* 키보드에 가려진 부분 스크롤 */}
-            <View style={{ marginBottom: 150 }} />
+            {/* <View style={{ marginBottom: 150 }} /> */}
 
         </View>
     )

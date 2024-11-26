@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
-import DropDown from "../CreateCard/DropDown";
+import DropDown from "./DropDown";
 import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostStudentFalse({ studentOptional, onDataChange }) {
+export default function HostStudentFalse({ studentOptional, onData, onDataChange }) {
     
     const [gradeDropDownOpen, setGradeDropDownOpen] = useState(false);
     const [statusDropDownOpen, setStatusDropDownOpen] = useState(false);
 
-    const [card_school, setSchool] = useState('');
-    const [card_grade, setGrade] = useState('');
-    const [card_studNum, setStudNum] = useState('');
-    const [card_major, setMajor] = useState('');
-    const [card_club, setClub] = useState('');
-    const [card_role, setRole] = useState('');
-    const [card_status, setStatus] = useState('');
+    const [card_school, setSchool] = useState(onData?.card_school || '');
+    const [card_grade, setGrade] = useState(onData?.card_grade || '');
+    const [card_studNum, setStudNum] = useState(onData?.card_studNum || '');
+    const [card_major, setMajor] = useState(onData?.card_major || '');
+    const [card_club, setClub] = useState(onData?.card_club || '');
+    const [card_role, setRole] = useState(onData?.card_role || '');
+    const [card_status, setStatus] = useState(onData?.card_status || '');
 
     const [showSchool, setShowSchool] = useState(0);
     const [showGrade, setShowGrade] = useState(0);
@@ -102,7 +102,8 @@ export default function HostStudentFalse({ studentOptional, onDataChange }) {
                             items={gradeItems}
                             setItems={setGradeItems}
                             placeholder={'학년'}
-                            isError={true}
+                            isError={null}
+                            show={showGrade}
                         />
                     </View>
                 </View>
@@ -164,7 +165,8 @@ export default function HostStudentFalse({ studentOptional, onDataChange }) {
                             items={statusItems}
                             setItems={setStatusItems}
                             placeholder={'재학상태'}
-                            isError={true}
+                            isError={null}
+                            show={showStatus}
                         />
                     </View>
                 </View>
