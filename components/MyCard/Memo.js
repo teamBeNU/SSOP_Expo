@@ -1,13 +1,11 @@
-import { useNavigation } from '@react-navigation/native';
-import React, { useState, useEffect } from 'react';
-import { Image, Modal, Text, View, Pressable, Switch, TouchableWithoutFeedback, Keyboard } from 'react-native';
-import { styles } from './MemoStyle';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Svg, { Path } from 'react-native-svg';
-import { TouchableOpacity, TextInput } from "react-native-gesture-handler";
+import { useNavigation } from '@react-navigation/native';
+import React, { useEffect, useState } from 'react';
+import { Keyboard, Modal, Pressable, Switch, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
 import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line_small_gray.svg';
-import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
+import { styles } from './MemoStyle';
 
 export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {    
     const navigation = useNavigation();
