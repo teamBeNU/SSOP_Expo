@@ -163,7 +163,7 @@ const CardsView = ({
                     viewOption === '격자형' ? styles.cardWrapper : styles.radioCardWrapper
                   }
                   onPress={() =>
-                    showRadio ? handleRadioSelect(item.cardId) : handleNext(item.cardId)
+                    showRadio ? handleRadioSelect(item.cardId) : handleNext(item.cardId, item.cardEssential.card_name)
                   }
                 >
                   {/* 라디오 버튼 표시 */}
