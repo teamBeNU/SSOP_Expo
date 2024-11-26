@@ -285,8 +285,6 @@ export const styles = StyleSheet.create({
     },
 
     host: {
-        width: 38,
-        height: 18,
         borderRadius: 8,
         backgroundColor: '#00C2ED33',
         fontFamily: 'PretendardRegular',

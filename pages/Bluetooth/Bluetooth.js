@@ -57,11 +57,11 @@ function Step1Screen() {
   const title = '블루투스로 보낼 프로필을 선택하세요.';
   const sub = '공유할 수 있는 카드가 없어요.';
 
-  const handleNext = async (cardId) => {
+  const handleNext = async (cardId, card_name) => {
     try {
       const result = await Share.share({
         title: 'SSOP',
-        message: `Card ID: ${cardId}`, // 카드 ID를 메시지로 전달
+        message: `Card ID: ${cardId}, Card Name: ${card_name}`,  // 카드 ID를 메시지로 전달
       });
 
       if (result.action === Share.sharedAction) {

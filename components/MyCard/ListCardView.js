@@ -20,9 +20,10 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isShareModalVisible, setIsShareModalVisible] = useState(false);
     const [currentCardData, setCurrentCardData] = useState(null);
+    //const [cardIndex, setCardIndex] = useState('');
 
-    const handleNext = (cardId) => {
-      navigation.navigate('카드 상세보기', { cardId, selectedOption });
+    const handleNext = (cardId, index) => {
+      navigation.navigate('카드 상세보기', { cardId, selectedOption, index });
     };
 
     const handleEdit = async(cardId) => {
@@ -280,9 +281,9 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
           </View>
           ) : (
           <View>
-          {cardData.map((item) => (
+          {cardData.map((item, index) => (
             <View key={item.cardId} style={styles.ListContainer}>
-              <TouchableWithoutFeedback onPress={() => handleNext(item.cardId)}>
+              <TouchableWithoutFeedback key={index} onPress={() => handleNext(item.cardId, index)}>
                 <View style={styles.row2}>
                   {/* {item.card_cover === 'avatar' ? (
                     <View style={[styles.gray, { backgroundColor: getColor(item.avatar.bgColor) }]}>

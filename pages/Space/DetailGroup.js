@@ -1,32 +1,31 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, TouchableWithoutFeedback, Modal, StyleSheet} from "react-native";
-import { useNavigation, NavigationContainer, useFocusEffect } from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useFocusEffect } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { styles } from './SpaceStyle';
-import { MySpaceGroup } from "../../components/Space/SpaceList.js";
+import React, { useCallback, useEffect, useState } from "react";
+import { Linking, Modal, Platform, ScrollView, Text, TouchableOpacity, View, StatusBar } from "react-native";
+import { Menu, MenuOption, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
-import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
-import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
 import ExchangeModal from '../../components/Space/ExchangeModal.js';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import { MySpaceGroup } from "../../components/Space/SpaceList.js";
+import { NewGroupModal, SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
+import { styles } from './SpaceStyle';
 
-import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
-import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
-import CloseIcon from '../../assets/icons/close.svg';
-import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
-import SearchIcon from '../../assets/AppBar/ic_search_regular_line.svg';
-import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
-import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
 import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
+import CloseIcon from '../../assets/icons/close.svg';
+import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import Contact from '../../assets/icons/ic_contact_black.svg';
 import Edit from '../../assets/icons/ic_edit.svg';
-import Swap from '../../assets/icons/ic_swap.svg';
 import Add from '../../assets/icons/ic_folder-add.svg';
 import FolderMove from '../../assets/icons/ic_folder-move.svg';
+import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
+import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
+import Swap from '../../assets/icons/ic_swap.svg';
 import Trash from '../../assets/icons/ic_trash.svg';
+import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
+import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 
 import { addContacts } from '../../components/MyCard/AddTel.js';
 
@@ -95,7 +94,7 @@ const deleteSelectedCards = async (groupId, selectedCards, setCardData, setMembe
       })
     );
 
-    showCustomToast('카드가 성공적으로 삭제되었습니다.');
+    showCustomToast('프로필 카드가 삭제되었어요.');
 
     // 삭제된 카드를 제외한 나머지 카드로 상태 업데이트
     setCardData((prevData) => prevData.filter((card) => !selectedCards.includes(card.cardId)));
@@ -245,6 +244,12 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
 
   return (
     <View style={styles.backgroundColor}>
+      <StatusBar 
+        barStyle="dark-content" // 텍스트 색상
+        backgroundColor="#F4F4F4" // 배경색
+        // translucent={true} // 투명한 시스템 바
+      />
+
       <MySpaceDetailView
         title={groupName} // 그룹 이름을 타이틀로 표시
         members={members} // 그룹 멤버 수
@@ -273,7 +278,7 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
       <SpaceModal
         isVisible={isCardDeleteModalVisible}
         onClose={() => setIsCardDeleteModalVisible(false)}
-        title={'카드를 삭제하시겠습니까?'}
+        title={'프로필 카드를 삭제하시겠습니까?'}
         sub={'이 작업은 되돌릴 수 없습니다.'}
         btn1={'취소할래요'}
         btn2={'네, 삭제할래요'}
@@ -338,32 +343,32 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
     const [isCompleteModalVisible, setIsCompleteModalVisible] = useState(false); // 연락처로 이동 모달 상태
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); // 아이폰용 완료 모달
 
-    useEffect(() => {
-      const getData = async () => {
-        const token = await AsyncStorage.getItem('token');
-        if (token && groupId) {
-          const data = await fetchGroupDetails(groupId, token);
-          setCardData(data);
-        }
-      };
-      getData();
-    }, [groupId]);
-
-    // 연락처가 있는 카드만 보이기
     // useEffect(() => {
     //   const getData = async () => {
     //     const token = await AsyncStorage.getItem('token');
     //     if (token && groupId) {
     //       const data = await fetchGroupDetails(groupId, token);
-    //       // card_tel이 있는 카드만 필터링
-    //       const filteredData = data.filter(
-    //         (card) => card.cardOptional && card.cardOptional.card_tel
-    //       );
-    //       setCardData(filteredData); // 필터링된 데이터만 설정
+    //       setCardData(data);
     //     }
     //   };
     //   getData();
     // }, [groupId]);
+
+    // 연락처가 있는 카드만 보이기
+    useEffect(() => {
+      const getData = async () => {
+        const token = await AsyncStorage.getItem('token');
+        if (token && groupId) {
+          const data = await fetchGroupDetails(groupId, token);
+          // card_tel이 있는 카드만 필터링
+          const filteredData = data.filter(
+            (card) => card.cardOptional && card.cardOptional.card_tel
+          );
+          setCardData(filteredData); // 필터링된 데이터만 설정
+        }
+      };
+      getData();
+    }, [groupId]);
     
     const handleSaveTel = () => {
       setIsSaveModalVisible(true);
@@ -1002,7 +1007,6 @@ function ManageCardScreen({ route, navigation }) {
               ),
               headerRight: () => (
                 <View style={{ flexDirection: 'row' }}>
-                  <TouchableOpacity><SearchIcon /></TouchableOpacity>
                   <TouchableOpacity>
                     <Menu>
                       <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
