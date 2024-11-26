@@ -5,13 +5,13 @@ export const styles = StyleSheet.create({
     mainLayout: {
         backgroundColor: theme.white,
         flex: 1, // 디바이스 세로 100%
-        paddingTop: 44,
+        paddingTop: 16,
         paddingHorizontal: 16,
     },
     spaceLayout: {
         backgroundColor: theme.white,
         flex: 1, // 디바이스 세로 100%        
-        paddingTop: 60,
+        paddingTop: 8,
     },
     searchContainer: {
         position: 'relative',
@@ -54,30 +54,27 @@ export const styles = StyleSheet.create({
 
     // 탭 바 디자인
     containerTabBar: {
-        // position: 'absolute',
-        bottom: 700,
-        left: 0,
-        right: 0,
         backgroundColor: 'rgba(0, 0, 0, 0)',
         alignItems: 'center',
         justifyContent: 'center',
+        marginTop: 8
     },
     tabContainer: {
         paddingHorizontal: 54,
-        zIndex: 10,
+        zIndex: 1,
         flexDirection: 'row',
         alignItems: 'center',
         backgroundColor: theme.white,
         borderRadius: 12,
-        shadowColor: "rgba(73, 81, 100, 0.07)",
+        elevation: 3,
+        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
             width: 0,
-            height: 2
+            height: 4,
         },
-        shadowRadius: 12,
-        shadowOpacity: 0.5,
-        borderWidth: 1,
-        borderColor: "rgba(244, 244, 244, 1.0)"
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
+        marginBottom: 8,
     },
     tab: {
         paddingHorizontal: 20,
@@ -104,6 +101,8 @@ export const styles = StyleSheet.create({
     ListContainer: {
         paddingVertical: 12,
         paddingHorizontal: 20,
+        marginVertical: 1,
+        marginHorizontal: 1,
         marginBottom: 12,
         backgroundColor: theme.white,
         borderColor: theme.gray95,

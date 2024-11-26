@@ -1,24 +1,25 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import * as Clipboard from 'expo-clipboard';
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Modal, Share } from "react-native";
-import Toast from "react-native-toast-message";
-import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
-import { RadioButton } from 'react-native-paper';
-import { theme } from "../../theme";
-import { Card } from "../MyCard/Card";
+import React, { useEffect, useState } from "react";
+import { Keyboard, Modal, ScrollView, Share, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import "react-native-gesture-handler";
+import { RadioButton } from 'react-native-paper';
 import * as Progress from 'react-native-progress';
-import * as Sharing from 'expo-sharing';
+import Toast from "react-native-toast-message";
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
+import ShareImage from '../../assets/teamSp/bg_gradation.svg';
 import Select from "../../assets/teamSp/select.svg";
-import ShareImage from '../../assets/teamSp/EnterEndCard.svg'
-import ShareIcon from '../../assets/icons/ic_share_blue.svg';
+import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
+import { theme } from "../../theme";
+import { getSampleData } from "../../utils/cardSampleData";
+import CustomModal from "../CreateCard/Modal/CustomModal";
+import { Card } from "../MyCard/Card";
+import FanTemplate from "./FanTemplate";
 import StudentTemplate from "./StudentTemplate";
 import WorkerTemplate from "./WorkerTemplate";
-import FanTemplate from "./FanTemplate";
-import { cardSampleData, getSampleData } from "../../utils/cardSampleData";
 
 export default function TeamSpTemplate({ navigation, goToOriginal, teamName, teamComment, card_template,
     // 학생
@@ -44,6 +45,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
 
     const [step, setStep] = useState(1);
     const [requestData, setRequestData] = useState(null);
+    const [modalVisible, setModalVisible] = useState(false); // 홈으로 돌아가기
     const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
     // step1
     const [defaultText, setDefaultText] = useState({
@@ -147,6 +149,59 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
             visibilityTime: 2000,
         });
     };
+
+    // 상단바 타이틀 변경, 버튼 변경
+    useEffect(() => {
+        if (step !== 3) {
+            navigation.setOptions({
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => {
+                        setStep(step - 1);  //  이전 단계로 이동
+                    }}>
+                        <LeftArrowIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => { setModalVisible(true); }}>
+                        <HomeIcon style={{ marginRight: 20 }} />
+                    </TouchableOpacity>
+                ),
+            });
+        }
+
+        if (step === 2) {
+            navigation.setOptions({
+                headerTitle: '카드 확인하기',
+                headerTitleAlign: 'center',
+            });
+        }
+        else if (step === 3) {
+            navigation.setOptions({
+                headerTitle: '팀스페이스 만들기',
+                headerTitleAlign: 'center',
+                headerLeft: () => (
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+                        <CloseIcon style={{ marginLeft: 8 }} />
+                    </TouchableOpacity>
+                ),
+                headerRight: () => (
+                    <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+                        <HomeIcon style={{ marginRight: 20 }} />
+                    </TouchableOpacity>
+                ),
+            });
+        }
+    }, [step]);
+
+    const handleBtn1 = () => {    // 모달 - '계속 만들래요'
+        setModalVisible(false);
+    };
+
+    const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
+        setModalVisible(false);
+        navigation.goBack();
+    };
+
 
     const handleNext = () => {
         if (step === 1) {
@@ -267,7 +322,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                 goToOriginal(); // CreateTeamSp.js로 이동
                 break;
             case 3: // 생성 완료하면 뒤로가기 불가
-                break;
+                navigation.goBack();
             default:
                 setStep(step - 1);
                 setIsModalVisible(false)
@@ -570,9 +625,9 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                         <View style={{ height: '100%' }} >
                             <Text style={styles.title}>팀원들이 제출할 카드는{'\n'}이렇게 구성되겠네요. </Text>
                             <View style={styles.cardShadow}>
-                                <Card cardData={sampleData} />
+                                <Card cardData={requestData} isSample={true}/>
                             </View>
-                            <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 터치하여 뒷면을 확인하세요. </Text>
+                            {/* <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 터치하여 뒷면을 확인하세요. </Text> */}
 
                             <View style={[styles.btnContainer, { marginBottom: -28 }]}>
                                 <TouchableOpacity style={styles.btnNext} onPress={handleCheck} >
@@ -617,8 +672,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             </Text>
                             <Text style={styles.gray60text}>카드를 등록해야 팀스페이스를 볼 수 있어요.</Text>
 
-                            <View style={styles.shareContainer}>
-                                <ShareImage />
+                            <View style={{marginTop: 12, marginLeft: -10}}>
+                                <ShareImage width={400} height={400} />
                             </View>
 
                             <View style={[styles.btnContainer, { marginBottom: -16 }]}>
@@ -628,6 +683,20 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             </View>
 
                         </View>
+                    )}
+
+                    {modalVisible && (
+                        <CustomModal
+                            modalVisible={modalVisible}
+                            setModalVisible={setModalVisible}
+                            handleBtn1={handleBtn1}
+                            handleBtn2={handleBtn2}
+                            modalTitle={`카드 만들기를 취소하고${"\n"}홈으로 돌아가시겠어요?`}
+                            modalText={'지금까지 작성한 작업이 없어져요.'}
+                            btn1={'계속 만들래요'}
+                            btn2={'네 돌아갈래요'}
+                            btnMargin={26.5}
+                        />
                     )}
                 </View>
             </View >

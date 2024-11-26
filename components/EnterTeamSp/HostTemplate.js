@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Dimensions, Linking } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Dimensions, Linking, Image } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import { theme } from "../../theme";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
@@ -12,7 +12,7 @@ import * as Progress from 'react-native-progress';
 import "react-native-gesture-handler";
 import * as ImagePicker from 'expo-image-picker';
 
-import EnterEndCard from '../../assets/icons/LinkShareImage.svg'
+import EnterEndCard from '../../assets/Login/graphic_done.svg'
 import HostStudentTrue from "./HostStudentTrue";
 import HostStudentFalse from "./HostStudentFalse";
 import HostWorkerTrue from "./HostWorkerTrue";
@@ -23,6 +23,7 @@ import HostFreeFalse from "./HostFreeFalse";
 
 import CoverAvatar from "../../assets/createCard/coverAvatar.svg";
 import CoverPicture from "../../assets/createCard/coverPicture.svg";
+
 import AvatarCustom from "../Avatar/AvatarCustom";
 import SelectCover from "../CreateCard/SelectCover";
 import { avatarCapture } from "../../utils/avatarCapture";
@@ -982,34 +983,54 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
 
           {/* 커버 아바타 안내 / 사진선택 */}
           {step === 7 && (
-            <View style={{ height: '100%' }}>
+            <View style={{ height: '100%',alignItems: 'center' }}>
               {card_cover === "avatar" && (
-                <View>
+                // <View>
+                <>
                   <Text style={styles.coverTitle}>호스트가 카드 커버를{'\n'}아바타로 지정했어요.</Text>
-                  <View
+                  {/* <View
                     style={[styles.coverImg, { marginLeft: (SCREEN_WIDTH - imageWidth) / 3, marginTop: 34 }]}
                     onLayout={(event) => {
                       const { width } = event.nativeEvent.layout;
                       setImageWidth(width);
                     }}
                   >
-                    <CoverAvatar width="130%" height="130%" />
-                  </View>
-                </View>
+                    <CoverAvatar width="264" height="320" />
+                  </View> */}
+                  <Image 
+                      source={require("../../assets/images/cardCover-1.png")}
+                      style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}
+                      resizeMode="cover"
+                      onLayout={(event) => {
+                          const { width } = event.nativeEvent.layout;
+                          setImageWidth(width);
+                      }}
+                  />
+                {/* </View> */}
+                </>
               )}
 
               {card_cover === "picture" && (
                 <>
                   <Text style={styles.coverTitle}>호스트가 카드 커버를{'\n'}사진으로 지정했어요.</Text>
-                  <View
+                  {/* <View
                     style={[styles.coverImg, { marginLeft: (SCREEN_WIDTH - imageWidth) / 3, marginTop: 34 }]}
                     onLayout={(event) => {
                       const { width } = event.nativeEvent.layout;
                       setImageWidth(width);
                     }}
-                  >
-                    <CoverPicture width="130%" height="130%" />
-                  </View>
+                  > */}
+                    {/* <CoverPicture width={264} height="320" /> */}
+                    <Image 
+                            source={require("../../assets/images/cardCover-2.png")}
+                            style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}
+                            resizeMode="cover"
+                            onLayout={(event) => {
+                                const { width } = event.nativeEvent.layout;
+                                setImageWidth(width);
+                            }}
+                        />
+                  {/* </View> */}
                 </>
 
               )}
@@ -1049,8 +1070,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost })
                   : `팀스페이스 입장이 완료되었어요!\n다른 구성원을 확인해 보세요.`
                 } </Text>
 
-              <View style={{ alignItems: 'center', marginTop: 135 }}>
-                <EnterEndCard />
+              <View style={{ alignItems: 'center', marginTop: 100 }}>
+                <EnterEndCard width="300" height='300'/>
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>

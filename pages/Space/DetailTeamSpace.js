@@ -53,6 +53,7 @@ export default function DetailTeamSpace() {
       });
       setIsDeleteModalVisible(false);
       navigation.navigate('TeamSpace', { refresh: true });
+      // showCustomToast("팀스페이스가 삭제되었어요.");
     } catch (error) {
       // console.error('상세 팀스페이스 삭제 API 요청 에러:', error.response ? error.response.data : error.message);
       showCustomToast("카드를 제출하지 않으면 팀스페이스를 삭제할 수 없어요.")
@@ -103,12 +104,15 @@ export default function DetailTeamSpace() {
                             onClose={() => setIsDeleteModalVisible(false)}
                             title={'현재 팀스페이스를 나가시겠습니까?'}
                             sub={
-                              <Text style={{ textAlign: 'center' }}>
-                                호스트가 나가면 {'\n'} 팀스페이스가 삭제됩니다.
-                              </Text>
+                              <View>
+                                <Text style={{ textAlign: 'center' }}>
+                                  호스트가 나가면{'\n'}팀스페이스가 삭제됩니다.
+                                </Text>
+                              </View>
                             }
                             btn1={'취소할래요'}
                             btn2={'네, 나갈래요'}
+                            onConfirm={handleDeleteSpace}
                           />
                         </>
                       )}

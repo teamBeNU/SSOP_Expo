@@ -182,5 +182,15 @@ export const styles = StyleSheet.create({
     position: 'absolute',
     right: 8,
     top: 30
+    },
+    dropDownContainerZIndex1: {
+        marginRight: "63%",
+        zIndex: 1,
+    }, 
+    flexDirectionRow: {
+        flexDirection: "row",
+    },
+    marginR8: {
+        marginRight: 8,
     }
 })

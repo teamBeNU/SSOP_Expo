@@ -76,13 +76,15 @@ const CardsView = ({
       return acc;
     }, {});
 
+    // 날짜별 정렬 (최신순 또는 오래된 순)
     const sortedDates = Object.keys(grouped).sort((a, b) =>
       selectedOption === '오래된 순' ? new Date(a) - new Date(b) : new Date(b) - new Date(a)
     );
 
+    // 각 그룹 안의 카드도 최신순으로 정렬
     return sortedDates.map((date) => ({
       date: formatDateWithDay(date),
-      cards: grouped[date],
+      cards: grouped[date].sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt)), // 최신순 정렬
     }));
   };
 
@@ -107,6 +109,7 @@ const CardsView = ({
         <View style={styles.rowRange}>
           {/* 격자형/리스트형 토글 버튼 */}
           <TouchableOpacity
+            activeOpacity={0.9}
             onPress={() => setViewOption(viewOption === '격자형' ? '리스트형' : '격자형')}
             style={styles.iconContainer}
           >
@@ -158,12 +161,13 @@ const CardsView = ({
 
               {group.cards.map((item, index) => (
                 <TouchableOpacity
+                  activeOpacity={1.0}
                   key={item.cardId || index}
                   style={
                     viewOption === '격자형' ? styles.cardWrapper : styles.radioCardWrapper
                   }
                   onPress={() =>
-                    showRadio ? handleRadioSelect(item.cardId) : handleNext(item.cardId)
+                    showRadio ? handleRadioSelect(item.cardId) : handleNext(item.cardId, item.cardEssential.card_name)
                   }
                 >
                   {/* 라디오 버튼 표시 */}
@@ -245,6 +249,7 @@ const CardsView = ({
         {/* 새 카드 만들기 버튼 */}
         {showNewCardButton && viewOption !== '격자형' && (
           <TouchableOpacity
+            activeOpacity={0.9}
             style={styles.newCardBtn}
             onPress={() => navigation.navigate('카드 만들기')}
           >
