@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, Image, TouchableOpacity, ScrollView, Dimensions, Alert } from "react-native";
+import { View, Text, StatusBar, Platform, TouchableOpacity, ScrollView, Dimensions, Alert } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { styles } from './LoginStyle.js';
-import CardsIcon from "../../assets/Login/ic_cards.svg";
+import DisplayFrame from "../../assets/Login/displayFrame.svg";
 import KakaoIcon from "../../assets/Login/ic_kakao.svg";
 import MainIcon from '../../assets/Login/ic_mail.svg';
 import MyPageModal from "../../components/MyPage/MyPageModal.js";
 
 const { height:HEIGHT } = Dimensions.get('window');
+const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
 
 function Login({ route = {} }) {
     const navigation = useNavigation();
@@ -24,13 +25,13 @@ function Login({ route = {} }) {
   
     return(
         <View style={{...styles.container, alignItems: 'center'}}>
-            <View style={{position: 'absolute', top: (HEIGHT / 7)}}>
-                <Text style={styles.title}> <Text style={styles.ssop}>프로필 카드</Text>로{`\n`}쉬워지는 자기소개
-                </Text>
+            <View style={{position: 'absolute', top: STATUS_BAR_HEIGHT + 40}}>
+                <Text style={styles.title}>자기소개와 인간관계 보조 플랫폼,</Text>
+                <Text style={styles.ssop}>SSOP에 오신 걸 환영해요!</Text>
             </View>
             
-            <View style={{...styles.cardicon, position: 'absolute', top: (HEIGHT / 2) - 140}}>
-                <CardsIcon />
+            <View style={{...styles.cardicon, position: 'absolute', top: (HEIGHT / 6), zIndex: -100}}>
+                <DisplayFrame height={390}/>
             </View>
 
             <View style={styles.emailContainer}>

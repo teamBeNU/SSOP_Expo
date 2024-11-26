@@ -11,36 +11,40 @@ export const styles = StyleSheet.create({
     paddingHorizontal: 16,
     },
 	title: {
-    fontFamily: 'PretendardRegular',
+    fontFamily: 'PretendardMedium',
     textAlign: 'center',
-    fontSize: 28,
+    fontSize: 16,
     fontWeight: '500',
-    lineHeight: 42,
-    letterSpacing: -0.56,
-    color: theme.gray30, 
-    height: 84,
+    lineHeight: 24,
+    letterSpacing: -0.32,
+    color: theme.gray50, 
     },
     ssop: {
     fontFamily: 'PretendardSemiBold',
     color: theme.gray10,
+    textAlign: 'center',
+    fontSize: 26,
     fontWeight: '700',
+    lineHeight: 39,
+    letterSpacing: -0.52,
+    marginTop: 2
     },
     cardicon:{
-    height: 278,
+    //height: 278,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
     },
     socialContainer: {
     flexDirection: 'row',
-    gap: 20,
+    gap: 16,
     },
     emailContainer: {
     gap: 8,
     flex: 0,
     width: '100%',
     position: 'absolute',
-    bottom: 32
+    bottom: 20
     },
     email: {
     height: 48,

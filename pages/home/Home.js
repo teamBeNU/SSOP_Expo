@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, ScrollView, Dimensions, Linking, Alert, Platform, PermissionsAndroid} from "react-native";
+import { View, Text, Image, ScrollView, Dimensions, Linking, Alert, Platform, PermissionsAndroid, TouchableOpacity} from "react-native";
 import { styles } from './HomeStyle';
-import { TouchableOpacity } from "react-native-gesture-handler";
+//import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
 import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";

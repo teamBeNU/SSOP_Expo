@@ -9,16 +9,16 @@ export const styles = StyleSheet.create({
     backgroundColor: 'white',
     flex: 1,
     paddingHorizontal: 16,
-    paddingTop: 32
+    paddingTop: 30
     },
     title: {
     height: 60,
     color: theme.gray10,
     fontFamily: 'PretendardSemiBold',
-    fontSize: 20,
+    fontSize: 22,
     fontWeight: '600',
-    lineHeight: 30,
-    letterSpacing: -0.4
+    lineHeight: 33,
+    letterSpacing: -0.44
     },
     inputContainer: {
     gap: 8,

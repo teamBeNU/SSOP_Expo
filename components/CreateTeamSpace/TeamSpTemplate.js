@@ -570,7 +570,7 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                         <View style={{ height: '100%' }} >
                             <Text style={styles.title}>팀원들이 제출할 카드는{'\n'}이렇게 구성되겠네요. </Text>
                             <View style={styles.cardShadow}>
-                                <Card cardData={sampleData} />
+                                <Card cardData={requestData} isSample={true}/>
                             </View>
                             <Text style={[styles.subtitle, { marginTop: 490, textAlign: 'center' }]}> 터치하여 뒷면을 확인하세요. </Text>
 

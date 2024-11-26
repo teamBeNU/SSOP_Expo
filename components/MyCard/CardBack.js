@@ -34,18 +34,19 @@ const OpenURLButton = ({url, children}) => {
     const isOptional1 = (cardData) => (
     (cardData.cardOptional.card_birth !== "" || !cardData.cardOptional.card_bSecret) && 
     cardData.cardOptional.card_MBTI !== "");
-    const isOptional2 =(cardData) =>  (
-        cardData.cardOptional.card_tel !== "" || 
-        cardData.cardOptional.card_email !== "" ||
-        cardData.cardOptional.card_sns_insta !== "" ||
-        cardData.cardOptional.card_sns_x !== ""
-    );
-    const isOptional3 =(cardData) =>  (
-        cardData.cardOptional.card_hobby !== "" ||
-        cardData.cardOptional.card_music !== "" ||
-        cardData.cardOptional.card_movie !== "" ||
-        cardData.cardOptional.card_address !== ""
-    );
+    const isOptional2 = (cardData) => (
+        (cardData.cardOptional.card_tel !== "" && cardData.cardOptional.card_tel !== null) ||
+        (cardData.cardOptional.card_email !== "" && cardData.cardOptional.card_email !== null) ||
+        (cardData.cardOptional.card_sns_insta !== "" && cardData.cardOptional.card_sns_insta !== null) ||
+        (cardData.cardOptional.card_sns_x !== "" && cardData.cardOptional.card_sns_x !== null)
+      );
+      
+      const isOptional3 = (cardData) => (
+        (cardData.cardOptional.card_hobby !== "" && cardData.cardOptional.card_hobby !== null) ||
+        (cardData.cardOptional.card_music !== "" && cardData.cardOptional.card_music !== null) ||
+        (cardData.cardOptional.card_movie !== "" && cardData.cardOptional.card_movie !== null) ||
+        (cardData.cardOptional.card_address !== "" && cardData.cardOptional.card_address !== null)
+      );      
     
     const isTemplateOptional = (cardData) => {
        // console.log(cardData.student);
@@ -75,13 +76,13 @@ const OpenURLButton = ({url, children}) => {
         }
     };
 
-export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }) => {
+export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, isSample }) => {
     const templateLine = () => {
         return (isTemplateOptional(cardData) && (isOptional2(cardData) || isOptional3(cardData)) &&  <View style={{...styles.line, marginTop: 0}} />);
     };
 
     const renderTemplateSpecificInfo = () => {
-        //console.log ('card : ', cardData);
+        //console.log ('1 : ', isOptional1(cardData), ' t : ', isTemplateOptional(cardData), ' 2: ', isOptional2(cardData), ' 3: ', isOptional3(cardData));
         switch (cardData.card_template) {
             case 'studentSchool':
                 return (
@@ -183,29 +184,13 @@ const CardOptional1 = ({cardData}) => {
                 <Text style={styles.content}>{cardData.cardOptional.card_MBTI}</Text>
             </View>
         )}
-        {isOptional1(cardData) && (isTemplateOptional(cardData) || isOptional2(cardData) || isOptional3(cardData)) && <View style={{...styles.line, marginTop: 0}} />}
+        {isOptional1(cardData) && (isTemplateOptional(cardData) || isOptional2(cardData) || isOptional3(cardData)) && <View style={{...styles.line, marginTop: 0, }} />}
         </View>
     );
 }
 
 const CardOptional2 = ({cardData}) => {
-    // const optional2Line = () => {
-    //     const isOptional2 = (
-    //         cardData.cardOptional.card_tel !== "" || 
-    //         cardData.cardOptional.card_email !== "" ||
-    //         cardData.cardOptional.card_sns_insta !== "" ||
-    //         cardData.cardOptional.card_sns_x !== ""
-    //     );
-    //     const isOptional3 = (
-    //         cardData.cardOptional.card_hobby !== "" ||
-    //         cardData.cardOptional.card_music !== "" ||
-    //         cardData.cardOptional.card_movie !== "" ||
-    //         cardData.cardOptional.card_address !== ""
-    //     );    
-
-    //     //console.log(isOptional2);
-    //     return (isOptional2 && isOptional3);
-    // };
+    console.log('cd ', cardData.cardOptional);
     return (
         <View style={{gap: 24, width: '100%'}}>
             {cardData.cardOptional.card_tel ? (
@@ -234,24 +219,27 @@ const CardOptional2 = ({cardData}) => {
                 <Text style={{...styles.topic, paddingTop: 8}}>SNS</Text>                             
                 <View style={styles.SNScontainer}>
                     {cardData.cardOptional.card_sns_insta ? (
+                        <OpenURLButton url={instaURL + cardData.cardOptional.card_sns_insta + '/'} >
                         <View style={styles.grayBox}>
                         <Image source={InstaLogo} style={{ width: 16, height: 16 }} resizeMode="contain" />
-
-                        <OpenURLButton url={ instaURL + cardData.cardOptional.card_sns_insta + '/' }>{cardData.cardOptional.card_sns_insta}</OpenURLButton>
+                        <Text>{cardData.cardOptional.card_sns_insta}</Text>
                         <LinkIcon />
                         </View>
+                        </OpenURLButton>
                     ) : null }
                     {cardData.cardOptional.card_sns_x ? (
+                        <OpenURLButton url={xURL + cardData.cardOptional.card_sns_x}>
                         <View style={styles.grayBox}>
                         <Image source={XLogo} style={{ width: 16, height: 16 }} resizeMode="contain" />
-                        <OpenURLButton url={xURL + cardData.cardOptional.card_sns_x}>{cardData.cardOptional.card_sns_x}</OpenURLButton>
+                        <Text>{cardData.cardOptional.card_sns_x}</Text>
                         <LinkIcon />
                         </View>
+                        </OpenURLButton>
                     ) : null }
                 </View>
                 </View>
             ) : null }
-            { (isOptional2(cardData) && isOptional3(cardData)) && <View style={{...styles.line, marginTop: 0}} />}
+            { (isOptional2(cardData) && isOptional3(cardData)) && <View style={{...styles.line, marginTop: 0, }} />}
         </View>
     );
 }
