@@ -82,7 +82,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, 
     };
 
     const renderTemplateSpecificInfo = () => {
-        console.log ('1 : ', isOptional1(cardData), ' t : ', isTemplateOptional(cardData), ' 2: ', isOptional2(cardData), ' 3: ', isOptional3(cardData));
+        //console.log ('1 : ', isOptional1(cardData), ' t : ', isTemplateOptional(cardData), ' 2: ', isOptional2(cardData), ' 3: ', isOptional3(cardData));
         switch (cardData.card_template) {
             case 'studentSchool':
                 return (
