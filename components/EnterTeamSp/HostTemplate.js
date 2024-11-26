@@ -388,7 +388,6 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
       const newEmptyMovie = card_movie.trim() === '';
       const newEmptyAddress = card_address.trim() === '';
 
-      console.log('card_free_a1: ', card_free_A1);
       const newEmptyA = [
         plus[0] !== undefined && (card_free_A1 || '').trim() === '',
         plus[1] !== undefined && (card_free_A2 || '').trim() === '',
@@ -396,7 +395,6 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
         plus[3] !== undefined && (card_free_A4 || '').trim() === '',
         plus[4] !== undefined && (card_free_A5 || '').trim() === '',
       ];
-      console.log('zzz:' , newEmptyA)
 
       setEmptyHobby(newEmptyHobby);
       setEmptyMusic(newEmptyMusic);
@@ -503,6 +501,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
       setTeamStep(step+1);
     }
   }, [step]);
+  
+  // useEffect(()=>{
+  //   console.log('step:', step);
+  //   console.log('teatstep:', teamStep);
+  // }, [step, teamStep])
 
   const handleHeaderLeft = (onPress) => {
     if (step < 9) {

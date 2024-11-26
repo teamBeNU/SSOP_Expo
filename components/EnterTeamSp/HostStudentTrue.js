@@ -160,6 +160,10 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
             let clubOk = !showClub || !isEmpty.club;
             let roleOk = !(showRole.length !== 0) || !isEmpty.role;
             let statusOk = !showStatus || !isEmpty.status;
+
+            // console.log('showSchool: ', showSchool)
+            // console.log('isEmpty.school: ', isEmpty.school)
+            // console.log('schoolOk: ', schoolOk)
     
             setIsOk({
                 school: schoolOk,
@@ -184,6 +188,8 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
             {/* 학교 */}
             {showSchool && (
                 <View style={styles.nameContainer}>
+                    {/* <Text>{isEmpty.school?'true':'false'}</Text>
+                    <Text>{isOk.school?'true':'false'}</Text> */}
                     <Text style={styles.nameBold}>학교명<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
                         style={[styles.nameInput, !isOk.school && styles.inputEmpty]}
