@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { View, Text, Image, ScrollView, Dimensions, Linking, Alert, DeviceEventEmitter , TouchableOpacity} from "react-native";
+import { View, Text, Image, ScrollView, Dimensions, Linking, Alert, DeviceEventEmitter, TouchableOpacity } from "react-native";
 import { styles } from './HomeStyle';
 //import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
@@ -130,11 +130,9 @@ function Home({ navigation }) {
                 <Text style={styles.TextWhite}>카드 만들기</Text>
                 <ArrowIconWhite style={{ marginLeft: 4 }} />
               </View>
-              <CreateCardIcon
-                width={Math.max(parentSize.width * 0.7, 160)}
-                height={Math.max(parentSize.height * 0.7, 155)}
-                style={styles.icon1}
-              />
+              <Image
+                source={CreateCardIcon}
+                style={styles.icon1} />
             </LinearGradient>
           </TouchableOpacity>
         </View>
