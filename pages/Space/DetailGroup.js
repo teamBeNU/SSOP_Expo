@@ -95,7 +95,7 @@ const deleteSelectedCards = async (groupId, selectedCards, setCardData, setMembe
       })
     );
 
-    showCustomToast('카드가 성공적으로 삭제되었습니다.');
+    showCustomToast('프로필 카드가 삭제되었어요.');
 
     // 삭제된 카드를 제외한 나머지 카드로 상태 업데이트
     setCardData((prevData) => prevData.filter((card) => !selectedCards.includes(card.cardId)));
@@ -273,7 +273,7 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
       <SpaceModal
         isVisible={isCardDeleteModalVisible}
         onClose={() => setIsCardDeleteModalVisible(false)}
-        title={'카드를 삭제하시겠습니까?'}
+        title={'프로필 카드를 삭제하시겠습니까?'}
         sub={'이 작업은 되돌릴 수 없습니다.'}
         btn1={'취소할래요'}
         btn2={'네, 삭제할래요'}

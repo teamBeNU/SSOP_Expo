@@ -83,7 +83,7 @@ export const TeamSpaceList = ({ id, name, members, isHost, description, onGroupP
                   {isHost ? (
                     <>
                       <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스명 변경하기' onSelect={onChangeGroupName} />
-                      <MenuOption style={{ marginBottom: 10.5 }} text='팀스페이스 삭제하기' onSelect={() => onDeleteGroup(id)} />
+                      <MenuOption text='팀스페이스 삭제하기' onSelect={() => onDeleteGroup(id)} />
                     </>
                   ) :
                     <MenuOption text='팀스페이스 나가기' onSelect={() => onDeleteGroup(id)} />}

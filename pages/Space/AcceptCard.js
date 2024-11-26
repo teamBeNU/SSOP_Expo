@@ -88,7 +88,7 @@ const deleteSelectedCards = async (selectedCards, setCardData, cardData) => {
     });
 
     if (response.ok) {
-      showCustomToast('카드를 성공적으로 삭제하였습니다.');
+      showCustomToast('프로필 카드가 삭제되었어요.');
 
       // 삭제된 카드를 제외한 나머지 카드로 상태 업데이트
       const updatedCardData = (cardData || []).filter(card => !selectedCards.includes(card.cardId));
