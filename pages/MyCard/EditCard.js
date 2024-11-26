@@ -7,7 +7,7 @@ import { useNavigation, useRoute } from '@react-navigation/native'
 import RNPickerSelect from 'react-native-picker-select'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-
+import DropDownOption from '../../components/CreateCard/DropDownOption.js';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg'
 import RightArrowIcon from '../../assets/icons/ic_RightArrow_small_line.svg'
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg'
@@ -65,6 +65,34 @@ function EditCard() {
         const filteredText = input.replace(/[^a-zA-Z]/g, '');
         setMBTI(filteredText.toUpperCase());
     }
+
+    // 드롭다운
+    const [dropDownMbti1Open, setDropDownMbti1Open] = useState(false);
+    const [dropDownMbti2Open, setDropDownMbti2Open] = useState(false);
+    const [mbti1Items, setMbti1Items] = useState([
+        { label: 'EN', value: 'EN' },
+        { label: 'ES', value: 'ES' },
+        { label: 'IN', value: 'IN' },
+        { label: 'IS', value: 'IS' },
+    ]);
+    const [mbti2Items, setMbti2Items] = useState([
+        { label: 'TJ', value: 'TJ' },
+        { label: 'TP', value: 'TP' },
+        { label: 'FJ', value: 'FJ' },
+        { label: 'FP', value: 'FP' },
+    ]);
+
+     // mbti
+     const [mbti1, setMbit1] = useState(card.cardOptional.card_MBTI.slice(0, 2));
+     const [mbti2, setMbit2] = useState(card.cardOptional.card_MBTI.slice(2));
+ 
+     useEffect(() => {
+         let mbti = '';
+         if (mbti1 !== null && mbti2 !== null) { 
+             mbti = mbti1 + mbti2;
+         }
+         setMBTI(mbti);
+     }, [mbti1, mbti2]);
 
     const navigation = useNavigation();
 
@@ -305,16 +333,31 @@ function EditCard() {
                 {introduce ? null : <Text style={styles.warningText}>한줄소개를 입력해 주세요.</Text>}
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
-                <Text style={styles.subTitle}>MBTI</Text>
-                <TextInput 
-                    style={styles.input}
-                    placeholder={MBTI ? MBTI : 'MBTI를 입력해 주세요.'}
-                    value={MBTI}
-                    onChangeText={handleMBTI}
-                    placeholderTextColor={theme.gray60}
-                    maxLength={4}
-                    />
+                <View style={[styles.inputContainer, {marginBottom: 28}]}>
+                    <Text style={styles.subTitle}>MBTI</Text>
+                    <View style={[styles.dropDownContainerZIndex1, styles.flexDirectionRow]}>
+                        <DropDownOption
+                            dropDownOpen={dropDownMbti1Open}
+                            dropDownValue={mbti1}
+                            setDropDownOpen={setDropDownMbti1Open}
+                            setDropDownValue={setMbit1}
+                            items={mbti1Items}
+                            setItems={setMbti1Items}
+                            placeholder={'앞 2자리'}
+                            isError={true}
+                        />
+                        <View style={styles.marginR8}></View>
+                        <DropDownOption
+                            dropDownOpen={dropDownMbti2Open}
+                            dropDownValue={mbti2}
+                            setDropDownOpen={setDropDownMbti2Open}
+                            setDropDownValue={setMbit2}
+                            items={mbti2Items}
+                            setItems={setMbti2Items}
+                            placeholder={'뒤 2자리'}
+                            isError={true}
+                        />
+                    </View>
                 </View>
 
                 <View style={[styles.line, {marginBottom: 40}]} />
@@ -449,8 +492,20 @@ function EditCard() {
                     />
                 {school ? null : <Text style={styles.warningText}>학교명을 입력해 주세요.</Text>}
                 </View>
-
+               
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <Text style={styles.subTitle}>전공*</Text>
+                <TextInput 
+                    style={major ? styles.input : styles.warningInput}
+                    value={major}
+                    onChangeText={setMajor}
+                    placeholder={major ? major : "전공을 입력해 주세요."}
+                    placeholderTextColor={theme.gray60}
+                    />
+                {major ? null : <Text style={styles.warningText}>전공을 입력해 주세요.</Text>}
+                </View>
+
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학년*</Text>
                 <View style={styles.dropDown}>
                 <RNPickerSelect
@@ -476,21 +531,10 @@ function EditCard() {
                 </View>
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
-                <Text style={styles.subTitle}>전공*</Text>
-                <TextInput 
-                    style={major ? styles.input : styles.warningInput}
-                    value={major}
-                    onChangeText={setMajor}
-                    placeholder={major ? major : "전공을 입력해 주세요."}
-                    placeholderTextColor={theme.gray60}
-                    />
-                {major ? null : <Text style={styles.warningText}>전공을 입력해 주세요.</Text>}
-                </View>
 
                 <View style={styles.line} />
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 28, marginTop: 40}}>
                 <Text style={styles.subTitle}>학생번호</Text>
                 <TextInput 
                     style={styles.input}

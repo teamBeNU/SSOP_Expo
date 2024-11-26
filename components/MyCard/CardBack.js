@@ -75,7 +75,7 @@ const OpenURLButton = ({url, children}) => {
         }
     };
 
-export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd }) => {
+export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, isSample }) => {
     const templateLine = () => {
         return (isTemplateOptional(cardData) && (isOptional2(cardData) || isOptional3(cardData)) &&  <View style={{...styles.line, marginTop: 0}} />);
     };
