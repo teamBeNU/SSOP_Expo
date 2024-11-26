@@ -16,11 +16,12 @@ import VisibilityOffIcon from '../../assets/Login/ic_visibility_off.svg';
 import CheckIcon from '../../assets/Login/ic_done_small_line.svg';
 import BlueCheckIcon from '../../assets/Login/ic_done_small_line_blue.svg';
 import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
-import SignUpDone from '../../assets/Login/graphic_signUpDone.svg';
+import SignUpDone from '../../assets/Login/graphic_done.svg';
+
+const { width:WIDTH } = Dimensions.get('window');
 
 function SignUp() {
     const navigation = useNavigation();
-    const route = useRoute();
     const { setIsLoggedIn } = useContext(AuthContext);
 
     // 1. email 입력
@@ -515,11 +516,13 @@ function SignUp() {
 
           {step === 8 && (
             <View style={styles.container}>
-            <Text style={[styles.title, {lineHeight: 33}]}>회원가입이 완료되었습니다!{`\n`}환영합니다.</Text>
-            <SignUpDone style={{marginTop: 72}}/>
+            <Text style={[styles.title]}>회원가입이 완료되었습니다!{`\n`}환영합니다.</Text>
+            <View style={{ flex: 1, marginTop: 118, alignItems: 'center' }}>
+              <SignUpDone width={200} height={200} />
+          </View>
 
             <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
-                <Text style={styles.nextText}>쏩 시작하기</Text>
+                <Text style={styles.nextText}>SSOP 시작하기</Text>
             </TouchableOpacity>
            </View>
           )}

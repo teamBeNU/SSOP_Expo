@@ -156,5 +156,15 @@ export const styles = StyleSheet.create({
         shadowOpacity: 0.09,
         shadowRadius: 16,
     },
-    
+    coverTitle: {
+        ...textStyles.body15,
+        color: 'white',
+        backgroundColor: 'rgba(33, 33, 33, 0.80)',
+        borderRadius: 20,
+        paddingVertical: 8,
+        paddingHorizontal: 12,
+        position: 'absolute',
+        top: 24,
+        left: 26
+    }
 });
