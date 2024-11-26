@@ -1,26 +1,25 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import axios from "axios";
 import * as Clipboard from 'expo-clipboard';
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Modal, Share } from "react-native";
-import Toast from "react-native-toast-message";
-import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
-import { RadioButton } from 'react-native-paper';
-import { theme } from "../../theme";
-import { Card } from "../MyCard/Card";
+import React, { useEffect, useState } from "react";
+import { Keyboard, Modal, ScrollView, Share, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import "react-native-gesture-handler";
+import { RadioButton } from 'react-native-paper';
 import * as Progress from 'react-native-progress';
-import * as Sharing from 'expo-sharing';
-import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
-import Select from "../../assets/teamSp/select.svg";
-import ShareImage from '../../assets/teamSp/EnterEndCard.svg'
+import Toast from "react-native-toast-message";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
+import ShareImage from '../../assets/teamSp/bg_gradation.svg';
+import Select from "../../assets/teamSp/select.svg";
+import { styles } from '../../pages/CreateTeamSp/CreateTmSpStyle';
+import { theme } from "../../theme";
+import { getSampleData } from "../../utils/cardSampleData";
+import CustomModal from "../CreateCard/Modal/CustomModal";
+import { Card } from "../MyCard/Card";
+import FanTemplate from "./FanTemplate";
 import StudentTemplate from "./StudentTemplate";
 import WorkerTemplate from "./WorkerTemplate";
-import FanTemplate from "./FanTemplate";
-import { cardSampleData, getSampleData } from "../../utils/cardSampleData";
-import CustomModal from "../CreateCard/Modal/CustomModal";
 
 export default function TeamSpTemplate({ navigation, goToOriginal, teamName, teamComment, card_template,
     // 학생
@@ -673,8 +672,8 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                             </Text>
                             <Text style={styles.gray60text}>카드를 등록해야 팀스페이스를 볼 수 있어요.</Text>
 
-                            <View style={styles.shareContainer}>
-                                <ShareImage />
+                            <View style={{marginTop: 12, marginLeft: -10}}>
+                                <ShareImage width={400} height={400} />
                             </View>
 
                             <View style={[styles.btnContainer, { marginBottom: -16 }]}>

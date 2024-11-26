@@ -111,6 +111,7 @@ function Home({ navigation }) {
       <View style={styles.mainlayout}>
         <View>
           <TouchableOpacity
+            activeOpacity={0.9}
             style={styles.touchableOpacity}
             onLayout={(event) => {
               const { width, height } = event.nativeEvent.layout;
@@ -152,14 +153,14 @@ function Home({ navigation }) {
           </Text>
           <View style={styles.container}>
             <View style={styles.row}>
-              <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('내 카드 보내기')}>
+              <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('내 카드 보내기')}>
                 <View style={styles.btnIcon}>
                   <BluetoothIcon />
                 </View>
                 <Text style={styles.Text18}>블루투스 공유</Text>
                 <Text style={styles.Text14}>주변에 있다면</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('링크 복사')}>
+              <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('링크 복사')}>
                 <View style={styles.btnIcon}>
                   <LinkIcon />
                 </View>
@@ -172,13 +173,13 @@ function Home({ navigation }) {
           <Text style={styles.title}>교환할 사람이 많을 땐</Text>
           <View style={styles.container}>
             <View style={styles.row}>
-              <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 입장')}>
+              <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 입장')}>
                 <View style={styles.btnIcon}>
                   <EnterTeamSPIcon />
                 </View>
                 <Text style={styles.Text18}>팀스페이스 입장</Text>
               </TouchableOpacity>
-              <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 생성')}>
+              <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 생성')}>
                 <View style={styles.btnIcon}>
                   <CreatTeamSPIcon />
                 </View>
