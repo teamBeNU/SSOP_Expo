@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { View, Text, ScrollView, Dimensions, Linking, Alert, DeviceEventEmitter } from "react-native";
+import { View, Text, Image, ScrollView, Dimensions, Linking, Alert, DeviceEventEmitter , TouchableOpacity} from "react-native";
 import { styles } from './HomeStyle';
-import { TouchableOpacity } from "react-native-gesture-handler";
+//import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
 import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from 'react-native-toast-message';
 
-import CreateCardIcon from '../../assets/HomeIcon/img_banner.svg';
+import CreateCardIcon from '../../assets/HomeIcon/homeBanner.png';
 import ArrowIconWhite from '../../assets/HomeIcon/ic_arrow_white.svg';
 import ArrowIcon from '../../assets/HomeIcon/ic_arrow.svg';
 import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';

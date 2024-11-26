@@ -10,6 +10,7 @@ import * as Progress from 'react-native-progress';
 import * as Clipboard from 'expo-clipboard';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { theme } from "../../theme";
+import { BRANCH_API_KEY } from '@env';
 
 import HomeIcon from '../../assets/icons/ic_home_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -20,23 +21,26 @@ import ShareIcon from '../../assets/icons/ic_share_white.svg';
 // Branch 링크 생성 함수
 const createBranchLink = async (backendLink, cardId) => {
   try {
-    const branchApiKey = "key_live_mrl5i4OwDxCg5dtSw4f0JmletweC8nnH";
-
     const response = await fetch("https://api2.branch.io/v1/url", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        branch_key: branchApiKey,
+        branch_key: BRANCH_API_KEY,
         campaign: "share_card",
         feature: "redirect",
         data: {
-          cardId: cardId, // 반드시 cardId 추가
-          original_link: `${backendLink}?cardId=${cardId}`, // cardId 포함
-          $android_url: `ssop://open?cardId=${cardId}`, // Android 딥링크
-          $ios_url: `ssop://open?cardId=${cardId}`, // iOS 딥링크
+          cardId: cardId,
+          original_link: `${backendLink}?cardId=${cardId}`,
+          $android_url: `ssop://open?cardId=${cardId}`,
+          $ios_url: `ssop://open?cardId=${cardId}`,
           $fallback_url: "https://ssop2024.notion.site",
+
+          // Open Graph metadata 추가
+          "$og_title": "SSOP 프로필 카드 공유",
+          "$og_description": "이 링크를 통해 프로필 카드를 확인하고 저장하세요!",
+          "$og_image_url": "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/linkShare/linkThumbnail.png",
         },
       }),
     });
@@ -45,7 +49,7 @@ const createBranchLink = async (backendLink, cardId) => {
 
     if (response.ok) {
       console.log("생성된 Branch 링크:", result.url);
-      return result.url; // 생성된 Branch 링크 반환
+      return result.url;
     } else {
       console.error("Branch 링크 생성 실패:", result);
       Alert.alert("링크 생성 실패", "다시 시도해 주세요.");
@@ -173,19 +177,13 @@ function Step2Screen({ route, navigation}) {
     setIsModalVisible(false);
     try {
       await Share.share({
-        title: 'SSOP',
-        message: `SSOP: Share Social Profile card\n${link}`,
+        //title: 'SSOP',
+        message: `SSOP: 자기소개와 인간관계 보조 플랫폼\n\n${link}`,
       });
     } catch (error) {
       console.error('링크 공유 중 오류가 발생했습니다:', error);
     }
   };
-      // 임시로 LinkReceiverScreen로 이동하는 버튼 핸들러
-      const navigateToLinkReceiver = () => {
-        const testLink = 'https://ssopbenu.app.link/isPooJFFGOb'; // 임시 링크
-        console.log("네비게이션을 통해 전달된 링크:", testLink);
-        navigation.navigate('LinkReceiverScreen', { link: testLink });
-      };
 
   return (
     <View style={{ flex: 1, backgroundColor: 'white' }}>
@@ -201,15 +199,12 @@ function Step2Screen({ route, navigation}) {
           <Text style={styles.title}>링크가 생성되었어요.</Text>
           <Text style={[styles.Text16, {marginBottom: 33}]}>링크는 10분 동안 유효해요.</Text>
           <View style={styles.linkShareContainer}>
-          <LinkShareImage/>
+          <LinkShareImage width="300" height='300'/>
             <View>
             </View>
           </View>
         </View>
         <View style={styles.btnContainer}>
-         <TouchableOpacity style={[styles.btnTestBox, {marginTop: 10}]} onPress={navigateToLinkReceiver}>
-            <Text style={styles.btnTest}>다른 사람이 보낸 링크 저장 (시연을 위한 임시 버튼)</Text>
-          </TouchableOpacity >
           <TouchableOpacity style={[styles.btnNext, {marginTop: 10}]}  onPress={handleLinkSharePress}>
             <ShareIcon style={{marginRight: 8, marginTop: 2}}/>
             <Text style={styles.btnText}>링크 공유하기</Text>
@@ -217,70 +212,6 @@ function Step2Screen({ route, navigation}) {
         </View>
       </View>
     </View>
-  );
-}
-
-function LinkReceiverScreen({ route, navigation }) {
-  const { link } = route.params;
-
-  // URL에서 cardId 추출 함수
-  const extractCardId = (url) => {
-    try {
-      const parsedUrl = new URL(url);
-      const cardId = parsedUrl.searchParams.get("cardId");
-      console.log("추출된 cardId:", cardId);
-      return cardId;
-    } catch (error) {
-      console.error("URL 파싱 중 오류:", error);
-      return null;
-    }
-  };
-
-  // 초기 URL에서 cardId 추출
-  useEffect(() => {
-    if (link) {
-      const cardId = extractCardId(link);
-      if (cardId) {
-        console.log("초기 링크에서 추출된 cardId:", cardId);
-        // 저장 로직 추가
-      } else {
-        console.error("초기 링크에서 cardId를 추출할 수 없습니다.");
-      }
-    }
-  }, [link]);
-
-  // 딥링크 URL 처리
-  useEffect(() => {
-    const handleDeepLink = ({ url }) => {
-      const cardId = extractCardId(url);
-      if (cardId) {
-        console.log("딥링크에서 추출된 cardId:", cardId);
-        // 저장 로직 추가
-      } else {
-        console.error("딥링크에서 cardId를 추출할 수 없습니다.");
-      }
-    };
-
-    // Linking 이벤트 리스너 등록
-    const subscription = Linking.addEventListener("url", handleDeepLink);
-
-    return () => {
-      subscription.remove();
-    };
-  }, []);
-
-  return (
-    <WebView
-      source={{ uri: link }}
-      onNavigationStateChange={({ url }) => {
-        const cardId = extractCardId(url);
-        if (cardId) {
-          console.log("웹뷰에서 추출된 cardId:", cardId);
-        } else {
-          console.error("웹뷰에서 cardId를 추출할 수 없습니다.");
-        }
-      }}
-    />
   );
 }
 
@@ -314,20 +245,6 @@ function LinkShare({ navigation }) {
           </TouchableOpacity>
         ),
       }}/>
-      <Stack.Screen name="LinkReceiverScreen" component={LinkReceiverScreen} 
-      options={{
-        title: "카드 저장",
-        headerTitleAlign: 'center',
-        headerLeft: ({onPress}) => (
-          <TouchableOpacity onPress={onPress}>
-            <LeftArrowIcon style={{ marginLeft: 8  }}/>
-          </TouchableOpacity>
-        ),
-        headerRight: () => (
-          <TouchableOpacity onPress={() => navigation.navigate('홈')}>
-            <HomeIcon style={{ marginRight: 8 }} />
-          </TouchableOpacity>
-        ), }}/>
     </Stack.Navigator>
   );
 }

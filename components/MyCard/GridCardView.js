@@ -10,11 +10,11 @@ import { theme } from '../../theme';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 
-export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCards, selectedOption}) => {
+export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCards, selectedOption, refreshData}) => {
     const navigation = useNavigation(); 
 
-    const handleNext = (cardId) => {
-      navigation.navigate('카드 상세보기', { cardId, selectedOption });
+    const handleNext = (cardId, index) => {
+      navigation.navigate('카드 상세보기', { cardId, selectedOption, index });
     };
 
     return (
@@ -90,8 +90,8 @@ export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
           </View>    
           ) : (
           <View style={[styles.row, cardData.length === 1 ? {marginRight: WIDTH*0.45} : {} , {gap: 4}]}>
-          {cardData.map((item) => (
-            <TouchableOpacity key={item.cardId} style={[styles.btn1, {marginTop: 4}]} onPress={() => handleNext(item.cardId)}>
+          {cardData.map((item, index) => (
+            <TouchableOpacity key={index} style={[styles.btn1, {marginTop: 4}]} onPress={() => handleNext(item.cardId, index)}>
                 {/* {item.card_cover === 'avatar' ? 
                   (<View style={{...styles.cardImgArea, backgroundColor: getColor(item.avatar.bgColor)}}>
                   

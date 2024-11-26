@@ -14,8 +14,8 @@ import { styles } from './MyCardsViewStyle';
 const CardsView = ({ cardData, setCardData, refreshData, returnViewOption, viewOption, setViewOption,selectedOption, setSelectedOption }) => {
   //const [selectedOption, setSelectedOption] = useState('최신순');
   //const [viewOption, setViewOption] = useState('그리드형');
-  const [sortedCardData, setSortedCardData] = useState([]);
   const navigation = useNavigation();
+  const [sortedCardData, setSortedCardData] = useState([]);
 
   // 최신순 / 오래된 순 정렬 함수
   const sortData = (data) => {
@@ -66,7 +66,7 @@ const CardsView = ({ cardData, setCardData, refreshData, returnViewOption, viewO
       </View>
 
       {viewOption === '그리드형' ? (
-        <GridCardView cardData={sortedCardData} selectedOption={selectedOption} />
+        <GridCardView cardData={sortedCardData} selectedOption={selectedOption} refreshData={refreshData}/>
       ) : (
         <ListCardView cardData={sortedCardData} setCardData={setCardData} refreshData={refreshData} selectedOption={selectedOption} />
       )}

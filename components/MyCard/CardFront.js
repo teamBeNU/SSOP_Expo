@@ -6,8 +6,9 @@ import { CardSample_student } from './CardSample';
 import AvatarSample from '../../assets/AvatarSample.svg'
 import { calculateAge } from '../../utils/calculateAge';
 import { getColor } from '../../utils/bgColorMapping';
+import { avatarSample } from '../../assets/Card/avatarSample.png';
 
-export const CardFront = ({ cardData, onFlip }) => {
+export const CardFront = ({ cardData, onFlip, isSample }) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
@@ -35,6 +36,42 @@ export const CardFront = ({ cardData, onFlip }) => {
         }
     };
 
+    const renderSampleInfo = () => {
+        //console.log('tcd: ', cardData);
+        switch (cardData.template) {
+            case 'student': 
+                return (
+                    (cardData.studentOptional.showSchool || cardData.studentOptional.showGrade || cardData.studentOptional.showMajor) ? (
+                        <Text style={styles.sub}>
+                        {cardData.studentOptional.showSchool && '학교 '}
+                        {cardData.studentOptional.showGrade && '학년 '}
+                        {cardData.studentOptional.showMajor && '전공'}
+                      </Text>               
+                    ) : null
+                );
+            case 'worker': 
+                return (
+                    (cardData.workerOptional.showCompany || cardData.workerOptional.showJob) ? (
+                        <Text style={styles.sub}>
+                            {cardData.workerOptional.showCompany && '회사 '}
+                            {cardData.workerOptional.showJob && '직무'}
+                        </Text>
+                    ) : null                    
+                );
+            case 'fan': 
+                return (
+                    (cardData.fanOptional.showGenre || cardData.fanOptional.showFavorite) ? (
+                        <Text style={styles.sub}>
+                            {cardData.fanOptional.showGenre && '장르 '} 
+                            {cardData.fanOptional.showFavorite && (cardData.fanOptional.showGenre ? '좋아하는 최애 팬' : '최애 팬')}
+                        </Text> 
+                    ) : null
+                );
+            default:
+                return null;
+        }
+    };
+
     return (
         <View style={{...styles.card}}>
                 {/* {cardData.card_cover === 'avatar' ? 
@@ -42,24 +79,48 @@ export const CardFront = ({ cardData, onFlip }) => {
                         
                 </View>
                 : */}
+                 {isSample ? 
+                <View>
+                <Image
+                source={ require('../../assets/Card/sampleCover.png') }
+                resizeMode="cover"
+                style={[styles.cardImgArea, { width: 'auto' }]}
+                />
+                <Text style={styles.coverTitle}>
+                {cardData.cardCover === 'free'
+                    ? '자유 커버'
+                    : cardData.cardCover === 'avatar'
+                    ? '아바타 커버'
+                    : cardData.cardCover === 'picture'
+                    ? '사진 커버'
+                    : null}
+                </Text>
+                </View>
+                :
                 <Image 
                 source={{ uri: cardData.profile_image_url }} 
                 resizeMode="cover"
                 style={styles.cardImgArea}
                 />
-                {/* }  */}
+                 }
             <View style={styles.cardTextArea}>
                 <View style={styles.basicInfo}> 
-                    <Text style={styles.name}>{cardData.cardEssential.card_name}</Text>
-                    {cardData.cardOptional.card_birth ? (
-                        <Text style={styles.age}>
-                            {calculateAge(cardData.cardOptional.card_birth)}
-                        </Text>
-                    ) : null}
+                    <Text style={styles.name}>{isSample ? '이름' : cardData.cardEssential.card_name}</Text>
+                    {
+                        isSample ? (
+                            cardData.showAge && (<Text style={styles.age}>나이</Text>)
+                        ) : (
+                            cardData.cardOptional.card_birth ? (
+                            <Text style={styles.age}>
+                                {calculateAge(cardData.cardOptional.card_birth)}
+                            </Text>
+                            ) : null
+                        )}
                 </View>
-                {renderTemplateSpecificInfo()}
+                {isSample ? renderSampleInfo() : renderTemplateSpecificInfo()}
+                {/* {renderTemplateSpecificInfo()} */}
                 <Text style={styles.sub2}>
-                    {cardData.cardEssential.card_introduction}
+                    {isSample ? '한줄소개' : cardData.cardEssential.card_introduction}
                 </Text>
             </View>
         </View>

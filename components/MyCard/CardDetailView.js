@@ -66,10 +66,10 @@ const CardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef(null);
     const route = useRoute();
-    const { cardId, refresh, selectedOption } = route.params;
+    const { cardId, refresh, selectedOption, index } = route.params;
 
     const [cardData, setCardData] = useState([]);
-    const [currentCardIndex, setCurrentCardIndex] = useState(0);
+    const [currentCardIndex, setCurrentCardIndex] = useState(index);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isShareModalVisible, setIsShareModalVisible] = useState(false);
     const [isCoverModalVisible, setIsCoverModalVisible] = useState(false);
@@ -80,6 +80,20 @@ const CardDetailView = () => {
     const [cardCover, setCardCover] = useState('');
 
     const navigation = useNavigation();
+
+    // const [sortedCardData, setSortedCardData] = useState([]);
+
+    // // 최신순 / 오래된 순 정렬 함수
+    // const sortData = (data) => {
+    //     const dataCopy = [...(data || [])];
+    //     return selectedOption === '오래된 순' ? dataCopy : dataCopy.reverse();
+    // };
+
+    // // 데이터 정렬
+    // useEffect(() => {
+    //     setSortedCardData(sortData(cardData));
+    //     //setViewOption(returnViewOption)
+    // }, [cardData, selectedOption]);
 
     const handleBluetoothPress = () => {
         setIsShareModalVisible(false);
@@ -282,7 +296,8 @@ const CardDetailView = () => {
 
             setCardData(sortData(result));
 
-            const cardIndex = result.findIndex(card => card.cardId === cardId);
+            const cardIndex = cardData.findIndex(card => card.cardId === cardId);
+           
             if (cardIndex !== -1) {
                 setCurrentCardIndex(cardIndex);
                 scrollViewRef.current.scrollTo({
@@ -465,14 +480,14 @@ const CardDetailView = () => {
                                     <View style={styles.modalView}>
                                         <View style={styles.modalTitle}>
                                             <Text style={{color:theme.gray10, ...textStyles.body16m, textAlign: 'center', flex:1}}>프로필 카드 수정하기</Text>
-                                            <TouchableOpacity onPress={() => setIsModalVisible(false)}>
-                                                <CloseIcon style={{ position: 'absolute', right: 8, top: -24 }} />
-                                            </TouchableOpacity>
+                                            <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+                                                <CloseIcon style={{ position: 'absolute', right: 8, top: 0 }} />
+                                            </TouchableWithoutFeedback>
                                         </View>
                                         <View style={styles.modalContent}>
                                             <TouchableOpacity onPress={() => {
                                                 setIsModalVisible(false);
-                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex], isDetail: true});}}>
+                                                navigation.navigate('카드 정보 수정', {card: cardData[currentCardIndex], isDetail: true, index: currentCardIndex});}}>
                                             <Text style={styles.modalTitle}>정보 수정할래요</Text>
                                             </TouchableOpacity>
                                             <View style={styles.line} />
