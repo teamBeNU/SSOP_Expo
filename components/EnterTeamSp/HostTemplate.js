@@ -61,11 +61,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   const [showMovie, setShowMovie] = useState(null);
   const [showAddress, setShowAddress] = useState(null);
   const [plus, setPlus] = useState([]);
-  const [card_free_A1, setFreeA1] = ('');
-  const [card_free_A2, setFreeA2] = ('');
-  const [card_free_A3, setFreeA3] = ('');
-  const [card_free_A4, setFreeA4] = ('');
-  const [card_free_A5, setFreeA5] = ('');
+  const [card_free_A1, setFreeA1] = useState('');
+  const [card_free_A2, setFreeA2] = useState('');
+  const [card_free_A3, setFreeA3] = useState('');
+  const [card_free_A4, setFreeA4] = useState('');
+  const [card_free_A5, setFreeA5] = useState('');
   const [card_cover, setCover] = useState("free");
 
   const [studentOptional, setStudentOptional] = useState([]);
@@ -84,6 +84,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   const [emptyMusic, setEmptyMusic] = useState(false);
   const [emptyMovie, setEmptyMovie] = useState(false);
   const [emptyAddress, setEmptyAddress] = useState(false);
+
+  const [emptyA, setEmptyA] = useState([false, false, false, false, false]);
 
   const [profile_image_url, setProfileImageUrl] = useState(null);
   const [isPictureComplete, setIsPictureComplete] = useState(false);
@@ -386,15 +388,28 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
       const newEmptyMovie = card_movie.trim() === '';
       const newEmptyAddress = card_address.trim() === '';
 
+      console.log('card_free_a1: ', card_free_A1);
+      const newEmptyA = [
+        plus[0] !== undefined && (card_free_A1 || '').trim() === '',
+        plus[1] !== undefined && (card_free_A2 || '').trim() === '',
+        plus[2] !== undefined && (card_free_A3 || '').trim() === '',
+        plus[3] !== undefined && (card_free_A4 || '').trim() === '',
+        plus[4] !== undefined && (card_free_A5 || '').trim() === '',
+      ];
+      console.log('zzz:' , newEmptyA)
+
       setEmptyHobby(newEmptyHobby);
       setEmptyMusic(newEmptyMusic);
       setEmptyMovie(newEmptyMovie);
       setEmptyAddress(newEmptyAddress);
+//뭐야
+      setEmptyA(newEmptyA);
 
       if ((!showHobby || !newEmptyHobby) &&
         (!showMusic || !newEmptyMusic) &&
         (!showMovie || !newEmptyMovie) &&
-        (!showAddress || !newEmptyAddress)
+        (!showAddress || !newEmptyAddress) &&
+        newEmptyA.every((isEmpty, index) => !plus[index] || !isEmpty)
       )
         if (coverInit === "free") {
           setStep(6) // 아바타와 사진 중 택 1
@@ -1032,13 +1047,16 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                           {item} <Text style={styles.nameBold}> *</Text>
                         </Text>
                         <TextInput
-                          style={styles.nameInput}
+                          style={[styles.nameInput, plus[index] !== undefined && emptyA[index] && styles.inputEmpty]}
                           placeholder={`${item}을(를) 입력해주세요`}
                           keyboardType="default"
-                          value={cardValues[index]}
-                          onChangeText={setCardValues[index]}
+                          value={cardValues[index] || ''}
+                          onChangeText={(text) => {setCardValues[index](text);}}
                           ref={refs[index]}
                         />
+                        {plus[index] !== undefined && emptyA[index] && (
+                          <Text style={styles.inputEmptyText}> {item}을(를) 입력해 주세요.</Text>
+                        )}
                       </View>
                     );
                   }) || null}
