@@ -277,25 +277,25 @@ function DetailSpaceGroup({ navigation }) {
     const [isCompleteModalVisible, setIsCompleteModalVisible] = useState(false); // 연락처로 이동 모달 상태
     const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); // 아이폰용 완료 모달
 
-    useEffect(() => {
-      const fetchData = async () => {
-        const savedCards = await fetchSavedCards();  // 받은 카드 목록 가져오기
-        setCardData(savedCards);  // 상태에 저장
-      };
-  
-      fetchData();  // 컴포넌트가 로드될 때 데이터 가져오기
-    }, []);
-
-    // 연락처 있는 카드만 보이기
     // useEffect(() => {
     //   const fetchData = async () => {
-    //     const savedCards = await fetchSavedCards(); // 받은 카드 목록 가져오기
-    //     const filteredCards = savedCards.filter(card => card.cardOptional && card.cardOptional.card_tel); // card_tel이 있는 카드만 필터링
-    //     setCardData(filteredCards); // 필터링된 카드 데이터 저장
+    //     const savedCards = await fetchSavedCards();  // 받은 카드 목록 가져오기
+    //     setCardData(savedCards);  // 상태에 저장
     //   };
-    
-    //   fetchData(); // 컴포넌트가 로드될 때 데이터 가져오기
+  
+    //   fetchData();  // 컴포넌트가 로드될 때 데이터 가져오기
     // }, []);
+
+    // 연락처 있는 카드만 보이기
+    useEffect(() => {
+      const fetchData = async () => {
+        const savedCards = await fetchSavedCards(); // 받은 카드 목록 가져오기
+        const filteredCards = savedCards.filter(card => card.cardOptional && card.cardOptional.card_tel); // card_tel이 있는 카드만 필터링
+        setCardData(filteredCards); // 필터링된 카드 데이터 저장
+      };
+    
+      fetchData(); // 컴포넌트가 로드될 때 데이터 가져오기
+    }, []);
     
     const handleSaveTel = () => {
       setIsSaveModalVisible(true);

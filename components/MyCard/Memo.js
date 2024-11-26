@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { Keyboard, Modal, Pressable, Switch, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from 'react-native';
+import { Keyboard, Modal, Pressable, Switch, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, KeyboardAvoidingView, Platform } from 'react-native';
 import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
 import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line_small_gray.svg';
@@ -307,18 +307,24 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
             }}>
             
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.modalContainer}>
+            <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : "height"}
+            style={styles.modalContainer}
+            >
             <View style={styles.modalView}>
                 
-                <TouchableOpacity style={{ position: 'absolute', right: -180, top: 0, zIndex: 1}} onPress={() => setIsModalVisible(false)}>
+                {/* <TouchableOpacity style={{ position: 'absolute', right: -180, top: 0, zIndex: 1}} onPress={() => setIsModalVisible(false)}>
                     <CloseICon />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
 
-                <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
+                {/* <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}> */}
                 <View style={styles.modalTitle}  onPress={() => setIsModalVisible(false)}>
                     <Text style={{...styles.modalFont, textAlign: 'center'}}>메모 작성</Text>
+                    <TouchableOpacity style={{ position: 'absolute', right: 0, top: 0, zIndex: 1}} onPress={() => setIsModalVisible(false)}>
+                    <CloseICon />
+                    </TouchableOpacity>
                 </View>
-                </TouchableWithoutFeedback>
+                {/* </TouchableWithoutFeedback> */}
 
                 <View style={styles.modalContent}>
                     <TextInput
@@ -338,7 +344,7 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
                     <Text style={{...styles.modalFont, color:'white', fontWeight:'500'}}>메모 완료하기</Text>
                 </Pressable>
             </View>
-            </View>
+            </KeyboardAvoidingView>
             </TouchableWithoutFeedback>
             </Modal>
         </View>
