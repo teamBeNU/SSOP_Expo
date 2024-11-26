@@ -1002,7 +1002,6 @@ function ManageCardScreen({ route, navigation }) {
               ),
               headerRight: () => (
                 <View style={{ flexDirection: 'row' }}>
-                  <TouchableOpacity><SearchIcon /></TouchableOpacity>
                   <TouchableOpacity>
                     <Menu>
                       <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>

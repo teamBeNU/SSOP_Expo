@@ -153,7 +153,7 @@ function Home({ navigation }) {
             <View style={styles.mainlayout}>
                 <View>
                     <TouchableOpacity
-                        style={styles.touchableOpacity}
+                        activeOpacity={0.9}
                         onLayout={(event) => {
                             const { width, height } = event.nativeEvent.layout;
                             setParentSize({ width, height });
@@ -183,7 +183,7 @@ function Home({ navigation }) {
                 <View style={styles.containerProfileCard}>
                     <View style={styles.folderback2}></View>
                     <View style={styles.folderback}></View>
-                    <TouchableOpacity style={styles.btn3} onPress={() => navigation.navigate('받은 프로필 카드')}>
+                    <TouchableOpacity activeOpacity={0.9} style={styles.btn3} onPress={() => navigation.navigate('받은 프로필 카드')}>
                         <Text style={styles.Text16}>내가 받은 프로필 카드 확인</Text>
                         <ArrowIcon />
                     </TouchableOpacity>
@@ -195,14 +195,14 @@ function Home({ navigation }) {
                     </Text>
                     <View style={styles.container}>
                         <View style={styles.row}>
-                            <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('내 카드 보내기')}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('내 카드 보내기')}>
                                 <View style={styles.btnIcon}>
                                     <BluetoothIcon />
                                 </View>
                                 <Text style={styles.Text18}>블루투스 공유</Text>
                                 <Text style={styles.Text14}>주변에 있다면</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('링크 복사')}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('링크 복사')}>
                                 <View style={styles.btnIcon}>
                                     <LinkIcon />
                                 </View>
@@ -215,13 +215,13 @@ function Home({ navigation }) {
                     <Text style={styles.title}>사람이 많을 땐 팀스페이스로</Text>
                     <View style={styles.container}>
                         <View style={styles.row}>
-                            <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 입장')}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 입장')}>
                                 <View style={styles.btnIcon}>
                                     <EnterTeamSPIcon />
                                 </View>
                                 <Text style={styles.Text18}>팀스페이스 입장</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 생성')}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 생성')}>
                                 <View style={styles.btnIcon}>
                                     <CreatTeamSPIcon />
                                 </View>

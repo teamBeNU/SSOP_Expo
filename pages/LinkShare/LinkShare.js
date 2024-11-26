@@ -27,7 +27,7 @@ const createBranchLink = async (backendLink, cardId) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        branch_key: BRANCH_API_KEY, // 환경 변수 사용
+        branch_key: BRANCH_API_KEY,
         campaign: "share_card",
         feature: "redirect",
         data: {
@@ -36,6 +36,11 @@ const createBranchLink = async (backendLink, cardId) => {
           $android_url: `ssop://open?cardId=${cardId}`,
           $ios_url: `ssop://open?cardId=${cardId}`,
           $fallback_url: "https://ssop2024.notion.site",
+
+          // Open Graph metadata 추가
+          "$og_title": "SSOP 프로필 카드 공유",
+          "$og_description": "이 링크를 통해 프로필 카드를 확인하고 저장하세요!",
+          "$og_image_url": "https://ssop-bucket.s3.ap-northeast-2.amazonaws.com/linkShare/linkThumbnail.png",
         },
       }),
     });

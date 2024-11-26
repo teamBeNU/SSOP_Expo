@@ -109,6 +109,7 @@ const CardsView = ({
         <View style={styles.rowRange}>
           {/* 격자형/리스트형 토글 버튼 */}
           <TouchableOpacity
+            activeOpacity={0.9}
             onPress={() => setViewOption(viewOption === '격자형' ? '리스트형' : '격자형')}
             style={styles.iconContainer}
           >
@@ -160,6 +161,7 @@ const CardsView = ({
 
               {group.cards.map((item, index) => (
                 <TouchableOpacity
+                  activeOpacity={1.0}
                   key={item.cardId || index}
                   style={
                     viewOption === '격자형' ? styles.cardWrapper : styles.radioCardWrapper
@@ -247,6 +249,7 @@ const CardsView = ({
         {/* 새 카드 만들기 버튼 */}
         {showNewCardButton && viewOption !== '격자형' && (
           <TouchableOpacity
+            activeOpacity={0.9}
             style={styles.newCardBtn}
             onPress={() => navigation.navigate('카드 만들기')}
           >

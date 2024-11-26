@@ -10,7 +10,7 @@ import RadioWhiteIcon from '../../assets/icons/ic_radio_check_white.svg';
 
 const CustomCardRadioButton = ({ selected, onPress }) => {
   return (
-    <TouchableOpacity onPress={onPress} style={styles.radioContainer}>
+    <TouchableOpacity activeOpacity={0.9} onPress={onPress} style={styles.radioContainer}>
       <View style={[styles.radio, selected && styles.radioSelected]}>
         {selected && <RadioWhiteIcon style={styles.radioInner} />}
       </View>
@@ -22,7 +22,7 @@ const CustomCardRadioButton = ({ selected, onPress }) => {
 // 그룹 리스트 컴포넌트
 export const MySpaceGroup = ({ id, name, members, onGroupPress, onChangeGroupName, onDeleteGroup, showRadio = false, showMenu = true, selected, onPress }) => {
   return (
-    <TouchableOpacity style={styles.groupWrapper}>
+    <TouchableOpacity activeOpacity={0.9} style={styles.groupWrapper}>
       {showRadio && (
         <CustomCardRadioButton selected={selected} onPress={onPress} />
       )}

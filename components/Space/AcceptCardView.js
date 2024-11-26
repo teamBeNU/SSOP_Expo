@@ -120,6 +120,7 @@ const AcceptCardView = ({
             <View style={styles.rightButtonGroup}>
               {/* 격자형, 리스트형 버튼 */}
               <TouchableOpacity
+                activeOpacity={0.9}
                 onPress={() => setViewOption(viewOption === '격자형' ? '리스트형' : '격자형')}
                 style={styles.iconContainer}
               >
@@ -169,6 +170,7 @@ const AcceptCardView = ({
                   <View style={[styles.row, styles.container]}>
                     {cards.map((item) => (
                       <TouchableOpacity
+                        activeOpacity={1.0}
                         key={item.cardId}
                         style={styles.btn1}
                         onPress={() => handleNext(item.cardId)}

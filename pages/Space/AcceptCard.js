@@ -804,12 +804,7 @@ function AcceptCard() {
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            ),
-            headerRight: () => (
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity style={{marginRight: 10}}><SearchIcon /></TouchableOpacity>
-              </View>
-              ),            
+            ),          
           }}/>
           <Stack.Screen name="연락처 저장" component={SaveTellScreen}
           options={{
