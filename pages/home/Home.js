@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, ScrollView, Dimensions, Linking, Alert, Platform, PermissionsAndroid, TouchableOpacity} from "react-native";
+import { View, Text, Image, ScrollView, Dimensions, Linking, Alert, Platform, PermissionsAndroid, TouchableOpacity} from "react-native";
 import { styles } from './HomeStyle';
 //import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
 import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from 'react-native-toast-message';
 
-import CreateCardIcon from '../../assets/HomeIcon/img_banner.svg';
+import CreateCardIcon from '../../assets/HomeIcon/homeBanner.png';
 import ArrowIconWhite from '../../assets/HomeIcon/ic_arrow_white.svg';
 import ArrowIcon from '../../assets/HomeIcon/ic_arrow.svg';
 import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
@@ -18,33 +19,6 @@ const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 16 * 2 - 4) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
 const cardHeight = (cardWidth * 125) / 162;
 const cardHeight2 = (cardWidth * 102) / 162;
-
-const requestPermissions = async () => {
-    if (Platform.OS === 'android') {
-        try {
-            const granted = await PermissionsAndroid.request(
-                PermissionsAndroid.PERMISSIONS.READ_EXTERNAL_STORAGE,
-                {
-                    title: '파일 접근 권한 요청',
-                    message: '이 앱이 파일을 읽을 수 있도록 권한을 부여해 주세요.',
-                    buttonNegative: '거부',
-                    buttonPositive: '허용',
-                }
-            );
-            if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-                console.log('파일 읽기 권한이 허용되었습니다.');
-                return true;
-            } else {
-                console.log('파일 읽기 권한이 거부되었습니다.');
-                return false;
-            }
-        } catch (err) {
-            console.warn(err);
-            return false;
-        }
-    }
-    return false;
-};
 
 const getFile = async () => {
     const permissionGranted = await requestPermissions();
@@ -60,6 +34,16 @@ function Home({ navigation }) {
     const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
     const [cardName, setCardName] = useState("");
   
+    // Toast 표시 함수
+    const showCustomToast = (text) => {
+      Toast.show({
+        text1: text,
+        type: 'selectedToast',
+        position: 'bottom',
+        visibilityTime: 2000, // 2초간 표시
+      });
+    };
+
     const saveCard = async (cardId) => {
       try {
         const token = await AsyncStorage.getItem("token");
@@ -82,13 +66,15 @@ function Home({ navigation }) {
         const result = await response.json();
   
         if (response.ok) {
-          Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
+          //Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
+          showCustomToast('카드가 성공적으로 저장되었습니다.');
           setIsSpaceModalVisible(false); // 모달 닫기
+          navigation.navigate("받은 프로필 카드"); // 받은 프로필 카드 페이지로 이동
         } else {
-          Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
+          //Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
         }
       } catch (error) {
-        Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
+        //Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
       }
     };
   
@@ -106,7 +92,7 @@ function Home({ navigation }) {
   
         const cardId = extractCardId(url);
         if (cardId) {
-          console.log("추출된 cardId:", cardId);
+          console.log("추출된 cardId home.js:", cardId);
   
           // 카드 정보 가져오기
           const token = await AsyncStorage.getItem("token");
@@ -143,7 +129,7 @@ function Home({ navigation }) {
       const checkInitialURL = async () => {
         const initialURL = await Linking.getInitialURL();
         if (initialURL) {
-          console.log("앱이 딥링크로 실행되었습니다:", initialURL);
+          console.log("앱이 딥링크로 실행되었습니다 home.js:", initialURL);
           handleDeepLink(initialURL);
         }
       };
@@ -162,32 +148,12 @@ function Home({ navigation }) {
         getFile();
     }, [])
 
-
-    // API 요청 함수
-    // const sendApiRequest = async (cardId) => {
-    //     try {
-    //         const response = await axios.post(`${baseUrl}/card/save?cardId=${cardId}`, {}, {
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //                 'Authorization': `Bearer ${token}`,
-    //             },
-    //         });
-    //         if (response.status === 200) {
-    //             console.log("카드 ID 저장 성공:", response.data.message);
-    //         } else {
-    //             console.log("카드 ID 저장 실패:", response.data.message);
-    //         }
-    //     } catch (error) {
-    //         console.error('API 요청 오류:', error);
-    //     }
-    // };
-
     return (
         <ScrollView showsVerticalScrollIndicator={false} style={{ backgroundColor: 'white' }}>
             <View style={styles.mainlayout}>
                 <View>
                     <TouchableOpacity
-                        style={styles.touchableOpacity}
+                        activeOpacity={0.9}
                         onLayout={(event) => {
                             const { width, height } = event.nativeEvent.layout;
                             setParentSize({ width, height });
@@ -206,9 +172,8 @@ function Home({ navigation }) {
                                 <Text style={styles.TextWhite}>카드 만들기</Text>
                                 <ArrowIconWhite style={{ marginLeft: 4 }} />
                             </View>
-                            <CreateCardIcon
-                                width={Math.max(parentSize.width * 0.7, 160)}
-                                height={Math.max(parentSize.height * 0.7, 155)}
+                            <Image
+                                source={require('../../assets/HomeIcon/homeBanner.png')} // 경로에 맞게 수정
                                 style={styles.icon1}
                             />
                         </LinearGradient>
@@ -218,7 +183,7 @@ function Home({ navigation }) {
                 <View style={styles.containerProfileCard}>
                     <View style={styles.folderback2}></View>
                     <View style={styles.folderback}></View>
-                    <TouchableOpacity style={styles.btn3} onPress={() => navigation.navigate('받은 프로필 카드')}>
+                    <TouchableOpacity activeOpacity={0.9} style={styles.btn3} onPress={() => navigation.navigate('받은 프로필 카드')}>
                         <Text style={styles.Text16}>내가 받은 프로필 카드 확인</Text>
                         <ArrowIcon />
                     </TouchableOpacity>
@@ -226,18 +191,18 @@ function Home({ navigation }) {
                 <View>
 
                     <Text style={styles.title}>
-                        <Text style={styles.title}>프로필 카드 교환하기</Text>
+                        <Text style={styles.title}>프로필 카드 공유하기</Text>
                     </Text>
                     <View style={styles.container}>
                         <View style={styles.row}>
-                            <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('내 카드 보내기')}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('내 카드 보내기')}>
                                 <View style={styles.btnIcon}>
                                     <BluetoothIcon />
                                 </View>
                                 <Text style={styles.Text18}>블루투스 공유</Text>
                                 <Text style={styles.Text14}>주변에 있다면</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('링크 복사')}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('링크 복사')}>
                                 <View style={styles.btnIcon}>
                                     <LinkIcon />
                                 </View>
@@ -247,16 +212,16 @@ function Home({ navigation }) {
                         </View>
                     </View>
 
-                    <Text style={styles.title}>교환할 사람이 많을 땐</Text>
+                    <Text style={styles.title}>사람이 많을 땐 팀스페이스로</Text>
                     <View style={styles.container}>
                         <View style={styles.row}>
-                            <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 입장')}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 입장')}>
                                 <View style={styles.btnIcon}>
                                     <EnterTeamSPIcon />
                                 </View>
                                 <Text style={styles.Text18}>팀스페이스 입장</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 생성')}>
+                            <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 생성')}>
                                 <View style={styles.btnIcon}>
                                     <CreatTeamSPIcon />
                                 </View>
@@ -269,11 +234,15 @@ function Home({ navigation }) {
             </View>
             <SpaceModal
                 isVisible={isSpaceModalVisible}
-                onClose={() => setIsSpaceModalVisible(false)}
+                onClose={() => {
+                  setIsSpaceModalVisible(false); // 모달 닫기
+                  navigation.navigate("홈"); // 홈 화면으로 이동
+                }}
                 title={`${cardName} 님의 카드를 받으시겠습니까?`}
                 btn1="안 받을래요"
                 btn2="네, 받을래요"
-                onConfirm={() => saveCard(cardId)} // 연결된 카드 저장 로직
+                onConfirm={() => {
+                  saveCard(cardId)}} // 연결된 카드 저장 로직
             />
         </ScrollView>
     );

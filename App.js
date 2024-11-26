@@ -5,7 +5,6 @@ import { useFonts } from 'expo-font';
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, Alert, Linking } from 'react-native';
 import "react-native-gesture-handler";
-import { SpaceModal } from "./components/Space/SpaceModal.js";
 import {
   Menu,
   MenuOption,
@@ -19,6 +18,7 @@ import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import HomeLogo from './assets/HomeIcon/logo_line.svg'
+import HomeIcon from './assets/icons/ic_home_regular_line.svg';
 import { AuthProvider, AuthContext } from './AuthContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -78,7 +78,7 @@ const linking = {
   config: {
     screens: {
       Home: "/", // 앱의 초기 화면
-      LinkReceiverScreen: 'receiver/:cardId',
+      LinkReceive: 'receiver/:cardId',
       CardDetails: 'card/:cardId',
     },
   },
@@ -86,104 +86,75 @@ const linking = {
 
 export default function App() {
   // 모달 상태 및 카드 정보 관리
-  const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
-  const [cardName, setCardName] = useState(null);
   const [cardId, setCardId] = useState(null);
 
-  // 카드 저장 함수
-  const saveCard = async (cardId) => {
+  // Card ID 추출
+  const extractCardId = (url) => {
     try {
-      const token = await AsyncStorage.getItem("token");
-      if (!token) {
-        console.error("사용자 인증 토큰이 없습니다.");
-        return;
+      const parsedUrl = new URL(url);
+
+      // HTTPS 링크에서 cardId 추출
+      if (parsedUrl.protocol === "https:") {
+        const cardId = parsedUrl.searchParams.get("cardId");
+        console.log("HTTPS 링크에서 추출된 cardId:", cardId);
+        return cardId;
       }
 
-      const response = await fetch(
-        `http://43.202.52.64:8080/api/card/save?cardId=${cardId}`,
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const result = await response.json();
-
-      if (response.ok) {
-        console.log("카드가 성공적으로 저장되었습니다:", result);
-        Alert.alert("성공", "카드가 성공적으로 저장되었습니다.");
-        setIsSpaceModalVisible(false); // 모달 닫기
-      } else {
-        console.error("카드 저장 실패:", result.message || "알 수 없는 오류");
-        Alert.alert("실패", result.message || "카드 저장에 실패했습니다.");
+      // ssop:// 링크에서 cardId 추출
+      if (parsedUrl.protocol === "ssop:") {
+        const cardId = parsedUrl.searchParams.get("cardId");
+        console.log("ssop:// 링크에서 추출된 cardId:", cardId);
+        return cardId;
       }
+
+      return null;
     } catch (error) {
-      console.error("카드 저장 중 오류가 발생했습니다:", error);
-      Alert.alert("오류", "카드 저장 중 문제가 발생했습니다.");
+      console.error("URL 파싱 중 오류:", error);
+      return null;
     }
   };
 
+  // 딥링크 처리 함수
   const handleDeepLink = async (url) => {
-    console.log("딥링크 URL:", url);
-    const extractCardId = (url) => {
-      try {
-        const parsedUrl = new URL(url);
-        return parsedUrl.searchParams.get("cardId");
-      } catch (error) {
-        console.error("URL 파싱 중 오류:", error);
-        return null;
-      }
-    };
+    console.log("딥링크 URL app.js:", url);
 
     const cardId = extractCardId(url);
     if (cardId) {
-      console.log("추출된 cardId:", cardId);
+      console.log("딥링크에서 추출된 cardId:", cardId);
 
-      // 카드 정보 가져오기
+      // 사용자 인증 토큰 확인
       const token = await AsyncStorage.getItem("token");
       if (!token) {
-        console.error("사용자 인증 토큰이 없습니다.");
+        //console.error("사용자 인증 토큰이 없습니다.");
+        //Alert.alert("오류", "로그인이 필요합니다.");
         return;
-      }
-
-      const response = await fetch(`http://43.202.52.64:8080/api/card/view?cardId=${cardId}`, {
-        method: "GET",
-        headers: { Authorization: `Bearer ${token}` },
-      });
-
-      const result = await response.json();
-      if (response.ok) {
-        setCardName(result.cardEssential.card_name);
-        setCardId(cardId);
-        setIsSpaceModalVisible(true); // 모달 표시
-      } else {
-        console.error("카드 정보 가져오기 실패:", result.message || "알 수 없는 오류");
       }
     }
   };
 
+  // 초기 URL 확인 및 딥링크 이벤트 처리
   useEffect(() => {
-    // 앱이 처음 실행되었을 때 URL 확인
     const checkInitialURL = async () => {
       const initialURL = await Linking.getInitialURL();
       if (initialURL) {
+        console.log("앱 처음 실행 시 딥링크 감지:", initialURL);
         handleDeepLink(initialURL);
       }
-    };
+    };0
 
     checkInitialURL();
 
-    // 실행 중인 상태에서 딥링크 이벤트 처리
+    // 딥링크 이벤트 리스너 등록
     const subscription = Linking.addEventListener("url", ({ url }) => {
+      console.log("앱 실행 중 딥링크 감지:", url);
       handleDeepLink(url);
     });
 
-    return () => subscription.remove();
+    return () => {
+      subscription.remove(); // 이벤트 리스너 해제
+    };
   }, []);
-  
+
   
   // 폰트 로드
   const [fontsLoaded] = useFonts({
@@ -561,14 +532,14 @@ export default function App() {
           <Stack.Screen name="마이스페이스 카드 검색" component={MySpSearchCard} options={{ headerShown: false }}/>
           <Stack.Screen name="팀스페이스 카드 검색" component={TeamSpSearchCard} options={{ headerShown: false }}/>
       </Stack.Navigator>
-      <SpaceModal
+      {/* <SpaceModal
         isVisible={isSpaceModalVisible}
         onClose={() => setIsSpaceModalVisible(false)}
         title={`${cardName} 님의 카드를 받으시겠습니까?`}
         btn1="안 받을래요"
         btn2="네, 받을래요"
         onConfirm={() => saveCard(cardId)} // 카드 저장 로직 연결
-      />
+      /> */}
     </NavigationContainer>
     <Toast config={customToast} />
     </MenuProvider>

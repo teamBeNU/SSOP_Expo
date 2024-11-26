@@ -122,7 +122,7 @@ function MySpace({ navigation }) {
       if (response.ok) {
         // 삭제 성공 시, 그룹 목록에서 해당 그룹 제거
         setGroupData((prevGroupData) => prevGroupData.filter(group => group.groupId !== groupId));
-        showCustomToast('그룹이 성공적으로 삭제되었습니다.');
+        showCustomToast('그룹이 삭제되었어요.');
       } else {
         const result = await response.json();
         console.error(result.message || '그룹 삭제에 실패했습니다.');
@@ -164,7 +164,7 @@ function MySpace({ navigation }) {
           <MySpaceIcon/>
           <Text style={styles.Text26}>마이스페이스</Text>
         </View>
-        <Text style={styles.Text16gray}>주고받은 프로필 카드를 여기서 확인하세요.</Text>
+        <Text style={styles.Text16gray}>주고받은 프로필 카드를 확인하세요.</Text>
       </View>
 
       <View style={styles.container}>
