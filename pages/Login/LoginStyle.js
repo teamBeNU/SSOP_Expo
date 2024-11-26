@@ -30,7 +30,7 @@ export const styles = StyleSheet.create({
     marginTop: 2
     },
     cardicon:{
-    height: 278,
+    //height: 278,
     backgroundColor: 'white',
     justifyContent: 'center',
     alignItems: 'center',
