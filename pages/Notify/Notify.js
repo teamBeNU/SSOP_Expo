@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import axios from 'axios';
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useNavigation, useFocusEffect } from '@react-navigation/native'; // useFocusEffect 임포트
 import { styles } from './NotifyStyle';
 import Toast from 'react-native-toast-message';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+import * as FileSystem from 'expo-file-system';
+import { parseHTMLData } from '../../utils/parseHTMLData.js';
+
 function Notify() {
+  const baseUrl = 'http://43.202.52.64:8080/api'
+
   const [notiData, setNotiData] = useState([]);
   const [hasNotify, setHasNotify] = useState(true);
   const navigation = useNavigation();
@@ -47,9 +53,32 @@ function Notify() {
     }
   };
 
+  // API 요청 함수
+  const sendApiRequest = async (cardId) => {
+
+    const token = await AsyncStorage.getItem("token");
+    try {
+      const response = await axios.post(`${baseUrl}/card/save?cardId=${cardId}`, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+      });
+      if (response.status === 200) {
+        console.log("카드 ID 저장 성공:", response.data.message);
+      } else {
+        console.log("카드 ID 저장 실패:", response.data.message);
+      }
+    } catch (error) {
+      console.error('Notify - 블루투스 CardID API 요청 오류:', error);
+    }
+  };
+
+
   // 화면이 처음 로드될 때 알림 목록 가져오기
   useEffect(() => {
     fetchNotifications();
+    sendApiRequest();
   }, []);
 
   // 화면이 포커싱될 때마다 알림 목록 새로고침
@@ -146,7 +175,7 @@ function Notify() {
           <View style={card.accepted ? styles.btn2 : styles.btn1}>
             <Text style={styles.title}>{getTitle(card)}</Text>
             {card.accepted ? (
-              <TouchableOpacity onPress={() => navigation.navigate('카드 조회')}>
+              <TouchableOpacity onPress={() => navigation.navigate('받은 프로필 카드')}>
                 <Text style={styles.checkCard}>카드 확인하기</Text>
               </TouchableOpacity>
             ) : (

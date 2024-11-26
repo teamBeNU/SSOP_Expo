@@ -6,10 +6,6 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import { LinearGradient } from 'expo-linear-gradient';
 import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-// import RNFS from 'react-native-fs';
-import * as FileSystem from 'expo-file-system';
-
-import { parseHTMLData } from '../../utils/parseHTMLData.js';
 
 import CreateCardIcon from '../../assets/HomeIcon/img_banner.svg';
 import ArrowIconWhite from '../../assets/HomeIcon/ic_arrow_white.svg';
@@ -25,117 +21,11 @@ const cardHeight = (cardWidth * 125) / 162;
 const cardHeight2 = (cardWidth * 102) / 162;
 
 function Home({ navigation }) {
-  const baseUrl = 'http://43.202.52.64:8080/api'
 
   const [parentSize, setParentSize] = useState({ width: 0, height: 0 });
   const [cardId, setCardId] = useState(null);
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
-  const [isBTSpaceModalVisible, setIsBTSpaceModalVisible] = useState(false);
   const [cardName, setCardName] = useState("");
-  const bluetoothDirectory = FileSystem.documentDirectory;
-  let previousFiles = {};  // 이전 파일 상태 저장
-
-  // 디렉토리 변경 감지 및 파일 읽기
-  const monitorDirectoryChanges = async () => {
-    try {
-      const files = await FileSystem.readDirectoryAsync(bluetoothDirectory); // 디렉토리 파일 읽기
-      const currentFiles = {};
-
-      // 파일 목록 순회
-      for (const file of files) {
-        const fileUri = `${bluetoothDirectory}${file}`;
-        const fileInfo = await FileSystem.getInfoAsync(fileUri);
-
-        // HTML 파일만 처리
-        if (!fileInfo.isDirectory && file.endsWith(".html")) {
-          // 파일 내용 읽기
-          const fileContent = await FileSystem.readAsStringAsync(fileUri);
-
-          currentFiles[file] = fileContent;  // 파일 내용 저장
-
-          // 새로운 파일인지 확인
-          if (!previousFiles[file] || previousFiles[file] !== fileContent) {
-            console.log("새로운 파일 발견:", fileUri);
-            handleNewFile(fileUri);  // 새로운 파일 처리
-          }
-        }
-      }
-
-      // 이전 파일 상태 업데이트
-      previousFiles = currentFiles;
-    } catch (error) {
-      console.error("디렉토리 변경 감지 중 오류:", error);
-    }
-  };
-
-  // 새로운 파일 처리 함수
-  const handleNewFile = async (fileUri) => {
-    try {
-      const content = await FileSystem.readAsStringAsync(fileUri, {
-        encoding: FileSystem.EncodingType.UTF8,
-      });
-      console.log("새 파일 내용 처리:", content);
-
-      // 파일 내용 처리 로직 추가
-      const extractedCardId = parseHTMLData(content);  // HTML 데이터를 파싱하는 함수
-      if (extractedCardId) {
-        console.log("추출된 Card ID:", extractedCardId);
-        sendApiRequest(extractedCardId);  // 추출된 Card ID로 API 요청
-      }
-    } catch (error) {
-      console.error("새 파일 처리 중 오류:", error);
-    }
-  };
-
-  // 파일 존재 여부 확인
-  const checkFileExists = async (fileUri) => {
-    try {
-      const fileInfo = await FileSystem.getInfoAsync(fileUri);
-      console.log("파일 정보:", fileInfo);
-
-      if (fileInfo.exists) {
-        console.log("파일이 존재합니다:", fileUri);
-        return true;
-      } else {
-        console.log("파일이 존재하지 않습니다:", fileUri);
-        return false;
-      }
-    } catch (error) {
-      console.error("파일 존재 확인 중 오류:", error);
-      return false;
-    }
-  };
-
-  // 파일 내용 읽기
-  const readFileContent = async (fileUri) => {
-    try {
-      const content = await FileSystem.readAsStringAsync(fileUri, {
-        encoding: FileSystem.EncodingType.UTF8,
-      });
-      return content;
-    } catch (error) {
-      console.error("파일 읽기 중 오류:", error);
-      return null;
-    }
-  };
-
-  useEffect(() => {
-    // Bluetooth 파일 수신 감지 이벤트 리스너 추가
-    const subscription = DeviceEventEmitter.addListener('BluetoothFileReceived', () => {
-      console.log("Bluetooth로 새로운 파일 수신됨.");
-      setIsBTSpaceModalVisible(true);  // Bluetooth 파일 수신 시 모달 표시
-    });
-
-    // 디렉토리 변화 감지 함수 호출
-    monitorDirectoryChanges();
-    // 디버깅: 이벤트가 제대로 등록되었는지 확인
-    console.log('BluetoothFileReceived 이벤트 리스너 등록됨');
-
-    // 컴포넌트 언마운트 시 리스너 제거
-    return () => {
-      subscription.remove();
-    };
-  }, []);
 
   const saveCard = async (cardId) => {
     try {
@@ -212,28 +102,6 @@ function Home({ navigation }) {
       }
     } catch (error) {
       console.error("딥링크 처리 중 오류:", error);
-    }
-  };
-
-  // API 요청 함수
-  const sendApiRequest = async (cardId) => {
-
-    const token = await AsyncStorage.getItem("token");
-    console.log(cardId)
-    try {
-      const response = await axios.post(`${baseUrl}/card/save?cardId=${cardId}`, {}, {
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-      });
-      if (response.status === 200) {
-        console.log("카드 ID 저장 성공:", response.data.message);
-      } else {
-        console.log("카드 ID 저장 실패:", response.data.message);
-      }
-    } catch (error) {
-      console.error('Home - 블루투스 CardID API 요청 오류:', error);
     }
   };
 
@@ -332,17 +200,6 @@ function Home({ navigation }) {
         btn2="네, 받을래요"
         onConfirm={() => saveCard(cardId)} // 연결된 카드 저장 로직
       />
-
-      {/* 블루투스 공유 */}
-      <SpaceModal
-        isVisible={isBTSpaceModalVisible}
-        onClose={() => setIsBTSpaceModalVisible(false)}
-        title={`블루투스로 공유받은 카드를 저장할까요?`}
-        btn1="안 받을래요"
-        btn2="네, 받을래요"
-        onConfirm={readFileContent} // 연결된 카드 저장 로직
-      />
-
     </ScrollView>
   );
 }
