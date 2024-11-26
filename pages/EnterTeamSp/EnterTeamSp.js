@@ -1,23 +1,20 @@
-import { useState, useEffect } from "react";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { styles } from './EnterTeamSpStyle';
-import { theme } from "../../theme";
-import { View, Text, TextInput, Modal, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert } from "react-native";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Alert, Keyboard, Modal, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import * as Progress from 'react-native-progress';
-import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import HomeIcon from '../../assets/icons/ic_home_gray.svg';
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import People from '../../assets/icons/ic_people_small_fill.svg';
+import { theme } from "../../theme";
+import { styles } from './EnterTeamSpStyle';
 
-import AvatarSample1 from '../../assets/icons/AbatarSample1';
-import AvatarSample2 from '../../assets/icons/AbatarSample2';
-import { ShareCard, PlusCardButton } from "../../components/Bluetooth/ShareCard";
+import CardSample from '../../assets/teamSp/bg_gradation.svg';
+import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
-import CardSample from '../../assets/teamSp/bg_gradation.svg';
-import EnterEndCard from '../../assets/teamSp/EnterEndCard';
 
 function EnterTeamSp({ navigation, route }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
