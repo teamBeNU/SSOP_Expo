@@ -5,6 +5,12 @@ import { colorMapping } from "../../utils/bgColorMapping";
 const { width: SCREEN_WIDTH, height: SCREEN_HEIGHT } = Dimensions.get('window');
 
 export const styles = StyleSheet.create({
+    viewContainer: {
+        flex: 1,
+        paddingBottom: 48+16,   // 다음으로 버튼 높이(48) + 밑바닥과의 간격(16)
+        paddingHorizontal: 16,
+        backgroundColor: theme.white,
+    },
     mainlayout: {
         backgroundColor: theme.white,
         flex: 1, // 디바이스 세로 100%
@@ -231,9 +237,18 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     // 호스트 지정 템플릿
+    // mbti
+    dropDownContainerZIndex1: {
+        marginRight: "63%",
+        zIndex: 1,
+    },
+    flexDirectionRow: {
+        flexDirection: "row",
+    },
     // 생년월일
     birthInput: {
-        width: (Dimensions.get('window').width - 48) / 2,
+        // width: (Dimensions.get('window').width - 48) / 2,
+        width: '100%',
         height: 48,
         paddingVertical: 8,
         paddingHorizontal: 16,
@@ -410,9 +425,31 @@ export const styles = StyleSheet.create({
         marginRight: "63%",
         zIndex: 1,
     },
+    // 믹스
     dropDownContainer: {
         marginRight: "63%",
         zIndex: 0
+    },
+    dropDownContainerZIndex2: {
+        marginRight: "63%",
+        zIndex: 20,
+    },
+    inputContainer: {
+        marginBottom: 40,
+    },
+    marginH16: {
+        marginHorizontal: 16,
+    }, 
+    inputText: {
+        fontFamily: "PretendardRegular",
+        fontSize: 14,
+        color: theme.gray40,
+        fontStyle: "normal",
+        fontWeight: "400",
+        marginBottom: 8,
+    },
+    zIndex2: {
+        zIndex: -2
     },
     // 아바타
     coverTitle: {

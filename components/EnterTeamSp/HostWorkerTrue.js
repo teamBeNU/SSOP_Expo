@@ -3,14 +3,25 @@ import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostWorkerTrue({ workerOptional, onDataChange }) {
+export default function HostWorkerTrue({ workerOptional, onData, onDataChange, isNextClick, setIsNextClick, setStep }) {
 
-    const [isEmpty, setIsEmpty] = useState(false);
+    const [isEmpty, setIsEmpty] = useState({
+        company: true,
+        job: true,
+        position: true,
+        part: true,
+    });
+    const [isOk, setIsOk] = useState({
+        company: true,
+        job: true,
+        position: true,
+        part: true,
+    });
 
-    const [card_company, setCompany] = useState('');
-    const [card_job, setJob] = useState('');
-    const [card_position, setPosition] = useState('');
-    const [card_part, setPart] = useState('');
+    const [card_company, setCompany] = useState(onData?.card_company || '');
+    const [card_job, setJob] = useState(onData?.card_job || '');
+    const [card_position, setPosition] = useState(onData?.card_position || '');
+    const [card_part, setPart] = useState(onData?.card_part || '');
 
     const [showCompany, setShowCompany] = useState(1);
     const [showJob, setShowJob] = useState(1);
@@ -36,6 +47,43 @@ export default function HostWorkerTrue({ workerOptional, onDataChange }) {
         }
     }, [workerOptional]);
     
+    // 질문 입력했는지 여부
+    useEffect(() => {
+        setIsNextClick(false);
+        setIsEmpty({
+            company: card_company === '' ? true : false,
+            job: card_job === '' ? true : false,
+            position: card_position === '' ? true : false,
+            part: card_part === '' ? true : false,
+        });
+    }, []);
+    
+    const handleEmpty = (key, value) => {
+        setIsEmpty((prev) => ({ ...prev, [key]: value === '' }));
+    };
+    
+    // 다음으로 버튼
+    useEffect(() => {
+        if (isNextClick) {
+            let companyOk = !showCompany || !isEmpty.company;
+            let jobOk = !showJob || !isEmpty.job;
+            let positionOk = !showPosition || !isEmpty.position;
+            let partOk = !showPart || !isEmpty.part;
+    
+            setIsOk({
+                company: companyOk,
+                job: jobOk,
+                position: positionOk,
+                part: partOk,
+            })
+
+            if (companyOk && jobOk && positionOk && partOk) {
+                setStep(4);
+            }
+    
+            setIsNextClick(false);
+        }
+    }, [isNextClick, showCompany, showJob, showPosition, showPart, isEmpty]);
     
     return (
         <View>
@@ -44,15 +92,15 @@ export default function HostWorkerTrue({ workerOptional, onDataChange }) {
                 <View style={styles.nameContainer}>
                     <Text style={styles.nameBold}>회사명<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && styles.inputEmpty]}
+                        style={[styles.nameInput, !isOk.company && styles.inputEmpty]}
                         placeholder="회사명을 입력해 주세요."
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_company}
-                        onChangeText={setCompany}
+                        onChangeText={(text) => {setCompany(text); handleEmpty('company', text);}}
                         ref={companyRef}
                     />
-                    {isEmpty && (
+                    {!isOk.company && (
                         <Text style={styles.inputEmptyText}> 회사명을 입력해 주세요.</Text>
                     )}
                 </View>
@@ -63,15 +111,15 @@ export default function HostWorkerTrue({ workerOptional, onDataChange }) {
                 <View style={styles.nameContainer}>
                     <Text style={styles.nameBold}>직무<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && styles.inputEmpty]}
+                        style={[styles.nameInput, !isOk.job && styles.inputEmpty]}
                         placeholder="직무를 입력해 주세요."
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_job}
-                        onChangeText={setJob}
+                        onChangeText={(text) => {setJob(text); handleEmpty('job', text);}}
                         ref={jobRef}
                     />
-                    {isEmpty && (
+                    {!isOk.job && (
                         <Text style={styles.inputEmptyText}> 직무를 입력해 주세요.</Text>
                     )}
                 </View>
@@ -82,15 +130,15 @@ export default function HostWorkerTrue({ workerOptional, onDataChange }) {
                 <View style={styles.nameContainer}>
                     <Text style={styles.nameBold}>직위<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && styles.inputEmpty]}
+                        style={[styles.nameInput, !isOk.position && styles.inputEmpty]}
                         placeholder="직위를 입력해 주세요."
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_position}
-                        onChangeText={setPosition}
+                        onChangeText={(text) => {setPosition(text); handleEmpty('position', text);}}
                         ref={positionRef}
                     />
-                    {isEmpty && (
+                    {!isOk.position && (
                         <Text style={styles.inputEmptyText}> 직위를 입력해 주세요.</Text>
                     )}
                 </View>
@@ -101,15 +149,15 @@ export default function HostWorkerTrue({ workerOptional, onDataChange }) {
                 <View style={styles.nameContainer}>
                     <Text style={styles.nameBold}>부서<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
-                        style={[styles.nameInput, isEmpty && styles.inputEmpty]}
+                        style={[styles.nameInput, !isOk.part && styles.inputEmpty]}
                         placeholder="소속 부서를 입력해 주세요."
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_part}
-                        onChangeText={setPart}
+                        onChangeText={(text) => {setPart(text); handleEmpty('part', text);}}
                         ref={partRef}
                     />
-                    {isEmpty && (
+                    {!isOk.part && (
                         <Text style={styles.inputEmptyText}> 소속 부서를 입력해 주세요.</Text>
                     )}
                 </View>

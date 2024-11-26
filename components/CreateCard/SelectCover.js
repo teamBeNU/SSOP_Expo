@@ -18,6 +18,10 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
     const [status, requestPermission] = ImagePicker.useMediaLibraryPermissions();
 
     // 커버
+    useEffect(() => {
+        setCardCover(null);
+    }, []);
+
     const handleScroll = (event) => {
         // const contentOffsetX = event.nativeEvent.contentOffset.x;
         // const currentIndex = Math.floor(contentOffsetX / (SCREEN_WIDTH));
@@ -77,7 +81,7 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
     return (
         <View style={{height: '100%', backgroundColor: theme.white}}>
             <Text style={styles.coverTitle}>카드 커버를 선택하세요.</Text>
-            <Text style={styles.coverSubTitle}>카드 앞면에 커버가 보여요.</Text>   
+            <Text style={styles.coverSubTitle}>카드 앞면에 커버가 보여요.</Text>
             <View>
                 <ScrollView
                     pagingEnabled
@@ -124,7 +128,7 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                 <View 
                     style={[
                         styles.circle,
-                        (card_cover === "avatar" || card_cover === '') ? styles.activeCircle : styles.inactiveCircle,
+                        (card_cover === "avatar" || card_cover === '' || card_cover === null) ? styles.activeCircle : styles.inactiveCircle,
                     ]}
                 ></View>
                 <View
