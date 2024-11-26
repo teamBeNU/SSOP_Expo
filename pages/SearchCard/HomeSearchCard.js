@@ -103,10 +103,11 @@ function SearchCard() {
                     <Text
                       style={[
                         {
-                          color: isFocused && (label === "마이스페이스" || label === "팀스페이스") ? theme.gray30 : theme.gray70,
+                          color: isFocused && (label === "마이스페이스" || label === "팀스페이스") ? theme.skyblue : theme.gray70,
                           fontFamily: 'PretendardRegular',
                           fontSize: 16,
-                          letterSpacing: -1,
+                          fontWeight: 500,
+                          letterSpacing: -0.32,
                         },
                       ]} >
                       {label}
@@ -144,7 +145,7 @@ function SearchCard() {
       </View>
 
       <Tab.Navigator
-        tabBarPosition="bottom"
+        tabBarPosition="top"
         tabBar={(props) => <CustomTabBar {...props} />}>
         <Tab.Screen name="마이스페이스"
           children={() => <SearchMySpace MySpSearch={mySpSearch} />} />

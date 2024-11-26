@@ -46,6 +46,7 @@ const MySpaceDetailView = ({
 
   const [sortedCardIdData, setSortedCardIdData] = useState([]);
   const [sortedMemberData, setSortedMemberData] = useState([]);
+  const navigation = useNavigation();
 
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
@@ -96,6 +97,8 @@ const MySpaceDetailView = ({
         // setData(response.data);
         setSelectedCardData(response.data);
         setModalCardVisible(true);
+
+        // navigation.navigate('팀카드 상세보기', { cardData: sortedMemberData });
       } catch (error) {
         console.error("팀스페이스 - 카드 상세보기 API 호출 에러: ", error.message);
       }

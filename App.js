@@ -346,7 +346,7 @@ export default function App() {
           name="팀스페이스 생성" 
           component={CreateTeamSp}
           options={{ 
-            headerTitle: "팀스페이스 생성",
+            headerTitle: "팀스페이스 만들기",
             headerTitleAlign: 'center',
             headerLeft: ({onPress}) => (
               <TouchableOpacity onPress={onPress}>

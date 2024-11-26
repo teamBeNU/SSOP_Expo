@@ -104,15 +104,15 @@ export const styles = StyleSheet.create({
         paddingVertical: 18.5,
         paddingHorizontal: 16,
         // Android - Shadow
-        elevation: 3,
+        // elevation: 3,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
-        shadowOffset: {
-            width: 4,
-            height: 4,
-        },
-        shadowOpacity: 0.09,
-        shadowRadius: 16,
+        // shadowColor: 'rgba(73, 81, 100)',
+        // shadowOffset: {
+        //     width: 4,
+        //     height: 4,
+        // },
+        // shadowOpacity: 0.09,
+        // shadowRadius: 16,
         marginBottom: 12,
     },
 
@@ -147,8 +147,6 @@ export const styles = StyleSheet.create({
 
     // 팀스페이스 카드
     host: {
-        width: 38,
-        height: 18,
         borderRadius: 8,
         marginRight: 8,
         backgroundColor: 'rgba(33, 33, 33, 0.80)',

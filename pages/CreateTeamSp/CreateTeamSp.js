@@ -12,6 +12,9 @@ import * as Sharing from 'expo-sharing';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import ShareImage from '../../assets/icons/LinkShareImage.svg'
 import ShareIcon from '../../assets/icons/ic_share_blue.svg';
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import CustomModal from "../../components/CreateCard/Modal/CustomModal";
 
 import Student from '../../assets/profile/student.svg';
 import Worker from '../../assets/profile/worker.svg';
@@ -26,6 +29,7 @@ function CreateTeamSp({ navigation }) {
 
   const [step, setStep] = useState(1);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false); // 홈으로 돌아가기
 
   const [teamName, setTeamName] = useState(''); // step1
   const [nameLength, setNameLength] = useState(0);
@@ -49,6 +53,76 @@ function CreateTeamSp({ navigation }) {
 
     fetchToken();
   }, []);
+
+  // 상단바 타이틀 변경, 버튼 변경
+  useEffect(() => {
+    if (step !== 6) {
+      navigation.setOptions({
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {
+            setStep(step - 1);  //  이전 단계로 이동
+          }}>
+            <LeftArrowIcon style={{ marginLeft: 8 }} />
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => { setModalVisible(true); }}>
+            <HomeIcon style={{ marginRight: 20 }} />
+          </TouchableOpacity>
+        ),
+      });
+    }
+    if (step === 1) {
+      navigation.setOptions({
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {
+            navigation.goBack(); // 뒤로 가기 실행
+          }}>
+            <LeftArrowIcon style={{ marginLeft: 8 }} />
+          </TouchableOpacity>
+        )
+      });
+    }
+    else if (step === 4) {
+      navigation.setOptions({
+        headerTitle: '팀스페이스 만들기',
+        headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+            <CloseIcon style={{ marginLeft: 8 }} />
+          </TouchableOpacity>
+        ),
+      })
+    }
+    else if (step === 5) {
+      navigation.setOptions({
+        headerTitle: '카드 제출 항목 지정하기',
+        headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {
+            setStep(3); // step 3으로 이동
+          }}>
+            <LeftArrowIcon style={{ marginLeft: 8 }} />
+          </TouchableOpacity>
+        ),
+      })
+    }
+    else if (step === 6) {
+      navigation.setOptions({
+        headerTitle: '카드 제출 항목 지정하기',
+        headerTitleAlign: 'center',
+      });
+    }
+  }, [step]);
+
+  const handleBtn1 = () => {    // 모달 - '계속 만들래요'
+    setModalVisible(false);
+  };
+
+  const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
+    setModalVisible(false);
+    navigation.goBack();
+  };
 
   const handleNext = () => {
     if (step === 1) {
@@ -100,39 +174,6 @@ function CreateTeamSp({ navigation }) {
     setStep(5);
   };
 
-  // step 단위로 뒤로가기
-  useEffect(() => {
-    navigation.setOptions({
-      headerLeft: handleHeaderLeft
-    });
-  }, [navigation, step]);
-
-  const handleHeaderLeft = (onPress) => {
-    if (step < 7) {
-      return (
-        <TouchableOpacity onPress={handleBack}>
-          <LeftArrowIcon style={{ marginLeft: 8 }} />
-        </TouchableOpacity>
-      );
-    }
-  };
-
-  const handleBack = () => {
-    switch (step) {
-      case 1:
-        navigation.goBack();
-        break;
-      case 4: // 생성 완료하면 뒤로가기 불가
-        break;
-      case 5:
-        setStep(3);
-        break;
-      default:
-        setStep(step - 1);
-        break;
-    }
-  };
-
   // 텍스트 길이 검사
   useEffect(() => {
     setNameLength(teamName.length);
@@ -140,10 +181,10 @@ function CreateTeamSp({ navigation }) {
   }, [teamName, teamComment]);
 
   const items = [
-    { id: 'student', label: '학생', description: '학교에 다닌다면', icon: <Student /> },
-    { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker /> },
-    { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠 등\n누군가의 팬이라면', icon: <Fan /> },
-    { id: 'free', label: '유형 믹스', description: '자유롭게 정보를\n선택하여 작성', icon: <Free /> },
+    { id: 'student', label: '학생', description: '학교에 다닌다면', icon: <Student width={88} height={88} /> },
+    { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker width={88} height={88} /> },
+    { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠 등\n누군가의 팬이라면', icon: <Fan width={88} height={88} /> },
+    { id: 'free', label: '유형 믹스', description: '자유롭게 정보를\n선택하여 작성', icon: <Free width={88} height={88} /> },
   ]
 
   //step4 - 템플릿 선택
@@ -308,7 +349,7 @@ function CreateTeamSp({ navigation }) {
                 <View style={styles.shareContainer}>
                   <ShareImage />
                   <View style={styles.shareBox}>
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center'}} onPress={handleShareButtonPress}>
+                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={handleShareButtonPress}>
                       <ShareIcon /><Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
                     </TouchableOpacity>
                     <Modal
@@ -346,7 +387,7 @@ function CreateTeamSp({ navigation }) {
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('팀스페이스 입장', {step: 2, inviteCode: inviteCode})}>
+                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('팀스페이스 입장', { step: 2, inviteCode: inviteCode })}>
                   <Text style={styles.btnText}> 카드 생성하기 </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
@@ -360,7 +401,7 @@ function CreateTeamSp({ navigation }) {
           {/* 템플릿 성격 선택 */}
           {step === 5 && (
             <View>
-              <Text style={[styles.largetitle, { marginTop: '15%',textAlign: 'center'}]}> 팀스페이스 성격에 제일 가까운 {'\n'} 템플릿을 선택하세요. </Text>
+              <Text style={[styles.largetitle, { marginTop: '15%', textAlign: 'center' }]}> 팀스페이스 성격에 제일 가까운 {'\n'} 템플릿을 선택하세요. </Text>
 
               <View style={styles.container}>
                 <View style={styles.row}>
@@ -393,6 +434,20 @@ function CreateTeamSp({ navigation }) {
               isTemplate={isTemplate}
               card_template={card_template} />
           </View>
+        )}
+
+        {modalVisible && (
+          <CustomModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            handleBtn1={handleBtn1}
+            handleBtn2={handleBtn2}
+            modalTitle={`카드 만들기를 취소하고${"\n"}홈으로 돌아가시겠어요?`}
+            modalText={'지금까지 작성한 작업이 없어져요.'}
+            btn1={'계속 만들래요'}
+            btn2={'네 돌아갈래요'}
+            btnMargin={26.5}
+          />
         )}
       </View>
     </TouchableWithoutFeedback >

@@ -49,7 +49,7 @@ const OpenURLButton = ({url, children}) => {
       );      
     
     const isTemplateOptional = (cardData) => {
-       // console.log(cardData.student);
+       //console.log(cardData.cardOptional);
         switch (cardData.card_template) {
             case 'studentSchool':
                 return !(cardData.student.card_student_id === undefined &&
@@ -190,7 +190,7 @@ const CardOptional1 = ({cardData}) => {
 }
 
 const CardOptional2 = ({cardData}) => {
-    console.log('cd ', cardData.cardOptional);
+    //console.log('cd ', cardData.cardOptional);
     return (
         <View style={{gap: 24, width: '100%'}}>
             {cardData.cardOptional.card_tel ? (
@@ -279,7 +279,10 @@ const CardOptional3 = ({cardData}) => {
 const StudentOptional = ({cardData}) => {
     //console.log(cardData.student);
     return (
-    <View style={(((cardData.cardOptional.card_birth === '' || cardData.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24, width: '100%'} : {gap: 24, width: '100%'})}>
+        <View style={(
+            (cardData.cardOptional?.card_birth === '' || cardData.card?.cardOptional?.card_bSecret) && 
+            cardData.cardOptional?.card_MBTI === ''
+        ) ? {gap: 24, marginTop: -24} : {gap: 24}}>
             {cardData.card_template === 'free' && cardData.student.card_student_school ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학교</Text>                             
@@ -332,7 +335,10 @@ const StudentOptional = ({cardData}) => {
 
 const WorkerOptional = ({cardData}) => {
     return (
-    <View style={(cardData.cardOptional.card_birth === '' && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
+<View style={(
+            (cardData.cardOptional?.card_birth === '' || cardData.card?.cardOptional?.card_bSecret) && 
+            cardData.cardOptional?.card_MBTI === ''
+        ) ? {gap: 24, marginTop: -24} : {gap: 24}}>        
         {cardData.card_template === 'free' && cardData.worker.card_worker_company ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>회사</Text>                             
@@ -365,9 +371,13 @@ const WorkerOptional = ({cardData}) => {
 }
 
 const FanOptional = ({cardData}) => {
+    // console.log('foption : ', cardData);
     return (
-    <View style={((cardData.cardOptional.card_birth === '' || cardData.card.cardOptional.card_bSecret) && cardData.cardOptional.card_MBTI === '') ? {gap: 24, marginTop: -24} : {gap: 24}}>
-        {cardData.card_template === 'free' && cardData.fan.card_fan_genre ? (
+        <View style={(
+            (cardData.cardOptional?.card_birth === '' || cardData.card?.cardOptional?.card_bSecret) && 
+            cardData.cardOptional?.card_MBTI === ''
+        ) ? {gap: 24, marginTop: -24} : {gap: 24}}>
+            {cardData.card_template === 'free' && cardData.fan.card_fan_genre ? (
             <View style={styles.info}>                             
                 <Text style={styles.topic}>장르</Text>                             
                 <Text style={styles.content}>{cardData.fan.card_fan_genre}</Text>                         
