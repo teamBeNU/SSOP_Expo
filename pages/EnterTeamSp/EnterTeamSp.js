@@ -253,9 +253,22 @@ function EnterTeamSp({ navigation, route }) {
           </TouchableOpacity>
         ),
       });
+    } else if (step === 5 && teamStep === 2) {
+      navigation.setOptions({
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {setTeamStep(1); setStep(4);}}>
+            <LeftArrowIcon style={{marginLeft: 8}}/>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {navigation.navigate('홈');}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
     }
   })
-console.log('hoststep: ', teamStep)
+
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ flex: 1 }}>
