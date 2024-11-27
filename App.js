@@ -142,7 +142,7 @@ export default function App() {
         console.log("앱 처음 실행 시 딥링크 감지:", initialURL);
         handleDeepLink(initialURL);
       }
-    };0
+    }; 0
 
     checkInitialURL();
 
@@ -157,108 +157,108 @@ export default function App() {
     };
   }, []);
 
-  
+
   // 폰트 로드
   const [fontsLoaded] = useFonts({
-    Pretendard : PretendardRegular,
-    PretendardRegular : PretendardRegular,
-    PretendardMedium : PretendardMedium,
-    PretendardSemiBold : PretendardSemiBold,
-    PretendardSemibold : PretendardSemiBold
+    Pretendard: PretendardRegular,
+    PretendardRegular: PretendardRegular,
+    PretendardMedium: PretendardMedium,
+    PretendardSemiBold: PretendardSemiBold,
+    PretendardSemibold: PretendardSemiBold
   });
 
   if (!fontsLoaded) {
     return null; // 폰트 로딩이 완료되지 않으면 null을 반환하여 렌더링을 중지
-  }  
+  }
 
   // 스택 네비게이터
   const Stack = createStackNavigator();
 
   // 토스트
   const customToast = {
-  selectedToast: ({ text1 }) => (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: 'row',
+    selectedToast: ({ text1 }) => (
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          height: 40,
+          width: '90%',
+          paddingHorizontal: 16,
+          justifyContent: 'center',
+          alignItems: 'center',
+
+          borderRadius: 8,
+          backgroundColor: "#484848",
+          shadowColor: "rgba(73, 81, 100, 0.09)",
+          shadowOffset: {
+            width: 0,
+            height: 2
+          },
+          shadowRadius: 16,
+          shadowOpacity: 1,
+          elevation: 5,
+        }}>
+        <Text
+          style={{
+            justifyContent: 'center',
+            alignItems: 'center',
+            fontFamily: "PretendardRegular",
+            fontSize: 14,
+            letterSpacing: -1,
+            color: theme.white,
+            textAlign: 'center'
+          }}>
+          {text1}
+        </Text>
+      </View>
+    ),
+    success: ({ text1 }) => (
+      <View style={{
+        width: '80%',
         height: 40,
-        width: '90%',
+        marginBottom: 20,
+        paddingVertical: 8,
         paddingHorizontal: 16,
         justifyContent: 'center',
         alignItems: 'center',
-
         borderRadius: 8,
-        backgroundColor: "#484848",
-        shadowColor: "rgba(73, 81, 100, 0.09)",
-        shadowOffset: {
-          width: 0,
-          height: 2
-        },
-        shadowRadius: 16,
-        shadowOpacity: 1,
-        elevation: 5,
+        backgroundColor: '#484848',
+        alignSelf: 'center',
       }}>
-      <Text
-        style={{
-          justifyContent: 'center',
-          alignItems: 'center',
-          fontFamily: "PretendardRegular",
+        <Text style={{
+          color: 'white',
+          fontFamily: 'PretendardRegular',
           fontSize: 14,
-          letterSpacing: -1,
-          color: theme.white,
-          textAlign: 'center'
-        }}>
-        {text1}
-      </Text>
-    </View>
-  ),
-  success: ({ text1 }) => (
-    <View style={{
-      width: '80%',
-      height: 40,
-      marginBottom: 20,
-      paddingVertical: 8,
-      paddingHorizontal: 16,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 8,
-      backgroundColor: '#484848',
-      alignSelf: 'center',
-    }}>
-      <Text style={{
-        color: 'white',
-        fontFamily: 'PretendardRegular',
-        fontSize: 14,
-        fontWeight: '600',
-        letterSpacing: -0.14,
-        textAlign: 'center',
-      }}>{text1}</Text>
-    </View>
-  ),
-  fail: ({ text1 }) => (
-    <View style={{
-      width: '80%',
-      height: 40,
-      marginBottom: 20,
-      paddingVertical: 8,
-      paddingHorizontal: 16,
-      justifyContent: 'center',
-      alignItems: 'center',
-      borderRadius: 8,
-      backgroundColor: 'rgba(0, 0, 0, 0.70)',
-      alignSelf: 'center',
-    }}>
-      <Text style={{
-        color: 'white',
-        fontFamily: 'PretendardRegular',
-        fontSize: 14,
-        fontWeight: '600',
-        letterSpacing: -0.14,
-        textAlign: 'center',
-      }}>{text1}</Text>
-    </View>
-  )
-};
+          fontWeight: '600',
+          letterSpacing: -0.14,
+          textAlign: 'center',
+        }}>{text1}</Text>
+      </View>
+    ),
+    fail: ({ text1 }) => (
+      <View style={{
+        width: '80%',
+        height: 40,
+        marginBottom: 20,
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 8,
+        backgroundColor: 'rgba(0, 0, 0, 0.70)',
+        alignSelf: 'center',
+      }}>
+        <Text style={{
+          color: 'white',
+          fontFamily: 'PretendardRegular',
+          fontSize: 14,
+          fontWeight: '600',
+          letterSpacing: -0.14,
+          textAlign: 'center',
+        }}>{text1}</Text>
+      </View>
+    )
+  };
 
   return (
   <AuthProvider>
@@ -544,16 +544,16 @@ export default function App() {
         btn2="네, 받을래요"
         onConfirm={() => saveCard(cardId)} // 카드 저장 로직 연결
       /> */}
-    </NavigationContainer>
-    <Toast config={customToast} />
-    </MenuProvider>
+        </NavigationContainer>
+        <Toast config={customToast} />
+      </MenuProvider>
     </AuthProvider>
   );
 };
 
 // 시작 화면
 const AppContent = () => {
-  const { isLoggedIn, isLoading } = useContext(AuthContext); 
+  const { isLoggedIn, isLoading } = useContext(AuthContext);
 
   // if (isLoading) {
   //   return <LoadingIndicator />; // 로딩 중인 경우 로딩 인디케이터 표시
@@ -564,75 +564,75 @@ const AppContent = () => {
 
 // 바텀 네비게이션
 const Tab = createBottomTabNavigator();
-  
-  function MyTabs() {
-    const navigation = useNavigation();
-    return (
-      <Tab.Navigator
-        screenOptions={({ route }) => ({
-          tabBarIcon: ({ focused, color}) => {
-            let iconSource;
-            let iconSize = 42;
-  
-            if (route.name === '홈') {
-              iconSource = focused
-                ? require('./assets/Navigation/ic_home_regular_line.png')
-                : require('./assets/Navigation/ic_home_regular.png');
-            } else if (route.name === '스페이스') {
-              iconSource = focused
-                ? require('./assets/Navigation/ic_space_regular_line.png')
-                : require('./assets/Navigation/ic_space_regular.png');
-            } else if (route.name === '내 카드') {
-              iconSource = focused
-                ? require('./assets/Navigation/ic_myCard_regular_line.png')
-                : require('./assets/Navigation/ic_myCard_regular.png');
-            } else if (route.name === '알림') {
-              iconSource = focused
-                ? require('./assets/Navigation/ic_noti_regular_line.png')
-                : require('./assets/Navigation/ic_noti_regular.png');
-            } else if (route.name === 'MY') {
-              iconSource = focused
-                ? require('./assets/Navigation/ic_profile_regular_line.png')
-                : require('./assets/Navigation/ic_profile_regular.png');
-            }
-  
-            return <Image source={iconSource} style={{ width: iconSize, height: iconSize, tintColor: color }} />;
-          },
-          tabBarActiveTintColor: theme.gray10,
-          tabBarInactiveTintColor: theme.gray70,
-          tabBarLabelStyle: {
-            fontSize: 12,
-            fontFamily: 'PretendardRegular',
-          },
-          tabBarStyle: {
-            borderTopLeftRadius: 8,
-            borderTopRightRadius: 8,
-          },
-          headerShadowVisible: false,
-        })}
-      >
-        <Tab.Screen name="홈" component={Home} options={{
-          tabBarLabel: '홈',
-          headerTitle: ' ',
-          headerTitleAlign: 'center',
-          headerStyle: {
-            backgroundColor: theme.white
-          },
-          headerLeft: () => (
-            <View>
-              <HomeLogo style={{ marginLeft: 32.5 }} />
-            </View>
-          ),
-          headerRight: () => (
-            <TouchableOpacity onPress={() => { navigation.navigate('전체 카드 검색') }}>
-              <SearchIcon style={{ marginRight: 20 }} />
-            </TouchableOpacity>
-          ),
-        }}  />
-        <Tab.Screen name="스페이스" component={Space} 
-        options={{ 
-          tabBarLabel: '스페이스', 
-          headerTitle: 'Space', 
+
+function MyTabs() {
+  const navigation = useNavigation();
+  return (
+    <Tab.Navigator
+      screenOptions={({ route }) => ({
+        tabBarIcon: ({ focused, color }) => {
+          let iconSource;
+          let iconSize = 42;
+
+          if (route.name === '홈') {
+            iconSource = focused
+              ? require('./assets/Navigation/ic_home_regular_line.png')
+              : require('./assets/Navigation/ic_home_regular.png');
+          } else if (route.name === '스페이스') {
+            iconSource = focused
+              ? require('./assets/Navigation/ic_space_regular_line.png')
+              : require('./assets/Navigation/ic_space_regular.png');
+          } else if (route.name === '내 카드') {
+            iconSource = focused
+              ? require('./assets/Navigation/ic_myCard_regular_line.png')
+              : require('./assets/Navigation/ic_myCard_regular.png');
+          } else if (route.name === '알림') {
+            iconSource = focused
+              ? require('./assets/Navigation/ic_noti_regular_line.png')
+              : require('./assets/Navigation/ic_noti_regular.png');
+          } else if (route.name === 'MY') {
+            iconSource = focused
+              ? require('./assets/Navigation/ic_profile_regular_line.png')
+              : require('./assets/Navigation/ic_profile_regular.png');
+          }
+
+          return <Image source={iconSource} style={{ width: iconSize, height: iconSize, tintColor: color }} />;
+        },
+        tabBarActiveTintColor: theme.gray10,
+        tabBarInactiveTintColor: theme.gray70,
+        tabBarLabelStyle: {
+          fontSize: 12,
+          fontFamily: 'PretendardRegular',
+        },
+        tabBarStyle: {
+          borderTopLeftRadius: 8,
+          borderTopRightRadius: 8,
+        },
+        headerShadowVisible: false,
+      })}
+    >
+      <Tab.Screen name="홈" component={Home} options={{
+        tabBarLabel: '홈',
+        headerTitle: ' ',
+        headerTitleAlign: 'center',
+        headerStyle: {
+          backgroundColor: theme.white
+        },
+        headerLeft: () => (
+          <View>
+            <HomeLogo style={{ marginLeft: 32.5 }} />
+          </View>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => { navigation.navigate('전체 카드 검색') }}>
+            <SearchIcon style={{ marginRight: 20 }} />
+          </TouchableOpacity>
+        ),
+      }} />
+      <Tab.Screen name="스페이스" component={Space}
+        options={{
+          tabBarLabel: '스페이스',
+          headerTitle: 'Space',
           headerTitleAlign: 'center',
           headerShown: false
           }} />

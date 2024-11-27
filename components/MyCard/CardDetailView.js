@@ -447,7 +447,7 @@ const CardDetailView = () => {
                         onOption1Press={handleBluetoothPress}
                         onOption2Press={handleLinkSharePress}
                         title="카드 공유하기"
-                        option1Text="블루투스 공유"
+                        option1Text="QR 공유"
                         option1SubText="주변에 있다면"
                         option2Text="링크 공유"
                         option2SubText="연락처가 있다면"

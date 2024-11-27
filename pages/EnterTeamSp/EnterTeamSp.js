@@ -9,6 +9,7 @@ import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import People from '../../assets/icons/ic_people_small_fill.svg';
 import { theme } from "../../theme";
 import { styles } from './EnterTeamSpStyle';
+import Toast from "react-native-toast-message";
 
 import CardSample from '../../assets/teamSp/bg_gradation.svg';
 import EnterEndCard from '../../assets/teamSp/EnterEndCard';
@@ -120,8 +121,8 @@ function EnterTeamSp({ navigation, route }) {
           setIsModalVisible(true);
         })
         .catch((error) => {
-          console.error('초대코드 검색 API 요청 에러:', error);
-          Alert.alert("존재하지 않는 초대코드입니다.");
+          // console.error('초대코드 검색 API 요청 에러:', error);
+          showCustomToast("존재하지 않는 초대코드입니다.");
         });
     } else if (step === 2) {
       setStep(3)
@@ -132,6 +133,16 @@ function EnterTeamSp({ navigation, route }) {
       setTeamStep(2);
     }
   }
+
+  // Toast 표시 함수
+  const showCustomToast = (text) => {
+    Toast.show({
+      text1: text,
+      type: 'selectedToast',
+      position: 'bottom',
+      visibilityTime: 2000, // 2초간 표시
+    });
+  };
 
   // 카드 제출 API 호출
   const handleCardSelect = (cardId) => {

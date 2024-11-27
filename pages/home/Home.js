@@ -15,6 +15,7 @@ import QRIcon from '../../assets/HomeIcon/ic_qr.svg';
 import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
 import EnterTeamSPIcon from '../../assets/HomeIcon/ic_teamspin.svg';
 import CreatTeamSPIcon from '../../assets/HomeIcon/ic_teamspnew.svg';
+import QRBottomSheet from '../../components/Bluetooth/QRBottomSheet.js';
 
 const screenWidth = Dimensions.get('window').width;
 const cardWidth = (screenWidth - 16 * 2 - 4) / 2; // 화면 양쪽 마진 16, 두 카드 사이 마진 12
@@ -26,17 +27,19 @@ function Home({ navigation }) {
   const [parentSize, setParentSize] = useState({ width: 0, height: 0 });
   const [cardId, setCardId] = useState(null);
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
+  const [QRmodalVisible, setQRModalVisible] = useState(false);
   const [cardName, setCardName] = useState("");
+  const [step, setStep] = useState(0);
 
-    // Toast 표시 함수
-    const showCustomToast = (text) => {
-      Toast.show({
-        text1: text,
-        type: 'selectedToast',
-        position: 'bottom',
-        visibilityTime: 2000, // 2초간 표시
-      });
-    };
+  // Toast 표시 함수
+  const showCustomToast = (text) => {
+    Toast.show({
+      text1: text,
+      type: 'selectedToast',
+      position: 'bottom',
+      visibilityTime: 2000, // 2초간 표시
+    });
+  };
 
   const saveCard = async (cardId) => {
     try {
@@ -185,7 +188,7 @@ function Home({ navigation }) {
           </Text>
           <View style={styles.container}>
             <View style={styles.row}>
-              <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('내 카드 보내기')}>
+              <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => setQRModalVisible(true)}>
                 <View style={styles.btnIcon}>
                   <QRIcon />
                 </View>
@@ -225,17 +228,26 @@ function Home({ navigation }) {
 
       {/* 링크 공유 */}
       <SpaceModal
-                isVisible={isSpaceModalVisible}
-                onClose={() => {
-                  setIsSpaceModalVisible(false); // 모달 닫기
-                  navigation.navigate("홈"); // 홈 화면으로 이동
-                }}
-                title={`${cardName} 님의 카드를 받으시겠습니까?`}
-                btn1="안 받을래요"
-                btn2="네, 받을래요"
-                onConfirm={() => {
-                  saveCard(cardId)}} // 연결된 카드 저장 로직
-            />
+        isVisible={isSpaceModalVisible}
+        onClose={() => {
+          setIsSpaceModalVisible(false); // 모달 닫기
+          navigation.navigate("홈"); // 홈 화면으로 이동
+        }}
+        title={`${cardName} 님의 카드를 받으시겠습니까?`}
+        btn1="안 받을래요"
+        btn2="네, 받을래요"
+        onConfirm={() => {
+          saveCard(cardId)
+        }} // 연결된 카드 저장 로직
+      />
+
+      {/* QR 생성/스캔 선택 모달 */}
+      <QRBottomSheet
+        modalVisible={QRmodalVisible}
+        setModalVisible={setQRModalVisible}
+        setCreateStep={setStep}
+        setStep={setStep}
+      />
     </ScrollView>
   );
 }
