@@ -136,6 +136,7 @@ export default function DetailTeamSpace() {
         initialParams={{ teamId }}
         options={{
           title: "필터",
+          headerTitleAlign: 'center',
           tabBarStyle: { display: 'none' },
           headerLeft: ({ onPress }) => (
             <TouchableOpacity onPress={onPress}>
