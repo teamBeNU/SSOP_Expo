@@ -3,7 +3,7 @@ import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import React, { useEffect, useState } from "react";
-import { Modal, Text, Button, TouchableWithoutFeedback, View } from "react-native";
+import { Modal, Text, TouchableWithoutFeedback, View } from "react-native";
 import * as Progress from 'react-native-progress';
 import QRCode from 'react-native-qrcode-svg';
 import Toast from 'react-native-toast-message';
@@ -174,11 +174,13 @@ function Bluetooth({ navigation }) {
           {/* 카메라 화면 */}
           <BarCodeScanner
             onBarCodeScanned={handleBarCodeScanned}
-            style={{flex: 1}}
+            style={{ flex: 1 }}
           />
           {scanned && (
-            <Button title="다시 스캔하기" onPress={() => setScanned(false)} />
-          )} 
+            <View style={styles.btnNext}>
+              <Text style={styles.btnText} onPress={() => setScanned(false)}>다시 스캔하기</Text>
+            </View>
+          )}
         </View>
       )}
 

@@ -180,4 +180,19 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         marginTop: 24
     },
+    btnNext: {
+        marginHorizontal: 16,
+        marginBottom: 12,
+        height: 48,
+        justifyContent: 'center',
+        borderRadius: 8,
+        fontFamily: 'PretendardRegular',
+        backgroundColor: theme.gray10,
+    },
+    btnText: {
+        textAlign: 'center',
+        color: theme.white,
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold'
+    },
 })
