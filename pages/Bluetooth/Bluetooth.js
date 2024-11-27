@@ -1,16 +1,16 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useRoute } from '@react-navigation/native';
 import axios from "axios";
+import { BarCodeScanner } from 'expo-barcode-scanner';
 import React, { useEffect, useState } from "react";
 import { Modal, Text, Button, TouchableWithoutFeedback, View } from "react-native";
-import { styles } from './BluetoothStyle';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Progress from 'react-native-progress';
 import QRCode from 'react-native-qrcode-svg';
-import { Camera } from 'expo-camera';
+import Toast from 'react-native-toast-message';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import { theme } from "../../theme";
-import Toast from 'react-native-toast-message';
+import { styles } from './BluetoothStyle';
 
 function Bluetooth({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api';
@@ -25,8 +25,6 @@ function Bluetooth({ navigation }) {
   const [selectedCardId, setSelectedCardId] = useState(null); // 선택된 카드 ID
   const [scanned, setScanned] = useState(false);
   const [hasPermission, setHasPermission] = useState(null); // 카메라 권한 상태
-  const [scannedData, setScannedData] = useState(null); // 스캔된 데이터
-  const [cameraRef, setCameraRef] = useState(null); // QR 스캔 카메라
 
   useEffect(() => {
     if (route.params?.step) {
@@ -36,13 +34,12 @@ function Bluetooth({ navigation }) {
 
   // 카메라 권한 요청
   useEffect(() => {
-    const getPermissions = async () => {
-      const { status } = await Camera.requestCameraPermissionsAsync();
-      console.log('카메라 권한:', status);
+    const getBarCodeScannerPermissions = async () => {
+      const { status } = await BarCodeScanner.requestPermissionsAsync();
       setHasPermission(status === 'granted');
     };
 
-    getPermissions();
+    getBarCodeScannerPermissions();
   }, []);
 
   // 카드 데이터 가져오기
@@ -172,13 +169,18 @@ function Bluetooth({ navigation }) {
       )}
 
       {/* QR 코드 인식 */}
-      {step === 2 && hasPermission === true && (
+      {step === 2 && (
         <View style={styles.shareContainer}>
           {/* 카메라 화면 */}
-          <Camera style={{ flex: 1 }} ref={setCameraRef} onBarCodeScanned={handleBarCodeScanned} />
+          <BarCodeScanner
+            onBarCodeScanned={handleBarCodeScanned}
+            style={{flex: 1}}
+          />
+          {scanned && (
+            <Button title="다시 스캔하기" onPress={() => setScanned(false)} />
+          )} 
         </View>
-      )
-      }
+      )}
 
       {/* 생성된 QR 코드 모달 */}
       <Modal
