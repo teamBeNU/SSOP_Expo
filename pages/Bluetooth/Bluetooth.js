@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, Modal, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { styles } from './BluetoothStyle';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import CardsView from '../../components/Bluetooth/CardsView.js';
@@ -14,6 +14,7 @@ import QRCode from 'react-native-qrcode-svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 
 function Bluetooth({ navigation }) {
+  const route = useRoute();
   const [step, setStep] = useState(1);
 
   const [selectedOption, setSelectedOption] = useState('최신순');
@@ -25,6 +26,12 @@ function Bluetooth({ navigation }) {
 
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+
+  useEffect(() => {
+    if (route.params?.step) {
+      setStep(route.params.step);
+    }
+  }, [route.params?.step]); 
 
   // 카메라 권한 요청
   // useEffect(() => {
@@ -150,6 +157,9 @@ function Bluetooth({ navigation }) {
       {/* QR 코드 인식 */}
       {step === 2 && (
         <View style={styles.shareContainer}>
+          <Text>
+            스캔하기 화면 개발 전
+          </Text>
           {/* <BarCodeScanner
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
             style={StyleSheet.absoluteFillObject}

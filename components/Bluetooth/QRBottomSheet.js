@@ -1,11 +1,13 @@
 import { View, Text, TouchableOpacity, Image, StyleSheet, Modal, TouchableWithoutFeedback, Animated, Dimensions } from "react-native";
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigation } from "@react-navigation/native";
 import "react-native-gesture-handler";
 
 import { styles } from "./BottomSheetStyle";
 import CloseBtn from '../../assets/icons/close.svg';
 
 export default function QRBottomSheet({modalVisible, setModalVisible, setCreateStep, setStep, setCardTemplate}) {
+    const navigation = useNavigation();
     const screenHeight = Dimensions.get("screen").height;
     const panY = useRef(new Animated.Value(screenHeight)).current;    // 애니메이션 초기 상태
     const translateY = panY.interpolate({ // panY에 따라 BottomSheet의 y축 위치를 결정
@@ -69,6 +71,7 @@ export default function QRBottomSheet({modalVisible, setModalVisible, setCreateS
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
+                                navigation.navigate("내 카드 보내기"); 
                                 setStep(1);
                             }}
                         >
@@ -78,10 +81,11 @@ export default function QRBottomSheet({modalVisible, setModalVisible, setCreateS
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
+                                navigation.navigate("내 카드 보내기"); 
                                 setStep(2);
                             }}
                         >
-                            <Text style={styles.btnText}>QR 읽기</Text>
+                            <Text style={styles.btnText}>QR 스캔하기</Text>
                         </TouchableOpacity>
                     </View>
                 </Animated.View>
