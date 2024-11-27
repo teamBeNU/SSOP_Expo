@@ -1,47 +1,49 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, Modal, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
+import { useRoute } from '@react-navigation/native';
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Modal, Text, Button, TouchableWithoutFeedback, View } from "react-native";
 import { styles } from './BluetoothStyle';
-import { useNavigation, useRoute } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
-import CardsView from '../../components/Bluetooth/CardsView.js';
-import * as Progress from 'react-native-progress';
-import { theme } from "../../theme";
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Progress from 'react-native-progress';
 import QRCode from 'react-native-qrcode-svg';
-// import { BarCodeScanner } from 'expo-barcode-scanner';
-
-import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import { Camera } from 'expo-camera';
+import CardsView from '../../components/Bluetooth/CardsView.js';
+import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
+import { theme } from "../../theme";
+import Toast from 'react-native-toast-message';
 
 function Bluetooth({ navigation }) {
+  const baseUrl = 'http://43.202.52.64:8080/api';
   const route = useRoute();
-  const [step, setStep] = useState(1);
 
+  const [step, setStep] = useState(1);
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('리스트형');
   const [hasCards, setHasCards] = useState(true); // 카드 보유 여부
   const [cardData, setCardData] = useState([]); // 카드 데이터
   const [isModalVisible, setModalVisible] = useState(false); // QR 모달 상태
   const [selectedCardId, setSelectedCardId] = useState(null); // 선택된 카드 ID
-
-  const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [hasPermission, setHasPermission] = useState(null); // 카메라 권한 상태
+  const [scannedData, setScannedData] = useState(null); // 스캔된 데이터
+  const [cameraRef, setCameraRef] = useState(null); // QR 스캔 카메라
 
   useEffect(() => {
     if (route.params?.step) {
       setStep(route.params.step);
     }
-  }, [route.params?.step]); 
+  }, [route.params?.step]);
 
   // 카메라 권한 요청
-  // useEffect(() => {
-  //   const getBarCodeScannerPermissions = async () => {
-  //     const { status } = await BarCodeScanner.requestPermissionsAsync();
-  //     setHasPermission(status === 'granted');
-  //   };
+  useEffect(() => {
+    const getPermissions = async () => {
+      const { status } = await Camera.requestCameraPermissionsAsync();
+      console.log('카메라 권한:', status);
+      setHasPermission(status === 'granted');
+    };
 
-  //   getBarCodeScannerPermissions();
-  // }, []);
+    getPermissions();
+  }, []);
 
   // 카드 데이터 가져오기
   const fetchCardData = async () => {
@@ -77,6 +79,16 @@ function Bluetooth({ navigation }) {
     fetchCardData();
   }, []);
 
+  // Toast 표시 함수
+  const showCustomToast = (text) => {
+    Toast.show({
+      text1: text,
+      type: 'selectedToast',
+      position: 'bottom',
+      visibilityTime: 2000, // 2초간 표시
+    });
+  };
+
   const title = 'QR로 공유할 프로필을 선택하세요.';
   const sub = '공유할 수 있는 카드가 없어요.';
 
@@ -93,27 +105,33 @@ function Bluetooth({ navigation }) {
   };
 
   // QR 코드 스캔 처리
-  const handleBarCodeScanned = async ({ type, data }) => {
+  const handleBarCodeScanned = async ({ data }) => {
     setScanned(true);
-    Alert.alert('QR 코드 스캔 성공!', `Scanned data: ${data}`);
 
     const token = await AsyncStorage.getItem('token');
 
     try {
-      const response1 = await axios.post(`${baseUrl}/card/save?cardId=${data}`, {}, {
+      const response = await axios.post(`${baseUrl}/card/save?cardId=${data}`, {}, {
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${token}`,
         },
       });
 
-      if (response1.status === 200) {
-        console.log("카드 ID 저장 성공:", response1.data.message);
+      if (response.status === 200) {
+        // console.log("카드 ID 저장 성공:", response.data.message);
+        const successMessage = response.data.message
+        showCustomToast(successMessage);
+        navigation.navigate("받은 프로필 카드");
       } else {
-        console.log("카드 ID 저장 실패:", response1.data.message);
+        // console.log("카드 ID 저장 실패:", response.data.message);
+        const failMessage = response.data.message
+        showCustomToast(failMessage);
       }
     } catch (error) {
-      console.error('Notify - 블루투스 CardID API 요청 오류:', error.response?.data || error.message);
+      // console.error('Bluetooth - QR 스캔 CardID API 요청 오류:', error.response?.data || error.message);
+      const errorMessage = error.response?.data?.message || error.message;
+      showCustomToast(errorMessage);
     }
   };
 
@@ -126,7 +144,6 @@ function Bluetooth({ navigation }) {
         color={theme.green}
         borderWidth={0}
       />
-
 
       {/* QR 코드 생성 */}
       {step === 1 && (
@@ -155,20 +172,13 @@ function Bluetooth({ navigation }) {
       )}
 
       {/* QR 코드 인식 */}
-      {step === 2 && (
+      {step === 2 && hasPermission === true && (
         <View style={styles.shareContainer}>
-          <Text>
-            스캔하기 화면 개발 전
-          </Text>
-          {/* <BarCodeScanner
-            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-            style={StyleSheet.absoluteFillObject}
-          />
-          {scanned && (
-            <Button title="다시 스캔하기" onPress={() => setScanned(false)} />
-          )} */}
+          {/* 카메라 화면 */}
+          <Camera style={{ flex: 1 }} ref={setCameraRef} onBarCodeScanned={handleBarCodeScanned} />
         </View>
-      )}
+      )
+      }
 
       {/* 생성된 QR 코드 모달 */}
       <Modal
@@ -177,7 +187,7 @@ function Bluetooth({ navigation }) {
         visible={isModalVisible}
         onRequestClose={closeModal}
       >
-        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+        <TouchableWithoutFeedback onPress={closeModal}>
           <View style={styles.modalOverlay}>
             <View style={styles.modalContent}>
               <View style={styles.modalView}>
@@ -191,12 +201,7 @@ function Bluetooth({ navigation }) {
                   </View>
                 )}
               </View>
-              <TouchableOpacity
-                style={styles.closeButton}
-                onPress={() => setModalVisible(false)}
-              >
-                <CloseIcon />
-              </TouchableOpacity>
+
             </View>
           </View>
         </TouchableWithoutFeedback>
