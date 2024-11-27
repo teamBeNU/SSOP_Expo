@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { View } from "react-native";
+import { View, Text, Modal, TouchableOpacity, TouchableWithoutFeedback } from "react-native";
 import { styles } from './BluetoothStyle';
-import { TouchableOpacity } from "react-native-gesture-handler";
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
@@ -10,12 +9,15 @@ import * as Progress from 'react-native-progress';
 import { theme } from "../../theme";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import QRCode from 'react-native-qrcode-svg';
-import { BarCodeScanner } from 'expo-barcode-scanner';
+// import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 
 function Bluetooth({ navigation }) {
   const [step, setStep] = useState(1);
+
+  const [selectedOption, setSelectedOption] = useState('최신순');
+  const [viewOption, setViewOption] = useState('리스트형');
   const [hasCards, setHasCards] = useState(true); // 카드 보유 여부
   const [cardData, setCardData] = useState([]); // 카드 데이터
   const [isModalVisible, setModalVisible] = useState(false); // QR 모달 상태
@@ -25,14 +27,14 @@ function Bluetooth({ navigation }) {
   const [scanned, setScanned] = useState(false);
 
   // 카메라 권한 요청
-  useEffect(() => {
-    const getBarCodeScannerPermissions = async () => {
-      const { status } = await BarCodeScanner.requestPermissionsAsync();
-      setHasPermission(status === 'granted');
-    };
+  // useEffect(() => {
+  //   const getBarCodeScannerPermissions = async () => {
+  //     const { status } = await BarCodeScanner.requestPermissionsAsync();
+  //     setHasPermission(status === 'granted');
+  //   };
 
-    getBarCodeScannerPermissions();
-  }, []);
+  //   getBarCodeScannerPermissions();
+  // }, []);
 
   // 카드 데이터 가져오기
   const fetchCardData = async () => {
@@ -68,6 +70,9 @@ function Bluetooth({ navigation }) {
     fetchCardData();
   }, []);
 
+  const title = 'QR로 공유할 프로필을 선택하세요.';
+  const sub = '공유할 수 있는 카드가 없어요.';
+
   // QR 모달 열기
   const handleNext = (cardId) => {
     setSelectedCardId(cardId); // QR 코드에 사용할 cardId 저장
@@ -81,18 +86,29 @@ function Bluetooth({ navigation }) {
   };
 
   // QR 코드 스캔 처리
-  const handleBarCodeScanned = ({ type, data }) => {
+  const handleBarCodeScanned = async ({ type, data }) => {
     setScanned(true);
     Alert.alert('QR 코드 스캔 성공!', `Scanned data: ${data}`);
-    // 여기서 data를 기반으로 API 호출 등 추가 작업 수행
-  };
 
-  if (hasPermission === null) {
-    return <Text>카메라 접근 권한을 확인 중입니다...</Text>;
-  }
-  if (hasPermission === false) {
-    return <Text>카메라 접근 권한이 없습니다.</Text>;
-  }
+    const token = await AsyncStorage.getItem('token');
+
+    try {
+      const response1 = await axios.post(`${baseUrl}/card/save?cardId=${data}`, {}, {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response1.status === 200) {
+        console.log("카드 ID 저장 성공:", response1.data.message);
+      } else {
+        console.log("카드 ID 저장 실패:", response1.data.message);
+      }
+    } catch (error) {
+      console.error('Notify - 블루투스 CardID API 요청 오류:', error.response?.data || error.message);
+    }
+  };
 
   return (
     <View style={{ flex: 1 }}>
@@ -134,13 +150,13 @@ function Bluetooth({ navigation }) {
       {/* QR 코드 인식 */}
       {step === 2 && (
         <View style={styles.shareContainer}>
-          <BarCodeScanner
+          {/* <BarCodeScanner
             onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
             style={StyleSheet.absoluteFillObject}
           />
           {scanned && (
             <Button title="다시 스캔하기" onPress={() => setScanned(false)} />
-          )}
+          )} */}
         </View>
       )}
 
@@ -151,23 +167,29 @@ function Bluetooth({ navigation }) {
         visible={isModalVisible}
         onRequestClose={closeModal}
       >
-        <View style={styles.modalBackground}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalTitle}>QR코드를 스캔하세요.</Text>
-            {selectedCardId && (
-              <QRCode
-                value={`https://your-api.com/cards/${selectedCardId}`} // QR 데이터
-                size={200} // QR 코드 크기
-              />
-            )}
-            <TouchableOpacity
-              style={styles.closeButton}
-              onPress={() => setModalCardVisible(false)}
-            >
-              <CloseIcon2 />
-            </TouchableOpacity>
+        <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+          <View style={styles.modalOverlay}>
+            <View style={styles.modalContent}>
+              <View style={styles.modalView}>
+                <Text style={styles.modalText}>QR코드를 스캔하세요.</Text>
+                {selectedCardId && (
+                  <View style={styles.qrContainer}>
+                    <QRCode
+                      value={`${selectedCardId}`} // QR 데이터
+                      size={250}
+                    />
+                  </View>
+                )}
+              </View>
+              <TouchableOpacity
+                style={styles.closeButton}
+                onPress={() => setModalVisible(false)}
+              >
+                <CloseIcon />
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
+        </TouchableWithoutFeedback>
       </Modal>
     </View >
   );

@@ -70,7 +70,6 @@ import AcceptCard from './pages/Space/AcceptCard';
 import HomeSearchCard from './pages/SearchCard/HomeSearchCard';
 import MySpSearchCard from './pages/SearchCard/MySpSearchCard';
 import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
-import Bluetooth from './pages/Bluetooth/Bluetooth';
 
 import { theme } from './theme';
 
@@ -303,9 +302,8 @@ export default function App() {
                 ),
               }} />
             <Stack.Screen name="회원가입" component={SignUp} />
-            <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{ headerShown: false }} />
             <Stack.Screen name="링크 복사" component={LinkShare} options={{ headerShown: false }} />
-            <Stack.Screen name="QR 공유" component={Bluetooth}
+            <Stack.Screen name="내 카드 보내기" component={Bluetooth}
               options={{
                 headerTitle: "카드 보내기",
                 headerTitleAlign: 'center',
