@@ -192,7 +192,7 @@ function Home({ navigation }) {
                 <View style={styles.btnIcon}>
                   <BluetoothIcon />
                 </View>
-                <Text style={styles.Text18}>블루투스 공유</Text>
+                <Text style={styles.Text18}>QR 공유</Text>
                 <Text style={styles.Text14}>주변에 있다면</Text>
               </TouchableOpacity>
               <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('링크 복사')}>
