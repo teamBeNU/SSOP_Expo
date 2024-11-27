@@ -273,6 +273,7 @@ export default function App() {
         component={SignIn}
         options={{
           headerTitle: "로그인",
+          headerTitleAlign: 'center',
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
               <CloseIcon style={{ marginLeft: 8  }}/>
