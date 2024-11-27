@@ -11,7 +11,7 @@ import Toast from 'react-native-toast-message';
 import CreateCardIcon from '../../assets/HomeIcon/homeBanner.png';
 import ArrowIconWhite from '../../assets/HomeIcon/ic_arrow_white.svg';
 import ArrowIcon from '../../assets/HomeIcon/ic_arrow.svg';
-import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
+import QRIcon from '../../assets/HomeIcon/ic_qr.svg';
 import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
 import EnterTeamSPIcon from '../../assets/HomeIcon/ic_teamspin.svg';
 import CreatTeamSPIcon from '../../assets/HomeIcon/ic_teamspnew.svg';
@@ -181,15 +181,15 @@ function Home({ navigation }) {
         <View>
 
           <Text style={styles.title}>
-            <Text style={styles.title}>프로필 카드 교환하기</Text>
+            <Text style={styles.title}>프로필 카드 공유하기</Text>
           </Text>
           <View style={styles.container}>
             <View style={styles.row}>
               <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('내 카드 보내기')}>
                 <View style={styles.btnIcon}>
-                  <BluetoothIcon />
+                  <QRIcon />
                 </View>
-                <Text style={styles.Text18}>블루투스 공유</Text>
+                <Text style={styles.Text18}>QR 공유</Text>
                 <Text style={styles.Text14}>주변에 있다면</Text>
               </TouchableOpacity>
               <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight }]} onPress={() => navigation.navigate('링크 복사')}>
@@ -202,7 +202,7 @@ function Home({ navigation }) {
             </View>
           </View>
 
-          <Text style={styles.title}>교환할 사람이 많을 땐</Text>
+          <Text style={styles.title}>사람이 많을 땐 팀스페이스로</Text>
           <View style={styles.container}>
             <View style={styles.row}>
               <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: cardHeight2 }]} onPress={() => navigation.navigate('팀스페이스 입장')}>

@@ -3,7 +3,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View, Alert, Linking } from 'react-native';
+import { Image, Text, TextInput, TouchableOpacity, View, Alert, Linking, LogBox } from 'react-native';
 import "react-native-gesture-handler";
 import {
   Menu,
@@ -27,6 +27,8 @@ Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
 TextInput.defaultProps = TextInput.defaultProps || {};
 TextInput.defaultProps.allowFontScaling = false;
+
+LogBox.ignoreAllLogs(true);
 
 import CheckCardDetail from './pages/CheckCard/CheckCardDetail';
 import CardDetailView from './components/MyCard/CardDetailView';
@@ -653,4 +655,5 @@ const Tab = createBottomTabNavigator();
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지', headerTitleAlign: 'center',  }} />
       </Tab.Navigator>
     );
+    console.disableYellowBox = true;
   }
