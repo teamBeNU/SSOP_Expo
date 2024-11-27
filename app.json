@@ -38,7 +38,10 @@
               "pathPattern": ".*"
             }
           ],
-          "category": ["BROWSABLE", "DEFAULT"]
+          "category": [
+            "BROWSABLE",
+            "DEFAULT"
+          ]
         }
       ],
       "adaptiveIcon": {
@@ -48,17 +51,9 @@
       "permissions": [
         "android.permission.READ_CONTACTS",
         "android.permission.WRITE_CONTACTS",
-        "INTERNET"
-      ],
-      "networkSecurityConfig": {
-        "domainConfig": [
-          {
-            "domain": "*",
-            "cleartextTrafficPermitted": true
-          }
-        ]
-      }
-
+        "INTERNET",
+        "android.permission.CAMERA"
+      ]
     },
     "web": {
       "favicon": "./assets/icon.png"
@@ -78,7 +73,8 @@
             "usesCleartextTraffic": true
           }
         }
-      ]
+      ],
+      "expo-router"
     ],
     "extra": {
       "eas": {
