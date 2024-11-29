@@ -2,6 +2,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from 'react';
 import "react-native-gesture-handler";
 import * as Progress from 'react-native-progress';
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { styles } from "./CreateCardStyle";
 import { theme } from "../../theme";
 
@@ -26,22 +27,13 @@ function CreateCard({navigation}) {
     const [modalVisible, setModalVisible] = useState(false);
 
     const items = [
-        { id: 'student', label: '학생', description: '학교에 다닌다면',  icon: <Student width={88} height={88}/> },
-        { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker width={88} height={88}/> },
-        { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', icon: <Fan width={88} height={88}/> },
-        { id: 'free', label: '유형 믹스', description: '자유롭게 정보를\n선택하여 작성', icon: <Free width={88} height={88}/> },
+        { id: 'student', label: '학생', description: '학교에 다닌다면',  icon: <Student width={88} height={88} /> },
+        { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker width={88} height={88} /> },
+        { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠등\n누군가의 팬이라면', icon: <Fan width={88} height={88} /> },
+        { id: 'free', label: '유형 믹스', description: '자유롭게 정보를\n선택하여 작성', icon: <Free width={88} height={88} /> },
     ]
 
     const handleSelectTemplate = (id) => {
-        // if (createStep === 1) {
-        //     if (id === "student") {
-        //         openModal();
-        //     } else {
-        //         setCreateStep(2);
-        //         setStep(1);
-        //     }
-        //     setCardTemplate(id);
-        // }
         if (id === "student") {
             openModal();
         } else {
@@ -68,7 +60,7 @@ function CreateCard({navigation}) {
                 headerTitle: '카드 생성',
                 headerTitleAlign: 'center',
                 headerLeft: () => (
-                    <TouchableOpacity onPress={() => {navigation.goBack();}}>
+                    <TouchableOpacity onPress={() => {navigation.navigate('홈');}}>
                         <CloseIcon style={{ marginLeft: 8 }}/>
                     </TouchableOpacity>
                 ),
@@ -101,7 +93,7 @@ function CreateCard({navigation}) {
                 )
             }
             {step === 0 && (
-                <View>
+                <View style={styles.mainContainer}>
                     <View>
                         <Text style={styles.title}>당신의 정체성을 가장 잘 표현하는{"\n"}유형을 선택해 주세요.</Text>
                         <Text style={styles.subTitle}>정체성에 따라 작성할 수 있는 정보가 달라요.</Text>

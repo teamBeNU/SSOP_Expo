@@ -90,7 +90,7 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
 
     const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
         setModalVisible(false);
-        navigation.goBack();
+        navigation.navigate('홈');
     };
 
     // 드롭다운

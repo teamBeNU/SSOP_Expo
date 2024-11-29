@@ -91,7 +91,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
 
     const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
         setModalVisible(false);
-        navigation.goBack();
+        navigation.navigate('홈');
     };
 
     // 드롭다운

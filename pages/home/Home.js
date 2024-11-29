@@ -30,6 +30,23 @@ function Home({ navigation }) {
   const [QRmodalVisible, setQRModalVisible] = useState(false);
   const [cardName, setCardName] = useState("");
   const [step, setStep] = useState(0);
+  
+  // 카드 생성
+  const handleCreate = async () => {
+    try {
+      const onboarding = await AsyncStorage.getItem('onboarding');      // AsyncStorage에서 onboarding 값을 가져옴
+  
+      if (onboarding === 'true') {
+        navigation.navigate('온보딩');
+      } else if (onboarding === 'false') {
+        navigation.navigate('카드 만들기');
+      } else {        // onboarding 값이 null일 경우의 처리 (예: 기본값으로 카드 만들기로 이동)
+        navigation.navigate('카드 만들기');
+      }
+    } catch (error) {
+      console.error('AsyncStorage에서 onboarding 가져오기 실패:', error);
+    }
+  }
 
   // Toast 표시 함수
   const showCustomToast = (text) => {
@@ -152,7 +169,7 @@ function Home({ navigation }) {
               const { width, height } = event.nativeEvent.layout;
               setParentSize({ width, height });
             }}
-            onPress={() => navigation.navigate('카드 만들기')}
+            onPress={handleCreate}
           >
             <LinearGradient
               colors={['#C8FF79', '#AEFC3D']}

@@ -8,14 +8,19 @@ export const styles = StyleSheet.create({
         // height: SCREEN_HEIGHT,
         flex: 1,
         backgroundColor: theme.white
-    },  
+    },
+    mainContainer: {
+        flex: 1,
+        justifyContent: "center",
+    },
     title: {
         color: theme.gray10,
         fontFamily: 'PretendardSemiBold',
         fontSize: 22,
         fontStyle: "normal",
         fontWeight: "600",
-        marginTop: 72,
+        // marginTop: 72,
+        // marginTop: "15%",
         textAlign: "center",
         letterSpacing: -0.44,
     },
