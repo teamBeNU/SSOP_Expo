@@ -58,7 +58,7 @@ export default function TemplateStudentUniv ({navigation, card_template, step, s
 
     const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
         setModalVisible(false);
-        navigation.goBack();
+        navigation.navigate('홈');
     };
 
     // 드롭다운
