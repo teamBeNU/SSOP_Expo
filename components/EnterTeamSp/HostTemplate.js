@@ -33,6 +33,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
   const [step, setStep] = useState(1);
+  const [isTrue, setIsTrue] = useState({  // 해당 템플릿의 필수 입력이 모두 입력되었는지 여부
+    student: false,
+    worker: false,
+    fan: false,
+  });
   const [imageWidth, setImageWidth] = useState(0);
   const SCREEN_WIDTH = Dimensions.get('window').width;
 
@@ -389,33 +394,33 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
       const newEmptyMovie = card_movie.trim() === '';
       const newEmptyAddress = card_address.trim() === '';
 
+      const safePlus = plus || [];
       const newEmptyA = [
-        plus[0] !== undefined && (card_free_A1 || '').trim() === '',
-        plus[1] !== undefined && (card_free_A2 || '').trim() === '',
-        plus[2] !== undefined && (card_free_A3 || '').trim() === '',
-        plus[3] !== undefined && (card_free_A4 || '').trim() === '',
-        plus[4] !== undefined && (card_free_A5 || '').trim() === '',
+        safePlus[0] !== undefined && (card_free_A1 || '').trim() === '',
+        safePlus[1] !== undefined && (card_free_A2 || '').trim() === '',
+        safePlus[2] !== undefined && (card_free_A3 || '').trim() === '',
+        safePlus[3] !== undefined && (card_free_A4 || '').trim() === '',
+        safePlus[4] !== undefined && (card_free_A5 || '').trim() === '',
       ];
+      setEmptyA(newEmptyA);
 
       setEmptyHobby(newEmptyHobby);
       setEmptyMusic(newEmptyMusic);
       setEmptyMovie(newEmptyMovie);
       setEmptyAddress(newEmptyAddress);
-//뭐야
-      setEmptyA(newEmptyA);
 
       if ((!showHobby || !newEmptyHobby) &&
         (!showMusic || !newEmptyMusic) &&
         (!showMovie || !newEmptyMovie) &&
         (!showAddress || !newEmptyAddress) &&
-        newEmptyA.every((isEmpty, index) => !plus[index] || !isEmpty)
-      )
+        newEmptyA.every((isEmpty, index) => !safePlus[index] || !isEmpty)) {
         if (coverInit === "free") {
           setStep(6) // 아바타와 사진 중 택 1
         }
         else {
           setStep(7); // 호스트가 지정한 아바타/사진으로 안내
         }
+      }
     } else if (step === 6) { // 아바타/사진 선택
       if (card_cover === "avatar") {   // card cover가 avatar인 경우
         setStep(8);
@@ -435,6 +440,19 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
       setStep(9);
     }
   }
+
+  useEffect(() => {
+    if (optionsCount >= 2) {   // free teamplate
+      if (isTrue.student && isTrue.worker && isTrue.fan) {
+        setStep(4);
+      }
+    } else {
+      if (isTrue.student || isTrue.worker || isTrue.fan) {
+        setStep(4);
+      }
+    }
+    setIsTrue((prev) => ({ ...prev, student: false, worker: false, fan: false }));
+  }, [isTrue.student, isTrue.worker, isTrue.fan]);
 
   // step 단위로 뒤로가기
   useEffect(() => {
@@ -503,11 +521,6 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
     }
   }, [step]);
   
-  // useEffect(()=>{
-  //   console.log('step:', step);
-  //   console.log('teatstep:', teamStep);
-  // }, [step, teamStep])
-
   const handleHeaderLeft = (onPress) => {
     if (step < 9) {
       return (
@@ -906,9 +919,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 <Text style={styles.title}>호스트가 지정한 정보를 입력해 주세요.</Text>
                 <Text style={styles.subtitle}>필수로 입력해야 하는 정보예요. </Text>
 
-                {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setStep={setStep} />}
-                {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setStep={setStep} />}
-                {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setStep={setStep} />}
+                {hasStudentOptional && <HostStudentTrue studentOptional={studentOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setIsTrue={setIsTrue} />}
+                {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setIsTrue={setIsTrue} />}
+                {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setIsTrue={setIsTrue} />}
                 
                 <View style={{ marginBottom: 150 }} />
               </ScrollView>

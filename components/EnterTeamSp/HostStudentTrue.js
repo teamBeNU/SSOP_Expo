@@ -5,7 +5,7 @@ import Select from "../../assets/teamSp/select.svg";
 import DropDown from "./DropDown";
 import "react-native-gesture-handler";
 
-export default function HostStudentTrue({ studentOptional, onData, onDataChange, isNextClick, setIsNextClick, setStep }) {
+export default function HostStudentTrue({ studentOptional, onData, onDataChange, isNextClick, setIsNextClick, setIsTrue }) {
 
     const [isEmpty, setIsEmpty] = useState({
         school: true,
@@ -160,10 +160,6 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
             let clubOk = !showClub || !isEmpty.club;
             let roleOk = !(showRole.length !== 0) || !isEmpty.role;
             let statusOk = !showStatus || !isEmpty.status;
-
-            // console.log('showSchool: ', showSchool)
-            // console.log('isEmpty.school: ', isEmpty.school)
-            // console.log('schoolOk: ', schoolOk)
     
             setIsOk({
                 school: schoolOk,
@@ -176,7 +172,8 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
             })
 
             if (schoolOk && gradeOk && studNumOk && majorOk && clubOk && roleOk && statusOk) {
-                setStep(4);
+                // setStep(4);
+                setIsTrue((prev) => ({ ...prev, student: true }));
             }
     
             setIsNextClick(false);
@@ -188,8 +185,6 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
             {/* 학교 */}
             {showSchool && (
                 <View style={styles.nameContainer}>
-                    {/* <Text>{isEmpty.school?'true':'false'}</Text>
-                    <Text>{isOk.school?'true':'false'}</Text> */}
                     <Text style={styles.nameBold}>학교명<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
                         style={[styles.nameInput, !isOk.school && styles.inputEmpty]}
