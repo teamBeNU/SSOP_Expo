@@ -4,7 +4,7 @@ import "react-native-gesture-handler";
 
 import { styles } from "./CustomModalStyle"
 
-export default function MyPageModal({modalVisible, setModalVisible, handleBtn1, handleBtn2, modalTitle, modalText, btn1, btn2, btnMargin}) {
+export default function MyPageModal({modalVisible, setModalVisible, handleBtn1, handleBtn2, modalTitle, modalText, btn1, btn2}) {
     return (
         <View>
             {/* <StatusBar backgroundColor="rgba(0,0,0,0.4)" translucent={true} /> */}
@@ -29,13 +29,13 @@ export default function MyPageModal({modalVisible, setModalVisible, handleBtn1, 
                                     <TouchableOpacity
                                         style={styles.btn1}
                                         onPress={handleBtn1}>
-                                        <Text style={[styles.btn1Text, {marginHorizontal: btnMargin-16}]}>{btn1}</Text>
+                                        <Text style={styles.btn1Text}>{btn1}</Text>
                                     </TouchableOpacity>
                                 )}
                                 <TouchableOpacity
                                     style={styles.btn2}
                                     onPress={handleBtn2}>
-                                    <Text style={[styles.btn2Text, {marginHorizontal: btnMargin-16}]}>{btn2}</Text>
+                                    <Text style={styles.btn2Text}>{btn2}</Text>
                                 </TouchableOpacity>
                             </View>
                         </View>

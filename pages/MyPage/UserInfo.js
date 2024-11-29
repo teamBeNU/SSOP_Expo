@@ -6,7 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../AuthContext";
 
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
-import MyPageModal from "../../components/MyPage/MyPageModal";
+import { MyPageModal } from "../../components/MyPage/MyPageModal";
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
 
@@ -246,7 +246,6 @@ function UserInfo({navigation}) {
                         modalText={null}
                         btn1={'네, 취소할래요'}
                         btn2={'마저 변경할래요'}
-                        btnMargin={26.5}
                     />
                 )}
 

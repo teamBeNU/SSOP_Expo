@@ -893,11 +893,10 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
                     setModalVisible={setModalVisible}
                     handleBtn1={handleBtn1}
                     handleBtn2={handleBtn2}
-                    modalTitle={`카드 만들기를 취소하고${"\n"}홈으로 돌아가시겠어요?`}
-                    modalText={'지금까지 작성한 작업이 없어져요.'}
+                    modalTitle={`카드 만들기를 취소하고 홈으로 돌아가시겠어요?`}
+                    modalText={'지금까지 작성한 내용이 없어져요.'}
                     btn1={'계속 만들래요'}
                     btn2={'네 돌아갈래요'}
-                    btnMargin={26.5}
                 />
             )}
         </View>
