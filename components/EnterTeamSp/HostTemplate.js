@@ -1,35 +1,32 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, ScrollView, Alert, Dimensions, Linking, Image } from "react-native";
-import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
-import { theme } from "../../theme";
+import axios from "axios";
+import * as ImagePicker from 'expo-image-picker';
+import React, { useEffect, useRef, useState } from "react";
+import { Alert, Dimensions, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import "react-native-gesture-handler";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
+import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
+import { theme } from "../../theme";
 import CustomModal from "../CreateCard/Modal/CustomModal";
 import DropDown from "./DropDown";
-import * as Progress from 'react-native-progress';
-import "react-native-gesture-handler";
-import * as ImagePicker from 'expo-image-picker';
 
-import EnterEndCard from '../../assets/Login/graphic_done.svg'
-import HostStudentTrue from "./HostStudentTrue";
-import HostStudentFalse from "./HostStudentFalse";
-import HostWorkerTrue from "./HostWorkerTrue";
-import HostWorkerFalse from "./HostWorkerFalse";
-import HostFanTrue from "./HostFanTrue";
+import EnterEndCard from '../../assets/Login/graphic_done.svg';
 import HostFanFalse from "./HostFanFalse";
+import HostFanTrue from "./HostFanTrue";
 import HostFreeFalse from "./HostFreeFalse";
+import HostStudentFalse from "./HostStudentFalse";
+import HostStudentTrue from "./HostStudentTrue";
+import HostWorkerFalse from "./HostWorkerFalse";
+import HostWorkerTrue from "./HostWorkerTrue";
 
-import CoverAvatar from "../../assets/createCard/coverAvatar.svg";
-import CoverPicture from "../../assets/createCard/coverPicture.svg";
 
+import { avatarCapture } from "../../utils/avatarCapture";
 import AvatarCustom from "../Avatar/AvatarCustom";
 import SelectCover from "../CreateCard/SelectCover";
-import { avatarCapture } from "../../utils/avatarCapture";
 
-export default function HostTemplate({ navigation, goToOriginal, data, isHost, teamStep, setTeamStep }) {
+export default function HostTemplate({ navigation, goToOriginal, data, isHost, teamStep, setTeamStep, hostTemplateData }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
   const [step, setStep] = useState(1);
@@ -304,7 +301,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   };
   const handleBtn2 = () => {    // 모달 - '네, 돌아갈래요'
     setModalVisible(false);
-    navigation.goBack();
+    navigation.navigate('홈');
   };
 
   const [isNextClick, setIsNextClick] = useState(false);    // step이 3일 때(템플릿 필수) 다음으로 버튼 클릭 여부
@@ -522,7 +519,13 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   }, [step]);
   
   const handleHeaderLeft = (onPress) => {
-    if (step < 9) {
+    if (step === 1) {
+      return (
+        <TouchableOpacity onPress={handleBack}>
+          <LeftArrowIcon style={{ marginLeft: 8 }} />
+        </TouchableOpacity>
+      );
+    } else if (step < 9) {
       return (
         <TouchableOpacity onPress={handleBack}>
           <LeftArrowIcon style={{ marginLeft: 8 }} />
@@ -534,6 +537,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   const handleBack = () => {
     switch (step) {
       case 1:
+        setTeamStep(4);
         break;
       case 5:
         setStep(4);
