@@ -56,6 +56,7 @@ import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import Space from './pages/Space/Space';
 import DeleteMyCard from './pages/MyCard/DeleteMyCard';
 import AvatarCustom from './components/Avatar/AvatarCustom';
+import Onboarding from './pages/Onboarding/Onboarding';
 
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';
@@ -87,6 +88,17 @@ const linking = {
 };
 
 export default function App() {
+  // 온보딩 (앱 처음 실행하고 카드 생성 클릭하면 온보딩 나옴)
+  useEffect(() => {
+    const checkFirst = async() => {
+      const firstLoad = await AsyncStorage.getItem('onboarding');
+      if (firstLoad === null) {
+        await AsyncStorage.setItem('onboarding', 'true');
+      }
+    }
+    checkFirst();
+  }, []);
+
   // 모달 상태 및 카드 정보 관리
   const [cardId, setCardId] = useState(null);
 
@@ -409,6 +421,7 @@ export default function App() {
             )
            }} 
           />
+        <Stack.Screen name="온보딩" component={Onboarding} options={{ headerShown: false }}/>  
         <Stack.Screen 
           name="팀스페이스 입장" 
           component={EnterTeamSp} 
@@ -567,6 +580,20 @@ const Tab = createBottomTabNavigator();
 
 function MyTabs() {
   const navigation = useNavigation();
+
+  // 임시: 홈 화면에서 ssop 로고 클릭시 온보딩 상태 
+  const checkOnboarding = async () => {
+    const onboardingValue = await AsyncStorage.getItem('onboarding');
+  };
+  useEffect(() => {
+    checkOnboarding(); // 컴포넌트가 처음 렌더링될 때 호출
+  }, []);
+  const handleLogoPress = async () => {
+    await AsyncStorage.setItem('onboarding', 'true'); // AsyncStorage에 'true' 저장
+    const onboardingValue = await AsyncStorage.getItem('onboarding'); 
+    console.log('MyTabs 온보딩 상태 변경: ', onboardingValue); // 확인용 로그
+  };
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -611,7 +638,10 @@ function MyTabs() {
         headerShadowVisible: false,
       })}
     >
-      <Tab.Screen name="홈" component={Home} options={{
+      <Tab.Screen name="홈" 
+        component={Home} 
+        //component={() => <Home onboarding={onboarding} />} // Home 컴포넌트를 component prop으로 전달
+        options={{
         tabBarLabel: '홈',
         headerTitle: ' ',
         headerTitleAlign: 'center',
@@ -619,9 +649,13 @@ function MyTabs() {
           backgroundColor: theme.white
         },
         headerLeft: () => (
-          <View>
+          // <View>
+          //   <HomeLogo style={{ marginLeft: 32.5 }} />
+          // </View>
+          // 임시로 홈 화면 상단 ssop 로고 클릭 시 온보딩 보일 수 있도록(원래 온보딩은 처음 앱 실행하고 1회만 보여짐)
+          <TouchableOpacity activeOpacity={0.5} onPress={handleLogoPress}>
             <HomeLogo style={{ marginLeft: 32.5 }} />
-          </View>
+          </TouchableOpacity>
         ),
         headerRight: () => (
           <TouchableOpacity onPress={() => { navigation.navigate('전체 카드 검색') }}>
