@@ -83,6 +83,183 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, 
 
     const renderTemplateSpecificInfo = () => {
         //console.log ('1 : ', isOptional1(cardData), ' t : ', isTemplateOptional(cardData), ' 2: ', isOptional2(cardData), ' 3: ', isOptional3(cardData));
+        if(isSample) {
+            return (
+                <ScrollView 
+                    contentContainerStyle={styles.textArea} 
+                    showsVerticalScrollIndicator={false}
+                    onTouchStart={onVerticalScrollStart}
+                    onTouchEnd={onVerticalScrollEnd}>
+                        {cardData.showBirth && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic, { fontSize: 14 }]}>생년월일</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.showMBTI && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>MBTI</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+
+                        {(cardData.showBirth || cardData.showMBTI) 
+                        && (cardData.studentOptional.showStudNum || cardData.studentOptional.showClub || (Array.isArray(cardData.studentOptional.showRole) 
+                        && cardData.studentOptional.showRole.length > 0) || cardData.studentOptional.showStatus || cardData.workerOptional.showPosition || cardData.workerOptional.showPart || cardData.fanOptional.showSecond || cardData.fanOptional.showReason || cardData.showTel || cardData.showEmail || cardData.showInsta || cardData.showX || cardData.showHobby || cardData.showMusic || cardData.showMovie || cardData.showAddress || (Array.isArray(cardData.plus) && cardData.plus.length > 0)) && <View style={{...styles.line, marginTop: 0}} />}
+                        
+                        {cardData.studentOptional.showStudNum && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>학번</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {(Array.isArray(cardData.studentOptional.showRole) && cardData.studentOptional.showRole.length > 0) && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>역할</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.studentOptional.showClub && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>동아리</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.studentOptional.showStatus && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic, {fontSize: 14}]}>재학상태</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.workerOptional.showPosition && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>직위</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.workerOptional.showPart && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>부서</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.fanOptional.showSecond && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>차애</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.fanOptional.showReason && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic, {fontSize: 14}]}>입덕계기</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+
+                        {(cardData.studentOptional.showStudNum || cardData.studentOptional.showClub || (Array.isArray(cardData.studentOptional.showRole) && cardData.studentOptional.showRole.length > 0) || cardData.studentOptional.showStatus || cardData.workerOptional.showPosition || cardData.workerOptional.showPart || cardData.fanOptional.showSecond || cardData.fanOptional.showReason) 
+                        && ( cardData.showTel || cardData.showEmail || cardData.showInsta || cardData.showX || cardData.showHobby || cardData.showMusic || cardData.showMovie || cardData.showAddress || (Array.isArray(cardData.plus) && cardData.plus.length > 0))
+                        && <View style={{...styles.line, marginTop: 0}} />}
+
+                        {cardData.showTel && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>연락처</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.showEmail && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>이메일</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {(cardData.showInsta || cardData.showX) && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>SNS</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+
+                        {(cardData.showTel || cardData.showEmail || cardData.showInsta || cardData.showX) 
+                        && ( cardData.showHobby || cardData.showMusic || cardData.showMovie || cardData.showAddress || (Array.isArray(cardData.plus) && cardData.plus.length > 0)) 
+                        && <View style={{...styles.line, marginTop: 0, borderColor: 'green'}} />}
+
+                        {cardData.showHobby && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic]}>취미</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.showMusic && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic, {fontSize: 14}]}>인생음악</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.showMovie && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic, {fontSize: 14}]}>인생영화</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+                        {cardData.showAddress && 
+                        <View style={{gap: 24, width: '100%'}}>
+                            <View style={styles.info}>
+                                <Text style={[styles.topic, {fontSize: 14}]}>거주지</Text>
+                                <Text style={styles.content}>-</Text>
+                            </View>
+                            </View>
+                        }
+
+                        {(cardData.showHobby || cardData.showMusic || cardData.showMovie || cardData.showAddress) 
+                        && ( (Array.isArray(cardData.plus) && cardData.plus.length > 0)) 
+                        && <View style={{...styles.line, marginTop: 0}} />}
+
+                        {cardData.plus && cardData.plus.length > 0 && (
+                            cardData.plus.map((item, index) => (
+                                <View style={{gap: 24, width: '100%'}}>
+                                    <View key={index} style={styles.info}>
+                                        <Text style={[styles.topic, {fontSize: 14}]}>{item}</Text>
+                                        <Text style={styles.content}>-</Text>
+                                    </View>
+                                </View>
+                            ))
+                        )}
+
+                </ScrollView>
+            )
+        } else {
         switch (cardData.card_template) {
             case 'studentSchool':
                 return (
@@ -159,6 +336,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, 
                 default:
                 return null;
         }
+      }
     };    
     
     return (

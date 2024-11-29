@@ -74,7 +74,8 @@
           }
         }
       ],
-      "expo-router"
+      "expo-router",
+      "expo-barcode-scanner"
     ],
     "extra": {
       "eas": {
