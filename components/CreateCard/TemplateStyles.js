@@ -71,7 +71,7 @@ export const styles = StyleSheet.create({
         marginTop: 12,
         fontFamily: "Pretendard",
         fontSize: 16,
-        color: theme.gray30,
+        color: theme.gray50,
         fontStyle: "normal",
         fontWeight: "400",
     },
@@ -404,6 +404,7 @@ export const styles = StyleSheet.create({
         marginTop: 12,
         marginBottom: 32,
         textAlign: "center",
+        color: theme.gray50,
     },
     coverScrollView: {
         // justifyContent: 'center',

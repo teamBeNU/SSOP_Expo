@@ -8,7 +8,7 @@ import { AuthContext } from "../../AuthContext";
 import { styles } from "./UserInfoStyle";
 import { theme } from "../../theme";
 import CloseIcon from "../../assets/icons/ic_close_regular_line.svg";
-import MyPageModal from "../../components/MyPage/MyPageModal";
+import { MyPageModal } from "../../components/MyPage/MyPageModal";
 
 function UserPhoneNumber({navigation}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -162,7 +162,6 @@ function UserPhoneNumber({navigation}) {
                             modalText={null}
                             btn1={'네, 취소할래요'}
                             btn2={'마저 변경할래요'}
-                            btnMargin={26.5}
                         />
                     )}
 

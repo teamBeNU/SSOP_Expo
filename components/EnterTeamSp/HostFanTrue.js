@@ -3,7 +3,7 @@ import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostFanTrue({ fanOptional, onData, onDataChange, isNextClick, setIsNextClick, setStep }) {
+export default function HostFanTrue({ fanOptional, onData, onDataChange, isNextClick, setIsNextClick, setIsTrue }) {
 
     const [isEmpty, setIsEmpty] = useState({
         genre: true,
@@ -78,7 +78,7 @@ export default function HostFanTrue({ fanOptional, onData, onDataChange, isNextC
             })
 
             if (genreOk && favoriteOk && secondOk && reasonOk) {
-                setStep(4);
+                setIsTrue((prev) => ({ ...prev, fan: true }));
             }
     
             setIsNextClick(false);

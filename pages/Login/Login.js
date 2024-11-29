@@ -5,7 +5,7 @@ import { styles } from './LoginStyle.js';
 import DisplayFrame from "../../assets/Login/displayFrame.svg";
 import KakaoIcon from "../../assets/Login/ic_kakao.svg";
 import MainIcon from '../../assets/Login/ic_mail.svg';
-import MyPageModal from "../../components/MyPage/MyPageModal.js";
+import { WithdrawModal } from "../../components/MyPage/MyPageModal.js";
 
 const { height:HEIGHT } = Dimensions.get('window');
 const STATUS_BAR_HEIGHT = Platform.OS === 'android' ? StatusBar.currentHeight : 0;
@@ -49,16 +49,13 @@ function Login({ route = {} }) {
             </View>
 
             {modalVisible && (
-                <MyPageModal 
+                <WithdrawModal
                     modalVisible={modalVisible}
                     setModalVisible={setModalVisible}
-                    handleBtn1={null}
-                    handleBtn2={() => setModalVisible(false)}
+                    handleBtn={() => setModalVisible(false)}
                     modalTitle={'회원탈퇴가 완료되었어요.'}
                     modalText={'언제든지 다시 돌아오세요!'}
-                    btn1={null}
-                    btn2={'확인'}
-                    btnMargin={123.5}
+                    btn={'확인'}
                 />
             )}
         </View>

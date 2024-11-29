@@ -13,7 +13,7 @@ import VisibilityOffIcon from "../../assets/Login/ic_visibility_off.svg";
 import CheckIcon from "../../assets/Login/ic_done_small_line.svg";
 import BlueCheckIcon from "../../assets/Login/ic_done_small_line_blue.svg";
 import PasswordDone from "../../assets/images/passwordDone.svg";
-import MyPageModal from "../../components/MyPage/MyPageModal";
+import { MyPageModal } from "../../components/MyPage/MyPageModal";
 
 function UserPw({navigation}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -259,7 +259,6 @@ function UserPw({navigation}) {
                                 modalText={null}
                                 btn1={'네, 취소할래요'}
                                 btn2={'마저 변경할래요'}
-                                btnMargin={26.5}
                             />
                         )}
                     </View>

@@ -3,7 +3,7 @@ import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
 
-export default function HostWorkerTrue({ workerOptional, onData, onDataChange, isNextClick, setIsNextClick, setStep }) {
+export default function HostWorkerTrue({ workerOptional, onData, onDataChange, isNextClick, setIsNextClick, setIsTrue }) {
 
     const [isEmpty, setIsEmpty] = useState({
         company: true,
@@ -78,7 +78,7 @@ export default function HostWorkerTrue({ workerOptional, onData, onDataChange, i
             })
 
             if (companyOk && jobOk && positionOk && partOk) {
-                setStep(4);
+                setIsTrue((prev) => ({ ...prev, worker: true }));
             }
     
             setIsNextClick(false);

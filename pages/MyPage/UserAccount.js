@@ -9,7 +9,7 @@ import { AuthContext } from "../../AuthContext";
 
 import { styles } from "./MyPageStyle";
 import RightArrow from "../../assets/icons/ic_RightArrow_small_line.svg";
-import MyPageModal from "../../components/MyPage/MyPageModal";
+import { MyPageModal } from "../../components/MyPage/MyPageModal";
 
 function UserAccount({navigation}) {
     const baseUrl = 'http://43.202.52.64:8080/api';
@@ -101,10 +101,9 @@ function UserAccount({navigation}) {
                     handleBtn1={handleBtn1}
                     handleBtn2={handleBtn2}
                     modalTitle={'정말 탈퇴하시겠어요?'}
-                    modalText={'탈퇴하면 모든 데이터가 삭제되며\n복구할 수 없습니다.'}
+                    modalText={'탈퇴하면 모든 데이터가 삭제되며 복구할 수 없습니다.'}
                     btn1={'취소하기'}
                     btn2={'탈퇴하기'}
-                    btnMargin={42}
                 />
             )}
         </View>

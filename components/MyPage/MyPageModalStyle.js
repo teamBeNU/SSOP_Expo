@@ -1,7 +1,7 @@
 import { StyleSheet, Dimensions } from "react-native"
 import { theme } from "../../theme"
 
-const { width:SCREEN_WIDTH, height:SCREEN_HEIGHT } = Dimensions.get('window');
+const windowWidth = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
     centeredView: {
@@ -11,12 +11,13 @@ export const styles = StyleSheet.create({
       backgroundColor: 'rgba(0, 0, 0, 0.4)'
     },
     modalView: {
-      backgroundColor: 'white',
-      borderRadius: 20,
-      paddingVertical: 32,
-      paddingHorizontal: 16,
-      alignItems: 'center',
-      backgroundColor: theme.white,
+        width: windowWidth - 32,
+        backgroundColor: 'white',
+        borderRadius: 16,
+        paddingVertical: 32,
+        paddingHorizontal: 16,
+        alignItems: 'center',
+        backgroundColor: theme.white,
     },
     modalTextContainer: {
         alignItems: 'center',
@@ -45,8 +46,10 @@ export const styles = StyleSheet.create({
     Btn: {
         flexDirection: "row",
         justifyContent: "space-between",
+        width: '100%'
     },
     btn1: {
+        width: '49%',
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: theme.white,
@@ -67,6 +70,7 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.14,
     },
     btn2: {
+        width: '49%',
         justifyContent: "center",
         alignItems: "center",
         backgroundColor: "black",
@@ -75,6 +79,26 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
     },
     btn2Text: {
+        fontFamily: "PretendardSemiBold",
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "600",
+        color: theme.white,
+        textAlign: "center",
+        letterSpacing: -0.14,
+    },
+
+    // 탈퇴 완료 모달
+    btnWithdraw: {
+        width: '100%',
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "black",
+        paddingVertical: 10,
+        paddingHorizontal: 16,
+        borderRadius: 8,
+    },
+    btnWithdrawText: {
         fontFamily: "PretendardSemiBold",
         fontSize: 14,
         fontStyle: "normal",

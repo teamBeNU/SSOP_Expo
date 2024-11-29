@@ -20,7 +20,7 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.44,
     },
     subTitle: {
-        color: theme.gray10,
+        color: theme.gray50,
         fontFamily: 'Pretendard',
         fontSize: 16,
         fontStyle: "normal",
