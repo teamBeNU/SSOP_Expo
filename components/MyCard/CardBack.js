@@ -207,7 +207,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, 
 
                         {(cardData.showTel || cardData.showEmail || cardData.showInsta || cardData.showX) 
                         && ( cardData.showHobby || cardData.showMusic || cardData.showMovie || cardData.showAddress || (Array.isArray(cardData.plus) && cardData.plus.length > 0)) 
-                        && <View style={{...styles.line, marginTop: 0, borderColor: 'green'}} />}
+                        && <View style={{...styles.line, marginTop: 0}} />}
 
                         {cardData.showHobby && 
                         <View style={{gap: 24, width: '100%'}}>

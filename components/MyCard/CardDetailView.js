@@ -15,7 +15,7 @@ import { styles } from '../../pages/MyCard/MyCardStyle.js';
 import { deleteCard } from './DeleteCardAPI.js';
 import { theme } from '../../theme.js';
 import { textStyles } from '../../textStyles.js';
-
+z
 import ExchangeModal from '../../components/Space/ExchangeModal.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
