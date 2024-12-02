@@ -27,7 +27,7 @@
     "cacache": "^18.0.3",
     "expo": "~51.0.39",
     "expo-auth-session": "~5.5.2",
-    "expo-barcode-scanner": "^13.0.1",
+    "expo-barcode-scanner": "~13.0.1",
     "expo-build-properties": "~0.12.5",
     "expo-clipboard": "~6.0.3",
     "expo-constants": "^16.0.2",
