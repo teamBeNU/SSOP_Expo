@@ -123,7 +123,9 @@ export const styles = StyleSheet.create({
         borderBottomRightRadius: 0,
         paddingBottom: 24,
         paddingHorizontal: 16,
-        alignItems: 'center'
+        alignItems: 'center',
+        position: 'absolute',
+        top: '20%'
         },
         modalTitle: {
         flexDirection: 'row',

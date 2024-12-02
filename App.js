@@ -307,7 +307,7 @@ export default function App() {
         }}
          />
          <Stack.Screen name="카카오 로그인" component={KaKaoLogin} 
-         options={{headerTitle: "카카오 로그인",
+          options={{headerTitle: "카카오 로그인",
           headerTitleAlign: 'center',
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
@@ -315,7 +315,15 @@ export default function App() {
             </TouchableOpacity>
           ),}} />
         <Stack.Screen name="회원가입" component={SignUp}/>
-        <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
+        <Stack.Screen name="내 카드 보내기" component={Bluetooth} 
+          options={{headerShown: true,
+          headerTitleAlign: 'center',
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <CloseIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),
+        }}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
           <Stack.Screen 
           name="상대카드 상세보기" 
