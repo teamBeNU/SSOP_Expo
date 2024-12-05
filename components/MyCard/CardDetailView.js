@@ -399,7 +399,7 @@ const CardDetailView = () => {
         try {
             const ref = viewShotRefs.current[cardIndex];
             if (ref) {
-                const uri = await ref.capture();
+                let uri = await ref.capture();
                 if (Platform.OS === 'ios' && !uri.startsWith('file://')) {
                     uri = `file://${uri}`;
                 }
