@@ -546,7 +546,7 @@ const CardDetailView = () => {
                     <Modal transparent={true} visible={deleteModalVisible} animationType="slide">
                     <View style={styles.deleteModalContainer}>
                         <View style={styles.deleteModalContent}>
-                        <Text style={styles.deleteModalTitle}>프로필을 삭제하시겠어요? {cardData[currentCardIndex].cardEssential.card_name}</Text>
+                        <Text style={styles.deleteModalTitle}>프로필을 삭제하시겠어요?</Text>
                         <View style={styles.deleteModalButtons}>
                             <TouchableOpacity style={styles.deleteModalCancelButton} onPress={() => setDeleteModalVisible(false)}>
                             <Text style={styles.deleteModalCancelText}>유지할래요</Text>
