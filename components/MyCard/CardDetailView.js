@@ -2,20 +2,21 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import axios from 'axios';
 import * as ImagePicker from 'expo-image-picker';
+import * as MediaLibrary from 'expo-media-library';
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
-import { Alert, Animated, Dimensions, Modal, ScrollView, Share, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Animated, Dimensions, Modal, Platform, ScrollView, Share, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
+import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import EditIcon from '../../assets/icons/ic_editcard.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import ShareIcon from '../../assets/icons/ic_share_gray.svg';
-import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
-import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
 import { Card } from "../../components/MyCard/Card";
-import { styles } from '../../pages/MyCard/MyCardStyle.js';
-import { deleteCard } from './DeleteCardAPI.js';
-import { theme } from '../../theme.js';
-import { textStyles } from '../../textStyles.js';
 import ExchangeModal from '../../components/Space/ExchangeModal.js';
+import { styles } from '../../pages/MyCard/MyCardStyle.js';
+import { textStyles } from '../../textStyles.js';
+import { theme } from '../../theme.js';
+import { deleteCard } from './DeleteCardAPI.js';
 
 const SCREEN_WIDTH = Dimensions.get('window').width;
 const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
@@ -366,6 +367,65 @@ const CardDetailView = () => {
         await deleteCard(cardData[currentCardIndex].cardId, navigation, '내 카드',refresh);
         setMoreMenu(false);
     };
+    
+    // 카드 이미지 저장
+    const viewShotRefs = useRef({});    // 각 Card의 ViewShot refs를 저장
+    const [permissionResponse, requestPermission2] = MediaLibrary.usePermissions();
+
+    const cardImgCapture = async (cardIndex) => {   // 카드 뷰 캡쳐
+        // 현재 권한 상태 확인
+        const { MediaPermissionStatus } = await MediaLibrary.getPermissionsAsync();
+        
+        // 권한 확인: 권한 없으면 물어보고, 승인하지 않으면 함수 종료
+        if(MediaPermissionStatus !== 'granted') {
+            const permission = await requestPermission2();   // 파일 및 미디어 액세스 권한 요청
+            if(!permission.granted) {   // 권한 거부
+                Alert.alert(
+                    "필수 권한 허용 안내", // 제목
+                    "이미지를 저장하려면 설정에서 사진 및 동영상 권한을 허용해 주세요.",   // 메시지
+                    [
+                    {
+                        text: "닫기",
+                        onPress: () => console.log("권한 취소"),
+                        style: "cancel"
+                    },
+                    { text: "설정으로 가기", onPress: () => Linking.openSettings() }  // 설정으로 이동
+                    ]
+                );
+                return null
+            }
+        }
+
+        try {
+            const ref = viewShotRefs.current[cardIndex];
+            if (ref) {
+                let uri = await ref.capture();
+                if (Platform.OS === 'ios' && !uri.startsWith('file://')) {
+                    uri = `file://${uri}`;
+                }
+
+                // 갤러리에 이미지 저장
+                const asset = await MediaLibrary.createAssetAsync(uri);
+                // 특정 앨범에 저장
+                const albumName = "ssop"; // 원하는 앨범 이름
+                let album = await MediaLibrary.getAlbumAsync(albumName);
+                
+                if (!album) {
+                    // 앨범이 없으면 새로 생성
+                    album = await MediaLibrary.createAlbumAsync(albumName, asset, false);
+                } else {
+                    // 앨범이 있으면 이미지를 추가
+                    await MediaLibrary.addAssetsToAlbumAsync([asset], album.id, false);
+                }
+            } else {
+                console.log(`${cardIndex}에 해당하는 ViewShot이 없습니다.`);
+            }
+        } catch (error) {
+            console.error("캡처 에러:", error);
+        }
+        
+        setMoreMenu(false);
+    };
 
     const [horizontalScrollEnabled, setHorizontalScrollEnabled] = useState(true);
 
@@ -376,9 +436,12 @@ const CardDetailView = () => {
                         <MoreIcon style={{ marginRight: 8 }} />
                         {moreMenu && (
                             <View style={styles.dropdownMenu}>
-                            <TouchableOpacity onPress={confirmDelete} style={styles.dropdownMenuDetail}>
-                                <Text style={styles.menuItem}>프로필 삭제하기</Text>
-                            </TouchableOpacity>
+                                <TouchableOpacity onPress={confirmDelete} style={styles.dropdownMenuDetail}>
+                                    <Text style={styles.menuItem}>프로필 삭제하기</Text>
+                                </TouchableOpacity>
+                                <TouchableOpacity onPress={() => cardImgCapture(currentCardIndex)} style={styles.dropdownMenuDetail}>
+                                    <Text style={styles.menuItem}>이미지 저장하기</Text>
+                                </TouchableOpacity>
                             </View>
                         )}
                     </TouchableOpacity>
@@ -422,10 +485,11 @@ const CardDetailView = () => {
                     return (
                         <Animated.View key={index} style={[styles.cardWrapper, { transform: [{ scale }] }]}>
                             <Card 
-                            cardData={item}
-                            onVerticalScrollStart={() => setHorizontalScrollEnabled(false)}
-                            onVerticalScrollEnd={() => setHorizontalScrollEnabled(true)}
-                             />
+                                cardData={item}
+                                onVerticalScrollStart={() => setHorizontalScrollEnabled(false)}
+                                onVerticalScrollEnd={() => setHorizontalScrollEnabled(true)}
+                                viewShotRef={(ref) => (viewShotRefs.current[index] = ref)}
+                            />
                         </Animated.View>
                     );
                 })}

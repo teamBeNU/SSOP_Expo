@@ -2,7 +2,7 @@ import FlipCard from 'react-native-flip-card';
 import { CardBack } from './CardBack';
 import { CardFront } from './CardFront';
 
-export const Card = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, isSample}) => {
+export const Card = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, isSample, viewShotRef}) => {
     return (
         <FlipCard
             friction={6}
@@ -13,13 +13,14 @@ export const Card = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, isSa
             clickable={true}
             // onFlipEnd={(isFlipped) => console.log('isFlipped', isFlipped)}
         >
-        <CardFront cardData={cardData} isSample={isSample}/>
+        <CardFront cardData={cardData} isSample={isSample} viewShotRef={viewShotRef} />
         <CardBack 
             cardData={cardData}
             onVerticalScrollStart={onVerticalScrollStart}
             onVerticalScrollEnd={onVerticalScrollEnd}
             isSample={isSample}
-            /> 
+            viewShotRef={viewShotRef} 
+        /> 
         </FlipCard>
     );
 };
