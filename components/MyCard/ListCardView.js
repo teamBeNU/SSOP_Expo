@@ -20,7 +20,7 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [isShareModalVisible, setIsShareModalVisible] = useState(false);
     const [currentCardData, setCurrentCardData] = useState(null);
-    //const [cardIndex, setCardIndex] = useState('');
+    const [cardIndex, setCardIndex] = useState(null);
 
     const handleNext = (cardId, index) => {
       navigation.navigate('카드 상세보기', { cardId, selectedOption, index });
@@ -208,11 +208,6 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
         }, [])
     );
 
-    const handleDelete = async () => {
-      setDeleteModalVisible(false);
-      await deleteCard(item.cardId, navigation, '내 카드', refreshData);
-    };
-
     return (
         <ScrollView horizontal={false} contentContainerStyle={{ width: '100%' }} showsVerticalScrollIndicator={false} showsHorizontalScrollIndicator={false}>
         <View>
@@ -324,7 +319,7 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                   >
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 공유하기'  textStyle={styles.menuText} onSelect={() => setIsShareModalVisible(true)} />
                     <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 수정하기'  textStyle={styles.menuText} onSelect={() => {setIsModalVisible(true); setCurrentCardId(item.cardId);}} />
-                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기'  textStyle={styles.menuText} onSelect={() => setDeleteModalVisible(true)} />
+                    <MenuOption style={{ paddingVertical: 14.5 }} text='프로필 삭제하기'  textStyle={styles.menuText} onSelect={() => {setDeleteModalVisible(true); setCurrentCardId(item.cardId);}} />
                   </MenuOptions>
                 </Menu>
               </View>
@@ -411,12 +406,12 @@ export const ListCardView = ({cardData, setCardData, deleteMode, selectedCards, 
                 <Modal transparent={true} visible={deleteModalVisible} animationType="slide">
                   <View style={styles.deleteModalContainer}>
                     <View style={styles.deleteModalContent}>
-                      <Text style={styles.deleteModalTitle}>프로필을 삭제하시겠어요?</Text>
+                      <Text style={styles.deleteModalTitle}>프로필을 삭제하시겠어요? </Text>
                       <View style={styles.deleteModalButtons}>
                         <TouchableOpacity style={styles.deleteModalCancelButton} onPress={() => setDeleteModalVisible(false)}>
                           <Text style={styles.deleteModalCancelText}>유지할래요</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.deleteModalDeleteButton} onPress={() => {setDeleteModalVisible(false); deleteCard(item.cardId, navigation, '내 카드', refreshData);}}>
+                        <TouchableOpacity style={styles.deleteModalDeleteButton} onPress={() => {setDeleteModalVisible(false); deleteCard(currentCardId, navigation, '내 카드', refreshData);}}>
                           <Text style={styles.deleteModalDeleteText}>삭제할래요</Text>
                         </TouchableOpacity>
                       </View>
