@@ -19,7 +19,8 @@ export const Card = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, isSa
             onVerticalScrollStart={onVerticalScrollStart}
             onVerticalScrollEnd={onVerticalScrollEnd}
             isSample={isSample}
-            /> 
+            viewShotRef={viewShotRef} 
+        /> 
         </FlipCard>
     );
 };

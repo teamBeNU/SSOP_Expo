@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import ViewShot from "react-native-view-shot";
 import { Alert, Linking, ScrollView, Text, TouchableOpacity, View, Image } from 'react-native';
 import LinkIcon from '../../assets/Card/ic_link.svg';
 import MailIcon from '../../assets/Card/ic_mail.svg';
@@ -76,7 +77,7 @@ const OpenURLButton = ({url, children}) => {
         }
     };
 
-export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, isSample }) => {
+export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, isSample, viewShotRef }) => {
     const templateLine = () => {
         return (isTemplateOptional(cardData) && (isOptional2(cardData) || isOptional3(cardData)) &&  <View style={{...styles.line, marginTop: 0}} />);
     };
@@ -340,9 +341,14 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, 
     };    
     
     return (
-      <View style={[styles.card, {borderColor: theme.gray95}]}>
-        {renderTemplateSpecificInfo()}
-      </View>
+        <ViewShot 
+            ref={viewShotRef}
+            options={{ fileName: "cardfront", format: "png", quality: 1 }}
+        >
+        <View style={[styles.card, {borderColor: theme.gray95}]}>
+            {renderTemplateSpecificInfo()}
+        </View>
+        </ViewShot>
     );
 }
 
