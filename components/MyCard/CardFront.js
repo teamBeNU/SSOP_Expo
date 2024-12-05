@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, Image } from 'react-native';
+import ViewShot from "react-native-view-shot";
 import { theme } from "../../theme";
 import { styles } from './CardStyle';
 import { CardSample_student } from './CardSample';
@@ -8,7 +9,7 @@ import { calculateAge } from '../../utils/calculateAge';
 import { getColor } from '../../utils/bgColorMapping';
 import { avatarSample } from '../../assets/Card/avatarSample.png';
 
-export const CardFront = ({ cardData, onFlip, isSample }) => {
+export const CardFront = ({ cardData, onFlip, isSample, viewShotRef }) => {
     const renderTemplateSpecificInfo = () => {
         switch (cardData.card_template) {
             case 'student': //학교 학년 + 전공
@@ -73,7 +74,13 @@ export const CardFront = ({ cardData, onFlip, isSample }) => {
     };
 
     return (
+        <ViewShot 
+            ref={viewShotRef}
+            options={{ fileName: "cardfront", format: "png", quality: 1 }}
+        >
         <View style={{...styles.card}}>
+            
+           
                 {/* {cardData.card_cover === 'avatar' ? 
                 <View style={[styles.cardImgArea, { backgroundColor: getColor(cardData.avatar.bgColor)}]}>
                         
@@ -124,6 +131,7 @@ export const CardFront = ({ cardData, onFlip, isSample }) => {
                 </Text>
             </View>
         </View>
+        </ViewShot>
         // <View style={{ ...styles.card }}>
         //     <Image
         //         source={{ uri: cardData.profile_image_url }}
