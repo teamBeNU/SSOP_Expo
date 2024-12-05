@@ -403,7 +403,6 @@ const CardDetailView = () => {
                 if (Platform.OS === 'ios' && !uri.startsWith('file://')) {
                     uri = `file://${uri}`;
                 }
-                console.log(`${cardIndex} 캡처 완료:`, uri);
 
                 // 갤러리에 이미지 저장
                 const asset = await MediaLibrary.createAssetAsync(uri);
@@ -414,11 +413,9 @@ const CardDetailView = () => {
                 if (!album) {
                     // 앨범이 없으면 새로 생성
                     album = await MediaLibrary.createAlbumAsync(albumName, asset, false);
-                    console.log(`새 앨범 "${albumName}" 생성 및 이미지 저장.`);
                 } else {
                     // 앨범이 있으면 이미지를 추가
                     await MediaLibrary.addAssetsToAlbumAsync([asset], album.id, false);
-                    console.log(`앨범 "${albumName}"에 이미지 추가.`);
                 }
             } else {
                 console.log(`${cardIndex}에 해당하는 ViewShot이 없습니다.`);
