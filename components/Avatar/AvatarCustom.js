@@ -800,7 +800,7 @@ export default function AvatarCustom({avatar: externalAvatar, setAvatar: externa
                 <ViewShot 
                     ref={viewShotRef}
                     options={{ fileName: "card", format: "png", quality: 1 }}
-                    style={{ zIndex: -1 , backgroundColor:'red', height: screenWidth*0.94}}
+                    style={{ zIndex: -1 , height: screenWidth*0.94}}
                 >
                     <View style={styles.avatarView}>
                         
