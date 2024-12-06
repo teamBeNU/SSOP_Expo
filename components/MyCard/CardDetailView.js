@@ -73,7 +73,7 @@ const CardDetailView = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isShareModalVisible, setIsShareModalVisible] = useState(false);
     const [isCoverModalVisible, setIsCoverModalVisible] = useState(false);
-
+    const [deleteModalVisible, setDeleteModalVisible] = useState(false);
     const [editAvatar, setEditAvatar] = useState([]);
 
     const [moreMenu, setMoreMenu] = useState(false);
@@ -432,7 +432,7 @@ const CardDetailView = () => {
     useLayoutEffect(() => {
             navigation.setOptions({
                 headerRight: () => (
-                    <TouchableOpacity onPress={() => moreMenu ? confirmDelete : setMoreMenu(!moreMenu)}>
+                    <TouchableOpacity onPress={() => moreMenu ? setDeleteModalVisible(true) : setMoreMenu(!moreMenu)}>
                         <MoreIcon style={{ marginRight: 8 }} />
                         {moreMenu && (
                             <View style={styles.dropdownMenu}>
@@ -605,6 +605,24 @@ const CardDetailView = () => {
                             </View>
                         </TouchableWithoutFeedback>
                     </Modal>
+
+                     {/* 삭제 확인 모달 */}
+                    <Modal transparent={true} visible={deleteModalVisible} animationType="slide">
+                    <View style={styles.deleteModalContainer}>
+                        <View style={styles.deleteModalContent}>
+                        <Text style={styles.deleteModalTitle}>프로필을 삭제하시겠어요?</Text>
+                        <View style={styles.deleteModalButtons}>
+                            <TouchableOpacity style={styles.deleteModalCancelButton} onPress={() => setDeleteModalVisible(false)}>
+                            <Text style={styles.deleteModalCancelText}>유지할래요</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={styles.deleteModalDeleteButton} onPress={() => {setDeleteModalVisible(false); deleteCard(cardData[currentCardIndex].cardId, navigation, '내 카드', fetchData);}}>
+                            <Text style={styles.deleteModalDeleteText}>삭제할래요</Text>
+                            </TouchableOpacity>
+                        </View>
+                        </View>
+                    </View>
+                    </Modal>
+
                 </View>
             </View>
 

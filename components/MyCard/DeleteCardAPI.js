@@ -34,12 +34,12 @@ export const deleteCard = async (cardId, navigation, source, refreshData) => {
         }
     } catch (error) {
         console.log('카드 삭제 중 오류 발생: ', error);
-        // Toast.show({
-        //     text1: "오류가 발생했습니다.",
-        //     type: 'fail',
-        //     position: 'bottom',
-        //     visibilityTime: 3000,
-        //     autoHide: true,
-        // });
+        Toast.show({
+            text1: "오류가 발생했습니다.",
+            type: 'fail',
+            position: 'bottom',
+            visibilityTime: 3000,
+            autoHide: true,
+        });
     }
 };
