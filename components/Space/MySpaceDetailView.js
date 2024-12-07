@@ -262,7 +262,7 @@ const MySpaceDetailView = ({
                           key={item.userId}
                           style={styles.btn1}
                           onPress={() => {
-                            navigation.navigate('팀스페이스 카드 상세보기', { memberData: item });
+                            navigation.navigate('팀스페이스 카드 상세보기', { memberData: sortedMemberData, selectedIndex: index});
                           }}
                         >
                           <ShareCard
@@ -350,7 +350,7 @@ const MySpaceDetailView = ({
                         <View key={item.userId} style={styles.ListContainer}>
                           <TouchableOpacity
                             onPress={() => {
-                              navigation.navigate('팀스페이스 카드 상세보기', { memberData: item });
+                              navigation.navigate('팀스페이스 카드 상세보기', { memberData: sortedMemberData, selectedIndex: index });
                             }}
                           >
                             <ListCardsView

@@ -25,6 +25,7 @@ const TeamspCardDetailView = () => {
 
     // console.log("TeamspCardDetailView에서 받은 cardId :", cardId);
     // console.log("TeamspCardDetailView에서 받은 memberData :", memberData);
+    // console.log("selectedIndex : ", selectedIndex)
 
     const [cardData, setCardData] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(index);
@@ -47,8 +48,7 @@ const TeamspCardDetailView = () => {
         try {
             if (!cardId || cardId.length === 0) {
                 if (memberData) {
-                    setCardData([memberData]);
-                    console.log("memberData를 cardData로 설정 : ", memberData);
+                    setCardData(memberData);
                 }
                 return; // cardId가 없거나 비어있으면 API 호출을 하지 않음
             }
@@ -74,9 +74,9 @@ const TeamspCardDetailView = () => {
     
     // index 활용해 선택한 카드 상세보기 페이지로 이동
     useEffect(() => {
-        if (cardData.length > 0 || memberData && scrollViewRef.current) {
+        if ((cardData.length > 0 || memberData) && scrollViewRef.current) {
             const initialIndex = selectedIndex !== undefined ? selectedIndex : index;
-            const data = cardData.length > 0 ? cardData : [memberData];
+            const data = cardData.length > 0 ? cardData : memberData;
             const cardIndex = initialIndex;
 
             setCurrentCardIndex(cardIndex);
@@ -219,7 +219,7 @@ const TeamspCardDetailView = () => {
                                             />
                                         ) : ( // memberData가 있는 경우
                                             <CardMember
-                                                cardData={memberData}
+                                                cardData={item}
                                                 onVerticalScrollStart={() => setHorizontalScrollEnabled(false)}
                                                 onVerticalScrollEnd={() => setHorizontalScrollEnabled(true)}
                                                 viewShotRef={(ref) => (viewShotRefs.current[index] = ref)}
