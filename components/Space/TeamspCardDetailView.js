@@ -1,9 +1,7 @@
-
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';
 import * as MediaLibrary from 'expo-media-library';
-import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { Alert, Animated, Dimensions, Platform, ScrollView, Text, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
 import { Card } from "../../components/MyCard/Card";
@@ -21,10 +19,12 @@ const TeamspCardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef(null);
     const route = useRoute();
-    const { cardId, memberData, selectedIndex, refresh, selectedOption, index } = route.params;
+    const { cardId, memberData, filteredData, memberDetail, selectedIndex, refresh, selectedOption, index } = route.params;
 
     // console.log("TeamspCardDetailView에서 받은 cardId :", cardId);
     // console.log("TeamspCardDetailView에서 받은 memberData :", memberData);
+    // console.log("TeamspCardDetailView에서 받은 memberDetail :", memberDetail);
+    // console.log("TeamspCardDetailView에서 받은 filteredData :", filteredData);
     // console.log("selectedIndex : ", selectedIndex)
 
     const [cardData, setCardData] = useState([]);
@@ -44,18 +44,15 @@ const TeamspCardDetailView = () => {
         }
     }, [cardData, currentCardIndex]);
 
-    const fetchData = async () => {
+    const fetchData = async (cardIds) => {
         try {
-            if (!cardId || cardId.length === 0) {
-                if (memberData) {
-                    setCardData(memberData);
-                }
-                return; // cardId가 없거나 비어있으면 API 호출을 하지 않음
+            if (!cardIds || cardIds.length === 0) {
+                return;
             }
-    
-            // 카드 ID 배열이 있을 경우 API 호출
+
+            // 카드 ID 배열로 API 호출
             const responses = await Promise.all(
-                cardId.map(id => axios.get(`${baseUrl}/card/view?cardId=${id}`))
+                cardIds.map(id => axios.get(`${baseUrl}/card/view?cardId=${id}`))
             );
             const fetchedData = responses.map(response => response.data);
             console.log("카드 상세보기 API 응답: ", fetchedData);
@@ -65,13 +62,49 @@ const TeamspCardDetailView = () => {
             console.error("카드 데이터를 불러오는 데 오류가 발생했습니다: ", error);
         }
     };
-    
+
+    const processData = () => {
+        // 1. cardId만 주어졌을 경우
+        if (cardId && cardId.length > 0) {
+            fetchData(cardId);
+            return;
+        }
+
+        // 2. memberData만 주어졌을 경우
+        if (memberData && !filteredData && !memberDetail) {
+            setCardData(memberData);
+            return;
+        }
+
+        // 3. filteredData와 memberDetail이 주어졌을 경우
+        if (memberDetail && filteredData) {
+            // userId가 같은 데이터만 필터링
+            const userIdFilteredArray = memberDetail.filter(member =>
+                filteredData.some(filtered => filtered.userId === member.userId)
+            );
+
+            // cardId가 같은 데이터만 필터링
+            const cardIdFilteredArray = filteredData
+                .filter(filtered => filtered.cardId != null)
+                .map(filtered => filtered.cardId);
+
+            // cardId가 주어지면 API 호출
+            if (cardIdFilteredArray.length > 0) {
+                fetchData(cardIdFilteredArray);
+            } else if (userIdFilteredArray.length > 0) {
+                setCardData(userIdFilteredArray); // userId 필터링 결과 사용
+            } else {
+                setCardData([]); // userId, cardId가 모두 없을 경우 빈 배열 반환
+            }
+        }
+    };
+
     useFocusEffect(
         useCallback(() => {
-            fetchData();
+            processData();
         }, [])
     );
-    
+
     // index 활용해 선택한 카드 상세보기 페이지로 이동
     useEffect(() => {
         if ((cardData.length > 0 || memberData) && scrollViewRef.current) {
@@ -80,7 +113,7 @@ const TeamspCardDetailView = () => {
             const cardIndex = initialIndex;
 
             setCurrentCardIndex(cardIndex);
-    
+
             setTimeout(() => {
                 scrollViewRef.current.scrollTo({
                     x: (CARD_WIDTH + SPACING) * cardIndex,
@@ -88,7 +121,7 @@ const TeamspCardDetailView = () => {
                 });
             });
         }
-    }, [cardData, memberData, selectedIndex, index])   
+    }, [cardData, memberData, selectedIndex, index])
 
     const onScrollEnd = (event) => {
         const newCardIndex = Math.round(event.nativeEvent.contentOffset.x / (CARD_WIDTH + SPACING));

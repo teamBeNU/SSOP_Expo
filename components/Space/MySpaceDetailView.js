@@ -81,12 +81,13 @@ const MySpaceDetailView = ({
 
   // 카드 상세보기
   const handleCardDetail = async (cardData, index) => {
-    console.log("클릭한 카드: ", cardData);console.log("선택된 카드 인덱스: ", index);
+    // console.log("클릭한 카드: ", cardData); 
+    // console.log("선택된 카드 인덱스: ", index);
 
     if (typeof cardData === 'number') {
       try {
         navigation.navigate('팀스페이스 카드 상세보기', { cardId: sortedMemberData, selectedIndex: index });
-        console.log("보내는 cardId : ", sortedMemberData)
+        // console.log("보내는 cardId : ", sortedMemberData)
       } catch (error) {
         console.error("팀스페이스 - 카드 상세보기 API 호출 에러: ", error.message);
       }
@@ -209,16 +210,7 @@ const MySpaceDetailView = ({
                         key={item.cardId || `fallback-${index}`}
                         style={styles.btn1}
                         onPress={() => {
-                          if (item.userId === null) {
-                            handleCardDetail(item.cardId, index); // 기존 카드 제출일 경우
-                          } else {
-                            const matchingMember = sortedMemberData.find(member => member.userId === item.userId);
-                            if (matchingMember) {
-                              navigation.navigate('팀스페이스 카드 상세보기', { memberData: item.members });
-                            } else {
-                              console.log('해당 사용자의 카드를 조회할 수 없습니다.');
-                            }
-                          }
+                          navigation.navigate('팀스페이스 카드 상세보기', { filteredData: filteredData, memberDetail: sortedMemberData, selectedIndex: index });
                         }}
                       >
                         <ShareCard
@@ -262,7 +254,7 @@ const MySpaceDetailView = ({
                           key={item.userId}
                           style={styles.btn1}
                           onPress={() => {
-                            navigation.navigate('팀스페이스 카드 상세보기', { memberData: sortedMemberData, selectedIndex: index});
+                            navigation.navigate('팀스페이스 카드 상세보기', { memberData: sortedMemberData, selectedIndex: index });
                           }}
                         >
                           <ShareCard
@@ -291,16 +283,7 @@ const MySpaceDetailView = ({
                     <View key={item.cardId || `fallback-${index}`} style={styles.ListContainer}>
                       <TouchableOpacity
                         onPress={() => {
-                          if (item.userId === null) {
-                            handleCardDetail(item.cardId, index); // 기존 카드 제출일 경우
-                          } else {
-                            const matchingMember = sortedMemberData.find(member => member.userId === item.userId);
-                            if (matchingMember) {
-                              setSelectedMemberData(matchingMember);
-                            } else {
-                              console.log('해당 사용자의 카드를 조회할 수 없습니다.');
-                            }
-                          }
+                          navigation.navigate('팀스페이스 카드 상세보기', { filteredData: filteredData, memberDetail: sortedMemberData, selectedIndex: index });
                         }}
                       >
                         <ListCardsView
@@ -377,7 +360,7 @@ const MySpaceDetailView = ({
             )}
           </View>
         </View>
-        
+
         <View style={styles.innerView} />
       </View>
     </ScrollView>
