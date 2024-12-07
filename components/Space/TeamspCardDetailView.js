@@ -22,10 +22,13 @@ const TeamspCardDetailView = () => {
     const scrollViewRef = useRef(null);
     const route = useRoute();
     const { cardId, memberData, refresh, selectedOption, index } = route.params;
-    // console.log("TeamspCardDetailView에서 받은 memberData", memberData);
+
+    // console.log("TeamspCardDetailView에서 받은 cardId :", cardId);
+    // console.log("TeamspCardDetailView에서 받은 memberData :", memberData);
 
     const [cardData, setCardData] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(index);
+    const [currentIndex, setCurrentIndex] = useState(null);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
     const [moreMenu, setMoreMenu] = useState(false);
@@ -43,101 +46,61 @@ const TeamspCardDetailView = () => {
 
     const fetchData = async () => {
         try {
-            const token = await AsyncStorage.getItem('token');
-            if (!token) {
-                Alert.alert('유효하지 않은 토큰입니다.');
-                return;
-            }
-
-            if (!cardId) {
+            if (!cardId || cardId.length === 0) {
                 if (memberData) {
                     setCardData([memberData]);
                     console.log("memberData를 cardData로 설정 : ", memberData);
                 }
-                return; // cardId가 없으면 API 호출을 하지 않음
+                return; // cardId가 없거나 비어있으면 API 호출을 하지 않음
             }
-
-            const response = await axios.get(`${baseUrl}/card/view?cardId=${cardId}`);
-            console.log("카드 상세보기 API 응답: ", response.data);
-
-            const sortData = (data) => {
-                const dataCopy = [data];  // 단일 객체를 배열로 감싸기
-                const sortedData = selectedOption === '오래된 순' ? dataCopy : dataCopy.reverse();
-                return sortedData;
-            };
     
-            const processedCardData = cardId ? sortData(response.data) : [memberData];
-            setCardData(processedCardData);
-
-            const hasMemoForCurrentCard = sortData[currentCardIndex]?.memo !== undefined
-                && sortData[currentCardIndex]?.memo !== '';
-            setHasMemo(hasMemoForCurrentCard);
-
-            // 현재 카드 인덱스 설정
-            if (cardId) {
-                const cardIndex = processedCardData.findIndex(card => card.cardId === cardId);
-                console.log("찾은 카드 인덱스 : ", cardIndex);
-                if (cardIndex !== -1) {
-                    setCurrentCardIndex(cardIndex);
-                    scrollViewRef.current.scrollTo({
-                        x: (CARD_WIDTH + SPACING) * cardIndex,
-                        animated: true,
-                    });
-                }
-            }
-
+            // 카드 ID 배열이 있을 경우 API 호출
+            const responses = await Promise.all(
+                cardId.map(id => axios.get(`${baseUrl}/card/view?cardId=${id}`))
+            );
+            const fetchedData = responses.map(response => response.data);
+            console.log("카드 상세보기 API 응답: ", fetchedData);
+            setCardData(fetchedData);
         } catch (error) {
-            console.error('TeamspCardDetailView 데이터를 찾을 수 없음 : ', error.response.data);
+            console.error("카드 데이터를 불러오는 데 오류가 발생했습니다: ", error);
         }
     };
-
+    
     useFocusEffect(
         useCallback(() => {
             fetchData();
         }, [])
     );
+    
+    useEffect(() => {
+        if (cardData.length > 0 && scrollViewRef.current) {
+            const cardIndex = cardData.findIndex(card => card.cardId === cardId);
+    
+            if (cardIndex !== -1) {
+                setTimeout(() => {
+                    scrollViewRef.current.scrollTo({
+                        x: (CARD_WIDTH + SPACING) * cardIndex,
+                        animated: true,
+                    });
+                }, 300);
+            }
+        }
+    }, [cardData, cardId]); // cardData나 cardId가 변경될 때만 실행    
 
     // useEffect(() => {
-    //     if (cardData.length > 0 && currentCardIndex !== null) {
-    //         const currentCard = cardData[currentCardIndex];
-    //         setCardCover(currentCard.card_cover)
-    //         if (currentCard.avatar) {
-    //             setEditAvatar({
-    //                 eyes: currentCard.avatar.eyes ? currentCard.avatar.eyes : null,
-    //                 eyebrows: currentCard.avatar.eyebrows ? currentCard.avatar.eyebrows : null,
-    //                 mouth: currentCard.avatar.mouth ? currentCard.avatar.mouth : null,
-    //                 mole: currentCard.avatar.mole ? currentCard.avatar.mole : null,
-    //                 hairFront: currentCard.avatar.hairFront ? currentCard.avatar.hairFront : null,
-    //                 hairBack: currentCard.avatar.hairBack ? currentCard.avatar.hairBack : null,
-    //                 hairFrontColor: currentCard.avatar.hairFrontColor ? currentCard.avatar.hairFrontColor : null,
-    //                 hairBackColor: currentCard.avatar.hairBackColor ? currentCard.avatar.hairBackColor : null,
-    //                 clothes: currentCard.avatar.clothes ? currentCard.avatar.clothes : null,
-    //                 accEar: currentCard.avatar.accEar ? currentCard.avatar.accEar : null,
-    //                 accNose: currentCard.avatar.accNose ? currentCard.avatar.accNose : null,
-    //                 accGlasses: currentCard.avatar.accGlasses ? currentCard.avatar.accGlasses : null,
-    //                 accPin: currentCard.avatar.accPin ? currentCard.avatar.accPin : null,
-    //                 accEtc: currentCard.avatar.accEtc ? currentCard.avatar.accEtc : null,
-    //                 bg: currentCard.avatar.bg ? currentCard.avatar.bg : null,
-    //                 bgColor: currentCard.avatar.bgColor ? currentCard.avatar.bgColor : null,
-    //             });
-    //         }
-    //     }
-    // }, [cardData, currentCardIndex]);
-
-    // useEffect(() => {
-    //     if (cardData.length > 0 && scrollViewRef.current) {
-    //         const cardIndex = cardData.findIndex(card => card.cardId === cardId);
-
-    //         if (cardIndex !== -1) {
+    //     // 현재 선택된 카드의 인덱스를 찾아서 해당 카드로 슬라이드
+    //     if (memberData.length > 0 && scrollViewRef.current && currentIndex !== null) {
+    //         const memberIndex = memberData.findIndex(item => item.userId === memberData[currentIndex]?.userId);
+    //         if (memberIndex !== -1) {
     //             setTimeout(() => {
     //                 scrollViewRef.current.scrollTo({
-    //                     x: (CARD_WIDTH + SPACING) * cardIndex,
+    //                     x: (CARD_WIDTH + SPACING) * memberIndex,  // 카드 너비와 간격을 고려한 위치로 스크롤
     //                     animated: true,
     //                 });
-    //             }, 300);
+    //             }, 300);  // 약간의 지연을 두고 스크롤
     //         }
     //     }
-    // }, [cardData, cardId]);
+    // }, [memberData, currentIndex]);
 
     const onScrollEnd = (event) => {
         const newCardIndex = Math.round(event.nativeEvent.contentOffset.x / (CARD_WIDTH + SPACING));
@@ -285,7 +248,12 @@ const TeamspCardDetailView = () => {
             </TouchableWithoutFeedback>
 
             <View style={{ marginTop: 24, alignItems: 'center' }}>
-                <Memo hasMemo={hasMemo} cardData={cardData} currentCardIndex={currentCardIndex} />
+                <Memo
+                    hasMemo={hasMemo}
+                    cardData={cardData}
+                    currentCardIndex={currentCardIndex}
+                    currentMemo={cardData[currentCardIndex]?.memo || ''} // 기존 메모 값 전달
+                />
             </View>
         </View>
     );

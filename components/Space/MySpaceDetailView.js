@@ -85,12 +85,8 @@ const MySpaceDetailView = ({
 
     if (typeof cardData === 'number') {
       try {
-        const response = await axios.get(`${baseUrl}/card/view?cardId=${cardData}`);
-        console.log("카드 상세보기 API 요청: ", response.data);
-        setSelectedCardData(response.data);
         navigation.navigate('팀스페이스 카드 상세보기', { cardId: sortedMemberData });
         console.log("보내는 cardId : ", sortedMemberData)
-
       } catch (error) {
         console.error("팀스페이스 - 카드 상세보기 API 호출 에러: ", error.message);
       }
