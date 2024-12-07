@@ -21,14 +21,13 @@ const TeamspCardDetailView = () => {
     const scrollX = useRef(new Animated.Value(0)).current;
     const scrollViewRef = useRef(null);
     const route = useRoute();
-    const { cardId, memberData, refresh, selectedOption, index } = route.params;
+    const { cardId, memberData, selectedIndex, refresh, selectedOption, index } = route.params;
 
     // console.log("TeamspCardDetailView에서 받은 cardId :", cardId);
     // console.log("TeamspCardDetailView에서 받은 memberData :", memberData);
 
     const [cardData, setCardData] = useState([]);
     const [currentCardIndex, setCurrentCardIndex] = useState(index);
-    const [currentIndex, setCurrentIndex] = useState(null);
     const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
     const [moreMenu, setMoreMenu] = useState(false);
@@ -61,6 +60,7 @@ const TeamspCardDetailView = () => {
             const fetchedData = responses.map(response => response.data);
             console.log("카드 상세보기 API 응답: ", fetchedData);
             setCardData(fetchedData);
+
         } catch (error) {
             console.error("카드 데이터를 불러오는 데 오류가 발생했습니다: ", error);
         }
@@ -72,35 +72,23 @@ const TeamspCardDetailView = () => {
         }, [])
     );
     
+    // index 활용해 선택한 카드 상세보기 페이지로 이동
     useEffect(() => {
-        if (cardData.length > 0 && scrollViewRef.current) {
-            const cardIndex = cardData.findIndex(card => card.cardId === cardId);
-    
-            if (cardIndex !== -1) {
-                setTimeout(() => {
-                    scrollViewRef.current.scrollTo({
-                        x: (CARD_WIDTH + SPACING) * cardIndex,
-                        animated: true,
-                    });
-                }, 300);
-            }
-        }
-    }, [cardData, cardId]); // cardData나 cardId가 변경될 때만 실행    
+        if (cardData.length > 0 || memberData && scrollViewRef.current) {
+            const initialIndex = selectedIndex !== undefined ? selectedIndex : index;
+            const data = cardData.length > 0 ? cardData : [memberData];
+            const cardIndex = initialIndex;
 
-    // useEffect(() => {
-    //     // 현재 선택된 카드의 인덱스를 찾아서 해당 카드로 슬라이드
-    //     if (memberData.length > 0 && scrollViewRef.current && currentIndex !== null) {
-    //         const memberIndex = memberData.findIndex(item => item.userId === memberData[currentIndex]?.userId);
-    //         if (memberIndex !== -1) {
-    //             setTimeout(() => {
-    //                 scrollViewRef.current.scrollTo({
-    //                     x: (CARD_WIDTH + SPACING) * memberIndex,  // 카드 너비와 간격을 고려한 위치로 스크롤
-    //                     animated: true,
-    //                 });
-    //             }, 300);  // 약간의 지연을 두고 스크롤
-    //         }
-    //     }
-    // }, [memberData, currentIndex]);
+            setCurrentCardIndex(cardIndex);
+    
+            setTimeout(() => {
+                scrollViewRef.current.scrollTo({
+                    x: (CARD_WIDTH + SPACING) * cardIndex,
+                    animated: true,
+                });
+            });
+        }
+    }, [cardData, memberData, selectedIndex, index])   
 
     const onScrollEnd = (event) => {
         const newCardIndex = Math.round(event.nativeEvent.contentOffset.x / (CARD_WIDTH + SPACING));

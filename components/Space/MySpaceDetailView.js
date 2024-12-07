@@ -80,12 +80,12 @@ const MySpaceDetailView = ({
   }, [cardData, selectedOption]);
 
   // 카드 상세보기
-  const handleCardDetail = async (cardData) => {
-    console.log("클릭한 카드: ", cardData);
+  const handleCardDetail = async (cardData, index) => {
+    console.log("클릭한 카드: ", cardData);console.log("선택된 카드 인덱스: ", index);
 
     if (typeof cardData === 'number') {
       try {
-        navigation.navigate('팀스페이스 카드 상세보기', { cardId: sortedMemberData });
+        navigation.navigate('팀스페이스 카드 상세보기', { cardId: sortedMemberData, selectedIndex: index });
         console.log("보내는 cardId : ", sortedMemberData)
       } catch (error) {
         console.error("팀스페이스 - 카드 상세보기 API 호출 에러: ", error.message);
@@ -210,11 +210,11 @@ const MySpaceDetailView = ({
                         style={styles.btn1}
                         onPress={() => {
                           if (item.userId === null) {
-                            handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                            handleCardDetail(item.cardId, index); // 기존 카드 제출일 경우
                           } else {
                             const matchingMember = sortedMemberData.find(member => member.userId === item.userId);
                             if (matchingMember) {
-                              navigation.navigate('팀스페이스 카드 상세보기', { memberData: matchingMember });
+                              navigation.navigate('팀스페이스 카드 상세보기', { memberData: item.members });
                             } else {
                               console.log('해당 사용자의 카드를 조회할 수 없습니다.');
                             }
@@ -235,12 +235,12 @@ const MySpaceDetailView = ({
                   ) : (
                     // cardIdData가 있을 경우
                     (Array.isArray(sortedCardIdData) && sortedCardIdData.length > 0) ? (
-                      sortedCardIdData.map((item) => (
+                      sortedCardIdData.map((item, index) => (
                         <TouchableOpacity
                           key={item.cardId}
                           style={styles.btn1}
                           onPress={() => {
-                            handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                            handleCardDetail(item.cardId, index); // 기존 카드 제출일 경우
                           }}
                         >
                           <ShareCard
@@ -257,7 +257,7 @@ const MySpaceDetailView = ({
                     ) : (
                       // memberData가 있을 경우
                       Array.isArray(sortedMemberData) && sortedMemberData.length > 0) ? (
-                      sortedMemberData.map((item) => (
+                      sortedMemberData.map((item, index) => (
                         <TouchableOpacity
                           key={item.userId}
                           style={styles.btn1}
@@ -292,7 +292,7 @@ const MySpaceDetailView = ({
                       <TouchableOpacity
                         onPress={() => {
                           if (item.userId === null) {
-                            handleCardDetail(item.cardId); // 기존 카드 제출일 경우
+                            handleCardDetail(item.cardId, index); // 기존 카드 제출일 경우
                           } else {
                             const matchingMember = sortedMemberData.find(member => member.userId === item.userId);
                             if (matchingMember) {
@@ -322,10 +322,10 @@ const MySpaceDetailView = ({
                 ) : (
                   // cardIdData가 있을 경우 먼저 반환
                   Array.isArray(sortedCardIdData) && sortedCardIdData.length > 0 ? (
-                    sortedCardIdData.map((item) => (
+                    sortedCardIdData.map((item, index) => (
                       <View key={item.cardId} style={styles.ListContainer}>
                         <TouchableOpacity
-                          onPress={() => handleCardDetail(item.cardId)} // 기존 카드 제출일 경우
+                          onPress={() => handleCardDetail(item.cardId, index)} // 기존 카드 제출일 경우
                         >
                           <ListCardsView
                             avatar={
@@ -346,7 +346,7 @@ const MySpaceDetailView = ({
                   ) : (
                     // memberData가 있을 경우
                     Array.isArray(sortedMemberData) && sortedMemberData.length > 0 ? (
-                      sortedMemberData.map((item) => (
+                      sortedMemberData.map((item, index) => (
                         <View key={item.userId} style={styles.ListContainer}>
                           <TouchableOpacity
                             onPress={() => {
