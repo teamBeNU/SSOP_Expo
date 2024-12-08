@@ -11,6 +11,7 @@ import { NewGroupModal } from "../../components/Space/SpaceModal.js";
 import ExchangeModal from '../../components/Space/ExchangeModal.js';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
+import Toast from 'react-native-toast-message';
 import MySpace from "./MySpace.js";
 import TeamSpace from "./TeamSpace.js";
 import PinkPoint from "../../assets/icons/ic_pink_point.svg";
@@ -160,9 +161,10 @@ function MySpaceStack({ navigation }) {
       <Stack.Navigator>
         <Stack.Screen
           name="MySpace"
-          children={() => (
+          children={({ navigation }) => (
             <MySpace
-              ref={mySpaceRef} // MySpace에 그룹 새로고침 함수 전달
+              navigation={navigation} // 명시적으로 전달
+              ref={mySpaceRef}
             />
           )}
           options={{
@@ -180,8 +182,8 @@ function MySpaceStack({ navigation }) {
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
                     <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' onSelect={handlePlusGroup} />
-                      <MenuOption text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })} />
+                      <MenuOption style={{ marginBottom: 10.5, letterSpacing: -0.32}} text='새 그룹 추가하기' onSelect={handlePlusGroup} />
+                      <MenuOption style={{ letterSpacing: -0.32}} text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })} />
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>
