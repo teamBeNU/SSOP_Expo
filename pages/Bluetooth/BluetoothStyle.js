@@ -10,7 +10,7 @@ export const styles = StyleSheet.create({
         marginTop: 30,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
-        letterSpacing: -1,
+        letterSpacing: -0.4,
     },
     name: { // 보낼 사람 선택 이름 
         marginTop: 13.5,
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
         marginLeft: 16,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
-        letterSpacing: -1,
+        letterSpacing: -0.4,
     },
     Text14: {
         marginBottom: 21,

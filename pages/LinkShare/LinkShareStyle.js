@@ -17,13 +17,13 @@ export const styles = StyleSheet.create({
         marginTop: 30,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
-        letterSpacing: -1,
+        letterSpacing: -0.44,
     },  
     Text16: { 
         marginTop: 16,
         fontFamily: "PretendardRegular",
         fontSize: 16,
-        letterSpacing: -1,
+        letterSpacing: -0.32,
     },  
     Text14: { 
         marginLeft: 8,
@@ -39,7 +39,7 @@ export const styles = StyleSheet.create({
         marginBottom: 12,
         fontFamily: "PretendardRegular",
         fontSize: 14,
-        letterSpacing: -1,
+        letterSpacing: -0.13,
     },
     DownArrowIcon: { 
         marginTop: 24,
