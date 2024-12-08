@@ -119,7 +119,7 @@ const DeleteMyCard = ({ route, navigation }) => {
             <Text style={styles.modalTitle}>프로필을 삭제하시겠어요?</Text>
             <View style={styles.modalButtons}>
               <TouchableOpacity style={styles.cancelButton} onPress={() => setModalVisible(false)}>
-                <Text style={styles.cancelText}>수정할래요</Text>
+                <Text style={styles.cancelText}>유지할래요</Text>
               </TouchableOpacity>
               <TouchableOpacity style={styles.deleteButton} onPress={confirmDelete}>
                 <Text style={styles.deleteText}>삭제할래요</Text>

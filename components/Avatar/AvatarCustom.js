@@ -220,7 +220,7 @@ export default function AvatarCustom({avatar: externalAvatar, setAvatar: externa
         let randMouth = Math.floor(Math.random( ) * mouthItems.length) + 1;
         let randMole = Math.floor(Math.random( ) * moleItems.length) + 1;
         let randHairFront = Math.floor(Math.random( ) * hairFrontItems.length) + 1;
-        let randHairBack = Math.floor(Math.random( ) * hairBackItems.length) + 1;
+        let randHairBack = Math.floor(Math.random( ) * (hairBackItems.length - 1)) + 1;
         // let randHairColor = Math.floor(Math.random( ) * hairColors.length) + 1;
         let randClothes = Math.floor(Math.random( ) * clothesItems.length) + 1;
         let randAccEar = Math.floor(Math.random( ) * accEarItems.length) + 1;
@@ -800,7 +800,7 @@ export default function AvatarCustom({avatar: externalAvatar, setAvatar: externa
                 <ViewShot 
                     ref={viewShotRef}
                     options={{ fileName: "card", format: "png", quality: 1 }}
-                    style={{ zIndex: -1 , backgroundColor:'red', height: screenWidth*0.94}}
+                    style={{ zIndex: -1 , height: screenWidth*0.94}}
                 >
                     <View style={styles.avatarView}>
                         

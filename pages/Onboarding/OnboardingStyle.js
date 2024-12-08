@@ -7,23 +7,26 @@ export const styles = StyleSheet.create({
   marginH16: {
     marginHorizontal: 16,
   },
+  flex1: {
+    flex: 1
+  },
+  flex2: {
+    flex: 1.5
+  },
 
   safeAreaView: {
     width: '100%',
     flex: 1,
+    backgroundColor: theme.white,
   },
   mainContainer: {
     flex: 1,
-    backgroundColor: theme.white,
-    // alignItems: "center",
-    // justifyContent: "center",
-    // paddingHorizontal: 16,
+    backgroundColor: theme.green,
+    alignItems: "center",
   },
   informContainer: {
-    flex: 1,
-    // backgroundColor: "green",
-    alignItems: "center",
-    justifyContent: "center",
+    width: windowWidth,
+    alignItems: 'center',
   },
   summary: {
     borderRadius: 20,
@@ -65,10 +68,11 @@ export const styles = StyleSheet.create({
   image: {
     width: '100%',
     height: windowWidth - 32,
-    paddingLeft: 30
+    paddingLeft: 30,
   },
   circleContainer: {
     flexDirection: "row",
+    justifyContent: "center",
   },
   circle: {
     width: 6,
