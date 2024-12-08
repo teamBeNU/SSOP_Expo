@@ -249,15 +249,15 @@ const AcceptCardView = ({
             </View>
           ))
         ) : (
-          <View style={styles.emptyContainer2}>
-            <Text style={styles.noCard}>공유받은 카드가 없어요.</Text>
-            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-              <View style={styles.newContainer}>
-                <Text style={styles.newCard}>카드 교환하기</Text>
-                <RightIcon />
-              </View>
-            </TouchableOpacity>
-          </View>
+            <View style={styles.emptyContainer2}>
+              <Text style={styles.noCard}>공유받은 카드가 없어요.</Text>
+              <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+                <View style={styles.newContainer}>
+                  <Text style={styles.newCard}>카드 교환하기</Text>
+                  <RightIcon style={{marginTop: 2}}/>
+                </View>
+              </TouchableOpacity>
+            </View>
         )}
         <View style={styles.innerView}></View>
       </View>
