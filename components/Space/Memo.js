@@ -74,8 +74,8 @@ export const Memo = ({ hasMemo, setHasMemo, cardData, setCardData, currentCardIn
 
     const deleteMemo = async () => {
         setIsDeleteModal(false);
-
-        navigation.navigate('팀스페이스 카드 상세보기', { cardId, refreshTrigger: Date.now() });
+        setDisplayText('');
+        setHasMemo(false);
     }
     
     const writeMemo = async (newMemo) => {
