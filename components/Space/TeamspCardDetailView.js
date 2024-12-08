@@ -271,9 +271,10 @@ const TeamspCardDetailView = () => {
             <View style={{ marginTop: 24, alignItems: 'center' }}>
                 <Memo
                     hasMemo={hasMemo}
+                    setHasMemo={setHasMemo}
                     cardData={cardData}
-                    currentCardIndex={currentCardIndex}
-                    currentMemo={cardData[currentCardIndex]?.memo || ''} // 기존 메모 값 전달
+                    setCardData={setCardData}
+                    currentCardIndex={selectedIndex}
                 />
             </View>
         </View>

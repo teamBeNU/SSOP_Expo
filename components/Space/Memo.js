@@ -1,14 +1,19 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
+import { useRoute } from '@react-navigation/native';
 import { Keyboard, Modal, Pressable, Switch, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, KeyboardAvoidingView, Platform } from 'react-native';
 import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
 import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line_small_gray.svg';
 import { styles } from '../MyCard/MemoStyle';
 
-export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
+export const Memo = ({ hasMemo, setHasMemo, cardData, setCardData, currentCardIndex }) => {
     const navigation = useNavigation();
+
+    const toggleMemo = () => {
+        setHasMemo(!hasMemo); // 부모 상태 업데이트
+    };
 
     const [isMemoHidden, setIsMemoHidden] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -18,7 +23,6 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
     const [isEdit, setIsEdit] = useState(true);
     const [textLeng, setTextLeng] = useState(0);
     const [newMemo, setNewMemo] = useState('');
-    const [isDelete, setIsDelete] = useState(false);
     const [isDeleteModal, setIsDeleteModal] = useState(false);
 
     const handleTextChange = (text, e) => {
@@ -63,65 +67,48 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
     const handleToggleExpand = () => setIsExpanded(!isExpanded);
     const handleMoreMenu = () => setMoreMenu(!moreMenu);
 
-    const handleMemoWrite = async () => {
-        setIsModalVisible(true);
-    };
-
     const handleMemoDelete = async () => {
         setIsExpanded(false);
         setIsDeleteModal(true);
     };
 
-    const deleteMemo = async (cardId) => {
+    const deleteMemo = async () => {
         setIsDeleteModal(false);
-        try {
-            const token = await AsyncStorage.getItem('token');
 
-            const response = await fetch(`http://43.202.52.64:8080/api/card/memo?cardId=${cardId}`, {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    memo: "",
-                }),
-            });
-        } catch (error) {
-            Alert.alert(error.message);
-        }
-
-        navigation.navigate('상대카드 상세보기', { cardId, refreshTrigger: Date.now() });
+        navigation.navigate('팀스페이스 카드 상세보기', { cardId, refreshTrigger: Date.now() });
     }
-
-    const writeMemo = async (cardId, newMemo) => {
+    
+    const writeMemo = async (newMemo) => {
         try {
-            const token = await AsyncStorage.getItem('token');
+            setIsModalVisible(false);
 
-            const response = await fetch(`http://43.202.52.64:8080/api/card/memo?cardId=${cardId}`, {
-                method: 'POST',
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    memo: newMemo,
-                }),
-            });
+            // 현재 카드의 memo 필드를 업데이트
+            const currentCard = cardData[currentCardIndex];
+            const updatedCardData = [...cardData];
+            updatedCardData[currentCardIndex] = {
+                ...currentCard,
+                memo: newMemo,
+            };
+    
+            setCardData(updatedCardData);
+    
+            // AsyncStorage에 메모 저장
+            const cardId = currentCard?.cardId;
+            const userId = currentCard?.userId;
+            const storageKey = cardId ? `cardIdMemo_${cardId}` : `userIdMemo_${userId}`;
+    
+            await AsyncStorage.setItem(storageKey, newMemo);
+            console.log(`메모 저장: ${storageKey} - ${newMemo}`);
         } catch (error) {
-            Alert.alert(error.message);
+            console.error("메모 저장 중 오류 발생:", error);
         }
-
-        navigation.navigate('상대카드 상세보기', { cardId, refreshTrigger: Date.now() });
-    }
+    };
 
     const toggleSwitch = async () => {
         const newHiddenState = !isMemoHidden;
         setIsMemoHidden(newHiddenState);
         await AsyncStorage.setItem('isMemoHidden', JSON.stringify(newHiddenState));
     };
-
-
 
     return (
         hasMemo ? (
@@ -173,7 +160,8 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
 
                                 <Pressable
                                     style={styles.button}
-                                    onPress={() => { writeMemo(cardData[currentCardIndex].cardId, newMemo); setIsModalVisible(!isModalVisible); }}>
+                                    onClick={toggleMemo}
+                                    onPress={() => { writeMemo(newMemo); setIsModalVisible(!isModalVisible); }}>
                                     <Text style={{ ...styles.modalFont, color: 'white', fontWeight: '500' }}>메모 완료하기</Text>
                                 </Pressable>
                             </View>
@@ -261,10 +249,7 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
                 <TouchableWithoutFeedback onPress={() => { setMoreMenu(false); }}>
                     <View>
                         <View style={styles.memoContainer}>
-                            {/* <TouchableOpacity onPress={handleMoreMenu} style={styles.touchableArea} > */}
                             <MoreIcon onPress={handleMoreMenu} style={styles.moreIcon} hitSlop={{ top: 20, bottom: 20, left: 20, right: 20 }} />
-                            {/* </TouchableOpacity> */}
-
 
                             <Text style={styles.memoText}>
                                 {displayText}
@@ -291,7 +276,7 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
             </View>
         ) : (
             <View>
-                <TouchableOpacity style={styles.container} onPress={() => { setNewMemo(''); setIsModalVisible(true); }}>
+                <TouchableOpacity style={styles.container} onPress={() => { setNewMemo(''); setTextLeng(0); setIsModalVisible(true); }}>
                     <View style={styles.btn}>
                         <WriteBtn style={styles.writeBtn} />
                         <Text style={styles.btnText}>메모 추가하기</Text>
@@ -327,14 +312,13 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
                                         onChangeText={handleTextChange}
                                         maxLength={500}
                                         value={newMemo}
-                                        //blurOnSubmit={true}
                                         placeholder="잊으면 안 되거나 특별했던 부분, 첫인상 등" />
                                     <Text style={styles.memoLeng}> {textLeng} / 500 </Text>
                                 </View>
 
                                 <Pressable
                                     style={styles.button}
-                                    onPress={() => { setIsModalVisible(!isModalVisible); writeMemo(cardData[currentCardIndex].cardId, newMemo) }}>
+                                    onPress={() => { setIsModalVisible(!isModalVisible); writeMemo(newMemo) }}>
                                     <Text style={{ ...styles.modalFont, color: 'white', fontWeight: '500' }}>메모 완료하기</Text>
                                 </Pressable>
                             </View>
