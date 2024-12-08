@@ -115,8 +115,8 @@ const AcceptCardView = ({
           </Text>
         </View>
 
-        <View>
-          <View style={styles.rowRange3}>
+        <View style={styles.rowRange3}>
+          {groupedCardData.length > 0 ? (
             <View style={styles.rightButtonGroup}>
               {/* 격자형, 리스트형 버튼 */}
               <TouchableOpacity
@@ -155,7 +155,10 @@ const AcceptCardView = ({
                 </MenuOptions>
               </Menu>
             </View>
-          </View>
+          ) : (
+            // 카드가 없을 때 빈 공간을 렌더링
+            <View style={{ height: 48 }} />
+          )}
         </View>
       </View>
 
