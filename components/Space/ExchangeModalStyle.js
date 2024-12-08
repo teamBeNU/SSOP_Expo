@@ -25,7 +25,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'PretendardRegular',
         fontSize: 16,
-        letterSpacing: -1
+        letterSpacing: -0.32
     },
     row: {
         paddingTop: 27,
@@ -60,14 +60,14 @@ export const styles = StyleSheet.create({
     Text14: {
         fontFamily: "PretendardRegular",
         fontSize: 14,
-        letterSpacing: -1,
+        letterSpacing: -0.14,
         marginTop: 6,
     },
     Text18: {
         marginTop: 14,
         fontFamily: "PretendardSemiBold",
         fontSize: 18,
-        letterSpacing: -1,
+        letterSpacing: -0.34,
     },
     btnIcon: { // 원형 아이콘
         width: 40,

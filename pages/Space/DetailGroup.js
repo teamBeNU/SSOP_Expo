@@ -238,8 +238,7 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
     };
 
   const handleNext = (cardId) => {
-    console.log('cardid: ', cardId);
-    navigation.navigate('상대카드 상세보기', { cardId });
+    navigation.navigate('상대카드 상세보기', { cardId, groupCards: cardData });
   };
 
   return (

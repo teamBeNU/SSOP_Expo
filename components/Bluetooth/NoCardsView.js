@@ -14,7 +14,7 @@ const NoCardsView = ({ navigation, title, sub, showTitle = true }) => {
         <TouchableOpacity onPress={() => navigation.navigate('카드 만들기')}>
           <View style={styles.newContainer}>
             <Text style={styles.newCard}>새 카드 만들기</Text>
-            <RightIcon />
+            <RightIcon style={{marginTop: 2}}/>
           </View>
         </TouchableOpacity>
       </View>

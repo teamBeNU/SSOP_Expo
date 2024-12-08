@@ -18,10 +18,10 @@ export const styles = StyleSheet.create({
         marginBottom: 20,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
-        letterSpacing: -1,
+        letterSpacing: -0.4,
     },
     subteamsp: {
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         textAlign: 'center',
         fontSize: 16,
         fontFamily: 'PretendardRegular',
@@ -30,19 +30,19 @@ export const styles = StyleSheet.create({
         color: theme.gray50,
         fontFamily: "PretendardRegular",
         fontSize: 13,
-        letterSpacing: -1,
+        letterSpacing: -0.13,
     },
     filterButtonText: { //최신순 정렬
         color: theme.gray30,
         fontFamily: "PretendardRegular",
         fontSize: 13,
-        letterSpacing: -1,
+        letterSpacing: -0.14,
     },
     selectFilterButtonText: { //최신순 정렬
         color: theme.white,
         fontFamily: "PretendardRegular",
         fontSize: 13,
-        letterSpacing: -1,
+        letterSpacing: -0.14,
     },
     rightButtonGroup: {
         flexDirection: 'row',
@@ -102,20 +102,20 @@ export const styles = StyleSheet.create({
         marginLeft: 16,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
-        letterSpacing: -1,
+        letterSpacing: -0.32,
     },
     Text14: {
         marginBottom: 21,
         fontFamily: "PretendardSemiBold",
         color: theme.gray50,
         fontSize: 14,
-        letterSpacing: -1,
+        letterSpacing: -0.14,
     },
     Text16: {
         marginBottom: 21,
         fontFamily: "PretendardRegular",
         fontSize: 16,
-        letterSpacing: -1,
+        letterSpacing: -0.14,
     },
     container: {
         paddingHorizontal: 16,
@@ -181,7 +181,8 @@ export const styles = StyleSheet.create({
         gap: 16,
     },
     emptyContainer2: {
-        flex: 1,
+        paddingTop: 150,
+        flex: 0.8,
         justifyContent: 'center',
         alignItems: 'center',
         gap: 16,
@@ -190,13 +191,13 @@ export const styles = StyleSheet.create({
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
-        letterSpacing: -0.2,
+        letterSpacing: -0.32,
     },
     noCardMarginTop: {
         color: theme.gray60,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
-        letterSpacing: -0.2,
+        letterSpacing: -0.32,
         marginTop: 55
     },
     newContainer: {
@@ -209,7 +210,7 @@ export const styles = StyleSheet.create({
         color: theme.skyblue,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
-        letterSpacing: -0.2,
+        letterSpacing: -0.32,
     },
 
     // 리스트형 카드 스타일
@@ -298,7 +299,6 @@ export const styles = StyleSheet.create({
         fontSize: 10,
         fontFamily: 'PretendardRegular',
         textAlign: 'center',
-        letterSpacing: -1,
     },
 
     // 마이 스페이스 상세
@@ -313,7 +313,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray95
     },
     detailtitle: {
-        letterSpacing: -1,
+        letterSpacing: -0.44,
         textAlign: 'center',
         fontSize: 22,
         fontFamily: 'PretendardSemiBold',
@@ -326,7 +326,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         alignItems: 'center',
         justifyContent: 'center',
-        letterSpacing: -1,
+        letterSpacing: -0.12,
         paddingBottom: 16,
     },
 
@@ -564,6 +564,6 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardRegular",
         color: theme.gray30,
         fontSize: 14,
-        letterSpacing: -0.5,
+        letterSpacing: -0.14,
     },
 })

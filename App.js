@@ -5,20 +5,12 @@ import { useFonts } from 'expo-font';
 import React, { useContext, useEffect, useState } from 'react';
 import { Image, Text, TextInput, TouchableOpacity, View, Alert, Linking, LogBox } from 'react-native';
 import "react-native-gesture-handler";
-import {
-  Menu,
-  MenuOption,
-  MenuOptions,
-  MenuProvider,
-  MenuTrigger,
-} from 'react-native-popup-menu';
+import { Menu, MenuOption, MenuOptions, MenuProvider, MenuTrigger } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
-import NotiIcon from './assets/AppBar/ic_noti_regular_line.svg';
 import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import HomeLogo from './assets/HomeIcon/logo_line.svg'
-import HomeIcon from './assets/icons/ic_home_regular_line.svg';
 import { AuthProvider, AuthContext } from './AuthContext';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -49,7 +41,6 @@ import UserAccount from './pages/MyPage/UserAccount';
 import UserInfo from './pages/MyPage/UserInfo';
 import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
 import UserPw from './pages/MyPage/UserPw';
-import Notify from './pages/Notify/Notify';
 import DetailGroup from './pages/Space/DetailGroup';
 import FAQ from './pages/MyPage/Service/FAQ';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
@@ -308,7 +299,7 @@ export default function App() {
         }}
          />
          <Stack.Screen name="카카오 로그인" component={KaKaoLogin} 
-         options={{headerTitle: "카카오 로그인",
+          options={{headerTitle: "카카오 로그인",
           headerTitleAlign: 'center',
           headerLeft: ({onPress}) => (
             <TouchableOpacity onPress={onPress}>
@@ -316,7 +307,15 @@ export default function App() {
             </TouchableOpacity>
           ),}} />
         <Stack.Screen name="회원가입" component={SignUp}/>
-        <Stack.Screen name="내 카드 보내기" component={Bluetooth} options={{headerShown: false}}/>
+        <Stack.Screen name="내 카드 보내기" component={Bluetooth} 
+          options={{headerShown: true,
+          headerTitleAlign: 'center',
+          headerLeft: ({onPress}) => (
+            <TouchableOpacity onPress={onPress}>
+              <CloseIcon style={{ marginLeft: 8  }}/>
+            </TouchableOpacity>
+          ),
+        }}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
         <Stack.Screen 
           name="팀스페이스 카드 상세보기" 
@@ -459,15 +458,6 @@ export default function App() {
             ),
           }}
           />
-          <Stack.Screen name="알림" component={Notify} 
-          options={{
-            headerTitleAlign: 'center',
-            headerLeft: ({onPress}) => (
-              <TouchableOpacity onPress={onPress}>
-                <CloseIcon style={{ marginLeft: 8  }}/>
-              </TouchableOpacity>
-            ),
-          }}/>
         <Stack.Screen name="MY 계정관리" component={UserAccount} 
           options={{
             headerTitle: "계정관리",
@@ -528,31 +518,7 @@ export default function App() {
               </TouchableOpacity>
             ),
           }}/>
-        <Stack.Screen name="마이 스페이스" component={MySpace}
-        options={({ navigation }) => ({
-            title: " ",
-            headerShadowVisible: false,
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.navigate('알림')}>
-                <NotiIcon style={{ marginLeft: 8 }} />
-              </TouchableOpacity>
-            ),
-            headerRight: () => (
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity onPress={() => navigation.navigate('카드 검색')}><SearchIcon /></TouchableOpacity>
-                <TouchableOpacity>
-                  <Menu>
-                    <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
-                    <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24 }}>
-                      <MenuOption style={{ marginBottom: 10.5 }} text='그룹 관리하기' />
-                      <MenuOption style={{ marginBottom: 10.5 }} text='카드 관리하기' />
-                      <MenuOption text='연락처 관리하기' />
-                    </MenuOptions>
-                  </Menu>
-                </TouchableOpacity>
-              </View>
-            ),
-          })}/>
+          <Stack.Screen name="마이 스페이스" component={MySpace}/>
           <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
           <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
@@ -563,14 +529,6 @@ export default function App() {
           <Stack.Screen name="마이스페이스 카드 검색" component={MySpSearchCard} options={{ headerShown: false }}/>
           <Stack.Screen name="팀스페이스 카드 검색" component={TeamSpSearchCard} options={{ headerShown: false }}/>
       </Stack.Navigator>
-      {/* <SpaceModal
-        isVisible={isSpaceModalVisible}
-        onClose={() => setIsSpaceModalVisible(false)}
-        title={`${cardName} 님의 카드를 받으시겠습니까?`}
-        btn1="안 받을래요"
-        btn2="네, 받을래요"
-        onConfirm={() => saveCard(cardId)} // 카드 저장 로직 연결
-      /> */}
         </NavigationContainer>
         <Toast config={customToast} />
       </MenuProvider>
@@ -627,10 +585,6 @@ function MyTabs() {
             iconSource = focused
               ? require('./assets/Navigation/ic_myCard_regular_line.png')
               : require('./assets/Navigation/ic_myCard_regular.png');
-          } else if (route.name === '알림') {
-            iconSource = focused
-              ? require('./assets/Navigation/ic_noti_regular_line.png')
-              : require('./assets/Navigation/ic_noti_regular.png');
           } else if (route.name === 'MY') {
             iconSource = focused
               ? require('./assets/Navigation/ic_profile_regular_line.png')
@@ -700,7 +654,6 @@ function MyTabs() {
             borderBottomColor: theme.gray90,
           },
           }} />
-          <Tab.Screen name="알림" component={Notify} options={{headerTitleAlign: 'center',}}/>
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지', headerTitleAlign: 'center',  }} />
       </Tab.Navigator>
     );
