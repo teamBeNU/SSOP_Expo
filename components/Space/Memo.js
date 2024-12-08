@@ -1,7 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native';
 import React, { useEffect, useState } from 'react';
-import { useRoute } from '@react-navigation/native';
 import { Keyboard, Modal, Pressable, Switch, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, KeyboardAvoidingView, Platform } from 'react-native';
 import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
 import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
@@ -9,12 +7,6 @@ import MoreIcon from '../../assets/icons/ic_more_regular_line_small_gray.svg';
 import { styles } from '../MyCard/MemoStyle';
 
 export const Memo = ({ hasMemo, setHasMemo, cardData, setCardData, currentCardIndex }) => {
-    const navigation = useNavigation();
-
-    const toggleMemo = () => {
-        setHasMemo(!hasMemo); // 부모 상태 업데이트
-    };
-
     const [isMemoHidden, setIsMemoHidden] = useState(false);
     const [isExpanded, setIsExpanded] = useState(false);
     const [displayText, setDisplayText] = useState('');
@@ -25,13 +17,16 @@ export const Memo = ({ hasMemo, setHasMemo, cardData, setCardData, currentCardIn
     const [newMemo, setNewMemo] = useState('');
     const [isDeleteModal, setIsDeleteModal] = useState(false);
 
-    const handleTextChange = (text, e) => {
+    const handleTextChange = (text) => {
         setTextLeng(text.length);
         setNewMemo(text);
     };
 
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const toggleMemo = () => {
+        setHasMemo(!hasMemo); // 부모 상태 업데이트
+    };
 
+    const [isModalVisible, setIsModalVisible] = useState(false);
     const maxLength = 45;
 
     useEffect(() => {
@@ -63,7 +58,6 @@ export const Memo = ({ hasMemo, setHasMemo, cardData, setCardData, currentCardIn
         }
     }, [cardData[currentCardIndex]?.memo, isExpanded, hasMemo, isMemoHidden]);
 
-
     const handleToggleExpand = () => setIsExpanded(!isExpanded);
     const handleMoreMenu = () => setMoreMenu(!moreMenu);
 
@@ -77,7 +71,7 @@ export const Memo = ({ hasMemo, setHasMemo, cardData, setCardData, currentCardIn
         setDisplayText('');
         setHasMemo(false);
     }
-    
+
     const writeMemo = async (newMemo) => {
         try {
             setIsModalVisible(false);
@@ -89,16 +83,16 @@ export const Memo = ({ hasMemo, setHasMemo, cardData, setCardData, currentCardIn
                 ...currentCard,
                 memo: newMemo,
             };
-    
+
             setCardData(updatedCardData);
-    
+
             // AsyncStorage에 메모 저장
             const cardId = currentCard?.cardId;
             const userId = currentCard?.userId;
             const storageKey = cardId ? `cardIdMemo_${cardId}` : `userIdMemo_${userId}`;
-    
+
             await AsyncStorage.setItem(storageKey, newMemo);
-            console.log(`메모 저장: ${storageKey} - ${newMemo}`);
+            // console.log(`메모 저장: ${storageKey} - ${newMemo}`);
         } catch (error) {
             console.error("메모 저장 중 오류 발생:", error);
         }
