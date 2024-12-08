@@ -66,6 +66,7 @@ import MySpSearchCard from './pages/SearchCard/MySpSearchCard';
 import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
 
 import { theme } from './theme';
+import TeamspCardDetailView from './components/Space/TeamspCardDetailView';
 
 const linking = {
   prefixes: ['https://ssopbenu.app.link', 'ssop://'],
@@ -316,6 +317,19 @@ export default function App() {
           ),
         }}/>
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
+        <Stack.Screen 
+          name="팀스페이스 카드 상세보기" 
+          component={TeamspCardDetailView}
+          options={{
+            headerTitle: "",
+            headerTitleAlign: 'center',
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+          />
           <Stack.Screen 
           name="상대카드 상세보기" 
           component={CheckCardDetail}
