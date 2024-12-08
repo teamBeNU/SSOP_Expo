@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -88,6 +88,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
 // MySpace 스택 네비게이션
 function MySpaceStack({ navigation }) {
+  const mySpaceRef = useRef(null);
+  
   const [teamData, setTeamData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
@@ -121,7 +123,7 @@ function MySpaceStack({ navigation }) {
         console.error('토큰이 없습니다.');
         return;
       }
-
+  
       const response = await fetch('http://43.202.52.64:8080/api/mysp/create', {
         method: 'POST',
         headers: {
@@ -132,29 +134,37 @@ function MySpaceStack({ navigation }) {
           group_name: groupName,
         }),
       });
-
+  
       const result = await response.json();
       if (response.ok) {
-        // 그룹 추가 성공 시
         console.log('새 그룹 생성:', result);
-        // 그룹 목록 새로 고침을 위해 추가적인 작업 필요
-        fetchGroups();  // MySpace에서 그룹 목록을 다시 불러옴
+
+        // MySpace의 fetchGroups 호출
+        if (mySpaceRef.current) {
+          mySpaceRef.current.fetchGroups();
+        }
+  
         showCustomToast('새 그룹이 성공적으로 추가되었습니다.');
-        setIsGroupNameChangeModalVisible(false);  // 모달 닫기
+        setIsGroupNameChangeModalVisible(false); // 모달 닫기
       } else {
-        //console.error('그룹 추가에 실패했습니다:', result.message);
+        console.error('그룹 추가에 실패했습니다:', result.message);
       }
     } catch (error) {
-      //console.error('그룹 추가 중 오류가 발생했습니다:', error);
+      console.error('그룹 추가 중 오류가 발생했습니다:', error);
     }
   };
+  
 
   return (
     <>
       <Stack.Navigator>
         <Stack.Screen
           name="MySpace"
-          component={MySpace}
+          children={() => (
+            <MySpace
+              ref={mySpaceRef} // MySpace에 그룹 새로고침 함수 전달
+            />
+          )}
           options={{
             title: " ",
             headerShadowVisible: false,
