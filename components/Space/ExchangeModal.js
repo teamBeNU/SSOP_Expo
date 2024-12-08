@@ -37,7 +37,7 @@ const ExchangeModal = ({
     >
       <TouchableWithoutFeedback onPress={onClose}>
         <View style={styles.modalContainer}>
-          <TouchableWithoutFeedback>
+          <TouchableWithoutFeedback >
             <View style={[styles.modalView, { height: modalViewHeight }]}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
                 <Text style={[styles.modalText, { flex: 1, textAlign: 'center' }]}>{title}</Text>
@@ -46,14 +46,14 @@ const ExchangeModal = ({
                 </TouchableOpacity>
               </View>
               <View style={styles.row}>
-                <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: currentHeight }]} onPress={onOption1Press}>
+                <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: currentHeight }]} onPress={onOption1Press}>
                     <View style={styles.btnIcon}>
                         <Option1Icon/>
                     </View>
                   <Text style={styles.Text18}>{option1Text}</Text>
                   <Text style={styles.Text14}>{option1SubText}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btn2, { width: cardWidth, height: currentHeight }]} onPress={onOption2Press}>
+                <TouchableOpacity activeOpacity={0.9} style={[styles.btn2, { width: cardWidth, height: currentHeight }]} onPress={onOption2Press}>
                     <View style={styles.btnIcon}>
                         <Option2Icon/>
                     </View>
