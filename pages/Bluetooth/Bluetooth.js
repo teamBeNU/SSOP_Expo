@@ -3,7 +3,7 @@ import { useRoute } from '@react-navigation/native';
 import axios from "axios";
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import React, { useEffect, useState } from "react";
-import { Modal, Text, TouchableWithoutFeedback, View } from "react-native";
+import { Text, View, TouchableOpacity } from "react-native";
 import * as Progress from 'react-native-progress';
 import QRCode from 'react-native-qrcode-svg';
 import Toast from 'react-native-toast-message';
@@ -11,6 +11,9 @@ import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import { theme } from "../../theme";
 import { styles } from './BluetoothStyle';
+import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
+import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 
 function Bluetooth({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api';
@@ -31,6 +34,42 @@ function Bluetooth({ navigation }) {
       setStep(route.params.step);
     }
   }, [route.params?.step]);
+
+  let progressValue = 0;
+  if (step === 1) {
+    progressValue = 0.5;
+  } else if (step === 2 || step === 3) {
+    progressValue = 1;
+  }
+
+  // 상단바 타이틀 변경, 버튼 변경
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => (
+        <TouchableOpacity onPress={() => {
+          navigation.goBack();
+        }}>
+          <CloseIcon style={{ marginLeft: 8 }} />
+        </TouchableOpacity>
+      ),
+      headerRight: () => (
+        <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+          <HomeIcon style={{ marginRight: 20 }} />
+        </TouchableOpacity>
+      ),
+    });
+    if (step === 2) {
+      navigation.setOptions({
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {
+            setStep(step - 1);
+          }}>
+            <LeftArrowIcon style={{ marginLeft: 8 }} />
+          </TouchableOpacity>
+        )
+      });
+    }
+  }, [step]);
 
   // 카메라 권한 요청
   useEffect(() => {
@@ -86,18 +125,14 @@ function Bluetooth({ navigation }) {
     });
   };
 
-  const title = 'QR로 공유할 프로필을 선택하세요.';
-  const sub = '공유할 수 있는 카드가 없어요.';
-
   // QR 모달 열기
   const handleNext = (cardId) => {
+    setStep(2);
     setSelectedCardId(cardId); // QR 코드에 사용할 cardId 저장
-    setModalVisible(true);
   };
 
   // QR 모달 닫기
   const closeModal = () => {
-    setModalVisible(false);
     setSelectedCardId(null); // 선택된 cardId 초기화
   };
 
@@ -135,7 +170,7 @@ function Bluetooth({ navigation }) {
   return (
     <View style={{ flex: 1 }}>
       <Progress.Bar
-        progress={0.5}
+        progress={progressValue}
         width={null}
         height={2}
         color={theme.green}
@@ -154,27 +189,48 @@ function Bluetooth({ navigation }) {
               setViewOption={setViewOption}
               handleNext={handleNext}
               cardData={cardData}
-              title={title}
+              title={'QR로 공유할 프로필을 선택하세요.'}
               showNewCardButton={true}
               showPlusCard={true}
             />
           ) : (
             <NoCardsView
               navigation={navigation}
-              title={title}
-              sub={sub}
+              title={'QR로 공유할 프로필을 선택하세요.'}
+              sub={'공유할 수 있는 카드가 없어요.'}
             />
           )}
         </View>
       )}
 
-      {/* QR 코드 인식 */}
       {step === 2 && (
+        <View style={[styles.shareContainer, { paddingHorizontal: 16 }]}>
+          <Text style={styles.title}>QR코드를 공유 상대에게 보여주세요.</Text>
+
+          <View style={styles.modalContent}>
+
+            {selectedCardId && (
+              <View style={styles.qrContainer}>
+                <QRCode
+                  value={`${selectedCardId}`} // QR 데이터
+                  size={200}
+                />
+              </View>
+            )}
+
+          </View>
+
+        </View>
+      )}
+
+      {/* QR 코드 인식 */}
+      {step === 3 && (
         <View style={styles.shareContainer}>
+          <Text style={[styles.title, { paddingHorizontal: 16 }]}>상대방의 QR을 스캔하세요.</Text>
           {/* 카메라 화면 */}
           <BarCodeScanner
             onBarCodeScanned={handleBarCodeScanned}
-            style={{ flex: 1 }}
+            style={{ flex: 1, marginTop: -45 }}
           />
           {scanned && (
             <View style={styles.btnNext}>
@@ -183,33 +239,6 @@ function Bluetooth({ navigation }) {
           )}
         </View>
       )}
-
-      {/* 생성된 QR 코드 모달 */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isModalVisible}
-        onRequestClose={closeModal}
-      >
-        <TouchableWithoutFeedback onPress={closeModal}>
-          <View style={styles.modalOverlay}>
-            <View style={styles.modalContent}>
-              <View style={styles.modalView}>
-                <Text style={styles.modalText}>QR코드를 스캔하세요.</Text>
-                {selectedCardId && (
-                  <View style={styles.qrContainer}>
-                    <QRCode
-                      value={`${selectedCardId}`} // QR 데이터
-                      size={250}
-                    />
-                  </View>
-                )}
-              </View>
-
-            </View>
-          </View>
-        </TouchableWithoutFeedback>
-      </Modal>
     </View >
   );
 }
