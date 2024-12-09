@@ -1,18 +1,17 @@
-import { Dimensions, View, Text, TouchableOpacity, TextInput, TouchableWithoutFeedback, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Alert } from "react-native"
-import { styles } from "./EditCardStyle"
-import React, { useState, useRef, useEffect } from 'react'
-import { theme } from "../../theme"
-import * as Progress from 'react-native-progress'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import axios from 'axios'
+import React, { useEffect, useRef, useState } from 'react'
+import { Alert, Keyboard, KeyboardAvoidingView, Platform, ScrollView, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native"
 import RNPickerSelect from 'react-native-picker-select'
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
-import DropDownOption from '../../components/CreateCard/DropDownOption.js';
-import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg'
-import RightArrowIcon from '../../assets/icons/ic_RightArrow_small_line.svg'
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg'
 import DoneIcon from '../../assets/icons/ic_done_small_line.svg'
 import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
+import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg'
+import RightArrowIcon from '../../assets/icons/ic_RightArrow_small_line.svg'
+import DropDownOption from '../../components/CreateCard/DropDownOption.js'
+import { theme } from "../../theme"
+import { styles } from "./EditCardStyle"
 
 function EditCard() {
     const route = useRoute();
@@ -64,6 +63,14 @@ function EditCard() {
     const [isNameValid, setIsNameValid] = useState(true);
     const [isIntroduceValid, setIsIntroduceValid] = useState(true);
     const [isBirthValid, setIsBirthValid] = useState(true);
+    const [isSchoolValid, setIsSchoolValid] = useState(true);
+    const [ismajorValid, setIsmajorValid] = useState(true);
+    const [isGradeValid, setIsGradeValid] = useState(true);
+    const [isCompanyValid, setIsCompanyValid] = useState(true);
+    const [isJobValid, setIsJobValid] = useState(true);
+    const [isGenreValid, setIsGenreValid] = useState(true);
+    const [isFirstValid, setIsFirstValid] = useState(true);
+
 
     const validateName = () => {
         const valid = name.trim().length > 0;
@@ -78,21 +85,69 @@ function EditCard() {
     };
 
     const validateBirth = () => {
-        if (!birth || birth.length !== 10) {
+        if (!birth) {
+            setIsBirthValid(true); // No input is valid
+            return true;
+        }
+    
+        if (birth.length !== 10) {
             setIsBirthValid(false);
             return false;
-    }
+        }
+    
+        const [year, month, day] = birth.split('/').map(Number);
+        const date = new Date(year, month - 1, day);
+        const isValidDate =
+            date.getFullYear() === year &&
+            date.getMonth() === month - 1 &&
+            date.getDate() === day;
+    
+        setIsBirthValid(isValidDate);
+        return isValidDate;
+    };
 
-    const [year, month, day] = birth.split('/').map(Number);
-    const date = new Date(year, month - 1, day);
-    const isValidDate =
-        date.getFullYear() === year &&
-        date.getMonth() === month - 1 &&
-        date.getDate() === day;
+    const validateSchool = () => {
+        const valid = school.trim().length > 0;
+        setIsSchoolValid(valid);
+        return valid;
+    };
 
-    setIsBirthValid(isValidDate);
-    return isValidDate;
-};
+    const validateMajor = () => {
+        const valid = major.trim().length > 0;
+        setIsmajorValid(valid);
+        return valid;
+    };
+
+    const validateGrade = () => {
+        const valid = grade.trim().length > 0;
+        setIsGradeValid(valid);
+        return valid;
+    };
+
+    const validateCompany = () => {
+        const valid = company.trim().length > 0;
+        setIsCompanyValid(valid);
+        return valid;
+    };
+
+    const validateJob = () => {
+        const valid = job.trim().length > 0;
+        setIsJobValid(valid);
+        return valid;
+    };
+
+    const validateGenre = () => {
+        const valid = genre.trim().length > 0;
+        setIsGenreValid(valid);
+        return valid;
+    };
+
+    const validateFirst = () => {
+        const valid = first.trim().length > 0;
+        setIsFirstValid(valid);
+        return valid;
+    };
+    
     // 드롭다운
     const [dropDownMbti1Open, setDropDownMbti1Open] = useState(false);
     const [dropDownMbti2Open, setDropDownMbti2Open] = useState(false);
@@ -125,13 +180,27 @@ function EditCard() {
 
     // 카드 수정
     const handleSubmit = async () => {
-        const isNameChecked = validateName();
-        const isIntroduceChecked = validateIntroduce();
-        const isBirthChecked = validateBirth();
+        const validate = () => {
+            if (step === 1) {
+                return validateName() && validateIntroduce() && validateBirth();
+            }
+            if (step === 3) {
+                return validateSchool() && validateGrade() && validateMajor();
+            }
+            if (step === 4) {
+                return validateSchool() && validateGrade();
+            }
+            if (step === 5) {
+                return validateCompany() && validateJob();
+            }
+            if (step === 6) {
+                return validateGenre() && validateFirst();
+            }
+            return true;
+        };
     
-        // 유효성 검사 통과하지 못하면 API 요청 중단
-        if (!isNameChecked || !isIntroduceChecked || !isBirthChecked) {
-            return;
+        if (!validate()) {
+            return; 
         }
     
         const editCardData = {
@@ -150,7 +219,52 @@ function EditCard() {
             card_address: address,
         };
     
-        // 이하는 기존 코드 유지
+        if (step > 2) {
+            const templateData = {
+                student: {
+                    card_student_school: school,
+                    card_student_grade: grade,
+                    card_student_major: major,
+                    card_student_id: id,
+                    card_student_club: club,
+                    card_student_role: role,
+                    card_student_status: studentStatus,
+                },
+                worker: {
+                    card_worker_company: company,
+                    card_worker_job: job,
+                    card_worker_position: position,
+                    card_worker_department: department,
+                },
+                fan: {
+                    card_fan_genre: genre,
+                    card_fan_first: first,
+                    card_fan_second: second,
+                    card_fan_reason: reason,
+                },
+            };
+    
+            switch (card.card_template) {
+                case 'studentUniv':
+                case 'studentSchool':
+                    editCardData.student = templateData.student;
+                    break;
+                case 'worker':
+                    editCardData.worker = templateData.worker;
+                    break;
+                case 'fan':
+                    editCardData.fan = templateData.fan;
+                    break;
+                case 'free':
+                    editCardData.student = templateData.student;
+                    editCardData.worker = templateData.worker;
+                    editCardData.fan = templateData.fan;
+                    break;
+                default:
+                    break;
+            }
+        }
+    
         const token = await AsyncStorage.getItem('token');
     
         const formData = new FormData();
@@ -183,7 +297,6 @@ function EditCard() {
             );
         }
     };
-    
 
     const handleTemplateStep = () => {
         switch(card.card_template) {
@@ -292,7 +405,7 @@ function EditCard() {
 
                 <Text style={styles.title}>나에 대한 기본 정보 수정하기</Text>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>이름*</Text>
                 <TextInput 
                     value={name}
@@ -309,7 +422,7 @@ function EditCard() {
                 )}
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>한줄소개*</Text>
                 <TextInput 
                     value={introduce}
@@ -326,7 +439,7 @@ function EditCard() {
                 )}
                 </View>
 
-                <View style={[styles.inputContainer, {marginBottom: 28}]}>
+                <View style={[styles.inputContainer, {marginBottom: 40}]}>
                     <Text style={styles.subTitle}>MBTI</Text>
                     <View style={[styles.dropDownContainerZIndex1, styles.flexDirectionRow]}>
                         <DropDownOption
@@ -409,7 +522,7 @@ function EditCard() {
                     <Text style={styles.title}>내 연락처와 SNS 계정 수정하기</Text>
                     
                     <View style={{marginBottom: 120}}>
-                    <View style={{...styles.inputContainer, marginBottom: 28}}>
+                    <View style={{...styles.inputContainer, marginBottom: 40}}>
                     <Text style={styles.subTitle}>전화번호</Text>
                     <TextInput 
                         style={styles.input}
@@ -422,7 +535,7 @@ function EditCard() {
                         />
                     </View>
 
-                    <View style={{...styles.inputContainer, marginBottom: 28}}>
+                    <View style={{...styles.inputContainer, marginBottom: 40}}>
                     <Text style={styles.subTitle}>이메일</Text>
                     <TextInput 
                         style={styles.input}
@@ -436,7 +549,7 @@ function EditCard() {
 
                     <View style={[styles.line, {marginBottom: 40}]} />
 
-                    <View style={{...styles.inputContainer, marginBottom: 28}}>
+                    <View style={{...styles.inputContainer, marginBottom: 40}}>
                     <Text style={styles.subTitle}>Instagram</Text>
                     <TextInput 
                         style={styles.input}
@@ -447,7 +560,7 @@ function EditCard() {
                         />
                     </View>
 
-                    <View style={{...styles.inputContainer, marginBottom: 28}}>
+                    <View style={{...styles.inputContainer, marginBottom: 40}}>
                     <Text style={styles.subTitle}>X(트위터)</Text>
                     <TextInput 
                         style={styles.input}
@@ -479,28 +592,38 @@ function EditCard() {
                 <Text style={styles.title}>학교 속 나에 대한 정보 수정하기</Text>
 
                 <ScrollView>
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학교*</Text>
                 <TextInput 
-                    style={school ? styles.input : styles.warningInput}
+                    style={isSchoolValid ? styles.input : styles.warningInput}
                     value={school}
-                    onChangeText={setSchool}
+                    onChangeText={text => {
+                        setSchool(text);
+                        setIsSchoolValid(true);
+                    }} 
                     placeholder= {school ? school : "학교명을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
-                {school ? null : <Text style={styles.warningText}>학교명을 입력해 주세요.</Text>}
+                {!isSchoolValid && (
+                    <Text style={styles.warningText}>학교명을 입력해 주세요.</Text>
+                )}
                 </View>
                
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>전공*</Text>
                 <TextInput 
-                    style={major ? styles.input : styles.warningInput}
+                    style={ismajorValid ? styles.input : styles.warningInput}
                     value={major}
-                    onChangeText={setMajor}
+                    onChangeText={text => {
+                        setMajor(text);
+                        setIsmajorValid(true);
+                    }}
                     placeholder={major ? major : "전공을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
-                {major ? null : <Text style={styles.warningText}>전공을 입력해 주세요.</Text>}
+                {!ismajorValid && (
+                    <Text style={styles.warningText}>저공을 입력해 주세요.</Text>
+                )}
                 </View>
 
                 <View style={{...styles.inputContainer, marginBottom: 40}}>
@@ -532,7 +655,7 @@ function EditCard() {
 
                 <View style={styles.line} />
 
-                <View style={{...styles.inputContainer, marginBottom: 28, marginTop: 40}}>
+                <View style={{...styles.inputContainer, marginBottom: 40, marginTop: 40}}>
                 <Text style={styles.subTitle}>학생번호</Text>
                 <TextInput 
                     style={styles.input}
@@ -543,7 +666,7 @@ function EditCard() {
                     />
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>역할</Text>
                 <TextInput 
                     style={styles.input}
@@ -554,7 +677,7 @@ function EditCard() {
                     />
                 </View>    
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>동아리</Text>
                 <TextInput 
                     style={styles.input}
@@ -565,7 +688,7 @@ function EditCard() {
                     />
                 </View>   
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>재학상태</Text>
                 <View style={styles.dropDown}>
                 <RNPickerSelect
@@ -610,19 +733,24 @@ function EditCard() {
                 <Text style={styles.title}>학교 속 나에 대한 정보 수정하기</Text>
 
                 <ScrollView>
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학교*</Text>
                 <TextInput 
-                    style={school ? styles.input : styles.warningInput}
+                    style={isSchoolValid ? styles.input : styles.warningInput}
                     value={school}
-                    onChangeText={setSchool}
+                    onChangeText={text => {
+                        setSchool(text);
+                        setIsSchoolValid(true);
+                    }} 
                     placeholder= {school ? school : "학교명을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
-                {school ? null : <Text style={styles.warningText}>학교명을 입력해 주세요.</Text>}
+                {!isSchoolValid && (
+                    <Text style={styles.warningText}>학교명을 입력해 주세요.</Text>
+                )}
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학년*</Text>
                 <View style={styles.dropDown}>
                 <RNPickerSelect
@@ -650,7 +778,7 @@ function EditCard() {
 
                 <View style={styles.line} />
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학생번호</Text>
                 <TextInput 
                     style={styles.input}
@@ -661,7 +789,7 @@ function EditCard() {
                     />
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>역할</Text>
                 <TextInput 
                     style={styles.input}
@@ -672,7 +800,7 @@ function EditCard() {
                     />
                 </View>    
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>동아리</Text>
                 <TextInput 
                     style={styles.input}
@@ -683,7 +811,7 @@ function EditCard() {
                     />
                 </View>   
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>전공</Text>
                 <TextInput 
                     style={styles.input}
@@ -715,33 +843,43 @@ function EditCard() {
                 <Text style={styles.title}>직장 속 나에 대한 정보 수정하기</Text>
 
                 <ScrollView>
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>회사*</Text>
                 <TextInput 
-                    style={company ? styles.input : styles.warningInput}
+                    style={isCompanyValid ? styles.input : styles.warningInput}
                     value={company}
-                    onChangeText={setCompany}
+                    onChangeText={text => {
+                        setCompany(text);
+                        setIsCompanyValid(true);
+                    }}
                     placeholder= {company ? company : "회사명을 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
-                {company ? null : <Text style={styles.warningText}>회사명을 입력해 주세요.</Text>}
+                {!isCompanyValid && (
+                    <Text style={styles.warningText}>회사명을 입력해 주세요.</Text>
+                )}
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>직무*</Text>
                 <TextInput 
-                    style={job ? styles.input : styles.warningInput}
+                    style={isJobValid ? styles.input : styles.warningInput}
                     value={job}
-                    onChangeText={setJob}
+                    onChangeText={text => {
+                        setJob(text);
+                        setIsJobValid(true);
+                    }}
                     placeholder= {job ? job : "직무를 입력해 주세요."}
                     placeholderTextColor={theme.gray60}
                     />
-                {job ? null : <Text style={styles.warningText}>직무를 입력해 주세요.</Text>}
+                {!isJobValid && (
+                    <Text style={styles.warningText}>직무를 입력해 주세요.</Text>
+                )}
                 </View>
 
-                <View style={styles.line} />
+                <View style={[styles.line, {marginBottom: 40}]} />
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>직위</Text>
                 <TextInput 
                     style={styles.input}
@@ -752,7 +890,7 @@ function EditCard() {
                     />
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>부서</Text>
                 <TextInput 
                     style={styles.input}
@@ -783,33 +921,43 @@ function EditCard() {
                 <Text style={styles.title}>팬으로서의 나에 대한 정보 수정하기</Text>
 
                 <ScrollView>
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>덕질 장르*</Text>
                 <TextInput 
-                    style={genre ? styles.input : styles.warningInput}
+                    style={isGenreValid ? styles.input : styles.warningInput}
                     value={genre}
-                    onChangeText={setGenre}
+                    onChangeText={text => {
+                        setGenre(text);
+                        setIsGenreValid(true);
+                    }}
                     placeholder= {genre ? genre : "덕질 장르를 입력해 주세요. 예)아이돌, 야구 등"}
                     placeholderTextColor={theme.gray60}
                     />
-                {genre ? null : <Text style={styles.warningText}>덕질 장르를 입력해 주세요.</Text>}
+                {!isGenreValid && (
+                    <Text style={styles.warningText}>덕질 장르를 입력해 주세요.</Text>
+                )}
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>최애*</Text>
                 <TextInput 
-                    style={first ? styles.input : styles.warningInput}
+                    style={isFirstValid ? styles.input : styles.warningInput}
                     value={first}
-                    onChangeText={setFirst}
+                    onChangeText={text => {
+                        setFirst(text);
+                        setIsFirstValid(true);
+                    }}
                     placeholder= {first ? first : "최애를 입력해 주세요. 예)차은우, 뉴진스 하니"}
                     placeholderTextColor={theme.gray60}
                     />
-                {first ? null : <Text style={styles.warningText}>직무를 입력해 주세요.</Text>}
+                {!isFirstValid && (
+                    <Text style={styles.warningText}>최애를 입력해 주세요.</Text>
+                )}
                 </View>
 
                 <View style={styles.line} />
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>차애</Text>
                 <TextInput 
                     style={styles.input}
@@ -820,7 +968,7 @@ function EditCard() {
                     />
                 </View>
 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>입덕 계기</Text>
                 <TextInput 
                     style={styles.input}
@@ -852,7 +1000,7 @@ function EditCard() {
 
                 <ScrollView>
                 {card.student?.card_student_school && (  
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학교</Text>
                 <TextInput 
                     style={styles.input}
@@ -864,7 +1012,7 @@ function EditCard() {
                 </View> 
                 )}
                 {card.student?.card_student_grade && (  
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학년</Text>
                 <View style={styles.dropDown}>
                 <RNPickerSelect
@@ -893,7 +1041,7 @@ function EditCard() {
                 </View>
                 )}
                 {card.student?.card_student_school && (  
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>전공</Text>
                 <TextInput 
                     style={styles.input}
@@ -905,7 +1053,7 @@ function EditCard() {
                 </View>                 
                 )}
                 {card.student?.card_student_id && (  
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학생번호</Text>
                 <TextInput 
                     style={styles.input}
@@ -917,7 +1065,7 @@ function EditCard() {
                 </View>
                 )}
                 {card.student?.card_student_role && (  
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>역할</Text>
                 <TextInput 
                     style={styles.input}
@@ -929,7 +1077,7 @@ function EditCard() {
                 </View>    
                 )}
                 {card.student?.card_student_club && (  
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>동아리</Text>
                 <TextInput 
                     style={styles.input}
@@ -941,7 +1089,7 @@ function EditCard() {
                 </View>   
                 )}
                 {card.student?.card_student_grade && (  
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>재학상태</Text>
                 <View style={styles.dropDown}>
                 <RNPickerSelect
@@ -967,7 +1115,7 @@ function EditCard() {
                 )}
                 
                 {card.worker?.card_worker_company && (
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>회사</Text>
                 <TextInput 
                     style={styles.input }
@@ -979,7 +1127,7 @@ function EditCard() {
                 </View>
                 )}
                 {card.worker?.card_worker_job && (
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>직무</Text>
                 <TextInput 
                     style={styles.input}
@@ -991,7 +1139,7 @@ function EditCard() {
                 </View>
                 )}
                 {card.worker?.card_worker_position && (
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>직위</Text>
                 <TextInput 
                     style={styles.input}
@@ -1003,7 +1151,7 @@ function EditCard() {
                 </View>
                 )}
                 {card.worker?.card_worker_department && (
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>부서</Text>
                 <TextInput 
                     style={styles.input}
@@ -1016,7 +1164,7 @@ function EditCard() {
                 )}
                 
                 {card.fan?.card_fan_genre && (
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>덕질 장르</Text>
                 <TextInput 
                     style={styles.input}
@@ -1028,7 +1176,7 @@ function EditCard() {
                 </View>
                 )}
                 {card.fan?.card_fan_first && (
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>최애</Text>
                 <TextInput 
                     style={styles.input}
@@ -1040,7 +1188,7 @@ function EditCard() {
                 </View>
                 )}
                 {card.fan?.card_fan_first && (
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>차애</Text>
                 <TextInput 
                     style={styles.input}
@@ -1052,7 +1200,7 @@ function EditCard() {
                 </View>
                 )}
                 {card.fan?.card_fan_first && (
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>입덕 계기</Text>
                 <TextInput 
                     style={styles.input}
@@ -1083,7 +1231,7 @@ function EditCard() {
                 <Text style={styles.title}>추가 정보를 수정하기</Text>
 
                 <ScrollView>
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>취미</Text>
                 <TextInput 
                     style={styles.input}
@@ -1093,7 +1241,7 @@ function EditCard() {
                     placeholderTextColor={theme.gray60}
                     />
                 </View> 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>인생 음악</Text>
                 <TextInput 
                     style={styles.input}
@@ -1103,7 +1251,7 @@ function EditCard() {
                     placeholderTextColor={theme.gray60}
                     />
                 </View> 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>인생 영화</Text>
                 <TextInput 
                     style={styles.input}
@@ -1113,7 +1261,7 @@ function EditCard() {
                     placeholderTextColor={theme.gray60}
                     />
                 </View> 
-                <View style={{...styles.inputContainer, marginBottom: 28}}>
+                <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>거주지</Text>
                 <TextInput 
                     style={styles.input}
