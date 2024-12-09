@@ -13,6 +13,8 @@ import Toast from "react-native-toast-message";
 import CustomModal from "../../components/CreateCard/Modal/CustomModal.js";
 
 import CardSample from '../../assets/teamSp/bg_gradation.svg';
+import ShareIcon from '../../assets/icons/ic_share_white.svg';
+import DoneEndCard from '../../assets/teamSp/graphic_invite.svg';
 import EnterEndCard from '../../assets/Login/graphic_done.svg';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
@@ -433,21 +435,36 @@ function EnterTeamSp({ navigation, route }) {
           {/* 팀스페이스 입장 완료 */}
           {step === 3 && (
             <View style={styles.stepContainer}>
-              <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
+              <Text style={styles.font22}> 
+                {isHost
+                  ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해보세요.`
+                  : `팀스페이스 입장이 완료되었어요!\n다른 구성원을 확인해 보세요.`
+                }
+              </Text>
 
-              <View style={{ alignItems: 'center', marginTop: 135 }}>
-                <EnterEndCard width="300" height='300'/>
+              <View style={{ alignItems: 'center', marginTop: 100 }}>
+                {isHost
+                  ? <DoneEndCard width="300" height='300'/>
+                  : <EnterEndCard width="300" height='300'/>
+                }
               </View>
 
               <View style={styles.flexSpacer} />
-
-              <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('스페이스')}>
-                  <Text style={styles.btnText}> 팀스페이스 확인 </Text>
+              <View style={[styles.btnContainer3, { marginBottom: 8,  marginHorizontal: 0 }]}>
+                <TouchableOpacity
+                  style={[styles.btnCheckCard, { marginBottom: 8 }]}
+                  onPress={() => navigation.navigate('스페이스')}
+                >
+                  <Text style={styles.btnCheckText}>팀스페이스 확인</Text>
                 </TouchableOpacity>
-                {/* <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
-                  <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
-                </TouchableOpacity> */}
+                {isHost && 
+                  <TouchableOpacity
+                    style={[styles.btnShareCard, { marginBottom: 0 }]}
+                  >
+                    <ShareIcon />
+                    <Text style={styles.btnText}>초대코드 및 링크 공유하기</Text>
+                  </TouchableOpacity>
+                }
               </View>
             </View>
           )}

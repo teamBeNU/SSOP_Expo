@@ -246,22 +246,6 @@ export const styles = StyleSheet.create({
         marginHorizontal: 16,
     },
     btnContainer3: {
-        // position: 'absolute',
-        // bottom: 16,  // contair의 height: '100%',
-        // //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
-        // width: '100%',
-        // height: 48,
-        // justifyContent: "center",
-        // alignItems: "center",
-        
-        // paddingVertical: 8,
-        // paddingHorizontal: 16,
-        // backgroundColor: theme.gray10,
-        // borderRadius: 8,
-        // borderWidth: 1,
-        // borderStyle: "solid",
-        // marginHorizontal: 16,
-        
         position: 'absolute',
         bottom: 16,
         width: '100%',

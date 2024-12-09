@@ -47,6 +47,13 @@ export const styles = StyleSheet.create({
         marginLeft: 8,
         color: theme.gray10
     },
+    gray60text : {
+        fontSize: 16,
+        fontFamily: 'Pretendard',
+        marginTop: 14,
+        letterSpacing: -0.32,
+        color: theme.gray30
+    },
     nameContainer: {
         marginTop: 32,
         display: 'inline-flex',
