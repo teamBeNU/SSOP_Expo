@@ -17,6 +17,7 @@ import CheckIcon from '../../assets/Login/ic_done_small_line.svg';
 import BlueCheckIcon from '../../assets/Login/ic_done_small_line_blue.svg';
 import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 import SignUpDone from '../../assets/Login/graphic_done.svg';
+import { textStyles } from "../../textStyles.js";
 
 const { width:WIDTH } = Dimensions.get('window');
 
@@ -117,7 +118,7 @@ function SignUp() {
           if(email !== '')
           setStep(2);
         } else if (step === 2 ) {
-          if(password !== '')
+          if(password !== '' && hasEnglish && hasNum && hasLeng) 
           setStep(3);
         } else if (step === 3 ) {
           const isNameFull = name !== '';
@@ -228,6 +229,10 @@ function SignUp() {
           headerLeft: handleHeaderLeft,
           headerTitle: handleHeaderTitle,
           headerTitleAlign: 'center',
+          headerTitleStyle: {
+            ...textStyles.body16m,
+            color: theme.gray10
+          },
         });
       }, [navigation, step]);
 
@@ -318,6 +323,7 @@ function SignUp() {
                     <TextInput
                     style={styles.input} 
                     placeholder="이메일 주소를 입력하세요."
+                    placeholderTextColor={theme.gray60}
                     keyboardType= "email-address"
                     value={email}
                     onChangeText={setEmail}
@@ -451,12 +457,15 @@ function SignUp() {
               <View style={styles.inputContainer}>
               <Text style={[styles.inputTitle, {color: theme.gray30, fontWeight: '600 '}]}>연락처*</Text>
                   <TextInput
-                  style={styles.input} 
+                  style={phoneNumber ? styles.input : styles.warningInput} 
                   placeholder="연락처를 입력하세요."
                   keyboardType= "number-pad"
                   value={phoneNumber}
                   onChangeText={setPhoneNumber}
                   />
+                  {!phoneNumber && (
+                    <Text style={styles.warningText}>연락처를 입력해 주세요.</Text>
+                    )}
               </View>
               <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
                   <Text style={styles.nextText}>다음으로</Text>

@@ -52,25 +52,6 @@ function MyCard() {
         } else if (result.action === Share.dismissedAction) {
             // dismissed
         }
-
-        // const link = await createLink();
-
-        // if (link) {
-        // const result = await Share.share({
-        //     title: `SSOP`, // android 단독
-        //     message: `SSOP: Share SOcial Profile card`,
-        // });
-
-        // if (result.action === Share.sharedAction) {
-        //     if (result.activityType) {
-        //     // shared with activity type of result.activityType
-        //     } else {
-        //     // shared
-        //     }
-        // } else if (result.action === Share.dismissedAction) {
-        //     // dismissed
-        // }
-        // }
     };
 
     const fetchData = async () => {

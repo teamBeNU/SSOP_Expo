@@ -44,7 +44,7 @@ export const styles = StyleSheet.create({
     flex: 0,
     width: '100%',
     position: 'absolute',
-    bottom: 20
+    bottom: 16
     },
     email: {
     height: 48,
