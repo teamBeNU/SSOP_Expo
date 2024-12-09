@@ -662,7 +662,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 showsVerticalScrollIndicator={false}
                             >
                                 <Text style={styles.title}>학교 속 나에 대해 알려주세요.</Text>
-                                <Text style={styles.subTitle}>날 소개하기 위한 필수 정보들이에요.</Text>
+                                <Text style={styles.subTitle}>카드 앞면에 표시돼요.</Text>
                                 <View style={styles.informContainer}>
                                     <View style={[styles.inputContainer, !isFull.school && {marginBottom: 15}]}>
                                         <Text style={styles.inputTextEssential}>학교*</Text>
@@ -725,7 +725,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 showsVerticalScrollIndicator={false}
                             >
                                 <Text style={styles.title}>더 자세히 알려주실래요?</Text>
-                                <Text style={styles.subTitle}>정보를 자유롭게 추가하세요.</Text>
+                                <Text style={styles.subTitle}>카드 뒷면에 표시돼요.</Text>
                                 <View style={styles.informContainer}>
                                     <View style={styles.inputContainer}>
                                         <Text style={styles.inputText}>학생번호</Text>
@@ -811,7 +811,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                 contentContainerStyle={{ flexGrow: 1 }}
                                 showsVerticalScrollIndicator={false}
                             >
-                                <Text style={styles.title}>나에 대해 더 많이 알려주고 싶다면</Text>
+                                <Text style={styles.title}>나의 다른 부분을 더 많이 알려주고 싶다면</Text>
                                 <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
                                 <View style={styles.informContainer}>
                                     <View style={styles.inputContainer}>

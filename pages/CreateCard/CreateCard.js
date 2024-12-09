@@ -95,8 +95,8 @@ function CreateCard({navigation}) {
             {step === 0 && (
                 <View style={styles.mainContainer}>
                     <View>
-                        <Text style={styles.title}>당신의 정체성을 가장 잘 표현하는{"\n"}유형을 선택해 주세요.</Text>
-                        <Text style={styles.subTitle}>정체성에 따라 작성할 수 있는 정보가 달라요.</Text>
+                        <Text style={styles.title}>내 정체성을 가장 잘 표현하는{"\n"}템플릿을 선택하세요.</Text>
+                        <Text style={styles.subTitle}>유형에 따라 작성할 수 있는 정보가 달라요.</Text>
                     </View>
                     <View style={styles.templates}>
                         <View style={styles.row}>

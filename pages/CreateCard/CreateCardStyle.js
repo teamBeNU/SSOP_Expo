@@ -23,10 +23,11 @@ export const styles = StyleSheet.create({
         // marginTop: "15%",
         textAlign: "center",
         letterSpacing: -0.44,
+        lineHeight: 29.7,
     },
     subTitle: {
         color: theme.gray50,
-        fontFamily: 'Pretendard',
+        fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontStyle: "normal",
         fontWeight: "400",
@@ -93,7 +94,7 @@ export const styles = StyleSheet.create({
     describe: {
         color: theme.gray30,
         fontFamily: "PretendardRegular",
-        fontSize: 12,
+        fontSize: 13,
         fontStyle: "normal",
         fontWeight: "400",
         textAlign: "center",
