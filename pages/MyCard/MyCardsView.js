@@ -46,22 +46,28 @@ const CardsView = ({ cardData, setCardData, refreshData, returnViewOption, viewO
             {viewOption === '리스트형' ? <GridIcon /> : <ListIcon />}
           </TouchableOpacity>
 
-          <View style={styles.optionToggleContainer}>
-            <Text style={styles.range}>{selectedOption}</Text>
-            <Menu>
-              <MenuTrigger><DownArrowIcon /></MenuTrigger>
-              <MenuOptions
-                optionsContainerStyle={{
-                  width: 'auto',
-                  paddingVertical: 16,
-                  paddingHorizontal: 24,
-                  borderRadius: 16,
-                }}>
-                <MenuOption style={{ marginBottom: 10.5 }} onSelect={() => setSelectedOption('최신순')} text='최신순' />
-                <MenuOption onSelect={() => setSelectedOption('오래된 순')} text='오래된 순' />
-              </MenuOptions>
-            </Menu>
-          </View>
+        <View style={styles.optionToggleContainer}>
+          <Menu>
+            <MenuTrigger>
+              <View style={styles.triggerArea}>
+                <Text style={styles.range}>{selectedOption}</Text>
+                <DownArrowIcon />
+              </View>
+            </MenuTrigger>
+            <MenuOptions
+              optionsContainerStyle={{
+                width: 'auto',
+                paddingVertical: 16,
+                paddingHorizontal: 24,
+                borderRadius: 16,
+                marginTop: 21,
+                marginLeft: 10
+              }}>
+              <MenuOption style={{ marginBottom: 10.5 }} onSelect={() => setSelectedOption('최신순')} text='최신순' />
+              <MenuOption onSelect={() => setSelectedOption('오래된 순')} text='오래된 순' />
+            </MenuOptions>
+          </Menu>
+        </View>
         </View>
       </View>
 
