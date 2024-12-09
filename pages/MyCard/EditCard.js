@@ -9,6 +9,7 @@ import DoneIcon from '../../assets/icons/ic_done_small_line.svg'
 import DownIcon from '../../assets/icons/ic_DownArrow_small_line.svg'
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg'
 import RightArrowIcon from '../../assets/icons/ic_RightArrow_small_line.svg'
+import DropDown from '../../components/CreateCard/DropDown.js'
 import DropDownOption from '../../components/CreateCard/DropDownOption.js'
 import { theme } from "../../theme"
 import { styles } from "./EditCardStyle"
@@ -71,22 +72,25 @@ function EditCard() {
     const [isGenreValid, setIsGenreValid] = useState(true);
     const [isFirstValid, setIsFirstValid] = useState(true);
 
-
-    const validateName = () => {
-        const valid = name.trim().length > 0;
-        setIsNameValid(valid);
+    const validateField = (value, setValidity) => {
+        const valid = value.trim().length > 0;
+        setValidity(valid);
         return valid;
     };
-
-    const validateIntroduce = () => {
-        const valid = introduce.trim().length > 0;
-        setIsIntroduceValid(valid);
-        return valid;
-    };
+    
+    const validateName = () => validateField(name, setIsNameValid);
+    const validateIntroduce = () => validateField(introduce, setIsIntroduceValid);
+    const validateSchool = () => validateField(school, setIsSchoolValid);
+    const validateMajor = () => validateField(major, setIsmajorValid);
+    const validateGrade = () => validateField(grade, setIsGradeValid);
+    const validateCompany = () => validateField(company, setIsCompanyValid);
+    const validateJob = () => validateField(job, setIsJobValid);
+    const validateGenre = () => validateField(genre, setIsGenreValid);
+    const validateFirst = () => validateField(first, setIsFirstValid);
 
     const validateBirth = () => {
         if (!birth) {
-            setIsBirthValid(true); // No input is valid
+            setIsBirthValid(true); // 생일이 없으면 유효한 것으로 간주
             return true;
         }
     
@@ -104,48 +108,6 @@ function EditCard() {
     
         setIsBirthValid(isValidDate);
         return isValidDate;
-    };
-
-    const validateSchool = () => {
-        const valid = school.trim().length > 0;
-        setIsSchoolValid(valid);
-        return valid;
-    };
-
-    const validateMajor = () => {
-        const valid = major.trim().length > 0;
-        setIsmajorValid(valid);
-        return valid;
-    };
-
-    const validateGrade = () => {
-        const valid = grade.trim().length > 0;
-        setIsGradeValid(valid);
-        return valid;
-    };
-
-    const validateCompany = () => {
-        const valid = company.trim().length > 0;
-        setIsCompanyValid(valid);
-        return valid;
-    };
-
-    const validateJob = () => {
-        const valid = job.trim().length > 0;
-        setIsJobValid(valid);
-        return valid;
-    };
-
-    const validateGenre = () => {
-        const valid = genre.trim().length > 0;
-        setIsGenreValid(valid);
-        return valid;
-    };
-
-    const validateFirst = () => {
-        const valid = first.trim().length > 0;
-        setIsFirstValid(valid);
-        return valid;
     };
     
     // 드롭다운
@@ -622,7 +584,7 @@ function EditCard() {
                     placeholderTextColor={theme.gray60}
                     />
                 {!ismajorValid && (
-                    <Text style={styles.warningText}>저공을 입력해 주세요.</Text>
+                    <Text style={styles.warningText}>전공을 입력해 주세요.</Text>
                 )}
                 </View>
 
