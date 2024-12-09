@@ -98,7 +98,7 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                         setIsAvatar(true);
                         // handleNext(); 
                     }}
-                    style={[styles.coverImg,{marginLeft: (SCREEN_WIDTH - imageWidth)/1.5, marginRight:16}]}
+                    style={[styles.coverImg,{marginLeft: (SCREEN_WIDTH - imageWidth)/2, marginRight:16}]}
                 >
                     <Image 
                         source={require("../../assets/images/cardCover-1.png")}
@@ -124,7 +124,7 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                         setCardCover("picture");
                         handleImagePicker();
                     }}
-                    style={[styles.coverImg,{marginRight: (SCREEN_WIDTH - imageWidth)/1.5}]}
+                    style={[styles.coverImg,{marginRight: (SCREEN_WIDTH - imageWidth)/2}]}
                 >
                     <Image 
                         source={require("../../assets/images/cardCover-2.png")}

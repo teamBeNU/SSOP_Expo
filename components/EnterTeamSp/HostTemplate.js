@@ -1106,7 +1106,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 카드 커버 선택 */}
           {step === 6 && (
-            <View style={{ height: '100%', backgroundColor: theme.white, marginHorizontal: -16 }}>
+            <View style={{ height: '100%', backgroundColor: theme.white}}>
               <SelectCover
                 step={step}
                 setStep={setStep}
