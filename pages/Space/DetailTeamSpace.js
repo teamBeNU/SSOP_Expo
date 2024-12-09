@@ -99,30 +99,24 @@ export default function DetailTeamSpace() {
                           <TouchableOpacity onPress={handleDeleteButton}>
                             <Text style={{ marginBottom: 10.5 }}>팀스페이스 삭제하기</Text>
                           </TouchableOpacity>
-                          <SpaceModal
+                        </>
+                      )}
+                      {!isHost &&
+                        <TouchableOpacity onPress={handleDeleteButton}>
+                          <Text style={{ marginTop: 8, marginBottom: 8 }}>팀스페이스 나가기</Text>
+                        </TouchableOpacity>
+                      }
+                      <SpaceModal
                             isVisible={isDeleteModalVisible}
                             onClose={() => setIsDeleteModalVisible(false)}
                             title={'현재 팀스페이스를 나가시겠습니까?'}
-                            sub={
-                              <View>
-                                <Text style={{ textAlign: 'center' }}>
-                                  호스트가 나가면{'\n'}팀스페이스가 삭제됩니다.
-                                </Text>
-                              </View>
-                            }
+                            sub={ isHost
+                              ? `호스트가 나가면\n팀스페이스가 삭제됩니다.`
+                              : `모든 정보가 삭제되며 되돌릴 수 없습니다.`}
                             btn1={'취소할래요'}
                             btn2={'네, 나갈래요'}
                             onConfirm={handleDeleteSpace}
                           />
-                        </>
-                      )}
-                      {!isHost &&
-                        <TouchableOpacity onPress={() => {
-                          handleDeleteSpace();
-                        }}>
-                          <Text style={{ marginTop: 8, marginBottom: 8 }}>팀스페이스 나가기</Text>
-                        </TouchableOpacity>
-                      }
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>

@@ -214,7 +214,7 @@ function TeamSpace({ navigation }) {
     data.length > 0 ? (
       <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
         <View style={styles.container2}>
-          <View style={{ flexDirection: 'row', alignItems:'center', gap: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
             <TeamSp />
             <Text style={styles.Text26}>팀스페이스</Text>
           </View>
@@ -258,12 +258,12 @@ function TeamSpace({ navigation }) {
           onClose={() => setIsSpaceModalVisible(false)}
           title={'현재 팀스페이스를 나가시겠습니까?'}
           sub={groupToDelete && data.find(group => group.teamId === groupToDelete)?.hostId === userId ? (
-            <Text style={{ textAlign: 'center' }}>
-              호스트가 나가면{'\n'}팀스페이스가 삭제됩니다
-            </Text>
-          ) : null}
+            `호스트가 나가면\n팀스페이스가 삭제됩니다.`
+          ) : '모든 정보가 삭제되며 되돌릴 수 없습니다.'}
           btn1={'취소할래요'}
-          btn2={'네, 삭제할래요'}
+          btn2={groupToDelete && data.find(group => group.teamId === groupToDelete)?.hostId === userId ? (
+            `네, 나갈래요`
+          ) : '네, 삭제할래요'}
           onConfirm={handleConfirmDelete}
         />
 
