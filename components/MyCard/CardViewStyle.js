@@ -257,15 +257,13 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray95,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        shadowColor: "rgba(0, 0, 0, 0.03)",
-        shadowOffset: {
-            width: 0,
-            height: 2
-        },
-        shadowOpacity: 1,
-        shadowRadius: 2,
-        elevation: 10,
         position: 'relative',
+        // 그림자
+        shadowColor: 'rgba(73, 81, 100, 0.09)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.09,
+        shadowRadius: 16, 
+        elevation: 5,
     },
     cardImgAreaWrapper: {
         position: 'relative', 
@@ -288,11 +286,14 @@ export const styles = StyleSheet.create({
         paddingVertical: 16,
         position: 'absolute',
         bottom: 0,
-        justifyContent: 'center'
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     Info: {
         flexDirection: "row",
-        alignItems: 'flex-end',
+        alignItems: 'center',
+        justifyContent: 'flex-start',
+        width: '100%'
     },
     name: {
         color: theme.gray10,
@@ -301,17 +302,20 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         letterSpacing: -0.32,
         marginRight: 4,
+        lineHeight: 19
     },
     age: {
         gap: 2,
         flexDirection: "row",
         fontFamily: 'PretendardRegular',
         fontSize: 14,
+        lineHeight: 19,
     },
     ageText: {
         color: theme.gray60,
         ...textStyles.body14,
         marginRight: 4,
+        lineHeight: 19
     },
 
     //삭제모드
