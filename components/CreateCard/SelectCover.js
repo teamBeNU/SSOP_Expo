@@ -82,48 +82,66 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
         <View style={{height: '100%', backgroundColor: theme.white}}>
             <Text style={styles.coverTitle}>카드 커버를 선택하세요.</Text>
             <Text style={styles.coverSubTitle}>카드 앞면에 커버가 보여요.</Text>
-            <View>
-                <ScrollView
-                    pagingEnabled
-                    horizontal
-                    decelerationRate={0}
-                    snapToInterval={SCREEN_WIDTH}
-                    snapToAlignment={"center"}
-                    showsHorizontalScrollIndicator={false}
-                    contentContainerStyle={styles.coverScrollView}
-                    onScroll={handleScroll}
+            <ScrollView
+                pagingEnabled
+                horizontal
+                decelerationRate={0}
+                snapToInterval={SCREEN_WIDTH}
+                snapToAlignment={"center"}
+                showsHorizontalScrollIndicator={false}
+                onScroll={handleScroll}
+                contentContainerStyle={{ flexGrow: 1 }}
+            >
+                <TouchableOpacity  
+                    onPress={() => {
+                        setCardCover("avatar");
+                        setIsAvatar(true);
+                        // handleNext(); 
+                    }}
+                    style={[styles.coverImg,{marginLeft: (SCREEN_WIDTH - imageWidth)/1.5, marginRight:16}]}
                 >
-                    <TouchableOpacity  
-                        onPress={() => {
-                            setCardCover("avatar");
-                            setIsAvatar(true);
-                            // handleNext(); 
+                    <Image 
+                        source={require("../../assets/images/cardCover-1.png")}
+                        style={{width: '100%', height: '100%', borderRadius: 10}}
+                        resizeMode="cover"
+                        onLayout={(event) => {
+                            const { width } = event.nativeEvent.layout;
+                            setImageWidth(width);
                         }}
-                    >
-                        <Image 
-                            source={require("../../assets/images/cardCover-1.png")}
-                            style={[styles.coverImg, {marginLeft: (SCREEN_WIDTH - imageWidth)/2, marginRight:16}]}
-                            resizeMode="contain"
-                            onLayout={(event) => {
-                                const { width } = event.nativeEvent.layout;
-                                setImageWidth(width);
-                            }}
-                        />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                        onPress={() => {
-                            setCardCover("picture");
-                            handleImagePicker();
-                        }}  
-                    >
-                        <Image 
-                            source={require("../../assets/images/cardCover-2.png")}
-                            style={[styles.coverImg, {marginRight: (SCREEN_WIDTH - imageWidth)/2}]}
-                            resizeMode="contain"
-                        />
-                    </TouchableOpacity>
-                </ScrollView>
-            </View>
+                    />
+                    {/* <Image 
+                        source={require("../../assets/images/cardCover-1.png")}
+                        style={[styles.coverImg, {marginLeft: (SCREEN_WIDTH - imageWidth)/1.5, marginRight:16}]}
+                        resizeMode="contain"
+                        onLayout={(event) => {
+                            const { width } = event.nativeEvent.layout;
+                            setImageWidth(width);
+                        }}
+                    /> */}
+                </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        setCardCover("picture");
+                        handleImagePicker();
+                    }}
+                    style={[styles.coverImg,{marginRight: (SCREEN_WIDTH - imageWidth)/1.5}]}
+                >
+                    <Image 
+                        source={require("../../assets/images/cardCover-2.png")}
+                        style={{width: '100%', height: '100%', borderRadius: 10}}
+                        resizeMode="cover"
+                        onLayout={(event) => {
+                            const { width } = event.nativeEvent.layout;
+                            setImageWidth(width);
+                        }}
+                    />
+                    {/* <Image 
+                        source={require("../../assets/images/cardCover-2.png")}
+                        style={[styles.coverImg, {marginRight: (SCREEN_WIDTH - imageWidth)/1.5}]}
+                        resizeMode="contain"
+                    /> */}
+                </TouchableOpacity>
+            </ScrollView>
             <View style={styles.circles}>
                 <View 
                     style={[
@@ -138,6 +156,7 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                     ]}
                 ></View>
             </View>
+            <View style={{flex:20}}></View>
         </View> 
     );
 }

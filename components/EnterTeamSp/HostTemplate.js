@@ -12,6 +12,7 @@ import { theme } from "../../theme";
 import CustomModal from "../CreateCard/Modal/CustomModal";
 import DropDown from "./DropDown";
 
+import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
 import ShareIcon from '../../assets/icons/ic_share_white.svg';
 import DoneEndCard from '../../assets/teamSp/graphic_invite.svg';
 import EnterEndCard from '../../assets/Login/graphic_done.svg';
@@ -43,6 +44,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   const [card_name, setName] = useState('');
   const [card_introduction, setIntroduction] = useState('');
   const [card_birth, setBirth] = useState('');
+  const [card_bSecret, setCardBSecret] = useState(true);
   const [card_MBTI, setMBTI] = useState('');
   const [card_tel, setTel] = useState('');
   const [card_email, setEmail] = useState('');
@@ -208,6 +210,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
       },
       memberOptional: {
         card_birth: card_birth,
+        card_bSecret: card_bSecret,
         card_MBTI: card_MBTI,
         card_tel: card_tel,
         card_email: card_email,
@@ -634,13 +637,17 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
     }
   }, [isAvatarComplete, isPictureComplete, profile_image_url]);
 
-  // progressBar
-  const maxSteps = 9;
-  const initialProgress = 0.4285;
-
+  // 생년월일 비밀
+  const handleBSecret = () => {
+    if(card_birth != null && card_birth !== '') {
+      setCardBSecret(!card_bSecret);
+    }
+  }
   useEffect(() => {
-    console.log('ㅇㅇㅇㅇㅇㅇㅇ: ' , isHost)
-  }, [isHost])
+    if(card_birth == null || card_birth === '') {
+    setCardBSecret(false);
+    }
+  }, [card_birth])
 
   return (
     // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -734,8 +741,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
                 <View style={styles.line} />
 
-                <Text style={styles.midtitle}>나이를 표시하고 싶다면{'\n'}생년월일을 입력하세요. </Text>
-
+                {showBirth ? <View style={{marginBottom: -40}}></View> :
+                  <Text style={styles.midtitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
+                }
                 {/* 생년월일 */}
                 <View style={styles.nameContainer}>
                   {showBirth ?
@@ -780,6 +788,16 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     ) : (
                       <View></View>
                     )
+                  )}
+
+                  {!showBirth && (
+                    <TouchableOpacity 
+                      style={styles.birthSecret} 
+                      onPress={handleBSecret}
+                    >
+                      <DoneIcon style={[styles.doneIcon, {color: card_bSecret ? theme.skyblue : theme.gray60}]} />
+                      <Text style={card_bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 나이 계산에만 사용하고 공개 안 할래요</Text>
+                    </TouchableOpacity>
                   )}
                   
                 </View>
@@ -1116,15 +1134,17 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                   >
                     <CoverAvatar width="264" height="320" />
                   </View> */}
-                  <Image 
-                      source={require("../../assets/images/cardCover-1.png")}
-                      style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}
-                      resizeMode="cover"
-                      onLayout={(event) => {
-                          const { width } = event.nativeEvent.layout;
-                          setImageWidth(width);
-                      }}
-                  />
+                  <View style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}>
+                    <Image 
+                        source={require("../../assets/images/cardCover-1.png")}
+                        style={{width: '100%', height: '100%', borderRadius: 10}}
+                        resizeMode="cover"
+                        onLayout={(event) => {
+                            const { width } = event.nativeEvent.layout;
+                            setImageWidth(width);
+                        }}
+                    />
+                  </View>
                 {/* </View> */}
                 </>
               )}
@@ -1140,15 +1160,17 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     }}
                   > */}
                     {/* <CoverPicture width={264} height="320" /> */}
-                    <Image 
-                            source={require("../../assets/images/cardCover-2.png")}
-                            style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}
-                            resizeMode="cover"
-                            onLayout={(event) => {
-                                const { width } = event.nativeEvent.layout;
-                                setImageWidth(width);
-                            }}
-                        />
+                    <View style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}>
+                      <Image 
+                          source={require("../../assets/images/cardCover-2.png")}
+                          style={{width: '100%', height: '100%', borderRadius: 10}}
+                          resizeMode="cover"
+                          onLayout={(event) => {
+                              const { width } = event.nativeEvent.layout;
+                              setImageWidth(width);
+                          }}
+                      />
+                    </View>
                   {/* </View> */}
                 </>
 

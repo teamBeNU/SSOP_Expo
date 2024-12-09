@@ -77,6 +77,27 @@ export const styles = StyleSheet.create({
         lineHeight: 24,
         letterSpacing: -0.32
     },
+    doneIcon: {
+        marginRight: 4,
+    },
+    birthSecret: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    birthSecretOn: {
+        color: theme.gray10,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
+    },
+    birthSecretOff: {        
+        color: theme.gray40,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
+    },
     nameContainer: {
         marginTop: 32,
         display: 'inline-flex',
@@ -585,21 +606,21 @@ export const styles = StyleSheet.create({
         height: 320,
         justifyContent: 'center',
         alignItems: 'center',
-        // // Android - Shadow
-        // elevation: 3,
-        // // IOS - Shadow
-        // shadowColor: 'rgba(73, 81, 100)',
-        // shadowOffset: {
-        //     width: 4,
-        //     height: 4,
-        // },
-        // shadowOpacity: 0.09,
-        // shadowRadius: 16,
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
 
         // // 그림자가 안보여서 임시 border
         // borderWidth: 1,
         // borderColor: theme.gray90,
-        // borderRadius: 10
+        borderRadius: 10
     },
     circles: {
         flexDirection: "row",
