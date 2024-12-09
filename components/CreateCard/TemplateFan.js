@@ -399,7 +399,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
                     </TouchableOpacity>
                 ),
             });
-        } else if ( step === 8) {
+        } else if (step === 8) {
             navigation.setOptions({
                 headerTitle: '카드 만들기',
                 headerTitleAlign: 'center',
@@ -653,7 +653,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
                                         <Text style={styles.inputTextEssential}>덕질 장르*</Text>
                                         <TextInput 
                                             style={[styles.customInput, !isFull.genre && styles.inputError]}
-                                            placeholder="덕질 장르를 입력해 주세요."
+                                            placeholder="덕질 장르를 입력해 주세요. 예) 아이돌, 야구 등"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={card_fan_genre}
@@ -670,7 +670,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
                                         <Text style={styles.inputTextEssential}>최애*</Text>
                                         <TextInput 
                                             style={[styles.customInput, !isFull.first && styles.inputError]}
-                                            placeholder="최애를 입력해 주세요."
+                                            placeholder="최애를 입력해 주세요. 예) 차은우, 뉴진스 하니"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={card_fan_first}
@@ -817,7 +817,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
                                         <Text style={styles.inputText}>거주지</Text>
                                         <TextInput 
                                             style={styles.customInput}
-                                            placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구 테헤란로"
+                                            placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={card_address}
@@ -868,7 +868,7 @@ export default function TemplateFan ({navigation, card_template, step, setStep})
 
             {step === 8 && (
                 <View style={styles.container}>
-                    <Text style={styles.title}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
+                    <Text style={styles.doneTitle}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
                     <View style={styles.cardDone} >
                         <Image
                             source={require('../../assets/images/cardDone.png')}

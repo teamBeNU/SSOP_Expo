@@ -791,7 +791,7 @@ function EditCard() {
                     style={genre ? styles.input : styles.warningInput}
                     value={genre}
                     onChangeText={setGenre}
-                    placeholder= {genre ? genre : "덕질 장르를 입력해 주세요. 예)아이돌, 야구 등"}
+                    placeholder= {genre ? genre : "덕질 장르를 입력해 주세요. 예) 아이돌, 야구 등"}
                     placeholderTextColor={theme.gray60}
                     />
                 {genre ? null : <Text style={styles.warningText}>덕질 장르를 입력해 주세요.</Text>}
@@ -803,7 +803,7 @@ function EditCard() {
                     style={first ? styles.input : styles.warningInput}
                     value={first}
                     onChangeText={setFirst}
-                    placeholder= {first ? first : "최애를 입력해 주세요. 예)차은우, 뉴진스 하니"}
+                    placeholder= {first ? first : "최애를 입력해 주세요. 예) 차은우, 뉴진스 하니"}
                     placeholderTextColor={theme.gray60}
                     />
                 {first ? null : <Text style={styles.warningText}>직무를 입력해 주세요.</Text>}
@@ -1024,7 +1024,7 @@ function EditCard() {
                     style={styles.input}
                     value={genre}
                     onChangeText={setGenre}
-                    placeholder= {genre ? genre : "덕질 장르를 입력해 주세요. 예)아이돌, 야구 등"}
+                    placeholder= {genre ? genre : "덕질 장르를 입력해 주세요. 예) 아이돌, 야구 등"}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>
@@ -1036,7 +1036,7 @@ function EditCard() {
                     style={styles.input}
                     value={first}
                     onChangeText={setFirst}
-                    placeholder= {first ? first : "최애를 입력해 주세요. 예)차은우, 뉴진스 하니"}
+                    placeholder= {first ? first : "최애를 입력해 주세요. 예) 차은우, 뉴진스 하니"}
                     placeholderTextColor={theme.gray60}
                     />
                 </View>
@@ -1121,7 +1121,7 @@ function EditCard() {
                     style={styles.input}
                     value={address}
                     onChangeText={setAddress}
-                    placeholder={address ? address : "거주지를 입력해 주세요. 예)서울특별시 강남구"}
+                    placeholder={address ? address : "거주지를 입력해 주세요. 예) 서울특별시 강남구"}
                     placeholderTextColor={theme.gray60}
                     />
                 </View> 

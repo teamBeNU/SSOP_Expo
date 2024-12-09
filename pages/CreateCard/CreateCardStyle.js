@@ -75,11 +75,11 @@ export const styles = StyleSheet.create({
         // IOS - Shadow
         shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
-            width: 4,
-            height: 4,
+            width: 0,
+            height: 2,
         },
-        shadowOpacity: 0.09,
-        shadowRadius: 16,
+        shadowOpacity: 0.07,
+        shadowRadius: 12,
     },
     label: {
         color: theme.gray10,
@@ -90,13 +90,16 @@ export const styles = StyleSheet.create({
         textAlign: "center",
         marginTop: 11,
         marginBottom: 4,
+        letterSpacing: -0.36,
     },
     describe: {
-        color: theme.gray30,
+        color: theme.gray50,
         fontFamily: "PretendardRegular",
         fontSize: 13,
         fontStyle: "normal",
         fontWeight: "400",
         textAlign: "center",
+        letterSpacing: -0.13,
+        lineHeight: 18.2,
     },
 })

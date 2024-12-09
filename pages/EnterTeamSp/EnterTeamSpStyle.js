@@ -121,12 +121,15 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         alignItems: 'center',
-        fontSize: 16,
         borderRadius: 8,
         borderWidth: 0,
         color: theme.gray10,
         backgroundColor: theme.gray95,
-        fontFamily: 'PretendardRegular'
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "500",
+        letterSpacing: -0.32,
     },
     nameLeng: {
         marginTop: 8,

@@ -50,5 +50,11 @@ const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         margin: 0,
+        
+        fontFamily: "PretendardRegular",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "500",
+        letterSpacing: -0.32,
     },
 })
