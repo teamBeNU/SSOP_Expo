@@ -60,12 +60,39 @@ function EditCard() {
     const [step, setStep] = useState(0);
     const ref_input = useRef();
 
-    const handleMBTI = (input) => {
-        // 영어만 입력되도록 정규식 필터 적용
-        const filteredText = input.replace(/[^a-zA-Z]/g, '');
-        setMBTI(filteredText.toUpperCase());
+    // 유효성 검사 
+    const [isNameValid, setIsNameValid] = useState(true);
+    const [isIntroduceValid, setIsIntroduceValid] = useState(true);
+    const [isBirthValid, setIsBirthValid] = useState(true);
+
+    const validateName = () => {
+        const valid = name.trim().length > 0;
+        setIsNameValid(valid);
+        return valid;
+    };
+
+    const validateIntroduce = () => {
+        const valid = introduce.trim().length > 0;
+        setIsIntroduceValid(valid);
+        return valid;
+    };
+
+    const validateBirth = () => {
+        if (!birth || birth.length !== 10) {
+            setIsBirthValid(false);
+            return false;
     }
 
+    const [year, month, day] = birth.split('/').map(Number);
+    const date = new Date(year, month - 1, day);
+    const isValidDate =
+        date.getFullYear() === year &&
+        date.getMonth() === month - 1 &&
+        date.getDate() === day;
+
+    setIsBirthValid(isValidDate);
+    return isValidDate;
+};
     // 드롭다운
     const [dropDownMbti1Open, setDropDownMbti1Open] = useState(false);
     const [dropDownMbti2Open, setDropDownMbti2Open] = useState(false);
@@ -97,12 +124,20 @@ function EditCard() {
     const navigation = useNavigation();
 
     // 카드 수정
-    const handleSubmit = async () =>  {
-        // 수정 내용 데이터에 담기
+    const handleSubmit = async () => {
+        const isNameChecked = validateName();
+        const isIntroduceChecked = validateIntroduce();
+        const isBirthChecked = validateBirth();
+    
+        // 유효성 검사 통과하지 못하면 API 요청 중단
+        if (!isNameChecked || !isIntroduceChecked || !isBirthChecked) {
+            return;
+        }
+    
         const editCardData = {
             card_name: name,
             card_introduction: introduce,
-            card_birth: birth, 
+            card_birth: birth,
             card_bSecret: isSecret,
             card_tel: tel,
             card_sns_insta: insta,
@@ -114,93 +149,41 @@ function EditCard() {
             card_hobby: hobby,
             card_address: address,
         };
-        if (step > 2) {
-        switch (card.card_template) {
-            case 'studentUniv':
-                editCardData.student = {
-                    card_student_school: school,
-                    card_student_grade: grade,
-                    card_student_major: major,
-                    card_student_id: id,
-                    card_student_club: club,
-                    card_student_role: role,
-                    card_student_status: studentStatus,
-                };
-                break;
-            case 'studentSchool':
-                editCardData.student = {
-                    card_student_school: school,
-                    card_student_grade: grade,
-                    card_student_major: major,
-                    card_student_id: id,
-                    card_student_club: club,
-                    card_student_role: role,
-                };
-                break;
-            case 'worker':
-                editCardData.worker = {
-                    card_worker_company: company,
-                    card_worker_job: job,
-                    card_worker_position: position,
-                    card_worker_department: department
-                };
-                break;
-            case 'fan':
-                editCardData.fan = {
-                    card_fan_genre: genre,
-                    card_fan_first: first,
-                    card_fan_second: second,
-                    card_fan_reason: reason
-                };
-              break;
-            case 'free':
-                editCardData.student = {
-                    card_student_school: school,
-                    card_student_grade: grade,
-                    card_student_major: major,
-                    card_student_id: id,
-                    card_student_club: club,
-                    card_student_role: role,
-                    card_student_status: studentStatus,
-                };
-                editCardData.worker = {
-                    card_worker_company: company,
-                    card_worker_job: job,
-                    card_worker_position: position,
-                    card_worker_department: department
-                };
-                editCardData.fan = {
-                    card_fan_genre: genre,
-                    card_fan_first: first,
-                    card_fan_second: second,
-                    card_fan_reason: reason
-                };
-                break;
-            }
-        }
-
+    
+        // 이하는 기존 코드 유지
         const token = await AsyncStorage.getItem('token');
-
+    
         const formData = new FormData();
-        formData.append('card', {name: 'card', string: JSON.stringify(editCardData), type: 'application/json',});
-
+        formData.append('card', {
+            name: 'card',
+            string: JSON.stringify(editCardData),
+            type: 'application/json',
+        });
+    
         try {
-            const response = await axios.patch(`http://43.202.52.64:8080/api/card/edit?cardId=${card.cardId}`, formData, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'multipart/form-data'
-            },
-            });    
+            const response = await axios.patch(
+                `http://43.202.52.64:8080/api/card/edit?cardId=${card.cardId}`,
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'multipart/form-data',
+                    },
+                }
+            );
+    
+            if (isDetail) {
+                navigation.navigate('카드 상세보기', { cardId: card.cardId });
+            } else {
+                navigation.goBack();
+            }
         } catch (error) {
-        Alert.alert(error.response?.data?.message || error.message || 'Request failed');
+            Alert.alert(
+                error.response?.data?.message || error.message || 'Request failed'
+            );
         }
-       //navigation.navigate('카드 상세보기', { cardId : card.cardId }); 
-       if(isDetail) {
-        navigation.navigate('카드 상세보기', { cardId : card.cardId }); 
-       } else {
-        navigation.goBack();
-       }
     };
+    
 
     const handleTemplateStep = () => {
         switch(card.card_template) {
@@ -313,24 +296,34 @@ function EditCard() {
                 <Text style={styles.subTitle}>이름*</Text>
                 <TextInput 
                     value={name}
-                    onChangeText={text => setName(text)} 
-                    style={name ? styles.input : styles.warningInput }
+                    onChangeText={text => {
+                        setName(text);
+                        setIsNameValid(true);
+                    }} 
+                    style={isNameValid ? styles.input : styles.warningInput }
                     placeholder={name ? name : '이름을 입력해 주세요.'}
                     placeholderTextColor={theme.gray60}
-                    />
-                {name ? null : <Text style={styles.warningText}>이름을 입력해 주세요.</Text>}
+                />
+                {!isNameValid && (
+                    <Text style={styles.warningText}>이름을 입력해 주세요.</Text>
+                )}
                 </View>
 
                 <View style={{...styles.inputContainer, marginBottom: 28}}>
                 <Text style={styles.subTitle}>한줄소개*</Text>
                 <TextInput 
                     value={introduce}
-                    onChangeText={setIntroduce}
-                    style={introduce ? styles.input : styles.warningInput }
+                    onChangeText={text => {
+                        setIntroduce(text);
+                        setIsIntroduceValid(true); 
+                    }}
+                    style={isIntroduceValid  ? styles.input : styles.warningInput }
                     placeholder={introduce ? introduce : '한줄소개를 입력해 주세요.'}
                     placeholderTextColor={theme.gray60}
                     />
-                {introduce ? null : <Text style={styles.warningText}>한줄소개를 입력해 주세요.</Text>}
+                {!isIntroduceValid && (
+                    <Text style={styles.warningText}>한줄소개를 입력해 주세요.</Text>
+                )}
                 </View>
 
                 <View style={[styles.inputContainer, {marginBottom: 28}]}>
@@ -365,7 +358,8 @@ function EditCard() {
                 <View style={styles.inputContainer}>
                 <Text style={styles.subTitle}>생년월일 8자리</Text>
                 <TextInput 
-                    style={{...styles.input, marginBottom: 20}}
+                    //style={{...styles.input, marginBottom: 20}}
+                    style={isBirthValid ? styles.input : styles.warningInput}
                     placeholder={birth ? birth : "YYYY/MM/DD"}
                     placeholderTextColor={theme.gray60}
                     keyboardType="numeric"
@@ -382,10 +376,14 @@ function EditCard() {
                         }
             
                         setBirth(formatted);
+                        setIsBirthValid(true);
                        }}
                        maxLength={10}
                        ref={ref_input}
                     />
+                    {!isBirthValid && (
+                        <Text style={styles.warningText}>생년월일을 올바르게 입력해 주세요.{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
+                    )}
                 <TouchableOpacity style={styles.birthSecret} onPress={() => setIsSecret(!isSecret)}>
                     <DoneIcon style={{width: 16, height:16, color: isSecret ? '#00C2ED' : '#949494'}}/>
                     <Text>생년월일은 나이 계산에만 사용하고 공개 안 할래요</Text>
