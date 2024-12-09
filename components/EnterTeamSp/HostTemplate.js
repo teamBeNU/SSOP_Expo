@@ -1135,7 +1135,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                   >
                     <CoverAvatar width="264" height="320" />
                   </View> */}
-                  <View style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}>
+                  <View style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '52%'}]}>
                     <Image 
                         source={require("../../assets/images/cardCover-1.png")}
                         style={{width: '100%', height: '100%', borderRadius: 10}}
@@ -1161,7 +1161,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     }}
                   > */}
                     {/* <CoverPicture width={264} height="320" /> */}
-                    <View style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}>
+                    <View style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '52%'}]}>
                       <Image 
                           source={require("../../assets/images/cardCover-2.png")}
                           style={{width: '100%', height: '100%', borderRadius: 10}}
