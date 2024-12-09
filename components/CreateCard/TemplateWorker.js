@@ -764,7 +764,7 @@ export default function TemplateWorker ({navigation, card_template, step, setSte
                                 contentContainerStyle={{ flexGrow: 1 }}
                                 showsVerticalScrollIndicator={false}
                             >
-                                <Text style={styles.title}>나에 대해 더 많이 알려주고 싶다면</Text>
+                                <Text style={styles.title}>나의 다른 부분을 더 많이 알려주고 싶다면</Text>
                                 <Text style={styles.subTitle}>자세하게 작성할수록 좋아요.</Text>
                                 <View style={styles.informContainer}>
                                     <View style={styles.inputContainer}>

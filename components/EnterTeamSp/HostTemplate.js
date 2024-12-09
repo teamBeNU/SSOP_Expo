@@ -12,6 +12,9 @@ import { theme } from "../../theme";
 import CustomModal from "../CreateCard/Modal/CustomModal";
 import DropDown from "./DropDown";
 
+import DoneIcon from "../../assets/icons/ic_done_small_line.svg";
+import ShareIcon from '../../assets/icons/ic_share_white.svg';
+import DoneEndCard from '../../assets/teamSp/graphic_invite.svg';
 import EnterEndCard from '../../assets/Login/graphic_done.svg';
 import HostFanFalse from "./HostFanFalse";
 import HostFanTrue from "./HostFanTrue";
@@ -41,6 +44,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   const [card_name, setName] = useState('');
   const [card_introduction, setIntroduction] = useState('');
   const [card_birth, setBirth] = useState('');
+  const [card_bSecret, setCardBSecret] = useState(false);
   const [card_MBTI, setMBTI] = useState('');
   const [card_tel, setTel] = useState('');
   const [card_email, setEmail] = useState('');
@@ -171,6 +175,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
         // console.log("팬 템플릿 : ", response.data.fanOptional);
 
         setShowBirth(response.data.showAge || response.data.showBirth ? true : false);
+        setCardBSecret(response.data.showAge || response.data.showBirth ? true : false);
         setShowMBTI(response.data.showMBTI ? true : false);
         setShowTel(response.data.showTel ? true : false);
         setShowEmail(response.data.showEmail ? true : false);
@@ -206,6 +211,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
       },
       memberOptional: {
         card_birth: card_birth,
+        card_bSecret: card_bSecret,
         card_MBTI: card_MBTI,
         card_tel: card_tel,
         card_email: card_email,
@@ -632,29 +638,32 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
     }
   }, [isAvatarComplete, isPictureComplete, profile_image_url]);
 
-  // progressBar
-  const maxSteps = 9;
-  const initialProgress = 0.4285;
+  // 생년월일 비밀
+  const handleBSecret = () => {
+    if(card_birth != null && card_birth !== '') {
+      setCardBSecret(!card_bSecret);
+    }
+  }
+  useEffect(() => {
+    if(card_birth == null || card_birth === '') {
+    setCardBSecret(false);
+    }
+  }, [card_birth])
 
   return (
     // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex:1}}>
-        {/* <Progress.Bar
-          progress={initialProgress + (step - 1) / maxSteps}
-          width={null}
-          height={2}
-          color={theme.green}
-          borderWidth={0}
-          marginTop={-16}
-        /> */}
 
         {/* 자유템플릿 선택지 추가란 때문 */}
-        <View style={step === 4 ? { paddingVertical: 8, marginBottom: -12 } : { paddingVertical: 8, paddingHorizontal: 16, marginBottom: -12 }}>
+        <View style={[{flex:1}]}>
+        {/* <View style={[{flex:1}, step === 4 && { paddingVertical: 8, marginBottom: -12 }]}> */}
+        {/* <View style={[{flex:1}, step === 4 ? { paddingVertical: 8, marginBottom: -12 } : { paddingVertical: 8, paddingHorizontal: 16, marginBottom: -12 }]}> */}
 
           {/* 카드 앞면 - 기본 정보 */}
           {step === 1 && (
-            <View style={{ height: '100%' }}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+            // <View style={{ height: '100%' }}>
+            <View style={styles.viewContainer}>
+              <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
 
                 <Text style={styles.title}>나에 대한 기본 정보를 알려주세요. </Text>
                 <Text style={styles.subtitle}>자세하게 작성할수록 좋아요. </Text>
@@ -701,15 +710,6 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                   {showMBTI ?
                     <Text style={styles.nameBold}>MBTI <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>MBTI</Text>}
-                  {/* <TextInput
-                    style={[styles.nameInput, showMBTI && emptyMbti && styles.inputEmpty]}
-                    placeholder="MBTI를 입력하세요."
-                    keyboardType="default"
-                    maxLength={4}
-                    value={card_MBTI}
-                    onChangeText={text => setMBTI(text.toUpperCase())}  // 입력 값을 대문자
-                    ref={MBTIRef}
-                  /> */}
                   <View style={[styles.dropDownContainerZIndex1, styles.flexDirectionRow]}>
                     <DropDown
                       dropDownOpen={dropDownMbti1Open}
@@ -742,8 +742,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
                 <View style={styles.line} />
 
-                <Text style={styles.midtitle}>나이를 표시하고 싶다면{'\n'}생년월일을 입력하세요. </Text>
-
+                {showBirth ? <View style={{marginBottom: -40}}></View> :
+                  <Text style={styles.midtitle}>나이를 표시하고 싶다면{"\n"}생년월일을 입력하세요.</Text>
+                }
                 {/* 생년월일 */}
                 <View style={styles.nameContainer}>
                   {showBirth ?
@@ -784,21 +785,31 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     <Text style={styles.inputEmptyText}>생년월일을 입력해 주세요.</Text>
                   ) : (
                     !emptyBirth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) ? (
-                      <Text style={styles.inputEmptyText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
+                      <Text style={styles.inputEmptyText}>생년월일을 올바르게 입력해 주세요{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
                     ) : (
                       <View></View>
                     )
+                  )}
+
+                  {!showBirth && (
+                    <TouchableOpacity 
+                      style={styles.birthSecret} 
+                      onPress={handleBSecret}
+                    >
+                      <DoneIcon style={[styles.doneIcon, {color: card_bSecret ? theme.skyblue : theme.gray60}]} />
+                      <Text style={card_bSecret ? styles.birthSecretOn : styles.birthSecretOff}>생년월일은 나이 계산에만 사용하고 공개 안 할래요</Text>
+                    </TouchableOpacity>
                   )}
                   
                 </View>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
-                <View style={{ marginBottom: 150 }} />
+                <View style={{ marginBottom: 32 }} />
 
               </ScrollView>
 
-              <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={styles.btnContainer2}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -807,7 +818,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 카드 뒷면 - 연락처/이메일/인스타/X */}
           {step === 2 && (
-            <View style={{ height: '100%' }}>
+            <View style={styles.viewContainer}>
               <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}
                                 >
 
@@ -898,14 +909,10 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     <Text style={styles.inputEmptyText}> X 계정을 입력해 주세요.</Text>
                   )}
                 </View>
-
-                {/* 키보드에 가려진 부분 스크롤 */}
-                <View style={{ marginBottom: 150 }} />
-
               </ScrollView>
 
-              <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={styles.btnContainer2}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -914,7 +921,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 템플릿 정보 - 필수 */}
           {step === 3 && (
-            <View style={{ height: '100%' }}>
+            <View style={styles.viewContainer}>
               <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ flexGrow: 1 }}
@@ -927,11 +934,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setIsTrue={setIsTrue} />}
                 {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setIsTrue={setIsTrue} />}
                 
-                <View style={{ marginBottom: 150 }} />
+                <View style={{ marginBottom: 32 }} />
               </ScrollView>
 
-              <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={styles.btnContainer2}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -940,11 +947,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 템플릿 정보 - 선택 */}
           {step === 4 && (
-            <View style={{ height: '100%' }}>
+            <View style={[styles.viewContainer, optionsCount >= 2 && {paddingHorizontal: -16}]}>
               <ScrollView showsVerticalScrollIndicator={false}>
 
-                <Text style={[styles.title, { marginLeft: 16 }]}>정보를 더 추가할 수 있어요.</Text>
-                <Text style={[styles.subtitle, { marginLeft: 16 }]}>더 보여주고 싶은 정보만 선택하여 입력하세요. </Text>
+                <Text style={[styles.title, optionsCount >= 2 && {paddingHorizontal: 16}]}>정보를 더 추가할 수 있어요.</Text>
+                <Text style={[styles.subtitle, optionsCount >= 2 && {paddingHorizontal: 16}]}>더 보여주고 싶은 정보만 선택하여 입력하세요. </Text>
 
                 {optionsCount >= 2 ? (
                   <HostFreeFalse onData={templateData} onDataChange={handleTemplateData} />
@@ -955,11 +962,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     {hasFanOptional && <HostFanFalse fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} />}
                   </>
                 )}
-
+                
+                <View style={{ marginBottom: 32 }} />
               </ScrollView>
 
-              <View style={[styles.btnContainer, { paddingHorizontal: 16 }]}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={[optionsCount >= 2 ? styles.btnFreeContainer : styles.btnContainer2]}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -968,7 +976,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 카드 뒷면 - 취미/인생음악/인생영화/거주지 */}
           {step === 5 && (
-            <View style={{ height: '100%' }}>
+            <View style={styles.viewContainer}>
               <ScrollView showsVerticalScrollIndicator={false}>
 
                 <Text style={styles.title}>나에 대해 더 많이 알려주고 싶다면</Text>
@@ -1084,12 +1092,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 </>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
-                <View style={{ marginBottom: 300 }} />
+                <View style={{ marginBottom: 32 }} />
 
               </ScrollView>
 
-              <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={styles.btnContainer2}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -1098,7 +1106,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 카드 커버 선택 */}
           {step === 6 && (
-            <View style={{ height: '100%', backgroundColor: theme.white, marginHorizontal: -16 }}>
+            <View style={{ height: '100%', backgroundColor: theme.white}}>
               <SelectCover
                 step={step}
                 setStep={setStep}
@@ -1127,15 +1135,17 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                   >
                     <CoverAvatar width="264" height="320" />
                   </View> */}
-                  <Image 
-                      source={require("../../assets/images/cardCover-1.png")}
-                      style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}
-                      resizeMode="cover"
-                      onLayout={(event) => {
-                          const { width } = event.nativeEvent.layout;
-                          setImageWidth(width);
-                      }}
-                  />
+                  <View style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '52%'}]}>
+                    <Image 
+                        source={require("../../assets/images/cardCover-1.png")}
+                        style={{width: '100%', height: '100%', borderRadius: 10}}
+                        resizeMode="cover"
+                        onLayout={(event) => {
+                            const { width } = event.nativeEvent.layout;
+                            setImageWidth(width);
+                        }}
+                    />
+                  </View>
                 {/* </View> */}
                 </>
               )}
@@ -1151,27 +1161,29 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     }}
                   > */}
                     {/* <CoverPicture width={264} height="320" /> */}
-                    <Image 
-                            source={require("../../assets/images/cardCover-2.png")}
-                            style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '50%'}]}
-                            resizeMode="cover"
-                            onLayout={(event) => {
-                                const { width } = event.nativeEvent.layout;
-                                setImageWidth(width);
-                            }}
-                        />
+                    <View style={[styles.coverImg,{ marginTop: 34, width: '80%', height: '52%'}]}>
+                      <Image 
+                          source={require("../../assets/images/cardCover-2.png")}
+                          style={{width: '100%', height: '100%', borderRadius: 10}}
+                          resizeMode="cover"
+                          onLayout={(event) => {
+                              const { width } = event.nativeEvent.layout;
+                              setImageWidth(width);
+                          }}
+                      />
+                    </View>
                   {/* </View> */}
                 </>
 
               )}
-              <View style={styles.btnContainer}>
+              <View style={[styles.btnContainer2, {width: SCREEN_WIDTH - 32}]}>
                 {coverInit === "avatar" && (
-                  <TouchableOpacity style={styles.btnNext} onPress={() => {setCover("avatar"); handleNext();}}>
+                  <TouchableOpacity style={styles.btnNext2} onPress={() => {setCover("avatar"); handleNext();}}>
                     <Text style={styles.btnText}> 아바타 커스터마이징하러 가기 </Text>
                   </TouchableOpacity>
                 )}
                 {coverInit === "picture" && (
-                  <TouchableOpacity style={styles.btnNext} onPress={() => {setCover("picture"); handleImagePicker()}}>
+                  <TouchableOpacity style={styles.btnNext2} onPress={() => {setCover("picture"); handleImagePicker()}}>
                     <Text style={styles.btnText}> 사진 선택하기 </Text>
                   </TouchableOpacity>
                 )}
@@ -1180,7 +1192,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
           )}
 
           {step === 8 && (
-            <View style={{ marginLeft: -16, marginTop: -16 }}>
+            <View style={{ marginTop: -16 }}>
               {card_cover === "avatar" && (
                 <AvatarCustom
                   avatar={null}
@@ -1193,24 +1205,36 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 팀스페이스 입장 완료 */}
           {step === 9 && (
-            <View style={{ height: '100%' }}>
+            <View style={{ height: '100%', paddingHorizontal: 16}}>
               <Text style={styles.font22}>
                 {isHost
-                  ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해보세요.`
-                  : `팀스페이스 입장이 완료되었어요!\n다른 구성원을 확인해 보세요.`
+                  ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해 보세요.`
+                  : `팀스페이스에 입장했요!\n다른 구성원을 확인해 보세요.`
                 } </Text>
 
               <View style={{ alignItems: 'center', marginTop: 100 }}>
-                <EnterEndCard width="300" height='300'/>
+                {isHost
+                  ? <DoneEndCard width="300" height='300'/>
+                  : <EnterEndCard width="300" height='300'/>
+                }
               </View>
 
-              <View style={[styles.btnContainer, { marginBottom: 8 }]}>
+              {/* <View style={[styles.btnContainer2, { marginBottom: 8 }]}> */}
+              <View style={[styles.btnContainer3, { marginBottom: 8 }]}>
                 <TouchableOpacity
-                  style={[styles.btnNext, { marginBottom: 0 }]}
+                  style={[isHost ? styles.btnCheckCard : styles.btnShareCard, { marginBottom: 8 }]}
                   onPress={() => navigation.navigate('스페이스')}
                 >
-                  <Text style={styles.btnText}>팀스페이스 확인</Text>
+                  <Text style={isHost ? styles.btnCheckText: styles.btnText}>팀스페이스 확인</Text>
                 </TouchableOpacity>
+                {isHost && 
+                  <TouchableOpacity
+                    style={[styles.btnShareCard, { marginBottom: 0 }]}
+                  >
+                    <ShareIcon />
+                    <Text style={styles.btnText}>초대코드 및 링크 공유하기</Text>
+                  </TouchableOpacity>
+                }
 
                 {/* {isHost && (
                   <TouchableOpacity

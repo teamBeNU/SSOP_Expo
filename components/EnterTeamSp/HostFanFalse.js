@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
+import { theme } from "../../theme";
 
 export default function HostFanFalse({ fanOptional, onData, onDataChange }) {
 
@@ -35,7 +36,7 @@ export default function HostFanFalse({ fanOptional, onData, onDataChange }) {
     }, [fanOptional]);
 
     return (
-        <View style={{ paddingHorizontal: 16 }}>
+        <View>
 
             {/* 덕질 장르 */}
             {!showGenre && (
@@ -44,6 +45,7 @@ export default function HostFanFalse({ fanOptional, onData, onDataChange }) {
                     <TextInput
                         style={styles.nameInput}
                         placeholder="덕질 장르를 입력해 주세요. 예)아이돌, 야구 등"
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_genre}
@@ -60,6 +62,7 @@ export default function HostFanFalse({ fanOptional, onData, onDataChange }) {
                     <TextInput
                         style={styles.nameInput}
                         placeholder="최애를 입력해 주세요. ex)차은우, 뉴진스 하니"
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_favorite}
@@ -76,6 +79,7 @@ export default function HostFanFalse({ fanOptional, onData, onDataChange }) {
                     <TextInput
                         style={styles.nameInput}
                         placeholder="차애를 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_second}
@@ -92,6 +96,7 @@ export default function HostFanFalse({ fanOptional, onData, onDataChange }) {
                     <TextInput
                         style={styles.nameInput}
                         placeholder="입덕 계기를 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_reason}

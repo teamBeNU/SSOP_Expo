@@ -10,7 +10,8 @@ import "react-native-gesture-handler";
 import * as Progress from 'react-native-progress';
 import * as Sharing from 'expo-sharing';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
-import ShareImage from '../../assets/icons/LinkShareImage.svg'
+import ShareImage from '../../assets/teamSp/bg_gradation.svg';
+import ShareImage2 from '../../assets/icons/LinkShareImage.svg'
 import ShareIcon from '../../assets/icons/ic_share_blue.svg';
 import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -343,11 +344,13 @@ function CreateTeamSp({ navigation }) {
           {step === 4 && (
             <View style={styles.stepContainer}>
               <View>
-                <Text style={styles.title}> 팀스페이스 생성이 완료되었어요!
-                  {'\n'} 바로 초대해 보세요. </Text>
-
-                <View style={styles.shareContainer}>
-                  <ShareImage />
+                <Text style={styles.title}>팀스페이스를 다 만들었어요!{'\n'}이제 팀스페이스에 보여질{'\n'}내 카드를 등록하세요.</Text>
+                <Text style={styles.gray60text}>카드를 등록해야 팀스페이스를 볼 수 있어요.</Text>
+                <View style={{marginTop: 12, marginLeft: -10}}>
+                  <ShareImage width={400} height={400} />
+                </View>
+                {/* <View style={styles.shareContainer}>
+                  <ShareImage width={300} height={300} />
                   <View style={styles.shareBox}>
                     <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={handleShareButtonPress}>
                       <ShareIcon /><Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
@@ -382,18 +385,23 @@ function CreateTeamSp({ navigation }) {
                       </TouchableWithoutFeedback>
                     </Modal>
                   </View>
-                </View>
+                </View> */}
 
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
+                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('팀스페이스 입장', { step: 2, inviteCode: inviteCode })}>
+                  <Text style={styles.btnText}> 카드 등록하기 </Text>
+                </TouchableOpacity>
+              </View>
+              {/* <View style={[styles.btnContainer, { marginBottom: 8 }]}>
                 <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('팀스페이스 입장', { step: 2, inviteCode: inviteCode })}>
                   <Text style={styles.btnText}> 카드 생성하기 </Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
                   <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
                 </TouchableOpacity>
-              </View>
+              </View> */}
 
             </View>
           )}
@@ -436,15 +444,27 @@ function CreateTeamSp({ navigation }) {
           </View>
         )}
 
-        {modalVisible && (
+        {(modalVisible && step !== 4) && (
           <CustomModal
             modalVisible={modalVisible}
             setModalVisible={setModalVisible}
             handleBtn1={handleBtn1}
             handleBtn2={handleBtn2}
-            modalTitle={`카드 만들기를 취소하고 홈으로 돌아가시겠어요?`}
+            modalTitle={`팀스페이스 만들기를 취소하고 홈으로 돌아가시겠어요?`}
             modalText={'지금까지 작성한 내용이 없어져요.'}
             btn1={'계속 만들래요'}
+            btn2={'네 돌아갈래요'}
+          />
+        )}
+        {(modalVisible && step === 4) && (
+          <CustomModal
+            modalVisible={modalVisible}
+            setModalVisible={setModalVisible}
+            handleBtn1={handleBtn1}
+            handleBtn2={handleBtn2}
+            modalTitle={`카드 등록을 취소하고 홈으로 돌아가시겠어요?`}
+            modalText={'홈으로 돌아가도 팀스페이스에서 카드 등록을 할 수 있어요.'}
+            btn1={'계속 할래요'}
             btn2={'네 돌아갈래요'}
           />
         )}

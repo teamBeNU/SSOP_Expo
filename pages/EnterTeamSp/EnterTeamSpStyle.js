@@ -77,6 +77,27 @@ export const styles = StyleSheet.create({
         lineHeight: 24,
         letterSpacing: -0.32
     },
+    doneIcon: {
+        marginRight: 4,
+    },
+    birthSecret: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    birthSecretOn: {
+        color: theme.gray10,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
+    },
+    birthSecretOff: {        
+        color: theme.gray40,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
+    },
     nameContainer: {
         marginTop: 32,
         display: 'inline-flex',
@@ -124,11 +145,69 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         backgroundColor: theme.gray10,
     },
+    btnNext2: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: '100%',
+        height: '100%',
+    },
+    btnNext2: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: '100%',
+        height: '100%',
+    },
+    btnCheckCard: {
+        // position: 'absolute',
+        // bottom: 16 + 48 + 8,
+        // marginTop: 180 - 32,
+        width: '100%',
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        // marginHorizontal: 16,
+        // paddingVertical: 8,
+        // paddingHorizontal: 16,
+        backgroundColor: theme.white,
+        borderColor: theme.gray80,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+    },
+    btnShareCard: {
+        // position: 'absolute',
+        // bottom: 16 + 48 + 8,
+        // marginTop: 180 - 32,
+        width: '100%',
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        // marginHorizontal: 16,
+        // paddingVertical: 8,
+        // paddingHorizontal: 16,
+        backgroundColor: theme.gray10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+        flexDirection: "row",
+    },
     btnText: {
         textAlign: 'center',
         color: theme.white,
         fontSize: 16,
-        fontFamily: 'PretendardSemiBold'
+        fontFamily: 'PretendardSemiBold',
+        letterSpacing: -0.32,
+        fontWeight: "500",
+        fontStyle: "normal",
+    },
+    btnCheckText: {
+        textAlign: 'center',
+        color: theme.gray50,
+        fontSize: 16,
+        fontFamily: 'PretendardSemiBold',
+        letterSpacing: -0.32,
+        fontWeight: "500",
+        fontStyle: "normal",
     },
     btnWhite: {
         marginTop: -32,
@@ -161,6 +240,53 @@ export const styles = StyleSheet.create({
         bottom: 0,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         overflow: 'hidden'
+    },
+    btnContainer2: {
+        // position: 'absolute',
+        // flex: 1,
+        // justifyContent: 'flex-end',
+        // width: '100%',
+        // bottom: 0,
+        // backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        // overflow: 'hidden'
+
+        position: 'absolute',
+        bottom: 16,  // contair의 height: '100%',
+        //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        width: '100%',
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+        marginHorizontal: 16,
+    },
+    btnContainer3: {
+        position: 'absolute',
+        bottom: 16,
+        width: '100%',
+        marginHorizontal: 16,
+    },
+    btnFreeContainer: {
+        position: 'absolute',
+        bottom: 16,
+        marginLeft: 16,
+        width: SCREEN_WIDTH - 32,
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
     },
     RadioBtn: {
         flexDirection: "row",
@@ -480,21 +606,21 @@ export const styles = StyleSheet.create({
         height: 320,
         justifyContent: 'center',
         alignItems: 'center',
-        // // Android - Shadow
-        // elevation: 3,
-        // // IOS - Shadow
-        // shadowColor: 'rgba(73, 81, 100)',
-        // shadowOffset: {
-        //     width: 4,
-        //     height: 4,
-        // },
-        // shadowOpacity: 0.09,
-        // shadowRadius: 16,
+        // Android - Shadow
+        elevation: 3,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100)',
+        shadowOffset: {
+            width: 4,
+            height: 4,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
 
         // // 그림자가 안보여서 임시 border
         // borderWidth: 1,
         // borderColor: theme.gray90,
-        // borderRadius: 10
+        borderRadius: 10
     },
     circles: {
         flexDirection: "row",

@@ -66,6 +66,7 @@ export const styles = StyleSheet.create({
         color: theme.gray10,
         fontStyle: "normal",
         fontWeight: "600",
+        letterSpacing: -0.4,
     },
     subTitle: { 
         marginTop: 12,
@@ -74,6 +75,7 @@ export const styles = StyleSheet.create({
         color: theme.gray50,
         fontStyle: "normal",
         fontWeight: "400",
+        letterSpacing: -0.32,
     },
 
     viewContainer: {
@@ -95,6 +97,7 @@ export const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: "600",
         marginBottom: 8,
+        letterSpacing: -0.14,
     },
     inputText: {
         fontFamily: "PretendardRegular",
@@ -103,6 +106,7 @@ export const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: "400",
         marginBottom: 8,
+        letterSpacing: -0.14,
     },
     customInput: {
         height: 48,
@@ -124,6 +128,7 @@ export const styles = StyleSheet.create({
         fontWeight: "400",
         marginHorizontal: 8,
         marginTop: 8,
+        letterSpacing: -0.14,
     },
     
     birthTitle: {
@@ -413,6 +418,7 @@ export const styles = StyleSheet.create({
     coverImg: {
         width: SCREEN_WIDTH*0.8,
         height: SCREEN_WIDTH*0.8*1.2,
+        // height: "60%",
         justifyContent: 'center',
         alignItems: 'center',
         // Android - Shadow
@@ -429,7 +435,7 @@ export const styles = StyleSheet.create({
         // 그림자가 안보여서 임시 border
         borderWidth: 1,
         borderColor: theme.gray90,
-        borderRadius: 10
+        borderRadius: 10,
     },
     circles: {
         flexDirection: "row",

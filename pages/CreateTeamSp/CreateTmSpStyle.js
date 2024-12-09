@@ -1,5 +1,7 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { theme } from "../../theme";
+
+const windowWidth = Dimensions.get('window').width;
 
 export const styles = StyleSheet.create({
     mainlayout: {
@@ -46,6 +48,13 @@ export const styles = StyleSheet.create({
         lineHeight: 24,
         marginLeft: 8,
         color: theme.gray10
+    },
+    gray60text : {
+        fontSize: 16,
+        fontFamily: 'Pretendard',
+        marginTop: 14,
+        letterSpacing: -0.32,
+        color: theme.gray30
     },
     nameContainer: {
         marginTop: 32,
@@ -365,6 +374,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
     },
     modalView: {
+        width: windowWidth - 32,
         paddingVertical: 32,
         paddingHorizontal: 16,
         backgroundColor: 'white',
@@ -378,6 +388,7 @@ export const styles = StyleSheet.create({
         marginTop: 24,
     },
     modalBtnNext: {
+        width: '48%',
         paddingVertical: 11.5,
         paddingHorizontal: 36,
         justifyContent: 'center',
@@ -387,6 +398,7 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.gray10
     },
     modalBtnWhite: {
+        width: '48%',
         paddingVertical: 11.5,
         paddingHorizontal: 36,
         borderRadius: 8,

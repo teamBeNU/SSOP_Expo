@@ -13,7 +13,9 @@ import Toast from "react-native-toast-message";
 import CustomModal from "../../components/CreateCard/Modal/CustomModal.js";
 
 import CardSample from '../../assets/teamSp/bg_gradation.svg';
-import EnterEndCard from '../../assets/teamSp/EnterEndCard';
+import ShareIcon from '../../assets/icons/ic_share_white.svg';
+import DoneEndCard from '../../assets/teamSp/graphic_invite.svg';
+import EnterEndCard from '../../assets/Login/graphic_done.svg';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
@@ -284,42 +286,32 @@ function EnterTeamSp({ navigation, route }) {
           </TouchableOpacity>
         ),
       });
+    } else if (step === 2) {
+      navigation.setOptions({
+        headerTitle: '카드 등록하기',
+        headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {navigation.goBack();}}>
+            <LeftArrowIcon style={{marginLeft: 8}}/>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {navigation.navigate('홈');}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
     }
   })
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
 
         {/* progressBar */}
-        {/* {isTemplate ? (
-          step !== 5 && (
-            <Progress.Bar
-              progress={step === 4 ? 0.2857 : step / 7}
-              width={null}
-              height={2}
-              color={theme.green}
-              borderWidth={0}
-            />
-          )
-        ) : (
-          <Progress.Bar
-            progress={step / 3}
-            width={null}
-            height={2}
-            color={theme.green}
-            borderWidth={0}
-          />
-        )} */}
         {isTemplate ? (
           step >= 4 && (
-            // <Progress.Bar
-            //   progress={step === 4 ? 0.2857 : step / 7}
-            //   width={null}
-            //   height={2}
-            //   color={theme.green}
-            //   borderWidth={0}
-            // />
             <Progress.Bar
               progress={teamStep / 8}
               width={null}
@@ -329,13 +321,23 @@ function EnterTeamSp({ navigation, route }) {
             />
           )
         ) : (
-          <Progress.Bar
-            progress={step / 3}
-            width={null}
-            height={2}
-            color={theme.green}
-            borderWidth={0}
-          />
+          step === 2 ? (
+            <Progress.Bar
+              progress={1.5 / 3}
+              width={null}
+              height={2}
+              color={theme.green}
+              borderWidth={0}
+            />
+          ) : (
+            <Progress.Bar
+              progress={step / 3}
+              width={null}
+              height={2}
+              color={theme.green}
+              borderWidth={0}
+            />
+          )
         )}
 
         {step === 0 && (
@@ -348,6 +350,7 @@ function EnterTeamSp({ navigation, route }) {
 
           {/* 초대코드 입력 */}
           {step === 1 && (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.stepContainer}>
               <Text style={styles.title}> 팀스페이스에 입장하려면 {"\n"} 초대코드를 입력하세요. </Text>
 
@@ -399,6 +402,7 @@ function EnterTeamSp({ navigation, route }) {
                 </View>
               </Modal>
             </View>
+            </TouchableWithoutFeedback>
           )}
 
           {/* 제출할 카드 선택 */}
@@ -431,21 +435,37 @@ function EnterTeamSp({ navigation, route }) {
           {/* 팀스페이스 입장 완료 */}
           {step === 3 && (
             <View style={styles.stepContainer}>
-              <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
+              <Text style={styles.font22}> 
+                {isHost
+                  ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해 보세요.`
+                  : `팀스페이스에 입장했어요!\n다른 구성원을 확인해 보세요.`
+                }
+              </Text>
 
-              <View style={{ alignItems: 'center', marginTop: 135 }}>
-                <EnterEndCard />
+              <View style={{ alignItems: 'center', marginTop: 100 }}>
+                {isHost
+                  ? <DoneEndCard width="300" height='300'/>
+                  : <EnterEndCard width="300" height='300'/>
+                }
               </View>
 
               <View style={styles.flexSpacer} />
+              <View style={[styles.btnContainer3, { marginBottom: 8,  marginHorizontal: 0 }]}>
+                <TouchableOpacity
+                  style={[isHost ? styles.btnCheckCard : styles.btnShareCard, { marginBottom: 8 }]}
+                  onPress={() => navigation.navigate('스페이스')}
+                >
+                  <Text style={isHost ? styles.btnCheckText: styles.btnText}>팀스페이스 확인</Text>
+                </TouchableOpacity>
 
-              <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('스페이스')}>
-                  <Text style={styles.btnText}> 팀스페이스 확인 </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
-                  <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
-                </TouchableOpacity>
+                {isHost && 
+                  <TouchableOpacity
+                    style={[styles.btnShareCard, { marginBottom: 0 }]}
+                  >
+                    <ShareIcon />
+                    <Text style={styles.btnText}>초대코드 및 링크 공유하기</Text>
+                  </TouchableOpacity>
+                }
               </View>
             </View>
           )}
@@ -505,7 +525,8 @@ function EnterTeamSp({ navigation, route }) {
           </View>
         )} */}
       </View>
-    </TouchableWithoutFeedback>
+    {/* </TouchableWithoutFeedback> */}
+    </View>
   );
 }
 
