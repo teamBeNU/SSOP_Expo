@@ -113,6 +113,8 @@ function EditCard() {
     // 드롭다운
     const [dropDownMbti1Open, setDropDownMbti1Open] = useState(false);
     const [dropDownMbti2Open, setDropDownMbti2Open] = useState(false);
+    const [dropDownOpen, setDropDownOpen] = useState(false);
+    const [dropDownOpen2, setDropDownOpen2] = useState(false);
     const [mbti1Items, setMbti1Items] = useState([
         { label: 'EN', value: 'EN' },
         { label: 'ES', value: 'ES' },
@@ -124,6 +126,20 @@ function EditCard() {
         { label: 'TP', value: 'TP' },
         { label: 'FJ', value: 'FJ' },
         { label: 'FP', value: 'FP' },
+    ]);
+    const [youthGradeItems, setYouthGradeItems] = useState([
+        { label: '1학년', value: '1학년' },
+        { label: '2학년', value: '2학년' },
+        { label: '3학년', value: '3학년' },
+        { label: '4학년', value: '4학년' },
+        { label: '추가학기', value: '추가학기' },
+        { label: '그 외', value: '그 외' },
+    ]);
+    const [statusItems, setStatusItems] = useState([
+        { label: '재학', value: '재학' },
+        { label: '휴학', value: '휴학' },
+        { label: '졸업 예정', value: '졸업 예정' },
+        { label: '졸업', value: '졸업' },
     ]);
 
      // mbti
@@ -591,27 +607,20 @@ function EditCard() {
                 <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학년*</Text>
                 <View style={styles.dropDown}>
-                <RNPickerSelect
-                    onValueChange={(value) => setGrade(value)}
-                    value={grade}
-                    items={[
-                    { label: '1학년', value: '1학년', key: '1' },
-                    { label: '2학년', value: '2학년', key: '2' },
-                    { label: '3학년', value: '3학년', key: '3' },
-                    { label: '4학년', value: '4학년', key: '4' },
-                    { label: '추가학기', value: '추가학기', key: '5' },
-                    { label: '그 외', value: '그 외', key: '6' },
-                    ]}
-                    placeholder={{ label: '학년', value: null }}
-                    useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
-                    style={{
-                        inputIOS: styles.dropDownInput, // iOS 스타일 적용
-                        inputAndroid: styles.dropDownInput, // Android 스타일 적용
-                        iconContainer: styles.dropDownIconContainer, // 아이콘 위치 조정
-                      }}
-                      Icon={() => <DownIcon />} // 드롭다운 화살표 아이콘
+                <DropDown
+                    dropDownOpen={dropDownOpen}
+                    dropDownValue={grade}
+                    setDropDownOpen={setDropDownOpen}
+                    setDropDownValue={setGrade}
+                    items={youthGradeItems}
+                    setItems={setYouthGradeItems}
+                    placeholder={'학년'}
+                    isError={isGradeValid}
                 />
                 </View>
+                {!isGradeValid && (
+                    <Text style={styles.warningText}>학년을 입력해 주세요.</Text>
+                )}
                 </View>
 
 
@@ -653,23 +662,15 @@ function EditCard() {
                 <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>재학상태</Text>
                 <View style={styles.dropDown}>
-                <RNPickerSelect
-                    onValueChange={(value) => setStudentStatus(value)}
-                    value={studentStatus}
-                    items={[
-                    { label: '재학', value: '재학', key: '1' },
-                    { label: '휴학', value: '휴학', key: '2' },
-                    { label: '졸업 예정', value: '졸업 예정', key: '3' },
-                    { label: '졸업', value: '졸업', key: '4' },
-                    ]}
-                    placeholder={{ label: '학년', value: null }}
-                    useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
-                    style={{
-                        inputIOS: styles.dropDownInput, // iOS 스타일 적용
-                        inputAndroid: styles.dropDownInput, // Android 스타일 적용
-                        iconContainer: styles.dropDownIconContainer, // 아이콘 위치 조정
-                      }}
-                      Icon={() => <DownIcon />} // 드롭다운 화살표 아이콘
+                <DropDownOption
+                    dropDownOpen={dropDownOpen2}
+                    dropDownValue={studentStatus}
+                    setDropDownOpen={setDropDownOpen2}
+                    setDropDownValue={setStudentStatus}
+                    items={statusItems}
+                    setItems={setStatusItems}
+                    placeholder={'재학상태'}
+                    isError={true}
                 />
                 </View>
                 </View>
@@ -715,30 +716,23 @@ function EditCard() {
                 <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학년*</Text>
                 <View style={styles.dropDown}>
-                <RNPickerSelect
-                    onValueChange={(value) => setGrade(value)}
-                    value={grade}
-                    items={[
-                    { label: '1학년', value: '1학년', key: '1' },
-                    { label: '2학년', value: '2학년', key: '2' },
-                    { label: '3학년', value: '3학년', key: '3' },
-                    { label: '4학년', value: '4학년', key: '4' },
-                    { label: '5학년', value: '5학년', key: '5' },
-                    { label: '6학년', value: '6학년', key: '6' },
-                    ]}
-                    placeholder={{ label: '학년', value: null }}
-                    useNativeAndroidPickerStyle={false} // Android에서 기본 스타일을 비활성화
-                    style={{
-                        inputIOS: styles.dropDownInput, // iOS 스타일 적용
-                        inputAndroid: styles.dropDownInput, // Android 스타일 적용
-                        iconContainer: styles.dropDownIconContainer, // 아이콘 위치 조정
-                      }}
-                      Icon={() => <DownIcon />} // 드롭다운 화살표 아이콘
+                <DropDown
+                    dropDownOpen={dropDownOpen}
+                    dropDownValue={grade}
+                    setDropDownOpen={setDropDownOpen}
+                    setDropDownValue={setGrade}
+                    items={youthGradeItems}
+                    setItems={setYouthGradeItems}
+                    placeholder={'학년'}
+                    isError={isGradeValid}
                 />
                 </View>
+                {!isGradeValid && (
+                    <Text style={styles.warningText}>학년을 입력해 주세요.</Text>
+                )}
                 </View>
 
-                <View style={styles.line} />
+                <View style={[styles.line, {marginBottom: 40}]} />
 
                 <View style={{...styles.inputContainer, marginBottom: 40}}>
                 <Text style={styles.subTitle}>학생번호</Text>
