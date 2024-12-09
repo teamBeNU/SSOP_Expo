@@ -509,7 +509,7 @@ function SaveTellScreen({ navigation }) {
                 viewOption={viewOption}
                 setViewOption={setViewOption}
                 // handleNext={handleNext}
-                cardData={cardIdData} // 기존 카드 제출 시 연락처 데이터 연동만 해놓음 -> 지정 템플릿카드는 변수라 달라서 CardsView 코드 수정해야함
+                cardData={combinedData} // 기존 카드 제출 시 연락처 데이터 연동만 해놓음 -> 지정 템플릿카드는 변수라 달라서 CardsView 코드 수정해야함
                 showRadio={true}
                 selectedCards={selectedCards} // 선택된 카드 목록 전달
                 handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달
