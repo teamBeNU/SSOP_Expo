@@ -44,7 +44,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   const [card_name, setName] = useState('');
   const [card_introduction, setIntroduction] = useState('');
   const [card_birth, setBirth] = useState('');
-  const [card_bSecret, setCardBSecret] = useState(true);
+  const [card_bSecret, setCardBSecret] = useState(false);
   const [card_MBTI, setMBTI] = useState('');
   const [card_tel, setTel] = useState('');
   const [card_email, setEmail] = useState('');
@@ -175,6 +175,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
         // console.log("팬 템플릿 : ", response.data.fanOptional);
 
         setShowBirth(response.data.showAge || response.data.showBirth ? true : false);
+        setCardBSecret(response.data.showAge || response.data.showBirth ? true : false);
         setShowMBTI(response.data.showMBTI ? true : false);
         setShowTel(response.data.showTel ? true : false);
         setShowEmail(response.data.showEmail ? true : false);
