@@ -13,6 +13,7 @@ import DropDown from '../../components/CreateCard/DropDown.js'
 import DropDownOption from '../../components/CreateCard/DropDownOption.js'
 import { theme } from "../../theme"
 import { styles } from "./EditCardStyle"
+import { textStyles } from "../../textStyles.js"
 
 function EditCard() {
     const route = useRoute();
@@ -332,6 +333,14 @@ function EditCard() {
         navigation.setOptions({
             headerLeft: handleHeaderLeft,
             //headerRight: () => headerRight,
+            headerTitleStyle: {
+                ...textStyles.body16m,
+                color: theme.gray10
+            },
+            headerStyle: {
+                borderBottomWidth : 1,
+                borderBottomColor: theme.gray95
+            }
         });
     }, [navigation, step]);
 

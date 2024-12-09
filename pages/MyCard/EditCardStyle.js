@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet } from 'react-native';
 import { theme } from "../../theme";
+import { textStyles } from '../../textStyles';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 const cardWidth = WIDTH * 0.8;
@@ -150,7 +151,6 @@ export const styles = StyleSheet.create({
     },
     btnContainer: {
     width: '100%',
-    paddingHorizontal: 16,
     alignItems: 'flex-start',
     },
     editBtn: {
@@ -166,19 +166,13 @@ export const styles = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: theme.gray90,
     },
-    editTitle: {
+    editTitle: { 
     color: theme.gray10,
-    fontFamily: 'PretendardRegular',
-    fontSize: 16,
-    fontWeight: '400',
-    letterSpacing: -0.32
+    ...textStyles.body16,
     },
     editSub: {
     color: theme.gray50,
-    fontFamily: 'PretendardRegular',
-    fontSize: 14,
-    fontWeight: '400',
-    letterSpacing: -0.14
+    ...textStyles.body14
     },
     rightArrow:{
     position: 'absolute',
