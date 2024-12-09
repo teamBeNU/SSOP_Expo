@@ -321,7 +321,7 @@ function SignUp() {
                 <View style={styles.inputContainer}>
                     <Text style={styles.inputTitle}>이메일</Text>
                     <TextInput
-                    style={email ? styles.input : styles.warningInput} 
+                    style={styles.input} 
                     placeholder="이메일 주소를 입력하세요."
                     placeholderTextColor={theme.gray60}
                     keyboardType= "email-address"
@@ -330,9 +330,6 @@ function SignUp() {
                     returnKeyType="next"
                     onSubmitEditing={handleNext}
                     />
-                    {!email && (
-                    <Text style={styles.warningText}>이메일을 입력해 주세요.</Text>
-                    )}
                 </View>
                 <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
                     <Text style={styles.nextText}>다음으로</Text>
