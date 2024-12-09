@@ -228,8 +228,8 @@ export const styles = StyleSheet.create({
         // IOS - Shadow
         shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
-            width: 4,
-            height: 4,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.09,
         shadowRadius: 16,

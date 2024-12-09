@@ -24,7 +24,6 @@ function Bluetooth({ navigation }) {
   const [viewOption, setViewOption] = useState('리스트형');
   const [hasCards, setHasCards] = useState(true); // 카드 보유 여부
   const [cardData, setCardData] = useState([]); // 카드 데이터
-  const [isModalVisible, setModalVisible] = useState(false); // QR 모달 상태
   const [selectedCardId, setSelectedCardId] = useState(null); // 선택된 카드 ID
   const [scanned, setScanned] = useState(false);
   const [hasPermission, setHasPermission] = useState(null); // 카메라 권한 상태
