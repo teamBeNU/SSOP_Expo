@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
+import { theme } from "../../theme";
 
 export default function HostWorkerFalse({ workerOptional, onData, onDataChange }) {
 
@@ -35,7 +36,7 @@ export default function HostWorkerFalse({ workerOptional, onData, onDataChange }
     }, [workerOptional]);
 
     return (
-        <View style={{ paddingHorizontal: 16 }}>
+        <View>
 
             {/* 회사 */}
             {!showCompany && (
@@ -44,6 +45,7 @@ export default function HostWorkerFalse({ workerOptional, onData, onDataChange }
                     <TextInput
                         style={styles.nameInput}
                         placeholder="회사명을 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_company}
@@ -60,6 +62,7 @@ export default function HostWorkerFalse({ workerOptional, onData, onDataChange }
                     <TextInput
                         style={styles.nameInput}
                         placeholder="직무를 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_job}
@@ -76,6 +79,7 @@ export default function HostWorkerFalse({ workerOptional, onData, onDataChange }
                     <TextInput
                         style={styles.nameInput}
                         placeholder="직위를 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_position}
@@ -92,6 +96,7 @@ export default function HostWorkerFalse({ workerOptional, onData, onDataChange }
                     <TextInput
                         style={styles.nameInput}
                         placeholder="소속 부서를 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_part}

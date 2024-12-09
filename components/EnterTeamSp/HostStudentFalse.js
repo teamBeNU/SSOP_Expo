@@ -3,6 +3,7 @@ import DropDown from "./DropDown";
 import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
+import { theme } from "../../theme";
 
 export default function HostStudentFalse({ studentOptional, onData, onDataChange }) {
     
@@ -58,7 +59,7 @@ export default function HostStudentFalse({ studentOptional, onData, onDataChange
     ]);
 
     return (
-        <View style={{ paddingHorizontal: 16 }}>
+        <View>
             {/* 학교 */}
             {!showSchool && (
                 <View style={styles.nameContainer}>
@@ -66,6 +67,7 @@ export default function HostStudentFalse({ studentOptional, onData, onDataChange
                     <TextInput
                         style={styles.nameInput}
                         placeholder="학교명을 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_school}
@@ -81,8 +83,9 @@ export default function HostStudentFalse({ studentOptional, onData, onDataChange
                     <TextInput
                         style={styles.nameInput}
                         placeholder="전공을 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
-                        returnKeyType='done'
+                        returnKeyType='next'
                         value={card_major}
                         onChangeText={setMajor}
                     />
@@ -116,8 +119,9 @@ export default function HostStudentFalse({ studentOptional, onData, onDataChange
                     <TextInput
                         style={styles.nameInput}
                         placeholder="학번을 입력해주세요. 예) 23학번"
-                        keyboardType="numeric"
-                        returnKeyType='done'
+                        placeholderTextColor={theme.gray60}
+                        keyboardType="default"
+                        returnKeyType='next'
                         value={card_studNum}
                         onChangeText={setStudNum}
                     />
@@ -131,7 +135,9 @@ export default function HostStudentFalse({ studentOptional, onData, onDataChange
                     <TextInput
                         style={styles.nameInput}
                         placeholder="소속 동아리가 있다면 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
+                        returnKeyType='next'
                         value={card_club}
                         onChangeText={setClub}
                     />

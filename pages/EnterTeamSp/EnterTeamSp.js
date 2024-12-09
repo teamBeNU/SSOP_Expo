@@ -288,38 +288,13 @@ function EnterTeamSp({ navigation, route }) {
   })
 
   return (
-    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+    <View style={{ flex: 1 }}>
       <View style={{ flex: 1 }}>
 
         {/* progressBar */}
-        {/* {isTemplate ? (
-          step !== 5 && (
-            <Progress.Bar
-              progress={step === 4 ? 0.2857 : step / 7}
-              width={null}
-              height={2}
-              color={theme.green}
-              borderWidth={0}
-            />
-          )
-        ) : (
-          <Progress.Bar
-            progress={step / 3}
-            width={null}
-            height={2}
-            color={theme.green}
-            borderWidth={0}
-          />
-        )} */}
         {isTemplate ? (
           step >= 4 && (
-            // <Progress.Bar
-            //   progress={step === 4 ? 0.2857 : step / 7}
-            //   width={null}
-            //   height={2}
-            //   color={theme.green}
-            //   borderWidth={0}
-            // />
             <Progress.Bar
               progress={teamStep / 8}
               width={null}
@@ -348,6 +323,7 @@ function EnterTeamSp({ navigation, route }) {
 
           {/* 초대코드 입력 */}
           {step === 1 && (
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             <View style={styles.stepContainer}>
               <Text style={styles.title}> 팀스페이스에 입장하려면 {"\n"} 초대코드를 입력하세요. </Text>
 
@@ -399,6 +375,7 @@ function EnterTeamSp({ navigation, route }) {
                 </View>
               </Modal>
             </View>
+            </TouchableWithoutFeedback>
           )}
 
           {/* 제출할 카드 선택 */}
@@ -505,7 +482,8 @@ function EnterTeamSp({ navigation, route }) {
           </View>
         )} */}
       </View>
-    </TouchableWithoutFeedback>
+    {/* </TouchableWithoutFeedback> */}
+    </View>
   );
 }
 

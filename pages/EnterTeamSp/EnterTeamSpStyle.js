@@ -124,6 +124,12 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         backgroundColor: theme.gray10,
     },
+    btnNext2: {
+        justifyContent: "center",
+        alignItems: "center",
+        width: '100%',
+        height: '100%',
+    },
     btnText: {
         textAlign: 'center',
         color: theme.white,
@@ -161,6 +167,47 @@ export const styles = StyleSheet.create({
         bottom: 0,
         backgroundColor: 'rgba(255, 255, 255, 0.8)',
         overflow: 'hidden'
+    },
+    btnContainer2: {
+        // position: 'absolute',
+        // flex: 1,
+        // justifyContent: 'flex-end',
+        // width: '100%',
+        // bottom: 0,
+        // backgroundColor: 'rgba(255, 255, 255, 0.8)',
+        // overflow: 'hidden'
+
+        position: 'absolute',
+        bottom: 16,  // contair의 height: '100%',
+        //bottom: 60+16,  // contair의 height: SCREEN_HEIGHT,
+        width: '100%',
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
+        marginHorizontal: 16,
+    },
+    btnFreeContainer: {
+        position: 'absolute',
+        bottom: 16,
+        marginLeft: 16,
+        width: SCREEN_WIDTH - 32,
+        height: 48,
+        justifyContent: "center",
+        alignItems: "center",
+        
+        paddingVertical: 8,
+        paddingHorizontal: 16,
+        backgroundColor: theme.gray10,
+        borderRadius: 8,
+        borderWidth: 1,
+        borderStyle: "solid",
     },
     RadioBtn: {
         flexDirection: "row",

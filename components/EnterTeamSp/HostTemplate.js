@@ -639,22 +639,17 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   return (
     // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex:1}}>
-        {/* <Progress.Bar
-          progress={initialProgress + (step - 1) / maxSteps}
-          width={null}
-          height={2}
-          color={theme.green}
-          borderWidth={0}
-          marginTop={-16}
-        /> */}
 
         {/* 자유템플릿 선택지 추가란 때문 */}
-        <View style={step === 4 ? { paddingVertical: 8, marginBottom: -12 } : { paddingVertical: 8, paddingHorizontal: 16, marginBottom: -12 }}>
+        <View style={[{flex:1}]}>
+        {/* <View style={[{flex:1}, step === 4 && { paddingVertical: 8, marginBottom: -12 }]}> */}
+        {/* <View style={[{flex:1}, step === 4 ? { paddingVertical: 8, marginBottom: -12 } : { paddingVertical: 8, paddingHorizontal: 16, marginBottom: -12 }]}> */}
 
           {/* 카드 앞면 - 기본 정보 */}
           {step === 1 && (
-            <View style={{ height: '100%' }}>
-              <ScrollView showsVerticalScrollIndicator={false}>
+            // <View style={{ height: '100%' }}>
+            <View style={styles.viewContainer}>
+              <ScrollView contentContainerStyle={{ flexGrow: 1 }} showsVerticalScrollIndicator={false}>
 
                 <Text style={styles.title}>나에 대한 기본 정보를 알려주세요. </Text>
                 <Text style={styles.subtitle}>자세하게 작성할수록 좋아요. </Text>
@@ -701,15 +696,6 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                   {showMBTI ?
                     <Text style={styles.nameBold}>MBTI <Text style={styles.nameBold}> *</Text></Text>
                     : <Text style={styles.name}>MBTI</Text>}
-                  {/* <TextInput
-                    style={[styles.nameInput, showMBTI && emptyMbti && styles.inputEmpty]}
-                    placeholder="MBTI를 입력하세요."
-                    keyboardType="default"
-                    maxLength={4}
-                    value={card_MBTI}
-                    onChangeText={text => setMBTI(text.toUpperCase())}  // 입력 값을 대문자
-                    ref={MBTIRef}
-                  /> */}
                   <View style={[styles.dropDownContainerZIndex1, styles.flexDirectionRow]}>
                     <DropDown
                       dropDownOpen={dropDownMbti1Open}
@@ -784,7 +770,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     <Text style={styles.inputEmptyText}>생년월일을 입력해 주세요.</Text>
                   ) : (
                     !emptyBirth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) ? (
-                      <Text style={styles.inputEmptyText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
+                      <Text style={styles.inputEmptyText}>생년월일을 올바르게 입력해 주세요{"\n"}월과 일이 한자릿수인 경우 0을 꼭 붙여 주세요.</Text>
                     ) : (
                       <View></View>
                     )
@@ -793,12 +779,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 </View>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
-                <View style={{ marginBottom: 150 }} />
+                <View style={{ marginBottom: 32 }} />
 
               </ScrollView>
 
-              <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={styles.btnContainer2}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -807,7 +793,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 카드 뒷면 - 연락처/이메일/인스타/X */}
           {step === 2 && (
-            <View style={{ height: '100%' }}>
+            <View style={styles.viewContainer}>
               <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ flexGrow: 1 }}
                                 >
 
@@ -898,14 +884,10 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     <Text style={styles.inputEmptyText}> X 계정을 입력해 주세요.</Text>
                   )}
                 </View>
-
-                {/* 키보드에 가려진 부분 스크롤 */}
-                <View style={{ marginBottom: 150 }} />
-
               </ScrollView>
 
-              <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={styles.btnContainer2}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -914,7 +896,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 템플릿 정보 - 필수 */}
           {step === 3 && (
-            <View style={{ height: '100%' }}>
+            <View style={styles.viewContainer}>
               <ScrollView
                 showsVerticalScrollIndicator={false}
                 contentContainerStyle={{ flexGrow: 1 }}
@@ -927,11 +909,11 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 {hasWorkerOptional && <HostWorkerTrue workerOptional={workerOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setIsTrue={setIsTrue} />}
                 {hasFanOptional && <HostFanTrue fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} isNextClick={isNextClick} setIsNextClick={setIsNextClick} setIsTrue={setIsTrue} />}
                 
-                <View style={{ marginBottom: 150 }} />
+                <View style={{ marginBottom: 32 }} />
               </ScrollView>
 
-              <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={styles.btnContainer2}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -940,7 +922,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 템플릿 정보 - 선택 */}
           {step === 4 && (
-            <View style={{ height: '100%' }}>
+            <View style={[styles.viewContainer, optionsCount >= 2 && {paddingHorizontal: -16}]}>
               <ScrollView showsVerticalScrollIndicator={false}>
 
                 <Text style={[styles.title, { marginLeft: 16 }]}>정보를 더 추가할 수 있어요.</Text>
@@ -955,11 +937,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                     {hasFanOptional && <HostFanFalse fanOptional={fanOptional} onData={templateData} onDataChange={handleTemplateData} />}
                   </>
                 )}
-
+                
+                <View style={{ marginBottom: 32 }} />
               </ScrollView>
 
-              <View style={[styles.btnContainer, { paddingHorizontal: 16 }]}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={[optionsCount >= 2 ? styles.btnFreeContainer : styles.btnContainer2]}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -968,7 +951,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 카드 뒷면 - 취미/인생음악/인생영화/거주지 */}
           {step === 5 && (
-            <View style={{ height: '100%' }}>
+            <View style={styles.viewContainer}>
               <ScrollView showsVerticalScrollIndicator={false}>
 
                 <Text style={styles.title}>나에 대해 더 많이 알려주고 싶다면</Text>
@@ -1084,12 +1067,12 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 </>
 
                 {/* 키보드에 가려진 부분 스크롤 */}
-                <View style={{ marginBottom: 300 }} />
+                <View style={{ marginBottom: 32 }} />
 
               </ScrollView>
 
-              <View style={styles.btnContainer}>
-                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+              <View style={styles.btnContainer2}>
+                <TouchableOpacity style={styles.btnNext2} onPress={handleNext}>
                   <Text style={styles.btnText}> 다음으로 </Text>
                 </TouchableOpacity>
               </View>
@@ -1164,14 +1147,14 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 </>
 
               )}
-              <View style={styles.btnContainer}>
+              <View style={[styles.btnContainer2, {width: SCREEN_WIDTH - 32}]}>
                 {coverInit === "avatar" && (
-                  <TouchableOpacity style={styles.btnNext} onPress={() => {setCover("avatar"); handleNext();}}>
+                  <TouchableOpacity style={styles.btnNext2} onPress={() => {setCover("avatar"); handleNext();}}>
                     <Text style={styles.btnText}> 아바타 커스터마이징하러 가기 </Text>
                   </TouchableOpacity>
                 )}
                 {coverInit === "picture" && (
-                  <TouchableOpacity style={styles.btnNext} onPress={() => {setCover("picture"); handleImagePicker()}}>
+                  <TouchableOpacity style={styles.btnNext2} onPress={() => {setCover("picture"); handleImagePicker()}}>
                     <Text style={styles.btnText}> 사진 선택하기 </Text>
                   </TouchableOpacity>
                 )}
@@ -1204,9 +1187,9 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 <EnterEndCard width="300" height='300'/>
               </View>
 
-              <View style={[styles.btnContainer, { marginBottom: 8 }]}>
+              <View style={[styles.btnContainer2, { marginBottom: 8 }]}>
                 <TouchableOpacity
-                  style={[styles.btnNext, { marginBottom: 0 }]}
+                  style={[styles.btnNext2, { marginBottom: 0 }]}
                   onPress={() => navigation.navigate('스페이스')}
                 >
                   <Text style={styles.btnText}>팀스페이스 확인</Text>

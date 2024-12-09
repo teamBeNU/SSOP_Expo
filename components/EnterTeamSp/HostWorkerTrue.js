@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, TextInput } from "react-native";
 import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import "react-native-gesture-handler";
+import { theme } from "../../theme";
 
 export default function HostWorkerTrue({ workerOptional, onData, onDataChange, isNextClick, setIsNextClick, setIsTrue }) {
 
@@ -94,11 +95,13 @@ export default function HostWorkerTrue({ workerOptional, onData, onDataChange, i
                     <TextInput
                         style={[styles.nameInput, !isOk.company && styles.inputEmpty]}
                         placeholder="회사명을 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_company}
                         onChangeText={(text) => {setCompany(text); handleEmpty('company', text);}}
                         ref={companyRef}
+                        blurOnSubmit={true}
                     />
                     {!isOk.company && (
                         <Text style={styles.inputEmptyText}> 회사명을 입력해 주세요.</Text>
@@ -113,11 +116,13 @@ export default function HostWorkerTrue({ workerOptional, onData, onDataChange, i
                     <TextInput
                         style={[styles.nameInput, !isOk.job && styles.inputEmpty]}
                         placeholder="직무를 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_job}
                         onChangeText={(text) => {setJob(text); handleEmpty('job', text);}}
                         ref={jobRef}
+                        blurOnSubmit={true}
                     />
                     {!isOk.job && (
                         <Text style={styles.inputEmptyText}> 직무를 입력해 주세요.</Text>
@@ -132,11 +137,13 @@ export default function HostWorkerTrue({ workerOptional, onData, onDataChange, i
                     <TextInput
                         style={[styles.nameInput, !isOk.position && styles.inputEmpty]}
                         placeholder="직위를 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_position}
                         onChangeText={(text) => {setPosition(text); handleEmpty('position', text);}}
                         ref={positionRef}
+                        blurOnSubmit={true}
                     />
                     {!isOk.position && (
                         <Text style={styles.inputEmptyText}> 직위를 입력해 주세요.</Text>
@@ -151,11 +158,13 @@ export default function HostWorkerTrue({ workerOptional, onData, onDataChange, i
                     <TextInput
                         style={[styles.nameInput, !isOk.part && styles.inputEmpty]}
                         placeholder="소속 부서를 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_part}
                         onChangeText={(text) => {setPart(text); handleEmpty('part', text);}}
                         ref={partRef}
+                        blurOnSubmit={true}
                     />
                     {!isOk.part && (
                         <Text style={styles.inputEmptyText}> 소속 부서를 입력해 주세요.</Text>

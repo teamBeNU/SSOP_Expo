@@ -4,6 +4,7 @@ import { styles } from '../../pages/EnterTeamSp/EnterTeamSpStyle';
 import Select from "../../assets/teamSp/select.svg";
 import DropDown from "./DropDown";
 import "react-native-gesture-handler";
+import { theme } from "../../theme";
 
 export default function HostStudentTrue({ studentOptional, onData, onDataChange, isNextClick, setIsNextClick, setIsTrue }) {
 
@@ -189,12 +190,13 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
                     <TextInput
                         style={[styles.nameInput, !isOk.school && styles.inputEmpty]}
                         placeholder="학교명을 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'
                         value={card_school}
                         onChangeText={(text) => {setSchool(text); handleEmpty('school', text);}}
                         ref={schoolRef}
-                        onSubmitEditing={() => gradeRef.current.focus()}
+                        blurOnSubmit={true}
                     />
                     {!isOk.school && (
                         <Text style={styles.inputEmptyText}> 학교명을 입력해 주세요.</Text>
@@ -209,11 +211,13 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
                     <TextInput
                         style={[styles.nameInput, !isOk.major && styles.inputEmpty]}
                         placeholder="전공을 입력해 주세요."
+                        placeholderTextColor={theme.gray60}
                         keyboardType="default"
-                        returnKeyType='done'
+                        returnKeyType='next'
                         value={card_major}
                         onChangeText={(text) => {setMajor(text); handleEmpty('major', text);}}
                         ref={majorRef}
+                        blurOnSubmit={true}
                     />
                     {!isOk.major && (
                         <Text style={styles.inputEmptyText}> 전공을 입력해 주세요.</Text>
@@ -251,12 +255,13 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
                     <TextInput
                         style={[styles.nameInput, !isOk.studNum && styles.inputEmpty]}
                         placeholder="학번을 입력해 주세요. 예) 23학번"
-                        keyboardType="numeric"
-                        returnKeyType='done'
+                        placeholderTextColor={theme.gray60}
+                        keyboardType="default"
+                        returnKeyType='next'
                         value={card_studNum}
                         onChangeText={(text) => {setStudNum(text); handleEmpty('studNum', text);}}
                         ref={studNumRef}
-                        onSubmitEditing={() => majorRef.current.focus()}
+                        blurOnSubmit={true}
                     />
                     {!isOk.studNum && (
                         <Text style={styles.inputEmptyText}> 학생번호를 입력해 주세요.</Text>
@@ -271,10 +276,12 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
                     <TextInput
                         style={[styles.nameInput, !isOk.club && styles.inputEmpty]}
                         placeholder="소속 동아리를 입력해 주세요."
-                        keyboardType="default"
+                        placeholderTextColor={theme.gray60}
+                        keyboardType="next"
                         value={card_club}
                         onChangeText={(text) => {setClub(text); handleEmpty('club', text);}}
                         ref={clubRef}
+                        blurOnSubmit={true}
                     />
                     {!isOk.club && (
                         <Text style={styles.inputEmptyText}> 동아리를 입력해 주세요.</Text>
@@ -285,6 +292,7 @@ export default function HostStudentTrue({ studentOptional, onData, onDataChange,
             {/*  역할 */}
             {showRole.length > 0 && (
                 <View style={styles.nameContainer}>
+                    <Text>{card_role}</Text>
                     <Text style={styles.nameBold}>역할<Text style={styles.nameBold}> *</Text></Text>
 
                     <View style={[styles.elementContainer, { marginLeft: 8, marginTop: 8 }]}>
