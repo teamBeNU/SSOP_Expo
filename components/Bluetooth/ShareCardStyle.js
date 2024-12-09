@@ -86,14 +86,14 @@ export const styles = StyleSheet.create({
     ageText: {
         fontFamily: "PretendardRegular",
         color: theme.gray60,
-        letterSpacing: -0.44,
+        letterSpacing: -0.14,
     },
     Text14: {
         marginBottom: 21,
         fontFamily: "PretendardSemiBold",
         color: theme.gray70,
         fontSize: 14,
-        letterSpacing: -1,
+        letterSpacing: -0.14,
     },
     DetailSpaceCard: {
 		width: 158,

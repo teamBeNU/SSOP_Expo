@@ -115,8 +115,8 @@ const AcceptCardView = ({
           </Text>
         </View>
 
-        <View>
-          <View style={styles.rowRange3}>
+        <View style={styles.rowRange3}>
+          {groupedCardData.length > 0 ? (
             <View style={styles.rightButtonGroup}>
               {/* 격자형, 리스트형 버튼 */}
               <TouchableOpacity
@@ -155,7 +155,10 @@ const AcceptCardView = ({
                 </MenuOptions>
               </Menu>
             </View>
-          </View>
+          ) : (
+            // 카드가 없을 때 빈 공간을 렌더링
+            <View style={{ height: 48 }} />
+          )}
         </View>
       </View>
 
@@ -249,15 +252,15 @@ const AcceptCardView = ({
             </View>
           ))
         ) : (
-          <View style={styles.emptyContainer2}>
-            <Text style={styles.noCard}>공유받은 카드가 없어요.</Text>
-            <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-              <View style={styles.newContainer}>
-                <Text style={styles.newCard}>카드 교환하기</Text>
-                <RightIcon />
-              </View>
-            </TouchableOpacity>
-          </View>
+            <View style={styles.emptyContainer2}>
+              <Text style={styles.noCard}>공유받은 카드가 없어요.</Text>
+              <TouchableOpacity onPress={() => setIsModalVisible(true)}>
+                <View style={styles.newContainer}>
+                  <Text style={styles.newCard}>카드 교환하기</Text>
+                  <RightIcon style={{marginTop: 2}}/>
+                </View>
+              </TouchableOpacity>
+            </View>
         )}
         <View style={styles.innerView}></View>
       </View>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useFocusEffect } from '@react-navigation/native';
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -11,6 +11,7 @@ import { NewGroupModal } from "../../components/Space/SpaceModal.js";
 import ExchangeModal from '../../components/Space/ExchangeModal.js';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import { theme } from "../../theme";
+import Toast from 'react-native-toast-message';
 import MySpace from "./MySpace.js";
 import TeamSpace from "./TeamSpace.js";
 import PinkPoint from "../../assets/icons/ic_pink_point.svg";
@@ -88,6 +89,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
 
 // MySpace 스택 네비게이션
 function MySpaceStack({ navigation }) {
+  const mySpaceRef = useRef(null);
+  
   const [teamData, setTeamData] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
@@ -121,7 +124,7 @@ function MySpaceStack({ navigation }) {
         console.error('토큰이 없습니다.');
         return;
       }
-
+  
       const response = await fetch('http://43.202.52.64:8080/api/mysp/create', {
         method: 'POST',
         headers: {
@@ -132,29 +135,38 @@ function MySpaceStack({ navigation }) {
           group_name: groupName,
         }),
       });
-
+  
       const result = await response.json();
       if (response.ok) {
-        // 그룹 추가 성공 시
         console.log('새 그룹 생성:', result);
-        // 그룹 목록 새로 고침을 위해 추가적인 작업 필요
-        fetchGroups();  // MySpace에서 그룹 목록을 다시 불러옴
+
+        // MySpace의 fetchGroups 호출
+        if (mySpaceRef.current) {
+          mySpaceRef.current.fetchGroups();
+        }
+  
         showCustomToast('새 그룹이 성공적으로 추가되었습니다.');
-        setIsGroupNameChangeModalVisible(false);  // 모달 닫기
+        setIsGroupNameChangeModalVisible(false); // 모달 닫기
       } else {
-        //console.error('그룹 추가에 실패했습니다:', result.message);
+        console.error('그룹 추가에 실패했습니다:', result.message);
       }
     } catch (error) {
-      //console.error('그룹 추가 중 오류가 발생했습니다:', error);
+      console.error('그룹 추가 중 오류가 발생했습니다:', error);
     }
   };
+  
 
   return (
     <>
       <Stack.Navigator>
         <Stack.Screen
           name="MySpace"
-          component={MySpace}
+          children={({ navigation }) => (
+            <MySpace
+              navigation={navigation} // 명시적으로 전달
+              ref={mySpaceRef}
+            />
+          )}
           options={{
             title: " ",
             headerShadowVisible: false,
@@ -170,8 +182,8 @@ function MySpaceStack({ navigation }) {
                   <Menu>
                     <MenuTrigger><MoreIcon style={{ marginRight: 8 }} /></MenuTrigger>
                     <MenuOptions optionsContainerStyle={{ width: 'auto', paddingVertical: 16, paddingHorizontal: 24, borderRadius: 16 }}>
-                      <MenuOption style={{ marginBottom: 10.5 }} text='새 그룹 추가하기' onSelect={handlePlusGroup} />
-                      <MenuOption text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })} />
+                      <MenuOption style={{ marginBottom: 10.5, letterSpacing: -0.32}} text='새 그룹 추가하기' onSelect={handlePlusGroup} />
+                      <MenuOption style={{ letterSpacing: -0.32}} text='그룹 편집하기' onSelect={() => navigation.navigate('그룹 관리', { teamData })} />
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>

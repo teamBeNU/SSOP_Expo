@@ -86,12 +86,13 @@ export const SpaceNameChangeModal = ({ isVisible, onClose, groupName, btn1, btn2
 }
 
 export const NewGroupModal = ({ isVisible, onClose, groupName, btn1, btn2, onConfirm }) => {
-
-    const [inputName, setInputName] = useState(groupName);
+    const [inputName, setInputName] = useState('');
 
     useEffect(() => {
-        setInputName('');
-    }, [groupName]);
+        if (isVisible) {
+            setInputName(''); // 모달이 열릴 때 입력 필드 초기화
+        }
+    }, [isVisible]);
 
     return (
         <View>
@@ -104,28 +105,27 @@ export const NewGroupModal = ({ isVisible, onClose, groupName, btn1, btn2, onCon
                     <View style={styles.modalView}>
                         <TextInput
                             style={styles.textInput}
-                            placeholder={groupName}
+                            placeholder={groupName || '그룹 이름을 입력하세요'} // 기본값 제공
                             placeholderTextColor={theme.gray60}
-                            keyboardType='default'
+                            keyboardType="default"
                             value={inputName}
                             onChangeText={setInputName}
-                            returnKeyType='done'
+                            returnKeyType="done"
                             blurOnSubmit={false}
                         />
                         <View style={styles.Btn}>
                             <TouchableOpacity
-                                style={styles.yesBtn} onPress={onClose}>
+                                style={styles.yesBtn}
+                                onPress={onClose}>
                                 <Text style={styles.yesText}>{btn1}</Text>
                             </TouchableOpacity>
                             <TouchableOpacity
-                                style={styles.noBtn} 
+                                style={styles.noBtn}
                                 onPress={() => {
                                     onConfirm(inputName);
                                     onClose();
                                 }}>
-                                <Text style={styles.noText}>
-                                    {btn2}
-                                </Text>
+                                <Text style={styles.noText}>{btn2}</Text>
                             </TouchableOpacity>
                         </View>
                     </View>

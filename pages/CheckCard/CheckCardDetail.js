@@ -21,9 +21,9 @@ const CheckCardDetail = () => {
     const scrollViewRef = useRef(null);
     const route = useRoute();
     const navigation = useNavigation();
-    const { cardId, refresh } = route.params;
+    const { cardId, groupCards, refresh } = route.params;
 
-    const [cardData, setCardData] = useState([]);
+    const [cardData, setCardData] = useState(groupCards || []);
     const [currentCardIndex, setCurrentCardIndex] = useState(0);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [isShareModalVisible, setIsShareModalVisible] = useState(false);
@@ -72,6 +72,18 @@ const CheckCardDetail = () => {
 
     // 카드 정보 가져오기
     const fetchData = async () => {
+        if (groupCards && groupCards.length > 0) {
+            const cardIndex = groupCards.findIndex(card => card.cardId === cardId);
+            if (cardIndex !== -1) {
+                setCurrentCardIndex(cardIndex);
+                scrollViewRef.current.scrollTo({
+                    x: (CARD_WIDTH + SPACING) * cardIndex,
+                    animated: true,
+                });
+            }
+            return;
+        }
+
         try {
             const token = await AsyncStorage.getItem('token');
             if (!token) {
@@ -89,10 +101,6 @@ const CheckCardDetail = () => {
             const result = await response.json();
             setCardData(result);
 
-            const hasMemoForCurrentCard = result[currentCardIndex]?.memo !== undefined && result[currentCardIndex].memo !== '';
-
-            setHasMemo(hasMemoForCurrentCard);
-
             const cardIndex = result.findIndex(card => card.cardId === cardId);
             if (cardIndex !== -1) {
                 setCurrentCardIndex(cardIndex);
@@ -101,7 +109,6 @@ const CheckCardDetail = () => {
                     animated: true,
                 });
             }
-
         } catch (error) {
             console.error('Error fetching card data:', error);
         }
@@ -109,8 +116,10 @@ const CheckCardDetail = () => {
 
     useFocusEffect(
         useCallback(() => {
-            fetchData();
-        }, [route.params?.refreshTrigger])
+            if (!groupCards || groupCards.length === 0) {
+                fetchData();
+            }
+        }, [groupCards, route.params?.refreshTrigger])
     );
 
     // 카드 삭제

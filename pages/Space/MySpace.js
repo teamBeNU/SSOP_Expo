@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, TouchableOpacity, Modal, StyleSheet, Clipboard, Alert } from "react-native";
+import React, { useState, useEffect, useImperativeHandle, forwardRef } from "react";
+import { View, Text, ScrollView } from "react-native";
 import { useFocusEffect } from '@react-navigation/native';
 import { styles } from './SpaceStyle';
-import { SpaceModal, SpaceNameChangeModal, NewGroupModal } from "../../components/Space/SpaceModal.js";
+import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import { MySpaceGroup } from "../../components/Space/SpaceList.js";
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,7 +11,7 @@ import MySpaceIcon from '../../assets/icons/ic_myspace.svg'
   
 const API_URL = 'http://43.202.52.64:8080/api/mysp'; 
 
-function MySpace({ navigation }) {
+function MySpace({ navigation, onRefreshGroups }, ref) {
   const [groupData, setGroupData] = useState([]);  // 그룹 목록 상태
   const [receivedProfileCardCount, setReceivedProfileCardCount] = useState(0);  // 받은 프로필 카드 수
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);  // 삭제 확인 모달 상태
@@ -153,9 +153,15 @@ function MySpace({ navigation }) {
     });
   };
 
+  // 전달받은 onRefreshGroups가 있을 경우 fetchGroups를 연결
   useEffect(() => {
-    fetchGroups(); 
-  }, []);
+    if (onRefreshGroups) onRefreshGroups(fetchGroups);
+  }, [onRefreshGroups]);
+
+    // useImperativeHandle로 fetchGroups를 부모에게 노출
+    useImperativeHandle(ref, () => ({
+      fetchGroups,
+    }));
 
   return (
     <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
@@ -230,4 +236,4 @@ function MySpace({ navigation }) {
   );
 }
 
-export default MySpace;
+export default forwardRef(MySpace);

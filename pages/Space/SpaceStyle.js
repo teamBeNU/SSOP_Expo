@@ -81,7 +81,7 @@ export const styles = StyleSheet.create({
     fontGroup: {
         fontSize: 16,
         fontFamily: 'PretendardSemiBold',
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         paddingLeft: 8,
     },
     groupWrapper: {
@@ -91,7 +91,7 @@ export const styles = StyleSheet.create({
     peopleGroup: {
         fontSize: 12,
         fontFamily: 'PretendardRegular',
-        letterSpacing: -1,
+        letterSpacing: -0.12,
         justifyContent: 'center',
         marginLeft: 6,
     },
@@ -180,7 +180,7 @@ export const styles = StyleSheet.create({
         marginTop: 12,
         fontSize: 12,
         fontFamily: 'PretendardRegular',
-        letterSpacing: -1,
+        letterSpacing: -0.12,
     },
     TeamSPContent: {
         borderRadius: 16,
@@ -281,7 +281,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'Pretendard',
         fontWeight: '500',
         fontSize: 16,
-        letterSpacing: -0.2,
+        letterSpacing: -0.32,
     },
     margin10: {
         marginTop: 10,
@@ -289,7 +289,7 @@ export const styles = StyleSheet.create({
 
     // 상세 팀스페이스
     title: {
-        letterSpacing: -1,
+        letterSpacing: -0.44,
         textAlign: 'center',
         fontSize: 22,
         fontFamily: 'PretendardSemiBold',
@@ -297,7 +297,7 @@ export const styles = StyleSheet.create({
     sub: {
         marginTop: 32,
         marginBottom: 32,
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         textAlign: 'center',
         fontSize: 16,
         fontFamily: 'PretendardRegular',
@@ -312,7 +312,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'PretendardRegular',
         fontSize: 14,
-        letterSpacing: -1
+        letterSpacing: -0.14
     },
     btn: {
         justifyContent: 'center',
@@ -350,7 +350,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
-        letterSpacing: -1
+        letterSpacing: -0.12
     },
     personContainer: {
         flexDirection: 'row',
@@ -390,7 +390,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardRegular',
         alignItems: 'center',
         justifyContent: 'center',
-        letterSpacing: -1,
+        letterSpacing: -0.12,
     },
     cardLayout: {
         flex: 1,
@@ -404,7 +404,7 @@ export const styles = StyleSheet.create({
         marginTop: 32,
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
-        letterSpacing: -1
+        letterSpacing: -0.32
     },
     elementContainer: {
         display: 'flex',
@@ -518,7 +518,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'PretendardRegular',
         fontSize: 16,
-        letterSpacing: -1
+        letterSpacing: -0.32
     },
 
     btn2: { // 블루투스 송신, 링크 복사, 팀스페이스 입장, 팀스페이스 생성
@@ -548,19 +548,19 @@ export const styles = StyleSheet.create({
         marginLeft: 16,
         fontFamily: "PretendardRegular",
         fontSize: 14,
-        letterSpacing: -1,
+        letterSpacing: -0.32,
     },
     Text16: {
         fontFamily: "PretendardRegular",
         fontSize: 16,
-        letterSpacing: -1,
+        letterSpacing: -0.32,
     },
     Text18: {
         marginTop: 20,
         marginLeft: 16,
         fontFamily: "PretendardSemiBold",
         fontSize: 18,
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         marginBottom: 8,
     },
     icon2: { // 블루투스, 링크, 팀스페이스 입장, 생성 아이콘
@@ -653,7 +653,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
         color: theme.gray10,
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         justifyContent: 'center',
         alignContent: 'center'
     },
@@ -661,7 +661,7 @@ export const styles = StyleSheet.create({
         fontSize: 14,
         fontFamily: 'PretendardSemiBold',
         color: theme.gray30,
-        letterSpacing: -1,
+        letterSpacing: -0.32,
         justifyContent: 'center',
         alignContent: 'center'
     },
