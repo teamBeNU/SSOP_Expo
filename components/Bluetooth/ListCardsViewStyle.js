@@ -191,7 +191,7 @@ export const styles = StyleSheet.create({
         borderRadius: 12
     },
     host: {
-        borderRadius: 8,
+        borderRadius: 10,
         backgroundColor: 'rgba(33, 33, 33, 0.80)',
         fontFamily: 'PretendardRegular',
         justifyContent: 'center',

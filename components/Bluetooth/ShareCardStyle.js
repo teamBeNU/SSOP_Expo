@@ -136,7 +136,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 6,
         alignSelf: 'flex-start',
         flexShrink: 1,
-        borderRadius: 8,
+        borderRadius: 10,
         marginRight: 8,
         justifyContent: 'center',
         alignItems: 'center',

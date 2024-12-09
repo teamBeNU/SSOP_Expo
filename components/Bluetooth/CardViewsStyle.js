@@ -72,6 +72,7 @@ export const styles = StyleSheet.create({
         borderRadius: 50,
         paddingVertical: 10,
         paddingHorizontal: 16,
+        paddingVertical: 8,
         backgroundColor: theme.white
     },
     selectedFilterButton: {
@@ -82,7 +83,7 @@ export const styles = StyleSheet.create({
         borderColor: theme.skyblue,
         borderRadius: 50,
         paddingVertical: 8,
-        // paddingHorizontal: 16,
+        paddingHorizontal: 16,
         paddingLeft: 16,
         paddingRight: 8,
         backgroundColor: theme.skyblue
@@ -286,7 +287,7 @@ export const styles = StyleSheet.create({
     },
 
     host: {
-        borderRadius: 8,
+        borderRadius: 10,
         backgroundColor: '#00C2ED33',
         fontFamily: 'PretendardRegular',
         justifyContent: 'center',
