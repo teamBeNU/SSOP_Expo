@@ -647,4 +647,37 @@ export const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: "600",
     },
+    // 공유하기 모달
+    shareModalContainer: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.4)',
+        width: '100%',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    ShareModalView: {
+        paddingVertical: 29,
+        paddingHorizontal: 24,
+        width: 272,
+        backgroundColor: 'white',
+        borderRadius: 16,
+    },
+    ShareModalText: {
+        fontFamily: 'PretendardSemiBold',
+        fontSize: 16,
+        letterSpacing: -1
+    },
+    ShareModalsmallText: {
+        marginTop: 12,
+        marginBottom: 13,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        letterSpacing: -1,
+        color: theme.gray60,
+    },
+    line: {
+        borderBottomWidth: 1,
+        borderBottomColor: theme.gray90,
+        marginBottom: 27,
+    },
 })
