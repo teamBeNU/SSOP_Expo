@@ -58,13 +58,13 @@ const CardsView = ({ cardData, setCardData, refreshData, returnViewOption, viewO
               optionsContainerStyle={{
                 width: 'auto',
                 paddingVertical: 16,
-                paddingHorizontal: 24,
                 borderRadius: 16,
                 marginTop: 21,
-                marginLeft: 10
+                marginLeft: 10,
+                alignItems: 'flex-start',
               }}>
-              <MenuOption style={{ marginBottom: 10.5 }} onSelect={() => setSelectedOption('최신순')} text='최신순' />
-              <MenuOption onSelect={() => setSelectedOption('오래된 순')} text='오래된 순' />
+              <MenuOption style={{ height: 48, paddingHorizontal: 24, alignSelf: 'stretch', justifyContent: 'center'}} onSelect={() => setSelectedOption('최신순')} text='최신순' />
+              <MenuOption style={{ height: 48, paddingHorizontal: 24, alignSelf: 'stretch', justifyContent:'center' }} onSelect={() => setSelectedOption('오래된 순')} text='오래된 순' />
             </MenuOptions>
           </Menu>
         </View>

@@ -45,8 +45,8 @@ export const styles = StyleSheet.create({
   triggerArea: {
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between', // Align text and icon
-    width: 52 // Ensure it takes up full width
+    justifyContent: 'space-between', 
+    width: 52,
   },
   viewToggleContainer: {
     borderWidth: 1,
