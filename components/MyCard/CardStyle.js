@@ -20,10 +20,11 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray90,
         backgroundColor: 'white',
         overflow: 'hidden',
-        // shadowColor: 'rgba(0, 0, 0, 0.04)',
-        // shadowOffset: { width: 2, height: 2 },
-        // shadowOpacity: 0.4,
-        // shadowRadius: 4,
+        shadowColor: 'rgba(73, 81, 100, 0.09)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
+        elevation: 5
 	},
 	cardImgArea: {
         height: WIDTH * 0.86,

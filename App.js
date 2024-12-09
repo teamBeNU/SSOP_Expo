@@ -1,18 +1,18 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View, Alert, Linking, LogBox } from 'react-native';
+import { Image, Linking, LogBox, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import "react-native-gesture-handler";
-import { Menu, MenuOption, MenuOptions, MenuProvider, MenuTrigger } from 'react-native-popup-menu';
+import { MenuProvider } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
 import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
+import HomeLogo from './assets/HomeIcon/logo_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
-import HomeLogo from './assets/HomeIcon/logo_line.svg'
-import { AuthProvider, AuthContext } from './AuthContext';
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext, AuthProvider } from './AuthContext';
 
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
@@ -22,9 +22,10 @@ TextInput.defaultProps.allowFontScaling = false;
 
 LogBox.ignoreAllLogs(true);
 
-import CheckCardDetail from './pages/CheckCard/CheckCardDetail';
+import AvatarCustom from './components/Avatar/AvatarCustom';
 import CardDetailView from './components/MyCard/CardDetailView';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
+import CheckCardDetail from './pages/CheckCard/CheckCardDetail';
 import Memo from './pages/CheckCard/Memo';
 import CreateCard from './pages/CreateCard/CreateCard';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
@@ -35,38 +36,37 @@ import ChangePw from './pages/Login/ChangePw';
 import Login from './pages/Login/Login';
 import SignIn from './pages/Login/SignIn';
 import SignUp from './pages/Login/SignUp';
+import DeleteMyCard from './pages/MyCard/DeleteMyCard';
 import MyCard from './pages/MyCard/MyCard';
 import MyPage from './pages/MyPage/MyPage';
+import FAQ from './pages/MyPage/Service/FAQ';
 import UserAccount from './pages/MyPage/UserAccount';
 import UserInfo from './pages/MyPage/UserInfo';
 import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
 import UserPw from './pages/MyPage/UserPw';
+import Onboarding from './pages/Onboarding/Onboarding';
 import DetailGroup from './pages/Space/DetailGroup';
-import FAQ from './pages/MyPage/Service/FAQ';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import Space from './pages/Space/Space';
-import DeleteMyCard from './pages/MyCard/DeleteMyCard';
-import AvatarCustom from './components/Avatar/AvatarCustom';
-import Onboarding from './pages/Onboarding/Onboarding';
 
-import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';
+import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import KaKaoLogin from './components/Login/KaKaoLogin';
-import MySpace from './pages/Space/MySpace';
-import TeamSpace from './pages/Space/TeamSpace';
-import EditGroupPage from './pages/Space/EditGroupPage';
-import EditTeamSpace from './pages/Space/EditTeamSpace';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
 import ServiceAgree from './pages/MyPage/Service/ServiceAgree';
-import AcceptCard from './pages/Space/AcceptCard';
 import HomeSearchCard from './pages/SearchCard/HomeSearchCard';
 import MySpSearchCard from './pages/SearchCard/MySpSearchCard';
 import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
+import AcceptCard from './pages/Space/AcceptCard';
+import EditGroupPage from './pages/Space/EditGroupPage';
+import EditTeamSpace from './pages/Space/EditTeamSpace';
+import MySpace from './pages/Space/MySpace';
+import TeamSpace from './pages/Space/TeamSpace';
 
-import { theme } from './theme';
 import TeamspCardDetailView from './components/Space/TeamspCardDetailView';
+import { theme } from './theme';
 
 const linking = {
   prefixes: ['https://ssopbenu.app.link', 'ssop://'],
@@ -648,10 +648,6 @@ function MyTabs() {
             fontWeight: '400',
             lineHeight: 19,
             letterSpacing: -0.32,
-          },
-          headerStyle: {
-            borderBottomWidth: 1,
-            borderBottomColor: theme.gray90,
           },
           }} />
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지', headerTitleAlign: 'center',  }} />
