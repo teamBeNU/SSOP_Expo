@@ -126,7 +126,12 @@ function TeamSpace({ navigation }) {
       const inviteCodeForTeam = inviteCode.find(code => code.teamId === selectedTeam.teamId)?.inviteCode;
 
       if (inviteCodeForTeam) {
-        navigation.navigate('팀스페이스 입장', { step: 2, inviteCode: inviteCodeForTeam });
+        navigation.navigate('팀스페이스 입장', {
+          step: 2, 
+          inviteCode: inviteCodeForTeam,
+          hostId: selectedTeam.hostId,
+          userId: userId
+        });
         setNullCardModal(false);
       }
     }
@@ -245,8 +250,9 @@ function TeamSpace({ navigation }) {
           isVisible={nullCardModal}
           onClose={() => setNullCardModal(false)}
           title={'내 프로필 카드를 아직 생성하지 않았어요!'}
-          sub={selectedTeam && selectedTeam.hostId === userId ?
-            '카드를 생성해야 입장이 완료돼요' : '카드를 생성해야 팀스페이스를 볼 수 있어요.'}
+          sub={selectedTeam && selectedTeam.hostId === userId
+            ? '카드를 생성해야 입장이 완료돼요' // 호스트
+            : '카드를 생성해야 팀스페이스를 볼 수 있어요.'} // 게스트
           btn1={'나중에 하기'}
           btn2={'카드 추가하기'}
           onConfirm={handleConfirmCard}

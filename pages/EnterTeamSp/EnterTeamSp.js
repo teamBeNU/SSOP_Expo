@@ -25,13 +25,18 @@ function EnterTeamSp({ navigation, route }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
 
+  const params = route.params || {};
+
+  // 각각의 값 가져오기
+  const hostId = params.hostId;
+  const userId = params.userId;
+
   const [data, setData] = useState(null);
   const [team_name, setTeam_name] = useState('알 수 없음');
   const [team_comment, setTeam_comment] = useState('알 수 없음');
   const [memberCount, setMemberCount] = useState('0');
   const [isTemplate, setIsTemplate] = useState(true);
   const [step, setStep] = useState(1);
-  const [isHost, setIsHost] = useState(false);
 
   const [inviteCode, setInviteCode] = useState('');
   const [inputcode, setInputCode] = useState("");
@@ -95,13 +100,12 @@ function EnterTeamSp({ navigation, route }) {
         })
         .then((response) => {
           setData(response.data);
-          setIsHost(true); // 호스트임을 표시
         })
         .catch((error) => {
           console.error('호스트 카드 생성 - 초대코드 검색 API 요청 에러:', error);
         });
     }
-  }, [route.params, token]); // route.params를 의존성 배열에 추가
+  }, [route.params, token]);
 
   // 팀스페이스 입장 API 호출
   const handleEnterModal = () => {
@@ -129,17 +133,15 @@ function EnterTeamSp({ navigation, route }) {
   // 복사
   const copyInviteCode = async () => {
     try {
-      const textToCopy = inviteCode;
-      await Clipboard.setStringAsync(textToCopy);
-      const copiedText = await Clipboard.getStringAsync(); // 클립보드 값 가져오기
-      console.log("클립보드에 복사된 값:", copiedText);
+      const stringInviteCode = String(inviteCode);
+      await Clipboard.setStringAsync(stringInviteCode);
       showCustomToast("클립보드에 복사되었습니다.");
     } catch (error) {
-      console.error("클립보드 복사 에러:", error);
-      showCustomToast("클립보드 복사에 실패했습니다.");
+      console.error("클립보드 복사 실패:", error);
+      showCustomToast("클립보드 복사 중 오류가 발생했습니다.");
     }
   };
-  
+
   const shareLinkCode = async () => {
     try {
       const result = await Share.share({
@@ -470,14 +472,14 @@ function EnterTeamSp({ navigation, route }) {
           {step === 3 && (
             <View style={styles.stepContainer}>
               <Text style={styles.font22}>
-                {isHost
+                {hostId == userId
                   ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해 보세요.`
                   : `팀스페이스에 입장했어요!\n다른 구성원을 확인해 보세요.`
                 }
               </Text>
 
               <View style={{ alignItems: 'center', marginTop: 100 }}>
-                {isHost
+                {hostId == userId
                   ? <DoneEndCard width="300" height='300' />
                   : <EnterEndCard width="300" height='300' />
                 }
@@ -486,13 +488,13 @@ function EnterTeamSp({ navigation, route }) {
               <View style={styles.flexSpacer} />
               <View style={[styles.btnContainer3, { marginBottom: 8, marginHorizontal: 0 }]}>
                 <TouchableOpacity
-                  style={[isHost ? styles.btnCheckCard : styles.btnShareCard, { marginBottom: 8 }]}
+                  style={[hostId == userId ? styles.btnCheckCard : styles.btnShareCard, { marginBottom: 8 }]}
                   onPress={() => navigation.navigate('스페이스')}
                 >
-                  <Text style={isHost ? styles.btnCheckText : styles.btnText}>팀스페이스 확인</Text>
+                  <Text style={hostId == userId ? styles.btnCheckText : styles.btnText}>팀스페이스 확인</Text>
                 </TouchableOpacity>
 
-                {isHost && <>
+                {hostId == userId && <>
                   <TouchableOpacity
                     onPress={handleShareButtonPress}
                     style={[styles.btnShareCard, { marginBottom: 0 }]}
@@ -561,9 +563,11 @@ function EnterTeamSp({ navigation, route }) {
             <HostTemplate
               navigation={navigation}
               goToOriginal={goToOriginal}
-              data={data} isHost={isHost}
+              data={data}
+              isHost={hostId == userId}
               teamStep={teamStep}
               setTeamStep={setTeamStep}
+              inviteCode={inviteCode}
             />
           )}
 
@@ -581,15 +585,7 @@ function EnterTeamSp({ navigation, route }) {
             />
           )}
         </View>
-        {/* 호스트 지정 템플릿으로 이동 */}
-        {/* {step === 5 && (
-          // <HostTemplate navigation={navigation} goToOriginal={goToOriginal} data={data} isHost={isHost} />
-          <View style={{backgroundColor: 'green'}}>
-            <Text>ddddd</Text>
-          </View>
-        )} */}
       </View>
-      {/* </TouchableWithoutFeedback> */}
     </View>
   );
 }

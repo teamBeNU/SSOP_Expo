@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import * as ImagePicker from 'expo-image-picker';
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, Dimensions, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { Alert, Dimensions, Image, Linking, ScrollView, Text, TextInput, TouchableOpacity, View, Modal, TouchableWithoutFeedback } from "react-native";
 import "react-native-gesture-handler";
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
@@ -29,7 +29,7 @@ import { avatarCapture } from "../../utils/avatarCapture";
 import AvatarCustom from "../Avatar/AvatarCustom";
 import SelectCover from "../CreateCard/SelectCover";
 
-export default function HostTemplate({ navigation, goToOriginal, data, isHost, teamStep, setTeamStep, hostTemplateData }) {
+export default function HostTemplate({ navigation, goToOriginal, data, isHost, teamStep, setTeamStep, hostTemplateData, inviteCode }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
   const [step, setStep] = useState(1);
@@ -1264,11 +1264,13 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
               {isHost &&
                 <>
                   <TouchableOpacity
+                    onPress={handleShareButtonPress}
                     style={[styles.btnShareCard, { marginBottom: 0 }]}
                   >
                     <ShareIcon />
                     <Text style={styles.btnText}>초대코드 및 링크 공유하기</Text>
                   </TouchableOpacity>
+
                   {/* 공유 버튼을 눌렀을 때 표시되는 모달 */}
                   <Modal
                     animationType="fade"
