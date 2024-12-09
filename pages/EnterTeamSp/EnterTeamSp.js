@@ -438,7 +438,7 @@ function EnterTeamSp({ navigation, route }) {
               <Text style={styles.font22}> 
                 {isHost
                   ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해 보세요.`
-                  : `팀스페이스 입장이 완료되었어요!\n다른 구성원을 확인해 보세요.`
+                  : `팀스페이스에 입장했어요!\n다른 구성원을 확인해 보세요.`
                 }
               </Text>
 
@@ -452,11 +452,12 @@ function EnterTeamSp({ navigation, route }) {
               <View style={styles.flexSpacer} />
               <View style={[styles.btnContainer3, { marginBottom: 8,  marginHorizontal: 0 }]}>
                 <TouchableOpacity
-                  style={[styles.btnCheckCard, { marginBottom: 8 }]}
+                  style={[isHost ? styles.btnCheckCard : styles.btnShareCard, { marginBottom: 8 }]}
                   onPress={() => navigation.navigate('스페이스')}
                 >
-                  <Text style={styles.btnCheckText}>팀스페이스 확인</Text>
+                  <Text style={isHost ? styles.btnCheckText: styles.btnText}>팀스페이스 확인</Text>
                 </TouchableOpacity>
+
                 {isHost && 
                   <TouchableOpacity
                     style={[styles.btnShareCard, { marginBottom: 0 }]}

@@ -638,6 +638,10 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
   const maxSteps = 9;
   const initialProgress = 0.4285;
 
+  useEffect(() => {
+    console.log('ㅇㅇㅇㅇㅇㅇㅇ: ' , isHost)
+  }, [isHost])
+
   return (
     // <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{flex:1}}>
@@ -1182,7 +1186,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
               <Text style={styles.font22}>
                 {isHost
                   ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해 보세요.`
-                  : `팀스페이스 입장이 완료되었어요!\n다른 구성원을 확인해 보세요.`
+                  : `팀스페이스에 입장했요!\n다른 구성원을 확인해 보세요.`
                 } </Text>
 
               <View style={{ alignItems: 'center', marginTop: 100 }}>
@@ -1195,10 +1199,10 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
               {/* <View style={[styles.btnContainer2, { marginBottom: 8 }]}> */}
               <View style={[styles.btnContainer3, { marginBottom: 8 }]}>
                 <TouchableOpacity
-                  style={[styles.btnCheckCard, { marginBottom: 8 }]}
+                  style={[isHost ? styles.btnCheckCard : styles.btnShareCard, { marginBottom: 8 }]}
                   onPress={() => navigation.navigate('스페이스')}
                 >
-                  <Text style={styles.btnCheckText}>팀스페이스 확인</Text>
+                  <Text style={isHost ? styles.btnCheckText: styles.btnText}>팀스페이스 확인</Text>
                 </TouchableOpacity>
                 {isHost && 
                   <TouchableOpacity

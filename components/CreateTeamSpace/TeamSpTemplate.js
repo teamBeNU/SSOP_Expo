@@ -685,7 +685,19 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                         </View>
                     )}
 
-                    {modalVisible && (
+                    {(modalVisible && step === 3) && (
+                        <CustomModal
+                            modalVisible={modalVisible}
+                            setModalVisible={setModalVisible}
+                            handleBtn1={handleBtn1}
+                            handleBtn2={handleBtn2}
+                            modalTitle={`카드 등록을 취소하고 홈으로 돌아가시겠어요?`}
+                            modalText={'홈으로 돌아가도 팀스페이스에서 카드 등록을 할 수 있어요.'}
+                            btn1={'계속 할래요'}
+                            btn2={'네 돌아갈래요'}
+                        />
+                    )}
+                    {(modalVisible && step !== 3) && (
                         <CustomModal
                             modalVisible={modalVisible}
                             setModalVisible={setModalVisible}
