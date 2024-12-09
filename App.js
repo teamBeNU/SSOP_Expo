@@ -354,6 +354,7 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            headerShadowVisible: false,
           }}
           />
           <Stack.Screen 
@@ -367,6 +368,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            headerShadowVisible: false,
           }}
           />
         {/* <Stack.Screen name="Space" component={Space} /> */}
