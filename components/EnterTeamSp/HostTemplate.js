@@ -1181,7 +1181,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
             <View style={{ height: '100%', paddingHorizontal: 16}}>
               <Text style={styles.font22}>
                 {isHost
-                  ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해보세요.`
+                  ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해 보세요.`
                   : `팀스페이스 입장이 완료되었어요!\n다른 구성원을 확인해 보세요.`
                 } </Text>
 
