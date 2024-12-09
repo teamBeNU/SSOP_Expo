@@ -347,7 +347,7 @@ function CreateTeamSp({ navigation }) {
                   {'\n'} 바로 초대해 보세요. </Text>
 
                 <View style={styles.shareContainer}>
-                  <ShareImage />
+                  <ShareImage width={400} height={400} />
                   <View style={styles.shareBox}>
                     <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={handleShareButtonPress}>
                       <ShareIcon /><Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>

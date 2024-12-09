@@ -562,13 +562,13 @@ export default function TeamSpTemplate({ navigation, goToOriginal, teamName, tea
                                     <TextInput
                                         style={[styles.nameInput, { flex: 1 }]}
                                         placeholder='직접 입력하여 추가하기'
-                                        maxLength={5}
+                                        maxLength={10}
                                         value={plus}
                                         onChangeText={text => setPlus(text)}
                                         onSubmitEditing={addPlus}
                                     />
                                 </View>
-                                <Text style={[styles.nameLeng, { marginTop: -32, marginRight: 16, marginBottom: 16 }]}> {plusLength} / 5 </Text>
+                                <Text style={[styles.nameLeng, { marginTop: -32, marginRight: 16, marginBottom: 16 }]}> {plusLength} / 10 </Text>
 
                                 <View style={styles.elementContainer}>
                                     {plusList.map((item, index) => (

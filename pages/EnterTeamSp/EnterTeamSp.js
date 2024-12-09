@@ -13,7 +13,7 @@ import Toast from "react-native-toast-message";
 import CustomModal from "../../components/CreateCard/Modal/CustomModal.js";
 
 import CardSample from '../../assets/teamSp/bg_gradation.svg';
-import EnterEndCard from '../../assets/teamSp/EnterEndCard';
+import EnterEndCard from '../../assets/Login/graphic_done.svg';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import NoCardsView from '../../components/Bluetooth/NoCardsView.js';
 import HostTemplate from '../../components/EnterTeamSp/HostTemplate.js';
@@ -284,6 +284,21 @@ function EnterTeamSp({ navigation, route }) {
           </TouchableOpacity>
         ),
       });
+    } else if (step === 2) {
+      navigation.setOptions({
+        headerTitle: '카드 등록하기',
+        headerTitleAlign: 'center',
+        headerLeft: () => (
+          <TouchableOpacity onPress={() => {navigation.goBack();}}>
+            <LeftArrowIcon style={{marginLeft: 8}}/>
+          </TouchableOpacity>
+        ),
+        headerRight: () => (
+          <TouchableOpacity onPress={() => {navigation.navigate('홈');}}>
+            <HomeIcon style={{marginRight: 20}}/>
+          </TouchableOpacity>
+        ),
+      });
     }
   })
 
@@ -304,13 +319,23 @@ function EnterTeamSp({ navigation, route }) {
             />
           )
         ) : (
-          <Progress.Bar
-            progress={step / 3}
-            width={null}
-            height={2}
-            color={theme.green}
-            borderWidth={0}
-          />
+          step === 2 ? (
+            <Progress.Bar
+              progress={1.5 / 3}
+              width={null}
+              height={2}
+              color={theme.green}
+              borderWidth={0}
+            />
+          ) : (
+            <Progress.Bar
+              progress={step / 3}
+              width={null}
+              height={2}
+              color={theme.green}
+              borderWidth={0}
+            />
+          )
         )}
 
         {step === 0 && (
@@ -411,7 +436,7 @@ function EnterTeamSp({ navigation, route }) {
               <Text style={styles.font22}> 팀스페이스 입장이 완료되었어요! {"\n"} 다른 구성원을 확인해 보세요. </Text>
 
               <View style={{ alignItems: 'center', marginTop: 135 }}>
-                <EnterEndCard />
+                <EnterEndCard width="300" height='300'/>
               </View>
 
               <View style={styles.flexSpacer} />
@@ -420,9 +445,9 @@ function EnterTeamSp({ navigation, route }) {
                 <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('스페이스')}>
                   <Text style={styles.btnText}> 팀스페이스 확인 </Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
+                {/* <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
                   <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
-                </TouchableOpacity>
+                </TouchableOpacity> */}
               </View>
             </View>
           )}

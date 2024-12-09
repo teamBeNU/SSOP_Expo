@@ -12,6 +12,8 @@ import { theme } from "../../theme";
 import CustomModal from "../CreateCard/Modal/CustomModal";
 import DropDown from "./DropDown";
 
+import ShareIcon from '../../assets/icons/ic_share_white.svg';
+import DoneEndCard from '../../assets/teamSp/graphic_invite.svg';
 import EnterEndCard from '../../assets/Login/graphic_done.svg';
 import HostFanFalse from "./HostFanFalse";
 import HostFanTrue from "./HostFanTrue";
@@ -925,8 +927,8 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
             <View style={[styles.viewContainer, optionsCount >= 2 && {paddingHorizontal: -16}]}>
               <ScrollView showsVerticalScrollIndicator={false}>
 
-                <Text style={[styles.title, { marginLeft: 16 }]}>정보를 더 추가할 수 있어요.</Text>
-                <Text style={[styles.subtitle, { marginLeft: 16 }]}>더 보여주고 싶은 정보만 선택하여 입력하세요. </Text>
+                <Text style={[styles.title, optionsCount >= 2 && {paddingHorizontal: 16}]}>정보를 더 추가할 수 있어요.</Text>
+                <Text style={[styles.subtitle, optionsCount >= 2 && {paddingHorizontal: 16}]}>더 보여주고 싶은 정보만 선택하여 입력하세요. </Text>
 
                 {optionsCount >= 2 ? (
                   <HostFreeFalse onData={templateData} onDataChange={handleTemplateData} />
@@ -1163,7 +1165,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
           )}
 
           {step === 8 && (
-            <View style={{ marginLeft: -16, marginTop: -16 }}>
+            <View style={{ marginTop: -16 }}>
               {card_cover === "avatar" && (
                 <AvatarCustom
                   avatar={null}
@@ -1176,7 +1178,7 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
 
           {/* 팀스페이스 입장 완료 */}
           {step === 9 && (
-            <View style={{ height: '100%' }}>
+            <View style={{ height: '100%', paddingHorizontal: 16}}>
               <Text style={styles.font22}>
                 {isHost
                   ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해보세요.`
@@ -1184,16 +1186,28 @@ export default function HostTemplate({ navigation, goToOriginal, data, isHost, t
                 } </Text>
 
               <View style={{ alignItems: 'center', marginTop: 100 }}>
-                <EnterEndCard width="300" height='300'/>
+                {isHost
+                  ? <DoneEndCard width="300" height='300'/>
+                  : <EnterEndCard width="300" height='300'/>
+                }
               </View>
 
-              <View style={[styles.btnContainer2, { marginBottom: 8 }]}>
+              {/* <View style={[styles.btnContainer2, { marginBottom: 8 }]}> */}
+              <View style={[styles.btnContainer3, { marginBottom: 8 }]}>
                 <TouchableOpacity
-                  style={[styles.btnNext2, { marginBottom: 0 }]}
+                  style={[styles.btnCheckCard, { marginBottom: 8 }]}
                   onPress={() => navigation.navigate('스페이스')}
                 >
-                  <Text style={styles.btnText}>팀스페이스 확인</Text>
+                  <Text style={styles.btnCheckText}>팀스페이스 확인</Text>
                 </TouchableOpacity>
+                {isHost && 
+                  <TouchableOpacity
+                    style={[styles.btnShareCard, { marginBottom: 0 }]}
+                  >
+                    <ShareIcon />
+                    <Text style={styles.btnText}>초대코드 및 링크 공유하기</Text>
+                  </TouchableOpacity>
+                }
 
                 {/* {isHost && (
                   <TouchableOpacity
