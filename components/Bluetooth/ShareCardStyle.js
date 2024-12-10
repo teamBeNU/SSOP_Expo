@@ -17,14 +17,16 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: 'white',
         overflow: 'hidden',
-        shadowColor: "rgb(73, 81, 100, 0.09)",
+        // Android - Shadow
+        elevation: 12,
+        // IOS - Shadow
+        shadowColor: 'rgba(73, 81, 100, 0.5)',
         shadowOffset: {
             width: 0,
-            height: 2
+            height: 2,
         },
-        elevation: 0.5,
-        shadowRadius: 16,
-        shadowOpacity: 0.09,
+        shadowOpacity: 0.07,
+        shadowRadius: 12,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)"
 	},

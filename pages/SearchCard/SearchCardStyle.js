@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     mainLayout: {
         backgroundColor: theme.white,
         flex: 1, // 디바이스 세로 100%
-        paddingTop: 16,
+        paddingTop: 40,
         paddingHorizontal: 16,
     },
     spaceLayout: {

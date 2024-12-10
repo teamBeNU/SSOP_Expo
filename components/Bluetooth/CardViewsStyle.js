@@ -225,9 +225,9 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 16,
         // Android - Shadow
-        elevation: 5,
+        elevation: 12,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100, 0.07)',
+        shadowColor: 'rgba(73, 81, 100, 0.2)',
         shadowOffset: {
             width: 0,
             height: 2,

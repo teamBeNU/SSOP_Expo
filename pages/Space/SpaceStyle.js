@@ -221,7 +221,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: theme.white,
         borderRadius: 12,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowColor: "rgba(73, 81, 100, 0.2)",
         shadowOffset: {
             width: 0,
             height: 2
