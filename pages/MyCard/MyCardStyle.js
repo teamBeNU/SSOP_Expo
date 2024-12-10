@@ -11,7 +11,7 @@ export const styles = StyleSheet.create({
         container:{
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor: 'white',
+        backgroundColor: theme.white,
         //flex: 1,
         },
 	cardPage: {

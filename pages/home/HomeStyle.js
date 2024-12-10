@@ -41,12 +41,12 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: theme.white,
         // Android - Shadow
-        elevation: 3,
+        elevation: 16,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.09)',
         shadowOffset: {
-            width: 4,
-            height: 4,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.09,
         shadowRadius: 16,
@@ -85,7 +85,7 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 12,
         paddingVertical: 8,
         borderRadius: 25,
-        backgroundColor: theme.gray20,
+        backgroundColor: '#212121',
         shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
@@ -121,20 +121,14 @@ export const styles = StyleSheet.create({
         height: 40,
         borderRadius: 25,
         backgroundColor: "#FFFFFF",
-        // Android - Shadow
-        elevation: 3,
-        // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
-        shadowOffset: {
-            width: 4,
-            height: 4,
-        },
-        shadowOpacity: 0.09,
+        shadowColor: 'rgba(151, 160, 181, 0.2)',
+        shadowOpacity: 0.14,
         shadowRadius: 16,
         borderWidth: 1.3,
-        borderColor: "rgba(244, 244, 244, 1.0)",
+        borderColor: "rgba(248, 248, 248, 1.0)",
         alignItems: 'center',
         justifyContent: 'center',
+        elevation: 16,
     },
     container: {
         flex: 1,
@@ -160,7 +154,7 @@ export const styles = StyleSheet.create({
         marginTop: 6,
     },
     Text16: {
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
         letterSpacing: -0.32,
         fontWeight: "600",

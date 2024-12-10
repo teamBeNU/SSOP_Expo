@@ -17,11 +17,12 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: 'white',
         overflow: 'hidden',
-        shadowColor: "rgb(73, 81, 100)",
+        shadowColor: "rgb(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
             height: 2
         },
+        elevation: 0.5,
         shadowRadius: 16,
         shadowOpacity: 0.09,
         borderWidth: 1,
@@ -33,17 +34,17 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: theme.white,
         position: 'relative',
-        borderStyle: 'solid',
         borderWidth: 1.5,
         borderColor: theme.gray95,
         marginTop: 12,
-        shadowColor: "rgb(73, 81, 100)",
+        shadowColor: "rgb(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
             height: 2
         },
         shadowRadius: 16,
         shadowOpacity: 0.09,
+        elevation: 0
     },
     
     avatar: {

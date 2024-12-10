@@ -46,7 +46,7 @@ export const textStyles = {
     letterSpacing: -0.14,
   },
   headline16: {
-    fontFamily: 'PretendardSemiBold',
+    fontFamily: 'PretendardMedium',
     fontSize: 16,
     fontWeight: '500',
     letterSpacing: -0.32,

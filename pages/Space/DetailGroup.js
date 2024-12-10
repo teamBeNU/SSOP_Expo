@@ -11,6 +11,7 @@ import ExchangeModal from '../../components/Space/ExchangeModal.js';
 import { MySpaceGroup } from "../../components/Space/SpaceList.js";
 import { NewGroupModal, SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import { styles } from './SpaceStyle';
+import { textStyles } from "../../textStyles.js";
 
 import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
 import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
@@ -438,7 +439,7 @@ function DetailSpaceGroup({ route, navigation, groupName }) {
               </TouchableOpacity>
             ),
             headerTitle: () => (
-              <Text style={{ fontSize: 16, fontWeight: '500' }}>
+              <Text style={[textStyles.body16m, { color: theme.gray10 }]}>
                 {selectedCards.length}개 선택됨
               </Text>
             ),
@@ -621,7 +622,7 @@ function ManageCardScreen({ route, navigation }) {
         </TouchableOpacity>
       ),
       headerTitle: () => (
-        <Text style={{ fontSize: 16, fontWeight: '500' }}>
+        <Text style={[textStyles.body16m, { color: theme.gray10 }]}>
           {selectedCards.length}개 선택됨
         </Text>
       ),

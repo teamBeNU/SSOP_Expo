@@ -79,14 +79,7 @@ export const CardFront = ({ cardData, onFlip, isSample, viewShotRef }) => {
             options={{ fileName: "cardfront", format: "png", quality: 1 }}
         >
         <View style={{...styles.card}}>
-            
-           
-                {/* {cardData.card_cover === 'avatar' ? 
-                <View style={[styles.cardImgArea, { backgroundColor: getColor(cardData.avatar.bgColor)}]}>
-                        
-                </View>
-                : */}
-                 {isSample ? 
+            {isSample ? 
                 <View>
                 <Image
                 source={ require('../../assets/Card/sampleCover.png') }
@@ -109,7 +102,7 @@ export const CardFront = ({ cardData, onFlip, isSample, viewShotRef }) => {
                 resizeMode="cover"
                 style={styles.cardImgArea}
                 />
-                 }
+            }
             <View style={styles.cardTextArea}>
                 <View style={styles.basicInfo}> 
                     <Text style={styles.name}>{isSample ? '이름' : cardData.cardEssential.card_name}</Text>

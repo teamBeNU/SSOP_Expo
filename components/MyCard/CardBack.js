@@ -83,7 +83,7 @@ export const CardBack = ({cardData, onVerticalScrollStart, onVerticalScrollEnd, 
     };
 
     const renderTemplateSpecificInfo = () => {
-        //console.log ('1 : ', isOptional1(cardData), ' t : ', isTemplateOptional(cardData), ' 2: ', isOptional2(cardData), ' 3: ', isOptional3(cardData));
+        //console.log ('stdent ', cardData.student);
         if(isSample) {
             return (
                 <ScrollView 
@@ -461,12 +461,12 @@ const CardOptional3 = ({cardData}) => {
 }
 
 const StudentOptional = ({cardData}) => {
-    //console.log(cardData.student);
+    //console.log(cardData.student.card_student_id);
     return (
         <View style={(
             (cardData.cardOptional?.card_birth === '' || cardData.card?.cardOptional?.card_bSecret) && 
             cardData.cardOptional?.card_MBTI === ''
-        ) ? {gap: 24, marginTop: -24} : {gap: 24}}>
+        ) ? {gap: 24, marginTop: 0} : {gap: 24}}>
             {cardData.card_template === 'free' && cardData.student.card_student_school ? (
                 <View style={styles.info}>                             
                 <Text style={styles.topic}>학교</Text>                             

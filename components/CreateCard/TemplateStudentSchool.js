@@ -393,11 +393,19 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
             navigation.setOptions({
                 headerTitle: '카드 정보 작성하기',
                 headerTitleAlign: 'center',
+                headerTitleStyle: {
+                    ...textStyles.body16m,
+                    color: theme.gray10
+                  },
             });
         } else if (step === 6) {
             navigation.setOptions({
                 headerTitle: '카드 커버 선택하기',
                 headerTitleAlign: 'center',
+                headerTitleStyle: {
+                    ...textStyles.body16m,
+                    color: theme.gray10
+                  },
             });
         } else if (step === 7) {
             navigation.setOptions({
@@ -413,6 +421,10 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                         <Text style={styles.avatarNext}>완료</Text>
                     </TouchableOpacity>
                 ),
+                headerTitleStyle: {
+                    ...textStyles.body16m,
+                    color: theme.gray10
+                  },
             });
         } else if (step === 8) {
             navigation.setOptions({
@@ -428,6 +440,10 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                         <HomeIcon style={{marginRight: 20}}/>
                     </TouchableOpacity>
                 ),
+                headerTitleStyle: {
+                    ...textStyles.body16m,
+                    color: theme.gray10
+                  },
             });
         }
     }, [step]);

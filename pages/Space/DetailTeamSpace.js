@@ -7,6 +7,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { styles } from './SpaceStyle';
 import { Menu, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import { SpaceModal } from "../../components/Space/SpaceModal.js";
+import { textStyles } from "../../textStyles.js";
 import Toast from 'react-native-toast-message';
 import CardsView from '../../components/Bluetooth/CardsView.js';
 import DetailTeamSpaceScreen from "./DetailTeamSpaceScreen.js";
@@ -484,7 +485,7 @@ function SaveTellScreen({ navigation }) {
         </TouchableOpacity>
       ),
       headerTitle: () => (
-        <Text style={{ fontSize: 16, fontWeight: '500' }}>
+        <Text style={[textStyles.body16m, { color: theme.gray10 }]}>
           {selectedCards.length}개 선택됨
         </Text>
       ),

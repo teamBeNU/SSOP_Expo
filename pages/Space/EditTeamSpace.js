@@ -10,6 +10,8 @@ import CloseIcon from '../../assets/icons/close.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
 import OutICon from '../../assets/icons/ic_out.svg';
+import { textStyles } from "../../textStyles.js";
+import { theme } from "../../theme.js";
 
 function EditTeamSpace({ route, navigation }) {
 
@@ -122,7 +124,7 @@ function EditTeamSpace({ route, navigation }) {
         </TouchableOpacity>
       ),
       headerTitle: () => (
-        <Text style={{ fontSize: 16, fontWeight: '500' }}>
+        <Text style={[textStyles.body16m, { color: theme.gray10 }]}>
           {selectedGroups.length}개 선택됨
         </Text>
       ),
