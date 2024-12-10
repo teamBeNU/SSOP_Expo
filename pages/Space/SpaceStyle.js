@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     mainlayout: {
         flex: 1,
         paddingTop: 8,
-        paddingHorizontal: 8,
+        paddingHorizontal: 16,
         backgroundColor: theme.white
     },
     editgrouplayout: {
@@ -96,7 +96,6 @@ export const styles = StyleSheet.create({
         marginLeft: 6,
     },
     groupContent: {
-        marginHorizontal: 8,
         flex: 1,
         borderRadius: 16,
         backgroundColor: theme.white,
@@ -105,9 +104,9 @@ export const styles = StyleSheet.create({
         paddingVertical: 18.5,
         paddingHorizontal: 16,
         // Android - Shadow
-        elevation: 1,
+        elevation: 12,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.15)',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -222,14 +221,15 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: theme.white,
         borderRadius: 12,
-        shadowColor: "rgba(73, 81, 100, 0.07)",
+        shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
             height: 2
         },
         shadowRadius: 12,
-        shadowOpacity: 1,
+        shadowOpacity: 0,
         borderWidth: 1,
+        elevation: 12,
         borderColor: "rgba(244, 244, 244, 1.0)"
     },
     tab: {

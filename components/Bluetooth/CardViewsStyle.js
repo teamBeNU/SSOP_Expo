@@ -70,7 +70,7 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.gray90,
         borderRadius: 50,
-        paddingVertical: 10,
+        paddingVertical: 8,
         paddingHorizontal: 16,
         backgroundColor: theme.white
     },
@@ -91,7 +91,7 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.gray90,
         borderRadius: 50,
-        padding: 8,
+        padding: 10,
         marginRight: 6,
         justifyContent: 'center',
         alignItems: 'center',
