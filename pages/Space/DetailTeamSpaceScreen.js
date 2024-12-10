@@ -5,12 +5,12 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
 import { View, Text, TouchableOpacity, Modal, Alert, TouchableWithoutFeedback, StatusBar, Share } from "react-native";
 import { styles } from './SpaceStyle.js';
-import * as Sharing from 'expo-sharing';
 import * as Clipboard from 'expo-clipboard';
 import MySpaceDetailView from "../../components/Space/MySpaceDetailView.js";
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import Contact from '../../assets/icons/ic_contact_black.svg';
 import Swap from '../../assets/icons/ic_swap.svg';
+import Toast from "react-native-toast-message";
 
 // 상세 팀스페이스
 export default function DetailTeamSpaceScreen({ navigation }) {
@@ -28,7 +28,6 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   const [token, setToken] = useState(null);
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState([]);
-  const [teamName, setTeamName] = useState();
   const [inviteCode, setInviteCode] = useState(null);
 
   const [cardId, setCardId] = useState(null); // 기존 카드 ID
@@ -66,7 +65,6 @@ export default function DetailTeamSpaceScreen({ navigation }) {
   }, [token]);
 
   useEffect(() => {
-
     if (!teamId) {
       console.error("팀 ID가 전달되지 않았습니다.");
       return null;
@@ -198,11 +196,16 @@ export default function DetailTeamSpaceScreen({ navigation }) {
     setIsModalVisible(true);
   };
 
-  // 복사
+  // 초대코드 복사
   const copyinviteCode = async () => {
-    const textToCopy = inviteCode;
-    await Clipboard.setStringAsync(textToCopy);
-    Alert.alert("클립보드에 복사되었습니다.");
+    try {
+      const stringInviteCode = String(inviteCode);
+      await Clipboard.setStringAsync(stringInviteCode);
+      showCustomToast("클립보드에 복사되었습니다.");
+    } catch (error) {
+      console.error("클립보드 복사 실패:", error);
+      showCustomToast("클립보드 복사 중 오류가 발생했습니다.");
+    }
   };
 
   const shareLinkCode = async () => {
@@ -220,6 +223,16 @@ export default function DetailTeamSpaceScreen({ navigation }) {
     } catch (error) {
       console.error('공유 오류:', error);
     }      
+  };
+
+  // Toast 표시 함수
+  const showCustomToast = (text) => {
+    Toast.show({
+      text1: text,
+      type: 'selectedToast',
+      position: 'bottom',
+      visibilityTime: 2000, // 2초간 표시
+    });
   };
 
   return (

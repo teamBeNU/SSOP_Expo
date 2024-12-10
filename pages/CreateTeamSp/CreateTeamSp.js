@@ -1,26 +1,22 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Clipboard from 'expo-clipboard';
-import { View, Text, TextInput, Image, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Alert, Modal } from "react-native";
-import { styles } from './CreateTmSpStyle';
-import { RadioButton } from 'react-native-paper';
-import { theme } from "../../theme";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Keyboard, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
 import "react-native-gesture-handler";
+import { RadioButton } from 'react-native-paper';
 import * as Progress from 'react-native-progress';
-import * as Sharing from 'expo-sharing';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
-import ShareImage from '../../assets/teamSp/bg_gradation.svg';
-import ShareImage2 from '../../assets/icons/LinkShareImage.svg'
-import ShareIcon from '../../assets/icons/ic_share_blue.svg';
-import HomeIcon from "../../assets/icons/ic_home_gray.svg";
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
+import HomeIcon from "../../assets/icons/ic_home_gray.svg";
+import ShareImage from '../../assets/teamSp/bg_gradation.svg';
 import CustomModal from "../../components/CreateCard/Modal/CustomModal";
+import { theme } from "../../theme";
+import { styles } from './CreateTmSpStyle';
 
-import Student from '../../assets/profile/student.svg';
-import Worker from '../../assets/profile/worker.svg';
 import Fan from '../../assets/profile/fan.svg';
 import Free from '../../assets/profile/free.svg';
+import Student from '../../assets/profile/student.svg';
+import Worker from '../../assets/profile/worker.svg';
 
 import TeamSpTemplate from "../../components/CreateTeamSpace/TeamSpTemplate";
 
@@ -195,40 +191,6 @@ function CreateTeamSp({ navigation }) {
     console.log(id);
   };
 
-  // step6 - 초대 코드 복사
-  const copyInviteCode = async () => {
-    try {
-      const stringInviteCode = String(inviteCode);
-      await Clipboard.setStringAsync(stringInviteCode);
-      showCustomToast("클립보드에 복사되었습니다.");
-    } catch (error) {
-      console.error("클립보드 복사 실패:", error);
-      showCustomToast("클립보드 복사 중 오류가 발생했습니다.");
-    }
-  };
-
-  const shareInviteCode = async () => {
-    try {
-      const isAvailable = await Sharing.isAvailableAsync();
-      if (!isAvailable) {
-        showCustomToast('');
-        return;
-      }
-
-      await Sharing.shareAsync('https://naver.com', {
-        dialogTitle: 'SSOP Share TEST',
-      });
-    } catch (error) {
-      showCustomToast('Error sharing', error.message);
-    }
-  };
-
-  const [isModalVisible, setIsModalVisible] = useState(false);
-
-  const handleShareButtonPress = () => {
-    setIsModalVisible(true);
-  };
-
   return (
     <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
       <View style={{ backgroundColor: theme.white, flex: 1 }}>
@@ -340,7 +302,7 @@ function CreateTeamSp({ navigation }) {
             </View>
           )}
 
-          {/* 초대코드 */}
+          {/* 생성 후 카드 등록 */}
           {step === 4 && (
             <View style={styles.stepContainer}>
               <View>
@@ -349,44 +311,6 @@ function CreateTeamSp({ navigation }) {
                 <View style={{marginTop: 12, marginLeft: -10}}>
                   <ShareImage width={400} height={400} />
                 </View>
-                {/* <View style={styles.shareContainer}>
-                  <ShareImage width={300} height={300} />
-                  <View style={styles.shareBox}>
-                    <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center' }} onPress={handleShareButtonPress}>
-                      <ShareIcon /><Text style={styles.shareText}>초대코드 및 링크 공유하기</Text>
-                    </TouchableOpacity>
-                    <Modal
-                      animationType="fade"
-                      transparent={true}
-                      visible={isModalVisible}
-                      onRequestClose={() => {
-                        setIsModalVisible(!isModalVisible);
-                      }}
-                    >
-                      <TouchableWithoutFeedback onPress={() => setIsModalVisible(false)}>
-                        <View style={styles.shareModalContainer}>
-                          <TouchableWithoutFeedback onPress={() => { }}>
-                            <View style={styles.ShareModalView}>
-                              <TouchableOpacity onPress={() => { copyInviteCode(); setIsModalVisible(false); }}>
-                                <Text style={[styles.ShareModalText, { lineHeight: 20 }]}>
-                                  초대 링크 및 초대코드 복사하기 {"\n"}
-                                  <Text style={styles.nameLeng}>초대코드 : {inviteCode}</Text>
-                                </Text>
-                              </TouchableOpacity>
-
-                              <View style={{ borderBottomWidth: 1, borderBottomColor: theme.gray90 }} />
-
-                              <TouchableOpacity onPress={shareInviteCode}>
-                                <Text style={styles.ShareModalText}>초대 링크 및 초대코드 공유하기</Text>
-                              </TouchableOpacity>
-                            </View>
-                          </TouchableWithoutFeedback>
-                        </View>
-                      </TouchableWithoutFeedback>
-                    </Modal>
-                  </View>
-                </View> */}
-
               </View>
 
               <View style={[styles.btnContainer, { marginBottom: 8 }]}>
@@ -394,14 +318,6 @@ function CreateTeamSp({ navigation }) {
                   <Text style={styles.btnText}> 카드 등록하기 </Text>
                 </TouchableOpacity>
               </View>
-              {/* <View style={[styles.btnContainer, { marginBottom: 8 }]}>
-                <TouchableOpacity style={[styles.btnNext, { marginBottom: 0 }]} onPress={() => navigation.navigate('팀스페이스 입장', { step: 2, inviteCode: inviteCode })}>
-                  <Text style={styles.btnText}> 카드 생성하기 </Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={[styles.btnWhite, { marginTop: 8 }]} onPress={() => navigation.navigate("홈")}>
-                  <Text style={styles.btnTextBlack}> 홈화면으로 </Text>
-                </TouchableOpacity>
-              </View> */}
 
             </View>
           )}
@@ -472,6 +388,5 @@ function CreateTeamSp({ navigation }) {
     </TouchableWithoutFeedback >
   );
 }
-
 
 export default CreateTeamSp;

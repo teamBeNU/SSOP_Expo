@@ -147,7 +147,7 @@ export const styles = StyleSheet.create({
 
     // 팀스페이스 카드
     host: {
-        borderRadius: 8,
+        borderRadius: 10,
         marginRight: 8,
         backgroundColor: 'rgba(33, 33, 33, 0.80)',
         fontFamily: 'PretendardRegular',
@@ -221,7 +221,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: theme.white,
         borderRadius: 12,
-        shadowColor: "rgba(73, 81, 100, 0.09)",
+        shadowColor: "rgba(73, 81, 100, 0.2)",
         shadowOffset: {
             width: 0,
             height: 2

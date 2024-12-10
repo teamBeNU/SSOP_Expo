@@ -7,13 +7,13 @@ export const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "flex-end",
-        backgroundColor: "rgba(0, 0, 0, 0.4)"
+        backgroundColor: "rgba(0, 0, 0, 0.4)",
     },
     background: {
         flex: 1
     },
     bottomSheetContainer: {
-        height: 230,
+        height: 254,
         // justifyContent: "center",
         // alignItems: "center",
         backgroundColor: "white",
@@ -49,15 +49,24 @@ export const styles = StyleSheet.create({
     },
     btn: {
         paddingHorizontal: 24,
-        paddingVertical: 18.5,
+        paddingVertical: 12,
     },
     btnText: {
         color: 'black',
-        fontFamily: 'PretendardRegular',
+        fontFamily: 'PretendardSemibold',
         fontSize: 16,
         fontStyle: "normal",
-        fontWeight: "400",
+        fontWeight: "500",
         letterSpacing: -0.32,
+    },
+    btnSubText: {
+        color: theme.gray40,
+        fontFamily: 'PretendardRegular',
+        fontSize: 14,
+        fontStyle: "normal",
+        fontWeight: "400",
+        letterSpacing: -0.14,
+        marginTop: 8
     },
     line: {
         alignSelf: "stretch",
