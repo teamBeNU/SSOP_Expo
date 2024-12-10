@@ -1,5 +1,6 @@
 import { Dimensions, StyleSheet, Platform, StatusBar } from 'react-native';
 import { theme } from "../../theme";
+import { textStyles } from '../../textStyles';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 const SCREEN_WIDTH = Dimensions.get('window').width;
@@ -94,17 +95,15 @@ export const styles = StyleSheet.create({
         },
     hideContainer: {
         flexDirection: 'row',
-        gap: 6,
         marginTop: 12,
         justifyContent: 'flex-end',
         alignItems: 'center',
+        gap: 6,
     },
     hideText: {
         color: theme.gray60,
-        fontFamily: 'PretendardRegular',
-        fontSize: 14,
-        fontWeight: '400',
-        letterSpacing: -0.14
+        ...textStyles.body14,
+        paddingBottom: 4,
     },
      //modal style
      modalContainer: {
@@ -153,6 +152,24 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: 16,
         backgroundColor: theme.gray95,
+        },
+        memoInput: {
+        color: theme.gray10,
+        fontFamily: 'Pretendard',
+        fontSize: 16,
+        fontWeight: '400',
+        lineHeight: 24,
+        letterSpacing: -0.32
+        },
+        lengContainer: {
+        width: '100%',
+        alignItems: 'flex-end',
+        marginTop: 6,
+        marginRight: 4
+        },
+        memoLeng: {
+        color: theme.gray60,
+        ...textStyles.body14,
         },
         button: {
         width: '100%',

@@ -5,7 +5,7 @@ import { styles } from './MyCardStyle';
 import ExchangeModal from '../../components/Space/ExchangeModal.js';
 
 import MoreIcon from '../../assets/icons/ic_more_regular_line.svg';
-import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 import SwapIcon from '../../assets/icons/ic_swap_regular.svg';
 import CardsView from '../../pages/MyCard/MyCardsView.js';
 import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';

@@ -13,7 +13,7 @@ import HomeLogo from './assets/HomeIcon/logo_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
 import { AuthContext, AuthProvider } from './AuthContext';
-
+import { textStyles } from "./textStyles";
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
@@ -268,7 +268,14 @@ export default function App() {
   <AuthProvider>
     <MenuProvider>
       <NavigationContainer linking={linking}>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerTitleStyle: {
+              ...textStyles.body16m,
+              color: theme.gray10,
+            },
+          }}
+        >
          <Stack.Screen name="AppContent" component={AppContent} options={{ headerShown: false }} />
         <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} />
         <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }} />
@@ -305,7 +312,8 @@ export default function App() {
             <TouchableOpacity onPress={onPress}>
               <LeftArrowIcon style={{ marginLeft: 8  }}/>
             </TouchableOpacity>
-          ),}} />
+          ),
+          }} />
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} 
           options={{headerShown: true,
@@ -328,6 +336,7 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}
           />
           <Stack.Screen 
@@ -341,6 +350,7 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}
           />
         <Stack.Screen 
@@ -354,6 +364,7 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
             headerShadowVisible: false,
           }}
           />
@@ -369,6 +380,7 @@ export default function App() {
               </TouchableOpacity>
             ),
             headerShadowVisible: false,
+            
           }}
           />
         {/* <Stack.Screen name="Space" component={Space} /> */}
@@ -382,7 +394,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }}
         />
         <Stack.Screen 
@@ -395,7 +408,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }}
         />
         <Stack.Screen 
@@ -407,7 +421,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }}
         />
         <Stack.Screen 
@@ -420,7 +435,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }}
         />
         <Stack.Screen 
@@ -433,7 +449,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
            }} 
           />
         <Stack.Screen name="온보딩" component={Onboarding} options={{ headerShown: false }}/>  
@@ -447,7 +464,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }} />
         <Stack.Screen 
           name="Memo" 
@@ -458,6 +476,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}
           />
         <Stack.Screen name="MY 계정관리" component={UserAccount} 
@@ -469,6 +488,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
           options={{
@@ -479,6 +499,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
           options={{
@@ -489,6 +510,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
           options={{
@@ -499,6 +521,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 자주 묻는 질문" component={FAQ} 
           options={{
@@ -509,6 +532,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 서비스 방침 이용약관" component={ServiceAgree} 
           options={{
@@ -519,6 +543,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
           <Stack.Screen name="마이 스페이스" component={MySpace}/>
           <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
@@ -643,14 +668,6 @@ function MyTabs() {
         <Tab.Screen name="내 카드" component={MyCard} options={{ 
           tabBarLabel: '내 카드', headerTitle: "", 
           headerTitleAlign: 'center',
-          headerTitleStyle: {
-            fontFamily: 'PretendardRegular',
-            fontSize: 16,
-            fontStyle: 'normal',
-            fontWeight: '400',
-            lineHeight: 19,
-            letterSpacing: -0.32,
-          },
           }} />
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지', headerTitleAlign: 'center',  }} />
       </Tab.Navigator>
