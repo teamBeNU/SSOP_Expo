@@ -1,24 +1,22 @@
-import React, {useState, useEffect, useRef, useContext} from "react";
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, Dimensions, KeyboardAvoidingView, Platform } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Dimensions, Keyboard, KeyboardAvoidingView, Platform, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { ScrollView } from "react-native-gesture-handler";
+import * as Progress from 'react-native-progress';
 import { AuthContext } from "../../AuthContext.js";
 import { theme } from "../../theme";
+import { infoAgreeText, serviceAgreeText } from "./AgreeContent.js";
 import { styles } from "./SignUpStyle.js";
-import { useNavigation, useRoute } from '@react-navigation/native';
-import * as Progress from 'react-native-progress';
-import { ScrollView } from "react-native-gesture-handler";
-import { serviceAgreeText, infoAgreeText } from "./AgreeContent.js";
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
-import VisibilityIcon from '../../assets/Login/ic_visibility.svg';
-import VisibilityOffIcon from '../../assets/Login/ic_visibility_off.svg';
-import CheckIcon from '../../assets/Login/ic_done_small_line.svg';
-import BlueCheckIcon from '../../assets/Login/ic_done_small_line_blue.svg';
+import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
 import SignUpDone from '../../assets/Login/graphic_done.svg';
-
-const { width:WIDTH } = Dimensions.get('window');
+import CheckIcon from '../../assets/Login/ic_done_small_line.svg';
+import BlueCheckIcon from '../../assets/Login/ic_done_small_line_blue.svg';
+import VisibilityIcon from '../../assets/Login/ic_visibility.svg';
+import VisibilityOffIcon from '../../assets/Login/ic_visibility_off.svg';
 
 function SignUp() {
     const navigation = useNavigation();
@@ -26,6 +24,12 @@ function SignUp() {
 
     // 1. email 입력
     const [email, setEmail] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const validateEmail = (email) => {
+      const emailRegex = /^[a-zA-Z0-9](?:[a-zA-Z0-9._+-]*[a-zA-Z0-9])?@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*\.[a-zA-Z]{2,6}$/;
+      return emailRegex.test(email);
+    };
 
     // 2. pw 입력
     const [password, setPassword] = useState("");
@@ -57,6 +61,24 @@ function SignUp() {
 
     // 4. 연락처 입력
     const [phoneNumber, setPhoneNumber] = useState('');
+    const [hasPhone, setHasPhone] = useState(true);
+    const [phoneErrorMessage, setPhoneErrorMessage] = useState('');
+
+    const validatePhoneNumber = () => {
+      if (!phoneNumber) {
+      setErrorMessage('연락처를 입력해 주세요.');
+      return false;
+      }
+
+      const phoneRegex = /^01[016789]-?\d{3,4}-?\d{4}$/;
+      if (!phoneRegex.test(phoneNumber)) {
+        setErrorMessage('올바른 연락처를 입력해 주세요.');
+        return false;
+      }
+
+      setErrorMessage('');
+      return true;
+    };
 
     // 5. 약관 동의
     const [isAgree, setIsAgree] = useState({
@@ -114,60 +136,67 @@ function SignUp() {
       
       const handleNext = () => {
         if (step === 1 ) {
-          if(email !== '')
-          setStep(2);
+          if (!validateEmail(email)) {
+            setErrorMessage('유효한 이메일 주소를 입력하세요.');
+          } else {
+            setErrorMessage('');
+            setStep(2);
+          }
         } else if (step === 2 ) {
-          if(password !== '')
+          if(password !== '' && hasEnglish && hasNum && hasLeng) 
           setStep(3);
         } else if (step === 3 ) {
           const isNameFull = name !== '';
-
           const year = birth.slice(0, 4);
           const month = birth.slice(5, 7);
           const day = birth.slice(8, 10);
 
           const isBirthFull = year !== '' && month !== '' && day !== '';
-          setIsFull((prev => ({...prev, name: isNameFull, birth: isBirthFull})));
-        
-          const isLeapYear = (year) => {    // 윤년 구하기
-            return (year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0));
-          }
 
-          const getDayInMonth = (year, month) => {    // 윤달 구하기
+          const isLeapYear = (year) => {
+            return year % 4 === 0 && (year % 100 !== 0 || year % 400 === 0);
+          };
+
+          const getDayInMonth = (year, month) => {
             month = parseInt(month);
             switch (month) {
-                case 1: case 3: case 5: case 7: case 8: case 10: case 12:   // 31일
-                    return 31;
-                case 4: case 6: case 9: case 11:    //30일
-                    return 30;
-                case 2:
-                    return isLeapYear(year) ? 29 : 28;      // 윤달(2/29), 2/28
-                default:
-                    return 0;
+              case 1: case 3: case 5: case 7: case 8: case 10: case 12:
+                return 31;
+              case 4: case 6: case 9: case 11:
+                return 30;
+              case 2:
+                return isLeapYear(year) ? 29 : 28;
+              default:
+                return 0;
             }
-         }
+          };
 
-         const days = getDayInMonth(year, month);
+          const days = getDayInMonth(year, month);
 
           const isYearCorrect = year >= currentYear - 110 && year <= currentYear;
           const isMonthCorrect = month.length === 2 && (1 <= parseInt(month) && parseInt(month) <= 12);
           const isDayCorrect = day.length === 2 && (1 <= parseInt(day) && parseInt(day) <= days);
 
-          if (isFull) {
-            setIsBirthCorrect((prev) => ({
-              ...prev,
-              year: isYearCorrect,
-              month: isMonthCorrect,
-              day: isDayCorrect,
-            }));
-          }
-          
-          if (isNameFull && isBirthFull && isBirthCorrect.year && isBirthCorrect.month && isBirthCorrect.day) {
-              setStep(4);
+          const updatedBirthCorrect = {
+            year: isYearCorrect,
+            month: isMonthCorrect,
+            day: isDayCorrect,
+          };
+
+          setIsFull((prev) => ({ ...prev, name: isNameFull, birth: isBirthFull }));
+          setIsBirthCorrect(updatedBirthCorrect);
+
+          if (isNameFull && isBirthFull && updatedBirthCorrect.year && updatedBirthCorrect.month && updatedBirthCorrect.day) {
+            setStep(4);
           }
         } else if (step === 4) {
-          if(phoneNumber !== '')
-          setStep(5);
+          if(validatePhoneNumber()) {
+            setHasPhone(true);
+            setStep(5);
+          } else {
+            setHasPhone(false);
+          }
+          
         } else if (step === 5 ) {
           if(Object.values(isAgree).every(value => value === true)) {
             handleSignUp();
@@ -195,6 +224,7 @@ function SignUp() {
         navigation.goBack();
       };
 
+      // 헤더
       const handleHeaderLeft = (onPress) => {
         if (step > 1 && step !== 6 && step !== 7) {
           return (
@@ -316,14 +346,16 @@ function SignUp() {
                 <View style={styles.inputContainer}>
                     <Text style={styles.inputTitle}>이메일</Text>
                     <TextInput
-                    style={styles.input} 
+                    style={[styles.input, errorMessage ? styles.inputError : null]}
                     placeholder="이메일 주소를 입력하세요."
+                    placeholderTextColor={theme.gray60}
                     keyboardType= "email-address"
                     value={email}
                     onChangeText={setEmail}
                     returnKeyType="next"
                     onSubmitEditing={handleNext}
                     />
+                    {errorMessage ? <Text style={styles.inputErrorText}>{errorMessage}</Text> : null}
                 </View>
                 <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
                     <Text style={styles.nextText}>다음으로</Text>
@@ -402,7 +434,7 @@ function SignUp() {
                  <Text style={[styles.inputTitle, {color: theme.gray30, fontWeight: '600 '}]}>생년월일*</Text>
                      <View style={styles.birthContainer}>
                          <TextInput
-                             style={[styles.input, !isFull.birth && styles.inputError]}        
+                             style={[styles.input, (!isFull.birth || isFull.birth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day)) && styles.inputError]}        
                              placeholder="YYYY/MM/DD"
                              placeholderTextColor={theme.gray60}
                              keyboardType="numeric"
@@ -432,7 +464,7 @@ function SignUp() {
                              <View></View>
                          )}
                          {isFull.birth && (!isBirthCorrect.year || !isBirthCorrect.month || !isBirthCorrect.day) ? (
-                             <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요 (e.g., 2001년 01월 01일)</Text>
+                             <Text style={styles.inputErrorText}>생년월일을 올바르게 입력해 주세요.</Text>
                          ) : (
                              <View></View>
                          )}
@@ -451,12 +483,16 @@ function SignUp() {
               <View style={styles.inputContainer}>
               <Text style={[styles.inputTitle, {color: theme.gray30, fontWeight: '600 '}]}>연락처*</Text>
                   <TextInput
-                  style={styles.input} 
+                  style={!errorMessage ? styles.input : styles.warningInput} 
                   placeholder="연락처를 입력하세요."
+                  placeholderTextColor={theme.gray60}
                   keyboardType= "number-pad"
                   value={phoneNumber}
                   onChangeText={setPhoneNumber}
                   />
+                  {errorMessage && (
+                  <Text style={styles.warningText}>{errorMessage}</Text>
+                  )}
               </View>
               <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
                   <Text style={styles.nextText}>다음으로</Text>

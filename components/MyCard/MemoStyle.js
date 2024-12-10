@@ -95,17 +95,15 @@ export const styles = StyleSheet.create({
     },
     hideContainer: {
         flexDirection: 'row',
-        gap: 6,
         marginTop: 12,
         justifyContent: 'flex-end',
         alignItems: 'center',
+        gap: 6,
     },
     hideText: {
         color: theme.gray60,
-        fontFamily: 'PretendardRegular',
-        fontSize: 14,
-        fontWeight: '400',
-        letterSpacing: -0.14
+        ...textStyles.body14,
+        paddingBottom: 4,
     },
     //modal style
     modalContainer: {
@@ -154,26 +152,26 @@ export const styles = StyleSheet.create({
         justifyContent: 'space-between',
         borderRadius: 16,
         backgroundColor: theme.gray95,
-    },
-    memoInput: {
+        },
+        memoInput: {
         color: theme.gray10,
         fontFamily: 'Pretendard',
         fontSize: 16,
         fontWeight: '400',
         lineHeight: 24,
         letterSpacing: -0.32
-    },
-    lengContainer: {
+        },
+        lengContainer: {
         width: '100%',
         alignItems: 'flex-end',
         marginTop: 6,
-        marginRight: 4,
-    },
-    memoLeng: {
+        marginRight: 4
+        },
+        memoLeng: {
         color: theme.gray60,
         ...textStyles.body14,
-    },
-    button: {
+        },
+        button: {
         width: '100%',
         height: 48,
         borderRadius: 8,

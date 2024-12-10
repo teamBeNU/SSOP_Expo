@@ -31,31 +31,6 @@ export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                   return [...prev, item.cardId];
               });
             }}>
-                {/* {item.card_cover === 'avatar' ? 
-                  (<View style={{...styles.cardImgArea, backgroundColor: getColor(item.avatar.bgColor)}}>
-                    {selectedCards.includes(item.cardId) ? (
-                      <SelectedIcon style={styles.selectIcon}/>
-                  ) : (
-                      <NotSelectedIcon style={styles.selectIcon}/>
-                  )}
-                  </View>)
-                  :
-                  (
-                    <View style={styles.cardImgAreaWrapper}>
-                      <Image
-                        source={{ uri: item.profile_image_url }}
-                        resizeMode="cover"
-                        style={styles.cardImgArea}
-                      />
-                      {selectedCards.includes(item.cardId) ? (
-                        <SelectedIcon style={styles.selectIcon} />
-                      ) : (
-                        <NotSelectedIcon style={styles.selectIcon} />
-                      )}
-                    </View>
-                  )
-                }
-                 */}
                   <View style={styles.cardImgAreaWrapper}>
                       <Image
                         source={{ uri: item.profile_image_url }}
@@ -92,17 +67,6 @@ export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
           <View style={[styles.row, cardData.length === 1 ? {marginRight: WIDTH*0.45} : {} , {gap: 4}]}>
           {cardData.map((item, index) => (
             <TouchableOpacity key={index} style={[styles.btn1, {marginTop: 4}]} onPress={() => handleNext(item.cardId, index)}>
-                {/* {item.card_cover === 'avatar' ? 
-                  (<View style={{...styles.cardImgArea, backgroundColor: getColor(item.avatar.bgColor)}}>
-                  
-                  </View>)
-                  :
-                  (<Image
-                        source={{ uri: item.profile_image_url }}
-                        resizeMode="cover"
-                        style={styles.cardImgArea}
-                    />)
-                } */}
                 <Image
                         source={{ uri: item.profile_image_url }}
                         resizeMode="cover"
@@ -122,7 +86,6 @@ export const GridCardView = ({cardData, deleteMode, selectedCards, setSelectedCa
                         {item.card_template ? <Text style={styles.ageText}>{getTemplate(item.card_template)}</Text> : null}
                     </View>
                 </View>
-
             </View>
 
             </TouchableOpacity>

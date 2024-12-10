@@ -20,10 +20,11 @@ export const styles = StyleSheet.create({
         borderColor: theme.gray90,
         backgroundColor: 'white',
         overflow: 'hidden',
-        // shadowColor: 'rgba(0, 0, 0, 0.04)',
-        // shadowOffset: { width: 2, height: 2 },
-        // shadowOpacity: 0.4,
-        // shadowRadius: 4,
+        shadowColor: 'rgba(73, 81, 100, 0.09)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
+        elevation: 16
 	},
 	cardImgArea: {
         height: WIDTH * 0.86,
@@ -32,20 +33,21 @@ export const styles = StyleSheet.create({
     },
     cardTextArea: {
         backgroundColor: "white",
-        height: cardHeight * 0.32,
+        height: cardHeight * 0.34,
         padding: 24,
+        paddingBottom: 28,
         borderRadius: 20,
         gap: 12,
         width: '100%',
         position: 'absolute',
         bottom: 0,
-        justifyContent: 'center'
+        //justifyContent: 'center'
     },
     basicInfo: {
         flexDirection: "row",
         alignItems: 'flex-end',
         height: 29,
-        gap: 8
+        gap: 8,
     },
     name: {
         color: theme.gray10,

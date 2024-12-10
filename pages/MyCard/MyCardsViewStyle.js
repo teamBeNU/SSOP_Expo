@@ -42,6 +42,12 @@ export const styles = StyleSheet.create({
     fontWeight: '500',
     letterSpacing: -0.13,
   },
+  triggerArea: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between', 
+    width: 52,
+  },
   viewToggleContainer: {
     borderWidth: 1,
     borderColor: theme.gray90,

@@ -1,19 +1,19 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Text, TextInput, TouchableOpacity, View, Alert, Linking, LogBox } from 'react-native';
+import { Image, Linking, LogBox, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import "react-native-gesture-handler";
-import { Menu, MenuOption, MenuOptions, MenuProvider, MenuTrigger } from 'react-native-popup-menu';
+import { MenuProvider } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
 import SearchIcon from './assets/AppBar/ic_search_regular_line.svg';
+import HomeLogo from './assets/HomeIcon/logo_line.svg';
 import CloseIcon from './assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from './assets/icons/ic_LeftArrow_regular_line.svg';
-import HomeLogo from './assets/HomeIcon/logo_line.svg'
-import { AuthProvider, AuthContext } from './AuthContext';
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import { AuthContext, AuthProvider } from './AuthContext';
+import { textStyles } from "./textStyles";
 // Text 핸드폰 기본 설정 무시 
 Text.defaultProps = Text.defaultProps || {};
 Text.defaultProps.allowFontScaling = false;
@@ -22,9 +22,10 @@ TextInput.defaultProps.allowFontScaling = false;
 
 LogBox.ignoreAllLogs(true);
 
-import CheckCardDetail from './pages/CheckCard/CheckCardDetail';
+import AvatarCustom from './components/Avatar/AvatarCustom';
 import CardDetailView from './components/MyCard/CardDetailView';
 import Bluetooth from './pages/Bluetooth/Bluetooth';
+import CheckCardDetail from './pages/CheckCard/CheckCardDetail';
 import Memo from './pages/CheckCard/Memo';
 import CreateCard from './pages/CreateCard/CreateCard';
 import CreateTeamSp from './pages/CreateTeamSp/CreateTeamSp';
@@ -35,38 +36,37 @@ import ChangePw from './pages/Login/ChangePw';
 import Login from './pages/Login/Login';
 import SignIn from './pages/Login/SignIn';
 import SignUp from './pages/Login/SignUp';
+import DeleteMyCard from './pages/MyCard/DeleteMyCard';
 import MyCard from './pages/MyCard/MyCard';
 import MyPage from './pages/MyPage/MyPage';
+import FAQ from './pages/MyPage/Service/FAQ';
 import UserAccount from './pages/MyPage/UserAccount';
 import UserInfo from './pages/MyPage/UserInfo';
 import UserPhoneNumber from './pages/MyPage/UserPhoneNumber';
 import UserPw from './pages/MyPage/UserPw';
+import Onboarding from './pages/Onboarding/Onboarding';
 import DetailGroup from './pages/Space/DetailGroup';
-import FAQ from './pages/MyPage/Service/FAQ';
 import DetailTeamSpace from './pages/Space/DetailTeamSpace';
 import Space from './pages/Space/Space';
-import DeleteMyCard from './pages/MyCard/DeleteMyCard';
-import AvatarCustom from './components/Avatar/AvatarCustom';
-import Onboarding from './pages/Onboarding/Onboarding';
 
-import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';
+import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
 import KaKaoLogin from './components/Login/KaKaoLogin';
-import MySpace from './pages/Space/MySpace';
-import TeamSpace from './pages/Space/TeamSpace';
-import EditGroupPage from './pages/Space/EditGroupPage';
-import EditTeamSpace from './pages/Space/EditTeamSpace';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
 import ServiceAgree from './pages/MyPage/Service/ServiceAgree';
-import AcceptCard from './pages/Space/AcceptCard';
 import HomeSearchCard from './pages/SearchCard/HomeSearchCard';
 import MySpSearchCard from './pages/SearchCard/MySpSearchCard';
 import TeamSpSearchCard from './pages/SearchCard/TeamSpSearchCard';
+import AcceptCard from './pages/Space/AcceptCard';
+import EditGroupPage from './pages/Space/EditGroupPage';
+import EditTeamSpace from './pages/Space/EditTeamSpace';
+import MySpace from './pages/Space/MySpace';
+import TeamSpace from './pages/Space/TeamSpace';
 
-import { theme } from './theme';
 import TeamspCardDetailView from './components/Space/TeamspCardDetailView';
+import { theme } from './theme';
 
 const linking = {
   prefixes: ['https://ssopbenu.app.link', 'ssop://'],
@@ -268,7 +268,14 @@ export default function App() {
   <AuthProvider>
     <MenuProvider>
       <NavigationContainer linking={linking}>
-        <Stack.Navigator>
+        <Stack.Navigator
+          screenOptions={{
+            headerTitleStyle: {
+              ...textStyles.body16m,
+              color: theme.gray10,
+            },
+          }}
+        >
          <Stack.Screen name="AppContent" component={AppContent} options={{ headerShown: false }} />
         <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} />
         <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }} />
@@ -305,7 +312,8 @@ export default function App() {
             <TouchableOpacity onPress={onPress}>
               <LeftArrowIcon style={{ marginLeft: 8  }}/>
             </TouchableOpacity>
-          ),}} />
+          ),
+          }} />
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} 
           options={{headerShown: true,
@@ -328,6 +336,7 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}
           />
           <Stack.Screen 
@@ -341,6 +350,7 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}
           />
         <Stack.Screen 
@@ -354,6 +364,8 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
+            headerShadowVisible: false,
           }}
           />
           <Stack.Screen 
@@ -367,6 +379,8 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            headerShadowVisible: false,
+            
           }}
           />
         {/* <Stack.Screen name="Space" component={Space} /> */}
@@ -380,7 +394,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }}
         />
         <Stack.Screen 
@@ -393,7 +408,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }}
         />
         <Stack.Screen 
@@ -405,7 +421,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }}
         />
         <Stack.Screen 
@@ -418,7 +435,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }}
         />
         <Stack.Screen 
@@ -431,7 +449,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
            }} 
           />
         <Stack.Screen name="온보딩" component={Onboarding} options={{ headerShown: false }}/>  
@@ -445,7 +464,8 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            )
+            ),
+            
           }} />
         <Stack.Screen 
           name="Memo" 
@@ -456,6 +476,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}
           />
         <Stack.Screen name="MY 계정관리" component={UserAccount} 
@@ -467,6 +488,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
           options={{
@@ -477,6 +499,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
           options={{
@@ -487,6 +510,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
           options={{
@@ -497,6 +521,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 자주 묻는 질문" component={FAQ} 
           options={{
@@ -507,6 +532,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
         <Stack.Screen name="MY 서비스 방침 이용약관" component={ServiceAgree} 
           options={{
@@ -517,6 +543,7 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
+            
           }}/>
           <Stack.Screen name="마이 스페이스" component={MySpace}/>
           <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
@@ -571,7 +598,7 @@ function MyTabs() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) => {
           let iconSource;
-          let iconSize = 42;
+          let iconSize = 50;
 
           if (route.name === '홈') {
             iconSource = focused
@@ -641,18 +668,6 @@ function MyTabs() {
         <Tab.Screen name="내 카드" component={MyCard} options={{ 
           tabBarLabel: '내 카드', headerTitle: "", 
           headerTitleAlign: 'center',
-          headerTitleStyle: {
-            fontFamily: 'PretendardRegular',
-            fontSize: 16,
-            fontStyle: 'normal',
-            fontWeight: '400',
-            lineHeight: 19,
-            letterSpacing: -0.32,
-          },
-          headerStyle: {
-            borderBottomWidth: 1,
-            borderBottomColor: theme.gray90,
-          },
           }} />
         <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지', headerTitleAlign: 'center',  }} />
       </Tab.Navigator>
