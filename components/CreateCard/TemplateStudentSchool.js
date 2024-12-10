@@ -878,7 +878,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
                                         <Text style={styles.inputText}>거주지</Text>
                                         <TextInput 
                                             style={styles.customInput}
-                                            placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구 테헤란로"
+                                            placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={card_address}
@@ -929,7 +929,7 @@ export default function TemplateStudentSchool ({navigation, card_template, step,
 
             {step === 8 && (
                 <View style={styles.container}>
-                    <Text style={styles.title}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
+                    <Text style={styles.doneTitle}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
                     <View style={styles.cardDone} >
                         <Image
                             source={require('../../assets/images/cardDone.png')}

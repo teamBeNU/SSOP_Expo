@@ -88,7 +88,7 @@ function UserAccount({navigation}) {
             </TouchableOpacity>
 
             <TouchableOpacity 
-                style={styles.logoutContainer} 
+                style={styles.withdrawContainer} 
                 onPress={() => setModalVisible(true)}
             >
                 <Text style={styles.deleteText}>탈퇴하기</Text>

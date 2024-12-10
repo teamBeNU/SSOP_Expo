@@ -12,7 +12,7 @@ import VisibilityIcon from "../../assets/Login/ic_visibility.svg";
 import VisibilityOffIcon from "../../assets/Login/ic_visibility_off.svg";
 import CheckIcon from "../../assets/Login/ic_done_small_line.svg";
 import BlueCheckIcon from "../../assets/Login/ic_done_small_line_blue.svg";
-import PasswordDone from "../../assets/images/passwordDone.svg";
+import PasswordDone from "../../assets/Login/graphic_done.svg";
 import { MyPageModal } from "../../components/MyPage/MyPageModal";
 
 function UserPw({navigation}) {
@@ -172,7 +172,7 @@ function UserPw({navigation}) {
                             <Text style={styles.inputText}>비밀번호</Text>
                             <View style={[styles.customInput, styles.pwContainer]}>
                                 <TextInput
-                                    style={{flex: 1, marginRight: 8}}
+                                    style={[{flex: 1, marginRight: 8}, styles.customInputText]}
                                     placeholder="영문과 숫자 포함, 6-20자 이내의 문자"
                                     placeholderTextColor={theme.gray60}
                                     keyboardType="default"
@@ -210,7 +210,7 @@ function UserPw({navigation}) {
                             <Text style={styles.inputText}>비밀번호</Text>
                             <View style={[styles.customInput, styles.pwContainer]}>
                                 <TextInput
-                                    style={{flex: 1, marginRight: 8}}
+                                    style={[{flex: 1, marginRight: 8}, styles.customInputText]}
                                     placeholder="영문과 숫자 포함, 6-20자 이내의 문자"
                                     placeholderTextColor={theme.gray60}
                                     keyboardType="default"
@@ -267,9 +267,9 @@ function UserPw({navigation}) {
 
             {step === 3 && (
                 <View style={styles.userChangeMain}>
-                    <Text style={[styles.title, styles.titleMarginBottom]}>비밀번호가 변경되었습니다.</Text>
+                    <Text style={[styles.doneTitle, styles.titleMarginBottom]}>비밀번호가 변경되었습니다.</Text>
                     <View style={styles.passwordDone}>
-                        <PasswordDone />
+                        <PasswordDone  width={300} height={300} />
                     </View>
 
                     <View style={styles.btnFlex} />

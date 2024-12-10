@@ -28,21 +28,21 @@ export const styles = StyleSheet.create({
         backgroundColor: theme.white,
         justifyContent: "space-between",
         alignItems: "center",
-        paddingVertical: 32,
+        paddingVertical: 48,
         paddingHorizontal: 16,
         marginBottom: 24,
         borderRadius: 16,
         borderWidth: 1,
-        borderColor: "rgba(244, 244, 244, 1.0)",
+        borderColor: theme.gray95,
         // Android - Shadow
-        elevation: 3,
+        elevation: 12,
+        shadowColor: 'rgba(73, 81, 100, 0.7)',
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.09,
+        shadowOpacity: 0.07,
         shadowRadius: 16,
     },
     userName: {
@@ -51,6 +51,7 @@ export const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: "600",
         color: "black",
+        letterSpacing: -0.4,
     },
     accountManageText: {
         fontFamily: "PretendardSemiBold",
@@ -58,6 +59,7 @@ export const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: "600",
         color: theme.skyblue,
+        letterSpacing: -0.14,
     },
 
     loginBtn: {
@@ -90,16 +92,16 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         marginHorizontal: 16,
         borderWidth: 1,
-        borderColor: "rgba(244, 244, 244, 1.0)",
+        borderColor: theme.gray95,
         // Android - Shadow
-        elevation: 3,
+        elevation: 12,
+        shadowColor: 'rgba(73, 81, 100, 0.7)',
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.09,
+        shadowOpacity: 0.07,
         shadowRadius: 16,
     },
     infoBtn: {
@@ -118,8 +120,13 @@ export const styles = StyleSheet.create({
 
     logoutContainer: {
         marginVertical: 20,
-        width: '30%',
-        // marginHorizontal: 16, 
+        alignSelf: "flex-start",
+        marginHorizontal: 16,
+    },
+    withdrawContainer: {
+        marginVertical: 20,
+        alignSelf: "flex-start",
+        // marginHorizontal: 16,
     },
     logoutText: {
         fontFamily: "PretendardRegular",

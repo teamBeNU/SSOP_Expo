@@ -44,7 +44,7 @@ export default function HostFanFalse({ fanOptional, onData, onDataChange }) {
                     <Text style={styles.name}>덕질 장르</Text>
                     <TextInput
                         style={styles.nameInput}
-                        placeholder="덕질 장르를 입력해 주세요. 예)아이돌, 야구 등"
+                        placeholder="덕질 장르를 입력해 주세요. 예) 아이돌, 야구 등"
                         placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'

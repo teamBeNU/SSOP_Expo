@@ -94,7 +94,7 @@ export default function HostFanTrue({ fanOptional, onData, onDataChange, isNextC
                     <Text style={styles.nameBold}>덕질 장르<Text style={styles.nameBold}> *</Text></Text>
                     <TextInput
                         style={[styles.nameInput, !isOk.genre && styles.inputEmpty]}
-                        placeholder="덕질 장르를 입력해 주세요. 예)아이돌, 야구 등"
+                        placeholder="덕질 장르를 입력해 주세요. 예) 아이돌, 야구 등"
                         placeholderTextColor={theme.gray60}
                         keyboardType="default"
                         returnKeyType='next'

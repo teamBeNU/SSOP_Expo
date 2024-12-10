@@ -48,6 +48,27 @@ export const styles = StyleSheet.create({
         lineHeight: 24,
         marginLeft: 8,
         color: theme.gray10
+    }, 
+    label: {
+        color: theme.gray10,
+        fontFamily: "PretendardSemiBold",
+        fontSize: 18,
+        fontStyle: "normal",
+        fontWeight: "600",
+        textAlign: "center",
+        marginTop: 11,
+        marginBottom: 4,
+        letterSpacing: -0.36,
+    },
+    describe: {
+        color: theme.gray50,
+        fontFamily: "PretendardRegular",
+        fontSize: 13,
+        fontStyle: "normal",
+        fontWeight: "400",
+        textAlign: "center",
+        letterSpacing: -0.13,
+        lineHeight: 18.2,
     },
     gray60text : {
         fontSize: 16,

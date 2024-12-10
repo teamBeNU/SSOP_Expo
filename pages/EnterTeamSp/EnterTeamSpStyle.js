@@ -121,12 +121,15 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         alignItems: 'center',
-        fontSize: 16,
         borderRadius: 8,
         borderWidth: 0,
         color: theme.gray10,
         backgroundColor: theme.gray95,
-        fontFamily: 'PretendardRegular'
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "500",
+        letterSpacing: -0.32,
     },
     nameLeng: {
         marginTop: 8,
@@ -195,7 +198,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         color: theme.white,
         fontSize: 16,
-        fontFamily: 'PretendardSemiBold',
+        fontFamily: 'PretendardMedium',
         letterSpacing: -0.32,
         fontWeight: "500",
         fontStyle: "normal",
@@ -204,7 +207,7 @@ export const styles = StyleSheet.create({
         textAlign: 'center',
         color: theme.gray50,
         fontSize: 16,
-        fontFamily: 'PretendardSemiBold',
+        fontFamily: 'PretendardMedium',
         letterSpacing: -0.32,
         fontWeight: "500",
         fontStyle: "normal",
@@ -607,14 +610,14 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         // Android - Shadow
-        elevation: 3,
+        elevation: 12,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.5)',
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.09,
+        shadowOpacity: 0.05,
         shadowRadius: 16,
 
         // // 그림자가 안보여서 임시 border
