@@ -36,7 +36,7 @@ const ExchangeModal = ({
       onRequestClose={onClose}
     >
       <TouchableWithoutFeedback onPress={onClose}>
-        <View style={styles.modalContainer}>
+        <View style={[styles.modalContainer, { backgroundColor: 'rgba(0, 0, 0, 0.3)' }]}>
           <TouchableWithoutFeedback >
             <View style={[styles.modalView, { height: modalViewHeight }]}>
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>

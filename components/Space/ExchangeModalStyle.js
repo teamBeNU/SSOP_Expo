@@ -42,9 +42,9 @@ export const styles = StyleSheet.create({
         borderColor: "rgba(244, 244, 244, 1.0)",
         position: 'relative',
         // Android - Shadow
-        elevation: 3,
+        elevation: 16,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.09)',
         shadowOffset: {
             width: 4,
             height: 4,
@@ -66,7 +66,7 @@ export const styles = StyleSheet.create({
     Text18: {
         marginTop: 14,
         fontFamily: "PretendardSemiBold",
-        fontSize: 18,
+        fontSize: 17,
         letterSpacing: -0.34,
     },
     btnIcon: { // 원형 아이콘
@@ -79,9 +79,9 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         // Android - Shadow
-        elevation: 3,
+        elevation: 4.8,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.14)',
         shadowOffset: {
             width: 4,
             height: 4,

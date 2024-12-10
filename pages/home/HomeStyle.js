@@ -41,9 +41,9 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: theme.white,
         // Android - Shadow
-        elevation: 1,
+        elevation: 16,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.09)',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -121,14 +121,14 @@ export const styles = StyleSheet.create({
         height: 40,
         borderRadius: 25,
         backgroundColor: "#FFFFFF",
-        shadowColor: 'rgba(151, 160, 181)',
+        shadowColor: 'rgba(151, 160, 181, 0.2)',
         shadowOpacity: 0.14,
         shadowRadius: 16,
         borderWidth: 1.3,
         borderColor: "rgba(248, 248, 248, 1.0)",
         alignItems: 'center',
         justifyContent: 'center',
-        elevation: 1,
+        elevation: 16,
     },
     container: {
         flex: 1,
