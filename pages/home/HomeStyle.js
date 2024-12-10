@@ -160,7 +160,7 @@ export const styles = StyleSheet.create({
         marginTop: 6,
     },
     Text16: {
-        fontFamily: "PretendardRegular",
+        fontFamily: "PretendardSemiBold",
         fontSize: 16,
         letterSpacing: -0.32,
         fontWeight: "600",
