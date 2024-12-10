@@ -39,6 +39,14 @@ export const styles = StyleSheet.create({
         fontSize: 20,
         fontStyle: "normal",
         fontWeight: "600",
+        letterSpacing: -0.4,
+    },
+    doneTitle: { 
+        fontFamily: "PretendardSemiBold",
+        fontSize: 22,
+        fontStyle: "normal",
+        fontWeight: "600",
+        letterSpacing: -0.44,
     },
     titleMarginBottom: {
         marginBottom: 68,
@@ -76,6 +84,18 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         margin: 0,
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "500",
+        letterSpacing: -0.32,
+    },
+    customInputText: {
+        fontFamily: 'PretendardRegular',
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "500",
+        letterSpacing: -0.32,
     },
 
     // 공통: TextInput 아무것도 입력안했을 때

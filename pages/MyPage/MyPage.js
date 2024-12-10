@@ -7,7 +7,7 @@ import axios from 'axios';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from "../../AuthContext";
 
-
+import CloseIcon from "../../assets/icons/ic_RightArrow_small_line.svg";
 import RightArrow from "../../assets/icons/ic_RightArrow_small_line.svg";
 import { styles } from "./MyPageStyle";
 
