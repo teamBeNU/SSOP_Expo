@@ -487,7 +487,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
     
         if (step === 1 || step === 2 || step === 3 || step === 4) {
             navigation.setOptions({
-                headerTitle: '카드 정보 작성',
+                headerTitle: '카드 정보 작성하기',
                 headerTitleAlign: 'center',
             });
         } else if (step === 5) {
@@ -512,7 +512,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
             });
         } else if (step === 7) {
             navigation.setOptions({
-                headerTitle: '카드 생성',
+                headerTitle: '카드 만들기',
                 headerTitleAlign: 'center',
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => {navigation.goBack();}}>
@@ -987,7 +987,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
                                         <Text style={styles.inputText}>거주지</Text>
                                         <TextInput 
                                             style={styles.customInput}
-                                            placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구 테헤란로"
+                                            placeholder="거주지를 입력해 주세요. 예) 서울특별시 강남구"
                                             placeholderTextColor={theme.gray60}
                                             keyboardType="default"
                                             value={card_address}
@@ -1038,7 +1038,7 @@ export default function TemplateFree ({navigation, card_template, step, setStep}
 
             {step === 7 && (
                 <View style={styles.container}>
-                    <Text style={styles.title}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
+                    <Text style={styles.doneTitle}>너무 멋진 카드가 완성되었어요!{"\n"}바로 확인해 보세요.</Text>
                     <View style={styles.cardDone} >
                         <Image
                             source={require('../../assets/images/cardDone.png')}

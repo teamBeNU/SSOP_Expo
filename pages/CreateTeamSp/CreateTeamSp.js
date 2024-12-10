@@ -178,10 +178,10 @@ function CreateTeamSp({ navigation }) {
   }, [teamName, teamComment]);
 
   const items = [
-    { id: 'student', label: '학생', description: '학교에 다닌다면', icon: <Student width={88} height={88} /> },
-    { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker width={88} height={88} /> },
-    { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠 등\n누군가의 팬이라면', icon: <Fan width={88} height={88} /> },
-    { id: 'free', label: '유형 믹스', description: '자유롭게 정보를\n선택하여 작성', icon: <Free width={88} height={88} /> },
+    { id: 'student', label: '학생', description: '학교에 다닌다면', icon: <Student width={100} height={100} /> },
+    { id: 'worker', label: '직장인', description: '직장에 다닌다면', icon: <Worker width={100} height={100} /> },
+    { id: 'fan', label: '팬', description: '아이돌, 배우, 스포츠 등\n누군가의 팬이라면', icon: <Fan width={100} height={100} /> },
+    { id: 'free', label: '유형 믹스', description: '자유롭게 정보를\n선택하여 작성', icon: <Free width={100} height={100} /> },
   ]
 
   //step4 - 템플릿 선택
@@ -336,8 +336,8 @@ function CreateTeamSp({ navigation }) {
                       onPress={() => handleTempClick(item.id)}
                     >
                       {item.icon}
-                      <Text style={[styles.font18, { marginTop: 11 }]}>{item.label}</Text>
-                      <Text style={styles.text}>{item.description}</Text>
+                      <Text style={styles.label}>{item.label}</Text>
+                      <Text style={styles.describe}>{item.description}</Text>
                     </TouchableOpacity>
                   ))}
 
