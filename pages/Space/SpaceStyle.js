@@ -683,7 +683,8 @@ export const styles = StyleSheet.create({
         left: 0,
         right: 0,
         paddingVertical: 21.5,
-        borderRadius: 12,
+        borderTopLeftRadius: 12,
+        borderTopRightRadius: 12,
         backgroundColor: "#FFFFFF",
         // Android - Shadow
         elevation: 3,
