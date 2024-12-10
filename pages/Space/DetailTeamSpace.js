@@ -12,6 +12,7 @@ import Toast from 'react-native-toast-message';
 import TeamspCardsView from '../../components/Bluetooth/TeamspCardsView.js';
 import DetailTeamSpaceScreen from "./DetailTeamSpaceScreen.js";
 
+import Contact from '../../assets/icons/ic_contact_black.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
 import SelectIcon from '../../assets/icons/ic_done_small_line_blue.svg';
@@ -524,10 +525,11 @@ function SaveTellScreen({ navigation }) {
         </ScrollView>
       </View>
       <View style={styles.bottomContainer}>
-        <TouchableOpacity onPress={handleSaveTel}>
-          <Text style={styles.bottomText}>핸드폰에 연락처 저장</Text>
-        </TouchableOpacity>
-      </View>
+          <Contact style={{marginRight: 6}}/>
+          <TouchableOpacity onPress={handleSaveTel}>
+            <Text style={styles.bottomText}>연락처 저장</Text>
+          </TouchableOpacity>
+        </View>
     </View>
   );
 }
