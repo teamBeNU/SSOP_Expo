@@ -104,15 +104,15 @@ export const styles = StyleSheet.create({
         paddingVertical: 18.5,
         paddingHorizontal: 16,
         // Android - Shadow
-        // elevation: 3,
+        elevation: 3,
         // IOS - Shadow
-        // shadowColor: 'rgba(73, 81, 100)',
-        // shadowOffset: {
-        //     width: 4,
-        //     height: 4,
-        // },
-        // shadowOpacity: 0.09,
-        // shadowRadius: 16,
+        shadowColor: 'rgba(73, 81, 100, 0.7)',
+        shadowOffset: {
+            width: 2,
+            height:24,
+        },
+        shadowOpacity: 0.09,
+        shadowRadius: 16,
         marginBottom: 12,
     },
 

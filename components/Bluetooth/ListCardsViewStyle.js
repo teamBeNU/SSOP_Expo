@@ -78,9 +78,9 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         position: 'relative',
         // Android - Shadow
-        elevation: 3,
+        elevation: 5,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.07)',
         shadowOffset: {
             width: 4,
             height: 4,
@@ -92,7 +92,7 @@ export const styles = StyleSheet.create({
         marginTop: 12,
         width: '90%',
         borderRadius: 16,
-        shadowColor: "rgba(0, 0, 0, 0.03)",
+        shadowColor: "rgba(73, 81, 100, 0.7)",
         shadowOffset: {
             width: 0,
             height: 2
