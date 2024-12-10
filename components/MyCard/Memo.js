@@ -5,7 +5,10 @@ import { Keyboard, Modal, Pressable, Switch, Text, TextInput, TouchableOpacity, 
 import CloseICon from '../../assets/icons/ic_close_regular_line.svg';
 import WriteBtn from '../../assets/icons/ic_editNote_small_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line_small_gray.svg';
+import ToggleOnIcon from '../../assets/icons/ic_toggle_on.svg';
+import ToggleOffIcon from '../../assets/icons/ic_toggle_off.svg';
 import { styles } from './MemoStyle';
+import { theme } from '../../theme';
 
 export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {    
     const navigation = useNavigation();
@@ -160,15 +163,20 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
                     </TouchableWithoutFeedback>
 
                     <View style={styles.modalContent}>
-                        <TextInput
-                        style={styles.memoInput}
-                        multiline
-                        onChangeText={handleTextChange}
-                        maxLength={500}
-                        value={newMemo}
-                        blurOnSubmit={true}
-                        placeholder={isEdit ? cardData[currentCardIndex].memo : "잊으면 안 되거나 특별했던 부분, 첫인상 등"}/>
-                        <Text style={styles.memoLeng}> {textLeng} / 500 </Text>
+                    <TextInput
+                    style={styles.memoInput}
+                    multiline
+                    onChangeText={handleTextChange}
+                    maxLength={200}
+                    value={newMemo}
+                    //blurOnSubmit={true}
+                    placeholderTextColor={theme.gray50}
+                    placeholder={`기억해야 할 점이나 특별했던 부분,\n첫인상 등을 메모하고 필요할 때 꺼내 보세요.`}
+                    />
+                    </View>
+                    
+                    <View style={styles.lengContainer}>
+                    <Text style={styles.memoLeng}> {textLeng} / 200 </Text>
                     </View>
 
                     <Pressable
@@ -278,13 +286,20 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
 
                         <View style={styles.hideContainer}>
                             <Text style={styles.hideText}>메모 숨기기</Text>
-                            <Switch
+                            <TouchableOpacity style={styles.switchContainer} onPress={toggleSwitch}>
+                            {isMemoHidden ? (
+                                <ToggleOnIcon width={28} height={23} marginBottom={3}/>
+                                ) : (
+                                <ToggleOffIcon width={28} height={23} marginBottom={3}/>
+                                )}
+                            </TouchableOpacity>
+                            {/* <Switch
                                 trackColor={{ false: "#CACACA", true: "#00C2ED" }}
                                 thumbColor="#ffffff"
                                 onValueChange={toggleSwitch}
                                 value={isMemoHidden}
                                 style={{ transform: [{ scaleX: 0.7 }, { scaleY: 0.7 }] }}
-                            />
+                            /> */}
                         </View>
                     </View>
                     </TouchableWithoutFeedback>
@@ -331,11 +346,14 @@ export const Memo = ({ hasMemo, cardData, currentCardIndex }) => {
                     style={styles.memoInput}
                     multiline
                     onChangeText={handleTextChange}
-                    maxLength={500}
+                    maxLength={200}
                     value={newMemo}
                     //blurOnSubmit={true}
-                    placeholder="잊으면 안 되거나 특별했던 부분, 첫인상 등"/>
-                    <Text style={styles.memoLeng}> {textLeng} / 500 </Text>
+                    placeholder={`기억해야 할 점이나 특별했던 부분,\n첫인상 등을 메모하고 필요할 때 꺼내 보세요.`}/>
+                </View>
+                
+                <View style={styles.lengContainer}>
+                <Text style={styles.memoLeng}> {textLeng} / 200 </Text>
                 </View>
 
                 <Pressable
