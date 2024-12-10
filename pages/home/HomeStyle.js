@@ -41,12 +41,12 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: theme.white,
         // Android - Shadow
-        elevation: 3,
+        elevation: 1,
         // IOS - Shadow
         shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {
-            width: 4,
-            height: 4,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.09,
         shadowRadius: 16,
@@ -121,20 +121,14 @@ export const styles = StyleSheet.create({
         height: 40,
         borderRadius: 25,
         backgroundColor: "#FFFFFF",
-        // Android - Shadow
-        elevation: 3,
-        // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
-        shadowOffset: {
-            width: 4,
-            height: 4,
-        },
-        shadowOpacity: 0.09,
+        shadowColor: 'rgba(151, 160, 181)',
+        shadowOpacity: 0.14,
         shadowRadius: 16,
         borderWidth: 1.3,
-        borderColor: "rgba(244, 244, 244, 1.0)",
+        borderColor: "rgba(248, 248, 248, 1.0)",
         alignItems: 'center',
         justifyContent: 'center',
+        elevation: 1,
     },
     container: {
         flex: 1,
