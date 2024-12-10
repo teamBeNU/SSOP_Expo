@@ -50,13 +50,13 @@ const TeamspCardsView = ({
     ...cardData.cardIdData.filter(item => typeof item !== "number"),
     ...cardData.memberData.filter(item => typeof item !== "number"),
   ];
-
+  
   return (
     <View style={styles.mainlayout2}>
       {/* 제목 표시 */}
       {showTitle && title && <Text style={styles.title}>{title}</Text>}
 
-      <View style={{}}>
+      <View>
         <View style={styles.rowRange}>
           {/* 격자형/리스트형 토글 버튼 */}
           <TouchableOpacity
@@ -105,7 +105,6 @@ const TeamspCardsView = ({
                 )}
                 <TouchableOpacity
                   activeOpacity={1.0}
-                  key={item.cardId || index}
                   style={viewOption === '격자형' ? styles.cardWrapper : styles.radioCardWrapper}
                   onPress={() =>
                     showRadio
