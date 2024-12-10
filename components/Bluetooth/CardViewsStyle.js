@@ -278,7 +278,7 @@ export const styles = StyleSheet.create({
         letterSpacing: -0.14,
     },
     newCardBtn: {
-        paddingVertical: 12,
+        paddingVertical: 20,
         paddingHorizontal: 16,
         flexDirection: 'row',
         alignItems: 'center',
