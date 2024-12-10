@@ -104,15 +104,15 @@ export const styles = StyleSheet.create({
         paddingVertical: 18.5,
         paddingHorizontal: 16,
         // Android - Shadow
-        // elevation: 3,
+        elevation: 12,
         // IOS - Shadow
-        // shadowColor: 'rgba(73, 81, 100)',
-        // shadowOffset: {
-        //     width: 4,
-        //     height: 4,
-        // },
-        // shadowOpacity: 0.09,
-        // shadowRadius: 16,
+        shadowColor: 'rgba(73, 81, 100, 0.15)',
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.07,
+        shadowRadius: 12,
         marginBottom: 12,
     },
 
@@ -221,14 +221,15 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: theme.white,
         borderRadius: 12,
-        shadowColor: "rgba(73, 81, 100, 0.07)",
+        shadowColor: "rgba(73, 81, 100, 0.09)",
         shadowOffset: {
             width: 0,
             height: 2
         },
         shadowRadius: 12,
-        shadowOpacity: 1,
+        shadowOpacity: 0,
         borderWidth: 1,
+        elevation: 12,
         borderColor: "rgba(244, 244, 244, 1.0)"
     },
     tab: {
@@ -683,7 +684,8 @@ export const styles = StyleSheet.create({
         left: 0,
         right: 0,
         paddingVertical: 21.5,
-        borderRadius: 12,
+        borderTopLeftRadius: 20,
+        borderTopRightRadius: 20,
         backgroundColor: "#FFFFFF",
         // Android - Shadow
         elevation: 3,

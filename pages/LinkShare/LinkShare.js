@@ -17,6 +17,7 @@ import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import LinkShareImage from '../../assets/icons/LinkShareImage.svg';
 import ShareIcon from '../../assets/icons/ic_share_white.svg';
+import { textStyles } from "../../textStyles.js";
 
 // Branch 링크 생성 함수
 const createBranchLink = async (backendLink, cardId) => {
@@ -152,14 +153,14 @@ function Step1Screen({ navigation }) {
             setViewOption={setViewOption}
             handleNext={handleNext}
             cardData={cardData} 
-            title={'공유할 카드를 선택하세요.'}
+            title={'상대에게 보낼 프로필을 선택하세요.'}
             showNewCardButton={true}
             showPlusCard={true}
           />
         ) : (
           <NoCardsView 
             navigation={navigation}
-            title={'공유할 카드를 선택하세요.'}
+            title={'상대에게 보낼 프로필을 선택하세요.'}
             sub={'공유할 수 있는 카드가 없어요.'}
           />
         )}
@@ -222,8 +223,12 @@ function LinkShare({ navigation }) {
     <Stack.Navigator>
       <Stack.Screen name="Step1" component={Step1Screen} 
       options={{
-        title: "링크 복사",
+        title: "내 카드 보내기",
         headerTitleAlign: 'center',
+        headerTitleStyle:{
+          ...textStyles.body16m,
+          color: theme.gray10
+        },
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <CloseIcon style={{ marginLeft: 8  }}/>
@@ -232,8 +237,12 @@ function LinkShare({ navigation }) {
       }}/>
       <Stack.Screen name="Step2" component={Step2Screen} 
       options={{
-        title: "링크 복사",
+        title: "링크 공유하기",
         headerTitleAlign: 'center',
+        headerTitleStyle:{
+          ...textStyles.body16m,
+          color: theme.gray10
+        },
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <LeftArrowIcon style={{ marginLeft: 8  }}/>
