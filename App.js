@@ -573,7 +573,7 @@ function MyTabs() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) => {
           let iconSource;
-          let iconSize = 42;
+          let iconSize = 50;
 
           if (route.name === '홈') {
             iconSource = focused
