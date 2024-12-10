@@ -152,14 +152,14 @@ function Step1Screen({ navigation }) {
             setViewOption={setViewOption}
             handleNext={handleNext}
             cardData={cardData} 
-            title={'공유할 카드를 선택하세요.'}
+            title={'상대에게 보낼 프로필을 선택하세요.'}
             showNewCardButton={true}
             showPlusCard={true}
           />
         ) : (
           <NoCardsView 
             navigation={navigation}
-            title={'공유할 카드를 선택하세요.'}
+            title={'상대에게 보낼 프로필을 선택하세요.'}
             sub={'공유할 수 있는 카드가 없어요.'}
           />
         )}
@@ -222,7 +222,7 @@ function LinkShare({ navigation }) {
     <Stack.Navigator>
       <Stack.Screen name="Step1" component={Step1Screen} 
       options={{
-        title: "링크 복사",
+        title: "내 카드 보내기",
         headerTitleAlign: 'center',
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
@@ -232,7 +232,7 @@ function LinkShare({ navigation }) {
       }}/>
       <Stack.Screen name="Step2" component={Step2Screen} 
       options={{
-        title: "링크 복사",
+        title: "링크 공유하기",
         headerTitleAlign: 'center',
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
