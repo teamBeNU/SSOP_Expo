@@ -430,14 +430,14 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         // Android - Shadow
-        elevation: 3,
+        elevation: 12,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.5)',
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.09,
+        shadowOpacity: 0.05,
         shadowRadius: 16,
 
         // 그림자가 안보여서 임시 border
@@ -448,7 +448,7 @@ export const styles = StyleSheet.create({
     circles: {
         flexDirection: "row",
         justifyContent: "center",
-        marginTop: 24,
+        // marginTop: 24,
     },
     circle: {
         width: 10,

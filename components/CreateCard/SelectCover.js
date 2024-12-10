@@ -82,6 +82,7 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
         <View style={{height: '100%', backgroundColor: theme.white}}>
             <Text style={styles.coverTitle}>카드 커버를 선택하세요.</Text>
             <Text style={styles.coverSubTitle}>카드 앞면에 커버가 보여요.</Text>
+            <View>
             <ScrollView
                 pagingEnabled
                 horizontal
@@ -90,7 +91,7 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                 snapToAlignment={"center"}
                 showsHorizontalScrollIndicator={false}
                 onScroll={handleScroll}
-                contentContainerStyle={{ flexGrow: 1 }}
+                contentContainerStyle={{ flexGrow: 1, paddingBottom: 24 }}
             >
                 <TouchableOpacity  
                     onPress={() => {
@@ -156,7 +157,8 @@ export default function SelectCover({step, setStep, card_cover, handleNext, setC
                     ]}
                 ></View>
             </View>
-            <View style={{flex:20}}></View>
+            </View>
+            {/* <View style={{flex:2, backgroundColor:'red'}}></View> */}
         </View> 
     );
 }

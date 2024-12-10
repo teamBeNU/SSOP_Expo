@@ -71,9 +71,9 @@ export const styles = StyleSheet.create({
         // borderColor: theme.gray95,
         // backgroundColor: "white",
         // Android - Shadow
-        elevation: 3,
-        // IOS - Shadow
+        elevation: 12,
         shadowColor: 'rgba(73, 81, 100)',
+        // IOS - Shadow
         shadowOffset: {
             width: 0,
             height: 2,
