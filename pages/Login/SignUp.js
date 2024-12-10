@@ -229,10 +229,6 @@ function SignUp() {
           headerLeft: handleHeaderLeft,
           headerTitle: handleHeaderTitle,
           headerTitleAlign: 'center',
-          headerTitleStyle: {
-            ...textStyles.body16m,
-            color: theme.gray10
-          },
         });
       }, [navigation, step]);
 
