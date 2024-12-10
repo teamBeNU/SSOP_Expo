@@ -9,9 +9,8 @@ import CloseIcon from '../../assets/icons/close.svg';
 import BottomLineIcon from '../../assets/icons/ic_bottom_line.svg';
 import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
-import Contact from '../../assets/icons/ic_contact_small_line.svg';
-import Edit from '../../assets/icons/ic_edit.svg';
-import FolderMove from '../../assets/icons/ic_folder-move.svg';
+import { textStyles } from "../../textStyles.js";
+import { theme } from "../../theme.js";
 import Add from '../../assets/icons/ic_folder-add.svg';
 import Trash from '../../assets/icons/ic_trash.svg';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -165,7 +164,7 @@ function EditGroupPage({ route, navigation }) {
         </TouchableOpacity>
       ),
       headerTitle: () => (
-        <Text style={{ fontSize: 16, fontWeight: '500' }}>
+        <Text style={[textStyles.body16m, { color: theme.gray10 }]}>
           {selectedGroups.length}개 선택됨
         </Text>
       ),

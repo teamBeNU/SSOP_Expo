@@ -17,6 +17,7 @@ import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import LinkShareImage from '../../assets/icons/LinkShareImage.svg';
 import ShareIcon from '../../assets/icons/ic_share_white.svg';
+import { textStyles } from "../../textStyles.js";
 
 // Branch 링크 생성 함수
 const createBranchLink = async (backendLink, cardId) => {
@@ -224,6 +225,10 @@ function LinkShare({ navigation }) {
       options={{
         title: "내 카드 보내기",
         headerTitleAlign: 'center',
+        headerTitleStyle:{
+          ...textStyles.body16m,
+          color: theme.gray10
+        },
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <CloseIcon style={{ marginLeft: 8  }}/>
@@ -234,6 +239,10 @@ function LinkShare({ navigation }) {
       options={{
         title: "링크 공유하기",
         headerTitleAlign: 'center',
+        headerTitleStyle:{
+          ...textStyles.body16m,
+          color: theme.gray10
+        },
         headerLeft: ({onPress}) => (
           <TouchableOpacity onPress={onPress}>
             <LeftArrowIcon style={{ marginLeft: 8  }}/>

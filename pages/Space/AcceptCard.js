@@ -10,6 +10,7 @@ import CardsView from '../../components/Bluetooth/CardsView.js';
 import MySpaceDetailView from "../../components/Space/AcceptCardView.js";
 import ExchangeModal from '../../components/Space/ExchangeModal.js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { textStyles } from "../../textStyles.js";
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import CloseIcon from '../../assets/icons/close.svg';
@@ -366,7 +367,7 @@ function DetailSpaceGroup({ navigation }) {
               </TouchableOpacity>
             ),
             headerTitle: () => (
-              <Text style={{ fontSize: 16, fontWeight: '500' }}>
+              <Text style={[textStyles.body16m, { color: theme.gray10 }]}>
                 {selectedCards.length}개 선택됨
               </Text>
             ),
@@ -541,7 +542,7 @@ function ManageCardScreen({ navigation }) {
         </TouchableOpacity>
       ),
       headerTitle: () => (
-        <Text style={{ fontSize: 16, fontWeight: '500' }}>
+        <Text style={[textStyles.body16m, { color: theme.gray10 }]}>
           {selectedCards.length}개 선택됨
         </Text>
       ),
