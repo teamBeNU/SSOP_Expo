@@ -27,6 +27,12 @@ function SignUp() {
 
     // 1. email 입력
     const [email, setEmail] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    const validateEmail = (email) => {
+      const emailRegex = /^[a-zA-Z0-9](?:[a-zA-Z0-9._+-]*[a-zA-Z0-9])?@[a-zA-Z0-9]+(?:\.[a-zA-Z0-9]+)*\.[a-zA-Z]{2,6}$/;
+      return emailRegex.test(email);
+    };
 
     // 2. pw 입력
     const [password, setPassword] = useState("");
@@ -115,8 +121,12 @@ function SignUp() {
       
       const handleNext = () => {
         if (step === 1 ) {
-          if(email !== '')
-          setStep(2);
+          if (!validateEmail(email)) {
+            setErrorMessage('유효한 이메일 주소를 입력하세요.');
+          } else {
+            setErrorMessage('');
+            setStep(2);
+          }
         } else if (step === 2 ) {
           if(password !== '' && hasEnglish && hasNum && hasLeng) 
           setStep(3);
@@ -317,7 +327,7 @@ function SignUp() {
                 <View style={styles.inputContainer}>
                     <Text style={styles.inputTitle}>이메일</Text>
                     <TextInput
-                    style={styles.input} 
+                    style={[styles.input, errorMessage ? styles.inputError : null]}
                     placeholder="이메일 주소를 입력하세요."
                     placeholderTextColor={theme.gray60}
                     keyboardType= "email-address"
@@ -326,6 +336,7 @@ function SignUp() {
                     returnKeyType="next"
                     onSubmitEditing={handleNext}
                     />
+                    {errorMessage ? <Text style={styles.inputErrorText}>{errorMessage}</Text> : null}
                 </View>
                 <TouchableOpacity style={styles.nextBtn} onPress={handleNext}>
                     <Text style={styles.nextText}>다음으로</Text>
