@@ -1,3 +1,5 @@
+// 팀스페이스 연락처 저장 리스트
+
 import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js'
@@ -9,11 +11,6 @@ import AllListIcon from '../../assets/icons/ic_border_all.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import RadioWhiteIcon from '../../assets/icons/ic_radio_check_white.svg';
 import ListCardsView from '../Bluetooth/ListCardsView.js';
-
-import { getColor } from '../../utils/bgColorMapping';
-import { calculateAge } from '../../utils/calculateAge';
-import { getTemplate } from '../../utils/templateMapping';
-
 
 // 리스트형 라디오
 const CustomCardRadioButton = ({ selected, onPress }) => {
@@ -37,7 +34,7 @@ const CustomCardRadioButton2 = ({ selected, onPress }) => {
   );
 };
 
-const CardsView = ({
+const TeamspCardsView = ({
   navigation,
   selectedOption,
   setSelectedOption,
@@ -54,57 +51,14 @@ const CardsView = ({
   handleRadioSelect,
   showDate = false, // 날짜 표시 여부
 }) => {
-  const [sortedGroupedCardData, setSortedGroupedCardData] = useState([]);
+  console.log("cardData", cardData)
 
-  // 날짜 형식 변환 함수
-  const formatDateWithDay = (dateString) => {
-    const days = ['일', '월', '화', '수', '목', '금', '토'];
-    const date = new Date(dateString);
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    const dayOfWeek = days[date.getDay()];
-    return `${month}.${day}.${dayOfWeek}`;
-  };
 
-  // 카드 데이터를 날짜별로 그룹화
-  const groupByDate = (data) => {
-    if (!Array.isArray(data)) {
-      return []; // cardData가 배열이 아닌 경우 빈 배열 반환
-    }
-
-    const grouped = data.reduce((acc, item) => {
-      const date = item.savedAt.split('T')[0]; // 'YYYY-MM-DD' 추출
-      if (!acc[date]) {
-        acc[date] = [];
-      }
-      acc[date].push(item);
-      return acc;
-    }, {});
-
-    // 날짜별 정렬 (최신순 또는 오래된 순)
-    const sortedDates = Object.keys(grouped).sort((a, b) =>
-      selectedOption === '오래된 순' ? new Date(a) - new Date(b) : new Date(b) - new Date(a)
-    );
-
-    // 각 그룹 안의 카드도 최신순으로 정렬
-    return sortedDates.map((date) => ({
-      date: formatDateWithDay(date),
-      cards: grouped[date].sort((a, b) => new Date(b.savedAt) - new Date(a.savedAt)), // 최신순 정렬
-    }));
-  };
-
-  // 카드 데이터 정렬 및 그룹화
-  useEffect(() => {
-    if (showDate) {
-      setSortedGroupedCardData(groupByDate(cardData)); // 날짜별 그룹화
-    } else {
-      const sortedData = Array.isArray(cardData) ? [...cardData] : [];
-      setSortedGroupedCardData([
-        { date: null, cards: selectedOption === '오래된 순' ? sortedData : sortedData.reverse() },
-      ]);
-    }
-  }, [cardData, selectedOption, showDate]);
-
+   // 통합 데이터 배열 생성
+   const combinedCardData = [
+    ...(cardData.cardIdData || []),
+    ...(cardData.memberData || []),
+  ];
   return (
     <View style={styles.mainlayout2}>
       {/* 제목 표시 */}
@@ -151,13 +105,8 @@ const CardsView = ({
       {/* 카드 리스트 표시 */}
       <ScrollView showsVerticalScrollIndicator={false}>
         <View>
-          {sortedGroupedCardData.map((group, groupIndex) => (
+          {combinedCardData.map((group, groupIndex) => (
             <View key={groupIndex} style={{ paddingBottom: showDate ? 24 : 0 }}>
-              {/* 날짜 표시 (showDate=true일 때만) */}
-              {showDate && group.date && (
-                <Text style={styles.dateText}>{group.date}</Text>
-              )}
-
               {/* 카드 렌더링 */}
               <View style={viewOption === '격자형' ? styles.gridContainer : undefined}>
                 {viewOption === '격자형' && showPlusCard && (
@@ -171,8 +120,8 @@ const CardsView = ({
                     style={viewOption === '격자형' ? styles.cardWrapper : styles.radioCardWrapper}
                     onPress={() =>
                       showRadio
-                        ? handleRadioSelect(item.cardId)
-                        : handleNext(item.cardId , item.cardEssential.card_name)
+                        ? handleRadioSelect(item.cardId || item.userId)
+                        : handleNext(item.cardId || item.userId, item.cardEssential?.card_name || item.memberEssential?.card_name)
                     }
                   >
                     {/* 라디오 버튼 표시 */}
@@ -205,24 +154,24 @@ const CardsView = ({
                           avatar={
                             <Image
                               source={{
-                                uri: item.profile_image_url,
+                                uri: item.profile_image_url || item.memberEssential?.profile_image_url || "",
                               }}
                               style={styles.listImage}
                             />
                           }
-                          card_name={item.cardEssential.card_name}
-                          card_introduction={item.cardEssential.card_introduction}
-                          card_birth={item.cardOptional.card_birth}
+                          card_name={item.cardEssential?.card_name || item.memberEssential?.card_name || ""}
+                          card_introduction={item.cardEssential?.card_introduction || item.memberEssential?.card_introduction || ""}
+                          card_birth={item.cardOptional?.card_birth || item.memberOptional?.card_birth || ""}
                         />
                       </View>
                     ) : (
                       <ShareCard
-                        avatar={item.avatar}
-                        card_name={item.cardEssential.card_name}
-                        card_birth={item.cardOptional.card_birth}
-                        card_template={item.card_template}
-                        card_cover={item.card_cover}
-                        profile_image_url={item.profile_image_url}
+                        avatar={item.avatar || ""}
+                        card_name={item.cardEssential?.card_name || item.memberEssential?.card_name || "Unknown Name"}
+                        card_birth={item.cardOptional?.card_birth || item.memberOptional?.card_birth || "Unknown Birth"}
+                        card_template={item.card_template || item.memberEssential?.card_template || "Unknown Template"}
+                        card_cover={item.memberEssential?.card_cover || "Default Cover"}
+                        profile_image_url={item.profile_image_url || item.memberEssential?.profile_image_url || "Default Profile Image"}
                       />
                     )}
                   </TouchableOpacity>
@@ -231,25 +180,11 @@ const CardsView = ({
             </View>
           ))}
         </View>
-
-        {/* 새 카드 만들기 버튼 */}
-        {showNewCardButton && viewOption !== '격자형' && (
-          <TouchableOpacity
-            activeOpacity={0.9}
-            style={styles.newCardBtn}
-            onPress={() => navigation.navigate('카드 만들기')}
-          >
-            <PlusCardIcon />
-            <Text style={styles.Text14gray50}>새 카드 만들기</Text>
-          </TouchableOpacity>
-        )}
-
-        <View style={styles.innerView}></View>
       </ScrollView>
     </View>
   );
 };
 
-export default CardsView;
+export default TeamspCardsView;
 
 
