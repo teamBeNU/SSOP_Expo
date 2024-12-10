@@ -24,7 +24,7 @@ export const styles = StyleSheet.create({
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.09,
         shadowRadius: 16,
-        elevation: 5
+        elevation: 16
 	},
 	cardImgArea: {
         height: WIDTH * 0.86,
