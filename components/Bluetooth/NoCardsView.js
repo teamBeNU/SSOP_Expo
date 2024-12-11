@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { styles } from './CardViewsStyle';
-import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';;
 
 const NoCardsView = ({ navigation, title, sub, showTitle = true }) => {
   return (
