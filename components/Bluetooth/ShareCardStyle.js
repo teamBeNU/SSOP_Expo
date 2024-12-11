@@ -78,7 +78,7 @@ export const styles = StyleSheet.create({
         fontFamily: 'PretendardSemiBold',
         fontSize: 16,
         letterSpacing: -0.44,
-        marginRight: 8,
+        marginRight: 4,
     },
     age: {
         gap: 2,
@@ -90,6 +90,7 @@ export const styles = StyleSheet.create({
         fontFamily: "PretendardRegular",
         color: theme.gray60,
         letterSpacing: -0.14,
+        marginRight: 4,
     },
     Text14: {
         marginBottom: 21,
