@@ -121,7 +121,7 @@ export const styles = StyleSheet.create({
         height: 40,
         borderRadius: 25,
         backgroundColor: "#FFFFFF",
-        shadowColor: 'rgba(151, 160, 181, 0.2)',
+        shadowColor: 'rgba(151, 160, 181, 0.4)',
         shadowOpacity: 0.14,
         shadowRadius: 16,
         borderWidth: 1.3,
