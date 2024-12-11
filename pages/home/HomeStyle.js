@@ -4,7 +4,7 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     mainlayout:{ // 메인 레이아웃   
         flex: 1, 
-        paddingVertical: 16,
+        paddingVertical: 2,
         paddingHorizontal: 16,
         backgroundColor: theme.white,
     },
