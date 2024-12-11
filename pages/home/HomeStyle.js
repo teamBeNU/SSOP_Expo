@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
         // Android - Shadow
         elevation: 16,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100, 0.09)',
+        shadowColor: 'rgba(73, 81, 100, 0.2)',
         shadowOffset: {
             width: 0,
             height: 2,
