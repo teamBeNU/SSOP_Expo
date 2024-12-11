@@ -55,8 +55,8 @@ export const styles = StyleSheet.create({
     },
 	cardImgArea: {
         width: '100%',
+        height: '99.9%',
         alignItems: 'center',
-        flex: 1,
         overflow: 'hidden',
         borderRadius: 16,
     },
@@ -72,7 +72,7 @@ export const styles = StyleSheet.create({
     },
     Info: {
         flexDirection: "row",
-        alignItems: 'flex-end',
+        alignItems: 'center'
     },
     name: {
         fontFamily: 'PretendardSemiBold',
