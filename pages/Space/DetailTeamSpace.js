@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useRoute } from '@react-navigation/native';
 import axios from "axios";
-import { View, Text, ScrollView, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, TouchableOpacity, Modal } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { styles } from './SpaceStyle';
@@ -12,11 +12,16 @@ import Toast from 'react-native-toast-message';
 import TeamspCardsView from '../../components/Bluetooth/TeamspCardsView.js';
 import DetailTeamSpaceScreen from "./DetailTeamSpaceScreen.js";
 
+import Contact from '../../assets/icons/ic_contact_black.svg';
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
 import MoreIcon from '../../assets/icons/ic_more_regular_line_big.svg';
 import SelectIcon from '../../assets/icons/ic_done_small_line_blue.svg';
 import CloseIcon from '../../assets/icons/close.svg';
+import RadioGrayIcon from '../../assets/icons/radio_button_checked.svg';
+import RadioWhiteIcon from '../../assets/icons/radio_button_unchecked.svg';
 import { theme } from "../../theme.js";
+
+import { addContacts } from '../../components/MyCard/AddTel.js';
 
 const Stack = createStackNavigator();
 
@@ -108,16 +113,16 @@ export default function DetailTeamSpace() {
                         </TouchableOpacity>
                       }
                       <SpaceModal
-                            isVisible={isDeleteModalVisible}
-                            onClose={() => setIsDeleteModalVisible(false)}
-                            title={'현재 팀스페이스를 나가시겠습니까?'}
-                            sub={ isHost
-                              ? `호스트가 나가면\n팀스페이스가 삭제됩니다.`
-                              : `모든 정보가 삭제되며 되돌릴 수 없습니다.`}
-                            btn1={'취소할래요'}
-                            btn2={'네, 나갈래요'}
-                            onConfirm={handleDeleteSpace}
-                          />
+                        isVisible={isDeleteModalVisible}
+                        onClose={() => setIsDeleteModalVisible(false)}
+                        title={'현재 팀스페이스를 나가시겠습니까?'}
+                        sub={isHost
+                          ? `호스트가 나가면\n팀스페이스가 삭제됩니다.`
+                          : `모든 정보가 삭제되며 되돌릴 수 없습니다.`}
+                        btn1={'취소할래요'}
+                        btn2={'네, 나갈래요'}
+                        onConfirm={handleDeleteSpace}
+                      />
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>
@@ -430,8 +435,7 @@ function SaveTellScreen({ navigation }) {
     memberData,
   };
 
-  console.log("cardIdData", cardIdData)
-  console.log("memberData", memberData)
+  // console.log(combinedData);
 
   const showCustomToast = (text) => {
     Toast.show({
@@ -442,36 +446,71 @@ function SaveTellScreen({ navigation }) {
     });
   };
 
-  const handleSaveTel = () => {
-    showCustomToast('연락처가 저장되었습니다.');
-  };
-
   const [selectedCards, setSelectedCards] = useState([]);
   const [selectedOption, setSelectedOption] = useState('최신순');
   const [viewOption, setViewOption] = useState('격자형');
 
-  const handlePress = (cardId) => {
-    setSelectedCards(prevSelectedCards =>
-      prevSelectedCards.includes(cardId)
-        ? prevSelectedCards.currentFilter(id => id !== cardId)
-        : [...prevSelectedCards, cardId]
-    );
+  const [isSaveModalVisible, setIsSaveModalVisible] = useState(false); // 연락처 저장 모달 상태
+  const [isCompleteModalVisible, setIsCompleteModalVisible] = useState(false); // 연락처로 이동 모달 상태
+  const [isSuccessModalVisible, setIsSuccessModalVisible] = useState(false); // 아이폰용 완료 모달
+
+  const handleSaveTel = () => {
+    setIsSaveModalVisible(true);
+    //showCustomToast('연락처가 저장되었습니다.');
   };
 
-  const handleNext = () => {
-    navigation.navigate('카드 조회');
+  const confirmSaveContacts = async () => {
+    setIsSaveModalVisible(false); // 모달 닫기
+    await addContacts(selectedCards, showCompleteModal); // 연락처 저장 함수 호출
+  };
+
+  const showCompleteModal = () => {
+    if (Platform.OS === 'android') {
+      setIsCompleteModalVisible(true); // 연락처로 이동 모달 표시
+    } else {
+      setIsSuccessModalVisible(true); // 아이폰은 저장 완료 모달 표시
+    }
+  };
+
+  const handleNavigateToContacts = () => {
+    setIsCompleteModalVisible(false); // 모달 닫기
+    if (Platform.OS === 'android') {
+      Linking.openURL('content://contacts/people/'); // 연락처로 이동
+    }
+  };
+
+
+  const handleNext = (cardId) => {
+    console.log('cardid: ', cardId);
+    navigation.navigate('상대카드 상세보기', { cardId });
   };
 
   // 카드 선택/해제 처리 함수
   const handleRadioSelect = (cardId) => {
     setSelectedCards((prevSelectedCards) =>
       prevSelectedCards.includes(cardId)
-        ? prevSelectedCards.currentFilter((id) => id !== cardId) // 이미 선택된 카드 해제
+        ? prevSelectedCards.filter((id) => id !== cardId) // 이미 선택된 카드 해제
         : [...prevSelectedCards, cardId] // 새 카드 선택
     );
   };
 
   // 모든 카드를 선택하거나 선택 해제하는 함수
+  const handleSelectAll = () => {
+    // cardIdData에서 cardId 추출
+    const cardIds = combinedData.cardIdData.map((card) => card.cardId);
+
+    // memberData에서 userId 추출
+    const userIds = combinedData.memberData.map((member) => member.userId);
+
+    // 현재 선택된 모든 ID(cardId와 userId)
+    const allIds = [...cardIds, ...userIds];
+
+    if (selectedCards.length === allIds.length) {
+      setSelectedCards([]); // 모든 선택 해제
+    } else {
+      setSelectedCards(allIds); // cardId와 userId 모두 선택
+    }
+  };
 
   // 헤더 설정 (X 아이콘, 선택 개수, 전체 선택 라디오 버튼)
   React.useLayoutEffect(() => {
@@ -487,16 +526,16 @@ function SaveTellScreen({ navigation }) {
         </Text>
       ),
       headerTitleAlign: 'center',
-      // headerRight: () => (
-      // <TouchableOpacity onPress={handleSelectAll}>
-      //   {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
-      //   {selectedCards.length === cardData.length ? (
-      //     <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
-      //   ) : (
-      //     <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
-      //   )}
-      // </TouchableOpacity>
-      // ),
+      headerRight: () => (
+        <TouchableOpacity onPress={handleSelectAll}>
+          {/* 전체 선택 상태에 따라 라디오 버튼 아이콘 변경 */}
+          {selectedCards.length > 0 && selectedCards.length === combinedData.cardIdData.length + combinedData.memberData.length ? (
+            <RadioGrayIcon style={{ marginRight: 16 }} />  // 전체 선택된 상태일 때
+          ) : (
+            <RadioWhiteIcon style={{ marginRight: 16 }} />  // 선택 해제 상태일 때
+          )}
+        </TouchableOpacity>
+      ),
     });
   }, [navigation, selectedCards]);  // 선택된 그룹 상태가 변경될 때마다 헤더 업데이트
 
@@ -512,7 +551,7 @@ function SaveTellScreen({ navigation }) {
                 setSelectedOption={setSelectedOption}
                 viewOption={viewOption}
                 setViewOption={setViewOption}
-                // handleNext={handlePress}
+                handleNext={handleNext}
                 cardData={combinedData}
                 showRadio={true}
                 selectedCards={selectedCards} // 선택된 카드 목록 전달
@@ -524,10 +563,60 @@ function SaveTellScreen({ navigation }) {
         </ScrollView>
       </View>
       <View style={styles.bottomContainer}>
+        <Contact style={{ marginRight: 6 }} />
         <TouchableOpacity onPress={handleSaveTel}>
-          <Text style={styles.bottomText}>핸드폰에 연락처 저장</Text>
+          <Text style={styles.bottomText}>연락처 저장</Text>
         </TouchableOpacity>
       </View>
+
+      {/* 연락처 저장 모달 */}
+      <Modal visible={isSaveModalVisible} transparent={true} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>연락처를 저장하시겠습니까?</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity onPress={() => setIsSaveModalVisible(false)} style={styles.cancelButton}>
+                <Text style={styles.cancelText}>괜찮아요</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={confirmSaveContacts} style={styles.confirmButton}>
+                <Text style={styles.confirmText}>네, 저장할래요</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* 연락처로 이동 모달 */}
+      <Modal visible={isCompleteModalVisible} transparent={true} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>연락처가 저장되었습니다.</Text>
+            <Text style={styles.modalSubText}>연락처로 이동하시겠습니까?</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity onPress={() => setIsCompleteModalVisible(false)} style={styles.cancelButton}>
+                <Text style={styles.cancelText}>괜찮아요</Text>
+              </TouchableOpacity>
+              <TouchableOpacity onPress={handleNavigateToContacts} style={styles.confirmButton}>
+                <Text style={styles.confirmText}>네, 이동할래요</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+
+      {/* 아이폰용 저장 완료 모달 */}
+      <Modal visible={isSuccessModalVisible} transparent={true} animationType="fade">
+        <View style={styles.modalOverlay}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>저장이 완료되었습니다.</Text>
+            <View style={styles.modalButtons}>
+              <TouchableOpacity onPress={() => setIsSuccessModalVisible(false)} style={styles.confirmButton}>
+                <Text style={styles.confirmText}>확인</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </View>
   );
 }
