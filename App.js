@@ -4,7 +4,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Linking, LogBox, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, LogBox, Text, TextInput, TouchableOpacity, View, StatusBar } from 'react-native';
 import "react-native-gesture-handler";
 import { MenuProvider } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
@@ -268,6 +268,7 @@ export default function App() {
   <AuthProvider>
     <MenuProvider>
       <NavigationContainer linking={linking}>
+        <StatusBar barStyle="dark-content" />
         <Stack.Navigator
           screenOptions={{
             headerTitleStyle: {
