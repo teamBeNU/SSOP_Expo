@@ -17,16 +17,12 @@ export const styles = StyleSheet.create({
         borderRadius: 16,
         backgroundColor: 'white',
         overflow: 'hidden',
-        // Android - Shadow
+        // 그림자
+        shadowColor: 'rgba(73, 81, 100, 0.09)',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.09,
+        shadowRadius: 16, 
         elevation: 12,
-        // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100, 0.5)',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.07,
-        shadowRadius: 12,
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)"
 	},
@@ -54,7 +50,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
     },
 	cardImgArea: {
-        width: '100%',
+        width: '99.9%',
         height: '99.9%',
         alignItems: 'center',
         overflow: 'hidden',
