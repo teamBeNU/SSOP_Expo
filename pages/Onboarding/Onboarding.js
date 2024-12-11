@@ -107,7 +107,7 @@ function Onboarding({navigation}) {
             <View style={[styles.summary, styles.marginH16]}>
               <Text style={styles.summaryText}>카드 만들기</Text>
             </View>
-            <Text style={[styles.titleText, styles.marginH16]}>네 가지 템플릿으로{"\n"}빠르게 카드 만들</Text>
+            <Text style={[styles.titleText, styles.marginH16]}>네 가지 템플릿으로{"\n"}빠르게 카드 만들기</Text>
             <Text style={[styles.descriptionText, styles.marginH16]}>어떤 내용을 써야 할지 고민할 필요 없어요.{"\n"}템플릿을 고르고 쓰기만 하면 돼요.</Text>
             <Image
               source={require('../../assets/images/onboarding2.png')} 
