@@ -114,7 +114,7 @@ function MyCard() {
             navigation.setOptions({
                 headerLeft: () => (
                     <TouchableOpacity onPress={() => setIsShareModalVisible(true)}>
-                        <SwapIcon style={{ marginHorizontal: 16, marginVertical: 16}} />
+                        <SwapIcon style={{ marginHorizontal: 12, marginVertical: 16}} />
                     </TouchableOpacity>
                 ),
                 headerRight: () => (

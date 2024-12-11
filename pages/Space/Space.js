@@ -172,7 +172,7 @@ function MySpaceStack({ navigation }) {
             headerShadowVisible: false,
             headerLeft: () => (
               <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-                <SwapIcon style={{ marginLeft: 8 }} />
+                <SwapIcon style={{ marginLeft: 12 }} />
               </TouchableOpacity>
             ),
             headerRight: () => (
@@ -245,7 +245,7 @@ function TeamSpaceStack({ navigation, teamData, userId }) {
             headerShadowVisible: false,
             headerLeft: () => (
               <TouchableOpacity onPress={() => setIsModalVisible(true)}>
-                <SwapIcon style={{ marginLeft: 8 }} />
+                <SwapIcon style={{ marginLeft: 12 }} />
               </TouchableOpacity>
             ),
             headerRight: () => (
