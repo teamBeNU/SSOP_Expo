@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js';
-import { PlusCardButton, ShareCard } from './ShareCard';
+import { ShareCard } from './ShareCard';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import PlusCardIcon from '../../assets/icons/ic_add_medium_line.svg';
 import ListIcon from '../../assets/icons/ic_lists.svg';
@@ -119,13 +119,13 @@ const TeamspCardsView = ({
                 >
                   {viewOption === '격자형' ? (
                     <CustomCardRadioButton2
-                      selected={selectedCards.includes(item.cardId)}
-                      onPress={() => handleRadioSelect(item.cardId)}
+                      selected={selectedCards.includes(item.cardId || item.userId)}
+                      onPress={() => handleRadioSelect(item.cardId || item.userId)}
                     />
                   ) : (
                     <CustomCardRadioButton
-                      selected={selectedCards.includes(item.cardId)}
-                      onPress={() => handleRadioSelect(item.cardId)}
+                      selected={selectedCards.includes(item.cardId || item.userId)}
+                      onPress={() => handleRadioSelect(item.cardId || item.userId)}
                     />
                   )}
                 </View>
