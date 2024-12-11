@@ -52,6 +52,7 @@ import Space from './pages/Space/Space';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
+import PretendardBold from './assets/fonts/pretendard-bold.otf';
 import KaKaoLogin from './components/Login/KaKaoLogin';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
@@ -168,7 +169,8 @@ export default function App() {
     PretendardRegular: PretendardRegular,
     PretendardMedium: PretendardMedium,
     PretendardSemiBold: PretendardSemiBold,
-    PretendardSemibold: PretendardSemiBold
+    PretendardSemibold: PretendardSemiBold,
+    PretendardBold: PretendardBold,
   });
 
   if (!fontsLoaded) {
