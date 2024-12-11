@@ -47,6 +47,7 @@ export const ShareCard = ({ card_name, card_birth, card_template, card_cover, pr
         <View style={styles.Info}>
           <Text style={styles.name}>{card_name}</Text>
           <View style={styles.age}>
+            {card_name && <Text style={styles.ageText}>·</Text>}
             {card_birth && <Text style={styles.ageText}>{calculateAge(card_birth)}</Text>}
             {card_birth && card_template && <Text style={styles.ageText}>·</Text>}
             {card_template && <Text style={styles.ageText}>{getTemplate(card_template)}</Text>}
