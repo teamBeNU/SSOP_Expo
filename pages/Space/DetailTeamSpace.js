@@ -9,7 +9,7 @@ import { Menu, MenuOptions, MenuTrigger } from 'react-native-popup-menu';
 import { SpaceModal } from "../../components/Space/SpaceModal.js";
 import { textStyles } from "../../textStyles.js";
 import Toast from 'react-native-toast-message';
-import CardsView from '../../components/Bluetooth/CardsView.js';
+import TeamspCardsView from '../../components/Bluetooth/TeamspCardsView.js';
 import DetailTeamSpaceScreen from "./DetailTeamSpaceScreen.js";
 
 import LeftArrowIcon from '../../assets/icons/ic_LeftArrow_regular_line.svg';
@@ -100,30 +100,24 @@ export default function DetailTeamSpace() {
                           <TouchableOpacity onPress={handleDeleteButton}>
                             <Text style={{ marginBottom: 10.5 }}>팀스페이스 삭제하기</Text>
                           </TouchableOpacity>
-                          <SpaceModal
+                        </>
+                      )}
+                      {!isHost &&
+                        <TouchableOpacity onPress={handleDeleteButton}>
+                          <Text style={{ marginTop: 8, marginBottom: 8 }}>팀스페이스 나가기</Text>
+                        </TouchableOpacity>
+                      }
+                      <SpaceModal
                             isVisible={isDeleteModalVisible}
                             onClose={() => setIsDeleteModalVisible(false)}
                             title={'현재 팀스페이스를 나가시겠습니까?'}
-                            sub={
-                              <View>
-                                <Text style={{ textAlign: 'center' }}>
-                                  호스트가 나가면{'\n'}팀스페이스가 삭제됩니다.
-                                </Text>
-                              </View>
-                            }
+                            sub={ isHost
+                              ? `호스트가 나가면\n팀스페이스가 삭제됩니다.`
+                              : `모든 정보가 삭제되며 되돌릴 수 없습니다.`}
                             btn1={'취소할래요'}
                             btn2={'네, 나갈래요'}
                             onConfirm={handleDeleteSpace}
                           />
-                        </>
-                      )}
-                      {!isHost &&
-                        <TouchableOpacity onPress={() => {
-                          handleDeleteSpace();
-                        }}>
-                          <Text style={{ marginTop: 8, marginBottom: 8 }}>팀스페이스 나가기</Text>
-                        </TouchableOpacity>
-                      }
                     </MenuOptions>
                   </Menu>
                 </TouchableOpacity>
@@ -436,6 +430,9 @@ function SaveTellScreen({ navigation }) {
     memberData,
   };
 
+  console.log("cardIdData", cardIdData)
+  console.log("memberData", memberData)
+
   const showCustomToast = (text) => {
     Toast.show({
       text1: text,
@@ -509,14 +506,14 @@ function SaveTellScreen({ navigation }) {
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={styles.container}>
             <View style={styles.row}>
-              <CardsView
+              <TeamspCardsView
                 navigation={navigation}
                 selectedOption={selectedOption}
                 setSelectedOption={setSelectedOption}
                 viewOption={viewOption}
                 setViewOption={setViewOption}
-                // handleNext={handleNext}
-                cardData={cardIdData} // 기존 카드 제출 시 연락처 데이터 연동만 해놓음 -> 지정 템플릿카드는 변수라 달라서 CardsView 코드 수정해야함
+                // handleNext={handlePress}
+                cardData={combinedData}
                 showRadio={true}
                 selectedCards={selectedCards} // 선택된 카드 목록 전달
                 handleRadioSelect={handleRadioSelect} // 선택 처리 함수 전달

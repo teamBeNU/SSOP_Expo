@@ -4,7 +4,7 @@ import { textStyles } from '../../textStyles';
 
 const { width: WIDTH, height: HEIGHT } = Dimensions.get('window');
 const SCREEN_WIDTH = Dimensions.get('window').width;
-const CARD_WIDTH = SCREEN_WIDTH * 0.84; 
+const CARD_WIDTH = SCREEN_WIDTH * 0.84;
 const SPACING = -18;
 
 export const styles = StyleSheet.create({
@@ -13,11 +13,11 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         gap: 8,
-       // padding: 24,
+        // padding: 24,
         borderRadius: 20,
         backgroundColor: '#F8F8F8',
         zIndex: 0,
-       // position: 'relative',
+        // position: 'relative',
     },
     memoText: {
         color: theme.gray30,
@@ -27,7 +27,7 @@ export const styles = StyleSheet.create({
         lineHeight: 23,
         letterSpacing: -0.3,
         alignSelf: 'stretch',
-        margin:24,
+        margin: 24,
         //marginTop: -12,
         zIndex: 0,
     },
@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'pink',
-       // left: CARD_WIDTH / 2.5,
+        // left: CARD_WIDTH / 2.5,
         position: 'absolute',
         right: 4,
         top: 6,
@@ -60,7 +60,7 @@ export const styles = StyleSheet.create({
         top: 6,
     },
     dropdownMenu: {
-        zIndex:1,
+        zIndex: 1,
         width: 'auto',
         position: 'absolute',
         paddingVertical: 16,
@@ -77,22 +77,22 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: theme.gray95,
         backgroundColor: 'white',
-        },
-        dropdownMenuDetail:{
+    },
+    dropdownMenuDetail: {
         height: 48,
         paddingHorizontal: 24,
-        alignItems:'center',
+        alignItems: 'center',
         justifyContent: 'center',
         gap: 8,
         alignSelf: 'stretch',
-        },
-        menuItem: {
+    },
+    menuItem: {
         color: theme.gray10,
         fontFamily: 'PretendardRegular',
         fontSize: 16,
         fontWeight: '400',
         letterSpacing: -0.32,
-        },
+    },
     hideContainer: {
         flexDirection: 'row',
         marginTop: 12,
@@ -105,14 +105,14 @@ export const styles = StyleSheet.create({
         ...textStyles.body14,
         paddingBottom: 4,
     },
-     //modal style
-     modalContainer: {
+    //modal style
+    modalContainer: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.4)',
         justifyContent: 'flex-end',
         alignItems: 'center'
-        },
-        modalView: {
+    },
+    modalView: {
         width: '100%',
         height: HEIGHT * 0.8,
         backgroundColor: 'white',
@@ -125,8 +125,8 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         position: 'absolute',
         top: '20%'
-        },
-        modalTitle: {
+    },
+    modalTitle: {
         flexDirection: 'row',
         paddingVertical: 16,
         paddingHorizontal: 8,
@@ -142,8 +142,8 @@ export const styles = StyleSheet.create({
         //backgroundColor: 'pink',
         //width: 200,
         zIndex: -10
-        },
-        modalContent: {
+    },
+    modalContent: {
         padding: 24,
         alignItems: 'flex-start',
         gap: 8,
@@ -183,8 +183,8 @@ export const styles = StyleSheet.create({
         position: 'absolute',
         bottom: 16,
         left: 16,
-        },
-        modalFont: {
+    },
+    modalFont: {
         fontFamily: 'PretendardRegular',
         color: theme.gray10,
         fontSize: 16,
@@ -192,8 +192,8 @@ export const styles = StyleSheet.create({
         lineHeight: 19,
         letterSpacing: -0.32,
         flex: 1,
-        },
-        memoBtnContainer: {
+    },
+    memoBtnContainer: {
         flexDirection: 'row',
         width: '100%',
         height: 48,
@@ -202,8 +202,8 @@ export const styles = StyleSheet.create({
         gap: 8,
         marginHorizontal: 16,
         marginTop: 32,
-        },
-        whiteBtn: {
+    },
+    whiteBtn: {
         width: WIDTH * 0.45,
         height: 48,
         paddingVertical: 8,
@@ -213,8 +213,8 @@ export const styles = StyleSheet.create({
         borderRadius: 8,
         borderWidth: 1,
         borderColor: theme.gray80,
-        },
-        blackBtn: {
+    },
+    blackBtn: {
         width: WIDTH * 0.45,
         height: 48,
         paddingVertical: 8,
@@ -225,21 +225,21 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         backgroundColor: theme.gray10,
         // flex: 1,
-        },
-        btnFont: {
+    },
+    btnFont: {
         fontFamily: 'PretendardRegular',
         color: theme.gray50,
         fontSize: 16,
         fontWeight: '600',
         letterSpacing: -0.32,
-        },
-        memoContent: {
+    },
+    memoContent: {
         alignItems: 'flex-start',
         gap: 8,
         width: '100%',
         height: 'auto',
         justifyContent: 'space-between',
-        },
+    },
     // 메모 없을 때 
     container: {
         width: CARD_WIDTH,

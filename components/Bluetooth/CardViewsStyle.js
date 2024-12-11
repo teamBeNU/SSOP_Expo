@@ -72,6 +72,7 @@ export const styles = StyleSheet.create({
         borderRadius: 50,
         paddingVertical: 8,
         paddingHorizontal: 16,
+        paddingVertical: 8,
         backgroundColor: theme.white
     },
     selectedFilterButton: {
@@ -82,7 +83,7 @@ export const styles = StyleSheet.create({
         borderColor: theme.skyblue,
         borderRadius: 50,
         paddingVertical: 8,
-        // paddingHorizontal: 16,
+        paddingHorizontal: 16,
         paddingLeft: 16,
         paddingRight: 8,
         backgroundColor: theme.skyblue
@@ -159,9 +160,9 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         position: 'relative',
         // Android - Shadow
-        elevation: 3,
+        elevation: 5,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.07)',
         shadowOffset: {
             width: 4,
             height: 4,
@@ -224,12 +225,12 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 16,
         // Android - Shadow
-        elevation: 3,
+        elevation: 12,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.2)',
         shadowOffset: {
-            width: 4,
-            height: 4,
+            width: 0,
+            height: 2,
         },
         shadowOpacity: 0.09,
         shadowRadius: 16,
@@ -286,7 +287,7 @@ export const styles = StyleSheet.create({
     },
 
     host: {
-        borderRadius: 8,
+        borderRadius: 10,
         backgroundColor: '#00C2ED33',
         fontFamily: 'PretendardRegular',
         justifyContent: 'center',
@@ -528,7 +529,7 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
         borderColor: "rgba(244, 244, 244, 1.0)",
         // Android - Shadow
-        elevation: 3,
+        elevation: 5,
         // IOS - Shadow
         shadowColor: 'rgba(73, 81, 100)',
         shadowOffset: {

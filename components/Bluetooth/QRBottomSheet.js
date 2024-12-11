@@ -59,7 +59,7 @@ export default function QRBottomSheet({ modalVisible, setModalVisible }) {
                     style={{ ...styles.bottomSheetContainer, transform: [{ translateY: translateY }] }}
                 >
                     <View style={styles.title}>
-                        <Text style={styles.titleText}>카드 보내기</Text>
+                        <Text style={styles.titleText}>QR로 카드 공유하기</Text>
                         <TouchableOpacity
                             style={styles.closeBtn}
                             onPress={closeModal}
@@ -74,16 +74,18 @@ export default function QRBottomSheet({ modalVisible, setModalVisible }) {
                                 navigation.navigate("내 카드 보내기", { step: 1 });
                             }}
                         >
-                            <Text style={styles.btnText}>QR 생성하기</Text>
+                            <Text style={styles.btnText}>내 카드 보내기</Text>
+                            <Text style={styles.btnSubText}>QR을 생성해요</Text>
                         </TouchableOpacity>
                         <View style={styles.line}></View>
                         <TouchableOpacity
                             style={styles.btn}
                             onPress={() => {
-                                navigation.navigate("내 카드 보내기", { step: 2 });
+                                navigation.navigate("내 카드 보내기", { step: 3 });
                             }}
                         >
-                            <Text style={styles.btnText}>QR 스캔하기</Text>
+                            <Text style={styles.btnText}>상대방의 카드 받기</Text>
+                            <Text style={styles.btnSubText}>QR을 스캔해요</Text>
                         </TouchableOpacity>
                     </View>
                 </Animated.View>

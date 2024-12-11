@@ -1,8 +1,9 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Alert, Keyboard, Modal, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View } from "react-native";
+import { Alert, Keyboard, Modal, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, View, Share } from "react-native";
 import * as Progress from 'react-native-progress';
+import * as Clipboard from 'expo-clipboard';
 import CloseIcon from '../../assets/icons/ic_close_regular_line.svg';
 import HomeIcon from '../../assets/icons/ic_home_gray.svg';
 import LeftArrowIcon from "../../assets/icons/ic_LeftArrow_regular_line.svg";
@@ -24,14 +25,20 @@ function EnterTeamSp({ navigation, route }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
   const [token, setToken] = useState(null);
 
+  const params = route.params || {};
+
+  // 각각의 값 가져오기
+  const hostId = params.hostId;
+  const userId = params.userId;
+
   const [data, setData] = useState(null);
   const [team_name, setTeam_name] = useState('알 수 없음');
   const [team_comment, setTeam_comment] = useState('알 수 없음');
   const [memberCount, setMemberCount] = useState('0');
   const [isTemplate, setIsTemplate] = useState(true);
   const [step, setStep] = useState(1);
-  const [isHost, setIsHost] = useState(false);
 
+  const [inviteCode, setInviteCode] = useState('');
   const [inputcode, setInputCode] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 확인 모달창
 
@@ -52,7 +59,7 @@ function EnterTeamSp({ navigation, route }) {
     setModalVisible(false);
     navigation.navigate('홈');
   };
-  
+
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
     const fetchToken = async () => {
@@ -83,6 +90,7 @@ function EnterTeamSp({ navigation, route }) {
     if (route.params && token) {
       const newStep = route.params.step || 1; // step 기본값 1
       setStep(newStep); // step 상태 업데이트
+      setInviteCode(route.params.inviteCode || '');
       console.log("받아온 초대코드 :", route.params.inviteCode);
 
       const apiUrl = `${baseUrl}/teamsp/search?inviteCode=${route.params.inviteCode}`;
@@ -92,13 +100,12 @@ function EnterTeamSp({ navigation, route }) {
         })
         .then((response) => {
           setData(response.data);
-          setIsHost(true); // 호스트임을 표시
         })
         .catch((error) => {
           console.error('호스트 카드 생성 - 초대코드 검색 API 요청 에러:', error);
         });
     }
-  }, [route.params, token]); // route.params를 의존성 배열에 추가
+  }, [route.params, token]);
 
   // 팀스페이스 입장 API 호출
   const handleEnterModal = () => {
@@ -115,6 +122,35 @@ function EnterTeamSp({ navigation, route }) {
         // console.error('팀스페이스 입장 API 요청 에러:', error);
         Alert.alert("이미 입장한 팀스페이스입니다.");
       });
+  };
+
+  const [isShareModalVisible, setIsShareModalVisible] = useState(false);
+
+  const handleShareButtonPress = () => {
+    setIsShareModalVisible(true);
+  };
+
+  // 복사
+  const copyInviteCode = async () => {
+    try {
+      const stringInviteCode = String(inviteCode);
+      await Clipboard.setStringAsync(stringInviteCode);
+      showCustomToast("클립보드에 복사되었습니다.");
+    } catch (error) {
+      console.error("클립보드 복사 실패:", error);
+      showCustomToast("클립보드 복사 중 오류가 발생했습니다.");
+    }
+  };
+
+  const shareLinkCode = async () => {
+    try {
+      const result = await Share.share({
+        title: '네 세계에 쏩 빠지다, SSOP 카드로 서로에게 스며들다',
+        message: `https://gyeong0210.notion.site/SSOP-fc8faf958fc14b738484dc9471ac4209?pvs=4`,
+      });
+    } catch (error) {
+      console.error('공유 오류:', error);
+    }
   };
 
   const handleNext = () => {
@@ -263,26 +299,26 @@ function EnterTeamSp({ navigation, route }) {
         headerTitle: '카드 만들기',
         headerTitleAlign: 'center',
         headerLeft: () => (
-          <TouchableOpacity onPress={() => {navigation.goBack();}}>
-            <CloseIcon style={{marginLeft: 8}}/>
+          <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+            <CloseIcon style={{ marginLeft: 8 }} />
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity onPress={() => {setModalVisible(true);}}>
-            <HomeIcon style={{marginRight: 20}}/>
+          <TouchableOpacity onPress={() => { setModalVisible(true); }}>
+            <HomeIcon style={{ marginRight: 20 }} />
           </TouchableOpacity>
         ),
       });
     } else if (step === 5 && teamStep === 2) {
       navigation.setOptions({
         headerLeft: () => (
-          <TouchableOpacity onPress={() => {setTeamStep(1); setStep(4);}}>
-            <LeftArrowIcon style={{marginLeft: 8}}/>
+          <TouchableOpacity onPress={() => { setTeamStep(1); setStep(4); }}>
+            <LeftArrowIcon style={{ marginLeft: 8 }} />
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity onPress={() => {navigation.navigate('홈');}}>
-            <HomeIcon style={{marginRight: 20}}/>
+          <TouchableOpacity onPress={() => { navigation.navigate('홈'); }}>
+            <HomeIcon style={{ marginRight: 20 }} />
           </TouchableOpacity>
         ),
       });
@@ -291,13 +327,13 @@ function EnterTeamSp({ navigation, route }) {
         headerTitle: '카드 등록하기',
         headerTitleAlign: 'center',
         headerLeft: () => (
-          <TouchableOpacity onPress={() => {navigation.goBack();}}>
-            <LeftArrowIcon style={{marginLeft: 8}}/>
+          <TouchableOpacity onPress={() => { navigation.goBack(); }}>
+            <LeftArrowIcon style={{ marginLeft: 8 }} />
           </TouchableOpacity>
         ),
         headerRight: () => (
-          <TouchableOpacity onPress={() => {navigation.navigate('홈');}}>
-            <HomeIcon style={{marginRight: 20}}/>
+          <TouchableOpacity onPress={() => { navigation.navigate('홈'); }}>
+            <HomeIcon style={{ marginRight: 20 }} />
           </TouchableOpacity>
         ),
       });
@@ -351,57 +387,57 @@ function EnterTeamSp({ navigation, route }) {
           {/* 초대코드 입력 */}
           {step === 1 && (
             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.stepContainer}>
-              <Text style={styles.title}> 팀스페이스에 입장하려면 {"\n"} 초대코드를 입력하세요. </Text>
+              <View style={styles.stepContainer}>
+                <Text style={styles.title}> 팀스페이스에 입장하려면 {"\n"} 초대코드를 입력하세요. </Text>
 
-              <View style={styles.nameContainer}>
-                <Text style={styles.name}>초대코드 입력</Text>
-                <TextInput style={styles.nameInput} placeholder='초대코드를 입력하세요.'
-                  maxLength={6}
-                  value={inputcode}
-                  keyboardType='numeric'
-                  returnKeyType='done'
-                  onChangeText={setInputCode}
-                  onSubmitEditing={handleNext} />
-              </View>
+                <View style={styles.nameContainer}>
+                  <Text style={styles.name}>초대코드 입력</Text>
+                  <TextInput style={styles.nameInput} placeholder='초대코드를 입력하세요.'
+                    maxLength={6}
+                    value={inputcode}
+                    keyboardType='numeric'
+                    returnKeyType='done'
+                    onChangeText={setInputCode}
+                    onSubmitEditing={handleNext} />
+                </View>
 
-              <View style={styles.flexSpacer} />
+                <View style={styles.flexSpacer} />
 
-              <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
-                <Text style={styles.btnText}> 입장하기 </Text>
-              </TouchableOpacity>
+                <TouchableOpacity style={styles.btnNext} onPress={handleNext}>
+                  <Text style={styles.btnText}> 입장하기 </Text>
+                </TouchableOpacity>
 
-              <Modal
-                animationType="fade"
-                transparent={true}
-                visible={isModalVisible}
-                onRequestClose={() => {
-                  setIsModalVisible(!isModalVisible);
-                }}>
-                <View style={styles.modalContainer}>
-                  <View style={styles.modalView}>
-                    <TouchableOpacity style={styles.closeIcon} onPress={() => setIsModalVisible(false)}>
-                      <CloseIcon />
-                    </TouchableOpacity>
-                    <View style={{ alignItems: 'center' }}>
-                      <Text style={styles.font18}>찾으시는 팀스페이스가 맞나요?</Text>
-                    </View>
-
-                    <View style={styles.modalContent}>
-                      <Text style={[styles.font18, { marginLeft: 0 }]}> {team_name} </Text>
-                      <Text style={styles.font16}> {team_comment} </Text>
-                      <Text style={styles.people}> <People />  {memberCount} / 150명 </Text>
-                    </View>
-
-                    <View style={[styles.btnContainer, { marginLeft: 16 }]}>
-                      <TouchableOpacity style={[styles.btnNext, { marginBottom: 16 }]} onPress={handleEnterModal}>
-                        <Text style={styles.btnText}> 네, 입장할래요 </Text>
+                <Modal
+                  animationType="fade"
+                  transparent={true}
+                  visible={isModalVisible}
+                  onRequestClose={() => {
+                    setIsModalVisible(!isModalVisible);
+                  }}>
+                  <View style={styles.modalContainer}>
+                    <View style={styles.modalView}>
+                      <TouchableOpacity style={styles.closeIcon} onPress={() => setIsModalVisible(false)}>
+                        <CloseIcon />
                       </TouchableOpacity>
+                      <View style={{ alignItems: 'center' }}>
+                        <Text style={styles.font18}>찾으시는 팀스페이스가 맞나요?</Text>
+                      </View>
+
+                      <View style={styles.modalContent}>
+                        <Text style={[styles.font18, { marginLeft: 0 }]}> {team_name} </Text>
+                        <Text style={styles.font16}> {team_comment} </Text>
+                        <Text style={styles.people}> <People />  {memberCount} / 150명 </Text>
+                      </View>
+
+                      <View style={[styles.btnContainer, { marginLeft: 16 }]}>
+                        <TouchableOpacity style={[styles.btnNext, { marginBottom: 16 }]} onPress={handleEnterModal}>
+                          <Text style={styles.btnText}> 네, 입장할래요 </Text>
+                        </TouchableOpacity>
+                      </View>
                     </View>
                   </View>
-                </View>
-              </Modal>
-            </View>
+                </Modal>
+              </View>
             </TouchableWithoutFeedback>
           )}
 
@@ -435,36 +471,66 @@ function EnterTeamSp({ navigation, route }) {
           {/* 팀스페이스 입장 완료 */}
           {step === 3 && (
             <View style={styles.stepContainer}>
-              <Text style={styles.font22}> 
-                {isHost
+              <Text style={styles.font22}>
+                {hostId == userId
                   ? `팀스페이스를 다 만들었어요!\n바로 멤버를 초대해 보세요.`
                   : `팀스페이스에 입장했어요!\n다른 구성원을 확인해 보세요.`
                 }
               </Text>
 
               <View style={{ alignItems: 'center', marginTop: 100 }}>
-                {isHost
-                  ? <DoneEndCard width="300" height='300'/>
-                  : <EnterEndCard width="300" height='300'/>
+                {hostId == userId
+                  ? <DoneEndCard width="300" height='300' />
+                  : <EnterEndCard width="300" height='300' />
                 }
               </View>
 
               <View style={styles.flexSpacer} />
-              <View style={[styles.btnContainer3, { marginBottom: 8,  marginHorizontal: 0 }]}>
+              <View style={[styles.btnContainer3, { marginBottom: 8, marginHorizontal: 0 }]}>
                 <TouchableOpacity
-                  style={[isHost ? styles.btnCheckCard : styles.btnShareCard, { marginBottom: 8 }]}
+                  style={[hostId == userId ? styles.btnCheckCard : styles.btnShareCard, { marginBottom: 8 }]}
                   onPress={() => navigation.navigate('스페이스')}
                 >
-                  <Text style={isHost ? styles.btnCheckText: styles.btnText}>팀스페이스 확인</Text>
+                  <Text style={hostId == userId ? styles.btnCheckText : styles.btnText}>팀스페이스 확인</Text>
                 </TouchableOpacity>
 
-                {isHost && 
+                {hostId == userId && <>
                   <TouchableOpacity
+                    onPress={handleShareButtonPress}
                     style={[styles.btnShareCard, { marginBottom: 0 }]}
                   >
                     <ShareIcon />
                     <Text style={styles.btnText}>초대코드 및 링크 공유하기</Text>
                   </TouchableOpacity>
+
+                  {/* 공유 버튼을 눌렀을 때 표시되는 모달 */}
+                  <Modal
+                    animationType="fade"
+                    transparent={true}
+                    visible={isShareModalVisible}
+                    onRequestClose={() => setIsShareModalVisible(false)}
+                  >
+                    <TouchableWithoutFeedback onPress={() => setIsShareModalVisible(false)}>
+                      <View style={styles.shareModalContainer}>
+                        <View style={styles.ShareModalView}>
+                          <TouchableOpacity
+                            onPress={() => {
+                              copyInviteCode();
+                              setIsShareModalVisible(false);
+                            }}
+                          >
+                            <Text style={styles.ShareModalText}>초대 링크 및 코드 복사하기</Text>
+                          </TouchableOpacity>
+                          <Text style={styles.ShareModalsmallText}>초대 코드: {inviteCode}</Text>
+                          <View style={styles.line} />
+                          <TouchableOpacity onPress={() => { shareLinkCode(); setIsShareModalVisible(false) }}>
+                            <Text style={styles.ShareModalText}>초대 링크 및 코드 공유하기</Text>
+                          </TouchableOpacity>
+                        </View>
+                      </View>
+                    </TouchableWithoutFeedback>
+                  </Modal>
+                </>
                 }
               </View>
             </View>
@@ -477,9 +543,9 @@ function EnterTeamSp({ navigation, route }) {
                 이제 팀스페이스에 보일
                 {"\n"}프로필 카드를 새로 만들어 볼까요?
               </Text>
-              <Text style={[styles.subFont16, {marginTop: 14}]}>
-              호스트가 필수 제출 항목을 지정했기 때문에 
-              {"\n"}카드를 새로 만들어 등록해야 해요.
+              <Text style={[styles.subFont16, { marginTop: 14 }]}>
+                호스트가 필수 제출 항목을 지정했기 때문에
+                {"\n"}카드를 새로 만들어 등록해야 해요.
               </Text>
               <View style={styles.container}>
                 <CardSample width={400} height={400} />
@@ -494,18 +560,20 @@ function EnterTeamSp({ navigation, route }) {
           )}
           {/* 호스트 지정 템플릿으로 이동 */}
           {step === 5 && (
-            <HostTemplate 
+            <HostTemplate
               navigation={navigation}
               goToOriginal={goToOriginal}
-              data={data} isHost={isHost}
+              data={data}
+              isHost={hostId == userId}
               teamStep={teamStep}
               setTeamStep={setTeamStep}
+              inviteCode={inviteCode}
             />
           )}
 
           {/* 홈 버튼 모달 */}
           {modalVisible && (
-            <CustomModal 
+            <CustomModal
               modalVisible={modalVisible}
               setModalVisible={setModalVisible}
               handleBtn1={handleBtn1}
@@ -517,15 +585,7 @@ function EnterTeamSp({ navigation, route }) {
             />
           )}
         </View>
-        {/* 호스트 지정 템플릿으로 이동 */}
-        {/* {step === 5 && (
-          // <HostTemplate navigation={navigation} goToOriginal={goToOriginal} data={data} isHost={isHost} />
-          <View style={{backgroundColor: 'green'}}>
-            <Text>ddddd</Text>
-          </View>
-        )} */}
       </View>
-    {/* </TouchableWithoutFeedback> */}
     </View>
   );
 }

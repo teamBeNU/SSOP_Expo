@@ -1,3 +1,5 @@
+// 팀스페이스 카드 상세보기
+
 import React, { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react';
 import axios from 'axios';
 import { useFocusEffect, useNavigation, useRoute } from '@react-navigation/native';

@@ -22,7 +22,7 @@ function SearchCard() {
   const [token, setToken] = useState(null);
   const [mySpSearch, setMySpSearch] = useState([]);
   const [teamSpSearch, setTeamSpSearch] = useState([]);
-  const [searchWord, setSearchWord] = useState('');
+  const [searchWord, setSearchWord] = useState(''); // 검색어
 
   // AsyncStorage에서 토큰 가져오기
   useEffect(() => {
@@ -52,6 +52,8 @@ function SearchCard() {
           console.log("팀스페이스 검색 : ", response.data.teamSpSearchDto);
         })
         .catch((error) => {
+          setMySpSearch([]);
+          setTeamSpSearch([]);
           // console.error('카드 검색 API 요청 오류', error.response.data);
         });
     }
@@ -132,11 +134,14 @@ function SearchCard() {
 
         <View style={styles.searchContainer}>
           <TextInput style={styles.InputText}
-            placeholder="이름을 입력하세요"
+            placeholder="이름을 검색하세요"
             value={searchWord}
             onChangeText={handleSearchInputChange} />
-          {searchWord.length > 0 && ( // 검색어가 있을 때만 DeleteIcon을 보여줌
-            <TouchableOpacity onPress={() => handleSearchInputChange('')}>
+          {searchWord.length > 0 && (
+            <TouchableOpacity
+              onPress={() => setSearchWord('')}
+              hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+            >
               <DeleteIcon style={styles.deleteIcon} />
             </TouchableOpacity>
           )}
@@ -148,9 +153,9 @@ function SearchCard() {
         tabBarPosition="top"
         tabBar={(props) => <CustomTabBar {...props} />}>
         <Tab.Screen name="마이스페이스"
-          children={() => <SearchMySpace MySpSearch={mySpSearch} />} />
+          children={() => <SearchMySpace MySpSearch={mySpSearch} searchWord={searchWord} />} />
         <Tab.Screen name="팀스페이스"
-          children={() => <SearchTeamSp TeamSpSearch={teamSpSearch} />} />
+          children={() => <SearchTeamSp TeamSpSearch={teamSpSearch} searchWord={searchWord} />} />
       </Tab.Navigator>
 
     </View>

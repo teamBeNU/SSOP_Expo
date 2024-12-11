@@ -1,13 +1,14 @@
-import React, { useState, useEffect }from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, Text, ScrollView, TouchableOpacity, Image } from 'react-native';
 import { styles } from '../../components/Bluetooth/CardViewsStyle.js'
 import { PlusCardButton, ShareCard } from './ShareCard';
 import DownArrowIcon from '../../assets/icons/ic_DownArrow_small_line.svg';
 import PlusCardIcon from '../../assets/icons/ic_add_medium_line.svg';
 import ListIcon from '../../assets/icons/ic_lists.svg';
-import AllListIcon from'../../assets/icons/ic_border_all.svg';
+import AllListIcon from '../../assets/icons/ic_border_all.svg';
 import { Menu, MenuOptions, MenuOption, MenuTrigger } from 'react-native-popup-menu';
 import RadioWhiteIcon from '../../assets/icons/ic_radio_check_white.svg';
+import ListCardsView from '../Bluetooth/ListCardsView.js';
 
 import { getColor } from '../../utils/bgColorMapping';
 import { calculateAge } from '../../utils/calculateAge';
@@ -17,22 +18,22 @@ import { getTemplate } from '../../utils/templateMapping';
 // 리스트형 라디오
 const CustomCardRadioButton = ({ selected, onPress }) => {
   return (
-      <TouchableOpacity onPress={onPress} style={styles.radioContainer}>
-          <View style={[styles.radio, selected && styles.radioSelected]}>
-              {selected && <RadioWhiteIcon style={styles.radioInner} />}
-          </View>
-      </TouchableOpacity>
+    <TouchableOpacity onPress={onPress} style={styles.radioContainer}>
+      <View style={[styles.radio, selected && styles.radioSelected]}>
+        {selected && <RadioWhiteIcon style={styles.radioInner} />}
+      </View>
+    </TouchableOpacity>
   );
 };
 
 // 격자형 라디오
 const CustomCardRadioButton2 = ({ selected, onPress }) => {
   return (
-      <TouchableOpacity onPress={onPress} style={styles.radioContainer2}>
-          <View style={[styles.radio2, selected && styles.radioSelected2]}>
-              {selected && <RadioWhiteIcon style={styles.radioInner} />}
-          </View>
-      </TouchableOpacity>
+    <TouchableOpacity onPress={onPress} style={styles.radioContainer2}>
+      <View style={[styles.radio2, selected && styles.radioSelected2]}>
+        {selected && <RadioWhiteIcon style={styles.radioInner} />}
+      </View>
+    </TouchableOpacity>
   );
 };
 
@@ -67,6 +68,10 @@ const CardsView = ({
 
   // 카드 데이터를 날짜별로 그룹화
   const groupByDate = (data) => {
+    if (!Array.isArray(data)) {
+      return []; // cardData가 배열이 아닌 경우 빈 배열 반환
+    }
+
     const grouped = data.reduce((acc, item) => {
       const date = item.savedAt.split('T')[0]; // 'YYYY-MM-DD' 추출
       if (!acc[date]) {
@@ -93,7 +98,7 @@ const CardsView = ({
     if (showDate) {
       setSortedGroupedCardData(groupByDate(cardData)); // 날짜별 그룹화
     } else {
-      const sortedData = [...(cardData || [])];
+      const sortedData = Array.isArray(cardData) ? [...cardData] : [];
       setSortedGroupedCardData([
         { date: null, cards: selectedOption === '오래된 순' ? sortedData : sortedData.reverse() },
       ]);
@@ -159,88 +164,69 @@ const CardsView = ({
                   <PlusCardButton navigation={navigation} />
                 )}
 
-              {group.cards.map((item, index) => (
-                <TouchableOpacity
-                  activeOpacity={1.0}
-                  key={item.cardId || index}
-                  style={
-                    viewOption === '격자형' ? styles.cardWrapper : styles.radioCardWrapper
-                  }
-                  onPress={() =>
-                    showRadio ? handleRadioSelect(item.cardId) : handleNext(item.cardId, item.cardEssential.card_name)
-                  }
-                >
-                  {/* 라디오 버튼 표시 */}
-                  {showRadio && (
-                    <View
-                      style={
-                        viewOption === '격자형'
-                          ? styles.radioButtonContainer
-                          : styles.radioButtonWrapper
-                      }
-                    >
-                      {viewOption === '격자형' ? (
-                        <CustomCardRadioButton2
-                          selected={selectedCards.includes(item.cardId)}
-                          onPress={() => handleRadioSelect(item.cardId)}
-                        />
-                      ) : (
-                        <CustomCardRadioButton
-                          selected={selectedCards.includes(item.cardId)}
-                          onPress={() => handleRadioSelect(item.cardId)}
-                        />
-                      )}
-                    </View>
-                  )}
-
-                  {/* 카드 본문 */}
-                  {viewOption === '리스트형' ? (
-                    <View style={styles.ListContainer}>
+                {group.cards.map((item, index) => (
+                  <TouchableOpacity
+                    activeOpacity={1.0}
+                    key={item.cardId || index}
+                    style={viewOption === '격자형' ? styles.cardWrapper : styles.radioCardWrapper}
+                    onPress={() =>
+                      showRadio
+                        ? handleRadioSelect(item.cardId)
+                        : handleNext(item.cardId , item.cardEssential.card_name)
+                    }
+                  >
+                    {/* 라디오 버튼 표시 */}
+                    {showRadio && (
                       <View
-                        style={[styles.row2, showRadio ? { marginLeft: 12 } : {}]}
+                        style={
+                          viewOption === '격자형'
+                            ? styles.radioButtonContainer
+                            : styles.radioButtonWrapper
+                        }
                       >
-                        <View
-                          style={[
-                            styles.gray,
-                            { backgroundColor: item.backgroundColor },
-                          ]}
-                        >
-                          <View style={styles.gray}>
-                            <Image
-                              source={{ uri: item.profile_image_url }}
-                              resizeMode="cover"
-                              style={styles.gray}
-                            />
-                          </View>
-                        </View>
-                        <View style={styles.infoContainer}>
-                          <View style={styles.rowName}>
-                            <Text style={styles.Text16gray10}>
-                              {item.cardEssential.card_name}
-                            </Text>
-                            <Text style={styles.Text16gray50}>
-                              {calculateAge(item.cardOptional.card_birth)}
-                            </Text>
-                          </View>
-                          <Text style={styles.Text14gray30}>
-                            {item.cardEssential.card_introduction}
-                          </Text>
-                        </View>
+                        {viewOption === '격자형' ? (
+                          <CustomCardRadioButton2
+                            selected={selectedCards.includes(item.cardId)}
+                            onPress={() => handleRadioSelect(item.cardId)}
+                          />
+                        ) : (
+                          <CustomCardRadioButton
+                            selected={selectedCards.includes(item.cardId)}
+                            onPress={() => handleRadioSelect(item.cardId)}
+                          />
+                        )}
                       </View>
-                    </View>
-                  ) : (
-                    <ShareCard
-                      avatar={item.avatar}
-                      card_name={item.cardEssential.card_name}
-                      card_birth={item.cardOptional.card_birth}
-                      card_template={item.card_template}
-                      card_cover={item.card_cover}
-                      profile_image_url={item.profile_image_url}
-                    />
-                  )}
-                </TouchableOpacity>
-              ))}
+                    )}
 
+                    {/* 카드 본문 */}
+                    {viewOption === '리스트형' ? (
+                      <View style={styles.ListContainer}>
+                        <ListCardsView
+                          avatar={
+                            <Image
+                              source={{
+                                uri: item.profile_image_url,
+                              }}
+                              style={styles.listImage}
+                            />
+                          }
+                          card_name={item.cardEssential.card_name}
+                          card_introduction={item.cardEssential.card_introduction}
+                          card_birth={item.cardOptional.card_birth}
+                        />
+                      </View>
+                    ) : (
+                      <ShareCard
+                        avatar={item.avatar}
+                        card_name={item.cardEssential.card_name}
+                        card_birth={item.cardOptional.card_birth}
+                        card_template={item.card_template}
+                        card_cover={item.card_cover}
+                        profile_image_url={item.profile_image_url}
+                      />
+                    )}
+                  </TouchableOpacity>
+                ))}
               </View>
             </View>
           ))}
