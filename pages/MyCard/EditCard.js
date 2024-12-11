@@ -504,6 +504,10 @@ function EditCard() {
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
                 keyboardVerticalOffset={Platform.OS === 'ios' ? 40 : 0} // iOS용 설정
                 >
+                <ScrollView 
+                contentContainerStyle={{ flexGrow: 1 }} 
+                keyboardShouldPersistTaps="handled" 
+                showsVerticalScrollIndicator={false} >
                 <View style={{marginBottom: 120}}>
 
                     <Text style={styles.title}>내 연락처와 SNS 계정 수정하기</Text>
@@ -559,7 +563,7 @@ function EditCard() {
                     </View>    
                  </View>
                 </View>
-
+                </ScrollView>
                 <TouchableOpacity style={styles.memoBtn} onPress={handleSubmit}>
                 <Text style={styles.memoBtnText}>완료</Text>
                 </TouchableOpacity>

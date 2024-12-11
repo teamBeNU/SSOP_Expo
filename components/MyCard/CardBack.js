@@ -406,7 +406,7 @@ const CardOptional2 = ({cardData}) => {
                         <OpenURLButton url={instaURL + cardData.cardOptional.card_sns_insta + '/'} >
                         <View style={styles.grayBox}>
                         <Image source={InstaLogo} style={{ width: 16, height: 16 }} resizeMode="contain" />
-                        <Text>{cardData.cardOptional.card_sns_insta}</Text>
+                        <Text style={styles.grayBoxText}>{cardData.cardOptional.card_sns_insta}</Text>
                         <LinkIcon />
                         </View>
                         </OpenURLButton>
@@ -415,7 +415,7 @@ const CardOptional2 = ({cardData}) => {
                         <OpenURLButton url={xURL + cardData.cardOptional.card_sns_x}>
                         <View style={styles.grayBox}>
                         <Image source={XLogo} style={{ width: 16, height: 16 }} resizeMode="contain" />
-                        <Text>{cardData.cardOptional.card_sns_x}</Text>
+                        <Text style={styles.grayBoxText}>{cardData.cardOptional.card_sns_x}</Text>
                         <LinkIcon />
                         </View>
                         </OpenURLButton>
