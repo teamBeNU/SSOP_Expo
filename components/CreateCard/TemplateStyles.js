@@ -115,6 +115,12 @@ export const styles = StyleSheet.create({
         paddingVertical: 8,
         paddingHorizontal: 16,
         margin: 0,
+
+        fontFamily: "PretendardRegular",
+        fontSize: 16,
+        fontStyle: "normal",
+        fontWeight: "500",
+        letterSpacing: -0.32,
     },
     inputError: {
         borderWidth:1,
@@ -304,7 +310,9 @@ export const styles = StyleSheet.create({
         color: theme.white,
         fontFamily: "PretendardRegular",
         fontSize: 16,
+        fontStyle: "normal",
         fontWeight: "600",
+        letterSpacing: -0.32,
     },
 
     dropDownContainerZIndex: {
@@ -422,14 +430,14 @@ export const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         // Android - Shadow
-        elevation: 3,
+        elevation: 12,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100)',
+        shadowColor: 'rgba(73, 81, 100, 0.5)',
         shadowOffset: {
             width: 4,
             height: 4,
         },
-        shadowOpacity: 0.09,
+        shadowOpacity: 0.05,
         shadowRadius: 16,
 
         // 그림자가 안보여서 임시 border
@@ -440,7 +448,7 @@ export const styles = StyleSheet.create({
     circles: {
         flexDirection: "row",
         justifyContent: "center",
-        marginTop: 24,
+        // marginTop: 24,
     },
     circle: {
         width: 10,
@@ -587,5 +595,16 @@ export const styles = StyleSheet.create({
         fontStyle: "normal",
         fontWeight: "400",
         textAlign: "center",
-    }
+    },
+
+    doneTitle: {
+        marginTop: 32,
+        fontFamily: "PretendardSemiBold",
+        fontSize: 22,
+        color: theme.gray10,
+        fontStyle: "normal",
+        fontWeight: "600",
+        letterSpacing: -0.44,
+        lineHeight: 33,
+    },
 })

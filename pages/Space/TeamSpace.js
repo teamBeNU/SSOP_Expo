@@ -5,11 +5,14 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { jwtDecode } from 'jwt-decode';
 import { View, Text, ScrollView, TouchableOpacity } from "react-native";
 import { styles } from './SpaceStyle';
+import ExchangeModal from '../../components/Space/ExchangeModal.js';
 import { SpaceModal, SpaceNameChangeModal } from "../../components/Space/SpaceModal.js";
 import Toast from 'react-native-toast-message';
 import { TeamSpaceList } from "../../components/Space/SpaceList.js";
 import TeamSp from "../../assets/icons/ic_teamsp.svg"
 import RightArrowBlue from "../../assets/icons/ic_RightArrow_small_blue_line.svg";
+import EnterTeamSPIcon from '../../assets/HomeIcon/ic_teamspin.svg';
+import CreatTeamSPIcon from '../../assets/HomeIcon/ic_teamspnew.svg';
 
 function TeamSpace({ navigation }) {
   const baseUrl = 'http://43.202.52.64:8080/api'
@@ -18,6 +21,7 @@ function TeamSpace({ navigation }) {
   const [data, setData] = useState([]);
   const [inviteCode, setInviteCode] = useState([]);
 
+  const [isModalVisible, setIsModalVisible] = useState(false); // 팀스페이스 스택 모달
   const [isSpaceModalVisible, setIsSpaceModalVisible] = useState(false);
   const [isGroupNameChangeModalVisible, setIsGroupNameChangeModalVisible] = useState(false);
   const [nullCardModal, setNullCardModal] = useState(false);
@@ -107,6 +111,17 @@ function TeamSpace({ navigation }) {
     }
   }, [data]);
 
+  
+  const handleEnterTeamSpPress = () => {
+    setIsModalVisible(false);
+    navigation.navigate('팀스페이스 입장');
+  };
+
+  const handleCreateTeamSpPress = () => {
+    setIsModalVisible(false);
+    navigation.navigate('팀스페이스 생성');
+  };
+
   // TeamSpace 컴포넌트에서 상세 화면으로 이동할 때
   const handleNext = (teamId) => {
     const selectedTeam = data.find(team => team.teamId === teamId);
@@ -126,7 +141,12 @@ function TeamSpace({ navigation }) {
       const inviteCodeForTeam = inviteCode.find(code => code.teamId === selectedTeam.teamId)?.inviteCode;
 
       if (inviteCodeForTeam) {
-        navigation.navigate('팀스페이스 입장', { step: 2, inviteCode: inviteCodeForTeam });
+        navigation.navigate('팀스페이스 입장', {
+          step: 2,
+          inviteCode: inviteCodeForTeam,
+          hostId: selectedTeam.hostId,
+          userId: userId
+        });
         setNullCardModal(false);
       }
     }
@@ -214,7 +234,7 @@ function TeamSpace({ navigation }) {
     data.length > 0 ? (
       <ScrollView style={styles.mainlayout} showsVerticalScrollIndicator={false}>
         <View style={styles.container2}>
-          <View style={{ flexDirection: 'row', alignItems:'center', gap: 10 }}>
+          <View style={{ flexDirection: 'row', alignItems: 'center', gap: 10 }}>
             <TeamSp />
             <Text style={styles.Text26}>팀스페이스</Text>
           </View>
@@ -245,8 +265,9 @@ function TeamSpace({ navigation }) {
           isVisible={nullCardModal}
           onClose={() => setNullCardModal(false)}
           title={'내 프로필 카드를 아직 생성하지 않았어요!'}
-          sub={selectedTeam && selectedTeam.hostId === userId ?
-            '카드를 생성해야 입장이 완료돼요' : '카드를 생성해야 팀스페이스를 볼 수 있어요.'}
+          sub={selectedTeam && selectedTeam.hostId === userId
+            ? '카드를 생성해야 입장이 완료돼요' // 호스트
+            : '카드를 생성해야 팀스페이스를 볼 수 있어요.'} // 게스트
           btn1={'나중에 하기'}
           btn2={'카드 추가하기'}
           onConfirm={handleConfirmCard}
@@ -258,12 +279,12 @@ function TeamSpace({ navigation }) {
           onClose={() => setIsSpaceModalVisible(false)}
           title={'현재 팀스페이스를 나가시겠습니까?'}
           sub={groupToDelete && data.find(group => group.teamId === groupToDelete)?.hostId === userId ? (
-            <Text style={{ textAlign: 'center' }}>
-              호스트가 나가면{'\n'}팀스페이스가 삭제됩니다
-            </Text>
-          ) : null}
+            `호스트가 나가면\n팀스페이스가 삭제됩니다.`
+          ) : '모든 정보가 삭제되며 되돌릴 수 없습니다.'}
           btn1={'취소할래요'}
-          btn2={'네, 삭제할래요'}
+          btn2={groupToDelete && data.find(group => group.teamId === groupToDelete)?.hostId === userId ? (
+            `네, 나갈래요`
+          ) : '네, 삭제할래요'}
           onConfirm={handleConfirmDelete}
         />
 
@@ -282,12 +303,25 @@ function TeamSpace({ navigation }) {
         <View style={styles.emptyContainer}>
           <Text style={styles.noCard}>아직 입장한 팀스페이스가 없어요.</Text>
           <Text style={styles.noCard}>인원이 많다면 팀스페이스를 활용해보세요.</Text>
-          <TouchableOpacity style={styles.margin10} onPress={() => navigation.navigate('팀스페이스 입장')}>
+          <TouchableOpacity style={styles.margin10} onPress={() => setIsModalVisible(true)}>
             <View style={styles.newContainer}>
               <Text style={styles.newCard}>팀스페이스 추가하기</Text>
               <RightArrowBlue />
             </View>
           </TouchableOpacity>
+
+          <ExchangeModal
+            isVisible={isModalVisible}
+            onClose={() => setIsModalVisible(false)}
+            onOption1Press={handleEnterTeamSpPress}
+            onOption2Press={handleCreateTeamSpPress}
+            title="팀스페이스 추가하기"
+            option1Text="팀스페이스 입장"
+            option1Icon={EnterTeamSPIcon}
+            option2Text="팀스페이스 생성"
+            option2Icon={CreatTeamSPIcon}
+            useAlternateHeight={true}
+          />
         </View>
       </View>
     )

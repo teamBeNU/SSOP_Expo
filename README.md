@@ -16,12 +16,24 @@
 <br>
 
 ## 🛠️ Development Environment
-
+### ☀️ Frontend
+[![My Skills](https://skillicons.dev/icons?i=react,js,vscode)](https://skillicons.dev)
+### 🌙 Backend
+[![My Skills](https://skillicons.dev/icons?i=spring,java,idea,aws,mysql,postman)](https://skillicons.dev)
+### ☁️ Cooperation
+[![My Skills](https://skillicons.dev/icons?i=github,discord,notion)](https://skillicons.dev)
 
 <br>
 
 ## 📱 Main Function
-
+![image](https://github.com/user-attachments/assets/1ddd0b7f-abe8-4054-b13f-09cf93a14089)
+![image](https://github.com/user-attachments/assets/54c1ed91-f6b4-4919-90d2-034b0e17da80)
+![image](https://github.com/user-attachments/assets/0eb3574c-d503-4272-b3e7-927eddcf55bf)
+![image](https://github.com/user-attachments/assets/8a6567f4-cdb0-4ae3-9e62-eb4a8892b48c)
+![13](https://github.com/user-attachments/assets/ae503f3d-3310-4380-a8e5-91c1ea2a93b4)
+![14](https://github.com/user-attachments/assets/1bfbcdec-ab9f-43ae-bd63-8ed22b3eeb4e)
+![image](https://github.com/user-attachments/assets/a0a5496b-058e-4e5f-9cfc-323496d6f863)
+![image](https://github.com/user-attachments/assets/108c9fd1-f4b3-49a9-969c-54a7009a7cf0)
 
 <br>
 

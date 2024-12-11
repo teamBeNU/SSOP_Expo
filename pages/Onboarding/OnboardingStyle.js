@@ -45,7 +45,7 @@ export const styles = StyleSheet.create({
     letterSpacing: -0.14,
   },
   titleText: {
-    fontFamily: "PretendardSemibold",
+    fontFamily: "PretendardBold",
     fontSize: 24,
     fontStyle: "normal",
     fontWeight: "700",
@@ -56,7 +56,7 @@ export const styles = StyleSheet.create({
     marginBottom: 12,
   },
   descriptionText: {
-    fontFamily: "Pretendard",
+    fontFamily: "PretendardRegular",
     fontSize: 16,
     fontStyle: "normal",
     fontWeight: "400",
@@ -96,6 +96,9 @@ export const styles = StyleSheet.create({
     borderRadius: 8,
     paddingVertical: 8,
     paddingHorizontal: 16,
+    height: 48,
+    justifyContent: "center",
+    alignItems: "center",
   },
   nextBtnText: {
     fontFamily: "Pretendard",
@@ -108,7 +111,10 @@ export const styles = StyleSheet.create({
   },
   skipBtn: {
     alignSelf: "center",
-    marginVertical: 8,
+    // marginVertical: 8,
+    height: 48,
+    justifyContent: "center",
+    alignItems: "center",
   },
   skipBtnText: {
     fontFamily: "Pretendard",

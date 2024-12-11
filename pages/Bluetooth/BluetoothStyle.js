@@ -10,6 +10,7 @@ export const styles = StyleSheet.create({
         marginTop: 30,
         fontFamily: "PretendardSemiBold",
         fontSize: 20,
+        color: theme.gray10,
         letterSpacing: -0.4,
     },
     name: { // 보낼 사람 선택 이름 
@@ -140,8 +141,7 @@ export const styles = StyleSheet.create({
         backgroundColor: 'rgba(0, 0, 0, 0.5)', // 배경에 반투명 검정색
     },
     modalContent: {
-        width: '80%',
-        height: '50%',
+        marginTop: '40%'
     },
     closeButton: {
         position: 'absolute',

@@ -4,7 +4,7 @@ import { NavigationContainer, useNavigation } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { useFonts } from 'expo-font';
 import React, { useContext, useEffect, useState } from 'react';
-import { Image, Linking, LogBox, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Image, Linking, LogBox, Text, TextInput, TouchableOpacity, View, StatusBar } from 'react-native';
 import "react-native-gesture-handler";
 import { MenuProvider } from 'react-native-popup-menu';
 import Toast from 'react-native-toast-message';
@@ -52,6 +52,7 @@ import Space from './pages/Space/Space';
 import PretendardMedium from './assets/fonts/pretendard-medium.otf';
 import PretendardRegular from './assets/fonts/pretendard-regular.otf';
 import PretendardSemiBold from './assets/fonts/pretendard-semibold.otf';
+import PretendardBold from './assets/fonts/pretendard-bold.otf';
 import KaKaoLogin from './components/Login/KaKaoLogin';
 import EditCard from './pages/MyCard/EditCard';
 import EditCardCover from './pages/MyCard/EditCardCover';
@@ -168,7 +169,8 @@ export default function App() {
     PretendardRegular: PretendardRegular,
     PretendardMedium: PretendardMedium,
     PretendardSemiBold: PretendardSemiBold,
-    PretendardSemibold: PretendardSemiBold
+    PretendardSemibold: PretendardSemiBold,
+    PretendardBold: PretendardBold,
   });
 
   if (!fontsLoaded) {
@@ -268,6 +270,7 @@ export default function App() {
   <AuthProvider>
     <MenuProvider>
       <NavigationContainer linking={linking}>
+        <StatusBar barStyle="dark-content" />
         <Stack.Navigator
           screenOptions={{
             headerTitleStyle: {
@@ -276,54 +279,58 @@ export default function App() {
             },
           }}
         >
-         <Stack.Screen name="AppContent" component={AppContent} options={{ headerShown: false }} />
+        <Stack.Screen name="AppContent" component={AppContent} options={{ headerShown: false }} />
         <Stack.Screen name="MyTabs" component={MyTabs} options={{ headerShown: false }} />
         <Stack.Screen name="로그인" component={Login} options={{ headerShown: false }} />
         <Stack.Screen 
-        name="이메일로그인" 
-        component={SignIn}
-        options={{
-          headerTitle: "로그인",
-          headerTitleAlign: 'center',
-          headerLeft: ({onPress}) => (
-            <TouchableOpacity onPress={onPress}>
-              <CloseIcon style={{ marginLeft: 8  }}/>
-            </TouchableOpacity>
-          ),
-        }}
-         />
+          name="이메일로그인" 
+          component={SignIn}
+          options={{
+            headerTitle: "로그인",
+            headerTitleAlign: 'center',
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+        />
         <Stack.Screen 
-        name="비밀번호 변경" 
-        component={ChangePw}
-        options={{
-          headerTitle: "비밀번호 변경",
-          headerTitleAlign: 'center',
-          headerLeft: ({onPress}) => (
-            <TouchableOpacity onPress={onPress}>
-              <CloseIcon style={{ marginLeft: 8  }}/>
-            </TouchableOpacity>
-          ),
-        }}
-         />
-         <Stack.Screen name="카카오 로그인" component={KaKaoLogin} 
-          options={{headerTitle: "카카오 로그인",
-          headerTitleAlign: 'center',
-          headerLeft: ({onPress}) => (
-            <TouchableOpacity onPress={onPress}>
-              <LeftArrowIcon style={{ marginLeft: 8  }}/>
-            </TouchableOpacity>
-          ),
-          }} />
+          name="비밀번호 변경" 
+          component={ChangePw}
+          options={{
+            headerTitle: "비밀번호 변경",
+            headerTitleAlign: 'center',
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+        />
+        <Stack.Screen name="카카오 로그인" component={KaKaoLogin} 
+          options={{
+            headerTitle: "카카오 로그인",
+            headerTitleAlign: 'center',
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <LeftArrowIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+        />
         <Stack.Screen name="회원가입" component={SignUp}/>
         <Stack.Screen name="내 카드 보내기" component={Bluetooth} 
-          options={{headerShown: true,
-          headerTitleAlign: 'center',
-          headerLeft: ({onPress}) => (
-            <TouchableOpacity onPress={onPress}>
-              <CloseIcon style={{ marginLeft: 8  }}/>
-            </TouchableOpacity>
-          ),
-        }}/>
+          options={{
+            headerShown: true,
+            headerTitleAlign: 'center',
+            headerLeft: ({onPress}) => (
+              <TouchableOpacity onPress={onPress}>
+                <CloseIcon style={{ marginLeft: 8  }}/>
+              </TouchableOpacity>
+            ),
+          }}
+        />
         <Stack.Screen name="링크 복사" component={LinkShare} options={{headerShown: false}} />
         <Stack.Screen 
           name="팀스페이스 카드 상세보기" 
@@ -336,10 +343,9 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
           }}
-          />
-          <Stack.Screen 
+        />
+        <Stack.Screen 
           name="상대카드 상세보기" 
           component={CheckCardDetail}
           options={{
@@ -350,9 +356,8 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
           }}
-          />
+        />
         <Stack.Screen 
           name="카드 상세보기" 
           component={CardDetailView}
@@ -364,11 +369,10 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
             headerShadowVisible: false,
           }}
-          />
-          <Stack.Screen 
+        />
+        <Stack.Screen 
           name="내 카드 삭제" 
           component={DeleteMyCard}
           options={{
@@ -380,9 +384,8 @@ export default function App() {
               </TouchableOpacity>
             ),
             headerShadowVisible: false,
-            
           }}
-          />
+        />
         {/* <Stack.Screen name="Space" component={Space} /> */}
         <Stack.Screen 
           name="팀스페이스 생성" 
@@ -395,7 +398,6 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
           }}
         />
         <Stack.Screen 
@@ -409,7 +411,6 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
           }}
         />
         <Stack.Screen 
@@ -422,7 +423,6 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
           }}
         />
         <Stack.Screen 
@@ -436,7 +436,6 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
           }}
         />
         <Stack.Screen 
@@ -450,9 +449,8 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
-           }} 
-          />
+          }} 
+        />
         <Stack.Screen name="온보딩" component={Onboarding} options={{ headerShown: false }}/>  
         <Stack.Screen 
           name="팀스페이스 입장" 
@@ -465,8 +463,8 @@ export default function App() {
                 <LeftArrowIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
-          }} />
+          }} 
+        />
         <Stack.Screen 
           name="Memo" 
           component={Memo}
@@ -476,9 +474,8 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
           }}
-          />
+        />
         <Stack.Screen name="MY 계정관리" component={UserAccount} 
           options={{
             headerTitle: "계정관리",
@@ -488,8 +485,8 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
-          }}/>
+          }}
+        />
         <Stack.Screen name="MY 이름 및 생년월일 변경" component={UserInfo} 
           options={{
             headerTitle: "이름 및 생년월일 변경",
@@ -499,8 +496,8 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
-          }}/>
+          }}
+        />
         <Stack.Screen name="MY 연락처 변경" component={UserPhoneNumber} 
           options={{
             headerTitle: "연락처 변경",
@@ -510,8 +507,8 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
-          }}/>
+          }}
+        />
         <Stack.Screen name="MY 비밀번호 변경" component={UserPw} 
           options={{
             headerTitle: "비밀번호 변경",
@@ -521,8 +518,8 @@ export default function App() {
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
             ),
-            
-          }}/>
+          }}
+        />
         <Stack.Screen name="MY 자주 묻는 질문" component={FAQ} 
           options={{
             headerTitle: "자주 묻는 질문",
@@ -531,9 +528,9 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            ),
-            
-          }}/>
+            ),            
+          }}
+        />
         <Stack.Screen name="MY 서비스 방침 이용약관" component={ServiceAgree} 
           options={{
             headerTitle: "서비스 방침 이용약관",
@@ -542,24 +539,24 @@ export default function App() {
               <TouchableOpacity onPress={onPress}>
                 <CloseIcon style={{ marginLeft: 8  }}/>
               </TouchableOpacity>
-            ),
-            
-          }}/>
-          <Stack.Screen name="마이 스페이스" component={MySpace}/>
-          <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
-          <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
-          <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
-          <Stack.Screen name="그룹 관리" component={EditGroupPage}/>
-          <Stack.Screen name="팀스페이스 관리" component={EditTeamSpace}/>
-          <Stack.Screen name="받은 프로필 카드" component={AcceptCard} options={{ headerShown: false }}/>
-          <Stack.Screen name="전체 카드 검색" component={HomeSearchCard} options={{ headerShown: false }}/>
-          <Stack.Screen name="마이스페이스 카드 검색" component={MySpSearchCard} options={{ headerShown: false }}/>
-          <Stack.Screen name="팀스페이스 카드 검색" component={TeamSpSearchCard} options={{ headerShown: false }}/>
-      </Stack.Navigator>
-        </NavigationContainer>
-        <Toast config={customToast} />
-      </MenuProvider>
-    </AuthProvider>
+            ),            
+          }}
+        />
+        <Stack.Screen name="마이 스페이스" component={MySpace}/>
+        <Stack.Screen name="팀 스페이스" component={TeamSpace} options={{ headerShown: false }}/>
+        <Stack.Screen name="상세 팀스페이스" component={DetailTeamSpace} options={{ headerShown: false }}/>
+        <Stack.Screen name="그룹" component={DetailGroup} options={{ headerShown: false }} />
+        <Stack.Screen name="그룹 관리" component={EditGroupPage}/>
+        <Stack.Screen name="팀스페이스 관리" component={EditTeamSpace}/>
+        <Stack.Screen name="받은 프로필 카드" component={AcceptCard} options={{ headerShown: false }}/>
+        <Stack.Screen name="전체 카드 검색" component={HomeSearchCard} options={{ headerShown: false }}/>
+        <Stack.Screen name="마이스페이스 카드 검색" component={MySpSearchCard} options={{ headerShown: false }}/>
+        <Stack.Screen name="팀스페이스 카드 검색" component={TeamSpSearchCard} options={{ headerShown: false }}/>
+        </Stack.Navigator>
+      </NavigationContainer>
+      <Toast config={customToast} />
+    </MenuProvider>
+  </AuthProvider>
   );
 };
 
@@ -637,39 +634,50 @@ function MyTabs() {
         component={Home} 
         //component={() => <Home onboarding={onboarding} />} // Home 컴포넌트를 component prop으로 전달
         options={{
-        tabBarLabel: '홈',
-        headerTitle: ' ',
-        headerTitleAlign: 'center',
-        headerStyle: {
-          backgroundColor: theme.white
-        },
-        headerLeft: () => (
-          // <View>
-          //   <HomeLogo style={{ marginLeft: 32.5 }} />
-          // </View>
-          // 임시로 홈 화면 상단 ssop 로고 클릭 시 온보딩 보일 수 있도록(원래 온보딩은 처음 앱 실행하고 1회만 보여짐)
-          <TouchableOpacity activeOpacity={0.5} onPress={handleLogoPress}>
-            <HomeLogo style={{ marginLeft: 32.5 }} />
-          </TouchableOpacity>
-        ),
-        headerRight: () => (
-          <TouchableOpacity onPress={() => { navigation.navigate('전체 카드 검색') }}>
-            <SearchIcon style={{ marginRight: 20 }} />
-          </TouchableOpacity>
-        ),
-      }} />
+          tabBarLabel: '홈',
+          headerTitle: ' ',
+          headerTitleAlign: 'center',
+          headerStyle: {
+            backgroundColor: theme.white
+          },
+          headerLeft: () => (
+            // <View>
+            //   <HomeLogo style={{ marginLeft: 32.5 }} />
+            // </View>
+            // 임시로 홈 화면 상단 ssop 로고 클릭 시 온보딩 보일 수 있도록(원래 온보딩은 처음 앱 실행하고 1회만 보여짐)
+            <TouchableOpacity activeOpacity={0.5} onPress={handleLogoPress}>
+              <HomeLogo style={{ marginLeft: 32.5 }} />
+            </TouchableOpacity>
+          ),
+          headerRight: () => (
+            <TouchableOpacity onPress={() => { navigation.navigate('전체 카드 검색') }}>
+              <SearchIcon style={{ marginRight: 20 }} />
+            </TouchableOpacity>
+          ),
+        }}
+      />
       <Tab.Screen name="스페이스" component={Space}
         options={{
           tabBarLabel: '스페이스',
           headerTitle: 'Space',
           headerTitleAlign: 'center',
           headerShown: false
-          }} />
-        <Tab.Screen name="내 카드" component={MyCard} options={{ 
-          tabBarLabel: '내 카드', headerTitle: "", 
+        }}
+      />
+      <Tab.Screen name="내 카드" component={MyCard} 
+        options={{ 
+          tabBarLabel: '내 카드',
+          headerTitle: "", 
           headerTitleAlign: 'center',
-          }} />
-        <Tab.Screen name="MY" component={MyPage} options={{ tabBarLabel: 'MY', headerTitle: '마이페이지', headerTitleAlign: 'center',  }} />
+        }}
+      />
+      <Tab.Screen name="MY" component={MyPage} 
+        options={{ 
+          tabBarLabel: 'MY',
+          headerTitle: '마이페이지',
+          headerTitleAlign: 'center',
+        }}
+      />
       </Tab.Navigator>
     );
     console.disableYellowBox = true;

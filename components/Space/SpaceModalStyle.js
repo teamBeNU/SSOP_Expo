@@ -31,6 +31,7 @@ export const styles = StyleSheet.create({
         color: theme.gray50,
         marginTop: 12,
         letterSpacing: -0.14,
+        textAlign: 'center'
     },
     Btn: {
         flexDirection: "row",
