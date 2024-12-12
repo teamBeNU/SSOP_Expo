@@ -11,7 +11,7 @@ import { ShareCard } from '../Bluetooth/ShareCard.js';
 import { getColor } from '../../utils/bgColorMapping';
 import ExchangeModal from '../../components/Space/ExchangeModal.js';
 
-import RightIcon from '../../assets/icons/ic_RightArrow_small_line.svg';
+import RightIcon from '../../assets/icons/ic_RightArrow_small_blue_line.svg';
 import BluetoothIcon from '../../assets/HomeIcon/ic_bluetooth.svg';
 import LinkIcon from '../../assets/HomeIcon/ic_linkshare.svg';
 

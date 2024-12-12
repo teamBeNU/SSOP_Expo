@@ -448,7 +448,7 @@ function SaveTellScreen({ navigation }) {
 
   const [selectedCards, setSelectedCards] = useState([]);
   const [selectedOption, setSelectedOption] = useState('최신순');
-  const [viewOption, setViewOption] = useState('격자형');
+  const [viewOption, setViewOption] = useState('리스트형');
 
   const [isSaveModalVisible, setIsSaveModalVisible] = useState(false); // 연락처 저장 모달 상태
   const [isCompleteModalVisible, setIsCompleteModalVisible] = useState(false); // 연락처로 이동 모달 상태

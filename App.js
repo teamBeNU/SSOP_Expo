@@ -591,11 +591,12 @@ function MyTabs() {
   };
 
   return (
-    <Tab.Navigator
+    <View style={{ flex: 1, backgroundColor: 'white'}}>
+      <Tab.Navigator
       screenOptions={({ route }) => ({
         tabBarIcon: ({ focused, color }) => {
           let iconSource;
-          let iconSize = 50;
+          let iconSize = 55;
 
           if (route.name === '홈') {
             iconSource = focused
@@ -624,8 +625,19 @@ function MyTabs() {
           fontFamily: 'PretendardRegular',
         },
         tabBarStyle: {
-          borderTopLeftRadius: 8,
-          borderTopRightRadius: 8,
+          borderTopLeftRadius: 16,
+          borderTopRightRadius: 16,
+          borderWidth: 1,
+          borderColor: '#F4F4F4',
+          backgroundColor: '#FFF',
+          shadowColor: '#000',
+          shadowOffset: { width: 0, height: -2 },
+          shadowOpacity: 0.03,
+          shadowRadius: 10,
+          elevation: 10,
+          paddingTop: 8,
+          paddingBottom: 8,
+          height: 63
         },
         headerShadowVisible: false,
       })}
@@ -679,6 +691,8 @@ function MyTabs() {
         }}
       />
       </Tab.Navigator>
+    </View>
+    
     );
     console.disableYellowBox = true;
   }

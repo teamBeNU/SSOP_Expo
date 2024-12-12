@@ -4,7 +4,7 @@ import { theme } from "../../theme";
 export const styles = StyleSheet.create({
     mainlayout:{ // 메인 레이아웃   
         flex: 1, 
-        paddingVertical: 16,
+        paddingVertical: 2,
         paddingHorizontal: 16,
         backgroundColor: theme.white,
     },
@@ -43,7 +43,7 @@ export const styles = StyleSheet.create({
         // Android - Shadow
         elevation: 16,
         // IOS - Shadow
-        shadowColor: 'rgba(73, 81, 100, 0.09)',
+        shadowColor: 'rgba(73, 81, 100, 0.2)',
         shadowOffset: {
             width: 0,
             height: 2,
@@ -121,7 +121,7 @@ export const styles = StyleSheet.create({
         height: 40,
         borderRadius: 25,
         backgroundColor: "#FFFFFF",
-        shadowColor: 'rgba(151, 160, 181, 0.2)',
+        shadowColor: 'rgba(151, 160, 181, 0.4)',
         shadowOpacity: 0.14,
         shadowRadius: 16,
         borderWidth: 1.3,
